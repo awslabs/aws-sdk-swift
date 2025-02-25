@@ -53,12 +53,14 @@ extension HealthLakeClientTypes {
     public enum AuthorizationStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsAuth
         case smartv1
+        case smartOnFhir
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AuthorizationStrategy] {
             return [
                 .awsAuth,
-                .smartv1
+                .smartv1,
+                .smartOnFhir
             ]
         }
 
@@ -71,6 +73,7 @@ extension HealthLakeClientTypes {
             switch self {
             case .awsAuth: return "AWS_AUTH"
             case .smartv1: return "SMART_ON_FHIR_V1"
+            case .smartOnFhir: return "SMART_ON_FHIR"
             case let .sdkUnknown(s): return s
             }
         }
@@ -701,6 +704,7 @@ extension HealthLakeClientTypes {
         case completedWithErrors
         case failed
         case inProgress
+        case queued
         case submitted
         case sdkUnknown(Swift.String)
 
@@ -714,6 +718,7 @@ extension HealthLakeClientTypes {
                 .completedWithErrors,
                 .failed,
                 .inProgress,
+                .queued,
                 .submitted
             ]
         }
@@ -733,6 +738,7 @@ extension HealthLakeClientTypes {
             case .completedWithErrors: return "COMPLETED_WITH_ERRORS"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
+            case .queued: return "QUEUED"
             case .submitted: return "SUBMITTED"
             case let .sdkUnknown(s): return s
             }
@@ -1141,7 +1147,6 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
 public struct StartFHIRExportJobInput: Swift.Sendable {
     /// An optional user provided token used for ensuring idempotency.
-    /// This member is required.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name used during the initiation of the job.
     /// This member is required.
@@ -1193,7 +1198,6 @@ public struct StartFHIRExportJobOutput: Swift.Sendable {
 
 public struct StartFHIRImportJobInput: Swift.Sendable {
     /// Optional user provided token used for ensuring idempotency.
-    /// This member is required.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) that gives AWS HealthLake access permission.
     /// This member is required.

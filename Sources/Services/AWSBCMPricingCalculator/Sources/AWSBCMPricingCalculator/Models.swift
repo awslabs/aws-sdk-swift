@@ -1138,9 +1138,9 @@ extension BCMPricingCalculatorClientTypes {
 }
 
 public struct ListBillEstimatesInput: Swift.Sendable {
-    /// Filter bill estimates based on their creation date.
+    /// Filter bill estimates based on the creation date.
     public var createdAtFilter: BCMPricingCalculatorClientTypes.FilterTimestamp?
-    /// Filter bill estimates based on their expiration date.
+    /// Filter bill estimates based on the expiration date.
     public var expiresAtFilter: BCMPricingCalculatorClientTypes.FilterTimestamp?
     /// Filters to apply to the list of bill estimates.
     public var filters: [BCMPricingCalculatorClientTypes.ListBillEstimatesFilter]?
@@ -2217,9 +2217,9 @@ extension BCMPricingCalculatorClientTypes {
 }
 
 public struct ListBillScenariosInput: Swift.Sendable {
-    /// Filter bill scenarios based on their creation date.
+    /// Filter bill scenarios based on the creation date.
     public var createdAtFilter: BCMPricingCalculatorClientTypes.FilterTimestamp?
-    /// Filter bill scenarios based on their expiration date.
+    /// Filter bill scenarios based on the expiration date.
     public var expiresAtFilter: BCMPricingCalculatorClientTypes.FilterTimestamp?
     /// Filters to apply to the list of bill scenarios.
     public var filters: [BCMPricingCalculatorClientTypes.ListBillScenariosFilter]?
@@ -2928,9 +2928,9 @@ extension BCMPricingCalculatorClientTypes {
 }
 
 public struct ListWorkloadEstimatesInput: Swift.Sendable {
-    /// Filter workload estimates based on their creation date.
+    /// Filter workload estimates based on the creation date.
     public var createdAtFilter: BCMPricingCalculatorClientTypes.FilterTimestamp?
-    /// Filter workload estimates based on their expiration date.
+    /// Filter workload estimates based on the expiration date.
     public var expiresAtFilter: BCMPricingCalculatorClientTypes.FilterTimestamp?
     /// Filters to apply to the list of workload estimates.
     public var filters: [BCMPricingCalculatorClientTypes.ListWorkloadEstimatesFilter]?
@@ -4252,6 +4252,7 @@ extension BatchCreateBillScenarioCommitmentModificationInput {
     static func write(value: BatchCreateBillScenarioCommitmentModificationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["billScenarioId"].write(value.billScenarioId)
+        try writer["clientToken"].write(value.clientToken)
         try writer["commitmentModifications"].writeList(value.commitmentModifications, memberWritingClosure: BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4261,6 +4262,7 @@ extension BatchCreateBillScenarioUsageModificationInput {
     static func write(value: BatchCreateBillScenarioUsageModificationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["billScenarioId"].write(value.billScenarioId)
+        try writer["clientToken"].write(value.clientToken)
         try writer["usageModifications"].writeList(value.usageModifications, memberWritingClosure: BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4269,6 +4271,7 @@ extension BatchCreateWorkloadEstimateUsageInput {
 
     static func write(value: BatchCreateWorkloadEstimateUsageInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["usage"].writeList(value.usage, memberWritingClosure: BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["workloadEstimateId"].write(value.workloadEstimateId)
     }
@@ -4333,6 +4336,7 @@ extension CreateBillEstimateInput {
     static func write(value: CreateBillEstimateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["billScenarioId"].write(value.billScenarioId)
+        try writer["clientToken"].write(value.clientToken)
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -4342,6 +4346,7 @@ extension CreateBillScenarioInput {
 
     static func write(value: CreateBillScenarioInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -4351,6 +4356,7 @@ extension CreateWorkloadEstimateInput {
 
     static func write(value: CreateWorkloadEstimateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["name"].write(value.name)
         try writer["rateType"].write(value.rateType)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -5151,6 +5157,7 @@ enum BatchDeleteBillScenarioCommitmentModificationOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "ConflictCode": return try ConflictException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "ResourceNotFoundCode": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5167,6 +5174,7 @@ enum BatchDeleteBillScenarioUsageModificationOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "ConflictCode": return try ConflictException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "ResourceNotFoundCode": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaCode": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -5201,6 +5209,7 @@ enum BatchUpdateBillScenarioCommitmentModificationOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "ConflictCode": return try ConflictException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "ResourceNotFoundCode": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5217,6 +5226,7 @@ enum BatchUpdateBillScenarioUsageModificationOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "ConflictCode": return try ConflictException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "ResourceNotFoundCode": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaCode": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -5318,6 +5328,7 @@ enum DeleteBillScenarioOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "ConflictCode": return try ConflictException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

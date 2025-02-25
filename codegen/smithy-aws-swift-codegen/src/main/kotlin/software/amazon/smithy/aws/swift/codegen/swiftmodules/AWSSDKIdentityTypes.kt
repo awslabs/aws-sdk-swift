@@ -9,10 +9,14 @@ object AWSSDKIdentityTypes {
     val DefaultBearerTokenIdentityResolverChain = runtimeSymbol("DefaultBearerTokenIdentityResolverChain", SwiftDeclaration.STRUCT)
 }
 
-private fun runtimeSymbol(name: String, declaration: SwiftDeclaration? = null): Symbol = SwiftSymbol.make(
-    name,
-    declaration,
-    AWSSwiftDependency.AWS_SDK_IDENTITY,
-    emptyList(),
-    emptyList(),
-)
+private fun runtimeSymbol(
+    name: String,
+    declaration: SwiftDeclaration? = null,
+): Symbol =
+    SwiftSymbol.make(
+        name,
+        declaration,
+        AWSSwiftDependency.AWS_SDK_IDENTITY,
+        emptyList(),
+        emptyList(),
+    )

@@ -841,6 +841,35 @@ public struct AddUserToGroupInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
+    public enum AssertionEncryptionModeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allowed
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssertionEncryptionModeType] {
+            return [
+                .allowed,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allowed: return "Allowed"
+            case .required: return "Required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IAMClientTypes {
+
     public enum AssignmentStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case any
         case assigned
@@ -1796,6 +1825,10 @@ public struct CreateRoleOutput: Swift.Sendable {
 }
 
 public struct CreateSAMLProviderInput: Swift.Sendable {
+    /// The private key generated from your external identity provider. The private key must be a .pem file that uses AES-GCM or AES-CBC encryption algorithm to decrypt SAML assertions.
+    public var addPrivateKey: Swift.String?
+    /// Specifies the encryption setting for the SAML provider.
+    public var assertionEncryptionMode: IAMClientTypes.AssertionEncryptionModeType?
     /// The name of the provider to create. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var name: Swift.String?
@@ -1806,14 +1839,23 @@ public struct CreateSAMLProviderInput: Swift.Sendable {
     public var tags: [IAMClientTypes.Tag]?
 
     public init(
+        addPrivateKey: Swift.String? = nil,
+        assertionEncryptionMode: IAMClientTypes.AssertionEncryptionModeType? = nil,
         name: Swift.String? = nil,
         samlMetadataDocument: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
     ) {
+        self.addPrivateKey = addPrivateKey
+        self.assertionEncryptionMode = assertionEncryptionMode
         self.name = name
         self.samlMetadataDocument = samlMetadataDocument
         self.tags = tags
     }
+}
+
+extension CreateSAMLProviderInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateSAMLProviderInput(assertionEncryptionMode: \(Swift.String(describing: assertionEncryptionMode)), name: \(Swift.String(describing: name)), samlMetadataDocument: \(Swift.String(describing: samlMetadataDocument)), tags: \(Swift.String(describing: tags)), addPrivateKey: \"CONTENT_REDACTED\")"}
 }
 
 /// Contains the response to a successful [CreateSAMLProvider] request.
@@ -4119,25 +4161,56 @@ public struct GetSAMLProviderInput: Swift.Sendable {
     }
 }
 
+extension IAMClientTypes {
+
+    /// Contains the private keys for the SAML provider. This data type is used as a response element in the [GetSAMLProvider] operation.
+    public struct SAMLPrivateKey: Swift.Sendable {
+        /// The unique identifier for the SAML private key.
+        public var keyId: Swift.String?
+        /// The date and time, in [ISO 8601 date-time ](http://www.iso.org/iso/iso8601) format, when the private key was uploaded.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            keyId: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.keyId = keyId
+            self.timestamp = timestamp
+        }
+    }
+}
+
 /// Contains the response to a successful [GetSAMLProvider] request.
 public struct GetSAMLProviderOutput: Swift.Sendable {
+    /// Specifies the encryption setting for the SAML provider.
+    public var assertionEncryptionMode: IAMClientTypes.AssertionEncryptionModeType?
     /// The date and time when the SAML provider was created.
     public var createDate: Foundation.Date?
+    /// The private key metadata for the SAML provider.
+    public var privateKeyList: [IAMClientTypes.SAMLPrivateKey]?
     /// The XML metadata document that includes information about an identity provider.
     public var samlMetadataDocument: Swift.String?
+    /// The unique identifier assigned to the SAML provider.
+    public var samlProviderUUID: Swift.String?
     /// A list of tags that are attached to the specified IAM SAML provider. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     public var tags: [IAMClientTypes.Tag]?
     /// The expiration date and time for the SAML provider.
     public var validUntil: Foundation.Date?
 
     public init(
+        assertionEncryptionMode: IAMClientTypes.AssertionEncryptionModeType? = nil,
         createDate: Foundation.Date? = nil,
+        privateKeyList: [IAMClientTypes.SAMLPrivateKey]? = nil,
         samlMetadataDocument: Swift.String? = nil,
+        samlProviderUUID: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil,
         validUntil: Foundation.Date? = nil
     ) {
+        self.assertionEncryptionMode = assertionEncryptionMode
         self.createDate = createDate
+        self.privateKeyList = privateKeyList
         self.samlMetadataDocument = samlMetadataDocument
+        self.samlProviderUUID = samlProviderUUID
         self.tags = tags
         self.validUntil = validUntil
     }
@@ -7860,20 +7933,36 @@ public struct UpdateRoleDescriptionOutput: Swift.Sendable {
 }
 
 public struct UpdateSAMLProviderInput: Swift.Sendable {
-    /// An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP.
-    /// This member is required.
+    /// Specifies the new private key from your external identity provider. The private key must be a .pem file that uses AES-GCM or AES-CBC encryption algorithm to decrypt SAML assertions.
+    public var addPrivateKey: Swift.String?
+    /// Specifies the encryption setting for the SAML provider.
+    public var assertionEncryptionMode: IAMClientTypes.AssertionEncryptionModeType?
+    /// The Key ID of the private key to remove.
+    public var removePrivateKey: Swift.String?
+    /// An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your IdP.
     public var samlMetadataDocument: Swift.String?
     /// The Amazon Resource Name (ARN) of the SAML provider to update. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var samlProviderArn: Swift.String?
 
     public init(
+        addPrivateKey: Swift.String? = nil,
+        assertionEncryptionMode: IAMClientTypes.AssertionEncryptionModeType? = nil,
+        removePrivateKey: Swift.String? = nil,
         samlMetadataDocument: Swift.String? = nil,
         samlProviderArn: Swift.String? = nil
     ) {
+        self.addPrivateKey = addPrivateKey
+        self.assertionEncryptionMode = assertionEncryptionMode
+        self.removePrivateKey = removePrivateKey
         self.samlMetadataDocument = samlMetadataDocument
         self.samlProviderArn = samlProviderArn
     }
+}
+
+extension UpdateSAMLProviderInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateSAMLProviderInput(assertionEncryptionMode: \(Swift.String(describing: assertionEncryptionMode)), removePrivateKey: \(Swift.String(describing: removePrivateKey)), samlMetadataDocument: \(Swift.String(describing: samlMetadataDocument)), samlProviderArn: \(Swift.String(describing: samlProviderArn)), addPrivateKey: \"CONTENT_REDACTED\")"}
 }
 
 /// Contains the response to a successful [UpdateSAMLProvider] request.
@@ -9612,6 +9701,8 @@ extension CreateSAMLProviderInput {
 
     static func write(value: CreateSAMLProviderInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AddPrivateKey"].write(value.addPrivateKey)
+        try writer["AssertionEncryptionMode"].write(value.assertionEncryptionMode)
         try writer["Name"].write(value.name)
         try writer["SAMLMetadataDocument"].write(value.samlMetadataDocument)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: IAMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11192,6 +11283,9 @@ extension UpdateSAMLProviderInput {
 
     static func write(value: UpdateSAMLProviderInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AddPrivateKey"].write(value.addPrivateKey)
+        try writer["AssertionEncryptionMode"].write(value.assertionEncryptionMode)
+        try writer["RemovePrivateKey"].write(value.removePrivateKey)
         try writer["SAMLMetadataDocument"].write(value.samlMetadataDocument)
         try writer["SAMLProviderArn"].write(value.samlProviderArn)
         try writer["Action"].write("UpdateSAMLProvider")
@@ -12053,8 +12147,11 @@ extension GetSAMLProviderOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetSAMLProviderResult"]
         var value = GetSAMLProviderOutput()
+        value.assertionEncryptionMode = try reader["AssertionEncryptionMode"].readIfPresent()
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.privateKeyList = try reader["PrivateKeyList"].readListIfPresent(memberReadingClosure: IAMClientTypes.SAMLPrivateKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.samlMetadataDocument = try reader["SAMLMetadataDocument"].readIfPresent()
+        value.samlProviderUUID = try reader["SAMLProviderUUID"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.validUntil = try reader["ValidUntil"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -16471,6 +16568,17 @@ extension IAMClientTypes.ErrorDetails {
         var value = IAMClientTypes.ErrorDetails()
         value.message = try reader["Message"].readIfPresent() ?? ""
         value.code = try reader["Code"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IAMClientTypes.SAMLPrivateKey {
+
+    static func read(from reader: SmithyXML.Reader) throws -> IAMClientTypes.SAMLPrivateKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IAMClientTypes.SAMLPrivateKey()
+        value.keyId = try reader["KeyId"].readIfPresent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

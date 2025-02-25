@@ -4234,6 +4234,8 @@ extension ListCustomDomainAssociationsInput {
         guard let value else { return }
         try writer["customDomainCertificateArn"].write(value.customDomainCertificateArn)
         try writer["customDomainName"].write(value.customDomainName)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -4241,6 +4243,8 @@ extension ListEndpointAccessInput {
 
     static func write(value: ListEndpointAccessInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
         try writer["ownerAccount"].write(value.ownerAccount)
         try writer["vpcId"].write(value.vpcId)
         try writer["workgroupName"].write(value.workgroupName)
@@ -4251,6 +4255,8 @@ extension ListManagedWorkgroupsInput {
 
     static func write(value: ListManagedWorkgroupsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
         try writer["sourceArn"].write(value.sourceArn)
     }
 }
@@ -4258,8 +4264,9 @@ extension ListManagedWorkgroupsInput {
 extension ListNamespacesInput {
 
     static func write(value: ListNamespacesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -4268,8 +4275,10 @@ extension ListRecoveryPointsInput {
     static func write(value: ListRecoveryPointsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["maxResults"].write(value.maxResults)
         try writer["namespaceArn"].write(value.namespaceArn)
         try writer["namespaceName"].write(value.namespaceName)
+        try writer["nextToken"].write(value.nextToken)
         try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
@@ -4278,7 +4287,9 @@ extension ListScheduledActionsInput {
 
     static func write(value: ListScheduledActionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
         try writer["namespaceName"].write(value.namespaceName)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -4286,7 +4297,9 @@ extension ListSnapshotCopyConfigurationsInput {
 
     static func write(value: ListSnapshotCopyConfigurationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
         try writer["namespaceName"].write(value.namespaceName)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -4295,8 +4308,10 @@ extension ListSnapshotsInput {
     static func write(value: ListSnapshotsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["maxResults"].write(value.maxResults)
         try writer["namespaceArn"].write(value.namespaceArn)
         try writer["namespaceName"].write(value.namespaceName)
+        try writer["nextToken"].write(value.nextToken)
         try writer["ownerAccount"].write(value.ownerAccount)
         try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
@@ -4306,7 +4321,9 @@ extension ListTableRestoreStatusInput {
 
     static func write(value: ListTableRestoreStatusInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
         try writer["namespaceName"].write(value.namespaceName)
+        try writer["nextToken"].write(value.nextToken)
         try writer["workgroupName"].write(value.workgroupName)
     }
 }
@@ -4323,6 +4340,8 @@ extension ListUsageLimitsInput {
 
     static func write(value: ListUsageLimitsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
         try writer["resourceArn"].write(value.resourceArn)
         try writer["usageType"].write(value.usageType)
     }
@@ -4332,6 +4351,8 @@ extension ListWorkgroupsInput {
 
     static func write(value: ListWorkgroupsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
         try writer["ownerAccount"].write(value.ownerAccount)
     }
 }

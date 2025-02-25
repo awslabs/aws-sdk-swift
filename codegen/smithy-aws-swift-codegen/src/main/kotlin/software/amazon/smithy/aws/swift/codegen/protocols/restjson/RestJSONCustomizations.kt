@@ -10,6 +10,5 @@ import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTyp
 import software.amazon.smithy.codegen.core.Symbol
 
 class RestJSONCustomizations : AWSHTTPProtocolCustomizations() {
-
     override val baseErrorSymbol: Symbol = AWSClientRuntimeTypes.RestJSON.RestJSONError
 }

@@ -2530,7 +2530,7 @@ extension FSxClientTypes {
         public var restoreToSnapshot: Swift.String?
         /// The Amazon Resource Name (ARN) for a given resource. ARNs uniquely identify Amazon Web Services resources. We require an ARN when you need to specify a resource unambiguously across all of Amazon Web Services. For more information, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var sourceSnapshotARN: Swift.String?
-        /// The maximum amount of storage in gibibtyes (GiB) that the volume can use from its parent. You can specify a quota larger than the storage on the parent volume.
+        /// The maximum amount of storage in gibibytes (GiB) that the volume can use from its parent. You can specify a quota larger than the storage on the parent volume.
         public var storageCapacityQuotaGiB: Swift.Int?
         /// The amount of storage in gibibytes (GiB) to reserve from the parent volume. You can't reserve more storage than the parent volume has reserved.
         public var storageCapacityReservationGiB: Swift.Int?
@@ -5458,7 +5458,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
     public var backupId: Swift.String?
     /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
-    /// Sets the version for the Amazon FSx for Lustre file system that you're creating from a backup. Valid values are 2.10, 2.12, and 2.15. You don't need to specify FileSystemTypeVersion because it will be applied using the backup's FileSystemTypeVersion setting. If you choose to specify FileSystemTypeVersion when creating from backup, the value must match the backup's FileSystemTypeVersion setting.
+    /// Sets the version for the Amazon FSx for Lustre file system that you're creating from a backup. Valid values are 2.10, 2.12, and 2.15. You can enter a Lustre version that is newer than the backup's FileSystemTypeVersion setting. If you don't enter a newer Lustre version, it defaults to the backup's setting.
     public var fileSystemTypeVersion: Swift.String?
     /// Specifies the ID of the Key Management Service (KMS) key to use for encrypting data on Amazon FSx file systems, as follows:
     ///
@@ -5487,7 +5487,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
     public var openZFSConfiguration: FSxClientTypes.CreateFileSystemOpenZFSConfiguration?
     /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups apply to all network interfaces. This value isn't returned in later DescribeFileSystem requests.
     public var securityGroupIds: [Swift.String]?
-    /// Sets the storage capacity of the OpenZFS file system that you're creating from a backup, in gibibytes (GiB). Valid values are from 64 GiB up to 524,288 GiB (512 TiB). However, the value that you specify must be equal to or greater than the backup's storage capacity value. If you don't use the StorageCapacity parameter, the default is the backup's StorageCapacity value. If used to create a file system other than OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you provide any other value, Amazon FSx responds with with an HTTP status code 400 Bad Request.
+    /// Sets the storage capacity of the OpenZFS file system that you're creating from a backup, in gibibytes (GiB). Valid values are from 64 GiB up to 524,288 GiB (512 TiB). However, the value that you specify must be equal to or greater than the backup's storage capacity value. If you don't use the StorageCapacity parameter, the default is the backup's StorageCapacity value. If used to create a file system other than OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you provide any other value, Amazon FSx responds with an HTTP status code 400 Bad Request.
     public var storageCapacity: Swift.Int?
     /// Sets the storage type for the Windows or OpenZFS file system that you're creating from a backup. Valid values are SSD and HDD.
     ///
@@ -6184,7 +6184,7 @@ extension FSxClientTypes {
         public var parentVolumeId: Swift.String?
         /// A Boolean value indicating whether the volume is read-only.
         public var readOnly: Swift.Bool?
-        /// Specifies the suggested block size for a volume in a ZFS dataset, in kibibytes (KiB). For file systems using the Intelligent-Tiering storage class, valid values are 128, 256, 512, 1024, 2048, or 4096 KiB, with a default of 2048 KiB. For all other file systems, valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB, with a default of 128 KiB. We recommend using the default setting for the majority of use cases. Generally, workloads that write in fixed small or large record sizes may benefit from setting a custom record size, like database workloads (small record size) or media streaming workloads (large record size). For additional guidance on when to set a custom record size, see [ ZFS Record size](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#record-size-performance) in the Amazon FSx for OpenZFS User Guide.
+        /// Specifies the suggested block size for a volume in a ZFS dataset, in kibibytes (KiB). For file systems using the Intelligent-Tiering storage class, valid values are 128, 256, 512, 1024, 2048, or 4096 KiB, with a default of 1024 KiB. For all other file systems, valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB, with a default of 128 KiB. We recommend using the default setting for the majority of use cases. Generally, workloads that write in fixed small or large record sizes may benefit from setting a custom record size, like database workloads (small record size) or media streaming workloads (large record size). For additional guidance on when to set a custom record size, see [ ZFS Record size](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#record-size-performance) in the Amazon FSx for OpenZFS User Guide.
         public var recordSizeKiB: Swift.Int?
         /// Sets the maximum storage size in gibibytes (GiB) for the volume. You can specify a quota that is larger than the storage on the parent volume. A volume quota limits the amount of storage that the volume can consume to the configured amount, but does not guarantee the space will be available on the parent volume. To guarantee quota space, you must also set StorageCapacityReservationGiB. To not specify a storage capacity quota, set this to -1. For more information, see [Volume properties](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-volumes.html#volume-properties) in the Amazon FSx for OpenZFS User Guide.
         public var storageCapacityQuotaGiB: Swift.Int?
@@ -7088,7 +7088,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
 
-    /// (Optional) An array of filter objects you can use to filter the response of data repository tasks you will see in the the response. You can filter the tasks returned in the response by one or more file system IDs, task lifecycles, and by task type. A filter object consists of a filter Name, and one or more Values for the filter.
+    /// (Optional) An array of filter objects you can use to filter the response of data repository tasks you will see in the response. You can filter the tasks returned in the response by one or more file system IDs, task lifecycles, and by task type. A filter object consists of a filter Name, and one or more Values for the filter.
     public struct DataRepositoryTaskFilter: Swift.Sendable {
         /// Name of the task property to use in filtering the tasks returned in the response.
         ///
@@ -8056,7 +8056,7 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// The SSD IOPS (input output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned. For more information, see [Updating SSD storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/increase-primary-storage.html).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
-        /// Update the password for the fsxadmin user by entering a new password. You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources. For more information, see [Managing resources using NetApp Applicaton](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html).
+        /// Update the password for the fsxadmin user by entering a new password. You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources. For more information, see [Managing resources using NetApp Application](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html).
         public var fsxAdminPassword: Swift.String?
         /// Use to update the number of high-availability (HA) pairs for a second-generation single-AZ file system. If you increase the number of HA pairs for your file system, you must specify proportional increases for StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs) in the FSx for ONTAP user guide. Block storage protocol support (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs. For more information, see [Using block storage protocols](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage).
         public var haPairs: Swift.Int?
@@ -8260,6 +8260,8 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     /// The ID of the file system that you are updating.
     /// This member is required.
     public var fileSystemId: Swift.String?
+    /// The Lustre version you are updating an FSx for Lustre file system to. Valid values are 2.12 and 2.15. The value you choose must be newer than the file system's current Lustre version.
+    public var fileSystemTypeVersion: Swift.String?
     /// The configuration object for Amazon FSx for Lustre file systems used in the UpdateFileSystem operation.
     public var lustreConfiguration: FSxClientTypes.UpdateFileSystemLustreConfiguration?
     /// The configuration updates for an Amazon FSx for NetApp ONTAP file system.
@@ -8285,6 +8287,7 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         fileSystemId: Swift.String? = nil,
+        fileSystemTypeVersion: Swift.String? = nil,
         lustreConfiguration: FSxClientTypes.UpdateFileSystemLustreConfiguration? = nil,
         ontapConfiguration: FSxClientTypes.UpdateFileSystemOntapConfiguration? = nil,
         openZFSConfiguration: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration? = nil,
@@ -8294,6 +8297,7 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     ) {
         self.clientRequestToken = clientRequestToken
         self.fileSystemId = fileSystemId
+        self.fileSystemTypeVersion = fileSystemTypeVersion
         self.lustreConfiguration = lustreConfiguration
         self.ontapConfiguration = ontapConfiguration
         self.openZFSConfiguration = openZFSConfiguration
@@ -10023,6 +10027,7 @@ extension UpdateFileSystemInput {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["FileSystemId"].write(value.fileSystemId)
+        try writer["FileSystemTypeVersion"].write(value.fileSystemTypeVersion)
         try writer["LustreConfiguration"].write(value.lustreConfiguration, with: FSxClientTypes.UpdateFileSystemLustreConfiguration.write(value:to:))
         try writer["OntapConfiguration"].write(value.ontapConfiguration, with: FSxClientTypes.UpdateFileSystemOntapConfiguration.write(value:to:))
         try writer["OpenZFSConfiguration"].write(value.openZFSConfiguration, with: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration.write(value:to:))

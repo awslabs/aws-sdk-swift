@@ -15,10 +15,12 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.108.0"
-let crtVersion: Version = "0.42.0"
+let clientRuntimeVersion: Version = "0.119.0"
+let crtVersion: Version = "0.46.0"
 
 let excludeRuntimeUnitTests = false
+
+let isPreviewBuild = false
 
 let serviceTargets: [String] = [
     "AWSACM",
@@ -160,7 +162,6 @@ let serviceTargets: [String] = [
     "AWSEMRcontainers",
     "AWSElastiCache",
     "AWSElasticBeanstalk",
-    "AWSElasticInference",
     "AWSElasticLoadBalancing",
     "AWSElasticLoadBalancingv2",
     "AWSElasticTranscoder",
@@ -437,6 +438,7 @@ extension Target.Dependency {
     static var awsSDKHTTPAuth: Self { "AWSSDKHTTPAuth" }
     static var awsSDKIdentity: Self { "AWSSDKIdentity" }
     static var awsSDKChecksums: Self { "AWSSDKChecksums" }
+    static var awsSDKPartitions: Self { "AWSSDKPartitions" }
 
     // CRT module
     static var crt: Self { .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift") }
@@ -496,10 +498,17 @@ private func productForService(_ service: String) -> Product {
 // MARK: Dependencies
 
 private var clientRuntimeDependency: Package.Dependency {
-    let path = "../smithy-swift"
+    let previewPath = "./smithy-swift"
+    let developmentPath = "../smithy-swift"
     let gitURL = "https://github.com/smithy-lang/smithy-swift"
     let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
-    return useLocalDeps ? .package(path: path) : .package(url: gitURL, exact: clientRuntimeVersion)
+    if isPreviewBuild {
+        return .package(path: previewPath)
+    } else if useLocalDeps {
+        return .package(path: developmentPath)
+    } else {
+        return .package(url: gitURL, exact: clientRuntimeVersion)
+    }
 }
 
 private var crtDependency: Package.Dependency {
@@ -530,7 +539,9 @@ private var runtimeTargets: [Target] {
                 .smithyEventStreamsAuthAPI,
                 .awsSDKCommon,
                 .awsSDKHTTPAuth,
-                .awsSDKIdentity
+                .awsSDKIdentity,
+                .awsSDKChecksums,
+                .awsSDKPartitions,
             ],
             path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
@@ -561,7 +572,11 @@ private var runtimeTargets: [Target] {
             name: "AWSSDKChecksums",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyChecksumsAPI, .smithyChecksums, .smithyHTTPAPI],
             path: "Sources/Core/AWSSDKChecksums/Sources"
-        )
+        ),
+        .target(
+            name: "AWSSDKPartitions",
+            path: "Sources/Core/AWSSDKPartitions/Sources"
+        ),
     ]
 }
 

@@ -115,6 +115,7 @@ extension GeneratePackageManifest {
         crtVersion: Version? = nil,
         services: [String]? = nil,
         excludeRuntimeTests: Bool = false,
+        previewBuild: Bool = false,
         buildPackageManifest: @escaping BuildPackageManifest = { (_,_,_) throws -> String in "" }
     ) -> GeneratePackageManifest {
         GeneratePackageManifest(
@@ -124,6 +125,7 @@ extension GeneratePackageManifest {
             crtVersion: crtVersion,
             services: services,
             excludeRuntimeTests: excludeRuntimeTests,
+            previewBuild: previewBuild,
             buildPackageManifest: buildPackageManifest
         )
     }

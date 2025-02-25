@@ -678,6 +678,35 @@ extension ACMPCAClientTypes {
 
 extension ACMPCAClientTypes {
 
+    public enum CrlType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case partitioned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CrlType] {
+            return [
+                .complete,
+                .partitioned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .partitioned: return "PARTITIONED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMPCAClientTypes {
+
     public enum S3ObjectAcl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bucketOwnerFullControl
         case publicRead
@@ -753,8 +782,16 @@ extension ACMPCAClientTypes {
     public struct CrlConfiguration: Swift.Sendable {
         /// Configures the behavior of the CRL Distribution Point extension for certificates issued by your certificate authority. If this field is not provided, then the CRl Distribution Point Extension will be present and contain the default CRL URL.
         public var crlDistributionPointExtensionConfiguration: ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration?
+        /// Specifies whether to create a complete or partitioned CRL. This setting determines the maximum number of certificates that the certificate authority can issue and revoke. For more information, see [Amazon Web Services Private CA quotas].
+        ///
+        /// * COMPLETE - The default setting. Amazon Web Services Private CA maintains a single CRL ﬁle for all unexpired certiﬁcates issued by a CA that have been revoked for any reason. Each certiﬁcate that Amazon Web Services Private CA issues is bound to a speciﬁc CRL through its CRL distribution point (CDP) extension, deﬁned in [ RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.9).
+        ///
+        /// * PARTITIONED - Compared to complete CRLs, partitioned CRLs dramatically increase the number of certiﬁcates your private CA can issue. When using partitioned CRLs, you must validate that the CRL's associated issuing distribution point (IDP) URI matches the certiﬁcate's CDP URI to ensure the right CRL has been fetched. Amazon Web Services Private CA marks the IDP extension as critical, which your client must be able to process.
+        public var crlType: ACMPCAClientTypes.CrlType?
         /// Name inserted into the certificate CRL Distribution Points extension that enables the use of an alias for the CRL distribution point. Use this value if you don't want the name of your S3 bucket to be public. The content of a Canonical Name (CNAME) record must conform to [RFC2396](https://www.ietf.org/rfc/rfc2396.txt) restrictions on the use of special characters in URIs. Additionally, the value of the CNAME must not include a protocol prefix such as "http://" or "https://".
         public var customCname: Swift.String?
+        /// Designates a custom ﬁle path in S3 for CRL(s). For example, http://<CustomName>/ <CustomPath>/<CrlPartition_GUID>.crl.
+        public var customPath: Swift.String?
         /// Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action or for an existing CA when you call the [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) action.
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -767,14 +804,18 @@ extension ACMPCAClientTypes {
 
         public init(
             crlDistributionPointExtensionConfiguration: ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration? = nil,
+            crlType: ACMPCAClientTypes.CrlType? = nil,
             customCname: Swift.String? = nil,
+            customPath: Swift.String? = nil,
             enabled: Swift.Bool? = false,
             expirationInDays: Swift.Int? = nil,
             s3BucketName: Swift.String? = nil,
             s3ObjectAcl: ACMPCAClientTypes.S3ObjectAcl? = nil
         ) {
             self.crlDistributionPointExtensionConfiguration = crlDistributionPointExtensionConfiguration
+            self.crlType = crlType
             self.customCname = customCname
+            self.customPath = customPath
             self.enabled = enabled
             self.expirationInDays = expirationInDays
             self.s3BucketName = s3BucketName
@@ -3840,7 +3881,9 @@ extension ACMPCAClientTypes.CrlConfiguration {
     static func write(value: ACMPCAClientTypes.CrlConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CrlDistributionPointExtensionConfiguration"].write(value.crlDistributionPointExtensionConfiguration, with: ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration.write(value:to:))
+        try writer["CrlType"].write(value.crlType)
         try writer["CustomCname"].write(value.customCname)
+        try writer["CustomPath"].write(value.customPath)
         try writer["Enabled"].write(value.enabled)
         try writer["ExpirationInDays"].write(value.expirationInDays)
         try writer["S3BucketName"].write(value.s3BucketName)
@@ -3856,6 +3899,8 @@ extension ACMPCAClientTypes.CrlConfiguration {
         value.s3BucketName = try reader["S3BucketName"].readIfPresent()
         value.s3ObjectAcl = try reader["S3ObjectAcl"].readIfPresent()
         value.crlDistributionPointExtensionConfiguration = try reader["CrlDistributionPointExtensionConfiguration"].readIfPresent(with: ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration.read(from:))
+        value.crlType = try reader["CrlType"].readIfPresent()
+        value.customPath = try reader["CustomPath"].readIfPresent()
         return value
     }
 }

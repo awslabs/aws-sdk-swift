@@ -292,6 +292,42 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension TransferClientTypes {
 
+    /// Contains Amazon S3 locations for storing specific types of AS2 message files.
+    public struct CustomDirectoriesType: Swift.Sendable {
+        /// Specifies a location to store failed AS2 message files.
+        /// This member is required.
+        public var failedFilesDirectory: Swift.String?
+        /// Specifies a location to store MDN files.
+        /// This member is required.
+        public var mdnFilesDirectory: Swift.String?
+        /// Specifies a location to store the payload for AS2 message files.
+        /// This member is required.
+        public var payloadFilesDirectory: Swift.String?
+        /// Specifies a location to store AS2 status messages.
+        /// This member is required.
+        public var statusFilesDirectory: Swift.String?
+        /// Specifies a location to store temporary AS2 message files.
+        /// This member is required.
+        public var temporaryFilesDirectory: Swift.String?
+
+        public init(
+            failedFilesDirectory: Swift.String? = nil,
+            mdnFilesDirectory: Swift.String? = nil,
+            payloadFilesDirectory: Swift.String? = nil,
+            statusFilesDirectory: Swift.String? = nil,
+            temporaryFilesDirectory: Swift.String? = nil
+        ) {
+            self.failedFilesDirectory = failedFilesDirectory
+            self.mdnFilesDirectory = mdnFilesDirectory
+            self.payloadFilesDirectory = payloadFilesDirectory
+            self.statusFilesDirectory = statusFilesDirectory
+            self.temporaryFilesDirectory = temporaryFilesDirectory
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     public enum EnforceMessageSigningType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -403,8 +439,19 @@ public struct CreateAgreementInput: Swift.Sendable {
     /// This member is required.
     public var accessRole: Swift.String?
     /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /amzn-s3-demo-bucket/home/mydirectory.
-    /// This member is required.
     public var baseDirectory: Swift.String?
+    /// A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files.
+    ///
+    /// * Failed files
+    ///
+    /// * MDN files
+    ///
+    /// * Payload files
+    ///
+    /// * Status files
+    ///
+    /// * Temporary files
+    public var customDirectories: TransferClientTypes.CustomDirectoriesType?
     /// A name or short description to identify the agreement.
     public var description: Swift.String?
     /// Determines whether or not unsigned messages from your trading partners will be accepted.
@@ -436,6 +483,7 @@ public struct CreateAgreementInput: Swift.Sendable {
     public init(
         accessRole: Swift.String? = nil,
         baseDirectory: Swift.String? = nil,
+        customDirectories: TransferClientTypes.CustomDirectoriesType? = nil,
         description: Swift.String? = nil,
         enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType? = nil,
         localProfileId: Swift.String? = nil,
@@ -447,6 +495,7 @@ public struct CreateAgreementInput: Swift.Sendable {
     ) {
         self.accessRole = accessRole
         self.baseDirectory = baseDirectory
+        self.customDirectories = customDirectories
         self.description = description
         self.enforceMessageSigning = enforceMessageSigning
         self.localProfileId = localProfileId
@@ -517,6 +566,18 @@ extension TransferClientTypes {
         public var arn: Swift.String?
         /// The landing directory (folder) for files that are transferred by using the AS2 protocol.
         public var baseDirectory: Swift.String?
+        /// A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files.
+        ///
+        /// * Failed files
+        ///
+        /// * MDN files
+        ///
+        /// * Payload files
+        ///
+        /// * Status files
+        ///
+        /// * Temporary files
+        public var customDirectories: TransferClientTypes.CustomDirectoriesType?
         /// The name or short description that's used to identify the agreement.
         public var description: Swift.String?
         /// Determines whether or not unsigned messages from your trading partners will be accepted.
@@ -547,6 +608,7 @@ extension TransferClientTypes {
             agreementId: Swift.String? = nil,
             arn: Swift.String? = nil,
             baseDirectory: Swift.String? = nil,
+            customDirectories: TransferClientTypes.CustomDirectoriesType? = nil,
             description: Swift.String? = nil,
             enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType? = nil,
             localProfileId: Swift.String? = nil,
@@ -560,6 +622,7 @@ extension TransferClientTypes {
             self.agreementId = agreementId
             self.arn = arn
             self.baseDirectory = baseDirectory
+            self.customDirectories = customDirectories
             self.description = description
             self.enforceMessageSigning = enforceMessageSigning
             self.localProfileId = localProfileId
@@ -691,6 +754,18 @@ public struct UpdateAgreementInput: Swift.Sendable {
     public var agreementId: Swift.String?
     /// To change the landing directory (folder) for files that are transferred, provide the bucket folder that you want to use; for example, /amzn-s3-demo-bucket/home/mydirectory .
     public var baseDirectory: Swift.String?
+    /// A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files.
+    ///
+    /// * Failed files
+    ///
+    /// * MDN files
+    ///
+    /// * Payload files
+    ///
+    /// * Status files
+    ///
+    /// * Temporary files
+    public var customDirectories: TransferClientTypes.CustomDirectoriesType?
     /// To replace the existing description, provide a short description for the agreement.
     public var description: Swift.String?
     /// Determines whether or not unsigned messages from your trading partners will be accepted.
@@ -719,6 +794,7 @@ public struct UpdateAgreementInput: Swift.Sendable {
         accessRole: Swift.String? = nil,
         agreementId: Swift.String? = nil,
         baseDirectory: Swift.String? = nil,
+        customDirectories: TransferClientTypes.CustomDirectoriesType? = nil,
         description: Swift.String? = nil,
         enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType? = nil,
         localProfileId: Swift.String? = nil,
@@ -730,6 +806,7 @@ public struct UpdateAgreementInput: Swift.Sendable {
         self.accessRole = accessRole
         self.agreementId = agreementId
         self.baseDirectory = baseDirectory
+        self.customDirectories = customDirectories
         self.description = description
         self.enforceMessageSigning = enforceMessageSigning
         self.localProfileId = localProfileId
@@ -6529,6 +6606,7 @@ extension CreateAgreementInput {
         guard let value else { return }
         try writer["AccessRole"].write(value.accessRole)
         try writer["BaseDirectory"].write(value.baseDirectory)
+        try writer["CustomDirectories"].write(value.customDirectories, with: TransferClientTypes.CustomDirectoriesType.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["EnforceMessageSigning"].write(value.enforceMessageSigning)
         try writer["LocalProfileId"].write(value.localProfileId)
@@ -7120,6 +7198,7 @@ extension UpdateAgreementInput {
         try writer["AccessRole"].write(value.accessRole)
         try writer["AgreementId"].write(value.agreementId)
         try writer["BaseDirectory"].write(value.baseDirectory)
+        try writer["CustomDirectories"].write(value.customDirectories, with: TransferClientTypes.CustomDirectoriesType.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["EnforceMessageSigning"].write(value.enforceMessageSigning)
         try writer["LocalProfileId"].write(value.localProfileId)
@@ -9437,6 +9516,30 @@ extension TransferClientTypes.DescribedAgreement {
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.preserveFilename = try reader["PreserveFilename"].readIfPresent()
         value.enforceMessageSigning = try reader["EnforceMessageSigning"].readIfPresent()
+        value.customDirectories = try reader["CustomDirectories"].readIfPresent(with: TransferClientTypes.CustomDirectoriesType.read(from:))
+        return value
+    }
+}
+
+extension TransferClientTypes.CustomDirectoriesType {
+
+    static func write(value: TransferClientTypes.CustomDirectoriesType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FailedFilesDirectory"].write(value.failedFilesDirectory)
+        try writer["MdnFilesDirectory"].write(value.mdnFilesDirectory)
+        try writer["PayloadFilesDirectory"].write(value.payloadFilesDirectory)
+        try writer["StatusFilesDirectory"].write(value.statusFilesDirectory)
+        try writer["TemporaryFilesDirectory"].write(value.temporaryFilesDirectory)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.CustomDirectoriesType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.CustomDirectoriesType()
+        value.failedFilesDirectory = try reader["FailedFilesDirectory"].readIfPresent() ?? ""
+        value.mdnFilesDirectory = try reader["MdnFilesDirectory"].readIfPresent() ?? ""
+        value.payloadFilesDirectory = try reader["PayloadFilesDirectory"].readIfPresent() ?? ""
+        value.statusFilesDirectory = try reader["StatusFilesDirectory"].readIfPresent() ?? ""
+        value.temporaryFilesDirectory = try reader["TemporaryFilesDirectory"].readIfPresent() ?? ""
         return value
     }
 }

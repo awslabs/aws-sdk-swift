@@ -1942,26 +1942,84 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes {
 
+    public enum RawValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case boolean
+        case double
+        case integer
+        case string
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RawValueType] {
+            return [
+                .boolean,
+                .double,
+                .integer,
+                .string,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .boolean: return "B"
+            case .double: return "D"
+            case .integer: return "I"
+            case .string: return "S"
+            case .unknown: return "U"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// The value type of null asset property data with BAD and UNCERTAIN qualities.
+    public struct PropertyValueNullValue: Swift.Sendable {
+        /// The type of null asset property data.
+        /// This member is required.
+        public var valueType: IoTSiteWiseClientTypes.RawValueType?
+
+        public init(
+            valueType: IoTSiteWiseClientTypes.RawValueType? = nil
+        ) {
+            self.valueType = valueType
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
     /// Contains an asset property value (of a single type only).
     public struct Variant: Swift.Sendable {
         /// Asset property data of type Boolean (true or false).
         public var booleanValue: Swift.Bool?
-        /// Asset property data of type double (floating point number).
+        /// Asset property data of type double (floating point number). The min value is -10^10. The max value is 10^10. Double.NaN is allowed.
         public var doubleValue: Swift.Double?
         /// Asset property data of type integer (whole number).
         public var integerValue: Swift.Int?
-        /// Asset property data of type string (sequence of characters).
+        /// The type of null asset property data with BAD and UNCERTAIN qualities.
+        public var nullValue: IoTSiteWiseClientTypes.PropertyValueNullValue?
+        /// Asset property data of type string (sequence of characters). The allowed pattern: "^$|[^\u0000-\u001F\u007F]+". The max length is 1024.
         public var stringValue: Swift.String?
 
         public init(
             booleanValue: Swift.Bool? = nil,
             doubleValue: Swift.Double? = nil,
             integerValue: Swift.Int? = nil,
+            nullValue: IoTSiteWiseClientTypes.PropertyValueNullValue? = nil,
             stringValue: Swift.String? = nil
         ) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
             self.integerValue = integerValue
+            self.nullValue = nullValue
             self.stringValue = stringValue
         }
     }
@@ -3321,13 +3379,17 @@ extension IoTSiteWiseClientTypes {
 }
 
 public struct BatchPutAssetPropertyValueInput: Swift.Sendable {
+    /// This setting enables partial ingestion at entry-level. If set to true, we ingest all TQVs not resulting in an error. If set to false, an invalid TQV fails ingestion of the entire entry that contains it.
+    public var enablePartialEntryProcessing: Swift.Bool?
     /// The list of asset property value entries for the batch put request. You can specify up to 10 entries per request.
     /// This member is required.
     public var entries: [IoTSiteWiseClientTypes.PutAssetPropertyValueEntry]?
 
     public init(
+        enablePartialEntryProcessing: Swift.Bool? = nil,
         entries: [IoTSiteWiseClientTypes.PutAssetPropertyValueEntry]? = nil
     ) {
+        self.enablePartialEntryProcessing = enablePartialEntryProcessing
         self.entries = entries
     }
 }
@@ -6537,6 +6599,8 @@ public struct DescribeStorageConfigurationOutput: Swift.Sendable {
     /// Contains current status information for the configuration.
     /// This member is required.
     public var configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus?
+    /// Describes the configuration for ingesting NULL and NaN data. By default the feature is allowed. The feature is disallowed if the value is true.
+    public var disallowIngestNullNaN: Swift.Bool?
     /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:
     ///
     /// * ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties. After the disassociatedDataStorage is enabled, you can't disable it.
@@ -6566,6 +6630,7 @@ public struct DescribeStorageConfigurationOutput: Swift.Sendable {
 
     public init(
         configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus? = nil,
+        disallowIngestNullNaN: Swift.Bool? = nil,
         disassociatedDataStorage: IoTSiteWiseClientTypes.DisassociatedDataStorageState? = nil,
         lastUpdateDate: Foundation.Date? = nil,
         multiLayerStorage: IoTSiteWiseClientTypes.MultiLayerStorage? = nil,
@@ -6575,6 +6640,7 @@ public struct DescribeStorageConfigurationOutput: Swift.Sendable {
         warmTierRetentionPeriod: IoTSiteWiseClientTypes.WarmTierRetentionPeriod? = nil
     ) {
         self.configurationStatus = configurationStatus
+        self.disallowIngestNullNaN = disallowIngestNullNaN
         self.disassociatedDataStorage = disassociatedDataStorage
         self.lastUpdateDate = lastUpdateDate
         self.multiLayerStorage = multiLayerStorage
@@ -8813,6 +8879,8 @@ public struct PutLoggingOptionsOutput: Swift.Sendable {
 }
 
 public struct PutStorageConfigurationInput: Swift.Sendable {
+    /// Describes the configuration for ingesting NULL and NaN data. By default the feature is allowed. The feature is disallowed if the value is true.
+    public var disallowIngestNullNaN: Swift.Bool?
     /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:
     ///
     /// * ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties. After the disassociatedDataStorage is enabled, you can't disable it.
@@ -8839,6 +8907,7 @@ public struct PutStorageConfigurationInput: Swift.Sendable {
     public var warmTierRetentionPeriod: IoTSiteWiseClientTypes.WarmTierRetentionPeriod?
 
     public init(
+        disallowIngestNullNaN: Swift.Bool? = nil,
         disassociatedDataStorage: IoTSiteWiseClientTypes.DisassociatedDataStorageState? = nil,
         multiLayerStorage: IoTSiteWiseClientTypes.MultiLayerStorage? = nil,
         retentionPeriod: IoTSiteWiseClientTypes.RetentionPeriod? = nil,
@@ -8846,6 +8915,7 @@ public struct PutStorageConfigurationInput: Swift.Sendable {
         warmTier: IoTSiteWiseClientTypes.WarmTierState? = nil,
         warmTierRetentionPeriod: IoTSiteWiseClientTypes.WarmTierRetentionPeriod? = nil
     ) {
+        self.disallowIngestNullNaN = disallowIngestNullNaN
         self.disassociatedDataStorage = disassociatedDataStorage
         self.multiLayerStorage = multiLayerStorage
         self.retentionPeriod = retentionPeriod
@@ -8859,6 +8929,8 @@ public struct PutStorageConfigurationOutput: Swift.Sendable {
     /// Contains current status information for the configuration.
     /// This member is required.
     public var configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus?
+    /// Describes the configuration for ingesting NULL and NaN data. By default the feature is allowed. The feature is disallowed if the value is true.
+    public var disallowIngestNullNaN: Swift.Bool?
     /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:
     ///
     /// * ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties. After the disassociatedDataStorage is enabled, you can't disable it.
@@ -8886,6 +8958,7 @@ public struct PutStorageConfigurationOutput: Swift.Sendable {
 
     public init(
         configurationStatus: IoTSiteWiseClientTypes.ConfigurationStatus? = nil,
+        disallowIngestNullNaN: Swift.Bool? = nil,
         disassociatedDataStorage: IoTSiteWiseClientTypes.DisassociatedDataStorageState? = nil,
         multiLayerStorage: IoTSiteWiseClientTypes.MultiLayerStorage? = nil,
         retentionPeriod: IoTSiteWiseClientTypes.RetentionPeriod? = nil,
@@ -8894,6 +8967,7 @@ public struct PutStorageConfigurationOutput: Swift.Sendable {
         warmTierRetentionPeriod: IoTSiteWiseClientTypes.WarmTierRetentionPeriod? = nil
     ) {
         self.configurationStatus = configurationStatus
+        self.disallowIngestNullNaN = disallowIngestNullNaN
         self.disassociatedDataStorage = disassociatedDataStorage
         self.multiLayerStorage = multiLayerStorage
         self.retentionPeriod = retentionPeriod
@@ -11390,6 +11464,7 @@ extension BatchPutAssetPropertyValueInput {
 
     static func write(value: BatchPutAssetPropertyValueInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["enablePartialEntryProcessing"].write(value.enablePartialEntryProcessing)
         try writer["entries"].writeList(value.entries, memberWritingClosure: IoTSiteWiseClientTypes.PutAssetPropertyValueEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -11613,6 +11688,7 @@ extension PutStorageConfigurationInput {
 
     static func write(value: PutStorageConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["disallowIngestNullNaN"].write(value.disallowIngestNullNaN)
         try writer["disassociatedDataStorage"].write(value.disassociatedDataStorage)
         try writer["multiLayerStorage"].write(value.multiLayerStorage, with: IoTSiteWiseClientTypes.MultiLayerStorage.write(value:to:))
         try writer["retentionPeriod"].write(value.retentionPeriod, with: IoTSiteWiseClientTypes.RetentionPeriod.write(value:to:))
@@ -12403,6 +12479,7 @@ extension DescribeStorageConfigurationOutput {
         let reader = responseReader
         var value = DescribeStorageConfigurationOutput()
         value.configurationStatus = try reader["configurationStatus"].readIfPresent(with: IoTSiteWiseClientTypes.ConfigurationStatus.read(from:))
+        value.disallowIngestNullNaN = try reader["disallowIngestNullNaN"].readIfPresent()
         value.disassociatedDataStorage = try reader["disassociatedDataStorage"].readIfPresent()
         value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.multiLayerStorage = try reader["multiLayerStorage"].readIfPresent(with: IoTSiteWiseClientTypes.MultiLayerStorage.read(from:))
@@ -12816,6 +12893,7 @@ extension PutStorageConfigurationOutput {
         let reader = responseReader
         var value = PutStorageConfigurationOutput()
         value.configurationStatus = try reader["configurationStatus"].readIfPresent(with: IoTSiteWiseClientTypes.ConfigurationStatus.read(from:))
+        value.disallowIngestNullNaN = try reader["disallowIngestNullNaN"].readIfPresent()
         value.disassociatedDataStorage = try reader["disassociatedDataStorage"].readIfPresent()
         value.multiLayerStorage = try reader["multiLayerStorage"].readIfPresent(with: IoTSiteWiseClientTypes.MultiLayerStorage.read(from:))
         value.retentionPeriod = try reader["retentionPeriod"].readIfPresent(with: IoTSiteWiseClientTypes.RetentionPeriod.read(from:))
@@ -14954,6 +15032,7 @@ extension IoTSiteWiseClientTypes.Variant {
         try writer["booleanValue"].write(value.booleanValue)
         try writer["doubleValue"].write(value.doubleValue)
         try writer["integerValue"].write(value.integerValue)
+        try writer["nullValue"].write(value.nullValue, with: IoTSiteWiseClientTypes.PropertyValueNullValue.write(value:to:))
         try writer["stringValue"].write(value.stringValue)
     }
 
@@ -14964,6 +15043,22 @@ extension IoTSiteWiseClientTypes.Variant {
         value.integerValue = try reader["integerValue"].readIfPresent()
         value.doubleValue = try reader["doubleValue"].readIfPresent()
         value.booleanValue = try reader["booleanValue"].readIfPresent()
+        value.nullValue = try reader["nullValue"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyValueNullValue.read(from:))
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.PropertyValueNullValue {
+
+    static func write(value: IoTSiteWiseClientTypes.PropertyValueNullValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["valueType"].write(value.valueType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PropertyValueNullValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PropertyValueNullValue()
+        value.valueType = try reader["valueType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

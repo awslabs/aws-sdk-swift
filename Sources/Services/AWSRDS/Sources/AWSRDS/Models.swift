@@ -3903,7 +3903,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var clusterScalabilityType: RDSClientTypes.ClusterScalabilityType?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
-    /// The mode of Database Insights to enable for the DB cluster. If you set this value to advanced, you must also set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. Valid for Cluster Type: Aurora DB clusters only
+    /// The mode of Database Insights to enable for the DB cluster. If you set this value to advanced, you must also set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The name for your database of up to 64 alphanumeric characters. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseName: Swift.String?
@@ -3942,9 +3942,9 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var domainIAMRoleName: Swift.String?
     /// The list of log types that need to be enabled for exporting to CloudWatch Logs. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The following values are valid for each DB engine:
     ///
-    /// * Aurora MySQL - audit | error | general | slowquery
+    /// * Aurora MySQL - audit | error | general | instance | slowquery
     ///
-    /// * Aurora PostgreSQL - postgresql
+    /// * Aurora PostgreSQL - instance | postgresql
     ///
     /// * RDS for MySQL - error | general | slowquery
     ///
@@ -4742,7 +4742,7 @@ extension RDSClientTypes {
         public var activityStreamMode: RDSClientTypes.ActivityStreamMode?
         /// The status of the database activity stream.
         public var activityStreamStatus: RDSClientTypes.ActivityStreamStatus?
-        /// For all database engines except Amazon Aurora, AllocatedStorage specifies the allocated storage size in gibibytes (GiB). For Aurora, AllocatedStorage always returns 1, because Aurora DB cluster storage size isn't fixed, but instead automatically adjusts as needed.
+        /// AllocatedStorage specifies the allocated storage size in gibibytes (GiB). For Aurora, AllocatedStorage can vary because Aurora DB cluster storage size adjusts as needed.
         public var allocatedStorage: Swift.Int?
         /// A list of the Amazon Web Services Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other Amazon Web Services on your behalf.
         public var associatedRoles: [RDSClientTypes.DBClusterRole]?
@@ -4766,7 +4766,7 @@ extension RDSClientTypes {
         public var certificateDetails: RDSClientTypes.CertificateDetails?
         /// If present, specifies the name of the character set that this cluster is associated with.
         public var characterSetName: Swift.String?
-        /// The ID of the clone group with which the DB cluster is associated.
+        /// The ID of the clone group with which the DB cluster is associated. For newly created clusters, the ID is typically null. If you clone a DB cluster when the ID is null, the operation populates the ID value for the source cluster and the clone because both clusters become part of the same clone group. Even if you delete the clone cluster, the clone group ID remains for the lifetime of the source cluster to show that it was used in a cloning operation. For PITR, the clone group ID is inherited from the source cluster. For snapshot restore operations, the clone group ID isn't inherited from the source cluster.
         public var cloneGroupId: Swift.String?
         /// The time when the DB cluster was created, in Universal Coordinated Time (UTC).
         public var clusterCreateTime: Foundation.Date?
@@ -5637,7 +5637,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide.
     public var customIamInstanceProfile: Swift.String?
-    /// The mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
+    /// The mode of Database Insights to enable for the DB instance. Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The identifier of the DB cluster that this DB instance will belong to. This setting doesn't apply to RDS Custom DB instances.
     public var dbClusterIdentifier: Swift.String?
@@ -6028,7 +6028,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var publiclyAccessible: Swift.Bool?
     /// Specifes whether the DB instance is encrypted. By default, it isn't encrypted. For RDS Custom DB instances, either enable this setting or leave it unset. Otherwise, Amazon RDS reports an error. This setting doesn't apply to Amazon Aurora DB instances. The encryption for DB instances is managed by the DB cluster.
     public var storageEncrypted: Swift.Bool?
-    /// The storage throughput value for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
+    /// The storage throughput value, in mebibyte per second (MiBps), for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
     public var storageThroughput: Swift.Int?
     /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp2.
     public var storageType: Swift.String?
@@ -7003,7 +7003,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide. This setting is required for RDS Custom DB instances.
     public var customIamInstanceProfile: Swift.String?
-    /// The mode of Database Insights to enable for the read replica. Currently, this setting is not supported.
+    /// The mode of Database Insights to enable for the read replica. This setting isn't supported.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The compute and memory capacity of the read replica, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Default: Inherits the value from the source DB instance.
     public var dbInstanceClass: Swift.String?
@@ -9063,7 +9063,7 @@ public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
 public struct CreateIntegrationInput: Swift.Sendable {
     /// An optional set of non-secret key–value pairs that contains additional contextual information about the data. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide. You can only include this parameter if you specify the KMSKeyId parameter.
     public var additionalEncryptionContext: [Swift.String: Swift.String]?
-    /// Data filtering options for the integration. For more information, see [Data filtering for Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.filtering.html). Valid for: Integrations with Aurora MySQL source DB clusters only
+    /// Data filtering options for the integration. For more information, see [Data filtering for Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.filtering.html) or [Data filtering for Amazon RDS zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/zero-etl.filtering.html).
     public var dataFilter: Swift.String?
     /// A description of the integration.
     public var description: Swift.String?
@@ -9776,7 +9776,7 @@ public struct DeleteDBClusterInput: Swift.Sendable {
     /// * Must match an existing DBClusterIdentifier.
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
-    /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove automated backups immediately after the DB cluster is deleted.
+    /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove automated backups immediately after the DB cluster is deleted, unless the Amazon Web Services Backup policy specifies a point-in-time restore rule.
     public var deleteAutomatedBackups: Swift.Bool?
     /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled. If you specify this parameter and also skip the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter, the request results in an error. Constraints:
     ///
@@ -16662,9 +16662,9 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var caCertificateIdentifier: Swift.String?
     /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The following values are valid for each DB engine:
     ///
-    /// * Aurora MySQL - audit | error | general | slowquery
+    /// * Aurora MySQL - audit | error | general | instance | slowquery
     ///
-    /// * Aurora PostgreSQL - postgresql
+    /// * Aurora PostgreSQL - instance | postgresql
     ///
     /// * RDS for MySQL - error | general | slowquery
     ///
@@ -16675,7 +16675,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you must set the PerformanceInsightsEnabled parameter to false. Valid for Cluster Type: Aurora DB clusters only
+    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you must set the PerformanceInsightsEnabled parameter to false. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
@@ -17189,7 +17189,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags aren't copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see ModifyDBCluster.
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
+    /// Specifies the mode of Database Insights to enable for the DB instance. Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide or [Aurora DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html) in the Amazon Aurora User Guide. For RDS Custom, see [DB instance class support for RDS Custom for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits.html#custom-reqs-limits.instances) and [ DB instance class support for RDS Custom for SQL Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html#custom-reqs-limits.instancesMS). If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request. Default: Uses existing setting Constraints:
     ///
@@ -17757,7 +17757,7 @@ public struct ModifyDBProxyTargetGroupInput: Swift.Sendable {
     /// The name of the proxy.
     /// This member is required.
     public var dbProxyName: Swift.String?
-    /// The new name for the modified DBProxyTarget. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
+    /// The new name for the modified DBProxyTarget. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. You can't rename the default target group.
     public var newName: Swift.String?
     /// The name of the target group to modify.
     /// This member is required.
@@ -18166,7 +18166,7 @@ public struct ModifyGlobalClusterOutput: Swift.Sendable {
 }
 
 public struct ModifyIntegrationInput: Swift.Sendable {
-    /// A new data filter for the integration. For more information, see [Data filtering for Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Zero_ETL_Filtering.html).
+    /// A new data filter for the integration. For more information, see [Data filtering for Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Zero_ETL_Filtering.html) or [Data filtering for Amazon RDS zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/zero-etl.filtering.html).
     public var dataFilter: Swift.String?
     /// A new description for the integration.
     public var description: Swift.String?
@@ -19042,7 +19042,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
     public var domain: Swift.String?
     /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
     public var domainIAMRoleName: Swift.String?
-    /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. Aurora MySQL Possible values are audit, error, general, and slowquery. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide.
+    /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. Aurora MySQL Possible values are audit, error, general, instance, and slowquery. Aurora PostgreSQL Possible value are instance and postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide.
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide.
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -19319,7 +19319,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var domain: Swift.String?
     /// The name of the IAM role to be used when making API calls to the Directory Service. Valid for: Aurora DB clusters only
     public var domainIAMRoleName: Swift.String?
-    /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs. The values in the list depend on the DB engine being used. RDS for MySQL Possible values are error, general, and slowquery. RDS for PostgreSQL Possible values are postgresql and upgrade. Aurora MySQL Possible values are audit, error, general, and slowquery. Aurora PostgreSQL Possible value is postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs. The values in the list depend on the DB engine being used. RDS for MySQL Possible values are error, general, and slowquery. RDS for PostgreSQL Possible values are postgresql and upgrade. Aurora MySQL Possible values are audit, error, general, instance, and slowquery. Aurora PostgreSQL Possible value are instance and postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide or [ IAM database authentication for MariaDB, MySQL, and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -19551,7 +19551,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var domain: Swift.String?
     /// The name of the IAM role to be used when making API calls to the Directory Service. Valid for: Aurora DB clusters only
     public var domainIAMRoleName: Swift.String?
-    /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. RDS for MySQL Possible values are error, general, and slowquery. RDS for PostgreSQL Possible values are postgresql and upgrade. Aurora MySQL Possible values are audit, error, general, and slowquery. Aurora PostgreSQL Possible value is postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. RDS for MySQL Possible values are error, general, and slowquery. RDS for PostgreSQL Possible values are postgresql and upgrade. Aurora MySQL Possible values are audit, error, general, instance, and slowquery. Aurora PostgreSQL Possible value are instance and postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide or [ IAM database authentication for MariaDB, MySQL, and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -20077,7 +20077,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     public var caCertificateIdentifier: Swift.String?
     /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
+    /// Specifies the mode of Database Insights to enable for the DB instance. Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
     /// This member is required.

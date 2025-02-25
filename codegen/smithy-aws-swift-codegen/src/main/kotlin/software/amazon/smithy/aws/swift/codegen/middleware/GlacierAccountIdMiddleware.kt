@@ -10,10 +10,18 @@ import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.Mid
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.model.expectShape
 
-class GlacierAccountIdMiddleware(private val model: Model, private val symbolProvider: SymbolProvider) : MiddlewareRenderable {
+class GlacierAccountIdMiddleware(
+    private val model: Model,
+    private val symbolProvider: SymbolProvider,
+) : MiddlewareRenderable {
     override val name = "GlacierAccountIdAutoFill"
 
-    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
+    override fun render(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape,
+        operationStackName: String,
+    ) {
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op).name
         val accountId = model.expectShape<StructureShape>(op.input.get()).members().first { it.memberName.lowercase() == "accountid" }
 
@@ -28,7 +36,7 @@ class GlacierAccountIdMiddleware(private val model: Model, private val symbolPro
                     return
                 }
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
     }
 }

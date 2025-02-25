@@ -594,7 +594,7 @@ extension CloudTrailClientTypes {
         public var endsWith: [Swift.String]?
         /// An operator that includes events that match the exact value of the event record field specified as the value of Field. This is the only valid operator that you can use with the readOnly, eventCategory, and resources.type fields.
         public var equals: [Swift.String]?
-        /// A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For more information, see [AdvancedFieldSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedFieldSelector.html) in the CloudTrailUser Guide.
+        /// A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For more information, see [AdvancedFieldSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedFieldSelector.html) in the CloudTrail API Reference. Selectors don't support the use of wildcards like * . To match multiple values with a single condition, you may use StartsWith, EndsWith, NotStartsWith, or NotEndsWith to explicitly match the beginning or end of the event field.
         /// This member is required.
         public var field: Swift.String?
         /// An operator that excludes events that match the last few characters of the event record field specified as the value of Field.
@@ -628,7 +628,7 @@ extension CloudTrailClientTypes {
 
 extension CloudTrailClientTypes {
 
-    /// Advanced event selectors let you create fine-grained selectors for CloudTrail management, data, and network activity events. They help you control costs by logging only those events that are important to you. For more information about configuring advanced event selectors, see the [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html), [Logging network activity events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html), and [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html) topics in the CloudTrail User Guide. You cannot apply both event selectors and advanced event selectors to a trail. For information about configurable advanced event selector fields, see [AdvancedEventSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html) in the CloudTrailUser Guide.
+    /// Advanced event selectors let you create fine-grained selectors for CloudTrail management, data, and network activity events. They help you control costs by logging only those events that are important to you. For more information about configuring advanced event selectors, see the [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html), [Logging network activity events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html), and [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html) topics in the CloudTrail User Guide. You cannot apply both event selectors and advanced event selectors to a trail. For information about configurable advanced event selector fields, see [AdvancedEventSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html) in the CloudTrail API Reference.
     public struct AdvancedEventSelector: Swift.Sendable {
         /// Contains all selector statements in an advanced event selector.
         /// This member is required.
@@ -5519,6 +5519,68 @@ public struct RestoreEventDataStoreOutput: Swift.Sendable {
     }
 }
 
+public struct SearchSampleQueriesInput: Swift.Sendable {
+    /// The maximum number of results to return on a single page. The default value is 10.
+    public var maxResults: Swift.Int?
+    /// A token you can use to get the next page of results. The length constraint is in characters, not words.
+    public var nextToken: Swift.String?
+    /// The natural language phrase to use for the semantic search. The phrase must be in English. The length constraint is in characters, not words.
+    /// This member is required.
+    public var searchPhrase: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchPhrase: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchPhrase = searchPhrase
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// A search result returned by the SearchSampleQueries operation.
+    public struct SearchSampleQueriesSearchResult: Swift.Sendable {
+        /// A longer description of a sample query.
+        public var description: Swift.String?
+        /// The name of a sample query.
+        public var name: Swift.String?
+        /// A value between 0 and 1 indicating the similarity between the search phrase and result.
+        public var relevance: Swift.Float
+        /// The SQL code of the sample query.
+        public var sql: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            relevance: Swift.Float = 0.0,
+            sql: Swift.String? = nil
+        ) {
+            self.description = description
+            self.name = name
+            self.relevance = relevance
+            self.sql = sql
+        }
+    }
+}
+
+public struct SearchSampleQueriesOutput: Swift.Sendable {
+    /// A token you can use to get the next page of results.
+    public var nextToken: Swift.String?
+    /// A list of objects containing the search results ordered from most relevant to least relevant.
+    public var searchResults: [CloudTrailClientTypes.SearchSampleQueriesSearchResult]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        searchResults: [CloudTrailClientTypes.SearchSampleQueriesSearchResult]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.searchResults = searchResults
+    }
+}
+
 public struct StartDashboardRefreshInput: Swift.Sendable {
     /// The name or ARN of the dashboard.
     /// This member is required.
@@ -6500,6 +6562,13 @@ extension RestoreEventDataStoreInput {
     }
 }
 
+extension SearchSampleQueriesInput {
+
+    static func urlPathProvider(_ value: SearchSampleQueriesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartDashboardRefreshInput {
 
     static func urlPathProvider(_ value: StartDashboardRefreshInput) -> Swift.String? {
@@ -7014,6 +7083,16 @@ extension RestoreEventDataStoreInput {
     static func write(value: RestoreEventDataStoreInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EventDataStore"].write(value.eventDataStore)
+    }
+}
+
+extension SearchSampleQueriesInput {
+
+    static func write(value: SearchSampleQueriesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SearchPhrase"].write(value.searchPhrase)
     }
 }
 
@@ -7770,6 +7849,19 @@ extension RestoreEventDataStoreOutput {
         value.status = try reader["Status"].readIfPresent()
         value.terminationProtectionEnabled = try reader["TerminationProtectionEnabled"].readIfPresent()
         value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SearchSampleQueriesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchSampleQueriesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchSampleQueriesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.searchResults = try reader["SearchResults"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.SearchSampleQueriesSearchResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8904,6 +8996,22 @@ enum RestoreEventDataStoreOutputError {
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "OrganizationNotInAllFeaturesMode": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
             case "OrganizationsNotInUse": return try OrganizationsNotInUseException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchSampleQueriesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
+            case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10776,6 +10884,19 @@ extension CloudTrailClientTypes.Resource {
         var value = CloudTrailClientTypes.Resource()
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.resourceName = try reader["ResourceName"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.SearchSampleQueriesSearchResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.SearchSampleQueriesSearchResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.SearchSampleQueriesSearchResult()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.sql = try reader["SQL"].readIfPresent()
+        value.relevance = try reader["Relevance"].readIfPresent() ?? 0
         return value
     }
 }

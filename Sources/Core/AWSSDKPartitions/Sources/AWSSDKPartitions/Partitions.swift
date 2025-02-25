@@ -1,3 +1,13 @@
+//
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+// Code is auto-generated. DO NOT EDIT!
+
+public let partitions = #"""
 {
   "partitions" : [ {
     "id" : "aws",
@@ -91,6 +101,9 @@
       },
       "me-south-1" : {
         "description" : "Middle East (Bahrain)"
+      },
+      "mx-central-1" : {
+        "description" : "Mexico (Central)"
       },
       "sa-east-1" : {
         "description" : "South America (Sao Paulo)"
@@ -220,7 +233,18 @@
       "supportsFIPS" : true
     },
     "regionRegex" : "^us\\-isof\\-\\w+\\-\\d+$",
-    "regions" : { }
+    "regions" : {
+      "aws-iso-f-global" : {
+        "description" : "AWS ISOF global region"
+      },
+      "us-isof-east-1" : {
+        "description" : "US ISOF EAST"
+      },
+      "us-isof-south-1" : {
+        "description" : "US ISOF SOUTH"
+      }
+    }
   } ],
   "version" : "1.1"
 }
+"""#

@@ -1558,33 +1558,79 @@ public struct CreateLocationS3Output: Swift.Sendable {
     }
 }
 
+extension DataSyncClientTypes {
+
+    public enum SmbAuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kerberos
+        case ntlm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SmbAuthenticationType] {
+            return [
+                .kerberos,
+                .ntlm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kerberos: return "KERBEROS"
+            case .ntlm: return "NTLM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// CreateLocationSmbRequest
 public struct CreateLocationSmbInput: Swift.Sendable {
     /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
     /// This member is required.
     public var agentArns: [Swift.String]?
-    /// Specifies the name of the Active Directory domain that your SMB file server belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
+    /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication.
+    public var authenticationType: DataSyncClientTypes.SmbAuthenticationType?
+    /// Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
+    public var dnsIpAddresses: [Swift.String]?
+    /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
     public var domain: Swift.String?
+    /// Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. The file must be base64 encoded. If you're using the CLI, the encoding is done for you. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
+    public var kerberosKeytab: Foundation.Data?
+    /// Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
+    public var kerberosKrb5Conf: Foundation.Data?
+    /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@EXAMPLE.COM. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
+    public var kerberosPrincipal: Swift.String?
     /// Specifies the version of the SMB protocol that DataSync uses to access your SMB file server.
     public var mountOptions: DataSyncClientTypes.SmbMountOptions?
-    /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
-    /// This member is required.
+    /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM.
     public var password: Swift.String?
-    /// Specifies the Domain Name Service (DNS) name or IP address of the SMB file server that your DataSync agent will mount. You can't specify an IP version 6 (IPv6) address.
+    /// Specifies the domain name or IP address of the SMB file server that your DataSync agent will mount. Remember the following when configuring this parameter:
+    ///
+    /// * You can't specify an IP version 6 (IPv6) address.
+    ///
+    /// * If you're using Kerberos authentication, you must specify a domain name.
     /// This member is required.
     public var serverHostname: Swift.String?
-    /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
+    /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     /// This member is required.
     public var subdirectory: Swift.String?
     /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
     public var tags: [DataSyncClientTypes.TagListEntry]?
-    /// Specifies the user that can mount and access the files, folders, and file metadata in your SMB file server. For information about choosing a user with the right level of access for your transfer, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
-    /// This member is required.
+    /// Specifies the user that can mount and access the files, folders, and file metadata in your SMB file server. This parameter applies only if AuthenticationType is set to NTLM. For information about choosing a user with the right level of access for your transfer, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     public var user: Swift.String?
 
     public init(
         agentArns: [Swift.String]? = nil,
+        authenticationType: DataSyncClientTypes.SmbAuthenticationType? = nil,
+        dnsIpAddresses: [Swift.String]? = nil,
         domain: Swift.String? = nil,
+        kerberosKeytab: Foundation.Data? = nil,
+        kerberosKrb5Conf: Foundation.Data? = nil,
+        kerberosPrincipal: Swift.String? = nil,
         mountOptions: DataSyncClientTypes.SmbMountOptions? = nil,
         password: Swift.String? = nil,
         serverHostname: Swift.String? = nil,
@@ -1593,7 +1639,12 @@ public struct CreateLocationSmbInput: Swift.Sendable {
         user: Swift.String? = nil
     ) {
         self.agentArns = agentArns
+        self.authenticationType = authenticationType
+        self.dnsIpAddresses = dnsIpAddresses
         self.domain = domain
+        self.kerberosKeytab = kerberosKeytab
+        self.kerberosKrb5Conf = kerberosKrb5Conf
+        self.kerberosPrincipal = kerberosPrincipal
         self.mountOptions = mountOptions
         self.password = password
         self.serverHostname = serverHostname
@@ -1605,7 +1656,7 @@ public struct CreateLocationSmbInput: Swift.Sendable {
 
 extension CreateLocationSmbInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateLocationSmbInput(agentArns: \(Swift.String(describing: agentArns)), domain: \(Swift.String(describing: domain)), mountOptions: \(Swift.String(describing: mountOptions)), serverHostname: \(Swift.String(describing: serverHostname)), subdirectory: \(Swift.String(describing: subdirectory)), tags: \(Swift.String(describing: tags)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
+        "CreateLocationSmbInput(agentArns: \(Swift.String(describing: agentArns)), authenticationType: \(Swift.String(describing: authenticationType)), dnsIpAddresses: \(Swift.String(describing: dnsIpAddresses)), domain: \(Swift.String(describing: domain)), kerberosKeytab: \(Swift.String(describing: kerberosKeytab)), kerberosKrb5Conf: \(Swift.String(describing: kerberosKrb5Conf)), kerberosPrincipal: \(Swift.String(describing: kerberosPrincipal)), mountOptions: \(Swift.String(describing: mountOptions)), serverHostname: \(Swift.String(describing: serverHostname)), subdirectory: \(Swift.String(describing: subdirectory)), tags: \(Swift.String(describing: tags)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
 }
 
 /// CreateLocationSmbResponse
@@ -3446,31 +3497,43 @@ public struct DescribeLocationSmbInput: Swift.Sendable {
 public struct DescribeLocationSmbOutput: Swift.Sendable {
     /// The ARNs of the DataSync agents that can connect with your SMB file server.
     public var agentArns: [Swift.String]?
+    /// The authentication protocol that DataSync uses to connect to your SMB file server.
+    public var authenticationType: DataSyncClientTypes.SmbAuthenticationType?
     /// The time that the SMB location was created.
     public var creationTime: Foundation.Date?
-    /// The name of the Microsoft Active Directory domain that the SMB file server belongs to.
+    /// The IPv4 addresses for the DNS servers that your SMB file server belongs to. This element applies only if AuthenticationType is set to KERBEROS.
+    public var dnsIpAddresses: [Swift.String]?
+    /// The name of the Windows domain that the SMB file server belongs to. This element applies only if AuthenticationType is set to NTLM.
     public var domain: Swift.String?
+    /// The Kerberos principal that has permission to access the files, folders, and file metadata in your SMB file server.
+    public var kerberosPrincipal: Swift.String?
     /// The ARN of the SMB location.
     public var locationArn: Swift.String?
     /// The URI of the SMB location.
     public var locationUri: Swift.String?
-    /// The protocol that DataSync use to access your SMB file.
+    /// The SMB protocol version that DataSync uses to access your SMB file server.
     public var mountOptions: DataSyncClientTypes.SmbMountOptions?
-    /// The user that can mount and access the files, folders, and file metadata in your SMB file server.
+    /// The user that can mount and access the files, folders, and file metadata in your SMB file server. This element applies only if AuthenticationType is set to NTLM.
     public var user: Swift.String?
 
     public init(
         agentArns: [Swift.String]? = nil,
+        authenticationType: DataSyncClientTypes.SmbAuthenticationType? = nil,
         creationTime: Foundation.Date? = nil,
+        dnsIpAddresses: [Swift.String]? = nil,
         domain: Swift.String? = nil,
+        kerberosPrincipal: Swift.String? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
         mountOptions: DataSyncClientTypes.SmbMountOptions? = nil,
         user: Swift.String? = nil
     ) {
         self.agentArns = agentArns
+        self.authenticationType = authenticationType
         self.creationTime = creationTime
+        self.dnsIpAddresses = dnsIpAddresses
         self.domain = domain
+        self.kerberosPrincipal = kerberosPrincipal
         self.locationArn = locationArn
         self.locationUri = locationUri
         self.mountOptions = mountOptions
@@ -5896,23 +5959,38 @@ public struct UpdateLocationS3Output: Swift.Sendable {
 public struct UpdateLocationSmbInput: Swift.Sendable {
     /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
     public var agentArns: [Swift.String]?
-    /// Specifies the Windows domain name that your SMB file server belongs to. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
+    /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication.
+    public var authenticationType: DataSyncClientTypes.SmbAuthenticationType?
+    /// Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
+    public var dnsIpAddresses: [Swift.String]?
+    /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
     public var domain: Swift.String?
+    /// Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. The file must be base64 encoded. If you're using the CLI, the encoding is done for you. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
+    public var kerberosKeytab: Foundation.Data?
+    /// Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
+    public var kerberosKrb5Conf: Foundation.Data?
+    /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@EXAMPLE.COM. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
+    public var kerberosPrincipal: Swift.String?
     /// Specifies the ARN of the SMB location that you want to update.
     /// This member is required.
     public var locationArn: Swift.String?
     /// Specifies the version of the Server Message Block (SMB) protocol that DataSync uses to access an SMB file server.
     public var mountOptions: DataSyncClientTypes.SmbMountOptions?
-    /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
+    /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM.
     public var password: Swift.String?
-    /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the specified subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
+    /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the specified subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     public var subdirectory: Swift.String?
-    /// Specifies the user name that can mount your SMB file server and has permission to access the files and folders involved in your transfer. For information about choosing a user with the right level of access for your transfer, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions) for SMB locations.
+    /// Specifies the user name that can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM. For information about choosing a user with the right level of access for your transfer, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     public var user: Swift.String?
 
     public init(
         agentArns: [Swift.String]? = nil,
+        authenticationType: DataSyncClientTypes.SmbAuthenticationType? = nil,
+        dnsIpAddresses: [Swift.String]? = nil,
         domain: Swift.String? = nil,
+        kerberosKeytab: Foundation.Data? = nil,
+        kerberosKrb5Conf: Foundation.Data? = nil,
+        kerberosPrincipal: Swift.String? = nil,
         locationArn: Swift.String? = nil,
         mountOptions: DataSyncClientTypes.SmbMountOptions? = nil,
         password: Swift.String? = nil,
@@ -5920,7 +5998,12 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
         user: Swift.String? = nil
     ) {
         self.agentArns = agentArns
+        self.authenticationType = authenticationType
+        self.dnsIpAddresses = dnsIpAddresses
         self.domain = domain
+        self.kerberosKeytab = kerberosKeytab
+        self.kerberosKrb5Conf = kerberosKrb5Conf
+        self.kerberosPrincipal = kerberosPrincipal
         self.locationArn = locationArn
         self.mountOptions = mountOptions
         self.password = password
@@ -5931,7 +6014,7 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
 
 extension UpdateLocationSmbInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateLocationSmbInput(agentArns: \(Swift.String(describing: agentArns)), domain: \(Swift.String(describing: domain)), locationArn: \(Swift.String(describing: locationArn)), mountOptions: \(Swift.String(describing: mountOptions)), subdirectory: \(Swift.String(describing: subdirectory)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
+        "UpdateLocationSmbInput(agentArns: \(Swift.String(describing: agentArns)), authenticationType: \(Swift.String(describing: authenticationType)), dnsIpAddresses: \(Swift.String(describing: dnsIpAddresses)), domain: \(Swift.String(describing: domain)), kerberosKeytab: \(Swift.String(describing: kerberosKeytab)), kerberosKrb5Conf: \(Swift.String(describing: kerberosKrb5Conf)), kerberosPrincipal: \(Swift.String(describing: kerberosPrincipal)), locationArn: \(Swift.String(describing: locationArn)), mountOptions: \(Swift.String(describing: mountOptions)), subdirectory: \(Swift.String(describing: subdirectory)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateLocationSmbOutput: Swift.Sendable {
@@ -6691,7 +6774,12 @@ extension CreateLocationSmbInput {
     static func write(value: CreateLocationSmbInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AgentArns"].writeList(value.agentArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AuthenticationType"].write(value.authenticationType)
+        try writer["DnsIpAddresses"].writeList(value.dnsIpAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Domain"].write(value.domain)
+        try writer["KerberosKeytab"].write(value.kerberosKeytab)
+        try writer["KerberosKrb5Conf"].write(value.kerberosKrb5Conf)
+        try writer["KerberosPrincipal"].write(value.kerberosPrincipal)
         try writer["MountOptions"].write(value.mountOptions, with: DataSyncClientTypes.SmbMountOptions.write(value:to:))
         try writer["Password"].write(value.password)
         try writer["ServerHostname"].write(value.serverHostname)
@@ -7183,7 +7271,12 @@ extension UpdateLocationSmbInput {
     static func write(value: UpdateLocationSmbInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AgentArns"].writeList(value.agentArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AuthenticationType"].write(value.authenticationType)
+        try writer["DnsIpAddresses"].writeList(value.dnsIpAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Domain"].write(value.domain)
+        try writer["KerberosKeytab"].write(value.kerberosKeytab)
+        try writer["KerberosKrb5Conf"].write(value.kerberosKrb5Conf)
+        try writer["KerberosPrincipal"].write(value.kerberosPrincipal)
         try writer["LocationArn"].write(value.locationArn)
         try writer["MountOptions"].write(value.mountOptions, with: DataSyncClientTypes.SmbMountOptions.write(value:to:))
         try writer["Password"].write(value.password)
@@ -7647,8 +7740,11 @@ extension DescribeLocationSmbOutput {
         let reader = responseReader
         var value = DescribeLocationSmbOutput()
         value.agentArns = try reader["AgentArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dnsIpAddresses = try reader["DnsIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.domain = try reader["Domain"].readIfPresent()
+        value.kerberosPrincipal = try reader["KerberosPrincipal"].readIfPresent()
         value.locationArn = try reader["LocationArn"].readIfPresent()
         value.locationUri = try reader["LocationUri"].readIfPresent()
         value.mountOptions = try reader["MountOptions"].readIfPresent(with: DataSyncClientTypes.SmbMountOptions.read(from:))

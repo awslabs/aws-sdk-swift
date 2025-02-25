@@ -888,7 +888,7 @@ extension SageMakerClientTypes {
         public var framework: Swift.String?
         /// The framework version of the Model Package Container Image.
         public var frameworkVersion: Swift.String?
-        /// The Amazon EC2 Container Registry path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
+        /// The Amazon Elastic Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
         /// This member is required.
         public var image: Swift.String?
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
@@ -1100,6 +1100,7 @@ extension SageMakerClientTypes {
         case mlP38xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
         case mlR5d12xlarge
@@ -1146,6 +1147,16 @@ extension SageMakerClientTypes {
         case mlR7i8xlarge
         case mlR7iLarge
         case mlR7iXlarge
+        case mlR8g12xlarge
+        case mlR8g16xlarge
+        case mlR8g24xlarge
+        case mlR8g2xlarge
+        case mlR8g48xlarge
+        case mlR8g4xlarge
+        case mlR8g8xlarge
+        case mlR8gLarge
+        case mlR8gMedium
+        case mlR8gXlarge
         case mlT22xlarge
         case mlT2Large
         case mlT2Medium
@@ -1317,6 +1328,7 @@ extension SageMakerClientTypes {
                 .mlP38xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
                 .mlR5d12xlarge,
@@ -1363,6 +1375,16 @@ extension SageMakerClientTypes {
                 .mlR7i8xlarge,
                 .mlR7iLarge,
                 .mlR7iXlarge,
+                .mlR8g12xlarge,
+                .mlR8g16xlarge,
+                .mlR8g24xlarge,
+                .mlR8g2xlarge,
+                .mlR8g48xlarge,
+                .mlR8g4xlarge,
+                .mlR8g8xlarge,
+                .mlR8gLarge,
+                .mlR8gMedium,
+                .mlR8gXlarge,
                 .mlT22xlarge,
                 .mlT2Large,
                 .mlT2Medium,
@@ -1540,6 +1562,7 @@ extension SageMakerClientTypes {
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
@@ -1586,6 +1609,16 @@ extension SageMakerClientTypes {
             case .mlR7i8xlarge: return "ml.r7i.8xlarge"
             case .mlR7iLarge: return "ml.r7i.large"
             case .mlR7iXlarge: return "ml.r7i.xlarge"
+            case .mlR8g12xlarge: return "ml.r8g.12xlarge"
+            case .mlR8g16xlarge: return "ml.r8g.16xlarge"
+            case .mlR8g24xlarge: return "ml.r8g.24xlarge"
+            case .mlR8g2xlarge: return "ml.r8g.2xlarge"
+            case .mlR8g48xlarge: return "ml.r8g.48xlarge"
+            case .mlR8g4xlarge: return "ml.r8g.4xlarge"
+            case .mlR8g8xlarge: return "ml.r8g.8xlarge"
+            case .mlR8gLarge: return "ml.r8g.large"
+            case .mlR8gMedium: return "ml.r8g.medium"
+            case .mlR8gXlarge: return "ml.r8g.xlarge"
             case .mlT22xlarge: return "ml.t2.2xlarge"
             case .mlT2Large: return "ml.t2.large"
             case .mlT2Medium: return "ml.t2.medium"
@@ -4857,7 +4890,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+    /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
     public struct ResourceSpec: Swift.Sendable {
         /// The instance type that the image version runs on. JupyterServer apps only support the system value. For KernelGateway apps, the system value is translated to ml.t3.medium. KernelGateway apps also support all other values for available instance types.
         public var instanceType: SageMakerClientTypes.AppInstanceType?
@@ -4867,7 +4900,7 @@ extension SageMakerClientTypes {
         public var sageMakerImageArn: Swift.String?
         /// The SageMakerImageVersionAlias of the image to launch with. This value is in SemVer 2.0.0 versioning format.
         public var sageMakerImageVersionAlias: Swift.String?
-        /// The ARN of the image version created on the instance.
+        /// The ARN of the image version created on the instance. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var sageMakerImageVersionArn: Swift.String?
 
         public init(
@@ -4936,7 +4969,7 @@ extension SageMakerClientTypes {
         public var creationTime: Foundation.Date?
         /// The domain ID.
         public var domainId: Swift.String?
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var resourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The name of the space.
         public var spaceName: Swift.String?
@@ -10100,7 +10133,7 @@ extension SageMakerClientTypes {
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
-        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        /// The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// The current status of the cluster instance group.
         ///
@@ -10180,7 +10213,20 @@ extension SageMakerClientTypes {
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
-        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        /// To configure multi-AZ deployments, customize the Amazon VPC configuration at the instance group level. You can specify different subnets and security groups across different AZs in the instance group specification to override a SageMaker HyperPod cluster's default Amazon VPC configuration. For more information about deploying a cluster in multiple AZs, see [Setting up SageMaker HyperPod clusters across multiple AZs](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-prerequisites.html#sagemaker-hyperpod-prerequisites-multiple-availability-zones). When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:
+        ///
+        /// * Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.
+        ///
+        /// * In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see [Amazon EKS IPv6 Cluster Deployment](https://docs.aws.amazon.com/eks/latest/userguide/deploy-ipv6-cluster.html#_deploy_an_ipv6_cluster_with_eksctl).
+        ///
+        ///
+        /// Additional resources for IPv6 configuration:
+        ///
+        /// * For information about adding IPv6 support to your VPC, see to [IPv6 Support for VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html).
+        ///
+        /// * For information about creating a new IPv6-compatible VPC, see [Amazon VPC Creation Guide](https://docs.aws.amazon.com/vpc/latest/userguide/create-vpc.html).
+        ///
+        /// * To configure SageMaker HyperPod with a custom Amazon VPC, see [Custom Amazon VPC Setup for SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-prerequisites.html#sagemaker-hyperpod-prerequisites-optional-vpc).
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
         public var threadsPerCore: Swift.Int?
@@ -10311,7 +10357,7 @@ extension SageMakerClientTypes {
         public var launchTime: Foundation.Date?
         /// The LifeCycle configuration applied to the instance.
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
-        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        /// The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// The placement details of the SageMaker HyperPod cluster node.
         public var placement: SageMakerClientTypes.ClusterInstancePlacement?
@@ -10319,7 +10365,7 @@ extension SageMakerClientTypes {
         public var privateDnsHostname: Swift.String?
         /// The private primary IP address of the SageMaker HyperPod cluster node.
         public var privatePrimaryIp: Swift.String?
-        /// The private primary IPv6 address of the SageMaker HyperPod cluster node.
+        /// The private primary IPv6 address of the SageMaker HyperPod cluster node when configured with an Amazon VPC that supports IPv6 and includes subnets with IPv6 addressing enabled in either the cluster Amazon VPC configuration or the instance group Amazon VPC configuration.
         public var privatePrimaryIpv6: Swift.String?
         /// The number of threads per CPU core you specified under CreateCluster.
         public var threadsPerCore: Swift.Int?
@@ -10703,7 +10749,7 @@ extension SageMakerClientTypes {
         public var builtInLifecycleConfigArn: Swift.String?
         /// A list of custom SageMaker images that are configured to run as a Code Editor app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The Amazon Resource Name (ARN) of the Code Editor application lifecycle configuration.
         public var lifecycleConfigArns: [Swift.String]?
@@ -12720,7 +12766,20 @@ public struct CreateClusterInput: Swift.Sendable {
     public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
     /// Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see [Tagging Amazon Web Services Resources User Guide](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
     public var tags: [SageMakerClientTypes.Tag]?
-    /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+    /// Specifies the Amazon Virtual Private Cloud (VPC) that is associated with the Amazon SageMaker HyperPod cluster. You can control access to and from your resources by configuring your VPC. For more information, see [Give SageMaker access to resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html). When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:
+    ///
+    /// * Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.
+    ///
+    /// * In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see [Amazon EKS IPv6 Cluster Deployment](https://docs.aws.amazon.com/eks/latest/userguide/deploy-ipv6-cluster.html#_deploy_an_ipv6_cluster_with_eksctl).
+    ///
+    ///
+    /// Additional resources for IPv6 configuration:
+    ///
+    /// * For information about adding IPv6 support to your VPC, see to [IPv6 Support for VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html).
+    ///
+    /// * For information about creating a new IPv6-compatible VPC, see [Amazon VPC Creation Guide](https://docs.aws.amazon.com/vpc/latest/userguide/create-vpc.html).
+    ///
+    /// * To configure SageMaker HyperPod with a custom Amazon VPC, see [Custom Amazon VPC Setup for SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-prerequisites.html#sagemaker-hyperpod-prerequisites-optional-vpc).
     public var vpcConfig: SageMakerClientTypes.VpcConfig?
 
     public init(
@@ -14298,7 +14357,7 @@ extension SageMakerClientTypes {
         public var codeRepositories: [SageMakerClientTypes.CodeRepository]?
         /// A list of custom SageMaker images that are configured to run as a JupyterLab app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The configuration parameters that specify the IAM roles assumed by the execution role of SageMaker (assumable roles) and the cluster instances or job execution environments (execution roles or runtime roles) to manage and access resources required for running Amazon EMR clusters or Amazon EMR Serverless applications.
         public var emrSettings: SageMakerClientTypes.EmrSettings?
@@ -14456,7 +14515,7 @@ extension SageMakerClientTypes {
     public struct RSessionAppSettings: Swift.Sendable {
         /// A list of custom SageMaker AI images that are configured to run as a RSession app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
@@ -14936,7 +14995,7 @@ extension SageMakerClientTypes {
 
     /// A collection of settings that configure the RStudioServerPro Domain-level app.
     public struct RStudioServerProDomainSettings: Swift.Sendable {
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The ARN of the execution role for the RStudioServerPro Domain-level app.
         /// This member is required.
@@ -15585,11 +15644,15 @@ extension SageMakerClientTypes {
 
     public enum ProductionVariantInferenceAmiVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case al2Gpu2
+        case al2Gpu21
+        case al2Gpu31
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProductionVariantInferenceAmiVersion] {
             return [
-                .al2Gpu2
+                .al2Gpu2,
+                .al2Gpu21,
+                .al2Gpu31
             ]
         }
 
@@ -15601,6 +15664,8 @@ extension SageMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .al2Gpu2: return "al2-ami-sagemaker-inference-gpu-2"
+            case .al2Gpu21: return "al2-ami-sagemaker-inference-gpu-2-1"
+            case .al2Gpu31: return "al2-ami-sagemaker-inference-gpu-3-1"
             case let .sdkUnknown(s): return s
             }
         }
@@ -15749,11 +15814,31 @@ extension SageMakerClientTypes {
         ///
         /// * Accelerator: GPU
         ///
-        /// * NVIDIA driver version: 535.54.03
+        /// * NVIDIA driver version: 535
         ///
-        /// * CUDA driver version: 12.2
+        /// * CUDA version: 12.2
         ///
-        /// * Supported instance types: ml.g4dn.*, ml.g5.*, ml.g6.*, ml.p3.*, ml.p4d.*, ml.p4de.*, ml.p5.*
+        ///
+        /// al2-ami-sagemaker-inference-gpu-2-1
+        ///
+        /// * Accelerator: GPU
+        ///
+        /// * NVIDIA driver version: 535
+        ///
+        /// * CUDA version: 12.2
+        ///
+        /// * NVIDIA Container Toolkit with disabled CUDA-compat mounting
+        ///
+        ///
+        /// al2-ami-sagemaker-inference-gpu-3-1
+        ///
+        /// * Accelerator: GPU
+        ///
+        /// * NVIDIA driver version: 550
+        ///
+        /// * CUDA version: 12.4
+        ///
+        /// * NVIDIA Container Toolkit with disabled CUDA-compat mounting
         public var inferenceAmiVersion: SageMakerClientTypes.ProductionVariantInferenceAmiVersion?
         /// Number of instances to launch initially.
         public var initialInstanceCount: Swift.Int?
@@ -23910,7 +23995,7 @@ extension SageMakerClientTypes {
     public struct SpaceCodeEditorAppSettings: Swift.Sendable {
         /// Settings that are used to configure and manage the lifecycle of CodeEditor applications in a space.
         public var appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement?
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
@@ -23975,7 +24060,7 @@ extension SageMakerClientTypes {
         public var appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement?
         /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterLab application.
         public var codeRepositories: [SageMakerClientTypes.CodeRepository]?
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
@@ -34713,6 +34798,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlTrn132xlarge
         case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
@@ -34722,6 +34808,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlTrn132xlarge,
                 .mlTrn248xlarge
             ]
         }
@@ -34737,6 +34824,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlTrn132xlarge: return "ml.trn1.32xlarge"
             case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
@@ -36171,7 +36259,7 @@ extension SageMakerClientTypes {
 
     /// A collection of settings that update the current configuration for the RStudioServerPro Domain-level app.
     public struct RStudioServerProDomainSettingsForUpdate: Swift.Sendable {
-        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on. When both SageMakerImageVersionArn and SageMakerImageArn are passed, SageMakerImageVersionArn is used. Any updates to SageMakerImageArn will not take effect if SageMakerImageVersionArn already exists in the ResourceSpec because SageMakerImageVersionArn always takes precedence. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The execution role for the RStudioServerPro Domain-level app.
         /// This member is required.
@@ -49463,16 +49551,20 @@ public struct UpdateClusterInput: Swift.Sendable {
     /// Specify the instance groups to update.
     /// This member is required.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]?
+    /// Specify the names of the instance groups to delete. Use a single , as the separator between multiple names.
+    public var instanceGroupsToDelete: [Swift.String]?
     /// The node recovery mode to be applied to the SageMaker HyperPod cluster.
     public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
 
     public init(
         clusterName: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
+        instanceGroupsToDelete: [Swift.String]? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil
     ) {
         self.clusterName = clusterName
         self.instanceGroups = instanceGroups
+        self.instanceGroupsToDelete = instanceGroupsToDelete
         self.nodeRecovery = nodeRecovery
     }
 }
@@ -57281,6 +57373,7 @@ extension UpdateClusterInput {
         guard let value else { return }
         try writer["ClusterName"].write(value.clusterName)
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InstanceGroupsToDelete"].writeList(value.instanceGroupsToDelete, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NodeRecovery"].write(value.nodeRecovery)
     }
 }

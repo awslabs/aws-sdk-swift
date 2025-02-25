@@ -13,9 +13,8 @@ class PredictInputEndpointURLHostMiddlewareHandler(
     ctx: ProtocolGenerator.GenerationContext,
     inputSymbol: Symbol,
     outputSymbol: Symbol,
-    outputErrorSymbol: Symbol
+    outputErrorSymbol: Symbol,
 ) : Middleware(writer, inputSymbol) {
-
     override val typeName = "${inputSymbol.name}EndpointURLHostMiddleware"
 
     override fun generateInit() {

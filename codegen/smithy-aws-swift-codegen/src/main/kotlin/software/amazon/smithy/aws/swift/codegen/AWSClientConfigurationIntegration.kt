@@ -19,11 +19,14 @@ import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.plugins.DefaultAWSClientPlugin
 
 class AWSClientConfigurationIntegration : SwiftIntegration {
-    override fun clientConfigurations(ctx: ProtocolGenerator.GenerationContext): List<ClientConfiguration> {
-        return listOf(AWSDefaultClientConfiguration(), AWSRegionClientConfiguration(), AWSEndpointClientConfiguration(ctx))
-    }
+    override fun clientConfigurations(ctx: ProtocolGenerator.GenerationContext): List<ClientConfiguration> =
+        listOf(AWSDefaultClientConfiguration(), AWSRegionClientConfiguration(), AWSEndpointClientConfiguration(ctx))
 
-    override fun plugins(serviceConfig: ServiceConfig): List<Plugin> {
-        return listOf(DefaultAWSClientPlugin(), EndpointPlugin(serviceConfig), DefaultAWSAuthSchemePlugin(serviceConfig), AuthSchemePlugin(serviceConfig))
-    }
+    override fun plugins(serviceConfig: ServiceConfig): List<Plugin> =
+        listOf(
+            DefaultAWSClientPlugin(),
+            EndpointPlugin(serviceConfig),
+            DefaultAWSAuthSchemePlugin(serviceConfig),
+            AuthSchemePlugin(serviceConfig),
+        )
 }

@@ -1101,7 +1101,7 @@ extension SSMClientTypes {
 
 extension SSMClientTypes {
 
-    /// An array of search criteria that targets managed nodes using a key-value pair that you specify. One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html) in the Amazon Web Services Systems Manager User Guide. Supported formats include the following. For all Systems Manager capabilities:
+    /// An array of search criteria that targets managed nodes using a key-value pair that you specify. One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html) in the Amazon Web Services Systems Manager User Guide. Supported formats include the following. For all Systems Manager tools:
     ///
     /// * Key=tag-key,Values=tag-value-1,tag-value-2
     ///
@@ -1233,7 +1233,7 @@ public struct CreateAssociationInput: Swift.Sendable {
     public var applyOnlyAtCronInterval: Swift.Bool?
     /// Specify a descriptive name for the association.
     public var associationName: Swift.String?
-    /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+    /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
     public var automationTargetParameterName: Swift.String?
     /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
     public var calendarNames: [Swift.String]?
@@ -1426,7 +1426,7 @@ extension SSMClientTypes {
         public var associationName: Swift.String?
         /// The association version.
         public var associationVersion: Swift.String?
-        /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+        /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
         public var automationTargetParameterName: Swift.String?
         /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
         public var calendarNames: [Swift.String]?
@@ -1464,7 +1464,7 @@ extension SSMClientTypes {
         public var scheduleOffset: Swift.Int?
         /// The association status.
         public var status: SSMClientTypes.AssociationStatus?
-        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
+        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
         public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
         /// The combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association.
         public var targetLocations: [SSMClientTypes.TargetLocation]?
@@ -1565,7 +1565,7 @@ extension SSMClientTypes {
         public var applyOnlyAtCronInterval: Swift.Bool
         /// Specify a descriptive name for the association.
         public var associationName: Swift.String?
-        /// Specify the target for the association. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+        /// Specify the target for the association. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
         public var automationTargetParameterName: Swift.String?
         /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that Change Calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
         public var calendarNames: [Swift.String]?
@@ -1596,7 +1596,7 @@ extension SSMClientTypes {
         public var scheduleExpression: Swift.String?
         /// Number of days to wait after the scheduled day to run an association.
         public var scheduleOffset: Swift.Int?
-        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
+        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
         public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
         /// Use this action to create an association in multiple Regions and multiple accounts.
         public var targetLocations: [SSMClientTypes.TargetLocation]?
@@ -7236,7 +7236,7 @@ extension SSMClientTypes {
         public var securityNonCompliantCount: Swift.Int?
         /// The ID of the patch baseline snapshot used during the patching operation when this compliance data was collected.
         public var snapshotId: Swift.String?
-        /// The number of patches beyond the supported limit of NotApplicableCount that aren't reported by name to Inventory. Inventory is a capability of Amazon Web Services Systems Manager.
+        /// The number of patches beyond the supported limit of NotApplicableCount that aren't reported by name to Inventory. Inventory is a tool in Amazon Web Services Systems Manager.
         public var unreportedNotApplicableCount: Swift.Int?
 
         public init(
@@ -9328,7 +9328,7 @@ extension SSMClientTypes {
         public var policyStatus: Swift.String?
         /// The JSON text of the policy.
         public var policyText: Swift.String?
-        /// The type of policy. Parameter Store, a capability of Amazon Web Services Systems Manager, supports the following policy types: Expiration, ExpirationNotification, and NoChangeNotification.
+        /// The type of policy. Parameter Store, a tool in Amazon Web Services Systems Manager, supports the following policy types: Expiration, ExpirationNotification, and NoChangeNotification.
         public var policyType: Swift.String?
 
         public init(
@@ -9648,7 +9648,7 @@ public struct DescribePatchGroupStateOutput: Swift.Sendable {
     public var instancesWithOtherNonCompliantPatches: Swift.Int?
     /// The number of managed nodes where patches that are specified as Security in a patch advisory aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
     public var instancesWithSecurityNonCompliantPatches: Swift.Int?
-    /// The number of managed nodes with NotApplicable patches beyond the supported limit, which aren't reported by name to Inventory. Inventory is a capability of Amazon Web Services Systems Manager.
+    /// The number of managed nodes with NotApplicable patches beyond the supported limit, which aren't reported by name to Inventory. Inventory is a tool in Amazon Web Services Systems Manager.
     public var instancesWithUnreportedNotApplicablePatches: Swift.Int?
 
     public init(
@@ -13330,7 +13330,7 @@ extension SSMClientTypes {
         public var scheduleExpression: Swift.String?
         /// Number of days to wait after the scheduled day to run an association.
         public var scheduleOffset: Swift.Int?
-        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
+        /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
         public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
         /// The combination of Amazon Web Services Regions and Amazon Web Services accounts where you wanted to run the association when this association version was created.
         public var targetLocations: [SSMClientTypes.TargetLocation]?
@@ -13707,7 +13707,7 @@ extension SSMClientTypes {
         public var notificationConfig: SSMClientTypes.NotificationConfig?
         /// The time and date the request was sent to this managed node.
         public var requestedDateTime: Foundation.Date?
-        /// The Identity and Access Management (IAM) service role that Run Command, a capability of Amazon Web Services Systems Manager, uses to act on your behalf when sending notifications about command status changes on a per managed node basis.
+        /// The Identity and Access Management (IAM) service role that Run Command, a tool in Amazon Web Services Systems Manager, uses to act on your behalf when sending notifications about command status changes on a per managed node basis.
         public var serviceRole: Swift.String?
         /// The URL to the plugin's StdErr file in Amazon Simple Storage Service (Amazon S3), if the S3 bucket was defined for the parent command. For an invocation, StandardErrorUrl is populated if there is just one plugin defined for the command, and the S3 bucket was defined for the command.
         public var standardErrorUrl: Swift.String?
@@ -13906,7 +13906,7 @@ extension SSMClientTypes {
         public var parameters: [Swift.String: [Swift.String]]?
         /// The date and time the command was requested.
         public var requestedDateTime: Foundation.Date?
-        /// The Identity and Access Management (IAM) service role that Run Command, a capability of Amazon Web Services Systems Manager, uses to act on your behalf when sending notifications about command status changes.
+        /// The Identity and Access Management (IAM) service role that Run Command, a tool in Amazon Web Services Systems Manager, uses to act on your behalf when sending notifications about command status changes.
         public var serviceRole: Swift.String?
         /// The status of the command.
         public var status: SSMClientTypes.CommandStatus?
@@ -16851,7 +16851,7 @@ public struct PutParameterInput: Swift.Sendable {
     public var name: Swift.String?
     /// Overwrite an existing parameter. The default value is false.
     public var overwrite: Swift.Bool?
-    /// One or more policies to apply to a parameter. This operation takes a JSON array. Parameter Store, a capability of Amazon Web Services Systems Manager supports the following policy types: Expiration: This policy deletes the parameter after it expires. When you create the policy, you specify the expiration date. You can update the expiration date and time by updating the policy. Updating the parameter doesn't affect the expiration date and time. When the expiration time is reached, Parameter Store deletes the parameter. ExpirationNotification: This policy initiates an event in Amazon CloudWatch Events that notifies you about the expiration. By using this policy, you can receive notification before or after the expiration time is reached, in units of days or hours. NoChangeNotification: This policy initiates a CloudWatch Events event if a parameter hasn't been modified for a specified period of time. This policy type is useful when, for example, a secret needs to be changed within a period of time, but it hasn't been changed. All existing policies are preserved until you send new policies or an empty policy. For more information about parameter policies, see [Assigning parameter policies](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-policies.html).
+    /// One or more policies to apply to a parameter. This operation takes a JSON array. Parameter Store, a tool in Amazon Web Services Systems Manager supports the following policy types: Expiration: This policy deletes the parameter after it expires. When you create the policy, you specify the expiration date. You can update the expiration date and time by updating the policy. Updating the parameter doesn't affect the expiration date and time. When the expiration time is reached, Parameter Store deletes the parameter. ExpirationNotification: This policy initiates an event in Amazon CloudWatch Events that notifies you about the expiration. By using this policy, you can receive notification before or after the expiration time is reached, in units of days or hours. NoChangeNotification: This policy initiates a CloudWatch Events event if a parameter hasn't been modified for a specified period of time. This policy type is useful when, for example, a secret needs to be changed within a period of time, but it hasn't been changed. All existing policies are preserved until you send new policies or an empty policy. For more information about parameter policies, see [Assigning parameter policies](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-policies.html).
     public var policies: Swift.String?
     /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a Systems Manager parameter to identify the type of resource to which it applies, the environment, or the type of configuration data referenced by the parameter. In this case, you could specify the following key-value pairs:
     ///
@@ -16884,7 +16884,7 @@ public struct PutParameterInput: Swift.Sendable {
     public var tier: SSMClientTypes.ParameterTier?
     /// The type of parameter that you want to add to the system. SecureString isn't currently supported for CloudFormation templates. Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type. Specifying a parameter type isn't required when updating a parameter. You must specify a parameter type when creating a parameter.
     public var type: SSMClientTypes.ParameterType?
-    /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB. Parameters can't be referenced or nested in the values of other parameters. You can't include {{}} or {{ssm:parameter-name}} in a parameter value.
+    /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB. Parameters can't be referenced or nested in the values of other parameters. You can't include values wrapped in double brackets {{}} or {{ssm:parameter-name}} in a parameter value.
     /// This member is required.
     public var value: Swift.String?
 
@@ -17512,7 +17512,7 @@ public struct InvalidRole: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 public struct SendCommandInput: Swift.Sendable {
     /// The CloudWatch alarm you want to apply to your command.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
-    /// Enables Amazon Web Services Systems Manager to send Run Command output to Amazon CloudWatch Logs. Run Command is a capability of Amazon Web Services Systems Manager.
+    /// Enables Amazon Web Services Systems Manager to send Run Command output to Amazon CloudWatch Logs. Run Command is a tool in Amazon Web Services Systems Manager.
     public var cloudWatchOutputConfig: SSMClientTypes.CloudWatchOutputConfig?
     /// User-specified information about the command, such as a brief description of what the command should do.
     public var comment: Swift.String?
@@ -17762,7 +17762,7 @@ public struct StartAutomationExecutionInput: Swift.Sendable {
     /// * Key=OS,Value=Windows
     ///
     ///
-    /// To add tags to an existing automation, use the [AddTagsToResource] operation.
+    /// The Array Members maximum value is reported as 1000. This number includes capacity reserved for internal operations. When calling the StartAutomationExecution action, you can specify a maximum of 5 tags. You can, however, use the [AddTagsToResource] action to add up to a total of 50 tags to an existing automation configuration.
     public var tags: [SSMClientTypes.Tag]?
     /// A location is a combination of Amazon Web Services Regions and/or Amazon Web Services accounts where you want to run the automation. Use this operation to start an automation in multiple Amazon Web Services Regions and multiple Amazon Web Services accounts. For more information, see [Running automations in multiple Amazon Web Services Regions and accounts](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation-multiple-accounts-and-regions.html) in the Amazon Web Services Systems Manager User Guide.
     public var targetLocations: [SSMClientTypes.TargetLocation]?
@@ -17870,6 +17870,9 @@ public struct StartChangeRequestExecutionInput: Swift.Sendable {
     /// * Key=Environment,Value=Production
     ///
     /// * Key=Region,Value=us-east-2
+    ///
+    ///
+    /// The Array Members maximum value is reported as 1000. This number includes capacity reserved for internal operations. When calling the StartChangeRequestExecution action, you can specify a maximum of 5 tags. You can, however, use the [AddTagsToResource] action to add up to a total of 50 tags to an existing change request configuration.
     public var tags: [SSMClientTypes.Tag]?
 
     public init(
@@ -18039,7 +18042,7 @@ public struct TargetNotConnected: ClientRuntime.ModeledError, AWSClientRuntime.A
 public struct StartSessionInput: Swift.Sendable {
     /// The name of the SSM document you want to use to define the type of session, input parameters, or preferences for the session. For example, SSM-SessionManagerRunShell. You can call the [GetDocument] API to verify the document exists before attempting to start a session. If no document name is provided, a shell to the managed node is launched by default. For more information, see [Start a session](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html) in the Amazon Web Services Systems Manager User Guide.
     public var documentName: Swift.String?
-    /// The values you want to specify for the parameters defined in the Session document.
+    /// The values you want to specify for the parameters defined in the Session document. For more information about these parameters, see [Create a Session Manager preferences document](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-create-preferences-cli.html) in the Amazon Web Services Systems Manager User Guide.
     public var parameters: [Swift.String: [Swift.String]]?
     /// The reason for connecting to the instance. This value is included in the details for the Amazon CloudWatch Events event created when you start the session.
     public var reason: Swift.String?
@@ -18270,7 +18273,7 @@ public struct UpdateAssociationInput: Swift.Sendable {
     public var associationName: Swift.String?
     /// This parameter is provided for concurrency control purposes. You must specify the latest association version in the service. If you want to ensure that this request succeeds, either specify $LATEST, or omit this parameter.
     public var associationVersion: Swift.String?
-    /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
+    /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
     public var automationTargetParameterName: Swift.String?
     /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
     public var calendarNames: [Swift.String]?
@@ -18292,13 +18295,13 @@ public struct UpdateAssociationInput: Swift.Sendable {
     public var name: Swift.String?
     /// An S3 bucket where you want to store the results of this request.
     public var outputLocation: SSMClientTypes.InstanceAssociationOutputLocation?
-    /// The parameters you want to update for the association. If you create a parameter using Parameter Store, a capability of Amazon Web Services Systems Manager, you can reference the parameter using {{ssm:parameter-name}}.
+    /// The parameters you want to update for the association. If you create a parameter using Parameter Store, a tool in Amazon Web Services Systems Manager, you can reference the parameter using {{ssm:parameter-name}}.
     public var parameters: [Swift.String: [Swift.String]]?
     /// The cron expression used to schedule the association that you want to update.
     public var scheduleExpression: Swift.String?
     /// Number of days to wait after the scheduled day to run an association. For example, if you specified a cron schedule of cron(0 0 ? * THU#2 *), you could specify an offset of 3 to run the association each Sunday after the second Thursday of the month. For more information about cron schedules for associations, see [Reference: Cron and rate expressions for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/reference-cron-and-rate-expressions.html) in the Amazon Web Services Systems Manager User Guide. To use offsets, you must specify the ApplyOnlyAtCronInterval parameter. This option tells the system not to run an association immediately after you create it.
     public var scheduleOffset: Swift.Int?
-    /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
+    /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
     public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
     /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.
     public var targetLocations: [SSMClientTypes.TargetLocation]?

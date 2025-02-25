@@ -2248,6 +2248,8 @@ extension QuickSightClientTypes {
     public enum NumberScale: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auto
         case billions
+        case crores
+        case lakhs
         case millions
         case `none`
         case thousands
@@ -2258,6 +2260,8 @@ extension QuickSightClientTypes {
             return [
                 .auto,
                 .billions,
+                .crores,
+                .lakhs,
                 .millions,
                 .none,
                 .thousands,
@@ -2274,6 +2278,8 @@ extension QuickSightClientTypes {
             switch self {
             case .auto: return "AUTO"
             case .billions: return "BILLIONS"
+            case .crores: return "CRORES"
+            case .lakhs: return "LAKHS"
             case .millions: return "MILLIONS"
             case .none: return "NONE"
             case .thousands: return "THOUSANDS"
@@ -2318,17 +2324,50 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum DigitGroupingStyle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case lakhs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DigitGroupingStyle] {
+            return [
+                .default,
+                .lakhs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "DEFAULT"
+            case .lakhs: return "LAKHS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The options that determine the thousands separator configuration.
     public struct ThousandSeparatorOptions: Swift.Sendable {
+        /// Determines the way numbers are styled to accommodate different readability standards. The DEFAULT value uses the standard international grouping system and groups numbers by the thousands. The LAKHS value uses the Indian numbering system and groups numbers by lakhs and crores.
+        public var groupingStyle: QuickSightClientTypes.DigitGroupingStyle?
         /// Determines the thousands separator symbol.
         public var symbol: QuickSightClientTypes.NumericSeparatorSymbol?
         /// Determines the visibility of the thousands separator.
         public var visibility: QuickSightClientTypes.Visibility?
 
         public init(
+            groupingStyle: QuickSightClientTypes.DigitGroupingStyle? = nil,
             symbol: QuickSightClientTypes.NumericSeparatorSymbol? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
         ) {
+            self.groupingStyle = groupingStyle
             self.symbol = symbol
             self.visibility = visibility
         }
@@ -56318,6 +56357,7 @@ extension QuickSightClientTypes.ThousandSeparatorOptions {
 
     static func write(value: QuickSightClientTypes.ThousandSeparatorOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["GroupingStyle"].write(value.groupingStyle)
         try writer["Symbol"].write(value.symbol)
         try writer["Visibility"].write(value.visibility)
     }
@@ -56327,6 +56367,7 @@ extension QuickSightClientTypes.ThousandSeparatorOptions {
         var value = QuickSightClientTypes.ThousandSeparatorOptions()
         value.symbol = try reader["Symbol"].readIfPresent()
         value.visibility = try reader["Visibility"].readIfPresent()
+        value.groupingStyle = try reader["GroupingStyle"].readIfPresent()
         return value
     }
 }

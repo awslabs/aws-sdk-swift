@@ -942,6 +942,7 @@ extension CreateBillingViewInput {
 
     static func write(value: CreateBillingViewInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["dataFilterExpression"].write(value.dataFilterExpression, with: BillingClientTypes.Expression.write(value:to:))
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)

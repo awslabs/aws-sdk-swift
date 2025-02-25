@@ -2529,7 +2529,7 @@ public struct CreateGraphUsingImportTaskInput: Swift.Sendable {
     public var importOptions: NeptuneGraphClientTypes.ImportOptions?
     /// Specifies a KMS key to use to encrypt data imported into the new graph.
     public var kmsKeyIdentifier: Swift.String?
-    /// The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the max of the min-provisioned-memory and max-provisioned memory is used to create the graph. If neither value is specified 128 m-NCUs are used.
+    /// The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the final provisioned-memory will be chosen per the actual size of your imported data. If neither value is specified, 128 m-NCUs are used.
     public var maxProvisionedMemory: Swift.Int?
     /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 128
     public var minProvisionedMemory: Swift.Int?
@@ -2958,15 +2958,19 @@ public struct GetImportTaskOutput: Swift.Sendable {
 }
 
 public struct ListExportTasksInput: Swift.Sendable {
+    /// The unique identifier of the Neptune Analytics graph.
+    public var graphIdentifier: Swift.String?
     /// The maximum number of export tasks to return.
     public var maxResults: Swift.Int?
     /// Pagination token used to paginate input.
     public var nextToken: Swift.String?
 
     public init(
+        graphIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.graphIdentifier = graphIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3580,6 +3584,10 @@ extension ListExportTasksInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        if let graphIdentifier = value.graphIdentifier {
+            let graphIdentifierQueryItem = Smithy.URIQueryItem(name: "graphIdentifier".urlPercentEncoding(), value: Swift.String(graphIdentifier).urlPercentEncoding())
+            items.append(graphIdentifierQueryItem)
         }
         return items
     }

@@ -97,6 +97,7 @@ private var protocolTestTargets: [Target] {
         .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "../codegen/protocol-test-codegen-local/Tests"),
         .init(name: "StringArrayEndpointParam", sourcePath: "\(baseDirLocal)/StringArrayEndpointParam"),
         .init(name: "Performance", sourcePath: "\(baseDirLocal)/Performance", testPath: "../codegen/protocol-test-codegen-local/Tests"),
+        .init(name: "RPCV2CBORTestSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor"),
     ]
     return protocolTests.flatMap { protocolTest in
         let target = Target.target(

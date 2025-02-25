@@ -13,6 +13,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [Smithy](../../../../../swift/api/smithy/latest)
 
+[SmithyCBOR](../../../../../swift/api/smithycbor/latest)
+
 [SmithyChecksums](../../../../../swift/api/smithychecksums/latest)
 
 [SmithyChecksumsAPI](../../../../../swift/api/smithychecksumsapi/latest)
@@ -69,6 +71,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSDKHTTPAuth](../../../../../swift/api/awssdkhttpauth/latest)
 
 [AWSSDKIdentity](../../../../../swift/api/awssdkidentity/latest)
+
+[AWSSDKPartitions](../../../../../swift/api/awssdkpartitions/latest)
 
 
 ## Service Documentation
@@ -350,8 +354,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSElastiCache](../../../../../swift/api/awselasticache/latest)
 
 [AWSElasticBeanstalk](../../../../../swift/api/awselasticbeanstalk/latest)
-
-[AWSElasticInference](../../../../../swift/api/awselasticinference/latest)
 
 [AWSElasticLoadBalancing](../../../../../swift/api/awselasticloadbalancing/latest)
 
