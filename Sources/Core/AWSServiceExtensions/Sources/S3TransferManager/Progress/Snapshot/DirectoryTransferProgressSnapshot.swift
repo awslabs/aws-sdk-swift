@@ -14,4 +14,9 @@ public struct DirectoryTransferProgressSnapshot: TransferProgressSnapshot {
     //  _attempted_ to be transferred at the time of inquiry. E.g., failed transfers + successful transfers.
     /// Total number of files processed by the transfer so far, including number of failed transfers.
     public let totalFiles: Int?
+
+    public init(transferredFiles: Int, totalFiles: Int? = nil) {
+        self.transferredFiles = transferredFiles
+        self.totalFiles = totalFiles
+    }
 }

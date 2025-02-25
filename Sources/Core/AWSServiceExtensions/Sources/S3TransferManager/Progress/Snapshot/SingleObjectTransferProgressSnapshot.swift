@@ -11,4 +11,9 @@ public struct SingleObjectTransferProgressSnapshot: TransferProgressSnapshot {
     public let transferredBytes: Int
     /// Total size of the transfer. Known beforehand for upload; unknown for download until completion.
     public let totalBytes: Int?
+
+    public init(transferredBytes: Int, totalBytes: Int? = nil) {
+        self.transferredBytes = transferredBytes
+        self.totalBytes = totalBytes
+    }
 }
