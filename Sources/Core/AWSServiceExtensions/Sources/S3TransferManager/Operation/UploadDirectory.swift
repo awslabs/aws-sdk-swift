@@ -42,13 +42,19 @@ public extension S3TransferManager {
                 // Add `uploadObject` child tasks.
                 var uploadObjectOperationNum = 1
                 for url in nestedFileURLs {
+                    // Save current operation num as constant let.
+                    // Using `uploadObjectOperationNum` directly in the group.addTask closure below results
+                    //  in same value being used for the tasks bc var is a reference type & tasks get created
+                    //  before they even start running. E.g., by the first task runs, `uploadObjectOperationNum`
+                    //  could already be updated to its highest value.
+                    let operationNum = uploadObjectOperationNum
                     group.addTask {
                         do {
                             try Task.checkCancellation()
                             _ = try await self.uploadObjectFromURL(
                                 url: url,
                                 input: input,
-                                operationNumber: uploadObjectOperationNum
+                                operationNumber: operationNum
                             )
                             return .success(())
                         } catch {
