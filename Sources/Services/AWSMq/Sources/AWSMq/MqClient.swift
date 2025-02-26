@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MqClient: ClientRuntime.Client {
     public static let clientName = "MqClient"
-    public static let version = "1.2.26"
+    public static let version = "1.2.27"
     let client: ClientRuntime.SdkHttpClient
     let config: MqClient.MqClientConfiguration
     let serviceName = "mq"

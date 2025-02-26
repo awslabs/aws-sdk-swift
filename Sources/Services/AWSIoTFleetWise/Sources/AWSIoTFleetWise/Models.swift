@@ -645,7 +645,7 @@ extension IoTFleetWiseClientTypes {
 
     /// The state template associated with a vehicle. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     public struct StateTemplateAssociation: Swift.Sendable {
-        /// A unique, service-generated identifier.
+        /// The unique ID of the state template.
         /// This member is required.
         public var identifier: Swift.String?
         /// The update strategy for the state template. Vehicles associated with the state template can stream telemetry data with either an onChange or periodic update strategy. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
@@ -1717,7 +1717,7 @@ public struct CreateCampaignInput: Swift.Sendable {
 
 extension CreateCampaignInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCampaignInput(collectionScheme: \(Swift.String(describing: collectionScheme)), compression: \(Swift.String(describing: compression)), dataDestinationConfigs: \(Swift.String(describing: dataDestinationConfigs)), dataPartitions: \(Swift.String(describing: dataPartitions)), description: \(Swift.String(describing: description)), diagnosticsMode: \(Swift.String(describing: diagnosticsMode)), expiryTime: \(Swift.String(describing: expiryTime)), name: \(Swift.String(describing: name)), postTriggerCollectionDuration: \(Swift.String(describing: postTriggerCollectionDuration)), priority: \(Swift.String(describing: priority)), signalCatalogArn: \(Swift.String(describing: signalCatalogArn)), signalsToFetch: \(Swift.String(describing: signalsToFetch)), spoolingMode: \(Swift.String(describing: spoolingMode)), startTime: \(Swift.String(describing: startTime)), tags: \(Swift.String(describing: tags)), targetArn: \(Swift.String(describing: targetArn)), dataExtraDimensions: \"CONTENT_REDACTED\", signalsToCollect: \"CONTENT_REDACTED\")"}
+        "CreateCampaignInput(collectionScheme: \(Swift.String(describing: collectionScheme)), compression: \(Swift.String(describing: compression)), dataDestinationConfigs: \(Swift.String(describing: dataDestinationConfigs)), dataPartitions: \(Swift.String(describing: dataPartitions)), description: \(Swift.String(describing: description)), diagnosticsMode: \(Swift.String(describing: diagnosticsMode)), expiryTime: \(Swift.String(describing: expiryTime)), name: \(Swift.String(describing: name)), postTriggerCollectionDuration: \(Swift.String(describing: postTriggerCollectionDuration)), priority: \(Swift.String(describing: priority)), signalCatalogArn: \(Swift.String(describing: signalCatalogArn)), spoolingMode: \(Swift.String(describing: spoolingMode)), startTime: \(Swift.String(describing: startTime)), tags: \(Swift.String(describing: tags)), targetArn: \(Swift.String(describing: targetArn)), dataExtraDimensions: \"CONTENT_REDACTED\", signalsToCollect: \"CONTENT_REDACTED\", signalsToFetch: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateCampaignOutput: Swift.Sendable {
@@ -1902,10 +1902,38 @@ public struct GetCampaignOutput: Swift.Sendable {
 
 extension GetCampaignOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetCampaignOutput(arn: \(Swift.String(describing: arn)), collectionScheme: \(Swift.String(describing: collectionScheme)), compression: \(Swift.String(describing: compression)), creationTime: \(Swift.String(describing: creationTime)), dataDestinationConfigs: \(Swift.String(describing: dataDestinationConfigs)), dataPartitions: \(Swift.String(describing: dataPartitions)), description: \(Swift.String(describing: description)), diagnosticsMode: \(Swift.String(describing: diagnosticsMode)), expiryTime: \(Swift.String(describing: expiryTime)), lastModificationTime: \(Swift.String(describing: lastModificationTime)), name: \(Swift.String(describing: name)), postTriggerCollectionDuration: \(Swift.String(describing: postTriggerCollectionDuration)), priority: \(Swift.String(describing: priority)), signalCatalogArn: \(Swift.String(describing: signalCatalogArn)), signalsToFetch: \(Swift.String(describing: signalsToFetch)), spoolingMode: \(Swift.String(describing: spoolingMode)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), targetArn: \(Swift.String(describing: targetArn)), dataExtraDimensions: \"CONTENT_REDACTED\", signalsToCollect: \"CONTENT_REDACTED\")"}
+        "GetCampaignOutput(arn: \(Swift.String(describing: arn)), collectionScheme: \(Swift.String(describing: collectionScheme)), compression: \(Swift.String(describing: compression)), creationTime: \(Swift.String(describing: creationTime)), dataDestinationConfigs: \(Swift.String(describing: dataDestinationConfigs)), dataPartitions: \(Swift.String(describing: dataPartitions)), description: \(Swift.String(describing: description)), diagnosticsMode: \(Swift.String(describing: diagnosticsMode)), expiryTime: \(Swift.String(describing: expiryTime)), lastModificationTime: \(Swift.String(describing: lastModificationTime)), name: \(Swift.String(describing: name)), postTriggerCollectionDuration: \(Swift.String(describing: postTriggerCollectionDuration)), priority: \(Swift.String(describing: priority)), signalCatalogArn: \(Swift.String(describing: signalCatalogArn)), spoolingMode: \(Swift.String(describing: spoolingMode)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), targetArn: \(Swift.String(describing: targetArn)), dataExtraDimensions: \"CONTENT_REDACTED\", signalsToCollect: \"CONTENT_REDACTED\", signalsToFetch: \"CONTENT_REDACTED\")"}
+}
+
+extension IoTFleetWiseClientTypes {
+
+    public enum ListResponseScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case metadataOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListResponseScope] {
+            return [
+                .metadataOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .metadataOnly: return "METADATA_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 public struct ListCampaignsInput: Swift.Sendable {
+    /// When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: campaign name, Amazon Resource Name (ARN), creation time, and last modification time.
+    public var listResponseScope: IoTFleetWiseClientTypes.ListResponseScope?
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -1914,10 +1942,12 @@ public struct ListCampaignsInput: Swift.Sendable {
     public var status: Swift.String?
 
     public init(
+        listResponseScope: IoTFleetWiseClientTypes.ListResponseScope? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: Swift.String? = nil
     ) {
+        self.listResponseScope = listResponseScope
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -3584,6 +3614,8 @@ public struct ListDecoderManifestNetworkInterfacesOutput: Swift.Sendable {
 }
 
 public struct ListDecoderManifestsInput: Swift.Sendable {
+    /// When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: decoder manifest name, Amazon Resource Name (ARN), creation time, and last modification time.
+    public var listResponseScope: IoTFleetWiseClientTypes.ListResponseScope?
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// The Amazon Resource Name (ARN) of a vehicle model (model manifest) associated with the decoder manifest.
@@ -3592,10 +3624,12 @@ public struct ListDecoderManifestsInput: Swift.Sendable {
     public var nextToken: Swift.String?
 
     public init(
+        listResponseScope: IoTFleetWiseClientTypes.ListResponseScope? = nil,
         maxResults: Swift.Int? = nil,
         modelManifestArn: Swift.String? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.listResponseScope = listResponseScope
         self.maxResults = maxResults
         self.modelManifestArn = modelManifestArn
         self.nextToken = nextToken
@@ -3785,7 +3819,7 @@ public struct DeleteSignalCatalogOutput: Swift.Sendable {
 }
 
 public struct DeleteStateTemplateInput: Swift.Sendable {
-    /// A unique, service-generated identifier.
+    /// The unique ID of the state template.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -4011,15 +4045,19 @@ public struct GetFleetOutput: Swift.Sendable {
 }
 
 public struct ListFleetsInput: Swift.Sendable {
+    /// When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: fleet ID, Amazon Resource Name (ARN), creation time, and last modification time.
+    public var listResponseScope: IoTFleetWiseClientTypes.ListResponseScope?
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     public var nextToken: Swift.String?
 
     public init(
+        listResponseScope: IoTFleetWiseClientTypes.ListResponseScope? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.listResponseScope = listResponseScope
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4490,7 +4528,7 @@ public struct GetSignalCatalogOutput: Swift.Sendable {
 }
 
 public struct GetStateTemplateInput: Swift.Sendable {
-    /// A unique, service-generated identifier.
+    /// The unique ID of the state template.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -4821,6 +4859,8 @@ public struct ListModelManifestNodesOutput: Swift.Sendable {
 }
 
 public struct ListModelManifestsInput: Swift.Sendable {
+    /// When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: model manifest name, Amazon Resource Name (ARN), creation time, and last modification time.
+    public var listResponseScope: IoTFleetWiseClientTypes.ListResponseScope?
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -4829,10 +4869,12 @@ public struct ListModelManifestsInput: Swift.Sendable {
     public var signalCatalogArn: Swift.String?
 
     public init(
+        listResponseScope: IoTFleetWiseClientTypes.ListResponseScope? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         signalCatalogArn: Swift.String? = nil
     ) {
+        self.listResponseScope = listResponseScope
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.signalCatalogArn = signalCatalogArn
@@ -5246,15 +5288,19 @@ public struct UpdateSignalCatalogOutput: Swift.Sendable {
 }
 
 public struct ListStateTemplatesInput: Swift.Sendable {
+    /// When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: state template ID, Amazon Resource Name (ARN), creation time, and last modification time.
+    public var listResponseScope: IoTFleetWiseClientTypes.ListResponseScope?
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
 
     public init(
+        listResponseScope: IoTFleetWiseClientTypes.ListResponseScope? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.listResponseScope = listResponseScope
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5319,7 +5365,7 @@ public struct UpdateStateTemplateInput: Swift.Sendable {
     public var dataExtraDimensions: [Swift.String]?
     /// A brief description of the state template.
     public var description: Swift.String?
-    /// A unique, service-generated identifier.
+    /// The unique ID of the state template.
     /// This member is required.
     public var identifier: Swift.String?
     /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See [ Processing last known state vehicle data using MQTT messaging](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/process-visualize-data.html#process-last-known-state-vehicle-data)). For example, if you add Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise will include these attributes as User Properties with the MQTT message.
@@ -5414,6 +5460,8 @@ public struct ListVehiclesInput: Swift.Sendable {
     public var attributeNames: [Swift.String]?
     /// Static information about a vehicle attribute value in string format. You can use this optional parameter in conjunction with attributeNames to list the vehicles containing all the attributeValues corresponding to the attributeNames filter. For example, attributeValues could be "1.3 L R2, Blue" and the corresponding attributeNames filter could be "Vehicle.Body.Engine.Type, Vehicle.Color". In this case, the API will filter vehicles with attribute name Vehicle.Body.Engine.Type that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the attributeNames filter and the matching number of attributeValues filter to return the subset of vehicles that match the attributes filter condition.
     public var attributeValues: [Swift.String]?
+    /// When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: vehicle name, Amazon Resource Name (ARN), creation time, and last modification time.
+    public var listResponseScope: IoTFleetWiseClientTypes.ListResponseScope?
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// The Amazon Resource Name (ARN) of a vehicle model (model manifest). You can use this optional parameter to list only the vehicles created from a certain vehicle model.
@@ -5424,12 +5472,14 @@ public struct ListVehiclesInput: Swift.Sendable {
     public init(
         attributeNames: [Swift.String]? = nil,
         attributeValues: [Swift.String]? = nil,
+        listResponseScope: IoTFleetWiseClientTypes.ListResponseScope? = nil,
         maxResults: Swift.Int? = nil,
         modelManifestArn: Swift.String? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.attributeNames = attributeNames
         self.attributeValues = attributeValues
+        self.listResponseScope = listResponseScope
         self.maxResults = maxResults
         self.modelManifestArn = modelManifestArn
         self.nextToken = nextToken
@@ -6598,6 +6648,7 @@ extension ListCampaignsInput {
 
     static func write(value: ListCampaignsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["listResponseScope"].write(value.listResponseScope)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["status"].write(value.status)
@@ -6618,6 +6669,7 @@ extension ListDecoderManifestsInput {
 
     static func write(value: ListDecoderManifestsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["listResponseScope"].write(value.listResponseScope)
         try writer["maxResults"].write(value.maxResults)
         try writer["modelManifestArn"].write(value.modelManifestArn)
         try writer["nextToken"].write(value.nextToken)
@@ -6638,6 +6690,7 @@ extension ListFleetsInput {
 
     static func write(value: ListFleetsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["listResponseScope"].write(value.listResponseScope)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
@@ -6667,6 +6720,7 @@ extension ListModelManifestsInput {
 
     static func write(value: ListModelManifestsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["listResponseScope"].write(value.listResponseScope)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["signalCatalogArn"].write(value.signalCatalogArn)
@@ -6697,6 +6751,7 @@ extension ListStateTemplatesInput {
 
     static func write(value: ListStateTemplatesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["listResponseScope"].write(value.listResponseScope)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
@@ -6716,6 +6771,7 @@ extension ListVehiclesInput {
         guard let value else { return }
         try writer["attributeNames"].writeList(value.attributeNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["attributeValues"].writeList(value.attributeValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["listResponseScope"].write(value.listResponseScope)
         try writer["maxResults"].write(value.maxResults)
         try writer["modelManifestArn"].write(value.modelManifestArn)
         try writer["nextToken"].write(value.nextToken)

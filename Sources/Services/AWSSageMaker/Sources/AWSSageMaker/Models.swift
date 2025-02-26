@@ -8023,7 +8023,11 @@ public struct BatchDeleteClusterNodesInput: Swift.Sendable {
     /// The name of the SageMaker HyperPod cluster from which to delete the specified nodes.
     /// This member is required.
     public var clusterName: Swift.String?
-    /// A list of node IDs to be deleted from the specified cluster. For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
+    /// A list of node IDs to be deleted from the specified cluster.
+    ///
+    /// * For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
+    ///
+    /// * If you need to delete more than 99 instances, contact [Support](http://aws.amazon.com/contact-us/) for assistance.
     /// This member is required.
     public var nodeIds: [Swift.String]?
 
@@ -30653,6 +30657,112 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum InferenceComponentCapacitySizeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityPercent
+        case copyCount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InferenceComponentCapacitySizeType] {
+            return [
+                .capacityPercent,
+                .copyCount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityPercent: return "CAPACITY_PERCENT"
+            case .copyCount: return "COPY_COUNT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies the type and size of the endpoint capacity to activate for a rolling deployment or a rollback strategy. You can specify your batches as either of the following:
+    ///
+    /// * A count of inference component copies
+    ///
+    /// * The overall percentage or your fleet
+    ///
+    ///
+    /// For a rollback strategy, if you don't specify the fields in this object, or if you set the Value parameter to 100%, then SageMaker AI uses a blue/green rollback strategy and rolls all traffic back to the blue fleet.
+    public struct InferenceComponentCapacitySize: Swift.Sendable {
+        /// Specifies the endpoint capacity type. COPY_COUNT The endpoint activates based on the number of inference component copies. CAPACITY_PERCENT The endpoint activates based on the specified percentage of capacity.
+        /// This member is required.
+        public var type: SageMakerClientTypes.InferenceComponentCapacitySizeType?
+        /// Defines the capacity size, either as a number of inference component copies or a capacity percentage.
+        /// This member is required.
+        public var value: Swift.Int?
+
+        public init(
+            type: SageMakerClientTypes.InferenceComponentCapacitySizeType? = nil,
+            value: Swift.Int? = nil
+        ) {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies a rolling deployment strategy for updating a SageMaker AI inference component.
+    public struct InferenceComponentRollingUpdatePolicy: Swift.Sendable {
+        /// The batch size for each rolling step in the deployment process. For each step, SageMaker AI provisions capacity on the new endpoint fleet, routes traffic to that fleet, and terminates capacity on the old endpoint fleet. The value must be between 5% to 50% of the copy count of the inference component.
+        /// This member is required.
+        public var maximumBatchSize: SageMakerClientTypes.InferenceComponentCapacitySize?
+        /// The time limit for the total deployment. Exceeding this limit causes a timeout.
+        public var maximumExecutionTimeoutInSeconds: Swift.Int?
+        /// The batch size for a rollback to the old endpoint fleet. If this field is absent, the value is set to the default, which is 100% of the total capacity. When the default is used, SageMaker AI provisions the entire capacity of the old fleet at once during rollback.
+        public var rollbackMaximumBatchSize: SageMakerClientTypes.InferenceComponentCapacitySize?
+        /// The length of the baking period, during which SageMaker AI monitors alarms for each batch on the new fleet.
+        /// This member is required.
+        public var waitIntervalInSeconds: Swift.Int?
+
+        public init(
+            maximumBatchSize: SageMakerClientTypes.InferenceComponentCapacitySize? = nil,
+            maximumExecutionTimeoutInSeconds: Swift.Int? = nil,
+            rollbackMaximumBatchSize: SageMakerClientTypes.InferenceComponentCapacitySize? = nil,
+            waitIntervalInSeconds: Swift.Int? = nil
+        ) {
+            self.maximumBatchSize = maximumBatchSize
+            self.maximumExecutionTimeoutInSeconds = maximumExecutionTimeoutInSeconds
+            self.rollbackMaximumBatchSize = rollbackMaximumBatchSize
+            self.waitIntervalInSeconds = waitIntervalInSeconds
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The deployment configuration for an endpoint that hosts inference components. The configuration includes the desired deployment strategy and rollback settings.
+    public struct InferenceComponentDeploymentConfig: Swift.Sendable {
+        /// Automatic rollback configuration for handling endpoint deployment failures and recovery.
+        public var autoRollbackConfiguration: SageMakerClientTypes.AutoRollbackConfig?
+        /// Specifies a rolling deployment strategy for updating a SageMaker AI endpoint.
+        /// This member is required.
+        public var rollingUpdatePolicy: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy?
+
+        public init(
+            autoRollbackConfiguration: SageMakerClientTypes.AutoRollbackConfig? = nil,
+            rollingUpdatePolicy: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy? = nil
+        ) {
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.rollingUpdatePolicy = rollingUpdatePolicy
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Details about the runtime settings for the model that is deployed with the inference component.
     public struct InferenceComponentRuntimeConfigSummary: Swift.Sendable {
         /// The number of runtime copies of the model container that are currently deployed.
@@ -30744,6 +30854,8 @@ public struct DescribeInferenceComponentOutput: Swift.Sendable {
     public var inferenceComponentName: Swift.String?
     /// The status of the inference component.
     public var inferenceComponentStatus: SageMakerClientTypes.InferenceComponentStatus?
+    /// The deployment and rollback settings that you assigned to the inference component.
+    public var lastDeploymentConfig: SageMakerClientTypes.InferenceComponentDeploymentConfig?
     /// The time when the inference component was last updated.
     /// This member is required.
     public var lastModifiedTime: Foundation.Date?
@@ -30762,6 +30874,7 @@ public struct DescribeInferenceComponentOutput: Swift.Sendable {
         inferenceComponentArn: Swift.String? = nil,
         inferenceComponentName: Swift.String? = nil,
         inferenceComponentStatus: SageMakerClientTypes.InferenceComponentStatus? = nil,
+        lastDeploymentConfig: SageMakerClientTypes.InferenceComponentDeploymentConfig? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfigSummary? = nil,
         specification: SageMakerClientTypes.InferenceComponentSpecificationSummary? = nil,
@@ -30774,6 +30887,7 @@ public struct DescribeInferenceComponentOutput: Swift.Sendable {
         self.inferenceComponentArn = inferenceComponentArn
         self.inferenceComponentName = inferenceComponentName
         self.inferenceComponentStatus = inferenceComponentStatus
+        self.lastDeploymentConfig = lastDeploymentConfig
         self.lastModifiedTime = lastModifiedTime
         self.runtimeConfig = runtimeConfig
         self.specification = specification
@@ -36899,7 +37013,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The properties of an experiment as returned by the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API.
+    /// The properties of an experiment as returned by the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API. For information about experiments, see the [CreateExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateExperiment.html) API.
     public struct Experiment: Swift.Sendable {
         /// Who created the experiment.
         public var createdBy: SageMakerClientTypes.UserContext?
@@ -47333,7 +47447,14 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A versioned model that can be deployed for SageMaker inference.
+    /// A container for your trained model that can be deployed for SageMaker inference. This can include inference code, artifacts, and metadata. The model package type can be one of the following.
+    ///
+    /// * Versioned model: A part of a model package group in Model Registry.
+    ///
+    /// * Unversioned model: Not part of a model package group and used in Amazon Web Services Marketplace.
+    ///
+    ///
+    /// For more information, see [CreateModelPackage](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateModelPackage.html).
     public struct ModelPackage: Swift.Sendable {
         /// An array of additional Inference Specification objects.
         public var additionalInferenceSpecifications: [SageMakerClientTypes.AdditionalInferenceSpecificationDefinition]?
@@ -47379,7 +47500,11 @@ extension SageMakerClientTypes {
         public var modelPackageDescription: Swift.String?
         /// The model group to which the model belongs.
         public var modelPackageGroupName: Swift.String?
-        /// The name of the model.
+        /// The name of the model package. The name can be as follows:
+        ///
+        /// * For a versioned model, the name is automatically generated by SageMaker Model Registry and follows the format 'ModelPackageGroupName/ModelPackageVersion'.
+        ///
+        /// * For an unversioned model, you must provide the name.
         public var modelPackageName: Swift.String?
         /// The status of the model package. This can be one of the following values.
         ///
@@ -47484,7 +47609,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A group of versioned models in the model registry.
+    /// A group of versioned models in the Model Registry.
     public struct ModelPackageGroup: Swift.Sendable {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var createdBy: SageMakerClientTypes.UserContext?
@@ -48803,9 +48928,16 @@ extension SageMakerClientTypes {
         public var model: SageMakerClientTypes.ModelDashboardModel?
         /// An Amazon SageMaker Model Card that documents details about a machine learning model.
         public var modelCard: SageMakerClientTypes.ModelCard?
-        /// A versioned model that can be deployed for SageMaker inference.
+        /// A container for your trained model that can be deployed for SageMaker inference. This can include inference code, artifacts, and metadata. The model package type can be one of the following.
+        ///
+        /// * Versioned model: A part of a model package group in Model Registry.
+        ///
+        /// * Unversioned model: Not part of a model package group and used in Amazon Web Services Marketplace.
+        ///
+        ///
+        /// For more information, see [CreateModelPackage](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateModelPackage.html).
         public var modelPackage: SageMakerClientTypes.ModelPackage?
-        /// A group of versioned models in the model registry.
+        /// A group of versioned models in the Model Registry.
         public var modelPackageGroup: SageMakerClientTypes.ModelPackageGroup?
         /// A SageMaker Model Building Pipeline instance.
         public var pipeline: SageMakerClientTypes.Pipeline?
@@ -50272,6 +50404,8 @@ public struct UpdateImageVersionOutput: Swift.Sendable {
 }
 
 public struct UpdateInferenceComponentInput: Swift.Sendable {
+    /// The deployment configuration for the inference component. The configuration contains the desired deployment strategy and rollback settings.
+    public var deploymentConfig: SageMakerClientTypes.InferenceComponentDeploymentConfig?
     /// The name of the inference component.
     /// This member is required.
     public var inferenceComponentName: Swift.String?
@@ -50281,10 +50415,12 @@ public struct UpdateInferenceComponentInput: Swift.Sendable {
     public var specification: SageMakerClientTypes.InferenceComponentSpecification?
 
     public init(
+        deploymentConfig: SageMakerClientTypes.InferenceComponentDeploymentConfig? = nil,
         inferenceComponentName: Swift.String? = nil,
         runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfig? = nil,
         specification: SageMakerClientTypes.InferenceComponentSpecification? = nil
     ) {
+        self.deploymentConfig = deploymentConfig
         self.inferenceComponentName = inferenceComponentName
         self.runtimeConfig = runtimeConfig
         self.specification = specification
@@ -57567,6 +57703,7 @@ extension UpdateInferenceComponentInput {
 
     static func write(value: UpdateInferenceComponentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DeploymentConfig"].write(value.deploymentConfig, with: SageMakerClientTypes.InferenceComponentDeploymentConfig.write(value:to:))
         try writer["InferenceComponentName"].write(value.inferenceComponentName)
         try writer["RuntimeConfig"].write(value.runtimeConfig, with: SageMakerClientTypes.InferenceComponentRuntimeConfig.write(value:to:))
         try writer["Specification"].write(value.specification, with: SageMakerClientTypes.InferenceComponentSpecification.write(value:to:))
@@ -59875,6 +60012,7 @@ extension DescribeInferenceComponentOutput {
         value.inferenceComponentArn = try reader["InferenceComponentArn"].readIfPresent() ?? ""
         value.inferenceComponentName = try reader["InferenceComponentName"].readIfPresent() ?? ""
         value.inferenceComponentStatus = try reader["InferenceComponentStatus"].readIfPresent()
+        value.lastDeploymentConfig = try reader["LastDeploymentConfig"].readIfPresent(with: SageMakerClientTypes.InferenceComponentDeploymentConfig.read(from:))
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: SageMakerClientTypes.InferenceComponentRuntimeConfigSummary.read(from:))
         value.specification = try reader["Specification"].readIfPresent(with: SageMakerClientTypes.InferenceComponentSpecificationSummary.read(from:))
@@ -72551,6 +72689,61 @@ extension SageMakerClientTypes.InferenceComponentRuntimeConfigSummary {
         var value = SageMakerClientTypes.InferenceComponentRuntimeConfigSummary()
         value.desiredCopyCount = try reader["DesiredCopyCount"].readIfPresent()
         value.currentCopyCount = try reader["CurrentCopyCount"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InferenceComponentDeploymentConfig {
+
+    static func write(value: SageMakerClientTypes.InferenceComponentDeploymentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoRollbackConfiguration"].write(value.autoRollbackConfiguration, with: SageMakerClientTypes.AutoRollbackConfig.write(value:to:))
+        try writer["RollingUpdatePolicy"].write(value.rollingUpdatePolicy, with: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentDeploymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InferenceComponentDeploymentConfig()
+        value.rollingUpdatePolicy = try reader["RollingUpdatePolicy"].readIfPresent(with: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy.read(from:))
+        value.autoRollbackConfiguration = try reader["AutoRollbackConfiguration"].readIfPresent(with: SageMakerClientTypes.AutoRollbackConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InferenceComponentRollingUpdatePolicy {
+
+    static func write(value: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumBatchSize"].write(value.maximumBatchSize, with: SageMakerClientTypes.InferenceComponentCapacitySize.write(value:to:))
+        try writer["MaximumExecutionTimeoutInSeconds"].write(value.maximumExecutionTimeoutInSeconds)
+        try writer["RollbackMaximumBatchSize"].write(value.rollbackMaximumBatchSize, with: SageMakerClientTypes.InferenceComponentCapacitySize.write(value:to:))
+        try writer["WaitIntervalInSeconds"].write(value.waitIntervalInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentRollingUpdatePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InferenceComponentRollingUpdatePolicy()
+        value.maximumBatchSize = try reader["MaximumBatchSize"].readIfPresent(with: SageMakerClientTypes.InferenceComponentCapacitySize.read(from:))
+        value.waitIntervalInSeconds = try reader["WaitIntervalInSeconds"].readIfPresent() ?? 0
+        value.maximumExecutionTimeoutInSeconds = try reader["MaximumExecutionTimeoutInSeconds"].readIfPresent()
+        value.rollbackMaximumBatchSize = try reader["RollbackMaximumBatchSize"].readIfPresent(with: SageMakerClientTypes.InferenceComponentCapacitySize.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InferenceComponentCapacitySize {
+
+    static func write(value: SageMakerClientTypes.InferenceComponentCapacitySize?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentCapacitySize {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InferenceComponentCapacitySize()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0
         return value
     }
 }

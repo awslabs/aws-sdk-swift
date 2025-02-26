@@ -887,6 +887,8 @@ extension ApplicationSignalsClientTypes {
 
     /// This structure contains information about one CloudWatch metric associated with this entity discovered by Application Signals.
     public struct MetricReference: Swift.Sendable {
+        /// Amazon Web Services account ID.
+        public var accountId: Swift.String?
         /// An array of one or more dimensions that further define the metric. For more information, see [CloudWatchDimensions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Dimension).
         public var dimensions: [ApplicationSignalsClientTypes.Dimension]?
         /// The name of the metric.
@@ -900,11 +902,13 @@ extension ApplicationSignalsClientTypes {
         public var namespace: Swift.String?
 
         public init(
+            accountId: Swift.String? = nil,
             dimensions: [ApplicationSignalsClientTypes.Dimension]? = nil,
             metricName: Swift.String? = nil,
             metricType: Swift.String? = nil,
             namespace: Swift.String? = nil
         ) {
+            self.accountId = accountId
             self.dimensions = dimensions
             self.metricName = metricName
             self.metricType = metricType
@@ -1326,9 +1330,13 @@ public struct ListServiceOperationsOutput: Swift.Sendable {
 }
 
 public struct ListServicesInput: Swift.Sendable {
+    /// Amazon Web Services Account ID.
+    public var awsAccountId: Swift.String?
     /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.
     /// This member is required.
     public var endTime: Foundation.Date?
+    /// If you are using this operation in a monitoring account, specify true to include services from source accounts in the returned data.
+    public var includeLinkedAccounts: Swift.Bool?
     /// The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
     public var maxResults: Swift.Int?
     /// Include this value, if it was returned by the previous operation, to get the next set of services.
@@ -1338,12 +1346,16 @@ public struct ListServicesInput: Swift.Sendable {
     public var startTime: Foundation.Date?
 
     public init(
+        awsAccountId: Swift.String? = nil,
         endTime: Foundation.Date? = nil,
+        includeLinkedAccounts: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
     ) {
+        self.awsAccountId = awsAccountId
         self.endTime = endTime
+        self.includeLinkedAccounts = includeLinkedAccounts
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.startTime = startTime
@@ -1575,7 +1587,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension ApplicationSignalsClientTypes {
 
-    /// This object defines the length of the look-back window used to calculate one burn rate metric for this SLO. The burn rate measures how fast the service is consuming the error budget, relative to the attainment goal of the SLO. A burn rate of exactly 1 indicates that the SLO goal will be met exactly. For example, if you specify 60 as the number of minutes in the look-back window, the burn rate is calculated as the following: burn rate = error rate over the look-back window / (1 - attainment goal percentage) For more information about burn rates, see [Calculate burn rates](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html#CloudWatch-ServiceLevelObjectives-burn).
+    /// This object defines the length of the look-back window used to calculate one burn rate metric for this SLO. The burn rate measures how fast the service is consuming the error budget, relative to the attainment goal of the SLO. A burn rate of exactly 1 indicates that the SLO goal will be met exactly. For example, if you specify 60 as the number of minutes in the look-back window, the burn rate is calculated as the following: burn rate = error rate over the look-back window / (100% - attainment goal percentage) For more information about burn rates, see [Calculate burn rates](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html#CloudWatch-ServiceLevelObjectives-burn).
     public struct BurnRateConfiguration: Swift.Sendable {
         /// The number of minutes to use as the look-back window.
         /// This member is required.
@@ -1871,6 +1883,8 @@ public struct GetServiceLevelObjectiveOutput: Swift.Sendable {
 }
 
 public struct ListServiceLevelObjectivesInput: Swift.Sendable {
+    /// If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data. When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
+    public var includeLinkedAccounts: Swift.Bool?
     /// You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can include the following fields.
     ///
     /// * Type designates the type of object this is.
@@ -1889,17 +1903,23 @@ public struct ListServiceLevelObjectivesInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The name of the operation that this SLO is associated with.
     public var operationName: Swift.String?
+    /// SLO's Amazon Web Services account ID.
+    public var sloOwnerAwsAccountId: Swift.String?
 
     public init(
+        includeLinkedAccounts: Swift.Bool? = nil,
         keyAttributes: [Swift.String: Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        operationName: Swift.String? = nil
+        operationName: Swift.String? = nil,
+        sloOwnerAwsAccountId: Swift.String? = nil
     ) {
+        self.includeLinkedAccounts = includeLinkedAccounts
         self.keyAttributes = keyAttributes
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.operationName = operationName
+        self.sloOwnerAwsAccountId = sloOwnerAwsAccountId
     }
 }
 
@@ -2201,9 +2221,17 @@ extension ListServiceLevelObjectivesInput {
 
     static func queryItemProvider(_ value: ListServiceLevelObjectivesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let sloOwnerAwsAccountId = value.sloOwnerAwsAccountId {
+            let sloOwnerAwsAccountIdQueryItem = Smithy.URIQueryItem(name: "SloOwnerAwsAccountId".urlPercentEncoding(), value: Swift.String(sloOwnerAwsAccountId).urlPercentEncoding())
+            items.append(sloOwnerAwsAccountIdQueryItem)
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        if let includeLinkedAccounts = value.includeLinkedAccounts {
+            let includeLinkedAccountsQueryItem = Smithy.URIQueryItem(name: "IncludeLinkedAccounts".urlPercentEncoding(), value: Swift.String(includeLinkedAccounts).urlPercentEncoding())
+            items.append(includeLinkedAccountsQueryItem)
         }
         if let operationName = value.operationName {
             let operationNameQueryItem = Smithy.URIQueryItem(name: "OperationName".urlPercentEncoding(), value: Swift.String(operationName).urlPercentEncoding())
@@ -2273,6 +2301,10 @@ extension ListServicesInput {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
+        if let includeLinkedAccounts = value.includeLinkedAccounts {
+            let includeLinkedAccountsQueryItem = Smithy.URIQueryItem(name: "IncludeLinkedAccounts".urlPercentEncoding(), value: Swift.String(includeLinkedAccounts).urlPercentEncoding())
+            items.append(includeLinkedAccountsQueryItem)
+        }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
@@ -2283,6 +2315,10 @@ extension ListServicesInput {
         }
         let startTimeQueryItem = Smithy.URIQueryItem(name: "StartTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
         items.append(startTimeQueryItem)
+        if let awsAccountId = value.awsAccountId {
+            let awsAccountIdQueryItem = Smithy.URIQueryItem(name: "AwsAccountId".urlPercentEncoding(), value: Swift.String(awsAccountId).urlPercentEncoding())
+            items.append(awsAccountIdQueryItem)
+        }
         return items
     }
 }
@@ -3259,6 +3295,7 @@ extension ApplicationSignalsClientTypes.MetricReference {
         value.metricType = try reader["MetricType"].readIfPresent() ?? ""
         value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.metricName = try reader["MetricName"].readIfPresent() ?? ""
+        value.accountId = try reader["AccountId"].readIfPresent()
         return value
     }
 }

@@ -260,6 +260,8 @@ extension OAMClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsApplicationinsightsApplication
+        case awsApplicationSignalsService
+        case awsApplicationSignalsSlo
         case awsCloudwatchMetric
         case awsInternetmonitorMonitor
         case awsLogsLoggroup
@@ -269,6 +271,8 @@ extension OAMClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .awsApplicationinsightsApplication,
+                .awsApplicationSignalsService,
+                .awsApplicationSignalsSlo,
                 .awsCloudwatchMetric,
                 .awsInternetmonitorMonitor,
                 .awsLogsLoggroup,
@@ -284,6 +288,8 @@ extension OAMClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .awsApplicationinsightsApplication: return "AWS::ApplicationInsights::Application"
+            case .awsApplicationSignalsService: return "AWS::ApplicationSignals::Service"
+            case .awsApplicationSignalsSlo: return "AWS::ApplicationSignals::ServiceLevelObjective"
             case .awsCloudwatchMetric: return "AWS::CloudWatch::Metric"
             case .awsInternetmonitorMonitor: return "AWS::InternetMonitor::Monitor"
             case .awsLogsLoggroup: return "AWS::Logs::LogGroup"
