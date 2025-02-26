@@ -4396,22 +4396,64 @@ extension BedrockAgentRuntimeClientTypes.RawResponse: Swift.CustomDebugStringCon
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// Contains information about the reasoning that the model used to return the content in the content block.
+    public struct ReasoningTextBlock: Swift.Sendable {
+        /// A hash of all the messages in the conversation to ensure that the content in the reasoning text block isn't tampered with. You must submit the signature in subsequent Converse requests, in addition to the previous messages. If the previous messages are tampered with, the response throws an error.
+        public var signature: Swift.String?
+        /// Text describing the reasoning that the model used to return the content in the content block.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            signature: Swift.String? = nil,
+            text: Swift.String? = nil
+        ) {
+            self.signature = signature
+            self.text = text
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ReasoningTextBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains content regarding the reasoning that the foundation model made with respect to the content in the content block. Reasoning refers to a Chain of Thought (CoT) that the model generates to enhance the accuracy of its final response.
+    public enum ReasoningContentBlock: Swift.Sendable {
+        /// Contains information about the reasoning that the model used to return the content in the content block.
+        case reasoningtext(BedrockAgentRuntimeClientTypes.ReasoningTextBlock)
+        /// The content in the reasoning that was encrypted by the model provider for trust and safety reasons.
+        case redactedcontent(Foundation.Data)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// The foundation model output from the orchestration step.
     public struct OrchestrationModelInvocationOutput: Swift.Sendable {
         /// Contains information about the foundation model output from the orchestration step.
         public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
         /// Contains details of the raw response from the foundation model output.
         public var rawResponse: BedrockAgentRuntimeClientTypes.RawResponse?
+        /// Contains content about the reasoning that the model made during the orchestration step.
+        public var reasoningContent: BedrockAgentRuntimeClientTypes.ReasoningContentBlock?
         /// The unique identifier of the trace.
         public var traceId: Swift.String?
 
         public init(
             metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
             rawResponse: BedrockAgentRuntimeClientTypes.RawResponse? = nil,
+            reasoningContent: BedrockAgentRuntimeClientTypes.ReasoningContentBlock? = nil,
             traceId: Swift.String? = nil
         ) {
             self.metadata = metadata
             self.rawResponse = rawResponse
+            self.reasoningContent = reasoningContent
             self.traceId = traceId
         }
     }
@@ -4722,6 +4764,8 @@ extension BedrockAgentRuntimeClientTypes {
         public var parsedResponse: BedrockAgentRuntimeClientTypes.PostProcessingParsedResponse?
         /// Details of the raw response from the foundation model output.
         public var rawResponse: BedrockAgentRuntimeClientTypes.RawResponse?
+        /// Contains content about the reasoning that the model made during the post-processing step.
+        public var reasoningContent: BedrockAgentRuntimeClientTypes.ReasoningContentBlock?
         /// The unique identifier of the trace.
         public var traceId: Swift.String?
 
@@ -4729,11 +4773,13 @@ extension BedrockAgentRuntimeClientTypes {
             metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
             parsedResponse: BedrockAgentRuntimeClientTypes.PostProcessingParsedResponse? = nil,
             rawResponse: BedrockAgentRuntimeClientTypes.RawResponse? = nil,
+            reasoningContent: BedrockAgentRuntimeClientTypes.ReasoningContentBlock? = nil,
             traceId: Swift.String? = nil
         ) {
             self.metadata = metadata
             self.parsedResponse = parsedResponse
             self.rawResponse = rawResponse
+            self.reasoningContent = reasoningContent
             self.traceId = traceId
         }
     }
@@ -4798,6 +4844,8 @@ extension BedrockAgentRuntimeClientTypes {
         public var parsedResponse: BedrockAgentRuntimeClientTypes.PreProcessingParsedResponse?
         /// Details of the raw response from the foundation model output.
         public var rawResponse: BedrockAgentRuntimeClientTypes.RawResponse?
+        /// Contains content about the reasoning that the model made during the pre-processing step.
+        public var reasoningContent: BedrockAgentRuntimeClientTypes.ReasoningContentBlock?
         /// The unique identifier of the trace.
         public var traceId: Swift.String?
 
@@ -4805,11 +4853,13 @@ extension BedrockAgentRuntimeClientTypes {
             metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
             parsedResponse: BedrockAgentRuntimeClientTypes.PreProcessingParsedResponse? = nil,
             rawResponse: BedrockAgentRuntimeClientTypes.RawResponse? = nil,
+            reasoningContent: BedrockAgentRuntimeClientTypes.ReasoningContentBlock? = nil,
             traceId: Swift.String? = nil
         ) {
             self.metadata = metadata
             self.parsedResponse = parsedResponse
             self.rawResponse = rawResponse
+            self.reasoningContent = reasoningContent
             self.traceId = traceId
         }
     }
@@ -5099,7 +5149,7 @@ extension BedrockAgentRuntimeClientTypes {
         public var basePromptTemplate: Swift.String?
         /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
         public var inferenceConfiguration: BedrockAgentRuntimeClientTypes.InferenceConfiguration?
-        /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType. If you set the field as OVERRIDEN, the overrideLambda field in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) must be specified with the ARN of a Lambda function.
+        /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType. If you set the field as OVERRIDDEN, the overrideLambda field in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) must be specified with the ARN of a Lambda function.
         public var parserMode: BedrockAgentRuntimeClientTypes.CreationMode?
         /// Specifies whether to override the default prompt template for this promptType. Set this value to OVERRIDDEN to use the prompt that you provide in the basePromptTemplate. If you leave it as DEFAULT, the agent uses a default prompt template.
         public var promptCreationMode: BedrockAgentRuntimeClientTypes.CreationMode?
@@ -9136,6 +9186,34 @@ extension BedrockAgentRuntimeClientTypes.PostProcessingModelInvocationOutput {
         value.parsedResponse = try reader["parsedResponse"].readIfPresent(with: BedrockAgentRuntimeClientTypes.PostProcessingParsedResponse.read(from:))
         value.rawResponse = try reader["rawResponse"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RawResponse.read(from:))
         value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
+        value.reasoningContent = try reader["reasoningContent"].readIfPresent(with: BedrockAgentRuntimeClientTypes.ReasoningContentBlock.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ReasoningContentBlock {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.ReasoningContentBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "reasoningText":
+                return .reasoningtext(try reader["reasoningText"].read(with: BedrockAgentRuntimeClientTypes.ReasoningTextBlock.read(from:)))
+            case "redactedContent":
+                return .redactedcontent(try reader["redactedContent"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ReasoningTextBlock {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.ReasoningTextBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.ReasoningTextBlock()
+        value.text = try reader["text"].readIfPresent() ?? ""
+        value.signature = try reader["signature"].readIfPresent()
         return value
     }
 }
@@ -9180,6 +9258,7 @@ extension BedrockAgentRuntimeClientTypes.OrchestrationModelInvocationOutput {
         value.traceId = try reader["traceId"].readIfPresent()
         value.rawResponse = try reader["rawResponse"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RawResponse.read(from:))
         value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
+        value.reasoningContent = try reader["reasoningContent"].readIfPresent(with: BedrockAgentRuntimeClientTypes.ReasoningContentBlock.read(from:))
         return value
     }
 }
@@ -9220,6 +9299,7 @@ extension BedrockAgentRuntimeClientTypes.PreProcessingModelInvocationOutput {
         value.parsedResponse = try reader["parsedResponse"].readIfPresent(with: BedrockAgentRuntimeClientTypes.PreProcessingParsedResponse.read(from:))
         value.rawResponse = try reader["rawResponse"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RawResponse.read(from:))
         value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
+        value.reasoningContent = try reader["reasoningContent"].readIfPresent(with: BedrockAgentRuntimeClientTypes.ReasoningContentBlock.read(from:))
         return value
     }
 }

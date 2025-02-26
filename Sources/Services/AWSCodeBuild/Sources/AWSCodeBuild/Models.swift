@@ -1764,6 +1764,8 @@ extension CodeBuildClientTypes {
         public var projectName: Swift.String?
         /// Specifies the amount of time, in minutes, that the batch build is allowed to be queued before it times out.
         public var queuedTimeoutInMinutes: Swift.Int?
+        /// An array that contains the ARNs of reports created by merging reports from builds associated with this batch build.
+        public var reportArns: [Swift.String]?
         /// The identifier of the resolved version of this batch build's source code.
         ///
         /// * For CodeCommit, GitHub, GitHub Enterprise, and BitBucket, the commit ID.
@@ -1819,6 +1821,7 @@ extension CodeBuildClientTypes {
             phases: [CodeBuildClientTypes.BuildBatchPhase]? = nil,
             projectName: Swift.String? = nil,
             queuedTimeoutInMinutes: Swift.Int? = nil,
+            reportArns: [Swift.String]? = nil,
             resolvedSourceVersion: Swift.String? = nil,
             secondaryArtifacts: [CodeBuildClientTypes.BuildArtifacts]? = nil,
             secondarySourceVersions: [CodeBuildClientTypes.ProjectSourceVersion]? = nil,
@@ -1850,6 +1853,7 @@ extension CodeBuildClientTypes {
             self.phases = phases
             self.projectName = projectName
             self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
+            self.reportArns = reportArns
             self.resolvedSourceVersion = resolvedSourceVersion
             self.secondaryArtifacts = secondaryArtifacts
             self.secondarySourceVersions = secondarySourceVersions
@@ -9139,6 +9143,7 @@ extension CodeBuildClientTypes.BuildBatch {
         value.buildBatchConfig = try reader["buildBatchConfig"].readIfPresent(with: CodeBuildClientTypes.ProjectBuildBatchConfig.read(from:))
         value.buildGroups = try reader["buildGroups"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.BuildGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.debugSessionEnabled = try reader["debugSessionEnabled"].readIfPresent()
+        value.reportArns = try reader["reportArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

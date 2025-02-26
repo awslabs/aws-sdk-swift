@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TaxSettingsClient: ClientRuntime.Client {
     public static let clientName = "TaxSettingsClient"
-    public static let version = "1.2.24"
+    public static let version = "1.2.26"
     let client: ClientRuntime.SdkHttpClient
     let config: TaxSettingsClient.TaxSettingsClientConfiguration
     let serviceName = "TaxSettings"
@@ -435,7 +435,7 @@ extension TaxSettingsClient {
 
     /// Performs the `BatchGetTaxExemptions` operation on the `TaxSettings` service.
     ///
-    /// Get the active tax exemptions for a given list of accounts.
+    /// Get the active tax exemptions for a given list of accounts. The IAM action is tax:GetExemptions.
     ///
     /// - Parameter BatchGetTaxExemptionsInput : [no documentation found]
     ///
@@ -834,7 +834,7 @@ extension TaxSettingsClient {
 
     /// Performs the `GetTaxExemptionTypes` operation on the `TaxSettings` service.
     ///
-    /// Get supported tax exemption types.
+    /// Get supported tax exemption types. The IAM action is tax:GetExemptions.
     ///
     /// - Parameter GetTaxExemptionTypesInput : [no documentation found]
     ///
@@ -1207,7 +1207,7 @@ extension TaxSettingsClient {
 
     /// Performs the `ListTaxExemptions` operation on the `TaxSettings` service.
     ///
-    /// Retrieves the tax exemption of accounts listed in a consolidated billing family.
+    /// Retrieves the tax exemption of accounts listed in a consolidated billing family. The IAM action is tax:GetExemptions.
     ///
     /// - Parameter ListTaxExemptionsInput : [no documentation found]
     ///
@@ -1435,7 +1435,7 @@ extension TaxSettingsClient {
 
     /// Performs the `PutTaxExemption` operation on the `TaxSettings` service.
     ///
-    /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family.
+    /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family. The IAM action is tax:UpdateExemptions.
     ///
     /// - Parameter PutTaxExemptionInput : [no documentation found]
     ///
@@ -1444,9 +1444,9 @@ extension TaxSettingsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : The access is denied for the Amazon Web Services Support API.
-    /// - `AttachmentUploadException` : Failed to upload the tax exemption document to Amazon Web Services Support case.
-    /// - `CaseCreationLimitExceededException` : You've exceeded the Amazon Web Services Support case creation limit for your account.
+    /// - `AccessDeniedException` : The access is denied for the Amazon Web ServicesSupport API.
+    /// - `AttachmentUploadException` : Failed to upload the tax exemption document to Amazon Web ServicesSupport case.
+    /// - `CaseCreationLimitExceededException` : You've exceeded the Amazon Web ServicesSupport case creation limit for your account.
     /// - `InternalServerException` : The exception thrown when an unexpected error occurs when processing a request.
     /// - `ResourceNotFoundException` : The exception thrown when the input doesn't have a resource associated to it.
     /// - `ValidationException` : The exception when the input doesn't pass validation for at least one of the input parameters.

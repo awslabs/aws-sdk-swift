@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamWriteClient: ClientRuntime.Client {
     public static let clientName = "TimestreamWriteClient"
-    public static let version = "1.2.24"
+    public static let version = "1.2.26"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamWriteClient.TimestreamWriteClientConfiguration
     let serviceName = "Timestream Write"

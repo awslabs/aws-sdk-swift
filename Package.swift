@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.118.0"
+let clientRuntimeVersion: Version = "0.119.0"
 let crtVersion: Version = "0.46.0"
 
 let excludeRuntimeUnitTests = false
@@ -162,7 +162,6 @@ let serviceTargets: [String] = [
     "AWSEMRcontainers",
     "AWSElastiCache",
     "AWSElasticBeanstalk",
-    "AWSElasticInference",
     "AWSElasticLoadBalancing",
     "AWSElasticLoadBalancingv2",
     "AWSElasticTranscoder",

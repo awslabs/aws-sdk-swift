@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AmplifyClient: ClientRuntime.Client {
     public static let clientName = "AmplifyClient"
-    public static let version = "1.2.24"
+    public static let version = "1.2.26"
     let client: ClientRuntime.SdkHttpClient
     let config: AmplifyClient.AmplifyClientConfiguration
     let serviceName = "Amplify"
