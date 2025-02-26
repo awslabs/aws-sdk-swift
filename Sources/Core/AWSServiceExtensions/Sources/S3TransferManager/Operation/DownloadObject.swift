@@ -221,7 +221,14 @@ public extension S3TransferManager {
         guard let totalParts = firstGetObjectOutput.partsCount, totalParts > 1 else {
             // `downloadObject` call finished successfully. Release the semaphore instance.
             await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
-            return DownloadObjectOutput(getObjectOutput: firstGetObjectOutput)
+            let downloadObjectOutput = DownloadObjectOutput(getObjectOutput: firstGetObjectOutput)
+            onTransferComplete(
+                input.transferListeners,
+                input,
+                downloadObjectOutput,
+                SingleObjectTransferProgressSnapshot(transferredBytes: await progressTracker.transferredBytes)
+            )
+            return downloadObjectOutput
         }
 
         // Otherwise, fetch all remaining parts and write to the output stream.
@@ -342,7 +349,14 @@ public extension S3TransferManager {
         if objectSize <= config.targetPartSizeBytes {
             // downloadObject call finished successfully. Release the semaphore instance.
             await self.semaphoreManager.releaseSemaphoreInstance(forBucket: input.getObjectInput.bucket!)
-            return DownloadObjectOutput(getObjectOutput: firstRangeGetObjectOutput)
+            let downloadObjectOutput = DownloadObjectOutput(getObjectOutput: firstRangeGetObjectOutput)
+            onTransferComplete(
+                input.transferListeners,
+                input,
+                downloadObjectOutput,
+                SingleObjectTransferProgressSnapshot(transferredBytes: await progressTracker.transferredBytes)
+            )
+            return downloadObjectOutput
         }
 
         // Otherwise, fetch all remaining segments and write to the output stream.
