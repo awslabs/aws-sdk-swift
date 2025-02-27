@@ -12,44 +12,7 @@
 /// Then, start up a `Task` that asynchronously consumes the events from the stream before invoking the `S3TransferManager` operation.
 /// After you're done with using the listener, you must explicitly close the underlying stream by calling `closeStream()` on it.
 ///
-/// See below for the example usage that consumes `uploadObject` operation's events.
-///
-/// ```
-/// let fileURL = /* Create a file and get its URL. */
-///
-/// // Create the StreamingTransferListener.
-/// let streamingTransferListener = StreamingTransferListener()
-///
-/// // Start up the background Task that consumes events from the stream.
-/// Task {
-///     for try await event in streamingTransferListener.stream {
-///         switch event {
-///         case .uploadObjectInitiated(let input, let snapshot):
-///             // Do custom stuff.
-///         case .uploadObjectBytesTransferred(let input, let snapshot):
-///             // Do custom stuff.
-///         case .uploadObjectComplete(let input, let output, let snapshot):
-///             // Do custom stuff.
-///             streamingListener.closeStream() // Close stream explicitly if it won't be used anymore.
-///         case .uploadObjectFailed(let input, let snapshot):
-///             // Do custom stuff.
-///             streamingListener.closeStream() // Close stream explicitly if it won't be used anymore.
-///         default:
-///             break
-///         }
-///     }
-/// }
-///
-/// // Invoke the transfer manager operation with the streaming transfer listener configured in the input.
-/// let uploadObjectTask = try transferManager.uploadObject(input: UploadObjectInput(
-///     putObjectInput: PutObjectInput(
-///         body: ByteStream.stream(FileStream(fileHandle: FileHandle(forReadingFrom: fileURL))),
-///         bucket: /* Your bucket name. */,
-///         key: /* The S3 object key you want to use. */
-///     ),
-///     transferListeners: [streamingTransferListener]
-/// ))
-/// ```
+/// See README.md for the example usage that consumes `uploadObject` operation's events.
 public class StreamingTransferListener: TransferListener {
     /// The async stream that can be asynchronously iterated on to retrieve the published events.
     public let stream: AsyncThrowingStream<TransferEvent, Error>
