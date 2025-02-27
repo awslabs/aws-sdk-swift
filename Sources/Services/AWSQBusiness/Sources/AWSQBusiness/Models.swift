@@ -5929,6 +5929,37 @@ extension QBusinessClientTypes {
     }
 }
 
+public struct DeleteAttachmentInput: Swift.Sendable {
+    /// The unique identifier for the Amazon Q Business application environment.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier for the attachment.
+    /// This member is required.
+    public var attachmentId: Swift.String?
+    /// The unique identifier of the conversation.
+    /// This member is required.
+    public var conversationId: Swift.String?
+    /// The unique identifier of the user involved in the conversation.
+    public var userId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        attachmentId: Swift.String? = nil,
+        conversationId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.attachmentId = attachmentId
+        self.conversationId = conversationId
+        self.userId = userId
+    }
+}
+
+public struct DeleteAttachmentOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteChatControlsConfigurationInput: Swift.Sendable {
     /// The identifier of the application the chat controls have been configured for.
     /// This member is required.
@@ -8386,6 +8417,34 @@ extension DeleteApplicationInput {
     }
 }
 
+extension DeleteAttachmentInput {
+
+    static func urlPathProvider(_ value: DeleteAttachmentInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let conversationId = value.conversationId else {
+            return nil
+        }
+        guard let attachmentId = value.attachmentId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/conversations/\(conversationId.urlPercentEncoding())/attachments/\(attachmentId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteAttachmentInput {
+
+    static func queryItemProvider(_ value: DeleteAttachmentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let userId = value.userId {
+            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            items.append(userIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteChatControlsConfigurationInput {
 
     static func urlPathProvider(_ value: DeleteChatControlsConfigurationInput) -> Swift.String? {
@@ -10039,6 +10098,13 @@ extension DeleteApplicationOutput {
     }
 }
 
+extension DeleteAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAttachmentOutput {
+        return DeleteAttachmentOutput()
+    }
+}
+
 extension DeleteChatControlsConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteChatControlsConfigurationOutput {
@@ -11044,6 +11110,25 @@ enum DeleteApplicationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "LicenseNotFoundException": return try LicenseNotFoundException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)

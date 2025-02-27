@@ -6653,6 +6653,763 @@ extension RetrieveOutput: Swift.CustomDebugStringConvertible {
         "RetrieveOutput(guardrailAction: \(Swift.String(describing: guardrailAction)), nextToken: \(Swift.String(describing: nextToken)), retrievalResults: \"CONTENT_REDACTED\")"}
 }
 
+public struct CreateSessionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the KMS key to use to encrypt the session data. The user or role creating the session must have permission to use the key. For more information, see [Amazon Bedrock session encryption](https://docs.aws.amazon.com/bedrock/latest/userguide/session-encryption.html).
+    public var encryptionKeyArn: Swift.String?
+    /// A map of key-value pairs containing attributes to be persisted across the session. For example, the user's ID, their language preference, and the type of device they are using.
+    public var sessionMetadata: [Swift.String: Swift.String]?
+    /// Specify the key-value pairs for the tags that you want to attach to the session.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        encryptionKeyArn: Swift.String? = nil,
+        sessionMetadata: [Swift.String: Swift.String]? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.encryptionKeyArn = encryptionKeyArn
+        self.sessionMetadata = sessionMetadata
+        self.tags = tags
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum SessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case ended
+        case expired
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionStatus] {
+            return [
+                .active,
+                .ended,
+                .expired
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .ended: return "ENDED"
+            case .expired: return "EXPIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateSessionOutput: Swift.Sendable {
+    /// The timestamp for when the session was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the created session.
+    /// This member is required.
+    public var sessionArn: Swift.String?
+    /// The unique identifier for the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The current status of the session.
+    /// This member is required.
+    public var sessionStatus: BedrockAgentRuntimeClientTypes.SessionStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        sessionArn: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        sessionStatus: BedrockAgentRuntimeClientTypes.SessionStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.sessionArn = sessionArn
+        self.sessionId = sessionId
+        self.sessionStatus = sessionStatus
+    }
+}
+
+public struct DeleteSessionInput: Swift.Sendable {
+    /// The unique identifier for the session to be deleted. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    /// This member is required.
+    public var sessionIdentifier: Swift.String?
+
+    public init(
+        sessionIdentifier: Swift.String? = nil
+    ) {
+        self.sessionIdentifier = sessionIdentifier
+    }
+}
+
+public struct DeleteSessionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct EndSessionInput: Swift.Sendable {
+    /// The unique identifier for the session to end. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    /// This member is required.
+    public var sessionIdentifier: Swift.String?
+
+    public init(
+        sessionIdentifier: Swift.String? = nil
+    ) {
+        self.sessionIdentifier = sessionIdentifier
+    }
+}
+
+public struct EndSessionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the session you ended.
+    /// This member is required.
+    public var sessionArn: Swift.String?
+    /// The unique identifier of the session you ended.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The current status of the session you ended.
+    /// This member is required.
+    public var sessionStatus: BedrockAgentRuntimeClientTypes.SessionStatus?
+
+    public init(
+        sessionArn: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        sessionStatus: BedrockAgentRuntimeClientTypes.SessionStatus? = nil
+    ) {
+        self.sessionArn = sessionArn
+        self.sessionId = sessionId
+        self.sessionStatus = sessionStatus
+    }
+}
+
+public struct GetSessionInput: Swift.Sendable {
+    /// A unique identifier for the session to retrieve. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    /// This member is required.
+    public var sessionIdentifier: Swift.String?
+
+    public init(
+        sessionIdentifier: Swift.String? = nil
+    ) {
+        self.sessionIdentifier = sessionIdentifier
+    }
+}
+
+public struct GetSessionOutput: Swift.Sendable {
+    /// The timestamp for when the session was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the Key Management Service key used to encrypt the session data. For more information, see [Amazon Bedrock session encryption](https://docs.aws.amazon.com/bedrock/latest/userguide/session-encryption.html).
+    public var encryptionKeyArn: Swift.String?
+    /// The timestamp for when the session was last modified.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the session.
+    /// This member is required.
+    public var sessionArn: Swift.String?
+    /// The unique identifier for the session in UUID format.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// A map of key-value pairs containing attributes persisted across the session.
+    public var sessionMetadata: [Swift.String: Swift.String]?
+    /// The current status of the session.
+    /// This member is required.
+    public var sessionStatus: BedrockAgentRuntimeClientTypes.SessionStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        encryptionKeyArn: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        sessionArn: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        sessionMetadata: [Swift.String: Swift.String]? = nil,
+        sessionStatus: BedrockAgentRuntimeClientTypes.SessionStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.encryptionKeyArn = encryptionKeyArn
+        self.lastUpdatedAt = lastUpdatedAt
+        self.sessionArn = sessionArn
+        self.sessionId = sessionId
+        self.sessionMetadata = sessionMetadata
+        self.sessionStatus = sessionStatus
+    }
+}
+
+public struct CreateInvocationInput: Swift.Sendable {
+    /// A description for the interactions in the invocation. For example, "User asking about weather in Seattle".
+    public var description: Swift.String?
+    /// A unique identifier for the invocation in UUID format.
+    public var invocationId: Swift.String?
+    /// The unique identifier for the associated session for the invocation. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    /// This member is required.
+    public var sessionIdentifier: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        invocationId: Swift.String? = nil,
+        sessionIdentifier: Swift.String? = nil
+    ) {
+        self.description = description
+        self.invocationId = invocationId
+        self.sessionIdentifier = sessionIdentifier
+    }
+}
+
+public struct CreateInvocationOutput: Swift.Sendable {
+    /// The timestamp for when the invocation was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The unique identifier for the invocation.
+    /// This member is required.
+    public var invocationId: Swift.String?
+    /// The unique identifier for the session associated with the invocation.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        invocationId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.invocationId = invocationId
+        self.sessionId = sessionId
+    }
+}
+
+public struct ListInvocationsInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// The unique identifier for the session to list invocations for. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    /// This member is required.
+    public var sessionIdentifier: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sessionIdentifier: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sessionIdentifier = sessionIdentifier
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains details about an invocation in a session. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+    public struct InvocationSummary: Swift.Sendable {
+        /// The timestamp for when the invocation was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A unique identifier for the invocation in UUID format.
+        /// This member is required.
+        public var invocationId: Swift.String?
+        /// The unique identifier for the session associated with the invocation.
+        /// This member is required.
+        public var sessionId: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            invocationId: Swift.String? = nil,
+            sessionId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.invocationId = invocationId
+            self.sessionId = sessionId
+        }
+    }
+}
+
+public struct ListInvocationsOutput: Swift.Sendable {
+    /// A list of invocation summaries associated with the session.
+    /// This member is required.
+    public var invocationSummaries: [BedrockAgentRuntimeClientTypes.InvocationSummary]?
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        invocationSummaries: [BedrockAgentRuntimeClientTypes.InvocationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.invocationSummaries = invocationSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct GetInvocationStepInput: Swift.Sendable {
+    /// The unique identifier for the invocation in UUID format.
+    /// This member is required.
+    public var invocationIdentifier: Swift.String?
+    /// The unique identifier (in UUID format) for the specific invocation step to retrieve.
+    /// This member is required.
+    public var invocationStepId: Swift.String?
+    /// The unique identifier for the invocation step's associated session. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    /// This member is required.
+    public var sessionIdentifier: Swift.String?
+
+    public init(
+        invocationIdentifier: Swift.String? = nil,
+        invocationStepId: Swift.String? = nil,
+        sessionIdentifier: Swift.String? = nil
+    ) {
+        self.invocationIdentifier = invocationIdentifier
+        self.invocationStepId = invocationStepId
+        self.sessionIdentifier = sessionIdentifier
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum ImageFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gif
+        case jpeg
+        case png
+        case webp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageFormat] {
+            return [
+                .gif,
+                .jpeg,
+                .png,
+                .webp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gif: return "gif"
+            case .jpeg: return "jpeg"
+            case .png: return "png"
+            case .webp: return "webp"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Information about the Amazon S3 bucket where the image is stored.
+    public struct S3Location: Swift.Sendable {
+        /// The path to the Amazon S3 bucket where the image is stored.
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            uri: Swift.String? = nil
+        ) {
+            self.uri = uri
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The source for an image.
+    public enum ImageSource: Swift.Sendable {
+        /// The raw image bytes for the image. If you use an Amazon Web Services SDK, you don't need to encode the image bytes in base64.
+        case bytes(Foundation.Data)
+        /// The path to the Amazon S3 bucket where the image is stored.
+        case s3location(BedrockAgentRuntimeClientTypes.S3Location)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Image content for an invocation step.
+    public struct ImageBlock: Swift.Sendable {
+        /// The format of the image.
+        /// This member is required.
+        public var format: BedrockAgentRuntimeClientTypes.ImageFormat?
+        /// The source for the image.
+        /// This member is required.
+        public var source: BedrockAgentRuntimeClientTypes.ImageSource?
+
+        public init(
+            format: BedrockAgentRuntimeClientTypes.ImageFormat? = nil,
+            source: BedrockAgentRuntimeClientTypes.ImageSource? = nil
+        ) {
+            self.format = format
+            self.source = source
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// A block of content that you pass to, or receive from, a Amazon Bedrock session in an invocation step. You pass the content to a session in the payLoad of the [PutInvocationStep](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_PutInvocationStep.html) API operation. You retrieve the content with the [GetInvocationStep](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_GetInvocationStep.html) API operation. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+    public enum BedrockSessionContentBlock: Swift.Sendable {
+        /// The text in the invocation step.
+        case text(Swift.String)
+        /// The image in the invocation step.
+        case image(BedrockAgentRuntimeClientTypes.ImageBlock)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Payload content, such as text and images, for the invocation step.
+    public enum InvocationStepPayload: Swift.Sendable {
+        /// The content for the invocation step.
+        case contentblocks([BedrockAgentRuntimeClientTypes.BedrockSessionContentBlock])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Stores fine-grained state checkpoints, including text and images, for each interaction in an invocation in a session. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+    public struct InvocationStep: Swift.Sendable {
+        /// The unique identifier (in UUID format) for the invocation that includes the invocation step.
+        /// This member is required.
+        public var invocationId: Swift.String?
+        /// The unique identifier (in UUID format) for the invocation step.
+        /// This member is required.
+        public var invocationStepId: Swift.String?
+        /// The timestamp for when the invocation step was created.
+        /// This member is required.
+        public var invocationStepTime: Foundation.Date?
+        /// Payload content, such as text and images, for the invocation step.
+        /// This member is required.
+        public var payload: BedrockAgentRuntimeClientTypes.InvocationStepPayload?
+        /// The unique identifier of the session containing the invocation step.
+        /// This member is required.
+        public var sessionId: Swift.String?
+
+        public init(
+            invocationId: Swift.String? = nil,
+            invocationStepId: Swift.String? = nil,
+            invocationStepTime: Foundation.Date? = nil,
+            payload: BedrockAgentRuntimeClientTypes.InvocationStepPayload? = nil,
+            sessionId: Swift.String? = nil
+        ) {
+            self.invocationId = invocationId
+            self.invocationStepId = invocationStepId
+            self.invocationStepTime = invocationStepTime
+            self.payload = payload
+            self.sessionId = sessionId
+        }
+    }
+}
+
+public struct GetInvocationStepOutput: Swift.Sendable {
+    /// The complete details of the requested invocation step.
+    /// This member is required.
+    public var invocationStep: BedrockAgentRuntimeClientTypes.InvocationStep?
+
+    public init(
+        invocationStep: BedrockAgentRuntimeClientTypes.InvocationStep? = nil
+    ) {
+        self.invocationStep = invocationStep
+    }
+}
+
+public struct ListInvocationStepsInput: Swift.Sendable {
+    /// The unique identifier (in UUID format) for the invocation to list invocation steps for.
+    public var invocationIdentifier: Swift.String?
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// The unique identifier for the session associated with the invocation steps. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    /// This member is required.
+    public var sessionIdentifier: Swift.String?
+
+    public init(
+        invocationIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sessionIdentifier: Swift.String? = nil
+    ) {
+        self.invocationIdentifier = invocationIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sessionIdentifier = sessionIdentifier
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains details about an invocation step within an invocation in a session. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+    public struct InvocationStepSummary: Swift.Sendable {
+        /// A unique identifier for the invocation in UUID format.
+        /// This member is required.
+        public var invocationId: Swift.String?
+        /// The unique identifier (in UUID format) for the invocation step.
+        /// This member is required.
+        public var invocationStepId: Swift.String?
+        /// The timestamp for when the invocation step was created.
+        /// This member is required.
+        public var invocationStepTime: Foundation.Date?
+        /// The unique identifier for the session associated with the invocation step.
+        /// This member is required.
+        public var sessionId: Swift.String?
+
+        public init(
+            invocationId: Swift.String? = nil,
+            invocationStepId: Swift.String? = nil,
+            invocationStepTime: Foundation.Date? = nil,
+            sessionId: Swift.String? = nil
+        ) {
+            self.invocationId = invocationId
+            self.invocationStepId = invocationStepId
+            self.invocationStepTime = invocationStepTime
+            self.sessionId = sessionId
+        }
+    }
+}
+
+public struct ListInvocationStepsOutput: Swift.Sendable {
+    /// A list of summaries for each invocation step associated with a session and if you specified it, an invocation within the session.
+    /// This member is required.
+    public var invocationStepSummaries: [BedrockAgentRuntimeClientTypes.InvocationStepSummary]?
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        invocationStepSummaries: [BedrockAgentRuntimeClientTypes.InvocationStepSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.invocationStepSummaries = invocationStepSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct PutInvocationStepInput: Swift.Sendable {
+    /// The unique identifier (in UUID format) of the invocation to add the invocation step to.
+    /// This member is required.
+    public var invocationIdentifier: Swift.String?
+    /// The unique identifier of the invocation step in UUID format.
+    public var invocationStepId: Swift.String?
+    /// The timestamp for when the invocation step occurred.
+    /// This member is required.
+    public var invocationStepTime: Foundation.Date?
+    /// The payload for the invocation step, including text and images for the interaction.
+    /// This member is required.
+    public var payload: BedrockAgentRuntimeClientTypes.InvocationStepPayload?
+    /// The unique identifier for the session to add the invocation step to. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    /// This member is required.
+    public var sessionIdentifier: Swift.String?
+
+    public init(
+        invocationIdentifier: Swift.String? = nil,
+        invocationStepId: Swift.String? = nil,
+        invocationStepTime: Foundation.Date? = nil,
+        payload: BedrockAgentRuntimeClientTypes.InvocationStepPayload? = nil,
+        sessionIdentifier: Swift.String? = nil
+    ) {
+        self.invocationIdentifier = invocationIdentifier
+        self.invocationStepId = invocationStepId
+        self.invocationStepTime = invocationStepTime
+        self.payload = payload
+        self.sessionIdentifier = sessionIdentifier
+    }
+}
+
+public struct PutInvocationStepOutput: Swift.Sendable {
+    /// The unique identifier of the invocation step in UUID format.
+    /// This member is required.
+    public var invocationStepId: Swift.String?
+
+    public init(
+        invocationStepId: Swift.String? = nil
+    ) {
+        self.invocationStepId = invocationStepId
+    }
+}
+
+public struct ListSessionsInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains details about a session. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
+    public struct SessionSummary: Swift.Sendable {
+        /// The timestamp for when the session was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The timestamp for when the session was last modified.
+        /// This member is required.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the session.
+        /// This member is required.
+        public var sessionArn: Swift.String?
+        /// The unique identifier for the session.
+        /// This member is required.
+        public var sessionId: Swift.String?
+        /// The current status of the session.
+        /// This member is required.
+        public var sessionStatus: BedrockAgentRuntimeClientTypes.SessionStatus?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            sessionArn: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            sessionStatus: BedrockAgentRuntimeClientTypes.SessionStatus? = nil
+        ) {
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.sessionArn = sessionArn
+            self.sessionId = sessionId
+            self.sessionStatus = sessionStatus
+        }
+    }
+}
+
+public struct ListSessionsOutput: Swift.Sendable {
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// A list of summaries for each session in your Amazon Web Services account.
+    /// This member is required.
+    public var sessionSummaries: [BedrockAgentRuntimeClientTypes.SessionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sessionSummaries: [BedrockAgentRuntimeClientTypes.SessionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sessionSummaries = sessionSummaries
+    }
+}
+
+public struct UpdateSessionInput: Swift.Sendable {
+    /// The unique identifier of the session to modify. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    /// This member is required.
+    public var sessionIdentifier: Swift.String?
+    /// A map of key-value pairs containing attributes to be persisted across the session. For example the user's ID, their language preference, and the type of device they are using.
+    public var sessionMetadata: [Swift.String: Swift.String]?
+
+    public init(
+        sessionIdentifier: Swift.String? = nil,
+        sessionMetadata: [Swift.String: Swift.String]? = nil
+    ) {
+        self.sessionIdentifier = sessionIdentifier
+        self.sessionMetadata = sessionMetadata
+    }
+}
+
+public struct UpdateSessionOutput: Swift.Sendable {
+    /// The timestamp for when the session was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The timestamp for when the session was last modified.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the session that was updated.
+    /// This member is required.
+    public var sessionArn: Swift.String?
+    /// The unique identifier of the session you updated.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The status of the session you updated.
+    /// This member is required.
+    public var sessionStatus: BedrockAgentRuntimeClientTypes.SessionStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        sessionArn: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        sessionStatus: BedrockAgentRuntimeClientTypes.SessionStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.lastUpdatedAt = lastUpdatedAt
+        self.sessionArn = sessionArn
+        self.sessionId = sessionId
+        self.sessionStatus = sessionStatus
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource for which to list tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// The key-value pairs for the tags associated with the resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
+public struct TagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource to tag.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// An object containing key-value pairs that define the tags to attach to the resource.
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource from which to remove tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A list of keys of the tags to remove from the resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension BedrockAgentRuntimeClientTypes {
 
     /// Specifies the filters to use on the metadata attributes in the knowledge base data sources before returning results. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html). See the examples below to see how to use these filters. This data type is used in the following API operations:
@@ -6887,7 +7644,7 @@ extension BedrockAgentRuntimeClientTypes {
         public var externalSourcesConfiguration: BedrockAgentRuntimeClientTypes.ExternalSourcesRetrieveAndGenerateConfiguration?
         /// Contains details about the knowledge base for retrieving information and generating responses.
         public var knowledgeBaseConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfiguration?
-        /// The type of resource that contains your data for retrieving information and generating responses. If you choose ot use EXTERNAL_SOURCES, then currently only Claude 3 Sonnet models for knowledge bases are supported.
+        /// The type of resource that contains your data for retrieving information and generating responses. If you choose to use EXTERNAL_SOURCES, then currently only Anthropic Claude 3 Sonnet models for knowledge bases are supported.
         /// This member is required.
         public var type: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateType?
 
@@ -7134,6 +7891,23 @@ extension InvokeAgentInput: Swift.CustomDebugStringConvertible {
         "InvokeAgentInput(agentAliasId: \(Swift.String(describing: agentAliasId)), agentId: \(Swift.String(describing: agentId)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), memoryId: \(Swift.String(describing: memoryId)), sessionId: \(Swift.String(describing: sessionId)), sessionState: \(Swift.String(describing: sessionState)), sourceArn: \(Swift.String(describing: sourceArn)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), inputText: \"CONTENT_REDACTED\")"}
 }
 
+extension CreateInvocationInput {
+
+    static func urlPathProvider(_ value: CreateInvocationInput) -> Swift.String? {
+        guard let sessionIdentifier = value.sessionIdentifier else {
+            return nil
+        }
+        return "/sessions/\(sessionIdentifier.urlPercentEncoding())/invocations"
+    }
+}
+
+extension CreateSessionInput {
+
+    static func urlPathProvider(_ value: CreateSessionInput) -> Swift.String? {
+        return "/sessions"
+    }
+}
+
 extension DeleteAgentMemoryInput {
 
     static func urlPathProvider(_ value: DeleteAgentMemoryInput) -> Swift.String? {
@@ -7160,6 +7934,26 @@ extension DeleteAgentMemoryInput {
             items.append(sessionIdQueryItem)
         }
         return items
+    }
+}
+
+extension DeleteSessionInput {
+
+    static func urlPathProvider(_ value: DeleteSessionInput) -> Swift.String? {
+        guard let sessionIdentifier = value.sessionIdentifier else {
+            return nil
+        }
+        return "/sessions/\(sessionIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension EndSessionInput {
+
+    static func urlPathProvider(_ value: EndSessionInput) -> Swift.String? {
+        guard let sessionIdentifier = value.sessionIdentifier else {
+            return nil
+        }
+        return "/sessions/\(sessionIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -7208,6 +8002,29 @@ extension GetAgentMemoryInput {
         let memoryIdQueryItem = Smithy.URIQueryItem(name: "memoryId".urlPercentEncoding(), value: Swift.String(memoryId).urlPercentEncoding())
         items.append(memoryIdQueryItem)
         return items
+    }
+}
+
+extension GetInvocationStepInput {
+
+    static func urlPathProvider(_ value: GetInvocationStepInput) -> Swift.String? {
+        guard let sessionIdentifier = value.sessionIdentifier else {
+            return nil
+        }
+        guard let invocationStepId = value.invocationStepId else {
+            return nil
+        }
+        return "/sessions/\(sessionIdentifier.urlPercentEncoding())/invocationSteps/\(invocationStepId.urlPercentEncoding())"
+    }
+}
+
+extension GetSessionInput {
+
+    static func urlPathProvider(_ value: GetSessionInput) -> Swift.String? {
+        guard let sessionIdentifier = value.sessionIdentifier else {
+            return nil
+        }
+        return "/sessions/\(sessionIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -7261,10 +8078,105 @@ extension InvokeInlineAgentInput {
     }
 }
 
+extension ListInvocationsInput {
+
+    static func urlPathProvider(_ value: ListInvocationsInput) -> Swift.String? {
+        guard let sessionIdentifier = value.sessionIdentifier else {
+            return nil
+        }
+        return "/sessions/\(sessionIdentifier.urlPercentEncoding())/invocations"
+    }
+}
+
+extension ListInvocationsInput {
+
+    static func queryItemProvider(_ value: ListInvocationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListInvocationStepsInput {
+
+    static func urlPathProvider(_ value: ListInvocationStepsInput) -> Swift.String? {
+        guard let sessionIdentifier = value.sessionIdentifier else {
+            return nil
+        }
+        return "/sessions/\(sessionIdentifier.urlPercentEncoding())/invocationSteps"
+    }
+}
+
+extension ListInvocationStepsInput {
+
+    static func queryItemProvider(_ value: ListInvocationStepsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListSessionsInput {
+
+    static func urlPathProvider(_ value: ListSessionsInput) -> Swift.String? {
+        return "/sessions"
+    }
+}
+
+extension ListSessionsInput {
+
+    static func queryItemProvider(_ value: ListSessionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
 extension OptimizePromptInput {
 
     static func urlPathProvider(_ value: OptimizePromptInput) -> Swift.String? {
         return "/optimize-prompt"
+    }
+}
+
+extension PutInvocationStepInput {
+
+    static func urlPathProvider(_ value: PutInvocationStepInput) -> Swift.String? {
+        guard let sessionIdentifier = value.sessionIdentifier else {
+            return nil
+        }
+        return "/sessions/\(sessionIdentifier.urlPercentEncoding())/invocationSteps"
     }
 }
 
@@ -7299,12 +8211,85 @@ extension RetrieveAndGenerateStreamInput {
     }
 }
 
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
+extension UpdateSessionInput {
+
+    static func urlPathProvider(_ value: UpdateSessionInput) -> Swift.String? {
+        guard let sessionIdentifier = value.sessionIdentifier else {
+            return nil
+        }
+        return "/sessions/\(sessionIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension CreateInvocationInput {
+
+    static func write(value: CreateInvocationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["invocationId"].write(value.invocationId)
+    }
+}
+
+extension CreateSessionInput {
+
+    static func write(value: CreateSessionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
+        try writer["sessionMetadata"].writeMap(value.sessionMetadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension GenerateQueryInput {
 
     static func write(value: GenerateQueryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["queryGenerationInput"].write(value.queryGenerationInput, with: BedrockAgentRuntimeClientTypes.QueryGenerationInput.write(value:to:))
         try writer["transformationConfiguration"].write(value.transformationConfiguration, with: BedrockAgentRuntimeClientTypes.TransformationConfiguration.write(value:to:))
+    }
+}
+
+extension GetInvocationStepInput {
+
+    static func write(value: GetInvocationStepInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["invocationIdentifier"].write(value.invocationIdentifier)
     }
 }
 
@@ -7354,12 +8339,31 @@ extension InvokeInlineAgentInput {
     }
 }
 
+extension ListInvocationStepsInput {
+
+    static func write(value: ListInvocationStepsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["invocationIdentifier"].write(value.invocationIdentifier)
+    }
+}
+
 extension OptimizePromptInput {
 
     static func write(value: OptimizePromptInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["input"].write(value.input, with: BedrockAgentRuntimeClientTypes.InputPrompt.write(value:to:))
         try writer["targetModelId"].write(value.targetModelId)
+    }
+}
+
+extension PutInvocationStepInput {
+
+    static func write(value: PutInvocationStepInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["invocationIdentifier"].write(value.invocationIdentifier)
+        try writer["invocationStepId"].write(value.invocationStepId)
+        try writer["invocationStepTime"].writeTimestamp(value.invocationStepTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["payload"].write(value.payload, with: BedrockAgentRuntimeClientTypes.InvocationStepPayload.write(value:to:))
     }
 }
 
@@ -7407,10 +8411,76 @@ extension RetrieveAndGenerateStreamInput {
     }
 }
 
+extension TagResourceInput {
+
+    static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateSessionInput {
+
+    static func write(value: UpdateSessionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sessionMetadata"].writeMap(value.sessionMetadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateInvocationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateInvocationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateInvocationOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.invocationId = try reader["invocationId"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateSessionOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.sessionStatus = try reader["sessionStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DeleteAgentMemoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAgentMemoryOutput {
         return DeleteAgentMemoryOutput()
+    }
+}
+
+extension DeleteSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSessionOutput {
+        return DeleteSessionOutput()
+    }
+}
+
+extension EndSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EndSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = EndSessionOutput()
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.sessionStatus = try reader["sessionStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -7435,6 +8505,36 @@ extension GetAgentMemoryOutput {
         var value = GetAgentMemoryOutput()
         value.memoryContents = try reader["memoryContents"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.Memory.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetInvocationStepOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInvocationStepOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetInvocationStepOutput()
+        value.invocationStep = try reader["invocationStep"].readIfPresent(with: BedrockAgentRuntimeClientTypes.InvocationStep.read(from:))
+        return value
+    }
+}
+
+extension GetSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSessionOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.sessionMetadata = try reader["sessionMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sessionStatus = try reader["sessionStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7496,6 +8596,57 @@ extension InvokeInlineAgentOutput {
     }
 }
 
+extension ListInvocationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListInvocationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListInvocationsOutput()
+        value.invocationSummaries = try reader["invocationSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.InvocationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListInvocationStepsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListInvocationStepsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListInvocationStepsOutput()
+        value.invocationStepSummaries = try reader["invocationStepSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.InvocationStepSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListSessionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSessionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSessionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.sessionSummaries = try reader["sessionSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.SessionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListTagsForResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension OptimizePromptOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> OptimizePromptOutput {
@@ -7505,6 +8656,18 @@ extension OptimizePromptOutput {
             let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockAgentRuntimeClientTypes.OptimizedPromptStream.unmarshal)
             value.optimizedPrompt = decoderStream.toAsyncStream()
         }
+        return value
+    }
+}
+
+extension PutInvocationStepOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutInvocationStepOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutInvocationStepOutput()
+        value.invocationStepId = try reader["invocationStepId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7567,6 +8730,75 @@ extension RetrieveAndGenerateStreamOutput {
     }
 }
 
+extension TagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
+        return TagResourceOutput()
+    }
+}
+
+extension UntagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
+        return UntagResourceOutput()
+    }
+}
+
+extension UpdateSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSessionOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.sessionStatus = try reader["sessionStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+enum CreateInvocationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteAgentMemoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7582,6 +8814,44 @@ enum DeleteAgentMemoryOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EndSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7626,6 +8896,42 @@ enum GetAgentMemoryOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetInvocationStepOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7700,6 +9006,77 @@ enum InvokeInlineAgentOutputError {
     }
 }
 
+enum ListInvocationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListInvocationStepsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSessionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTagsForResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum OptimizePromptOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7712,6 +9089,26 @@ enum OptimizePromptOutputError {
             case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
             case "DependencyFailedException": return try DependencyFailedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutInvocationStepOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7807,26 +9204,68 @@ enum RetrieveAndGenerateStreamOutputError {
     }
 }
 
+enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DependencyFailedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyFailedException {
-        let reader = baseError.errorBodyReader
-        var value = DependencyFailedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceName = try reader["resourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7887,20 +9326,6 @@ extension ThrottlingException {
     }
 }
 
-extension BadGatewayException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadGatewayException {
-        let reader = baseError.errorBodyReader
-        var value = BadGatewayException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceName = try reader["resourceName"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
@@ -7920,6 +9345,34 @@ extension ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DependencyFailedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyFailedException {
+        let reader = baseError.errorBodyReader
+        var value = DependencyFailedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceName = try reader["resourceName"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BadGatewayException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadGatewayException {
+        let reader = baseError.errorBodyReader
+        var value = BadGatewayException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceName = try reader["resourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8300,6 +9753,132 @@ extension BedrockAgentRuntimeClientTypes.MemorySessionSummary {
         value.sessionStartTime = try reader["sessionStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.sessionExpiryTime = try reader["sessionExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.summaryText = try reader["summaryText"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.InvocationStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.InvocationStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.InvocationStep()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.invocationId = try reader["invocationId"].readIfPresent() ?? ""
+        value.invocationStepId = try reader["invocationStepId"].readIfPresent() ?? ""
+        value.invocationStepTime = try reader["invocationStepTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.payload = try reader["payload"].readIfPresent(with: BedrockAgentRuntimeClientTypes.InvocationStepPayload.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.InvocationStepPayload {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.InvocationStepPayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .contentblocks(contentblocks):
+                try writer["contentBlocks"].writeList(contentblocks, memberWritingClosure: BedrockAgentRuntimeClientTypes.BedrockSessionContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.InvocationStepPayload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "contentBlocks":
+                return .contentblocks(try reader["contentBlocks"].readList(memberReadingClosure: BedrockAgentRuntimeClientTypes.BedrockSessionContentBlock.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.BedrockSessionContentBlock {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.BedrockSessionContentBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .image(image):
+                try writer["image"].write(image, with: BedrockAgentRuntimeClientTypes.ImageBlock.write(value:to:))
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.BedrockSessionContentBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read())
+            case "image":
+                return .image(try reader["image"].read(with: BedrockAgentRuntimeClientTypes.ImageBlock.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ImageBlock {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.ImageBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["format"].write(value.format)
+        try writer["source"].write(value.source, with: BedrockAgentRuntimeClientTypes.ImageSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.ImageBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.ImageBlock()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.source = try reader["source"].readIfPresent(with: BedrockAgentRuntimeClientTypes.ImageSource.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ImageSource {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.ImageSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .bytes(bytes):
+                try writer["bytes"].write(bytes)
+            case let .s3location(s3location):
+                try writer["s3Location"].write(s3location, with: BedrockAgentRuntimeClientTypes.S3Location.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.ImageSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "bytes":
+                return .bytes(try reader["bytes"].read())
+            case "s3Location":
+                return .s3location(try reader["s3Location"].read(with: BedrockAgentRuntimeClientTypes.S3Location.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.S3Location {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["uri"].write(value.uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.S3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.S3Location()
+        value.uri = try reader["uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9744,6 +11323,45 @@ extension BedrockAgentRuntimeClientTypes.InlineAgentPayloadPart {
         var value = BedrockAgentRuntimeClientTypes.InlineAgentPayloadPart()
         value.bytes = try reader["bytes"].readIfPresent()
         value.attribution = try reader["attribution"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Attribution.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.InvocationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.InvocationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.InvocationSummary()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.invocationId = try reader["invocationId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.InvocationStepSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.InvocationStepSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.InvocationStepSummary()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.invocationId = try reader["invocationId"].readIfPresent() ?? ""
+        value.invocationStepId = try reader["invocationStepId"].readIfPresent() ?? ""
+        value.invocationStepTime = try reader["invocationStepTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.SessionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.SessionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.SessionSummary()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionStatus = try reader["sessionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

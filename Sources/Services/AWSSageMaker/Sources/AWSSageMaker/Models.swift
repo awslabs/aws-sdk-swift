@@ -2591,6 +2591,22 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The configuration for a private hub model reference that points to a public SageMaker JumpStart model. For more information about private hubs, see [Private curated hubs for foundation model access control in JumpStart](https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-curated-hubs.html).
+    public struct HubAccessConfig: Swift.Sendable {
+        /// The ARN of your private model hub content. This should be a ModelReference resource type that points to a SageMaker JumpStart public hub model.
+        /// This member is required.
+        public var hubContentArn: Swift.String?
+
+        public init(
+            hubContentArn: Swift.String? = nil
+        ) {
+            self.hubContentArn = hubContentArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum S3DataDistribution: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullyReplicated
         case shardedByS3Key
@@ -2656,8 +2672,16 @@ extension SageMakerClientTypes {
     public struct S3DataSource: Swift.Sendable {
         /// A list of one or more attribute names to use that are found in a specified augmented manifest file.
         public var attributeNames: [Swift.String]?
+        /// The configuration for a private hub model reference that points to a SageMaker JumpStart public hub model.
+        public var hubAccessConfig: SageMakerClientTypes.HubAccessConfig?
         /// A list of names of instance groups that get data from the S3 data source.
         public var instanceGroupNames: [Swift.String]?
+        /// The access configuration file to control access to the ML model. You can explicitly accept the model end-user license agreement (EULA) within the ModelAccessConfig.
+        ///
+        /// * If you are a Jumpstart user, see the [End-user license agreements](https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-foundation-models-choose.html#jumpstart-foundation-models-choose-eula) section for more details on accepting the EULA.
+        ///
+        /// * If you are an AutoML user, see the Optional Parameters section of Create an AutoML job to fine-tune text generation models using the API for details on [How to set the EULA acceptance when fine-tuning a model using the AutoML API](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-create-experiment-finetune-llms.html#autopilot-llms-finetuning-api-optional-params).
+        public var modelAccessConfig: SageMakerClientTypes.ModelAccessConfig?
         /// If you want SageMaker to replicate the entire dataset on each ML compute instance that is launched for model training, specify FullyReplicated. If you want SageMaker to replicate a subset of data on each ML compute instance that is launched for model training, specify ShardedByS3Key. If there are n ML compute instances launched for a training job, each instance gets approximately 1/n of the number of S3 objects. In this case, model training on each machine uses only the subset of training data. Don't choose more ML compute instances for training than available S3 objects. If you do, some nodes won't get any data and you will pay for nodes that aren't getting any training data. This applies in both File and Pipe modes. Keep this in mind when developing algorithms. In distributed training, where you use multiple ML compute EC2 instances, you might choose ShardedByS3Key. If the algorithm requires copying training data to the ML storage volume (when TrainingInputMode is set to File), this copies 1/n of the number of objects.
         public var s3DataDistributionType: SageMakerClientTypes.S3DataDistribution?
         /// If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training. If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training. If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile can only be used if the Channel's input mode is Pipe.
@@ -2676,13 +2700,17 @@ extension SageMakerClientTypes {
 
         public init(
             attributeNames: [Swift.String]? = nil,
+            hubAccessConfig: SageMakerClientTypes.HubAccessConfig? = nil,
             instanceGroupNames: [Swift.String]? = nil,
+            modelAccessConfig: SageMakerClientTypes.ModelAccessConfig? = nil,
             s3DataDistributionType: SageMakerClientTypes.S3DataDistribution? = nil,
             s3DataType: SageMakerClientTypes.S3DataType? = nil,
             s3Uri: Swift.String? = nil
         ) {
             self.attributeNames = attributeNames
+            self.hubAccessConfig = hubAccessConfig
             self.instanceGroupNames = instanceGroupNames
+            self.modelAccessConfig = modelAccessConfig
             self.s3DataDistributionType = s3DataDistributionType
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
@@ -29781,12 +29809,14 @@ extension SageMakerClientTypes {
 
     public enum HubContentSupportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deprecated
+        case restricted
         case supported
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HubContentSupportStatus] {
             return [
                 .deprecated,
+                .restricted,
                 .supported
             ]
         }
@@ -29799,6 +29829,7 @@ extension SageMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .deprecated: return "Deprecated"
+            case .restricted: return "Restricted"
             case .supported: return "Supported"
             case let .sdkUnknown(s): return s
             }
@@ -29849,6 +29880,8 @@ public struct DescribeHubContentOutput: Swift.Sendable {
     /// The name of the hub that contains the content.
     /// This member is required.
     public var hubName: Swift.String?
+    /// The last modified time of the hub content.
+    public var lastModifiedTime: Foundation.Date?
     /// The minimum version of the hub content.
     public var referenceMinVersion: Swift.String?
     /// The ARN of the public hub content.
@@ -29873,6 +29906,7 @@ public struct DescribeHubContentOutput: Swift.Sendable {
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         referenceMinVersion: Swift.String? = nil,
         sageMakerPublicHubContentArn: Swift.String? = nil,
         supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
@@ -29893,6 +29927,7 @@ public struct DescribeHubContentOutput: Swift.Sendable {
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
         self.hubName = hubName
+        self.lastModifiedTime = lastModifiedTime
         self.referenceMinVersion = referenceMinVersion
         self.sageMakerPublicHubContentArn = sageMakerPublicHubContentArn
         self.supportStatus = supportStatus
@@ -38520,6 +38555,8 @@ public struct ImportHubContentInput: Swift.Sendable {
     /// The name of the hub to import content into.
     /// This member is required.
     public var hubName: Swift.String?
+    /// The status of the hub content resource.
+    public var supportStatus: SageMakerClientTypes.HubContentSupportStatus?
     /// Any tags associated with the hub content.
     public var tags: [SageMakerClientTypes.Tag]?
 
@@ -38534,6 +38571,7 @@ public struct ImportHubContentInput: Swift.Sendable {
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil,
+        supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
     ) {
         self.documentSchemaVersion = documentSchemaVersion
@@ -38546,6 +38584,7 @@ public struct ImportHubContentInput: Swift.Sendable {
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
         self.hubName = hubName
+        self.supportStatus = supportStatus
         self.tags = tags
     }
 }
@@ -50279,6 +50318,113 @@ public struct UpdateHubOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateHubContentInput: Swift.Sendable {
+    /// The description of the hub content.
+    public var hubContentDescription: Swift.String?
+    /// The display name of the hub content.
+    public var hubContentDisplayName: Swift.String?
+    /// A string that provides a description of the hub content. This string can include links, tables, and standard markdown formatting.
+    public var hubContentMarkdown: Swift.String?
+    /// The name of the hub content resource that you want to update.
+    /// This member is required.
+    public var hubContentName: Swift.String?
+    /// The searchable keywords of the hub content.
+    public var hubContentSearchKeywords: [Swift.String]?
+    /// The content type of the resource that you want to update. Only specify a Model or Notebook resource for this API. To update a ModelReference, use the UpdateHubContentReference API instead.
+    /// This member is required.
+    public var hubContentType: SageMakerClientTypes.HubContentType?
+    /// The hub content version that you want to update. For example, if you have two versions of a resource in your hub, you can update the second version.
+    /// This member is required.
+    public var hubContentVersion: Swift.String?
+    /// The name of the SageMaker hub that contains the hub content you want to update. You can optionally use the hub ARN instead.
+    /// This member is required.
+    public var hubName: Swift.String?
+    /// Indicates the current status of the hub content resource.
+    public var supportStatus: SageMakerClientTypes.HubContentSupportStatus?
+
+    public init(
+        hubContentDescription: Swift.String? = nil,
+        hubContentDisplayName: Swift.String? = nil,
+        hubContentMarkdown: Swift.String? = nil,
+        hubContentName: Swift.String? = nil,
+        hubContentSearchKeywords: [Swift.String]? = nil,
+        hubContentType: SageMakerClientTypes.HubContentType? = nil,
+        hubContentVersion: Swift.String? = nil,
+        hubName: Swift.String? = nil,
+        supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
+    ) {
+        self.hubContentDescription = hubContentDescription
+        self.hubContentDisplayName = hubContentDisplayName
+        self.hubContentMarkdown = hubContentMarkdown
+        self.hubContentName = hubContentName
+        self.hubContentSearchKeywords = hubContentSearchKeywords
+        self.hubContentType = hubContentType
+        self.hubContentVersion = hubContentVersion
+        self.hubName = hubName
+        self.supportStatus = supportStatus
+    }
+}
+
+public struct UpdateHubContentOutput: Swift.Sendable {
+    /// The ARN of the private model hub that contains the updated hub content.
+    /// This member is required.
+    public var hubArn: Swift.String?
+    /// The ARN of the hub content resource that was updated.
+    /// This member is required.
+    public var hubContentArn: Swift.String?
+
+    public init(
+        hubArn: Swift.String? = nil,
+        hubContentArn: Swift.String? = nil
+    ) {
+        self.hubArn = hubArn
+        self.hubContentArn = hubContentArn
+    }
+}
+
+public struct UpdateHubContentReferenceInput: Swift.Sendable {
+    /// The name of the hub content resource that you want to update.
+    /// This member is required.
+    public var hubContentName: Swift.String?
+    /// The content type of the resource that you want to update. Only specify a ModelReference resource for this API. To update a Model or Notebook resource, use the UpdateHubContent API instead.
+    /// This member is required.
+    public var hubContentType: SageMakerClientTypes.HubContentType?
+    /// The name of the SageMaker hub that contains the hub content you want to update. You can optionally use the hub ARN instead.
+    /// This member is required.
+    public var hubName: Swift.String?
+    /// The minimum hub content version of the referenced model that you want to use. The minimum version must be older than the latest available version of the referenced model. To support all versions of a model, set the value to 1.0.0.
+    public var minVersion: Swift.String?
+
+    public init(
+        hubContentName: Swift.String? = nil,
+        hubContentType: SageMakerClientTypes.HubContentType? = nil,
+        hubName: Swift.String? = nil,
+        minVersion: Swift.String? = nil
+    ) {
+        self.hubContentName = hubContentName
+        self.hubContentType = hubContentType
+        self.hubName = hubName
+        self.minVersion = minVersion
+    }
+}
+
+public struct UpdateHubContentReferenceOutput: Swift.Sendable {
+    /// The ARN of the private model hub that contains the updated hub content.
+    /// This member is required.
+    public var hubArn: Swift.String?
+    /// The ARN of the hub content resource that was updated.
+    /// This member is required.
+    public var hubContentArn: Swift.String?
+
+    public init(
+        hubArn: Swift.String? = nil,
+        hubContentArn: Swift.String? = nil
+    ) {
+        self.hubArn = hubArn
+        self.hubContentArn = hubContentArn
+    }
+}
+
 public struct UpdateImageInput: Swift.Sendable {
     /// A list of properties to delete. Only the Description and DisplayName properties can be deleted.
     public var deleteProperties: [Swift.String]?
@@ -53696,6 +53842,20 @@ extension UpdateHubInput {
     }
 }
 
+extension UpdateHubContentInput {
+
+    static func urlPathProvider(_ value: UpdateHubContentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateHubContentReferenceInput {
+
+    static func urlPathProvider(_ value: UpdateHubContentReferenceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateImageInput {
 
     static func urlPathProvider(_ value: UpdateImageInput) -> Swift.String? {
@@ -55964,6 +56124,7 @@ extension ImportHubContentInput {
         try writer["HubContentType"].write(value.hubContentType)
         try writer["HubContentVersion"].write(value.hubContentVersion)
         try writer["HubName"].write(value.hubName)
+        try writer["SupportStatus"].write(value.supportStatus)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -57665,6 +57826,33 @@ extension UpdateHubInput {
         try writer["HubDisplayName"].write(value.hubDisplayName)
         try writer["HubName"].write(value.hubName)
         try writer["HubSearchKeywords"].writeList(value.hubSearchKeywords, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateHubContentInput {
+
+    static func write(value: UpdateHubContentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HubContentDescription"].write(value.hubContentDescription)
+        try writer["HubContentDisplayName"].write(value.hubContentDisplayName)
+        try writer["HubContentMarkdown"].write(value.hubContentMarkdown)
+        try writer["HubContentName"].write(value.hubContentName)
+        try writer["HubContentSearchKeywords"].writeList(value.hubContentSearchKeywords, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HubContentType"].write(value.hubContentType)
+        try writer["HubContentVersion"].write(value.hubContentVersion)
+        try writer["HubName"].write(value.hubName)
+        try writer["SupportStatus"].write(value.supportStatus)
+    }
+}
+
+extension UpdateHubContentReferenceInput {
+
+    static func write(value: UpdateHubContentReferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HubContentName"].write(value.hubContentName)
+        try writer["HubContentType"].write(value.hubContentType)
+        try writer["HubName"].write(value.hubName)
+        try writer["MinVersion"].write(value.minVersion)
     }
 }
 
@@ -59899,6 +60087,7 @@ extension DescribeHubContentOutput {
         value.hubContentType = try reader["HubContentType"].readIfPresent() ?? .sdkUnknown("")
         value.hubContentVersion = try reader["HubContentVersion"].readIfPresent() ?? ""
         value.hubName = try reader["HubName"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.referenceMinVersion = try reader["ReferenceMinVersion"].readIfPresent()
         value.sageMakerPublicHubContentArn = try reader["SageMakerPublicHubContentArn"].readIfPresent()
         value.supportStatus = try reader["SupportStatus"].readIfPresent()
@@ -62504,6 +62693,32 @@ extension UpdateHubOutput {
         let reader = responseReader
         var value = UpdateHubOutput()
         value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateHubContentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHubContentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateHubContentOutput()
+        value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateHubContentReferenceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHubContentReferenceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateHubContentReferenceOutput()
+        value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -67428,6 +67643,36 @@ enum UpdateHubOutputError {
     }
 }
 
+enum UpdateHubContentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateHubContentReferenceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateImageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -68650,7 +68895,9 @@ extension SageMakerClientTypes.S3DataSource {
     static func write(value: SageMakerClientTypes.S3DataSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AttributeNames"].writeList(value.attributeNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HubAccessConfig"].write(value.hubAccessConfig, with: SageMakerClientTypes.HubAccessConfig.write(value:to:))
         try writer["InstanceGroupNames"].writeList(value.instanceGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ModelAccessConfig"].write(value.modelAccessConfig, with: SageMakerClientTypes.ModelAccessConfig.write(value:to:))
         try writer["S3DataDistributionType"].write(value.s3DataDistributionType)
         try writer["S3DataType"].write(value.s3DataType)
         try writer["S3Uri"].write(value.s3Uri)
@@ -68664,6 +68911,23 @@ extension SageMakerClientTypes.S3DataSource {
         value.s3DataDistributionType = try reader["S3DataDistributionType"].readIfPresent()
         value.attributeNames = try reader["AttributeNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceGroupNames = try reader["InstanceGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelAccessConfig = try reader["ModelAccessConfig"].readIfPresent(with: SageMakerClientTypes.ModelAccessConfig.read(from:))
+        value.hubAccessConfig = try reader["HubAccessConfig"].readIfPresent(with: SageMakerClientTypes.HubAccessConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.HubAccessConfig {
+
+    static func write(value: SageMakerClientTypes.HubAccessConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HubContentArn"].write(value.hubContentArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HubAccessConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.HubAccessConfig()
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
         return value
     }
 }

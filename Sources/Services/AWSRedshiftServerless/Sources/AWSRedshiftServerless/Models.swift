@@ -1493,6 +1493,8 @@ public struct CreateWorkgroupInput: Swift.Sendable {
     public var subnetIds: [Swift.String]?
     /// A array of tag instances.
     public var tags: [RedshiftServerlessClientTypes.Tag]?
+    /// An optional parameter for the name of the track for the workgroup. If you don't provide a track name, the workgroup is assigned to the current track.
+    public var trackName: Swift.String?
     /// The name of the created workgroup.
     /// This member is required.
     public var workgroupName: Swift.String?
@@ -1510,6 +1512,7 @@ public struct CreateWorkgroupInput: Swift.Sendable {
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [RedshiftServerlessClientTypes.Tag]? = nil,
+        trackName: Swift.String? = nil,
         workgroupName: Swift.String? = nil
     ) {
         self.baseCapacity = baseCapacity
@@ -1524,6 +1527,7 @@ public struct CreateWorkgroupInput: Swift.Sendable {
         self.securityGroupIds = securityGroupIds
         self.subnetIds = subnetIds
         self.tags = tags
+        self.trackName = trackName
         self.workgroupName = workgroupName
     }
 }
@@ -1616,6 +1620,8 @@ extension RedshiftServerlessClientTypes {
         public var namespaceName: Swift.String?
         /// The patch version of your Amazon Redshift Serverless workgroup. For more information about patch versions, see [Cluster versions for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/cluster-versions.html).
         public var patchVersion: Swift.String?
+        /// The name for the track that you want to assign to the workgroup. When the track changes, the workgroup is switched to the latest workgroup release available for the track. At this point, the track name is applied.
+        public var pendingTrackName: Swift.String?
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
         public var port: Swift.Int?
         /// An object that represents the price performance target settings for the workgroup.
@@ -1628,6 +1634,8 @@ extension RedshiftServerlessClientTypes {
         public var status: RedshiftServerlessClientTypes.WorkgroupStatus?
         /// An array of subnet IDs the workgroup is associated with.
         public var subnetIds: [Swift.String]?
+        /// The name of the track for the workgroup.
+        public var trackName: Swift.String?
         /// The Amazon Resource Name (ARN) that links to the workgroup.
         public var workgroupArn: Swift.String?
         /// The unique identifier of the workgroup.
@@ -1651,12 +1659,14 @@ extension RedshiftServerlessClientTypes {
             maxCapacity: Swift.Int? = nil,
             namespaceName: Swift.String? = nil,
             patchVersion: Swift.String? = nil,
+            pendingTrackName: Swift.String? = nil,
             port: Swift.Int? = nil,
             pricePerformanceTarget: RedshiftServerlessClientTypes.PerformanceTarget? = nil,
             publiclyAccessible: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             status: RedshiftServerlessClientTypes.WorkgroupStatus? = nil,
             subnetIds: [Swift.String]? = nil,
+            trackName: Swift.String? = nil,
             workgroupArn: Swift.String? = nil,
             workgroupId: Swift.String? = nil,
             workgroupName: Swift.String? = nil,
@@ -1675,12 +1685,14 @@ extension RedshiftServerlessClientTypes {
             self.maxCapacity = maxCapacity
             self.namespaceName = namespaceName
             self.patchVersion = patchVersion
+            self.pendingTrackName = pendingTrackName
             self.port = port
             self.pricePerformanceTarget = pricePerformanceTarget
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
             self.status = status
             self.subnetIds = subnetIds
+            self.trackName = trackName
             self.workgroupArn = workgroupArn
             self.workgroupId = workgroupId
             self.workgroupName = workgroupName
@@ -2380,6 +2392,71 @@ public struct GetTableRestoreStatusOutput: Swift.Sendable {
     }
 }
 
+public struct GetTrackInput: Swift.Sendable {
+    /// The name of the track of which its version is fetched.
+    /// This member is required.
+    public var trackName: Swift.String?
+
+    public init(
+        trackName: Swift.String? = nil
+    ) {
+        self.trackName = trackName
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+
+    /// A track that you can switch the current track to.
+    public struct UpdateTarget: Swift.Sendable {
+        /// The name of the new track.
+        public var trackName: Swift.String?
+        /// The workgroup version for the new track.
+        public var workgroupVersion: Swift.String?
+
+        public init(
+            trackName: Swift.String? = nil,
+            workgroupVersion: Swift.String? = nil
+        ) {
+            self.trackName = trackName
+            self.workgroupVersion = workgroupVersion
+        }
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+
+    /// Defines a track that determines which Amazon Redshift version to apply after a new version is released. If the value for ServerlessTrack is current, the workgroup is updated to the most recently certified release. If the value is trailing, the workgroup is updated to the previously certified release.
+    public struct ServerlessTrack: Swift.Sendable {
+        /// The name of the track. Valid values are current and trailing.
+        public var trackName: Swift.String?
+        /// An array of UpdateTarget objects to update with the track.
+        public var updateTargets: [RedshiftServerlessClientTypes.UpdateTarget]?
+        /// The workgroup version number for the workgroup release.
+        public var workgroupVersion: Swift.String?
+
+        public init(
+            trackName: Swift.String? = nil,
+            updateTargets: [RedshiftServerlessClientTypes.UpdateTarget]? = nil,
+            workgroupVersion: Swift.String? = nil
+        ) {
+            self.trackName = trackName
+            self.updateTargets = updateTargets
+            self.workgroupVersion = workgroupVersion
+        }
+    }
+}
+
+public struct GetTrackOutput: Swift.Sendable {
+    /// The version of the specified track.
+    public var track: RedshiftServerlessClientTypes.ServerlessTrack?
+
+    public init(
+        track: RedshiftServerlessClientTypes.ServerlessTrack? = nil
+    ) {
+        self.track = track
+    }
+}
+
 public struct GetUsageLimitInput: Swift.Sendable {
     /// The unique identifier of the usage limit to return information for.
     /// This member is required.
@@ -2865,6 +2942,36 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         tags: [RedshiftServerlessClientTypes.Tag]? = nil
     ) {
         self.tags = tags
+    }
+}
+
+public struct ListTracksInput: Swift.Sendable {
+    /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
+    public var maxResults: Swift.Int?
+    /// If your initial ListTracksRequest operation returns a nextToken, you can include the returned nextToken in following ListTracksRequest operations, which returns results in the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListTracksOutput: Swift.Sendable {
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+    /// The returned tracks.
+    public var tracks: [RedshiftServerlessClientTypes.ServerlessTrack]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        tracks: [RedshiftServerlessClientTypes.ServerlessTrack]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.tracks = tracks
     }
 }
 
@@ -3502,6 +3609,8 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
     public var securityGroupIds: [Swift.String]?
     /// An array of VPC subnet IDs to associate with the workgroup.
     public var subnetIds: [Swift.String]?
+    /// An optional parameter for the name of the track for the workgroup. If you don't provide a track name, the workgroup is assigned to the current track.
+    public var trackName: Swift.String?
     /// The name of the workgroup to update. You can't update the name of a workgroup once it is created.
     /// This member is required.
     public var workgroupName: Swift.String?
@@ -3517,6 +3626,7 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
         publiclyAccessible: Swift.Bool? = nil,
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
+        trackName: Swift.String? = nil,
         workgroupName: Swift.String? = nil
     ) {
         self.baseCapacity = baseCapacity
@@ -3529,6 +3639,7 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
         self.publiclyAccessible = publiclyAccessible
         self.securityGroupIds = securityGroupIds
         self.subnetIds = subnetIds
+        self.trackName = trackName
         self.workgroupName = workgroupName
     }
 }
@@ -3734,6 +3845,13 @@ extension GetTableRestoreStatusInput {
     }
 }
 
+extension GetTrackInput {
+
+    static func urlPathProvider(_ value: GetTrackInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetUsageLimitInput {
 
     static func urlPathProvider(_ value: GetUsageLimitInput) -> Swift.String? {
@@ -3814,6 +3932,13 @@ extension ListTableRestoreStatusInput {
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListTracksInput {
+
+    static func urlPathProvider(_ value: ListTracksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4055,6 +4180,7 @@ extension CreateWorkgroupInput {
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeList(value.tags, memberWritingClosure: RedshiftServerlessClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["trackName"].write(value.trackName)
         try writer["workgroupName"].write(value.workgroupName)
     }
 }
@@ -4212,6 +4338,14 @@ extension GetTableRestoreStatusInput {
     }
 }
 
+extension GetTrackInput {
+
+    static func write(value: GetTrackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["trackName"].write(value.trackName)
+    }
+}
+
 extension GetUsageLimitInput {
 
     static func write(value: GetUsageLimitInput?, to writer: SmithyJSON.Writer) throws {
@@ -4333,6 +4467,15 @@ extension ListTagsForResourceInput {
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["resourceArn"].write(value.resourceArn)
+    }
+}
+
+extension ListTracksInput {
+
+    static func write(value: ListTracksInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -4534,6 +4677,7 @@ extension UpdateWorkgroupInput {
         try writer["publiclyAccessible"].write(value.publiclyAccessible)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["trackName"].write(value.trackName)
         try writer["workgroupName"].write(value.workgroupName)
     }
 }
@@ -4861,6 +5005,18 @@ extension GetTableRestoreStatusOutput {
     }
 }
 
+extension GetTrackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTrackOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTrackOutput()
+        value.track = try reader["track"].readIfPresent(with: RedshiftServerlessClientTypes.ServerlessTrack.read(from:))
+        return value
+    }
+}
+
 extension GetUsageLimitOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetUsageLimitOutput {
@@ -5010,6 +5166,19 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListTracksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTracksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTracksOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.ServerlessTrack.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5685,6 +5854,25 @@ enum GetTableRestoreStatusOutputError {
     }
 }
 
+enum GetTrackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetUsageLimitOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5875,6 +6063,24 @@ enum ListTagsForResourceOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTracksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidPaginationException": return try InvalidPaginationException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6604,6 +6810,8 @@ extension RedshiftServerlessClientTypes.Workgroup {
         value.crossAccountVpcs = try reader["crossAccountVpcs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.pricePerformanceTarget = try reader["pricePerformanceTarget"].readIfPresent(with: RedshiftServerlessClientTypes.PerformanceTarget.read(from:))
+        value.trackName = try reader["trackName"].readIfPresent()
+        value.pendingTrackName = try reader["pendingTrackName"].readIfPresent()
         return value
     }
 }
@@ -6701,6 +6909,29 @@ extension RedshiftServerlessClientTypes.TableRestoreStatus {
         value.targetSchemaName = try reader["targetSchemaName"].readIfPresent()
         value.newTableName = try reader["newTableName"].readIfPresent()
         value.recoveryPointId = try reader["recoveryPointId"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.ServerlessTrack {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ServerlessTrack {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.ServerlessTrack()
+        value.trackName = try reader["trackName"].readIfPresent()
+        value.workgroupVersion = try reader["workgroupVersion"].readIfPresent()
+        value.updateTargets = try reader["updateTargets"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.UpdateTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.UpdateTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.UpdateTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.UpdateTarget()
+        value.trackName = try reader["trackName"].readIfPresent()
+        value.workgroupVersion = try reader["workgroupVersion"].readIfPresent()
         return value
     }
 }

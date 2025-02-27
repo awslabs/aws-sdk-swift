@@ -4172,6 +4172,37 @@ extension StorageGatewayClientTypes {
     }
 }
 
+public struct EvictFilesFailingUploadInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the file share for which you want to start the cache clean operation.
+    /// This member is required.
+    public var fileShareARN: Swift.String?
+    /// Specifies whether cache entries with full or partial file data currently stored on the gateway will be forcibly removed by the cache clean operation. Valid arguments:
+    ///
+    /// * False - The cache clean operation skips cache entries failing upload if they are associated with data currently stored on the gateway. This preserves the cached data.
+    ///
+    /// * True - The cache clean operation removes cache entries failing upload even if they are associated with data currently stored on the gateway. This deletes the cached data. If ForceRemove is set to True, the cache clean operation will delete file data from the gateway which might otherwise be recoverable.
+    public var forceRemove: Swift.Bool?
+
+    public init(
+        fileShareARN: Swift.String? = nil,
+        forceRemove: Swift.Bool? = false
+    ) {
+        self.fileShareARN = fileShareARN
+        self.forceRemove = forceRemove
+    }
+}
+
+public struct EvictFilesFailingUploadOutput: Swift.Sendable {
+    /// The randomly generated ID of the CloudWatch notification associated with the cache clean operation. This ID is in UUID format.
+    public var notificationId: Swift.String?
+
+    public init(
+        notificationId: Swift.String? = nil
+    ) {
+        self.notificationId = notificationId
+    }
+}
+
 extension StorageGatewayClientTypes {
 
     /// The type of the file share.
@@ -6412,6 +6443,13 @@ extension DisassociateFileSystemInput {
     }
 }
 
+extension EvictFilesFailingUploadInput {
+
+    static func urlPathProvider(_ value: EvictFilesFailingUploadInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension JoinDomainInput {
 
     static func urlPathProvider(_ value: JoinDomainInput) -> Swift.String? {
@@ -7262,6 +7300,15 @@ extension DisassociateFileSystemInput {
         guard let value else { return }
         try writer["FileSystemAssociationARN"].write(value.fileSystemAssociationARN)
         try writer["ForceDelete"].write(value.forceDelete)
+    }
+}
+
+extension EvictFilesFailingUploadInput {
+
+    static func write(value: EvictFilesFailingUploadInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FileShareARN"].write(value.fileShareARN)
+        try writer["ForceRemove"].write(value.forceRemove)
     }
 }
 
@@ -8406,6 +8453,18 @@ extension DisassociateFileSystemOutput {
         let reader = responseReader
         var value = DisassociateFileSystemOutput()
         value.fileSystemAssociationARN = try reader["FileSystemAssociationARN"].readIfPresent()
+        return value
+    }
+}
+
+extension EvictFilesFailingUploadOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EvictFilesFailingUploadOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = EvictFilesFailingUploadOutput()
+        value.notificationId = try reader["NotificationId"].readIfPresent()
         return value
     }
 }
@@ -9722,6 +9781,21 @@ enum DisableGatewayOutputError {
 }
 
 enum DisassociateFileSystemOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidGatewayRequestException": return try InvalidGatewayRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EvictFilesFailingUploadOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
