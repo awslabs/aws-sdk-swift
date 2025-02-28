@@ -250,6 +250,27 @@ extension BedrockDataAutomationClientTypes {
 
 extension BedrockDataAutomationClientTypes {
 
+    /// Key value pair of a tag
+    public struct Tag: Swift.Sendable {
+        /// Defines the context of the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// Defines the value within the context. e.g. <key=reason, value=training>.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
     /// Type
     public enum ModelType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case document
@@ -292,6 +313,8 @@ public struct CreateBlueprintInput: Swift.Sendable {
     /// Schema of the blueprint
     /// This member is required.
     public var schema: Swift.String?
+    /// List of tags
+    public var tags: [BedrockDataAutomationClientTypes.Tag]?
     /// Type
     /// This member is required.
     public var type: BedrockDataAutomationClientTypes.ModelType?
@@ -302,6 +325,7 @@ public struct CreateBlueprintInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration? = nil,
         schema: Swift.String? = nil,
+        tags: [BedrockDataAutomationClientTypes.Tag]? = nil,
         type: BedrockDataAutomationClientTypes.ModelType? = nil
     ) {
         self.blueprintName = blueprintName
@@ -309,13 +333,14 @@ public struct CreateBlueprintInput: Swift.Sendable {
         self.clientToken = clientToken
         self.encryptionConfiguration = encryptionConfiguration
         self.schema = schema
+        self.tags = tags
         self.type = type
     }
 }
 
 extension CreateBlueprintInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateBlueprintInput(blueprintStage: \(Swift.String(describing: blueprintStage)), clientToken: \(Swift.String(describing: clientToken)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), type: \(Swift.String(describing: type)), blueprintName: \"CONTENT_REDACTED\", schema: \"CONTENT_REDACTED\")"}
+        "CreateBlueprintInput(blueprintStage: \(Swift.String(describing: blueprintStage)), clientToken: \(Swift.String(describing: clientToken)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), blueprintName: \"CONTENT_REDACTED\", schema: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockDataAutomationClientTypes {
@@ -685,6 +710,8 @@ public struct UpdateBlueprintInput: Swift.Sendable {
     public var blueprintArn: Swift.String?
     /// Stage of the Blueprint
     public var blueprintStage: BedrockDataAutomationClientTypes.BlueprintStage?
+    /// KMS Encryption Configuration
+    public var encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration?
     /// Schema of the blueprint
     /// This member is required.
     public var schema: Swift.String?
@@ -692,17 +719,19 @@ public struct UpdateBlueprintInput: Swift.Sendable {
     public init(
         blueprintArn: Swift.String? = nil,
         blueprintStage: BedrockDataAutomationClientTypes.BlueprintStage? = nil,
+        encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration? = nil,
         schema: Swift.String? = nil
     ) {
         self.blueprintArn = blueprintArn
         self.blueprintStage = blueprintStage
+        self.encryptionConfiguration = encryptionConfiguration
         self.schema = schema
     }
 }
 
 extension UpdateBlueprintInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateBlueprintInput(blueprintArn: \(Swift.String(describing: blueprintArn)), blueprintStage: \(Swift.String(describing: blueprintStage)), schema: \"CONTENT_REDACTED\")"}
+        "UpdateBlueprintInput(blueprintArn: \(Swift.String(describing: blueprintArn)), blueprintStage: \(Swift.String(describing: blueprintStage)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), schema: \"CONTENT_REDACTED\")"}
 }
 
 /// Update Blueprint Response
@@ -866,14 +895,14 @@ extension BedrockDataAutomationClientTypes {
 
     public enum AudioExtractionCategoryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case audioContentModeration
-        case chapterContentModeration
+        case topicContentModeration
         case transcript
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AudioExtractionCategoryType] {
             return [
                 .audioContentModeration,
-                .chapterContentModeration,
+                .topicContentModeration,
                 .transcript
             ]
         }
@@ -886,7 +915,7 @@ extension BedrockDataAutomationClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .audioContentModeration: return "AUDIO_CONTENT_MODERATION"
-            case .chapterContentModeration: return "CHAPTER_CONTENT_MODERATION"
+            case .topicContentModeration: return "TOPIC_CONTENT_MODERATION"
             case .transcript: return "TRANSCRIPT"
             case let .sdkUnknown(s): return s
             }
@@ -934,15 +963,15 @@ extension BedrockDataAutomationClientTypes {
 
     public enum AudioStandardGenerativeFieldType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case audioSummary
-        case chapterSummary
         case iab
+        case topicSummary
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AudioStandardGenerativeFieldType] {
             return [
                 .audioSummary,
-                .chapterSummary,
-                .iab
+                .iab,
+                .topicSummary
             ]
         }
 
@@ -954,8 +983,8 @@ extension BedrockDataAutomationClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .audioSummary: return "AUDIO_SUMMARY"
-            case .chapterSummary: return "CHAPTER_SUMMARY"
             case .iab: return "IAB"
+            case .topicSummary: return "TOPIC_SUMMARY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1237,12 +1266,14 @@ extension BedrockDataAutomationClientTypes {
 
     public enum ImageExtractionCategoryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case contentModeration
+        case logos
         case textDetection
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ImageExtractionCategoryType] {
             return [
                 .contentModeration,
+                .logos,
                 .textDetection
             ]
         }
@@ -1255,6 +1286,7 @@ extension BedrockDataAutomationClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .contentModeration: return "CONTENT_MODERATION"
+            case .logos: return "LOGOS"
             case .textDetection: return "TEXT_DETECTION"
             case let .sdkUnknown(s): return s
             }
@@ -1391,6 +1423,7 @@ extension BedrockDataAutomationClientTypes {
 
     public enum VideoExtractionCategoryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case contentModeration
+        case logos
         case textDetection
         case transcript
         case sdkUnknown(Swift.String)
@@ -1398,6 +1431,7 @@ extension BedrockDataAutomationClientTypes {
         public static var allCases: [VideoExtractionCategoryType] {
             return [
                 .contentModeration,
+                .logos,
                 .textDetection,
                 .transcript
             ]
@@ -1411,6 +1445,7 @@ extension BedrockDataAutomationClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .contentModeration: return "CONTENT_MODERATION"
+            case .logos: return "LOGOS"
             case .textDetection: return "TEXT_DETECTION"
             case .transcript: return "TRANSCRIPT"
             case let .sdkUnknown(s): return s
@@ -1463,15 +1498,15 @@ extension BedrockDataAutomationClientTypes {
 extension BedrockDataAutomationClientTypes {
 
     public enum VideoStandardGenerativeFieldType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case chapterSummary
         case iab
-        case sceneSummary
         case videoSummary
         case sdkUnknown(Swift.String)
 
         public static var allCases: [VideoStandardGenerativeFieldType] {
             return [
+                .chapterSummary,
                 .iab,
-                .sceneSummary,
                 .videoSummary
             ]
         }
@@ -1483,8 +1518,8 @@ extension BedrockDataAutomationClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .chapterSummary: return "CHAPTER_SUMMARY"
             case .iab: return "IAB"
-            case .sceneSummary: return "SCENE_SUMMARY"
             case .videoSummary: return "VIDEO_SUMMARY"
             case let .sdkUnknown(s): return s
             }
@@ -1578,6 +1613,8 @@ public struct CreateDataAutomationProjectInput: Swift.Sendable {
     /// Standard output configuration
     /// This member is required.
     public var standardOutputConfiguration: BedrockDataAutomationClientTypes.StandardOutputConfiguration?
+    /// List of tags
+    public var tags: [BedrockDataAutomationClientTypes.Tag]?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -1587,7 +1624,8 @@ public struct CreateDataAutomationProjectInput: Swift.Sendable {
         projectDescription: Swift.String? = nil,
         projectName: Swift.String? = nil,
         projectStage: BedrockDataAutomationClientTypes.DataAutomationProjectStage? = nil,
-        standardOutputConfiguration: BedrockDataAutomationClientTypes.StandardOutputConfiguration? = nil
+        standardOutputConfiguration: BedrockDataAutomationClientTypes.StandardOutputConfiguration? = nil,
+        tags: [BedrockDataAutomationClientTypes.Tag]? = nil
     ) {
         self.clientToken = clientToken
         self.customOutputConfiguration = customOutputConfiguration
@@ -1597,12 +1635,13 @@ public struct CreateDataAutomationProjectInput: Swift.Sendable {
         self.projectName = projectName
         self.projectStage = projectStage
         self.standardOutputConfiguration = standardOutputConfiguration
+        self.tags = tags
     }
 }
 
 extension CreateDataAutomationProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDataAutomationProjectInput(clientToken: \(Swift.String(describing: clientToken)), customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectStage: \(Swift.String(describing: projectStage)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), projectDescription: \"CONTENT_REDACTED\", projectName: \"CONTENT_REDACTED\")"}
+        "CreateDataAutomationProjectInput(clientToken: \(Swift.String(describing: clientToken)), customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectStage: \(Swift.String(describing: projectStage)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), tags: \(Swift.String(describing: tags)), projectDescription: \"CONTENT_REDACTED\", projectName: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockDataAutomationClientTypes {
@@ -1928,6 +1967,8 @@ public struct ListDataAutomationProjectsOutput: Swift.Sendable {
 public struct UpdateDataAutomationProjectInput: Swift.Sendable {
     /// Custom output configuration
     public var customOutputConfiguration: BedrockDataAutomationClientTypes.CustomOutputConfiguration?
+    /// KMS Encryption Configuration
+    public var encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration?
     /// Override configuration
     public var overrideConfiguration: BedrockDataAutomationClientTypes.OverrideConfiguration?
     /// ARN generated at the server side when a DataAutomationProject is created
@@ -1943,6 +1984,7 @@ public struct UpdateDataAutomationProjectInput: Swift.Sendable {
 
     public init(
         customOutputConfiguration: BedrockDataAutomationClientTypes.CustomOutputConfiguration? = nil,
+        encryptionConfiguration: BedrockDataAutomationClientTypes.EncryptionConfiguration? = nil,
         overrideConfiguration: BedrockDataAutomationClientTypes.OverrideConfiguration? = nil,
         projectArn: Swift.String? = nil,
         projectDescription: Swift.String? = nil,
@@ -1950,6 +1992,7 @@ public struct UpdateDataAutomationProjectInput: Swift.Sendable {
         standardOutputConfiguration: BedrockDataAutomationClientTypes.StandardOutputConfiguration? = nil
     ) {
         self.customOutputConfiguration = customOutputConfiguration
+        self.encryptionConfiguration = encryptionConfiguration
         self.overrideConfiguration = overrideConfiguration
         self.projectArn = projectArn
         self.projectDescription = projectDescription
@@ -1960,7 +2003,7 @@ public struct UpdateDataAutomationProjectInput: Swift.Sendable {
 
 extension UpdateDataAutomationProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateDataAutomationProjectInput(customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectArn: \(Swift.String(describing: projectArn)), projectStage: \(Swift.String(describing: projectStage)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), projectDescription: \"CONTENT_REDACTED\")"}
+        "UpdateDataAutomationProjectInput(customOutputConfiguration: \(Swift.String(describing: customOutputConfiguration)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), overrideConfiguration: \(Swift.String(describing: overrideConfiguration)), projectArn: \(Swift.String(describing: projectArn)), projectStage: \(Swift.String(describing: projectStage)), standardOutputConfiguration: \(Swift.String(describing: standardOutputConfiguration)), projectDescription: \"CONTENT_REDACTED\")"}
 }
 
 /// Update DataAutomationProject Response
@@ -1982,6 +2025,73 @@ public struct UpdateDataAutomationProjectOutput: Swift.Sendable {
         self.projectStage = projectStage
         self.status = status
     }
+}
+
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// ARN of a taggable resource
+    /// This member is required.
+    public var resourceARN: Swift.String?
+
+    public init(
+        resourceARN: Swift.String? = nil
+    ) {
+        self.resourceARN = resourceARN
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// List of tags
+    public var tags: [BedrockDataAutomationClientTypes.Tag]?
+
+    public init(
+        tags: [BedrockDataAutomationClientTypes.Tag]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
+public struct TagResourceInput: Swift.Sendable {
+    /// ARN of a taggable resource
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// List of tags
+    /// This member is required.
+    public var tags: [BedrockDataAutomationClientTypes.Tag]?
+
+    public init(
+        resourceARN: Swift.String? = nil,
+        tags: [BedrockDataAutomationClientTypes.Tag]? = nil
+    ) {
+        self.resourceARN = resourceARN
+        self.tags = tags
+    }
+}
+
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// ARN of a taggable resource
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// List of tag keys
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceARN: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resourceARN = resourceARN
+        self.tagKeys = tagKeys
+    }
+}
+
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension CreateBlueprintInput {
@@ -2074,6 +2184,27 @@ extension ListDataAutomationProjectsInput {
     }
 }
 
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        return "/listTagsForResource"
+    }
+}
+
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        return "/tagResource"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        return "/untagResource"
+    }
+}
+
 extension UpdateBlueprintInput {
 
     static func urlPathProvider(_ value: UpdateBlueprintInput) -> Swift.String? {
@@ -2103,6 +2234,7 @@ extension CreateBlueprintInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: BedrockDataAutomationClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["schema"].write(value.schema)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockDataAutomationClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["type"].write(value.type)
     }
 }
@@ -2127,6 +2259,7 @@ extension CreateDataAutomationProjectInput {
         try writer["projectName"].write(value.projectName)
         try writer["projectStage"].write(value.projectStage)
         try writer["standardOutputConfiguration"].write(value.standardOutputConfiguration, with: BedrockDataAutomationClientTypes.StandardOutputConfiguration.write(value:to:))
+        try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockDataAutomationClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2172,11 +2305,38 @@ extension ListDataAutomationProjectsInput {
     }
 }
 
+extension ListTagsForResourceInput {
+
+    static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceARN"].write(value.resourceARN)
+    }
+}
+
+extension TagResourceInput {
+
+    static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceARN"].write(value.resourceARN)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockDataAutomationClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UntagResourceInput {
+
+    static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceARN"].write(value.resourceARN)
+        try writer["tagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateBlueprintInput {
 
     static func write(value: UpdateBlueprintInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["blueprintStage"].write(value.blueprintStage)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: BedrockDataAutomationClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["schema"].write(value.schema)
     }
 }
@@ -2186,6 +2346,7 @@ extension UpdateDataAutomationProjectInput {
     static func write(value: UpdateDataAutomationProjectInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["customOutputConfiguration"].write(value.customOutputConfiguration, with: BedrockDataAutomationClientTypes.CustomOutputConfiguration.write(value:to:))
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: BedrockDataAutomationClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["overrideConfiguration"].write(value.overrideConfiguration, with: BedrockDataAutomationClientTypes.OverrideConfiguration.write(value:to:))
         try writer["projectDescription"].write(value.projectDescription)
         try writer["projectStage"].write(value.projectStage)
@@ -2298,6 +2459,32 @@ extension ListDataAutomationProjectsOutput {
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.projects = try reader["projects"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.DataAutomationProjectSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension ListTagsForResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: BedrockDataAutomationClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
+        return TagResourceOutput()
+    }
+}
+
+extension UntagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
+        return UntagResourceOutput()
     }
 }
 
@@ -2492,6 +2679,61 @@ enum ListDataAutomationProjectsOutputError {
     }
 }
 
+enum ListTagsForResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateBlueprintOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2523,6 +2765,7 @@ enum UpdateDataAutomationProjectOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3146,6 +3389,23 @@ extension BedrockDataAutomationClientTypes.DataAutomationProjectSummary {
         value.projectStage = try reader["projectStage"].readIfPresent()
         value.projectName = try reader["projectName"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.Tag {
+
+    static func write(value: BedrockDataAutomationClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }

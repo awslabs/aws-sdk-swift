@@ -21620,6 +21620,655 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// The input file that needs to be analyzed.
+    public struct ProbeInputFile: Swift.Sendable {
+        /// The URI to your input file(s) that is stored in Amazon S3 or on an HTTP(S) server.
+        public var fileUrl: Swift.String?
+
+        public init(
+            fileUrl: Swift.String? = nil
+        ) {
+            self.fileUrl = fileUrl
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    public enum Format: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case matroska
+        case mp4
+        case quicktime
+        case webm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Format] {
+            return [
+                .matroska,
+                .mp4,
+                .quicktime,
+                .webm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .matroska: return "matroska"
+            case .mp4: return "mp4"
+            case .quicktime: return "quicktime"
+            case .webm: return "webm"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// the calculated frame rate of the asset.
+    public struct FrameRate: Swift.Sendable {
+        /// the denominator of the frame rate of the asset.
+        public var denominator: Swift.Int?
+        /// the numerator of the frame rate of the asset.
+        public var numerator: Swift.Int?
+
+        public init(
+            denominator: Swift.Int? = nil,
+            numerator: Swift.Int? = nil
+        ) {
+            self.denominator = denominator
+            self.numerator = numerator
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Properties specific to audio tracks.
+    public struct AudioProperties: Swift.Sendable {
+        /// The bit depth of the audio track.
+        public var bitDepth: Swift.Int?
+        /// The bit rate of the audio track in bits per second.
+        public var bitRate: Swift.Int?
+        /// The number of audio channels.
+        public var channels: Swift.Int?
+        /// the calculated frame rate of the asset.
+        public var frameRate: MediaConvertClientTypes.FrameRate?
+        /// the language code of the track
+        public var languageCode: Swift.String?
+        /// The sample rate of the audio track.
+        public var sampleRate: Swift.Int?
+
+        public init(
+            bitDepth: Swift.Int? = nil,
+            bitRate: Swift.Int? = nil,
+            channels: Swift.Int? = nil,
+            frameRate: MediaConvertClientTypes.FrameRate? = nil,
+            languageCode: Swift.String? = nil,
+            sampleRate: Swift.Int? = nil
+        ) {
+            self.bitDepth = bitDepth
+            self.bitRate = bitRate
+            self.channels = channels
+            self.frameRate = frameRate
+            self.languageCode = languageCode
+            self.sampleRate = sampleRate
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    public enum Codec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aac
+        case ac3
+        case av1
+        case avc
+        case c608
+        case c708
+        case eac3
+        case flac
+        case hevc
+        case mjpeg
+        case mp3
+        case mp4v
+        case mpeg2
+        case opus
+        case pcm
+        case prores
+        case theora
+        case unknown
+        case vorbis
+        case vp8
+        case vp9
+        case webvtt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Codec] {
+            return [
+                .aac,
+                .ac3,
+                .av1,
+                .avc,
+                .c608,
+                .c708,
+                .eac3,
+                .flac,
+                .hevc,
+                .mjpeg,
+                .mp3,
+                .mp4v,
+                .mpeg2,
+                .opus,
+                .pcm,
+                .prores,
+                .theora,
+                .unknown,
+                .vorbis,
+                .vp8,
+                .vp9,
+                .webvtt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aac: return "AAC"
+            case .ac3: return "AC3"
+            case .av1: return "AV1"
+            case .avc: return "AVC"
+            case .c608: return "C608"
+            case .c708: return "C708"
+            case .eac3: return "EAC3"
+            case .flac: return "FLAC"
+            case .hevc: return "HEVC"
+            case .mjpeg: return "MJPEG"
+            case .mp3: return "MP3"
+            case .mp4v: return "MP4V"
+            case .mpeg2: return "MPEG2"
+            case .opus: return "OPUS"
+            case .pcm: return "PCM"
+            case .prores: return "PRORES"
+            case .theora: return "THEORA"
+            case .unknown: return "UNKNOWN"
+            case .vorbis: return "VORBIS"
+            case .vp8: return "VP8"
+            case .vp9: return "VP9"
+            case .webvtt: return "WEBVTT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Properties specific to data tracks.
+    public struct DataProperties: Swift.Sendable {
+        /// the language code of the track
+        public var languageCode: Swift.String?
+
+        public init(
+            languageCode: Swift.String? = nil
+        ) {
+            self.languageCode = languageCode
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    public enum TrackType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audio
+        case data
+        case video
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrackType] {
+            return [
+                .audio,
+                .data,
+                .video
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audio: return "audio"
+            case .data: return "data"
+            case .video: return "video"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// the color primaries.
+    public enum ColorPrimaries: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ebu3213E
+        case genericFilm
+        case ipt
+        case itu2020
+        case itu470bg
+        case itu470m
+        case itu709
+        case last
+        case reserved
+        case smpte170m
+        case smpte2067xyz
+        case smpte240m
+        case smpte4281
+        case smpte4312
+        case smpteEg4321
+        case unspecified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ColorPrimaries] {
+            return [
+                .ebu3213E,
+                .genericFilm,
+                .ipt,
+                .itu2020,
+                .itu470bg,
+                .itu470m,
+                .itu709,
+                .last,
+                .reserved,
+                .smpte170m,
+                .smpte2067xyz,
+                .smpte240m,
+                .smpte4281,
+                .smpte4312,
+                .smpteEg4321,
+                .unspecified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ebu3213E: return "EBU_3213_E"
+            case .genericFilm: return "GENERIC_FILM"
+            case .ipt: return "IPT"
+            case .itu2020: return "ITU_2020"
+            case .itu470bg: return "ITU_470BG"
+            case .itu470m: return "ITU_470M"
+            case .itu709: return "ITU_709"
+            case .last: return "LAST"
+            case .reserved: return "RESERVED"
+            case .smpte170m: return "SMPTE_170M"
+            case .smpte2067xyz: return "SMPTE_2067XYZ"
+            case .smpte240m: return "SMPTE_240M"
+            case .smpte4281: return "SMPTE_428_1"
+            case .smpte4312: return "SMPTE_431_2"
+            case .smpteEg4321: return "SMPTE_EG_432_1"
+            case .unspecified: return "UNSPECIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// the matrix coefficients.
+    public enum MatrixCoefficients: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cdCl
+        case cdNcl
+        case ebu3213
+        case fcc
+        case ipt
+        case itu2020Cl
+        case itu2020Ncl
+        case itu2100ictcp
+        case itu470bg
+        case itu709
+        case last
+        case reserved
+        case rgb
+        case smpte170m
+        case smpte2085
+        case smpte240m
+        case unspecified
+        case ycgco
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MatrixCoefficients] {
+            return [
+                .cdCl,
+                .cdNcl,
+                .ebu3213,
+                .fcc,
+                .ipt,
+                .itu2020Cl,
+                .itu2020Ncl,
+                .itu2100ictcp,
+                .itu470bg,
+                .itu709,
+                .last,
+                .reserved,
+                .rgb,
+                .smpte170m,
+                .smpte2085,
+                .smpte240m,
+                .unspecified,
+                .ycgco
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cdCl: return "CD_CL"
+            case .cdNcl: return "CD_NCL"
+            case .ebu3213: return "EBU3213"
+            case .fcc: return "FCC"
+            case .ipt: return "IPT"
+            case .itu2020Cl: return "ITU_2020_CL"
+            case .itu2020Ncl: return "ITU_2020_NCL"
+            case .itu2100ictcp: return "ITU_2100ICtCp"
+            case .itu470bg: return "ITU_470BG"
+            case .itu709: return "ITU_709"
+            case .last: return "LAST"
+            case .reserved: return "RESERVED"
+            case .rgb: return "RGB"
+            case .smpte170m: return "SMPTE_170M"
+            case .smpte2085: return "SMPTE_2085"
+            case .smpte240m: return "SMPTE_240M"
+            case .unspecified: return "UNSPECIFIED"
+            case .ycgco: return "YCgCo"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// the transfer characteristics.
+    public enum TransferCharacteristics: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aribB67
+        case iec6196621
+        case iec6196624
+        case itu1361
+        case itu202010bit
+        case itu202012bit
+        case itu470bg
+        case itu470m
+        case itu709
+        case last
+        case linear
+        case loc1025
+        case log102
+        case reserved
+        case smpte170m
+        case smpte2084
+        case smpte240m
+        case smpte4281
+        case unspecified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransferCharacteristics] {
+            return [
+                .aribB67,
+                .iec6196621,
+                .iec6196624,
+                .itu1361,
+                .itu202010bit,
+                .itu202012bit,
+                .itu470bg,
+                .itu470m,
+                .itu709,
+                .last,
+                .linear,
+                .loc1025,
+                .log102,
+                .reserved,
+                .smpte170m,
+                .smpte2084,
+                .smpte240m,
+                .smpte4281,
+                .unspecified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aribB67: return "ARIB_B67"
+            case .iec6196621: return "IEC_61966_2_1"
+            case .iec6196624: return "IEC_61966_2_4"
+            case .itu1361: return "ITU_1361"
+            case .itu202010bit: return "ITU_2020_10bit"
+            case .itu202012bit: return "ITU_2020_12bit"
+            case .itu470bg: return "ITU_470BG"
+            case .itu470m: return "ITU_470M"
+            case .itu709: return "ITU_709"
+            case .last: return "LAST"
+            case .linear: return "LINEAR"
+            case .loc1025: return "LOC10_2_5"
+            case .log102: return "LOG10_2"
+            case .reserved: return "RESERVED"
+            case .smpte170m: return "SMPTE_170M"
+            case .smpte2084: return "SMPTE_2084"
+            case .smpte240m: return "SMPTE_240M"
+            case .smpte4281: return "SMPTE_428_1"
+            case .unspecified: return "UNSPECIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Properties specific to video tracks.
+    public struct VideoProperties: Swift.Sendable {
+        /// The bit depth of the video track.
+        public var bitDepth: Swift.Int?
+        /// The bit rate of the video track in bits per second.
+        public var bitRate: Swift.Int?
+        /// the color primaries.
+        public var colorPrimaries: MediaConvertClientTypes.ColorPrimaries?
+        /// the calculated frame rate of the asset.
+        public var frameRate: MediaConvertClientTypes.FrameRate?
+        /// The height of the video track in pixels.
+        public var height: Swift.Int?
+        /// the matrix coefficients.
+        public var matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients?
+        /// the transfer characteristics.
+        public var transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics?
+        /// The width of the video track in pixels.
+        public var width: Swift.Int?
+
+        public init(
+            bitDepth: Swift.Int? = nil,
+            bitRate: Swift.Int? = nil,
+            colorPrimaries: MediaConvertClientTypes.ColorPrimaries? = nil,
+            frameRate: MediaConvertClientTypes.FrameRate? = nil,
+            height: Swift.Int? = nil,
+            matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients? = nil,
+            transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics? = nil,
+            width: Swift.Int? = nil
+        ) {
+            self.bitDepth = bitDepth
+            self.bitRate = bitRate
+            self.colorPrimaries = colorPrimaries
+            self.frameRate = frameRate
+            self.height = height
+            self.matrixCoefficients = matrixCoefficients
+            self.transferCharacteristics = transferCharacteristics
+            self.width = width
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The track information such as codec, duration, etc.
+    public struct Track: Swift.Sendable {
+        /// Properties specific to audio tracks.
+        public var audioProperties: MediaConvertClientTypes.AudioProperties?
+        /// The codec used for the track.
+        public var codec: MediaConvertClientTypes.Codec?
+        /// Properties specific to data tracks.
+        public var dataProperties: MediaConvertClientTypes.DataProperties?
+        /// The duration of the track in seconds.
+        public var duration: Swift.Double?
+        /// The index of the track.
+        public var index: Swift.Int?
+        /// The type of the track (video, audio, or data).
+        public var trackType: MediaConvertClientTypes.TrackType?
+        /// Properties specific to video tracks.
+        public var videoProperties: MediaConvertClientTypes.VideoProperties?
+
+        public init(
+            audioProperties: MediaConvertClientTypes.AudioProperties? = nil,
+            codec: MediaConvertClientTypes.Codec? = nil,
+            dataProperties: MediaConvertClientTypes.DataProperties? = nil,
+            duration: Swift.Double? = nil,
+            index: Swift.Int? = nil,
+            trackType: MediaConvertClientTypes.TrackType? = nil,
+            videoProperties: MediaConvertClientTypes.VideoProperties? = nil
+        ) {
+            self.audioProperties = audioProperties
+            self.codec = codec
+            self.dataProperties = dataProperties
+            self.duration = duration
+            self.index = index
+            self.trackType = trackType
+            self.videoProperties = videoProperties
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Information about the container format of the media file.
+    public struct Container: Swift.Sendable {
+        /// The duration of the media file in seconds.
+        public var duration: Swift.Double?
+        /// The format of the container
+        public var format: MediaConvertClientTypes.Format?
+        /// List of Track objects.
+        public var tracks: [MediaConvertClientTypes.Track]?
+
+        public init(
+            duration: Swift.Double? = nil,
+            format: MediaConvertClientTypes.Format? = nil,
+            tracks: [MediaConvertClientTypes.Track]? = nil
+        ) {
+            self.duration = duration
+            self.format = format
+            self.tracks = tracks
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Metadata about the file.
+    public struct Metadata: Swift.Sendable {
+        /// The ETag of the file.
+        public var eTag: Swift.String?
+        /// The size of the file in bytes.
+        public var fileSize: Swift.Int?
+        /// The last modification time of the file.
+        public var lastModified: Foundation.Date?
+        /// The MIME type of the file.
+        public var mimeType: Swift.String?
+
+        public init(
+            eTag: Swift.String? = nil,
+            fileSize: Swift.Int? = nil,
+            lastModified: Foundation.Date? = nil,
+            mimeType: Swift.String? = nil
+        ) {
+            self.eTag = eTag
+            self.fileSize = fileSize
+            self.lastModified = lastModified
+            self.mimeType = mimeType
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Track mapping information.
+    public struct TrackMapping: Swift.Sendable {
+        /// The indexes of the audio tracks.
+        public var audioTrackIndexes: [Swift.Int]?
+        /// The indexes of the data tracks.
+        public var dataTrackIndexes: [Swift.Int]?
+        /// The indexes of the video tracks.
+        public var videoTrackIndexes: [Swift.Int]?
+
+        public init(
+            audioTrackIndexes: [Swift.Int]? = nil,
+            dataTrackIndexes: [Swift.Int]? = nil,
+            videoTrackIndexes: [Swift.Int]? = nil
+        ) {
+            self.audioTrackIndexes = audioTrackIndexes
+            self.dataTrackIndexes = dataTrackIndexes
+            self.videoTrackIndexes = videoTrackIndexes
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The metadata and analysis results for a media file.
+    public struct ProbeResult: Swift.Sendable {
+        /// Information about the container format of the media file.
+        public var container: MediaConvertClientTypes.Container?
+        /// Metadata about the file.
+        public var metadata: MediaConvertClientTypes.Metadata?
+        /// List of Track mapping objects.
+        public var trackMappings: [MediaConvertClientTypes.TrackMapping]?
+
+        public init(
+            container: MediaConvertClientTypes.Container? = nil,
+            metadata: MediaConvertClientTypes.Metadata? = nil,
+            trackMappings: [MediaConvertClientTypes.TrackMapping]? = nil
+        ) {
+            self.container = container
+            self.metadata = metadata
+            self.trackMappings = trackMappings
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Specifies whether the pricing plan for the queue is on-demand or reserved. For on-demand, you pay per minute, billed in increments of .01 minute. For reserved, you pay for the transcoding capacity of the entire queue, regardless of how much or how little you use it. Reserved pricing requires a 12-month commitment.
     public enum PricingPlan: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case onDemand
@@ -22989,6 +23638,28 @@ public struct ListVersionsOutput: Swift.Sendable {
     }
 }
 
+public struct ProbeInput: Swift.Sendable {
+    /// The list of input media files to be probed.
+    public var inputFiles: [MediaConvertClientTypes.ProbeInputFile]?
+
+    public init(
+        inputFiles: [MediaConvertClientTypes.ProbeInputFile]? = nil
+    ) {
+        self.inputFiles = inputFiles
+    }
+}
+
+public struct ProbeOutput: Swift.Sendable {
+    /// List of probe results for the input media file(s).
+    public var probeResults: [MediaConvertClientTypes.ProbeResult]?
+
+    public init(
+        probeResults: [MediaConvertClientTypes.ProbeResult]? = nil
+    ) {
+        self.probeResults = probeResults
+    }
+}
+
 public struct PutPolicyInput: Swift.Sendable {
     /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     /// This member is required.
@@ -23545,6 +24216,13 @@ extension ListVersionsInput {
     }
 }
 
+extension ProbeInput {
+
+    static func urlPathProvider(_ value: ProbeInput) -> Swift.String? {
+        return "/2017-08-29/probe"
+    }
+}
+
 extension PutPolicyInput {
 
     static func urlPathProvider(_ value: PutPolicyInput) -> Swift.String? {
@@ -23717,6 +24395,14 @@ extension DescribeEndpointsInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["mode"].write(value.mode)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ProbeInput {
+
+    static func write(value: ProbeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inputFiles"].writeList(value.inputFiles, memberWritingClosure: MediaConvertClientTypes.ProbeInputFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -24026,6 +24712,18 @@ extension ListVersionsOutput {
         var value = ListVersionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.versions = try reader["versions"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.JobEngineVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ProbeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ProbeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ProbeOutput()
+        value.probeResults = try reader["probeResults"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.ProbeResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -24524,6 +25222,25 @@ enum ListTagsForResourceOutputError {
 }
 
 enum ListVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ProbeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -29521,6 +30238,124 @@ extension MediaConvertClientTypes.JobEngineVersion {
     }
 }
 
+extension MediaConvertClientTypes.ProbeResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ProbeResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.ProbeResult()
+        value.container = try reader["container"].readIfPresent(with: MediaConvertClientTypes.Container.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent(with: MediaConvertClientTypes.Metadata.read(from:))
+        value.trackMappings = try reader["trackMappings"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.TrackMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.TrackMapping {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.TrackMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.TrackMapping()
+        value.audioTrackIndexes = try reader["audioTrackIndexes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataTrackIndexes = try reader["dataTrackIndexes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.videoTrackIndexes = try reader["videoTrackIndexes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.Metadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Metadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.Metadata()
+        value.eTag = try reader["eTag"].readIfPresent()
+        value.fileSize = try reader["fileSize"].readIfPresent()
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.mimeType = try reader["mimeType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.Container {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Container {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.Container()
+        value.duration = try reader["duration"].readIfPresent()
+        value.format = try reader["format"].readIfPresent()
+        value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.Track.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.Track {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Track {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.Track()
+        value.audioProperties = try reader["audioProperties"].readIfPresent(with: MediaConvertClientTypes.AudioProperties.read(from:))
+        value.codec = try reader["codec"].readIfPresent()
+        value.dataProperties = try reader["dataProperties"].readIfPresent(with: MediaConvertClientTypes.DataProperties.read(from:))
+        value.duration = try reader["duration"].readIfPresent()
+        value.index = try reader["index"].readIfPresent()
+        value.trackType = try reader["trackType"].readIfPresent()
+        value.videoProperties = try reader["videoProperties"].readIfPresent(with: MediaConvertClientTypes.VideoProperties.read(from:))
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.VideoProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.VideoProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.VideoProperties()
+        value.bitDepth = try reader["bitDepth"].readIfPresent()
+        value.bitRate = try reader["bitRate"].readIfPresent()
+        value.colorPrimaries = try reader["colorPrimaries"].readIfPresent()
+        value.frameRate = try reader["frameRate"].readIfPresent(with: MediaConvertClientTypes.FrameRate.read(from:))
+        value.height = try reader["height"].readIfPresent()
+        value.matrixCoefficients = try reader["matrixCoefficients"].readIfPresent()
+        value.transferCharacteristics = try reader["transferCharacteristics"].readIfPresent()
+        value.width = try reader["width"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.FrameRate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.FrameRate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.FrameRate()
+        value.denominator = try reader["denominator"].readIfPresent()
+        value.numerator = try reader["numerator"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.DataProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.DataProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.DataProperties()
+        value.languageCode = try reader["languageCode"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.AudioProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.AudioProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.AudioProperties()
+        value.bitDepth = try reader["bitDepth"].readIfPresent()
+        value.bitRate = try reader["bitRate"].readIfPresent()
+        value.channels = try reader["channels"].readIfPresent()
+        value.frameRate = try reader["frameRate"].readIfPresent(with: MediaConvertClientTypes.FrameRate.read(from:))
+        value.languageCode = try reader["languageCode"].readIfPresent()
+        value.sampleRate = try reader["sampleRate"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaConvertClientTypes.ReservationPlanSettings {
 
     static func write(value: MediaConvertClientTypes.ReservationPlanSettings?, to writer: SmithyJSON.Writer) throws {
@@ -29528,6 +30363,14 @@ extension MediaConvertClientTypes.ReservationPlanSettings {
         try writer["commitment"].write(value.commitment)
         try writer["renewalType"].write(value.renewalType)
         try writer["reservedSlots"].write(value.reservedSlots)
+    }
+}
+
+extension MediaConvertClientTypes.ProbeInputFile {
+
+    static func write(value: MediaConvertClientTypes.ProbeInputFile?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fileUrl"].write(value.fileUrl)
     }
 }
 

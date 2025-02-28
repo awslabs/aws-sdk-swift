@@ -416,6 +416,8 @@ extension DatabaseMigrationClientTypes {
         public var failed: Swift.Int
         /// The number of individual assessments that successfully passed all checks in the assessment run.
         public var passed: Swift.Int
+        /// The number of individual assessments that were skipped during the assessment run.
+        public var skipped: Swift.Int
         /// Indicates that the recent completed AssessmentRun triggered a warning.
         public var warning: Swift.Int
 
@@ -424,12 +426,14 @@ extension DatabaseMigrationClientTypes {
             error: Swift.Int = 0,
             failed: Swift.Int = 0,
             passed: Swift.Int = 0,
+            skipped: Swift.Int = 0,
             warning: Swift.Int = 0
         ) {
             self.cancelled = cancelled
             self.error = error
             self.failed = failed
             self.passed = passed
+            self.skipped = skipped
             self.warning = warning
         }
     }
@@ -487,7 +491,7 @@ extension DatabaseMigrationClientTypes {
         ///
         /// * "starting" – The assessment run is starting, but resources are not yet being provisioned for individual assessments.
         ///
-        /// * "warning" – At least one individual assessment completed with a warning status.
+        /// * "warning" – At least one individual assessment completed with a warning status or all individual assessments were skipped (completed with a skipped status).
         public var status: Swift.String?
 
         public init(
@@ -9388,6 +9392,8 @@ extension DatabaseMigrationClientTypes {
         ///
         /// * "pending"
         ///
+        /// * "skipped"
+        ///
         /// * "running"
         public var status: Swift.String?
 
@@ -11009,9 +11015,9 @@ public struct StartReplicationInput: Swift.Sendable {
     public var cdcStopPosition: Swift.String?
     /// User-defined settings for the premigration assessment. The possible values are:
     ///
-    /// * ResultLocationFinder: The folder within an Amazon Amazon S3 bucket where you want DMS to store the results of this assessment run.
+    /// * ResultLocationFolder: The folder within an Amazon S3 bucket where you want DMS to store the results of this assessment run.
     ///
-    /// * ResultEncryptionMode: The supported values are SSE_KMS and SSE_S3. If these values are not provided, then the files are not encrypted at rest. For more information, see [Creating Amazon Web Services KMS keys to encrypt Amazon Amazon S3 target objects](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.KMSKeys).
+    /// * ResultEncryptionMode: The supported values are SSE_KMS and SSE_S3. If these values are not provided, then the files are not encrypted at rest. For more information, see [Creating Amazon Web Services KMS keys to encrypt Amazon S3 target objects](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.KMSKeys).
     ///
     /// * ResultKmsKeyArn: The ARN of a customer KMS encryption key that you specify when you set ResultEncryptionMode to SSE_KMS.
     ///
@@ -17010,6 +17016,7 @@ extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentRunResultStatist
         value.error = try reader["Error"].readIfPresent() ?? 0
         value.warning = try reader["Warning"].readIfPresent() ?? 0
         value.cancelled = try reader["Cancelled"].readIfPresent() ?? 0
+        value.skipped = try reader["Skipped"].readIfPresent() ?? 0
         return value
     }
 }

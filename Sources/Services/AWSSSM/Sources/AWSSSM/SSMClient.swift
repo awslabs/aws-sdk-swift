@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMClient: ClientRuntime.Client {
     public static let clientName = "SSMClient"
-    public static let version = "1.2.28"
+    public static let version = "1.2.29"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMClient.SSMClientConfiguration
     let serviceName = "SSM"
@@ -2004,7 +2004,7 @@ extension SSMClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again.
+    /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again. For the DeleteParameter and GetParameter actions, if the specified parameter doesn't exist, the ParameterNotFound exception is not recorded in CloudTrail event logs.
     public func deleteParameter(input: DeleteParameterInput) async throws -> DeleteParameterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2382,7 +2382,7 @@ extension SSMClient {
 
     /// Performs the `DeregisterManagedInstance` operation on the `SSM` service.
     ///
-    /// Removes the server or virtual machine from the list of registered servers. You can reregister the node again at any time. If you don't plan to use Run Command on the server, we suggest uninstalling SSM Agent first.
+    /// Removes the server or virtual machine from the list of registered servers. If you want to reregister an on-premises server, edge device, or VM, you must use a different Activation Code and Activation ID than used to register the machine previously. The Activation Code and Activation ID must not have already been used on the maximum number of activations specified when they were created. For more information, see [Deregistering managed nodes in a hybrid and multicloud environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/fleet-manager-deregister-hybrid-nodes.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter DeregisterManagedInstanceInput : [no documentation found]
     ///
@@ -6762,7 +6762,7 @@ extension SSMClient {
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidKeyId` : The query key ID isn't valid.
-    /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again.
+    /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again. For the DeleteParameter and GetParameter actions, if the specified parameter doesn't exist, the ParameterNotFound exception is not recorded in CloudTrail event logs.
     /// - `ParameterVersionNotFound` : The specified parameter version wasn't found. Verify the parameter name and version, and try again.
     public func getParameter(input: GetParameterInput) async throws -> GetParameterOutput {
         let context = Smithy.ContextBuilder()
@@ -6841,7 +6841,7 @@ extension SSMClient {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidKeyId` : The query key ID isn't valid.
     /// - `InvalidNextToken` : The specified token isn't valid.
-    /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again.
+    /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again. For the DeleteParameter and GetParameter actions, if the specified parameter doesn't exist, the ParameterNotFound exception is not recorded in CloudTrail event logs.
     public func getParameterHistory(input: GetParameterHistoryInput) async throws -> GetParameterHistoryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7394,7 +7394,7 @@ extension SSMClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again.
+    /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again. For the DeleteParameter and GetParameter actions, if the specified parameter doesn't exist, the ParameterNotFound exception is not recorded in CloudTrail event logs.
     /// - `ParameterVersionLabelLimitExceeded` : A parameter version can have a maximum of ten labels.
     /// - `ParameterVersionNotFound` : The specified parameter version wasn't found. Verify the parameter name and version, and try again.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
@@ -9169,7 +9169,7 @@ extension SSMClient {
 
     /// Performs the `PutParameter` operation on the `SSM` service.
     ///
-    /// Add a parameter to the system.
+    /// Create or update a parameter in Parameter Store.
     ///
     /// - Parameter PutParameterInput : [no documentation found]
     ///
@@ -10613,7 +10613,7 @@ extension SSMClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again.
+    /// - `ParameterNotFound` : The parameter couldn't be found. Verify the name and try again. For the DeleteParameter and GetParameter actions, if the specified parameter doesn't exist, the ParameterNotFound exception is not recorded in CloudTrail event logs.
     /// - `ParameterVersionNotFound` : The specified parameter version wasn't found. Verify the parameter name and version, and try again.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     public func unlabelParameterVersion(input: UnlabelParameterVersionInput) async throws -> UnlabelParameterVersionOutput {
