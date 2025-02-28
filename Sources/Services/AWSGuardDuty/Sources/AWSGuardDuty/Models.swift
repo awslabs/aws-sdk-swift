@@ -3036,7 +3036,7 @@ public struct CreateFilterInput: Swift.Sendable {
     ///
     /// * service.runtimeDetails.process.name
     ///
-    /// * service.runtimeDetails.process.name
+    /// * service.runtimeDetails.process.executablePath
     ///
     /// * resource.lambdaDetails.functionName
     ///
@@ -5515,12 +5515,12 @@ extension GuardDutyClientTypes {
 
     /// Contains information about the indicators that include a set of signals observed in an attack sequence.
     public struct Indicator: Swift.Sendable {
-        /// Specific indicator keys observed in the attack sequence.
+        /// Specific indicator keys observed in the attack sequence. For description of the valid values for key, see [Attack sequence finding details](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-summary.html#guardduty-extended-threat-detection-attack-sequence-finding-details) in the Amazon GuardDuty User Guide.
         /// This member is required.
         public var key: GuardDutyClientTypes.IndicatorType?
         /// Title describing the indicator.
         public var title: Swift.String?
-        /// Values associated with each indicator key. For example, if the indicator key is SUSPICIOUS_NETWORK, then the value will be the name of the network. If the indicator key is ATTACK_TACTIC, then the value will be one of the MITRE tactics. For more information about the values associated with the key, see GuardDuty Extended Threat Detection in the GuardDuty User Guide.
+        /// Values associated with each indicator key. For example, if the indicator key is SUSPICIOUS_NETWORK, then the value will be the name of the network. If the indicator key is ATTACK_TACTIC, then the value will be one of the MITRE tactics.
         public var values: [Swift.String]?
 
         public init(
@@ -5594,17 +5594,17 @@ extension GuardDutyClientTypes {
         public var name: Swift.String?
         /// Information about the unique identifiers of the resources involved in the signal.
         public var resourceUids: [Swift.String]?
-        /// The severity associated with the signal. For more information about severity, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the GuardDuty User Guide.
+        /// The severity associated with the signal. For more information about severity, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the Amazon GuardDuty User Guide.
         public var severity: Swift.Double?
         /// Contains information about the indicators associated with the signals.
         public var signalIndicators: [GuardDutyClientTypes.Indicator]?
-        /// The type of the signal used to identify an attack sequence. Signals can be GuardDuty findings or activities observed in data sources that GuardDuty monitors. For more information, see [Foundational data sources](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_data-sources.html) in the GuardDuty User Guide. A signal type can be one of the valid values listed in this API. Here are the related descriptions:
+        /// The type of the signal used to identify an attack sequence. Signals can be GuardDuty findings or activities observed in data sources that GuardDuty monitors. For more information, see [Foundational data sources](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_data-sources.html) in the Amazon GuardDuty User Guide. A signal type can be one of the valid values listed in this API. Here are the related descriptions:
         ///
         /// * FINDING - Individually generated GuardDuty finding.
         ///
         /// * CLOUD_TRAIL - Activity observed from CloudTrail logs
         ///
-        /// * S3_DATA_EVENTS - Activity observed from CloudTrail data events for S3. Activities associated with this type will show up only when you have enabled GuardDuty S3 Protection feature in your account. For more information about S3 Protection and steps to enable it, see [S3 Protection](https://docs.aws.amazon.com/guardduty/latest/ug/s3-protection.html) in the GuardDuty User Guide.
+        /// * S3_DATA_EVENTS - Activity observed from CloudTrail data events for S3. Activities associated with this type will show up only when you have enabled GuardDuty S3 Protection feature in your account. For more information about S3 Protection and steps to enable it, see [S3 Protection](https://docs.aws.amazon.com/guardduty/latest/ug/s3-protection.html) in the Amazon GuardDuty User Guide.
         /// This member is required.
         public var type: GuardDutyClientTypes.SignalType?
         /// The unique identifier of the signal.
@@ -8112,7 +8112,7 @@ extension GuardDutyClientTypes {
     public struct MalwareProtectionPlanStatusReason: Swift.Sendable {
         /// Issue code.
         public var code: Swift.String?
-        /// Issue message that specifies the reason. For information about potential troubleshooting steps, see [Troubleshooting Malware Protection for S3 status issues](https://docs.aws.amazon.com/guardduty/latest/ug/troubleshoot-s3-malware-protection-status-errors.html) in the GuardDuty User Guide.
+        /// Issue message that specifies the reason. For information about potential troubleshooting steps, see [Troubleshooting Malware Protection for S3 status issues](https://docs.aws.amazon.com/guardduty/latest/ug/troubleshoot-s3-malware-protection-status-errors.html) in the Amazon GuardDuty User Guide.
         public var message: Swift.String?
 
         public init(

@@ -9,13 +9,15 @@ import XCTest
 import struct AWSSDKIdentity.CachedAWSCredentialIdentityResolver
 
 class CachedAWSCredentialIdentityResolverTests: XCTestCase {
+
     func testGetIdentity() async throws {
         var counter: Int = 0
         let accessKey = UUID().uuidString
         let secret = UUID().uuidString
+        let accountID = UUID().uuidString
         let coreProvider = MockAWSCredentialIdentityResolver {
             counter += 1
-            return .init(accessKey: accessKey, secret: secret)
+            return .init(accessKey: accessKey, secret: secret, accountID: accountID)
         }
         let subject = try CachedAWSCredentialIdentityResolver(
             source: coreProvider,
@@ -37,5 +39,6 @@ class CachedAWSCredentialIdentityResolverTests: XCTestCase {
         XCTAssertEqual(counter, 2)
         XCTAssertEqual(credentials.accessKey, accessKey)
         XCTAssertEqual(credentials.secret, secret)
+        XCTAssertEqual(credentials.accountID, accountID)
     }
 }

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.2.16"
+    public static let version = "1.2.28"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -562,6 +562,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateApprovedOriginInput, AssociateApprovedOriginOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateApprovedOriginInput, AssociateApprovedOriginOutput>(AssociateApprovedOriginInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateApprovedOriginInput, AssociateApprovedOriginOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateApprovedOriginInput, AssociateApprovedOriginOutput>(contentType: "application/json"))
@@ -642,6 +643,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateBotInput, AssociateBotOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateBotInput, AssociateBotOutput>(AssociateBotInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateBotInput, AssociateBotOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateBotInput, AssociateBotOutput>(contentType: "application/json"))
@@ -878,6 +880,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateInstanceStorageConfigInput, AssociateInstanceStorageConfigOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateInstanceStorageConfigInput, AssociateInstanceStorageConfigOutput>(AssociateInstanceStorageConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateInstanceStorageConfigInput, AssociateInstanceStorageConfigOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateInstanceStorageConfigInput, AssociateInstanceStorageConfigOutput>(contentType: "application/json"))
@@ -958,6 +961,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateLambdaFunctionInput, AssociateLambdaFunctionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateLambdaFunctionInput, AssociateLambdaFunctionOutput>(AssociateLambdaFunctionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateLambdaFunctionInput, AssociateLambdaFunctionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateLambdaFunctionInput, AssociateLambdaFunctionOutput>(contentType: "application/json"))
@@ -1038,6 +1042,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateLexBotInput, AssociateLexBotOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateLexBotInput, AssociateLexBotOutput>(AssociateLexBotInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateLexBotInput, AssociateLexBotOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateLexBotInput, AssociateLexBotOutput>(contentType: "application/json"))
@@ -1353,6 +1358,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateSecurityKeyInput, AssociateSecurityKeyOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateSecurityKeyInput, AssociateSecurityKeyOutput>(AssociateSecurityKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateSecurityKeyInput, AssociateSecurityKeyOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSecurityKeyInput, AssociateSecurityKeyOutput>(contentType: "application/json"))
@@ -2869,6 +2875,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateInstanceInput, CreateInstanceOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateInstanceInput, CreateInstanceOutput>(CreateInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateInstanceInput, CreateInstanceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInstanceInput, CreateInstanceOutput>(contentType: "application/json"))
@@ -5235,8 +5242,10 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(DeleteInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInstanceInput, DeleteInstanceOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(DeleteInstanceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceOutput>(DeleteInstanceOutput.httpOutput(from:), DeleteInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -6640,7 +6649,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeAuthenticationProfile` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Describes the target authentication profile.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Describes the target authentication profile.
     ///
     /// - Parameter DescribeAuthenticationProfileInput : [no documentation found]
     ///
@@ -6715,7 +6724,11 @@ extension ConnectClient {
 
     /// Performs the `DescribeContact` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact. Contact information remains available in Amazon Connect for 24 months from the InitiationTimestamp, and then it is deleted. Only contact information that is available in Amazon Connect is returned by this API
+    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact.
+    ///
+    /// * CustomerEndpoint and SystemEndpoint are only populated for EMAIL contacts.
+    ///
+    /// * Contact information remains available in Amazon Connect for 24 months from the InitiationTimestamp, and then it is deleted. Only contact information that is available in Amazon Connect is returned by this API.
     ///
     /// - Parameter DescribeContactInput : [no documentation found]
     ///
@@ -8712,6 +8725,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateApprovedOriginInput, DisassociateApprovedOriginOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateApprovedOriginInput, DisassociateApprovedOriginOutput>(DisassociateApprovedOriginInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateApprovedOriginInput, DisassociateApprovedOriginOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateApprovedOriginInput, DisassociateApprovedOriginOutput>(DisassociateApprovedOriginInput.queryItemProvider(_:)))
@@ -8787,6 +8801,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateBotInput, DisassociateBotOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateBotInput, DisassociateBotOutput>(DisassociateBotInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateBotInput, DisassociateBotOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateBotInput, DisassociateBotOutput>(contentType: "application/json"))
@@ -8941,6 +8956,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateInstanceStorageConfigInput, DisassociateInstanceStorageConfigOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateInstanceStorageConfigInput, DisassociateInstanceStorageConfigOutput>(DisassociateInstanceStorageConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateInstanceStorageConfigInput, DisassociateInstanceStorageConfigOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateInstanceStorageConfigInput, DisassociateInstanceStorageConfigOutput>(DisassociateInstanceStorageConfigInput.queryItemProvider(_:)))
@@ -9017,6 +9033,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateLambdaFunctionInput, DisassociateLambdaFunctionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateLambdaFunctionInput, DisassociateLambdaFunctionOutput>(DisassociateLambdaFunctionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateLambdaFunctionInput, DisassociateLambdaFunctionOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateLambdaFunctionInput, DisassociateLambdaFunctionOutput>(DisassociateLambdaFunctionInput.queryItemProvider(_:)))
@@ -9093,6 +9110,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateLexBotInput, DisassociateLexBotOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateLexBotInput, DisassociateLexBotOutput>(DisassociateLexBotInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateLexBotInput, DisassociateLexBotOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateLexBotInput, DisassociateLexBotOutput>(DisassociateLexBotInput.queryItemProvider(_:)))
@@ -9401,8 +9419,10 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateSecurityKeyInput, DisassociateSecurityKeyOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateSecurityKeyInput, DisassociateSecurityKeyOutput>(DisassociateSecurityKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateSecurityKeyInput, DisassociateSecurityKeyOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateSecurityKeyInput, DisassociateSecurityKeyOutput>(DisassociateSecurityKeyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSecurityKeyOutput>(DisassociateSecurityKeyOutput.httpOutput(from:), DisassociateSecurityKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSecurityKeyInput, DisassociateSecurityKeyOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -10583,7 +10603,7 @@ extension ConnectClient {
 
     /// Performs the `ImportPhoneNumber` operation on the `Connect` service.
     ///
-    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
+    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web ServicesSupport ticket.
     ///
     /// - Parameter ImportPhoneNumberInput : [no documentation found]
     ///
@@ -10813,6 +10833,82 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAnalyticsDataLakeDataSets` operation on the `Connect` service.
+    ///
+    /// Lists the data lake datasets available to associate with for a given Amazon Connect instance.
+    ///
+    /// - Parameter ListAnalyticsDataLakeDataSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnalyticsDataLakeDataSetsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listAnalyticsDataLakeDataSets(input: ListAnalyticsDataLakeDataSetsInput) async throws -> ListAnalyticsDataLakeDataSetsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAnalyticsDataLakeDataSets")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAnalyticsDataLakeDataSetsInput, ListAnalyticsDataLakeDataSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAnalyticsDataLakeDataSetsInput, ListAnalyticsDataLakeDataSetsOutput>(ListAnalyticsDataLakeDataSetsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAnalyticsDataLakeDataSetsInput, ListAnalyticsDataLakeDataSetsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListAnalyticsDataLakeDataSetsInput, ListAnalyticsDataLakeDataSetsOutput>(ListAnalyticsDataLakeDataSetsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnalyticsDataLakeDataSetsOutput>(ListAnalyticsDataLakeDataSetsOutput.httpOutput(from:), ListAnalyticsDataLakeDataSetsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalyticsDataLakeDataSetsInput, ListAnalyticsDataLakeDataSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalyticsDataLakeDataSetsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAnalyticsDataLakeDataSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAnalyticsDataLakeDataSetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAnalyticsDataLakeDataSetsInput, ListAnalyticsDataLakeDataSetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAnalyticsDataLakeDataSetsInput, ListAnalyticsDataLakeDataSetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAnalyticsDataLakeDataSetsInput, ListAnalyticsDataLakeDataSetsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAnalyticsDataLakeDataSets")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListApprovedOrigins` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all approved origins associated with the instance.
@@ -10967,7 +11063,7 @@ extension ConnectClient {
 
     /// Performs the `ListAuthenticationProfiles` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Provides summary information about the authentication profiles in a specified Amazon Connect instance.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Provides summary information about the authentication profiles in a specified Amazon Connect instance.
     ///
     /// - Parameter ListAuthenticationProfilesInput : [no documentation found]
     ///
@@ -14560,7 +14656,7 @@ extension ConnectClient {
 
     /// Performs the `ReleasePhoneNumber` operation on the `Connect` service.
     ///
-    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support. If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
+    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web ServicesSupport. If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     ///
     /// - Parameter ReleasePhoneNumberInput : [no documentation found]
     ///
@@ -16535,7 +16631,7 @@ extension ConnectClient {
     /// * The [quota for concurrent active chats](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) is exceeded. Active chat throttling returns a LimitExceededException.
     ///
     ///
-    /// If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support. For more information about chat, see the following topics in the Amazon Connect Administrator Guide:
+    /// If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web ServicesSupport. For more information about chat, see the following topics in the Amazon Connect Administrator Guide:
     ///
     /// * [Concepts: Web and mobile messaging capabilities in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/web-and-mobile-chat.html)
     ///
@@ -18332,7 +18428,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateAuthenticationProfile` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Updates the selected authentication profile.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Updates the selected authentication profile.
     ///
     /// - Parameter UpdateAuthenticationProfileInput : [no documentation found]
     ///
@@ -19560,6 +19656,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateInstanceAttributeInput, UpdateInstanceAttributeOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateInstanceAttributeInput, UpdateInstanceAttributeOutput>(UpdateInstanceAttributeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateInstanceAttributeInput, UpdateInstanceAttributeOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateInstanceAttributeInput, UpdateInstanceAttributeOutput>(contentType: "application/json"))
@@ -19638,6 +19735,7 @@ extension ConnectClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateInstanceStorageConfigInput, UpdateInstanceStorageConfigOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateInstanceStorageConfigInput, UpdateInstanceStorageConfigOutput>(UpdateInstanceStorageConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateInstanceStorageConfigInput, UpdateInstanceStorageConfigOutput>())
         builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateInstanceStorageConfigInput, UpdateInstanceStorageConfigOutput>(UpdateInstanceStorageConfigInput.queryItemProvider(_:)))

@@ -1,3 +1,13 @@
+//
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+// Code is auto-generated. DO NOT EDIT!
+
+public let partitions = #"""
 {
   "partitions" : [ {
     "id" : "aws",
@@ -237,3 +247,4 @@
   } ],
   "version" : "1.1"
 }
+"""#

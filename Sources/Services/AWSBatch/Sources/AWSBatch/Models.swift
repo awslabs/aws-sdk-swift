@@ -733,6 +733,51 @@ public struct CreateComputeEnvironmentOutput: Swift.Sendable {
     }
 }
 
+public struct CreateConsumableResourceInput: Swift.Sendable {
+    /// The name of the consumable resource. Must be unique.
+    /// This member is required.
+    public var consumableResourceName: Swift.String?
+    /// Indicates whether the resource is available to be re-used after a job completes. Can be one of:
+    ///
+    /// * REPLENISHABLE (default)
+    ///
+    /// * NON_REPLENISHABLE
+    public var resourceType: Swift.String?
+    /// The tags that you apply to the consumable resource to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html).
+    public var tags: [Swift.String: Swift.String]?
+    /// The total amount of the consumable resource that is available. Must be non-negative.
+    public var totalQuantity: Swift.Int?
+
+    public init(
+        consumableResourceName: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        totalQuantity: Swift.Int? = nil
+    ) {
+        self.consumableResourceName = consumableResourceName
+        self.resourceType = resourceType
+        self.tags = tags
+        self.totalQuantity = totalQuantity
+    }
+}
+
+public struct CreateConsumableResourceOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the consumable resource.
+    /// This member is required.
+    public var consumableResourceArn: Swift.String?
+    /// The name of the consumable resource.
+    /// This member is required.
+    public var consumableResourceName: Swift.String?
+
+    public init(
+        consumableResourceArn: Swift.String? = nil,
+        consumableResourceName: Swift.String? = nil
+    ) {
+        self.consumableResourceArn = consumableResourceArn
+        self.consumableResourceName = consumableResourceName
+    }
+}
+
 extension BatchClientTypes {
 
     /// The order that compute environments are tried in for job placement within a queue. Compute environments are tried in ascending order. For example, if two compute environments are associated with a job queue, the compute environment with a lower order integer value is tried for job placement first. Compute environments must be in the VALID state before you can associate them with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); Amazon EC2 and Fargate compute environments can't be mixed. All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mixing compute environment architecture types in a single job queue.
@@ -1021,6 +1066,23 @@ public struct DeleteComputeEnvironmentOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteConsumableResourceInput: Swift.Sendable {
+    /// The name or ARN of the consumable resource that will be deleted.
+    /// This member is required.
+    public var consumableResource: Swift.String?
+
+    public init(
+        consumableResource: Swift.String? = nil
+    ) {
+        self.consumableResource = consumableResource
+    }
+}
+
+public struct DeleteConsumableResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// Contains the parameters for DeleteJobQueue.
 public struct DeleteJobQueueInput: Swift.Sendable {
     /// The short name or full Amazon Resource Name (ARN) of the queue to delete.
@@ -1275,6 +1337,63 @@ public struct DescribeComputeEnvironmentsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeConsumableResourceInput: Swift.Sendable {
+    /// The name or ARN of the consumable resource whose description will be returned.
+    /// This member is required.
+    public var consumableResource: Swift.String?
+
+    public init(
+        consumableResource: Swift.String? = nil
+    ) {
+        self.consumableResource = consumableResource
+    }
+}
+
+public struct DescribeConsumableResourceOutput: Swift.Sendable {
+    /// The amount of the consumable resource that is currently available to use.
+    public var availableQuantity: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the consumable resource.
+    /// This member is required.
+    public var consumableResourceArn: Swift.String?
+    /// The name of the consumable resource.
+    /// This member is required.
+    public var consumableResourceName: Swift.String?
+    /// The Unix timestamp (in milliseconds) for when the consumable resource was created.
+    public var createdAt: Swift.Int?
+    /// The amount of the consumable resource that is currently in use.
+    public var inUseQuantity: Swift.Int?
+    /// Indicates whether the resource is available to be re-used after a job completes. Can be one of:
+    ///
+    /// * REPLENISHABLE
+    ///
+    /// * NON_REPLENISHABLE
+    public var resourceType: Swift.String?
+    /// The tags that you apply to the consumable resource to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging your Batch resources](https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html).
+    public var tags: [Swift.String: Swift.String]?
+    /// The total amount of the consumable resource that is available.
+    public var totalQuantity: Swift.Int?
+
+    public init(
+        availableQuantity: Swift.Int? = nil,
+        consumableResourceArn: Swift.String? = nil,
+        consumableResourceName: Swift.String? = nil,
+        createdAt: Swift.Int? = nil,
+        inUseQuantity: Swift.Int? = nil,
+        resourceType: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        totalQuantity: Swift.Int? = nil
+    ) {
+        self.availableQuantity = availableQuantity
+        self.consumableResourceArn = consumableResourceArn
+        self.consumableResourceName = consumableResourceName
+        self.createdAt = createdAt
+        self.inUseQuantity = inUseQuantity
+        self.resourceType = resourceType
+        self.tags = tags
+        self.totalQuantity = totalQuantity
+    }
+}
+
 /// Contains the parameters for DescribeJobDefinitions.
 public struct DescribeJobDefinitionsInput: Swift.Sendable {
     /// The name of the job definition to describe.
@@ -1300,6 +1419,40 @@ public struct DescribeJobDefinitionsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Information about a consumable resource required to run a job.
+    public struct ConsumableResourceRequirement: Swift.Sendable {
+        /// The name or ARN of the consumable resource.
+        public var consumableResource: Swift.String?
+        /// The quantity of the consumable resource that is needed.
+        public var quantity: Swift.Int?
+
+        public init(
+            consumableResource: Swift.String? = nil,
+            quantity: Swift.Int? = nil
+        ) {
+            self.consumableResource = consumableResource
+            self.quantity = quantity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Contains a list of consumable resources required by a job.
+    public struct ConsumableResourceProperties: Swift.Sendable {
+        /// The list of consumable resources required by a job.
+        public var consumableResourceList: [BatchClientTypes.ConsumableResourceRequirement]?
+
+        public init(
+            consumableResourceList: [BatchClientTypes.ConsumableResourceRequirement]? = nil
+        ) {
+            self.consumableResourceList = consumableResourceList
+        }
     }
 }
 
@@ -2550,6 +2703,8 @@ extension BatchClientTypes {
 
     /// This is an object that represents the properties of the node range for a multi-node parallel job.
     public struct NodeRangeProperty: Swift.Sendable {
+        /// Contains a list of consumable resources required by a job.
+        public var consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties?
         /// The container details for the node range.
         public var container: BatchClientTypes.ContainerProperties?
         /// This is an object that represents the properties of the node range for a multi-node parallel job.
@@ -2563,12 +2718,14 @@ extension BatchClientTypes {
         public var targetNodes: Swift.String?
 
         public init(
+            consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties? = nil,
             container: BatchClientTypes.ContainerProperties? = nil,
             ecsProperties: BatchClientTypes.EcsProperties? = nil,
             eksProperties: BatchClientTypes.EksProperties? = nil,
             instanceTypes: [Swift.String]? = nil,
             targetNodes: Swift.String? = nil
         ) {
+            self.consumableResourceProperties = consumableResourceProperties
             self.container = container
             self.ecsProperties = ecsProperties
             self.eksProperties = eksProperties
@@ -2728,6 +2885,8 @@ extension BatchClientTypes {
 
     /// An object that represents an Batch job definition.
     public struct JobDefinition: Swift.Sendable {
+        /// Contains a list of consumable resources required by the job.
+        public var consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties?
         /// The orchestration type of the compute environment. The valid values are ECS (default) or EKS.
         public var containerOrchestrationType: BatchClientTypes.OrchestrationType?
         /// An object with properties specific to Amazon ECS-based jobs. When containerProperties is used in the job definition, it can't be used in addition to eksProperties, ecsProperties, or nodeProperties.
@@ -2768,6 +2927,7 @@ extension BatchClientTypes {
         public var type: Swift.String?
 
         public init(
+            consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties? = nil,
             containerOrchestrationType: BatchClientTypes.OrchestrationType? = nil,
             containerProperties: BatchClientTypes.ContainerProperties? = nil,
             ecsProperties: BatchClientTypes.EcsProperties? = nil,
@@ -2786,6 +2946,7 @@ extension BatchClientTypes {
             timeout: BatchClientTypes.JobTimeout? = nil,
             type: Swift.String? = nil
         ) {
+            self.consumableResourceProperties = consumableResourceProperties
             self.containerOrchestrationType = containerOrchestrationType
             self.containerProperties = containerProperties
             self.ecsProperties = ecsProperties
@@ -3564,6 +3725,8 @@ extension BatchClientTypes {
         public var arrayProperties: BatchClientTypes.ArrayPropertiesDetail?
         /// A list of job attempts that are associated with this job.
         public var attempts: [BatchClientTypes.AttemptDetail]?
+        /// Contains a list of consumable resources required by the job.
+        public var consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties?
         /// An object that represents the details for the container that's associated with the job. If the details are for a multiple-container job, this object will be empty.
         public var container: BatchClientTypes.ContainerDetail?
         /// The Unix timestamp (in milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state. This is specifically at the time [SubmitJob](https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html) was called. For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
@@ -3636,6 +3799,7 @@ extension BatchClientTypes {
         public init(
             arrayProperties: BatchClientTypes.ArrayPropertiesDetail? = nil,
             attempts: [BatchClientTypes.AttemptDetail]? = nil,
+            consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties? = nil,
             container: BatchClientTypes.ContainerDetail? = nil,
             createdAt: Swift.Int? = nil,
             dependsOn: [BatchClientTypes.JobDependency]? = nil,
@@ -3666,6 +3830,7 @@ extension BatchClientTypes {
         ) {
             self.arrayProperties = arrayProperties
             self.attempts = attempts
+            self.consumableResourceProperties = consumableResourceProperties
             self.container = container
             self.createdAt = createdAt
             self.dependsOn = dependsOn
@@ -3824,7 +3989,7 @@ public struct GetJobQueueSnapshotOutput: Swift.Sendable {
 
 extension BatchClientTypes {
 
-    /// A filter name and value pair that's used to return a more specific list of results from a ListJobs API operation.
+    /// A filter name and value pair that's used to return a more specific list of results from a ListJobs or ListJobsByConsumableResource API operation.
     public struct KeyValuesPair: Swift.Sendable {
         /// The name of the filter. Filter names are case sensitive.
         public var name: Swift.String?
@@ -3838,6 +4003,80 @@ extension BatchClientTypes {
             self.name = name
             self.values = values
         }
+    }
+}
+
+public struct ListConsumableResourcesInput: Swift.Sendable {
+    /// The filters to apply to the consumable resource list query. If used, only those consumable resources that match the filter are listed. Filter names and values can be:
+    ///
+    /// * name: CONSUMABLE_RESOURCE_NAME  values: case-insensitive matches for the consumable resource name. If a filter value ends with an asterisk (*), it matches any consumable resource name that begins with the string before the '*'.
+    public var filters: [BatchClientTypes.KeyValuesPair]?
+    /// The maximum number of results returned by ListConsumableResources in paginated output. When this parameter is used, ListConsumableResources only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListConsumableResources request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListConsumableResources returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated ListConsumableResources request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [BatchClientTypes.KeyValuesPair]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Current information about a consumable resource.
+    public struct ConsumableResourceSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the consumable resource.
+        /// This member is required.
+        public var consumableResourceArn: Swift.String?
+        /// The name of the consumable resource.
+        /// This member is required.
+        public var consumableResourceName: Swift.String?
+        /// The amount of the consumable resource that is currently in use.
+        public var inUseQuantity: Swift.Int?
+        /// Indicates whether the resource is available to be re-used after a job completes. Can be one of:
+        ///
+        /// * REPLENISHABLE
+        ///
+        /// * NON_REPLENISHABLE
+        public var resourceType: Swift.String?
+        /// The total amount of the consumable resource that is available.
+        public var totalQuantity: Swift.Int?
+
+        public init(
+            consumableResourceArn: Swift.String? = nil,
+            consumableResourceName: Swift.String? = nil,
+            inUseQuantity: Swift.Int? = nil,
+            resourceType: Swift.String? = nil,
+            totalQuantity: Swift.Int? = nil
+        ) {
+            self.consumableResourceArn = consumableResourceArn
+            self.consumableResourceName = consumableResourceName
+            self.inUseQuantity = inUseQuantity
+            self.resourceType = resourceType
+            self.totalQuantity = totalQuantity
+        }
+    }
+}
+
+public struct ListConsumableResourcesOutput: Swift.Sendable {
+    /// A list of consumable resources that match the request.
+    /// This member is required.
+    public var consumableResources: [BatchClientTypes.ConsumableResourceSummary]?
+    /// The nextToken value to include in a future ListConsumableResources request. When the results of a ListConsumableResources request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        consumableResources: [BatchClientTypes.ConsumableResourceSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.consumableResources = consumableResources
+        self.nextToken = nextToken
     }
 }
 
@@ -4004,6 +4243,126 @@ public struct ListJobsOutput: Swift.Sendable {
     }
 }
 
+public struct ListJobsByConsumableResourceInput: Swift.Sendable {
+    /// The name or ARN of the consumable resource.
+    /// This member is required.
+    public var consumableResource: Swift.String?
+    /// The filters to apply to the job list query. If used, only those jobs requiring the specified consumable resource (consumableResource) and that match the value of the filters are listed. The filter names and values can be:
+    ///
+    /// * name: JOB_STATUS values: SUBMITTED | PENDING | RUNNABLE | STARTING | RUNNING | SUCCEEDED | FAILED
+    ///
+    /// * name: JOB_NAME  The values are case-insensitive matches for the job name. If a filter value ends with an asterisk (*), it matches any job name that begins with the string before the '*'.
+    public var filters: [BatchClientTypes.KeyValuesPair]?
+    /// The maximum number of results returned by ListJobsByConsumableResource in paginated output. When this parameter is used, ListJobsByConsumableResource only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListJobsByConsumableResource request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListJobsByConsumableResource returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated ListJobsByConsumableResource request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        consumableResource: Swift.String? = nil,
+        filters: [BatchClientTypes.KeyValuesPair]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.consumableResource = consumableResource
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BatchClientTypes {
+
+    /// Current information about a consumable resource required by a job.
+    public struct ListJobsByConsumableResourceSummary: Swift.Sendable {
+        /// Contains a list of consumable resources required by the job.
+        /// This member is required.
+        public var consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties?
+        /// The Unix timestamp (in milliseconds) for when the consumable resource was created.
+        /// This member is required.
+        public var createdAt: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the job.
+        /// This member is required.
+        public var jobArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the job definition.
+        public var jobDefinitionArn: Swift.String?
+        /// The name of the job.
+        /// This member is required.
+        public var jobName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the job queue.
+        /// This member is required.
+        public var jobQueueArn: Swift.String?
+        /// The status of the job. Can be one of:
+        ///
+        /// * SUBMITTED
+        ///
+        /// * PENDING
+        ///
+        /// * RUNNABLE
+        ///
+        /// * STARTING
+        ///
+        /// * RUNNING
+        ///
+        /// * SUCCEEDED
+        ///
+        /// * FAILED
+        /// This member is required.
+        public var jobStatus: Swift.String?
+        /// The total amount of the consumable resource that is available.
+        /// This member is required.
+        public var quantity: Swift.Int?
+        /// The fair-share scheduling policy identifier for the job.
+        public var shareIdentifier: Swift.String?
+        /// The Unix timestamp for when the job was started. More specifically, it's when the job transitioned from the STARTING state to the RUNNING state.
+        public var startedAt: Swift.Int?
+        /// A short, human-readable string to provide more details for the current status of the job.
+        public var statusReason: Swift.String?
+
+        public init(
+            consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties? = nil,
+            createdAt: Swift.Int? = nil,
+            jobArn: Swift.String? = nil,
+            jobDefinitionArn: Swift.String? = nil,
+            jobName: Swift.String? = nil,
+            jobQueueArn: Swift.String? = nil,
+            jobStatus: Swift.String? = nil,
+            quantity: Swift.Int? = nil,
+            shareIdentifier: Swift.String? = nil,
+            startedAt: Swift.Int? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.consumableResourceProperties = consumableResourceProperties
+            self.createdAt = createdAt
+            self.jobArn = jobArn
+            self.jobDefinitionArn = jobDefinitionArn
+            self.jobName = jobName
+            self.jobQueueArn = jobQueueArn
+            self.jobStatus = jobStatus
+            self.quantity = quantity
+            self.shareIdentifier = shareIdentifier
+            self.startedAt = startedAt
+            self.statusReason = statusReason
+        }
+    }
+}
+
+public struct ListJobsByConsumableResourceOutput: Swift.Sendable {
+    /// The list of jobs that require the specified consumable resources.
+    /// This member is required.
+    public var jobs: [BatchClientTypes.ListJobsByConsumableResourceSummary]?
+    /// The nextToken value to include in a future ListJobsByConsumableResource request. When the results of a ListJobsByConsumableResource request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobs: [BatchClientTypes.ListJobsByConsumableResourceSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobs = jobs
+        self.nextToken = nextToken
+    }
+}
+
 /// Contains the parameters for ListSchedulingPolicies.
 public struct ListSchedulingPoliciesInput: Swift.Sendable {
     /// The maximum number of results that's returned by ListSchedulingPolicies in paginated output. When this parameter is used, ListSchedulingPolicies only returns maxResults results in a single page and a nextToken response element. You can see the remaining results of the initial request by sending another ListSchedulingPolicies request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, ListSchedulingPolicies returns up to 100 results and a nextToken value if applicable.
@@ -4106,6 +4465,8 @@ extension BatchClientTypes {
 
 /// Contains the parameters for RegisterJobDefinition.
 public struct RegisterJobDefinitionInput: Swift.Sendable {
+    /// Contains a list of consumable resources required by the job.
+    public var consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties?
     /// An object with properties specific to Amazon ECS-based single-node container-based jobs. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties. This must not be specified for Amazon EKS-based job definitions. If the job runs on Fargate resources, then you must not specify nodeProperties; use only containerProperties.
     public var containerProperties: BatchClientTypes.ContainerProperties?
     /// An object with properties that are specific to Amazon ECS-based jobs. This must not be specified for Amazon EKS-based job definitions.
@@ -4143,6 +4504,7 @@ public struct RegisterJobDefinitionInput: Swift.Sendable {
     public var type: BatchClientTypes.JobDefinitionType?
 
     public init(
+        consumableResourceProperties: BatchClientTypes.ConsumableResourceProperties? = nil,
         containerProperties: BatchClientTypes.ContainerProperties? = nil,
         ecsProperties: BatchClientTypes.EcsProperties? = nil,
         eksProperties: BatchClientTypes.EksProperties? = nil,
@@ -4157,6 +4519,7 @@ public struct RegisterJobDefinitionInput: Swift.Sendable {
         timeout: BatchClientTypes.JobTimeout? = nil,
         type: BatchClientTypes.JobDefinitionType? = nil
     ) {
+        self.consumableResourceProperties = consumableResourceProperties
         self.containerProperties = containerProperties
         self.ecsProperties = ecsProperties
         self.eksProperties = eksProperties
@@ -4366,6 +4729,8 @@ extension BatchClientTypes {
 
     /// The object that represents any node overrides to a job definition that's used in a [SubmitJob](https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html) API operation.
     public struct NodePropertyOverride: Swift.Sendable {
+        /// An object that contains overrides for the consumable resources of a job.
+        public var consumableResourcePropertiesOverride: BatchClientTypes.ConsumableResourceProperties?
         /// The overrides that are sent to a node range.
         public var containerOverrides: BatchClientTypes.ContainerOverrides?
         /// An object that contains the properties that you want to replace for the existing Amazon ECS resources of a job.
@@ -4379,12 +4744,14 @@ extension BatchClientTypes {
         public var targetNodes: Swift.String?
 
         public init(
+            consumableResourcePropertiesOverride: BatchClientTypes.ConsumableResourceProperties? = nil,
             containerOverrides: BatchClientTypes.ContainerOverrides? = nil,
             ecsPropertiesOverride: BatchClientTypes.EcsPropertiesOverride? = nil,
             eksPropertiesOverride: BatchClientTypes.EksPropertiesOverride? = nil,
             instanceTypes: [Swift.String]? = nil,
             targetNodes: Swift.String? = nil
         ) {
+            self.consumableResourcePropertiesOverride = consumableResourcePropertiesOverride
             self.containerOverrides = containerOverrides
             self.ecsPropertiesOverride = ecsPropertiesOverride
             self.eksPropertiesOverride = eksPropertiesOverride
@@ -4423,6 +4790,8 @@ extension BatchClientTypes {
 public struct SubmitJobInput: Swift.Sendable {
     /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. For more information, see [Array Jobs](https://docs.aws.amazon.com/batch/latest/userguide/array_jobs.html) in the Batch User Guide.
     public var arrayProperties: BatchClientTypes.ArrayProperties?
+    /// An object that contains overrides for the consumable resources of a job.
+    public var consumableResourcePropertiesOverride: BatchClientTypes.ConsumableResourceProperties?
     /// An object with properties that override the defaults for the job definition that specify the name of a container in the specified job definition and the overrides it should receive. You can override the default command for a container, which is specified in the job definition or the Docker image, with a command override. You can also override existing environment variables on a container or add new environment variables to it with an environment override.
     public var containerOverrides: BatchClientTypes.ContainerOverrides?
     /// A list of dependencies for the job. A job can depend upon a maximum of 20 jobs. You can specify a SEQUENTIAL type dependency without specifying a job ID for array jobs so that each child array job completes sequentially, starting at index 0. You can also specify an N_TO_N type dependency with a job ID for array jobs. In that case, each index child of this job must wait for the corresponding index child of each dependency to complete before it can begin.
@@ -4459,6 +4828,7 @@ public struct SubmitJobInput: Swift.Sendable {
 
     public init(
         arrayProperties: BatchClientTypes.ArrayProperties? = nil,
+        consumableResourcePropertiesOverride: BatchClientTypes.ConsumableResourceProperties? = nil,
         containerOverrides: BatchClientTypes.ContainerOverrides? = nil,
         dependsOn: [BatchClientTypes.JobDependency]? = nil,
         ecsPropertiesOverride: BatchClientTypes.EcsPropertiesOverride? = nil,
@@ -4476,6 +4846,7 @@ public struct SubmitJobInput: Swift.Sendable {
         timeout: BatchClientTypes.JobTimeout? = nil
     ) {
         self.arrayProperties = arrayProperties
+        self.consumableResourcePropertiesOverride = consumableResourcePropertiesOverride
         self.containerOverrides = containerOverrides
         self.dependsOn = dependsOn
         self.ecsPropertiesOverride = ecsPropertiesOverride
@@ -4747,6 +5118,57 @@ public struct UpdateComputeEnvironmentOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateConsumableResourceInput: Swift.Sendable {
+    /// If this parameter is specified and two update requests with identical payloads and clientTokens are received, these requests are considered the same request and the second request is rejected. A clientToken is valid for 8 hours or until one hour after the consumable resource is deleted, whichever is less.
+    public var clientToken: Swift.String?
+    /// The name or ARN of the consumable resource to be updated.
+    /// This member is required.
+    public var consumableResource: Swift.String?
+    /// Indicates how the quantity of the consumable resource will be updated. Must be one of:
+    ///
+    /// * SET Sets the quantity of the resource to the value specified by the quantity parameter.
+    ///
+    /// * ADD Increases the quantity of the resource by the value specified by the quantity parameter.
+    ///
+    /// * REMOVE Reduces the quantity of the resource by the value specified by the quantity parameter.
+    public var operation: Swift.String?
+    /// The change in the total quantity of the consumable resource. The operation parameter determines whether the value specified here will be the new total quantity, or the amount by which the total quantity will be increased or reduced. Must be a non-negative value.
+    public var quantity: Swift.Int?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        consumableResource: Swift.String? = nil,
+        operation: Swift.String? = nil,
+        quantity: Swift.Int? = nil
+    ) {
+        self.clientToken = clientToken
+        self.consumableResource = consumableResource
+        self.operation = operation
+        self.quantity = quantity
+    }
+}
+
+public struct UpdateConsumableResourceOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the consumable resource.
+    /// This member is required.
+    public var consumableResourceArn: Swift.String?
+    /// The name of the consumable resource to be updated.
+    /// This member is required.
+    public var consumableResourceName: Swift.String?
+    /// The total amount of the consumable resource that is available.
+    public var totalQuantity: Swift.Int?
+
+    public init(
+        consumableResourceArn: Swift.String? = nil,
+        consumableResourceName: Swift.String? = nil,
+        totalQuantity: Swift.Int? = nil
+    ) {
+        self.consumableResourceArn = consumableResourceArn
+        self.consumableResourceName = consumableResourceName
+        self.totalQuantity = totalQuantity
+    }
+}
+
 /// Contains the parameters for UpdateJobQueue.
 public struct UpdateJobQueueInput: Swift.Sendable {
     /// Details the set of compute environments mapped to a job queue and their order relative to each other. This is one of the parameters used by the job scheduler to determine which compute environment runs a given job. Compute environments must be in the VALID state before you can associate them with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed. All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mixing compute environment architecture types in a single job queue.
@@ -4831,6 +5253,13 @@ extension CreateComputeEnvironmentInput {
     }
 }
 
+extension CreateConsumableResourceInput {
+
+    static func urlPathProvider(_ value: CreateConsumableResourceInput) -> Swift.String? {
+        return "/v1/createconsumableresource"
+    }
+}
+
 extension CreateJobQueueInput {
 
     static func urlPathProvider(_ value: CreateJobQueueInput) -> Swift.String? {
@@ -4849,6 +5278,13 @@ extension DeleteComputeEnvironmentInput {
 
     static func urlPathProvider(_ value: DeleteComputeEnvironmentInput) -> Swift.String? {
         return "/v1/deletecomputeenvironment"
+    }
+}
+
+extension DeleteConsumableResourceInput {
+
+    static func urlPathProvider(_ value: DeleteConsumableResourceInput) -> Swift.String? {
+        return "/v1/deleteconsumableresource"
     }
 }
 
@@ -4877,6 +5313,13 @@ extension DescribeComputeEnvironmentsInput {
 
     static func urlPathProvider(_ value: DescribeComputeEnvironmentsInput) -> Swift.String? {
         return "/v1/describecomputeenvironments"
+    }
+}
+
+extension DescribeConsumableResourceInput {
+
+    static func urlPathProvider(_ value: DescribeConsumableResourceInput) -> Swift.String? {
+        return "/v1/describeconsumableresource"
     }
 }
 
@@ -4915,10 +5358,24 @@ extension GetJobQueueSnapshotInput {
     }
 }
 
+extension ListConsumableResourcesInput {
+
+    static func urlPathProvider(_ value: ListConsumableResourcesInput) -> Swift.String? {
+        return "/v1/listconsumableresources"
+    }
+}
+
 extension ListJobsInput {
 
     static func urlPathProvider(_ value: ListJobsInput) -> Swift.String? {
         return "/v1/listjobs"
+    }
+}
+
+extension ListJobsByConsumableResourceInput {
+
+    static func urlPathProvider(_ value: ListJobsByConsumableResourceInput) -> Swift.String? {
+        return "/v1/listjobsbyconsumableresource"
     }
 }
 
@@ -5003,6 +5460,13 @@ extension UpdateComputeEnvironmentInput {
     }
 }
 
+extension UpdateConsumableResourceInput {
+
+    static func urlPathProvider(_ value: UpdateConsumableResourceInput) -> Swift.String? {
+        return "/v1/updateconsumableresource"
+    }
+}
+
 extension UpdateJobQueueInput {
 
     static func urlPathProvider(_ value: UpdateJobQueueInput) -> Swift.String? {
@@ -5042,6 +5506,17 @@ extension CreateComputeEnvironmentInput {
     }
 }
 
+extension CreateConsumableResourceInput {
+
+    static func write(value: CreateConsumableResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResourceName"].write(value.consumableResourceName)
+        try writer["resourceType"].write(value.resourceType)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["totalQuantity"].write(value.totalQuantity)
+    }
+}
+
 extension CreateJobQueueInput {
 
     static func write(value: CreateJobQueueInput?, to writer: SmithyJSON.Writer) throws {
@@ -5071,6 +5546,14 @@ extension DeleteComputeEnvironmentInput {
     static func write(value: DeleteComputeEnvironmentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["computeEnvironment"].write(value.computeEnvironment)
+    }
+}
+
+extension DeleteConsumableResourceInput {
+
+    static func write(value: DeleteConsumableResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResource"].write(value.consumableResource)
     }
 }
 
@@ -5105,6 +5588,14 @@ extension DescribeComputeEnvironmentsInput {
         try writer["computeEnvironments"].writeList(value.computeEnvironments, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension DescribeConsumableResourceInput {
+
+    static func write(value: DescribeConsumableResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResource"].write(value.consumableResource)
     }
 }
 
@@ -5154,6 +5645,16 @@ extension GetJobQueueSnapshotInput {
     }
 }
 
+extension ListConsumableResourcesInput {
+
+    static func write(value: ListConsumableResourcesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: BatchClientTypes.KeyValuesPair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension ListJobsInput {
 
     static func write(value: ListJobsInput?, to writer: SmithyJSON.Writer) throws {
@@ -5164,6 +5665,17 @@ extension ListJobsInput {
         try writer["jobStatus"].write(value.jobStatus)
         try writer["maxResults"].write(value.maxResults)
         try writer["multiNodeJobId"].write(value.multiNodeJobId)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListJobsByConsumableResourceInput {
+
+    static func write(value: ListJobsByConsumableResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResource"].write(value.consumableResource)
+        try writer["filters"].writeList(value.filters, memberWritingClosure: BatchClientTypes.KeyValuesPair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
 }
@@ -5181,6 +5693,7 @@ extension RegisterJobDefinitionInput {
 
     static func write(value: RegisterJobDefinitionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["consumableResourceProperties"].write(value.consumableResourceProperties, with: BatchClientTypes.ConsumableResourceProperties.write(value:to:))
         try writer["containerProperties"].write(value.containerProperties, with: BatchClientTypes.ContainerProperties.write(value:to:))
         try writer["ecsProperties"].write(value.ecsProperties, with: BatchClientTypes.EcsProperties.write(value:to:))
         try writer["eksProperties"].write(value.eksProperties, with: BatchClientTypes.EksProperties.write(value:to:))
@@ -5202,6 +5715,7 @@ extension SubmitJobInput {
     static func write(value: SubmitJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["arrayProperties"].write(value.arrayProperties, with: BatchClientTypes.ArrayProperties.write(value:to:))
+        try writer["consumableResourcePropertiesOverride"].write(value.consumableResourcePropertiesOverride, with: BatchClientTypes.ConsumableResourceProperties.write(value:to:))
         try writer["containerOverrides"].write(value.containerOverrides, with: BatchClientTypes.ContainerOverrides.write(value:to:))
         try writer["dependsOn"].writeList(value.dependsOn, memberWritingClosure: BatchClientTypes.JobDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecsPropertiesOverride"].write(value.ecsPropertiesOverride, with: BatchClientTypes.EcsPropertiesOverride.write(value:to:))
@@ -5251,6 +5765,17 @@ extension UpdateComputeEnvironmentInput {
     }
 }
 
+extension UpdateConsumableResourceInput {
+
+    static func write(value: UpdateConsumableResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["consumableResource"].write(value.consumableResource)
+        try writer["operation"].write(value.operation)
+        try writer["quantity"].write(value.quantity)
+    }
+}
+
 extension UpdateJobQueueInput {
 
     static func write(value: UpdateJobQueueInput?, to writer: SmithyJSON.Writer) throws {
@@ -5293,6 +5818,19 @@ extension CreateComputeEnvironmentOutput {
     }
 }
 
+extension CreateConsumableResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConsumableResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateConsumableResourceOutput()
+        value.consumableResourceArn = try reader["consumableResourceArn"].readIfPresent() ?? ""
+        value.consumableResourceName = try reader["consumableResourceName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateJobQueueOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateJobQueueOutput {
@@ -5326,6 +5864,13 @@ extension DeleteComputeEnvironmentOutput {
     }
 }
 
+extension DeleteConsumableResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConsumableResourceOutput {
+        return DeleteConsumableResourceOutput()
+    }
+}
+
 extension DeleteJobQueueOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteJobQueueOutput {
@@ -5356,6 +5901,25 @@ extension DescribeComputeEnvironmentsOutput {
         var value = DescribeComputeEnvironmentsOutput()
         value.computeEnvironments = try reader["computeEnvironments"].readListIfPresent(memberReadingClosure: BatchClientTypes.ComputeEnvironmentDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeConsumableResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeConsumableResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeConsumableResourceOutput()
+        value.availableQuantity = try reader["availableQuantity"].readIfPresent()
+        value.consumableResourceArn = try reader["consumableResourceArn"].readIfPresent() ?? ""
+        value.consumableResourceName = try reader["consumableResourceName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readIfPresent()
+        value.inUseQuantity = try reader["inUseQuantity"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.totalQuantity = try reader["totalQuantity"].readIfPresent()
         return value
     }
 }
@@ -5422,6 +5986,19 @@ extension GetJobQueueSnapshotOutput {
     }
 }
 
+extension ListConsumableResourcesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConsumableResourcesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConsumableResourcesOutput()
+        value.consumableResources = try reader["consumableResources"].readListIfPresent(memberReadingClosure: BatchClientTypes.ConsumableResourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListJobsOutput {
@@ -5430,6 +6007,19 @@ extension ListJobsOutput {
         let reader = responseReader
         var value = ListJobsOutput()
         value.jobSummaryList = try reader["jobSummaryList"].readListIfPresent(memberReadingClosure: BatchClientTypes.JobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListJobsByConsumableResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListJobsByConsumableResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListJobsByConsumableResourceOutput()
+        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: BatchClientTypes.ListJobsByConsumableResourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5522,6 +6112,20 @@ extension UpdateComputeEnvironmentOutput {
     }
 }
 
+extension UpdateConsumableResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConsumableResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateConsumableResourceOutput()
+        value.consumableResourceArn = try reader["consumableResourceArn"].readIfPresent() ?? ""
+        value.consumableResourceName = try reader["consumableResourceName"].readIfPresent() ?? ""
+        value.totalQuantity = try reader["totalQuantity"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateJobQueueOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateJobQueueOutput {
@@ -5572,6 +6176,21 @@ enum CreateComputeEnvironmentOutputError {
     }
 }
 
+enum CreateConsumableResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateJobQueueOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5603,6 +6222,21 @@ enum CreateSchedulingPolicyOutputError {
 }
 
 enum DeleteComputeEnvironmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteConsumableResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5663,6 +6297,21 @@ enum DeregisterJobDefinitionOutputError {
 }
 
 enum DescribeComputeEnvironmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeConsumableResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5752,7 +6401,37 @@ enum GetJobQueueSnapshotOutputError {
     }
 }
 
+enum ListConsumableResourcesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListJobsByConsumableResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5873,6 +6552,21 @@ enum UntagResourceOutputError {
 }
 
 enum UpdateComputeEnvironmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateConsumableResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6132,6 +6826,39 @@ extension BatchClientTypes.JobDefinition {
         value.ecsProperties = try reader["ecsProperties"].readIfPresent(with: BatchClientTypes.EcsProperties.read(from:))
         value.eksProperties = try reader["eksProperties"].readIfPresent(with: BatchClientTypes.EksProperties.read(from:))
         value.containerOrchestrationType = try reader["containerOrchestrationType"].readIfPresent()
+        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
+        return value
+    }
+}
+
+extension BatchClientTypes.ConsumableResourceProperties {
+
+    static func write(value: BatchClientTypes.ConsumableResourceProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResourceList"].writeList(value.consumableResourceList, memberWritingClosure: BatchClientTypes.ConsumableResourceRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ConsumableResourceProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ConsumableResourceProperties()
+        value.consumableResourceList = try reader["consumableResourceList"].readListIfPresent(memberReadingClosure: BatchClientTypes.ConsumableResourceRequirement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.ConsumableResourceRequirement {
+
+    static func write(value: BatchClientTypes.ConsumableResourceRequirement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumableResource"].write(value.consumableResource)
+        try writer["quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ConsumableResourceRequirement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ConsumableResourceRequirement()
+        value.consumableResource = try reader["consumableResource"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
         return value
     }
 }
@@ -6856,6 +7583,7 @@ extension BatchClientTypes.NodeRangeProperty {
 
     static func write(value: BatchClientTypes.NodeRangeProperty?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["consumableResourceProperties"].write(value.consumableResourceProperties, with: BatchClientTypes.ConsumableResourceProperties.write(value:to:))
         try writer["container"].write(value.container, with: BatchClientTypes.ContainerProperties.write(value:to:))
         try writer["ecsProperties"].write(value.ecsProperties, with: BatchClientTypes.EcsProperties.write(value:to:))
         try writer["eksProperties"].write(value.eksProperties, with: BatchClientTypes.EksProperties.write(value:to:))
@@ -6871,6 +7599,7 @@ extension BatchClientTypes.NodeRangeProperty {
         value.instanceTypes = try reader["instanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ecsProperties = try reader["ecsProperties"].readIfPresent(with: BatchClientTypes.EcsProperties.read(from:))
         value.eksProperties = try reader["eksProperties"].readIfPresent(with: BatchClientTypes.EksProperties.read(from:))
+        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
         return value
     }
 }
@@ -7093,6 +7822,7 @@ extension BatchClientTypes.JobDetail {
         value.ecsProperties = try reader["ecsProperties"].readIfPresent(with: BatchClientTypes.EcsPropertiesDetail.read(from:))
         value.isCancelled = try reader["isCancelled"].readIfPresent()
         value.isTerminated = try reader["isTerminated"].readIfPresent()
+        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
         return value
     }
 }
@@ -7454,6 +8184,20 @@ extension BatchClientTypes.FrontOfQueueJobSummary {
     }
 }
 
+extension BatchClientTypes.ConsumableResourceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ConsumableResourceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ConsumableResourceSummary()
+        value.consumableResourceArn = try reader["consumableResourceArn"].readIfPresent() ?? ""
+        value.consumableResourceName = try reader["consumableResourceName"].readIfPresent() ?? ""
+        value.totalQuantity = try reader["totalQuantity"].readIfPresent()
+        value.inUseQuantity = try reader["inUseQuantity"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        return value
+    }
+}
+
 extension BatchClientTypes.JobSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobSummary {
@@ -7505,6 +8249,26 @@ extension BatchClientTypes.ContainerSummary {
         var value = BatchClientTypes.ContainerSummary()
         value.exitCode = try reader["exitCode"].readIfPresent()
         value.reason = try reader["reason"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ListJobsByConsumableResourceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ListJobsByConsumableResourceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ListJobsByConsumableResourceSummary()
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobQueueArn = try reader["jobQueueArn"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.jobDefinitionArn = try reader["jobDefinitionArn"].readIfPresent()
+        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? ""
+        value.quantity = try reader["quantity"].readIfPresent() ?? 0
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readIfPresent() ?? 0
+        value.consumableResourceProperties = try reader["consumableResourceProperties"].readIfPresent(with: BatchClientTypes.ConsumableResourceProperties.read(from:))
         return value
     }
 }
@@ -7562,6 +8326,7 @@ extension BatchClientTypes.NodePropertyOverride {
 
     static func write(value: BatchClientTypes.NodePropertyOverride?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["consumableResourcePropertiesOverride"].write(value.consumableResourcePropertiesOverride, with: BatchClientTypes.ConsumableResourceProperties.write(value:to:))
         try writer["containerOverrides"].write(value.containerOverrides, with: BatchClientTypes.ContainerOverrides.write(value:to:))
         try writer["ecsPropertiesOverride"].write(value.ecsPropertiesOverride, with: BatchClientTypes.EcsPropertiesOverride.write(value:to:))
         try writer["eksPropertiesOverride"].write(value.eksPropertiesOverride, with: BatchClientTypes.EksPropertiesOverride.write(value:to:))

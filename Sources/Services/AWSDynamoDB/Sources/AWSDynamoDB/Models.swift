@@ -9546,6 +9546,7 @@ extension PutResourcePolicyInput {
 
     static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ConfirmRemoveSelfResourceAccess"].write(value.confirmRemoveSelfResourceAccess)
         try writer["ExpectedRevisionId"].write(value.expectedRevisionId)
         try writer["Policy"].write(value.policy)
         try writer["ResourceArn"].write(value.resourceArn)

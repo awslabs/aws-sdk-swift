@@ -72,6 +72,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSDKIdentity](../../../../../swift/api/awssdkidentity/latest)
 
+[AWSSDKPartitions](../../../../../swift/api/awssdkpartitions/latest)
+
 
 ## Service Documentation
 
@@ -352,8 +354,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSElastiCache](../../../../../swift/api/awselasticache/latest)
 
 [AWSElasticBeanstalk](../../../../../swift/api/awselasticbeanstalk/latest)
-
-[AWSElasticInference](../../../../../swift/api/awselasticinference/latest)
 
 [AWSElasticLoadBalancing](../../../../../swift/api/awselasticloadbalancing/latest)
 
