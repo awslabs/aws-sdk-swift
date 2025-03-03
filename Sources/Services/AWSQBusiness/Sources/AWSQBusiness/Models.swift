@@ -2050,6 +2050,51 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
+    public enum AudioExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioExtractionStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Configuration settings for audio content extraction and processing.
+    public struct AudioExtractionConfiguration: Swift.Sendable {
+        /// The status of audio extraction (ENABLED or DISABLED) for processing audio content from files.
+        /// This member is required.
+        public var audioExtractionStatus: QBusinessClientTypes.AudioExtractionStatus?
+
+        public init(
+            audioExtractionStatus: QBusinessClientTypes.AudioExtractionStatus? = nil
+        ) {
+            self.audioExtractionStatus = audioExtractionStatus
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
     public enum ImageExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -2095,15 +2140,68 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
-    /// The configuration for extracting information from media in documents.
-    public struct MediaExtractionConfiguration: Swift.Sendable {
-        /// The configuration for extracting semantic meaning from images in documents. For more information, see [Extracting semantic meaning from images and visuals](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/extracting-meaning-from-images.html).
-        public var imageExtractionConfiguration: QBusinessClientTypes.ImageExtractionConfiguration?
+    public enum VideoExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoExtractionStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Configuration settings for video content extraction and processing.
+    public struct VideoExtractionConfiguration: Swift.Sendable {
+        /// The status of video extraction (ENABLED or DISABLED) for processing video content from files.
+        /// This member is required.
+        public var videoExtractionStatus: QBusinessClientTypes.VideoExtractionStatus?
 
         public init(
-            imageExtractionConfiguration: QBusinessClientTypes.ImageExtractionConfiguration? = nil
+            videoExtractionStatus: QBusinessClientTypes.VideoExtractionStatus? = nil
         ) {
+            self.videoExtractionStatus = videoExtractionStatus
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// The configuration for extracting information from media in documents.
+    public struct MediaExtractionConfiguration: Swift.Sendable {
+        /// Configuration settings for extracting and processing audio content from media files.
+        public var audioExtractionConfiguration: QBusinessClientTypes.AudioExtractionConfiguration?
+        /// The configuration for extracting semantic meaning from images in documents. For more information, see [Extracting semantic meaning from images and visuals](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/extracting-meaning-from-images.html).
+        public var imageExtractionConfiguration: QBusinessClientTypes.ImageExtractionConfiguration?
+        /// Configuration settings for extracting and processing video content from media files.
+        public var videoExtractionConfiguration: QBusinessClientTypes.VideoExtractionConfiguration?
+
+        public init(
+            audioExtractionConfiguration: QBusinessClientTypes.AudioExtractionConfiguration? = nil,
+            imageExtractionConfiguration: QBusinessClientTypes.ImageExtractionConfiguration? = nil,
+            videoExtractionConfiguration: QBusinessClientTypes.VideoExtractionConfiguration? = nil
+        ) {
+            self.audioExtractionConfiguration = audioExtractionConfiguration
             self.imageExtractionConfiguration = imageExtractionConfiguration
+            self.videoExtractionConfiguration = videoExtractionConfiguration
         }
     }
 }
@@ -4834,6 +4932,66 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
+    public enum AudioExtractionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case summary
+        case transcript
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioExtractionType] {
+            return [
+                .summary,
+                .transcript
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .summary: return "SUMMARY"
+            case .transcript: return "TRANSCRIPT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Details about an audio source, including its identifier, format, and time information.
+    public struct AudioSourceDetails: Swift.Sendable {
+        /// The type of audio extraction performed on the content.
+        public var audioExtractionType: QBusinessClientTypes.AudioExtractionType?
+        /// The ending timestamp in milliseconds for the relevant audio segment.
+        public var endTimeMilliseconds: Swift.Int?
+        /// Unique identifier for the audio media file.
+        public var mediaId: Swift.String?
+        /// The MIME type of the audio file (e.g., audio/mp3, audio/wav).
+        public var mediaMimeType: Swift.String?
+        /// The starting timestamp in milliseconds for the relevant audio segment.
+        public var startTimeMilliseconds: Swift.Int?
+
+        public init(
+            audioExtractionType: QBusinessClientTypes.AudioExtractionType? = nil,
+            endTimeMilliseconds: Swift.Int? = nil,
+            mediaId: Swift.String? = nil,
+            mediaMimeType: Swift.String? = nil,
+            startTimeMilliseconds: Swift.Int? = nil
+        ) {
+            self.audioExtractionType = audioExtractionType
+            self.endTimeMilliseconds = endTimeMilliseconds
+            self.mediaId = mediaId
+            self.mediaMimeType = mediaMimeType
+            self.startTimeMilliseconds = startTimeMilliseconds
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
     /// A request made by Amazon Q Business to a third paty authentication server to authenticate a custom plugin user.
     public struct AuthChallengeRequest: Swift.Sendable {
         /// The URL sent by Amazon Q Business to the third party authentication server to authenticate a custom plugin user through an OAuth protocol.
@@ -5396,6 +5554,99 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
+    /// Details about an image source, including its identifier and format.
+    public struct ImageSourceDetails: Swift.Sendable {
+        /// Unique identifier for the image file.
+        public var mediaId: Swift.String?
+        /// The MIME type of the image file.
+        public var mediaMimeType: Swift.String?
+
+        public init(
+            mediaId: Swift.String? = nil,
+            mediaMimeType: Swift.String? = nil
+        ) {
+            self.mediaId = mediaId
+            self.mediaMimeType = mediaMimeType
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    public enum VideoExtractionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case summary
+        case transcript
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoExtractionType] {
+            return [
+                .summary,
+                .transcript
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .summary: return "SUMMARY"
+            case .transcript: return "TRANSCRIPT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Details about a video source, including its identifier, format, and time information.
+    public struct VideoSourceDetails: Swift.Sendable {
+        /// The ending timestamp in milliseconds for the relevant video segment.
+        public var endTimeMilliseconds: Swift.Int?
+        /// Unique identifier for the video media file.
+        public var mediaId: Swift.String?
+        /// The MIME type of the video file (e.g., video/mp4, video/avi).
+        public var mediaMimeType: Swift.String?
+        /// The starting timestamp in milliseconds for the relevant video segment.
+        public var startTimeMilliseconds: Swift.Int?
+        /// The type of video extraction performed on the content.
+        public var videoExtractionType: QBusinessClientTypes.VideoExtractionType?
+
+        public init(
+            endTimeMilliseconds: Swift.Int? = nil,
+            mediaId: Swift.String? = nil,
+            mediaMimeType: Swift.String? = nil,
+            startTimeMilliseconds: Swift.Int? = nil,
+            videoExtractionType: QBusinessClientTypes.VideoExtractionType? = nil
+        ) {
+            self.endTimeMilliseconds = endTimeMilliseconds
+            self.mediaId = mediaId
+            self.mediaMimeType = mediaMimeType
+            self.startTimeMilliseconds = startTimeMilliseconds
+            self.videoExtractionType = videoExtractionType
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Container for details about different types of media sources (image, audio, or video).
+    public enum SourceDetails: Swift.Sendable {
+        /// Details specific to image content within the source.
+        case imagesourcedetails(QBusinessClientTypes.ImageSourceDetails)
+        /// Details specific to audio content within the source.
+        case audiosourcedetails(QBusinessClientTypes.AudioSourceDetails)
+        /// Details specific to video content within the source.
+        case videosourcedetails(QBusinessClientTypes.VideoSourceDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QBusinessClientTypes {
+
     /// Provides information about a text extract in a chat response that can be attributed to a source document.
     public struct TextSegment: Swift.Sendable {
         /// The zero-based location in the response string where the source attribution starts.
@@ -5403,24 +5654,30 @@ extension QBusinessClientTypes {
         /// The zero-based location in the response string where the source attribution ends.
         public var endOffset: Swift.Int?
         /// The identifier of the media object associated with the text segment in the source attribution.
+        @available(*, deprecated, message: "Deprecated in favor of using mediaId within the respective sourceDetails field. API deprecated since 2025-02-28")
         public var mediaId: Swift.String?
         /// The MIME type (image/png) of the media object associated with the text segment in the source attribution.
+        @available(*, deprecated, message: "Deprecated in favor of using mediaMimeType within the respective sourceDetails field. API deprecated since 2025-02-28")
         public var mediaMimeType: Swift.String?
         /// The relevant text excerpt from a source that was used to generate a citation text segment in an Amazon Q Business chat response.
         public var snippetExcerpt: QBusinessClientTypes.SnippetExcerpt?
+        /// Source information for a segment of extracted text, including its media type.
+        public var sourceDetails: QBusinessClientTypes.SourceDetails?
 
         public init(
             beginOffset: Swift.Int? = nil,
             endOffset: Swift.Int? = nil,
             mediaId: Swift.String? = nil,
             mediaMimeType: Swift.String? = nil,
-            snippetExcerpt: QBusinessClientTypes.SnippetExcerpt? = nil
+            snippetExcerpt: QBusinessClientTypes.SnippetExcerpt? = nil,
+            sourceDetails: QBusinessClientTypes.SourceDetails? = nil
         ) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.mediaId = mediaId
             self.mediaMimeType = mediaMimeType
             self.snippetExcerpt = snippetExcerpt
+            self.sourceDetails = sourceDetails
         }
     }
 }
@@ -12605,6 +12862,64 @@ extension QBusinessClientTypes.TextSegment {
         value.snippetExcerpt = try reader["snippetExcerpt"].readIfPresent(with: QBusinessClientTypes.SnippetExcerpt.read(from:))
         value.mediaId = try reader["mediaId"].readIfPresent()
         value.mediaMimeType = try reader["mediaMimeType"].readIfPresent()
+        value.sourceDetails = try reader["sourceDetails"].readIfPresent(with: QBusinessClientTypes.SourceDetails.read(from:))
+        return value
+    }
+}
+
+extension QBusinessClientTypes.SourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.SourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "imageSourceDetails":
+                return .imagesourcedetails(try reader["imageSourceDetails"].read(with: QBusinessClientTypes.ImageSourceDetails.read(from:)))
+            case "audioSourceDetails":
+                return .audiosourcedetails(try reader["audioSourceDetails"].read(with: QBusinessClientTypes.AudioSourceDetails.read(from:)))
+            case "videoSourceDetails":
+                return .videosourcedetails(try reader["videoSourceDetails"].read(with: QBusinessClientTypes.VideoSourceDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QBusinessClientTypes.VideoSourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.VideoSourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.VideoSourceDetails()
+        value.mediaId = try reader["mediaId"].readIfPresent()
+        value.mediaMimeType = try reader["mediaMimeType"].readIfPresent()
+        value.startTimeMilliseconds = try reader["startTimeMilliseconds"].readIfPresent()
+        value.endTimeMilliseconds = try reader["endTimeMilliseconds"].readIfPresent()
+        value.videoExtractionType = try reader["videoExtractionType"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.AudioSourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AudioSourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.AudioSourceDetails()
+        value.mediaId = try reader["mediaId"].readIfPresent()
+        value.mediaMimeType = try reader["mediaMimeType"].readIfPresent()
+        value.startTimeMilliseconds = try reader["startTimeMilliseconds"].readIfPresent()
+        value.endTimeMilliseconds = try reader["endTimeMilliseconds"].readIfPresent()
+        value.audioExtractionType = try reader["audioExtractionType"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.ImageSourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.ImageSourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.ImageSourceDetails()
+        value.mediaId = try reader["mediaId"].readIfPresent()
+        value.mediaMimeType = try reader["mediaMimeType"].readIfPresent()
         return value
     }
 }
@@ -13143,13 +13458,47 @@ extension QBusinessClientTypes.MediaExtractionConfiguration {
 
     static func write(value: QBusinessClientTypes.MediaExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioExtractionConfiguration"].write(value.audioExtractionConfiguration, with: QBusinessClientTypes.AudioExtractionConfiguration.write(value:to:))
         try writer["imageExtractionConfiguration"].write(value.imageExtractionConfiguration, with: QBusinessClientTypes.ImageExtractionConfiguration.write(value:to:))
+        try writer["videoExtractionConfiguration"].write(value.videoExtractionConfiguration, with: QBusinessClientTypes.VideoExtractionConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.MediaExtractionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.MediaExtractionConfiguration()
         value.imageExtractionConfiguration = try reader["imageExtractionConfiguration"].readIfPresent(with: QBusinessClientTypes.ImageExtractionConfiguration.read(from:))
+        value.audioExtractionConfiguration = try reader["audioExtractionConfiguration"].readIfPresent(with: QBusinessClientTypes.AudioExtractionConfiguration.read(from:))
+        value.videoExtractionConfiguration = try reader["videoExtractionConfiguration"].readIfPresent(with: QBusinessClientTypes.VideoExtractionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QBusinessClientTypes.VideoExtractionConfiguration {
+
+    static func write(value: QBusinessClientTypes.VideoExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["videoExtractionStatus"].write(value.videoExtractionStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.VideoExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.VideoExtractionConfiguration()
+        value.videoExtractionStatus = try reader["videoExtractionStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QBusinessClientTypes.AudioExtractionConfiguration {
+
+    static func write(value: QBusinessClientTypes.AudioExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioExtractionStatus"].write(value.audioExtractionStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AudioExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.AudioExtractionConfiguration()
+        value.audioExtractionStatus = try reader["audioExtractionStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

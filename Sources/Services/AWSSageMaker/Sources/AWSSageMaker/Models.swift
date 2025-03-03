@@ -14443,7 +14443,13 @@ extension SageMakerClientTypes {
 
     /// The KernelGateway app settings.
     public struct KernelGatewayAppSettings: Swift.Sendable {
-        /// A list of custom SageMaker AI images that are configured to run as a KernelGateway app.
+        /// A list of custom SageMaker AI images that are configured to run as a KernelGateway app. The maximum number of custom images are as follows.
+        ///
+        /// * On a domain level: 200
+        ///
+        /// * On a space level: 5
+        ///
+        /// * On a user profile level: 5
         public var customImages: [SageMakerClientTypes.CustomImage]?
         /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker AI image used by the KernelGateway app. The Amazon SageMaker AI Studio UI does not use the default instance type value set here. The default instance type set here is used when Apps are created using the CLI or CloudFormation and the instance type parameter value is not passed.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
@@ -15183,14 +15189,18 @@ public struct CreateDomainInput: Swift.Sendable {
 public struct CreateDomainOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the created domain.
     public var domainArn: Swift.String?
+    /// The ID of the created domain.
+    public var domainId: Swift.String?
     /// The URL to the created domain.
     public var url: Swift.String?
 
     public init(
         domainArn: Swift.String? = nil,
+        domainId: Swift.String? = nil,
         url: Swift.String? = nil
     ) {
         self.domainArn = domainArn
+        self.domainId = domainId
         self.url = url
     }
 }
@@ -58393,6 +58403,7 @@ extension CreateDomainOutput {
         let reader = responseReader
         var value = CreateDomainOutput()
         value.domainArn = try reader["DomainArn"].readIfPresent()
+        value.domainId = try reader["DomainId"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
         return value
     }
