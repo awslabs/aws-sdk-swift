@@ -451,6 +451,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSIoTJobsDataPlane](../../../../../swift/api/awsiotjobsdataplane/latest)
 
+[AWSIoTManagedIntegrations](../../../../../swift/api/awsiotmanagedintegrations/latest)
+
 [AWSIoTSecureTunneling](../../../../../swift/api/awsiotsecuretunneling/latest)
 
 [AWSIoTSiteWise](../../../../../swift/api/awsiotsitewise/latest)

@@ -3195,7 +3195,7 @@ public struct InvalidCacheParameterGroupStateFault: ClientRuntime.ModeledError, 
 
 /// Represents the input of a CreateCacheParameterGroup operation.
 public struct CreateCacheParameterGroupInput: Swift.Sendable {
-    /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
+    /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: valkey8 | valkey7 | memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
     /// This member is required.
     public var cacheParameterGroupFamily: Swift.String?
     /// A user-specified name for the cache parameter group.
@@ -5112,7 +5112,7 @@ public struct DecreaseReplicaCountInput: Swift.Sendable {
     ///
     /// * Valkey or Redis OSS (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)
     public var newReplicaCount: Swift.Int?
-    /// A list of ConfigureShard objects that can be used to configure each shard in a Valkey or Redis OSS (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
+    /// A list of ConfigureShard objects that can be used to configure each shard in a Valkey or Redis OSS replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
     public var replicaConfiguration: [ElastiCacheClientTypes.ConfigureShard]?
     /// A list of the node ids to remove from the replication group or node group (shard).
     public var replicasToRemove: [Swift.String]?

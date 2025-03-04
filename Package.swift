@@ -210,6 +210,7 @@ let serviceTargets: [String] = [
     "AWSIoTFleetHub",
     "AWSIoTFleetWise",
     "AWSIoTJobsDataPlane",
+    "AWSIoTManagedIntegrations",
     "AWSIoTSecureTunneling",
     "AWSIoTSiteWise",
     "AWSIoTThingsGraph",
