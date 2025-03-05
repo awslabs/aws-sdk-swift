@@ -5416,6 +5416,8 @@ extension WorkSpacesClientTypes {
         public var deviceTypeWeb: WorkSpacesClientTypes.AccessPropertyValue?
         /// Indicates whether users can use Windows clients to access their WorkSpaces.
         public var deviceTypeWindows: WorkSpacesClientTypes.AccessPropertyValue?
+        /// Indicates whether users can access their WorkSpaces through a WorkSpaces Thin Client.
+        public var deviceTypeWorkSpacesThinClient: WorkSpacesClientTypes.AccessPropertyValue?
         /// Indicates whether users can use zero client devices to access their WorkSpaces.
         public var deviceTypeZeroClient: WorkSpacesClientTypes.AccessPropertyValue?
 
@@ -5427,6 +5429,7 @@ extension WorkSpacesClientTypes {
             deviceTypeOsx: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeWeb: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeWindows: WorkSpacesClientTypes.AccessPropertyValue? = nil,
+            deviceTypeWorkSpacesThinClient: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeZeroClient: WorkSpacesClientTypes.AccessPropertyValue? = nil
         ) {
             self.deviceTypeAndroid = deviceTypeAndroid
@@ -5436,6 +5439,7 @@ extension WorkSpacesClientTypes {
             self.deviceTypeOsx = deviceTypeOsx
             self.deviceTypeWeb = deviceTypeWeb
             self.deviceTypeWindows = deviceTypeWindows
+            self.deviceTypeWorkSpacesThinClient = deviceTypeWorkSpacesThinClient
             self.deviceTypeZeroClient = deviceTypeZeroClient
         }
     }
@@ -12841,6 +12845,7 @@ extension WorkSpacesClientTypes.WorkspaceAccessProperties {
         try writer["DeviceTypeOsx"].write(value.deviceTypeOsx)
         try writer["DeviceTypeWeb"].write(value.deviceTypeWeb)
         try writer["DeviceTypeWindows"].write(value.deviceTypeWindows)
+        try writer["DeviceTypeWorkSpacesThinClient"].write(value.deviceTypeWorkSpacesThinClient)
         try writer["DeviceTypeZeroClient"].write(value.deviceTypeZeroClient)
     }
 
@@ -12855,6 +12860,7 @@ extension WorkSpacesClientTypes.WorkspaceAccessProperties {
         value.deviceTypeChromeOs = try reader["DeviceTypeChromeOs"].readIfPresent()
         value.deviceTypeZeroClient = try reader["DeviceTypeZeroClient"].readIfPresent()
         value.deviceTypeLinux = try reader["DeviceTypeLinux"].readIfPresent()
+        value.deviceTypeWorkSpacesThinClient = try reader["DeviceTypeWorkSpacesThinClient"].readIfPresent()
         return value
     }
 }

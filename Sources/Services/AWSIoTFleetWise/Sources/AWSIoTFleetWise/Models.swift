@@ -2173,6 +2173,35 @@ extension IoTFleetWiseClientTypes {
 
 extension IoTFleetWiseClientTypes {
 
+    public enum SignalValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case floatingPoint
+        case integer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SignalValueType] {
+            return [
+                .floatingPoint,
+                .integer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .floatingPoint: return "FLOATING_POINT"
+            case .integer: return "INTEGER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
     /// Information about a single controller area network (CAN) signal and the messages it receives and transmits.
     public struct CanSignal: Swift.Sendable {
         /// A multiplier used to decode the CAN message.
@@ -2181,7 +2210,7 @@ extension IoTFleetWiseClientTypes {
         /// Whether the byte ordering of a CAN message is big-endian.
         /// This member is required.
         public var isBigEndian: Swift.Bool
-        /// Whether the message data is specified as a signed value.
+        /// Determines whether the message is signed (true) or not (false). If it's signed, the message can represent both positive and negative numbers. The isSigned parameter only applies to the INTEGER raw signal type, and it doesn't affect the FLOATING_POINT raw signal type.
         /// This member is required.
         public var isSigned: Swift.Bool
         /// How many bytes of data are in the message.
@@ -2195,6 +2224,8 @@ extension IoTFleetWiseClientTypes {
         /// The offset used to calculate the signal value. Combined with factor, the calculation is value = raw_value * factor + offset.
         /// This member is required.
         public var offset: Swift.Double?
+        /// The value type of the signal. The default value is INTEGER.
+        public var signalValueType: IoTFleetWiseClientTypes.SignalValueType?
         /// Indicates the beginning of the CAN signal. This should always be the least significant bit (LSB). This value might be different from the value in a DBC file. For little endian signals, startBit is the same value as in the DBC file. For big endian signals in a DBC file, the start bit is the most significant bit (MSB). You will have to calculate the LSB instead and pass it as the startBit.
         /// This member is required.
         public var startBit: Swift.Int
@@ -2207,6 +2238,7 @@ extension IoTFleetWiseClientTypes {
             messageId: Swift.Int = 0,
             name: Swift.String? = nil,
             offset: Swift.Double? = nil,
+            signalValueType: IoTFleetWiseClientTypes.SignalValueType? = nil,
             startBit: Swift.Int = 0
         ) {
             self.factor = factor
@@ -2216,6 +2248,7 @@ extension IoTFleetWiseClientTypes {
             self.messageId = messageId
             self.name = name
             self.offset = offset
+            self.signalValueType = signalValueType
             self.startBit = startBit
         }
     }
@@ -2828,6 +2861,8 @@ extension IoTFleetWiseClientTypes {
         /// The length of a message.
         /// This member is required.
         public var byteLength: Swift.Int?
+        /// Determines whether the message is signed (true) or not (false). If it's signed, the message can represent both positive and negative numbers. The isSigned parameter only applies to the INTEGER raw signal type, and it doesn't affect the FLOATING_POINT raw signal type. The default value is false.
+        public var isSigned: Swift.Bool?
         /// The offset used to calculate the signal value. Combined with scaling, the calculation is value = raw_value * scaling + offset.
         /// This member is required.
         public var offset: Swift.Double?
@@ -2843,6 +2878,8 @@ extension IoTFleetWiseClientTypes {
         /// The mode of operation (diagnostic service) in a message.
         /// This member is required.
         public var serviceMode: Swift.Int
+        /// The value type of the signal. The default value is INTEGER.
+        public var signalValueType: IoTFleetWiseClientTypes.SignalValueType?
         /// Indicates the beginning of the message.
         /// This member is required.
         public var startByte: Swift.Int
@@ -2851,21 +2888,25 @@ extension IoTFleetWiseClientTypes {
             bitMaskLength: Swift.Int? = nil,
             bitRightShift: Swift.Int = 0,
             byteLength: Swift.Int? = nil,
+            isSigned: Swift.Bool? = false,
             offset: Swift.Double? = nil,
             pid: Swift.Int = 0,
             pidResponseLength: Swift.Int? = nil,
             scaling: Swift.Double? = nil,
             serviceMode: Swift.Int = 0,
+            signalValueType: IoTFleetWiseClientTypes.SignalValueType? = nil,
             startByte: Swift.Int = 0
         ) {
             self.bitMaskLength = bitMaskLength
             self.bitRightShift = bitRightShift
             self.byteLength = byteLength
+            self.isSigned = isSigned
             self.offset = offset
             self.pid = pid
             self.pidResponseLength = pidResponseLength
             self.scaling = scaling
             self.serviceMode = serviceMode
+            self.signalValueType = signalValueType
             self.startByte = startByte
         }
     }
@@ -9828,11 +9869,13 @@ extension IoTFleetWiseClientTypes.ObdSignal {
         try writer["bitMaskLength"].write(value.bitMaskLength)
         try writer["bitRightShift"].write(value.bitRightShift)
         try writer["byteLength"].write(value.byteLength)
+        try writer["isSigned"].write(value.isSigned)
         try writer["offset"].write(value.offset)
         try writer["pid"].write(value.pid)
         try writer["pidResponseLength"].write(value.pidResponseLength)
         try writer["scaling"].write(value.scaling)
         try writer["serviceMode"].write(value.serviceMode)
+        try writer["signalValueType"].write(value.signalValueType)
         try writer["startByte"].write(value.startByte)
     }
 
@@ -9848,6 +9891,8 @@ extension IoTFleetWiseClientTypes.ObdSignal {
         value.byteLength = try reader["byteLength"].readIfPresent() ?? 0
         value.bitRightShift = try reader["bitRightShift"].readIfPresent() ?? 0
         value.bitMaskLength = try reader["bitMaskLength"].readIfPresent()
+        value.isSigned = try reader["isSigned"].readIfPresent()
+        value.signalValueType = try reader["signalValueType"].readIfPresent()
         return value
     }
 }
@@ -9863,6 +9908,7 @@ extension IoTFleetWiseClientTypes.CanSignal {
         try writer["messageId"].write(value.messageId)
         try writer["name"].write(value.name)
         try writer["offset"].write(value.offset)
+        try writer["signalValueType"].write(value.signalValueType)
         try writer["startBit"].write(value.startBit)
     }
 
@@ -9877,6 +9923,7 @@ extension IoTFleetWiseClientTypes.CanSignal {
         value.factor = try reader["factor"].readIfPresent() ?? 0.0
         value.length = try reader["length"].readIfPresent() ?? 0
         value.name = try reader["name"].readIfPresent()
+        value.signalValueType = try reader["signalValueType"].readIfPresent()
         return value
     }
 }
