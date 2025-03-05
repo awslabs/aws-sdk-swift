@@ -13,7 +13,7 @@ class PutObjectPresignedURLMiddleware(
     val inputSymbol: Symbol,
     outputSymbol: Symbol,
     outputErrorSymbol: Symbol,
-    private val writer: SwiftWriter
+    private val writer: SwiftWriter,
 ) : Middleware(writer, inputSymbol) {
     override val typeName = "PutObjectPresignedURLMiddleware"
 

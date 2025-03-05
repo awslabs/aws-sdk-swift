@@ -61,6 +61,8 @@ extension PIClientTypes {
         public var dimensions: [Swift.String: Swift.String]?
         /// The Performance Insights metric name.
         public var displayName: Swift.String?
+        /// The filter for the Performance Insights metric.
+        public var filter: [Swift.String: Swift.String]?
         /// The Performance Insights metric.
         public var metric: Swift.String?
         /// The value of the metric. For example, 9 for db.load.avg.
@@ -69,11 +71,13 @@ extension PIClientTypes {
         public init(
             dimensions: [Swift.String: Swift.String]? = nil,
             displayName: Swift.String? = nil,
+            filter: [Swift.String: Swift.String]? = nil,
             metric: Swift.String? = nil,
             value: Swift.Double? = nil
         ) {
             self.dimensions = dimensions
             self.displayName = displayName
+            self.filter = filter
             self.metric = metric
             self.value = value
         }
@@ -516,6 +520,18 @@ extension PIClientTypes {
         ///
         ///
         ///
+        /// * db.blocking_sql.id - The ID for each of the SQL queries blocking the most DB load.
+        ///
+        /// * db.blocking_sql.sql - The SQL text for each of the SQL queries blocking the most DB load.
+        ///
+        /// * db.blocking_session.id - The ID for each of the sessions blocking the most DB load.
+        ///
+        /// * db.blocking_object.id - The ID for each of the object resources acquired by other sessions that are blocking the most DB load.
+        ///
+        /// * db.blocking_object.type - The object type for each of the object resources acquired by other sessions that are blocking the most DB load.
+        ///
+        /// * db.blocking_object.value - The value for each of the object resources acquired by other sessions that are blocking the most DB load.
+        ///
         /// * db.host.id - The host ID of the connected client (all engines).
         ///
         /// * db.host.name - The host name of the connected client (all engines).
@@ -609,7 +625,15 @@ extension PIClientTypes {
         ///
         ///
         ///
+        /// * db.blocking_sql - The SQL queries blocking the most DB load.
+        ///
+        /// * db.blocking_session - The sessions blocking the most DB load.
+        ///
+        /// * db.blocking_object - The object resources acquired by other sessions that are blocking the most DB load.
+        ///
         /// * db.host - The host name of the connected client (all engines).
+        ///
+        /// * db.plans - The execution plans for the query (only Aurora PostgreSQL).
         ///
         /// * db.query - The query that is currently running (only Amazon DocumentDB).
         ///
@@ -646,7 +670,7 @@ extension PIClientTypes {
 }
 
 public struct DescribeDimensionKeysInput: Swift.Sendable {
-    /// Additional metrics for the top N dimension keys. If the specified dimension group in the GroupBy parameter is db.sql_tokenized, you can specify per-SQL metrics to get the values for the top N SQL digests. The response syntax is as follows: "AdditionalMetrics" : { "string" : "string" }.
+    /// Additional metrics for the top N dimension keys. If the specified dimension group in the GroupBy parameter is db.sql_tokenized, you can specify per-SQL metrics to get the values for the top N SQL digests. The response syntax is as follows: "AdditionalMetrics" : { "string" : "string" }. The only supported statistic function is .avg.
     public var additionalMetrics: [Swift.String]?
     /// The date and time specifying the end of the requested time series data. The value specified is exclusive, which means that data points less than (but not equal to) EndTime are returned. The value for EndTime must be later than the value for StartTime.
     /// This member is required.
@@ -981,6 +1005,10 @@ extension PIClientTypes {
 public struct GetDimensionKeyDetailsInput: Swift.Sendable {
     /// The name of the dimension group. Performance Insights searches the specified group for the dimension group ID. The following group name values are valid:
     ///
+    /// * db.execution_plan (Amazon RDS and Aurora only)
+    ///
+    /// * db.lock_snapshot (Aurora only)
+    ///
     /// * db.query (Amazon DocumentDB only)
     ///
     /// * db.sql (Amazon RDS and Aurora only)
@@ -988,15 +1016,23 @@ public struct GetDimensionKeyDetailsInput: Swift.Sendable {
     public var group: Swift.String?
     /// The ID of the dimension group from which to retrieve dimension details. For dimension group db.sql, the group ID is db.sql.id. The following group ID values are valid:
     ///
+    /// * db.execution_plan.id for dimension group db.execution_plan (Aurora and RDS only)
+    ///
     /// * db.sql.id for dimension group db.sql (Aurora and RDS only)
     ///
     /// * db.query.id for dimension group db.query (DocumentDB only)
+    ///
+    /// * For the dimension group db.lock_snapshot, the GroupIdentifier is the epoch timestamp when Performance Insights captured the snapshot, in seconds. You can retrieve this value with the GetResourceMetrics operation for a 1 second period.
     /// This member is required.
     public var groupIdentifier: Swift.String?
     /// The ID for a data source from which to gather dimension data. This ID must be immutable and unique within an Amazon Web Services Region. When a DB instance is the data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
     /// This member is required.
     public var identifier: Swift.String?
     /// A list of dimensions to retrieve the detail data for within the given dimension group. If you don't specify this parameter, Performance Insights returns all dimension data within the specified dimension group. Specify dimension names for the following dimension groups:
+    ///
+    /// * db.execution_plan - Specify the dimension name db.execution_plan.raw_plan or the short dimension name raw_plan (Amazon RDS and Aurora only)
+    ///
+    /// * db.lock_snapshot - Specify the dimension name db.lock_snapshot.lock_trees or the short dimension name lock_trees. (Aurora only)
     ///
     /// * db.sql - Specify either the full dimension name db.sql.statement or the short dimension name statement (Aurora and RDS only).
     ///
@@ -1201,7 +1237,7 @@ public struct GetResourceMetricsInput: Swift.Sendable {
     /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
     /// This member is required.
     public var identifier: Swift.String?
-    /// The maximum number of items to return in the response. If more items exist than the specified MaxRecords value, a pagination token is included in the response so that the remaining results can be retrieved.
+    /// The maximum number of items to return in the response.
     public var maxResults: Swift.Int?
     /// An array of one or more queries to perform. Each query must specify a Performance Insights metric and specify an aggregate function, and you can provide filtering criteria. You must append the aggregate function to the metric. For example, to find the average for the metric db.load you must use db.load.avg. Valid values for aggregate functions include .avg, .min, .max, and .sum.
     /// This member is required.
@@ -2463,6 +2499,7 @@ extension PIClientTypes.PerformanceInsightsMetric {
         value.metric = try reader["Metric"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.dimensions = try reader["Dimensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.filter = try reader["Filter"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.value = try reader["Value"].readIfPresent()
         return value
     }

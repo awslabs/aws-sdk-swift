@@ -14,14 +14,14 @@ import software.amazon.smithy.swift.codegen.model.hasTrait
 
 class TrimHostedZoneURLPathMiddlewareRenderable(
     val model: Model,
-    val symbolProvider: SymbolProvider
+    val symbolProvider: SymbolProvider,
 ) : MiddlewareRenderable {
     override val name = "Route53TrimHostedZoneMiddleware"
 
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
         val inputShape = model.expectShape<StructureShape>(op.inputShape)
         val hostedZoneIDMember = inputShape.members().first { it.hasTrait<TrimHostedZone>() }
@@ -33,7 +33,7 @@ class TrimHostedZoneURLPathMiddlewareRenderable(
             AWSClientRuntimeTypes.Core.Route53TrimHostedZoneMiddleware,
             inputSymbol,
             outputSymbol,
-            hostedZoneIDKeyPath
+            hostedZoneIDKeyPath,
         )
     }
 }

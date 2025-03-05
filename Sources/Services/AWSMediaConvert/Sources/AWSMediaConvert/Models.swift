@@ -2212,14 +2212,16 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// The service defaults to using RIFF for WAV outputs. If your output audio is likely to exceed 4 GB in file size, or if you otherwise need the extended support of the RF64 format, set your output WAV file format to RF64.
+    /// Specify the file format for your wave audio output. To use a RIFF wave format: Keep the default value, RIFF. If your output audio is likely to exceed 4GB in file size, or if you otherwise need the extended support of the RF64 format: Choose RF64. If your player only supports the extensible wave format: Choose Extensible.
     public enum WavFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case extensible
         case rf64
         case riff
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WavFormat] {
             return [
+                .extensible,
                 .rf64,
                 .riff
             ]
@@ -2232,6 +2234,7 @@ extension MediaConvertClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .extensible: return "EXTENSIBLE"
             case .rf64: return "RF64"
             case .riff: return "RIFF"
             case let .sdkUnknown(s): return s
@@ -2248,7 +2251,7 @@ extension MediaConvertClientTypes {
         public var bitDepth: Swift.Int?
         /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
         public var channels: Swift.Int?
-        /// The service defaults to using RIFF for WAV outputs. If your output audio is likely to exceed 4 GB in file size, or if you otherwise need the extended support of the RF64 format, set your output WAV file format to RF64.
+        /// Specify the file format for your wave audio output. To use a RIFF wave format: Keep the default value, RIFF. If your output audio is likely to exceed 4GB in file size, or if you otherwise need the extended support of the RF64 format: Choose RF64. If your player only supports the extensible wave format: Choose Extensible.
         public var format: MediaConvertClientTypes.WavFormat?
         /// Sample rate in Hz.
         public var sampleRate: Swift.Int?
@@ -4628,10 +4631,11 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// To use the available style, color, and position information from your input captions: Set Style passthrough to Enabled. MediaConvert uses default settings when style and position information is missing from your input captions. To recreate the input captions exactly: Set Style passthrough to Strict. MediaConvert automatically applies timing adjustments, including adjustments for frame rate conversion, ad avails, and input clipping. Your input captions format must be WebVTT. To ignore the style and position information from your input captions and use simplified output captions: Set Style passthrough to Disabled, or leave blank.
+    /// Specify how MediaConvert writes style information in your output WebVTT captions. To use the available style, color, and position information from your input captions: Choose Enabled. MediaConvert uses default settings when style and position information is missing from your input captions. To recreate the input captions exactly: Choose Strict. MediaConvert automatically applies timing adjustments, including adjustments for frame rate conversion, ad avails, and input clipping. Your input captions format must be WebVTT. To ignore the style and position information from your input captions and use simplified output captions: Keep the default value, Disabled. Or leave blank. To use the available style, color, and position information from your input captions, while merging cues with identical time ranges: Choose merge. This setting can help prevent positioning overlaps for certain players that expect a single single cue for any given time range.
     public enum WebvttStylePassthrough: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
+        case merge
         case strict
         case sdkUnknown(Swift.String)
 
@@ -4639,6 +4643,7 @@ extension MediaConvertClientTypes {
             return [
                 .disabled,
                 .enabled,
+                .merge,
                 .strict
             ]
         }
@@ -4652,6 +4657,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .disabled: return "DISABLED"
             case .enabled: return "ENABLED"
+            case .merge: return "MERGE"
             case .strict: return "STRICT"
             case let .sdkUnknown(s): return s
             }
@@ -4665,7 +4671,7 @@ extension MediaConvertClientTypes {
     public struct WebvttDestinationSettings: Swift.Sendable {
         /// If the WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
         public var accessibility: MediaConvertClientTypes.WebvttAccessibilitySubs?
-        /// To use the available style, color, and position information from your input captions: Set Style passthrough to Enabled. MediaConvert uses default settings when style and position information is missing from your input captions. To recreate the input captions exactly: Set Style passthrough to Strict. MediaConvert automatically applies timing adjustments, including adjustments for frame rate conversion, ad avails, and input clipping. Your input captions format must be WebVTT. To ignore the style and position information from your input captions and use simplified output captions: Set Style passthrough to Disabled, or leave blank.
+        /// Specify how MediaConvert writes style information in your output WebVTT captions. To use the available style, color, and position information from your input captions: Choose Enabled. MediaConvert uses default settings when style and position information is missing from your input captions. To recreate the input captions exactly: Choose Strict. MediaConvert automatically applies timing adjustments, including adjustments for frame rate conversion, ad avails, and input clipping. Your input captions format must be WebVTT. To ignore the style and position information from your input captions and use simplified output captions: Keep the default value, Disabled. Or leave blank. To use the available style, color, and position information from your input captions, while merging cues with identical time ranges: Choose merge. This setting can help prevent positioning overlaps for certain players that expect a single single cue for any given time range.
         public var stylePassthrough: MediaConvertClientTypes.WebvttStylePassthrough?
 
         public init(
@@ -11172,6 +11178,7 @@ extension MediaConvertClientTypes {
     public enum ContainerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cmfc
         case f4v
+        case gif
         case ismv
         case m2ts
         case m3u8
@@ -11189,6 +11196,7 @@ extension MediaConvertClientTypes {
             return [
                 .cmfc,
                 .f4v,
+                .gif,
                 .ismv,
                 .m2ts,
                 .m3u8,
@@ -11212,6 +11220,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .cmfc: return "CMFC"
             case .f4v: return "F4V"
+            case .gif: return "GIF"
             case .ismv: return "ISMV"
             case .m2ts: return "M2TS"
             case .m3u8: return "M3U8"
@@ -13430,6 +13439,39 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Specify the chroma sample positioning metadata for your H.264 or H.265 output. To have MediaConvert automatically determine chroma positioning: We recommend that you keep the default value, Auto. To specify center positioning: Choose Force center. To specify top left positioning: Choose Force top left.
+    public enum ChromaPositionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case forceCenter
+        case forceTopLeft
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChromaPositionMode] {
+            return [
+                .auto,
+                .forceCenter,
+                .forceTopLeft
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .forceCenter: return "FORCE_CENTER"
+            case .forceTopLeft: return "FORCE_TOP_LEFT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to Spatial adaptive quantization.
     public enum Av1AdaptiveQuantization: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case high
@@ -13562,18 +13604,20 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+    /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
     public enum Av1FramerateConversionAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case duplicateDrop
         case frameformer
         case interpolate
+        case maintainFrameCount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Av1FramerateConversionAlgorithm] {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate
+                .interpolate,
+                .maintainFrameCount
             ]
         }
 
@@ -13587,6 +13631,7 @@ extension MediaConvertClientTypes {
             case .duplicateDrop: return "DUPLICATE_DROP"
             case .frameformer: return "FRAMEFORMER"
             case .interpolate: return "INTERPOLATE"
+            case .maintainFrameCount: return "MAINTAIN_FRAME_COUNT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13681,7 +13726,7 @@ extension MediaConvertClientTypes {
         public var filmGrainSynthesis: MediaConvertClientTypes.Av1FilmGrainSynthesis?
         /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public var framerateControl: MediaConvertClientTypes.Av1FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public var framerateConversionAlgorithm: MediaConvertClientTypes.Av1FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateDenominator: Swift.Int?
@@ -13849,18 +13894,20 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+    /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
     public enum AvcIntraFramerateConversionAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case duplicateDrop
         case frameformer
         case interpolate
+        case maintainFrameCount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AvcIntraFramerateConversionAlgorithm] {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate
+                .interpolate,
+                .maintainFrameCount
             ]
         }
 
@@ -13874,6 +13921,7 @@ extension MediaConvertClientTypes {
             case .duplicateDrop: return "DUPLICATE_DROP"
             case .frameformer: return "FRAMEFORMER"
             case .interpolate: return "INTERPOLATE"
+            case .maintainFrameCount: return "MAINTAIN_FRAME_COUNT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -14019,7 +14067,7 @@ extension MediaConvertClientTypes {
         public var avcIntraUhdSettings: MediaConvertClientTypes.AvcIntraUhdSettings?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public var framerateControl: MediaConvertClientTypes.AvcIntraFramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public var framerateConversionAlgorithm: MediaConvertClientTypes.AvcIntraFramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateDenominator: Swift.Int?
@@ -14067,6 +14115,7 @@ extension MediaConvertClientTypes {
         case av1
         case avcIntra
         case frameCapture
+        case gif
         case h264
         case h265
         case mpeg2
@@ -14084,6 +14133,7 @@ extension MediaConvertClientTypes {
                 .av1,
                 .avcIntra,
                 .frameCapture,
+                .gif,
                 .h264,
                 .h265,
                 .mpeg2,
@@ -14107,6 +14157,7 @@ extension MediaConvertClientTypes {
             case .av1: return "AV1"
             case .avcIntra: return "AVC_INTRA"
             case .frameCapture: return "FRAME_CAPTURE"
+            case .gif: return "GIF"
             case .h264: return "H_264"
             case .h265: return "H_265"
             case .mpeg2: return "MPEG2"
@@ -14146,6 +14197,93 @@ extension MediaConvertClientTypes {
             self.framerateNumerator = framerateNumerator
             self.maxCaptures = maxCaptures
             self.quality = quality
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+    public enum GifFramerateControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case initializeFromSource
+        case specified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GifFramerateControl] {
+            return [
+                .initializeFromSource,
+                .specified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .initializeFromSource: return "INITIALIZE_FROM_SOURCE"
+            case .specified: return "SPECIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Optional. Specify how the transcoder performs framerate conversion. The default behavior is to use Drop duplicate (DUPLICATE_DROP) conversion. When you choose Interpolate (INTERPOLATE) instead, the conversion produces smoother motion.
+    public enum GifFramerateConversionAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case duplicateDrop
+        case interpolate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GifFramerateConversionAlgorithm] {
+            return [
+                .duplicateDrop,
+                .interpolate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .duplicateDrop: return "DUPLICATE_DROP"
+            case .interpolate: return "INTERPOLATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value GIF
+    public struct GifSettings: Swift.Sendable {
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        public var framerateControl: MediaConvertClientTypes.GifFramerateControl?
+        /// Optional. Specify how the transcoder performs framerate conversion. The default behavior is to use Drop duplicate (DUPLICATE_DROP) conversion. When you choose Interpolate (INTERPOLATE) instead, the conversion produces smoother motion.
+        public var framerateConversionAlgorithm: MediaConvertClientTypes.GifFramerateConversionAlgorithm?
+        /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
+        public var framerateDenominator: Swift.Int?
+        /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
+        public var framerateNumerator: Swift.Int?
+
+        public init(
+            framerateControl: MediaConvertClientTypes.GifFramerateControl? = nil,
+            framerateConversionAlgorithm: MediaConvertClientTypes.GifFramerateConversionAlgorithm? = nil,
+            framerateDenominator: Swift.Int? = nil,
+            framerateNumerator: Swift.Int? = nil
+        ) {
+            self.framerateControl = framerateControl
+            self.framerateConversionAlgorithm = framerateConversionAlgorithm
+            self.framerateDenominator = framerateDenominator
+            self.framerateNumerator = framerateNumerator
         }
     }
 }
@@ -14591,18 +14729,20 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+    /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
     public enum H264FramerateConversionAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case duplicateDrop
         case frameformer
         case interpolate
+        case maintainFrameCount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [H264FramerateConversionAlgorithm] {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate
+                .interpolate,
+                .maintainFrameCount
             ]
         }
 
@@ -14616,6 +14756,7 @@ extension MediaConvertClientTypes {
             case .duplicateDrop: return "DUPLICATE_DROP"
             case .frameformer: return "FRAMEFORMER"
             case .interpolate: return "INTERPOLATE"
+            case .maintainFrameCount: return "MAINTAIN_FRAME_COUNT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -15205,7 +15346,7 @@ extension MediaConvertClientTypes {
         public var flickerAdaptiveQuantization: MediaConvertClientTypes.H264FlickerAdaptiveQuantization?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public var framerateControl: MediaConvertClientTypes.H264FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public var framerateConversionAlgorithm: MediaConvertClientTypes.H264FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateDenominator: Swift.Int?
@@ -15711,18 +15852,20 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+    /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
     public enum H265FramerateConversionAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case duplicateDrop
         case frameformer
         case interpolate
+        case maintainFrameCount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [H265FramerateConversionAlgorithm] {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate
+                .interpolate,
+                .maintainFrameCount
             ]
         }
 
@@ -15736,6 +15879,7 @@ extension MediaConvertClientTypes {
             case .duplicateDrop: return "DUPLICATE_DROP"
             case .frameformer: return "FRAMEFORMER"
             case .interpolate: return "INTERPOLATE"
+            case .maintainFrameCount: return "MAINTAIN_FRAME_COUNT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -16328,7 +16472,7 @@ extension MediaConvertClientTypes {
         public var flickerAdaptiveQuantization: MediaConvertClientTypes.H265FlickerAdaptiveQuantization?
         /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public var framerateControl: MediaConvertClientTypes.H265FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public var framerateConversionAlgorithm: MediaConvertClientTypes.H265FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateDenominator: Swift.Int?
@@ -16656,18 +16800,20 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+    /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
     public enum Mpeg2FramerateConversionAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case duplicateDrop
         case frameformer
         case interpolate
+        case maintainFrameCount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Mpeg2FramerateConversionAlgorithm] {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate
+                .interpolate,
+                .maintainFrameCount
             ]
         }
 
@@ -16681,6 +16827,7 @@ extension MediaConvertClientTypes {
             case .duplicateDrop: return "DUPLICATE_DROP"
             case .frameformer: return "FRAMEFORMER"
             case .interpolate: return "INTERPOLATE"
+            case .maintainFrameCount: return "MAINTAIN_FRAME_COUNT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -17114,7 +17261,7 @@ extension MediaConvertClientTypes {
         public var dynamicSubGop: MediaConvertClientTypes.Mpeg2DynamicSubGop?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public var framerateControl: MediaConvertClientTypes.Mpeg2FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public var framerateConversionAlgorithm: MediaConvertClientTypes.Mpeg2FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateDenominator: Swift.Int?
@@ -17345,18 +17492,20 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+    /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
     public enum ProresFramerateConversionAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case duplicateDrop
         case frameformer
         case interpolate
+        case maintainFrameCount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProresFramerateConversionAlgorithm] {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate
+                .interpolate,
+                .maintainFrameCount
             ]
         }
 
@@ -17370,6 +17519,7 @@ extension MediaConvertClientTypes {
             case .duplicateDrop: return "DUPLICATE_DROP"
             case .frameformer: return "FRAMEFORMER"
             case .interpolate: return "INTERPOLATE"
+            case .maintainFrameCount: return "MAINTAIN_FRAME_COUNT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -17545,7 +17695,7 @@ extension MediaConvertClientTypes {
         public var codecProfile: MediaConvertClientTypes.ProresCodecProfile?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public var framerateControl: MediaConvertClientTypes.ProresFramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public var framerateConversionAlgorithm: MediaConvertClientTypes.ProresFramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateDenominator: Swift.Int?
@@ -17663,18 +17813,20 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+    /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
     public enum UncompressedFramerateConversionAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case duplicateDrop
         case frameformer
         case interpolate
+        case maintainFrameCount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UncompressedFramerateConversionAlgorithm] {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate
+                .interpolate,
+                .maintainFrameCount
             ]
         }
 
@@ -17688,6 +17840,7 @@ extension MediaConvertClientTypes {
             case .duplicateDrop: return "DUPLICATE_DROP"
             case .frameformer: return "FRAMEFORMER"
             case .interpolate: return "INTERPOLATE"
+            case .maintainFrameCount: return "MAINTAIN_FRAME_COUNT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -17822,7 +17975,7 @@ extension MediaConvertClientTypes {
         public var fourcc: MediaConvertClientTypes.UncompressedFourcc?
         /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public var framerateControl: MediaConvertClientTypes.UncompressedFramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public var framerateConversionAlgorithm: MediaConvertClientTypes.UncompressedFramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateDenominator: Swift.Int?
@@ -17893,18 +18046,20 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+    /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
     public enum Vc3FramerateConversionAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case duplicateDrop
         case frameformer
         case interpolate
+        case maintainFrameCount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Vc3FramerateConversionAlgorithm] {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate
+                .interpolate,
+                .maintainFrameCount
             ]
         }
 
@@ -17918,6 +18073,7 @@ extension MediaConvertClientTypes {
             case .duplicateDrop: return "DUPLICATE_DROP"
             case .frameformer: return "FRAMEFORMER"
             case .interpolate: return "INTERPOLATE"
+            case .maintainFrameCount: return "MAINTAIN_FRAME_COUNT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -18083,7 +18239,7 @@ extension MediaConvertClientTypes {
     public struct Vc3Settings: Swift.Sendable {
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public var framerateControl: MediaConvertClientTypes.Vc3FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public var framerateConversionAlgorithm: MediaConvertClientTypes.Vc3FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateDenominator: Swift.Int?
@@ -18156,18 +18312,20 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+    /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
     public enum Vp8FramerateConversionAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case duplicateDrop
         case frameformer
         case interpolate
+        case maintainFrameCount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Vp8FramerateConversionAlgorithm] {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate
+                .interpolate,
+                .maintainFrameCount
             ]
         }
 
@@ -18181,6 +18339,7 @@ extension MediaConvertClientTypes {
             case .duplicateDrop: return "DUPLICATE_DROP"
             case .frameformer: return "FRAMEFORMER"
             case .interpolate: return "INTERPOLATE"
+            case .maintainFrameCount: return "MAINTAIN_FRAME_COUNT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -18282,7 +18441,7 @@ extension MediaConvertClientTypes {
         public var bitrate: Swift.Int?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public var framerateControl: MediaConvertClientTypes.Vp8FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public var framerateConversionAlgorithm: MediaConvertClientTypes.Vp8FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateDenominator: Swift.Int?
@@ -18369,18 +18528,20 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+    /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
     public enum Vp9FramerateConversionAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case duplicateDrop
         case frameformer
         case interpolate
+        case maintainFrameCount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Vp9FramerateConversionAlgorithm] {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate
+                .interpolate,
+                .maintainFrameCount
             ]
         }
 
@@ -18394,6 +18555,7 @@ extension MediaConvertClientTypes {
             case .duplicateDrop: return "DUPLICATE_DROP"
             case .frameformer: return "FRAMEFORMER"
             case .interpolate: return "INTERPOLATE"
+            case .maintainFrameCount: return "MAINTAIN_FRAME_COUNT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -18495,7 +18657,7 @@ extension MediaConvertClientTypes {
         public var bitrate: Swift.Int?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public var framerateControl: MediaConvertClientTypes.Vp9FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public var framerateConversionAlgorithm: MediaConvertClientTypes.Vp9FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateDenominator: Swift.Int?
@@ -18660,18 +18822,20 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+    /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
     public enum XavcFramerateConversionAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case duplicateDrop
         case frameformer
         case interpolate
+        case maintainFrameCount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [XavcFramerateConversionAlgorithm] {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate
+                .interpolate,
+                .maintainFrameCount
             ]
         }
 
@@ -18685,6 +18849,7 @@ extension MediaConvertClientTypes {
             case .duplicateDrop: return "DUPLICATE_DROP"
             case .frameformer: return "FRAMEFORMER"
             case .interpolate: return "INTERPOLATE"
+            case .maintainFrameCount: return "MAINTAIN_FRAME_COUNT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -19355,7 +19520,7 @@ extension MediaConvertClientTypes {
         public var entropyEncoding: MediaConvertClientTypes.XavcEntropyEncoding?
         /// If you are using the console, use the Frame rate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list. The framerates shown in the dropdown list are decimal approximations of fractions.
         public var framerateControl: MediaConvertClientTypes.XavcFramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public var framerateConversionAlgorithm: MediaConvertClientTypes.XavcFramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Frame rate. In this example, specify 23.976.
         public var framerateDenominator: Swift.Int?
@@ -19422,7 +19587,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Video codec settings contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec. For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * UNCOMPRESSED, UncompressedSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
+    /// Video codec settings contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec. For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * GIF, GifSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * UNCOMPRESSED, UncompressedSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
     public struct VideoCodecSettings: Swift.Sendable {
         /// Required when you set Codec, under VideoDescription>CodecSettings to the value AV1.
         public var av1Settings: MediaConvertClientTypes.Av1Settings?
@@ -19432,6 +19597,8 @@ extension MediaConvertClientTypes {
         public var codec: MediaConvertClientTypes.VideoCodec?
         /// Required when you set Codec to the value FRAME_CAPTURE.
         public var frameCaptureSettings: MediaConvertClientTypes.FrameCaptureSettings?
+        /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value GIF
+        public var gifSettings: MediaConvertClientTypes.GifSettings?
         /// Required when you set Codec to the value H_264.
         public var h264Settings: MediaConvertClientTypes.H264Settings?
         /// Settings for H265 codec
@@ -19456,6 +19623,7 @@ extension MediaConvertClientTypes {
             avcIntraSettings: MediaConvertClientTypes.AvcIntraSettings? = nil,
             codec: MediaConvertClientTypes.VideoCodec? = nil,
             frameCaptureSettings: MediaConvertClientTypes.FrameCaptureSettings? = nil,
+            gifSettings: MediaConvertClientTypes.GifSettings? = nil,
             h264Settings: MediaConvertClientTypes.H264Settings? = nil,
             h265Settings: MediaConvertClientTypes.H265Settings? = nil,
             mpeg2Settings: MediaConvertClientTypes.Mpeg2Settings? = nil,
@@ -19470,6 +19638,7 @@ extension MediaConvertClientTypes {
             self.avcIntraSettings = avcIntraSettings
             self.codec = codec
             self.frameCaptureSettings = frameCaptureSettings
+            self.gifSettings = gifSettings
             self.h264Settings = h264Settings
             self.h265Settings = h265Settings
             self.mpeg2Settings = mpeg2Settings
@@ -20599,7 +20768,9 @@ extension MediaConvertClientTypes {
         public var afdSignaling: MediaConvertClientTypes.AfdSignaling?
         /// The anti-alias filter is automatically applied to all outputs. The service no longer accepts the value DISABLED for AntiAlias. If you specify that in your job, the service will ignore the setting.
         public var antiAlias: MediaConvertClientTypes.AntiAlias?
-        /// Video codec settings contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec. For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * UNCOMPRESSED, UncompressedSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
+        /// Specify the chroma sample positioning metadata for your H.264 or H.265 output. To have MediaConvert automatically determine chroma positioning: We recommend that you keep the default value, Auto. To specify center positioning: Choose Force center. To specify top left positioning: Choose Force top left.
+        public var chromaPositionMode: MediaConvertClientTypes.ChromaPositionMode?
+        /// Video codec settings contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec. For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * GIF, GifSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * UNCOMPRESSED, UncompressedSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
         public var codecSettings: MediaConvertClientTypes.VideoCodecSettings?
         /// Choose Insert for this setting to include color metadata in this output. Choose Ignore to exclude color metadata from this output. If you don't specify a value, the service sets this to Insert by default.
         public var colorMetadata: MediaConvertClientTypes.ColorMetadata?
@@ -20631,6 +20802,7 @@ extension MediaConvertClientTypes {
         public init(
             afdSignaling: MediaConvertClientTypes.AfdSignaling? = nil,
             antiAlias: MediaConvertClientTypes.AntiAlias? = nil,
+            chromaPositionMode: MediaConvertClientTypes.ChromaPositionMode? = nil,
             codecSettings: MediaConvertClientTypes.VideoCodecSettings? = nil,
             colorMetadata: MediaConvertClientTypes.ColorMetadata? = nil,
             crop: MediaConvertClientTypes.Rectangle? = nil,
@@ -20648,6 +20820,7 @@ extension MediaConvertClientTypes {
         ) {
             self.afdSignaling = afdSignaling
             self.antiAlias = antiAlias
+            self.chromaPositionMode = chromaPositionMode
             self.codecSettings = codecSettings
             self.colorMetadata = colorMetadata
             self.crop = crop
@@ -20676,7 +20849,7 @@ extension MediaConvertClientTypes {
         public var captionDescriptions: [MediaConvertClientTypes.CaptionDescription]?
         /// Container specific settings.
         public var containerSettings: MediaConvertClientTypes.ContainerSettings?
-        /// Use Extension to specify the file extension for outputs in File output groups. If you do not specify a value, the service will use default extensions by container type as follows * MPEG-2 transport stream, m2ts * Quicktime, mov * MXF container, mxf * MPEG-4 container, mp4 * WebM container, webm * No Container, the service will use codec extensions (e.g. AAC, H265, H265, AC3)
+        /// Use Extension to specify the file extension for outputs in File output groups. If you do not specify a value, the service will use default extensions by container type as follows * MPEG-2 transport stream, m2ts * Quicktime, mov * MXF container, mxf * MPEG-4 container, mp4 * WebM container, webm * Animated GIF container, gif * No Container, the service will use codec extensions (e.g. AAC, H265, H265, AC3)
         public var `extension`: Swift.String?
         /// Use Name modifier to have the service add a string to the end of each output filename. You specify the base filename as part of your destination URI. When you create multiple outputs in the same output group, Name modifier is required. Name modifier also accepts format identifiers. For DASH ISO outputs, if you use the format identifiers $Number$ or $Time$ in one output, you must use them in the same way in all outputs of the output group.
         public var nameModifier: Swift.String?
@@ -21441,6 +21614,655 @@ extension MediaConvertClientTypes {
             self.name = name
             self.settings = settings
             self.type = type
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The input file that needs to be analyzed.
+    public struct ProbeInputFile: Swift.Sendable {
+        /// The URI to your input file(s) that is stored in Amazon S3 or on an HTTP(S) server.
+        public var fileUrl: Swift.String?
+
+        public init(
+            fileUrl: Swift.String? = nil
+        ) {
+            self.fileUrl = fileUrl
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    public enum Format: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case matroska
+        case mp4
+        case quicktime
+        case webm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Format] {
+            return [
+                .matroska,
+                .mp4,
+                .quicktime,
+                .webm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .matroska: return "matroska"
+            case .mp4: return "mp4"
+            case .quicktime: return "quicktime"
+            case .webm: return "webm"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// the calculated frame rate of the asset.
+    public struct FrameRate: Swift.Sendable {
+        /// the denominator of the frame rate of the asset.
+        public var denominator: Swift.Int?
+        /// the numerator of the frame rate of the asset.
+        public var numerator: Swift.Int?
+
+        public init(
+            denominator: Swift.Int? = nil,
+            numerator: Swift.Int? = nil
+        ) {
+            self.denominator = denominator
+            self.numerator = numerator
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Properties specific to audio tracks.
+    public struct AudioProperties: Swift.Sendable {
+        /// The bit depth of the audio track.
+        public var bitDepth: Swift.Int?
+        /// The bit rate of the audio track in bits per second.
+        public var bitRate: Swift.Int?
+        /// The number of audio channels.
+        public var channels: Swift.Int?
+        /// the calculated frame rate of the asset.
+        public var frameRate: MediaConvertClientTypes.FrameRate?
+        /// the language code of the track
+        public var languageCode: Swift.String?
+        /// The sample rate of the audio track.
+        public var sampleRate: Swift.Int?
+
+        public init(
+            bitDepth: Swift.Int? = nil,
+            bitRate: Swift.Int? = nil,
+            channels: Swift.Int? = nil,
+            frameRate: MediaConvertClientTypes.FrameRate? = nil,
+            languageCode: Swift.String? = nil,
+            sampleRate: Swift.Int? = nil
+        ) {
+            self.bitDepth = bitDepth
+            self.bitRate = bitRate
+            self.channels = channels
+            self.frameRate = frameRate
+            self.languageCode = languageCode
+            self.sampleRate = sampleRate
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    public enum Codec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aac
+        case ac3
+        case av1
+        case avc
+        case c608
+        case c708
+        case eac3
+        case flac
+        case hevc
+        case mjpeg
+        case mp3
+        case mp4v
+        case mpeg2
+        case opus
+        case pcm
+        case prores
+        case theora
+        case unknown
+        case vorbis
+        case vp8
+        case vp9
+        case webvtt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Codec] {
+            return [
+                .aac,
+                .ac3,
+                .av1,
+                .avc,
+                .c608,
+                .c708,
+                .eac3,
+                .flac,
+                .hevc,
+                .mjpeg,
+                .mp3,
+                .mp4v,
+                .mpeg2,
+                .opus,
+                .pcm,
+                .prores,
+                .theora,
+                .unknown,
+                .vorbis,
+                .vp8,
+                .vp9,
+                .webvtt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aac: return "AAC"
+            case .ac3: return "AC3"
+            case .av1: return "AV1"
+            case .avc: return "AVC"
+            case .c608: return "C608"
+            case .c708: return "C708"
+            case .eac3: return "EAC3"
+            case .flac: return "FLAC"
+            case .hevc: return "HEVC"
+            case .mjpeg: return "MJPEG"
+            case .mp3: return "MP3"
+            case .mp4v: return "MP4V"
+            case .mpeg2: return "MPEG2"
+            case .opus: return "OPUS"
+            case .pcm: return "PCM"
+            case .prores: return "PRORES"
+            case .theora: return "THEORA"
+            case .unknown: return "UNKNOWN"
+            case .vorbis: return "VORBIS"
+            case .vp8: return "VP8"
+            case .vp9: return "VP9"
+            case .webvtt: return "WEBVTT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Properties specific to data tracks.
+    public struct DataProperties: Swift.Sendable {
+        /// the language code of the track
+        public var languageCode: Swift.String?
+
+        public init(
+            languageCode: Swift.String? = nil
+        ) {
+            self.languageCode = languageCode
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    public enum TrackType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audio
+        case data
+        case video
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrackType] {
+            return [
+                .audio,
+                .data,
+                .video
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audio: return "audio"
+            case .data: return "data"
+            case .video: return "video"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// the color primaries.
+    public enum ColorPrimaries: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ebu3213E
+        case genericFilm
+        case ipt
+        case itu2020
+        case itu470bg
+        case itu470m
+        case itu709
+        case last
+        case reserved
+        case smpte170m
+        case smpte2067xyz
+        case smpte240m
+        case smpte4281
+        case smpte4312
+        case smpteEg4321
+        case unspecified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ColorPrimaries] {
+            return [
+                .ebu3213E,
+                .genericFilm,
+                .ipt,
+                .itu2020,
+                .itu470bg,
+                .itu470m,
+                .itu709,
+                .last,
+                .reserved,
+                .smpte170m,
+                .smpte2067xyz,
+                .smpte240m,
+                .smpte4281,
+                .smpte4312,
+                .smpteEg4321,
+                .unspecified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ebu3213E: return "EBU_3213_E"
+            case .genericFilm: return "GENERIC_FILM"
+            case .ipt: return "IPT"
+            case .itu2020: return "ITU_2020"
+            case .itu470bg: return "ITU_470BG"
+            case .itu470m: return "ITU_470M"
+            case .itu709: return "ITU_709"
+            case .last: return "LAST"
+            case .reserved: return "RESERVED"
+            case .smpte170m: return "SMPTE_170M"
+            case .smpte2067xyz: return "SMPTE_2067XYZ"
+            case .smpte240m: return "SMPTE_240M"
+            case .smpte4281: return "SMPTE_428_1"
+            case .smpte4312: return "SMPTE_431_2"
+            case .smpteEg4321: return "SMPTE_EG_432_1"
+            case .unspecified: return "UNSPECIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// the matrix coefficients.
+    public enum MatrixCoefficients: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cdCl
+        case cdNcl
+        case ebu3213
+        case fcc
+        case ipt
+        case itu2020Cl
+        case itu2020Ncl
+        case itu2100ictcp
+        case itu470bg
+        case itu709
+        case last
+        case reserved
+        case rgb
+        case smpte170m
+        case smpte2085
+        case smpte240m
+        case unspecified
+        case ycgco
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MatrixCoefficients] {
+            return [
+                .cdCl,
+                .cdNcl,
+                .ebu3213,
+                .fcc,
+                .ipt,
+                .itu2020Cl,
+                .itu2020Ncl,
+                .itu2100ictcp,
+                .itu470bg,
+                .itu709,
+                .last,
+                .reserved,
+                .rgb,
+                .smpte170m,
+                .smpte2085,
+                .smpte240m,
+                .unspecified,
+                .ycgco
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cdCl: return "CD_CL"
+            case .cdNcl: return "CD_NCL"
+            case .ebu3213: return "EBU3213"
+            case .fcc: return "FCC"
+            case .ipt: return "IPT"
+            case .itu2020Cl: return "ITU_2020_CL"
+            case .itu2020Ncl: return "ITU_2020_NCL"
+            case .itu2100ictcp: return "ITU_2100ICtCp"
+            case .itu470bg: return "ITU_470BG"
+            case .itu709: return "ITU_709"
+            case .last: return "LAST"
+            case .reserved: return "RESERVED"
+            case .rgb: return "RGB"
+            case .smpte170m: return "SMPTE_170M"
+            case .smpte2085: return "SMPTE_2085"
+            case .smpte240m: return "SMPTE_240M"
+            case .unspecified: return "UNSPECIFIED"
+            case .ycgco: return "YCgCo"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// the transfer characteristics.
+    public enum TransferCharacteristics: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aribB67
+        case iec6196621
+        case iec6196624
+        case itu1361
+        case itu202010bit
+        case itu202012bit
+        case itu470bg
+        case itu470m
+        case itu709
+        case last
+        case linear
+        case loc1025
+        case log102
+        case reserved
+        case smpte170m
+        case smpte2084
+        case smpte240m
+        case smpte4281
+        case unspecified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransferCharacteristics] {
+            return [
+                .aribB67,
+                .iec6196621,
+                .iec6196624,
+                .itu1361,
+                .itu202010bit,
+                .itu202012bit,
+                .itu470bg,
+                .itu470m,
+                .itu709,
+                .last,
+                .linear,
+                .loc1025,
+                .log102,
+                .reserved,
+                .smpte170m,
+                .smpte2084,
+                .smpte240m,
+                .smpte4281,
+                .unspecified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aribB67: return "ARIB_B67"
+            case .iec6196621: return "IEC_61966_2_1"
+            case .iec6196624: return "IEC_61966_2_4"
+            case .itu1361: return "ITU_1361"
+            case .itu202010bit: return "ITU_2020_10bit"
+            case .itu202012bit: return "ITU_2020_12bit"
+            case .itu470bg: return "ITU_470BG"
+            case .itu470m: return "ITU_470M"
+            case .itu709: return "ITU_709"
+            case .last: return "LAST"
+            case .linear: return "LINEAR"
+            case .loc1025: return "LOC10_2_5"
+            case .log102: return "LOG10_2"
+            case .reserved: return "RESERVED"
+            case .smpte170m: return "SMPTE_170M"
+            case .smpte2084: return "SMPTE_2084"
+            case .smpte240m: return "SMPTE_240M"
+            case .smpte4281: return "SMPTE_428_1"
+            case .unspecified: return "UNSPECIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Properties specific to video tracks.
+    public struct VideoProperties: Swift.Sendable {
+        /// The bit depth of the video track.
+        public var bitDepth: Swift.Int?
+        /// The bit rate of the video track in bits per second.
+        public var bitRate: Swift.Int?
+        /// the color primaries.
+        public var colorPrimaries: MediaConvertClientTypes.ColorPrimaries?
+        /// the calculated frame rate of the asset.
+        public var frameRate: MediaConvertClientTypes.FrameRate?
+        /// The height of the video track in pixels.
+        public var height: Swift.Int?
+        /// the matrix coefficients.
+        public var matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients?
+        /// the transfer characteristics.
+        public var transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics?
+        /// The width of the video track in pixels.
+        public var width: Swift.Int?
+
+        public init(
+            bitDepth: Swift.Int? = nil,
+            bitRate: Swift.Int? = nil,
+            colorPrimaries: MediaConvertClientTypes.ColorPrimaries? = nil,
+            frameRate: MediaConvertClientTypes.FrameRate? = nil,
+            height: Swift.Int? = nil,
+            matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients? = nil,
+            transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics? = nil,
+            width: Swift.Int? = nil
+        ) {
+            self.bitDepth = bitDepth
+            self.bitRate = bitRate
+            self.colorPrimaries = colorPrimaries
+            self.frameRate = frameRate
+            self.height = height
+            self.matrixCoefficients = matrixCoefficients
+            self.transferCharacteristics = transferCharacteristics
+            self.width = width
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The track information such as codec, duration, etc.
+    public struct Track: Swift.Sendable {
+        /// Properties specific to audio tracks.
+        public var audioProperties: MediaConvertClientTypes.AudioProperties?
+        /// The codec used for the track.
+        public var codec: MediaConvertClientTypes.Codec?
+        /// Properties specific to data tracks.
+        public var dataProperties: MediaConvertClientTypes.DataProperties?
+        /// The duration of the track in seconds.
+        public var duration: Swift.Double?
+        /// The index of the track.
+        public var index: Swift.Int?
+        /// The type of the track (video, audio, or data).
+        public var trackType: MediaConvertClientTypes.TrackType?
+        /// Properties specific to video tracks.
+        public var videoProperties: MediaConvertClientTypes.VideoProperties?
+
+        public init(
+            audioProperties: MediaConvertClientTypes.AudioProperties? = nil,
+            codec: MediaConvertClientTypes.Codec? = nil,
+            dataProperties: MediaConvertClientTypes.DataProperties? = nil,
+            duration: Swift.Double? = nil,
+            index: Swift.Int? = nil,
+            trackType: MediaConvertClientTypes.TrackType? = nil,
+            videoProperties: MediaConvertClientTypes.VideoProperties? = nil
+        ) {
+            self.audioProperties = audioProperties
+            self.codec = codec
+            self.dataProperties = dataProperties
+            self.duration = duration
+            self.index = index
+            self.trackType = trackType
+            self.videoProperties = videoProperties
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Information about the container format of the media file.
+    public struct Container: Swift.Sendable {
+        /// The duration of the media file in seconds.
+        public var duration: Swift.Double?
+        /// The format of the container
+        public var format: MediaConvertClientTypes.Format?
+        /// List of Track objects.
+        public var tracks: [MediaConvertClientTypes.Track]?
+
+        public init(
+            duration: Swift.Double? = nil,
+            format: MediaConvertClientTypes.Format? = nil,
+            tracks: [MediaConvertClientTypes.Track]? = nil
+        ) {
+            self.duration = duration
+            self.format = format
+            self.tracks = tracks
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Metadata about the file.
+    public struct Metadata: Swift.Sendable {
+        /// The ETag of the file.
+        public var eTag: Swift.String?
+        /// The size of the file in bytes.
+        public var fileSize: Swift.Int?
+        /// The last modification time of the file.
+        public var lastModified: Foundation.Date?
+        /// The MIME type of the file.
+        public var mimeType: Swift.String?
+
+        public init(
+            eTag: Swift.String? = nil,
+            fileSize: Swift.Int? = nil,
+            lastModified: Foundation.Date? = nil,
+            mimeType: Swift.String? = nil
+        ) {
+            self.eTag = eTag
+            self.fileSize = fileSize
+            self.lastModified = lastModified
+            self.mimeType = mimeType
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Track mapping information.
+    public struct TrackMapping: Swift.Sendable {
+        /// The indexes of the audio tracks.
+        public var audioTrackIndexes: [Swift.Int]?
+        /// The indexes of the data tracks.
+        public var dataTrackIndexes: [Swift.Int]?
+        /// The indexes of the video tracks.
+        public var videoTrackIndexes: [Swift.Int]?
+
+        public init(
+            audioTrackIndexes: [Swift.Int]? = nil,
+            dataTrackIndexes: [Swift.Int]? = nil,
+            videoTrackIndexes: [Swift.Int]? = nil
+        ) {
+            self.audioTrackIndexes = audioTrackIndexes
+            self.dataTrackIndexes = dataTrackIndexes
+            self.videoTrackIndexes = videoTrackIndexes
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The metadata and analysis results for a media file.
+    public struct ProbeResult: Swift.Sendable {
+        /// Information about the container format of the media file.
+        public var container: MediaConvertClientTypes.Container?
+        /// Metadata about the file.
+        public var metadata: MediaConvertClientTypes.Metadata?
+        /// List of Track mapping objects.
+        public var trackMappings: [MediaConvertClientTypes.TrackMapping]?
+
+        public init(
+            container: MediaConvertClientTypes.Container? = nil,
+            metadata: MediaConvertClientTypes.Metadata? = nil,
+            trackMappings: [MediaConvertClientTypes.TrackMapping]? = nil
+        ) {
+            self.container = container
+            self.metadata = metadata
+            self.trackMappings = trackMappings
         }
     }
 }
@@ -22816,6 +23638,28 @@ public struct ListVersionsOutput: Swift.Sendable {
     }
 }
 
+public struct ProbeInput: Swift.Sendable {
+    /// The list of input media files to be probed.
+    public var inputFiles: [MediaConvertClientTypes.ProbeInputFile]?
+
+    public init(
+        inputFiles: [MediaConvertClientTypes.ProbeInputFile]? = nil
+    ) {
+        self.inputFiles = inputFiles
+    }
+}
+
+public struct ProbeOutput: Swift.Sendable {
+    /// List of probe results for the input media file(s).
+    public var probeResults: [MediaConvertClientTypes.ProbeResult]?
+
+    public init(
+        probeResults: [MediaConvertClientTypes.ProbeResult]? = nil
+    ) {
+        self.probeResults = probeResults
+    }
+}
+
 public struct PutPolicyInput: Swift.Sendable {
     /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     /// This member is required.
@@ -23372,6 +24216,13 @@ extension ListVersionsInput {
     }
 }
 
+extension ProbeInput {
+
+    static func urlPathProvider(_ value: ProbeInput) -> Swift.String? {
+        return "/2017-08-29/probe"
+    }
+}
+
 extension PutPolicyInput {
 
     static func urlPathProvider(_ value: PutPolicyInput) -> Swift.String? {
@@ -23544,6 +24395,14 @@ extension DescribeEndpointsInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["mode"].write(value.mode)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ProbeInput {
+
+    static func write(value: ProbeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inputFiles"].writeList(value.inputFiles, memberWritingClosure: MediaConvertClientTypes.ProbeInputFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -23853,6 +24712,18 @@ extension ListVersionsOutput {
         var value = ListVersionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.versions = try reader["versions"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.JobEngineVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ProbeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ProbeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ProbeOutput()
+        value.probeResults = try reader["probeResults"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.ProbeResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -24369,6 +25240,25 @@ enum ListVersionsOutputError {
     }
 }
 
+enum ProbeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -24793,6 +25683,7 @@ extension MediaConvertClientTypes.VideoDescription {
         guard let value else { return }
         try writer["afdSignaling"].write(value.afdSignaling)
         try writer["antiAlias"].write(value.antiAlias)
+        try writer["chromaPositionMode"].write(value.chromaPositionMode)
         try writer["codecSettings"].write(value.codecSettings, with: MediaConvertClientTypes.VideoCodecSettings.write(value:to:))
         try writer["colorMetadata"].write(value.colorMetadata)
         try writer["crop"].write(value.crop, with: MediaConvertClientTypes.Rectangle.write(value:to:))
@@ -24814,6 +25705,7 @@ extension MediaConvertClientTypes.VideoDescription {
         var value = MediaConvertClientTypes.VideoDescription()
         value.afdSignaling = try reader["afdSignaling"].readIfPresent()
         value.antiAlias = try reader["antiAlias"].readIfPresent()
+        value.chromaPositionMode = try reader["chromaPositionMode"].readIfPresent()
         value.codecSettings = try reader["codecSettings"].readIfPresent(with: MediaConvertClientTypes.VideoCodecSettings.read(from:))
         value.colorMetadata = try reader["colorMetadata"].readIfPresent()
         value.crop = try reader["crop"].readIfPresent(with: MediaConvertClientTypes.Rectangle.read(from:))
@@ -25242,6 +26134,7 @@ extension MediaConvertClientTypes.VideoCodecSettings {
         try writer["avcIntraSettings"].write(value.avcIntraSettings, with: MediaConvertClientTypes.AvcIntraSettings.write(value:to:))
         try writer["codec"].write(value.codec)
         try writer["frameCaptureSettings"].write(value.frameCaptureSettings, with: MediaConvertClientTypes.FrameCaptureSettings.write(value:to:))
+        try writer["gifSettings"].write(value.gifSettings, with: MediaConvertClientTypes.GifSettings.write(value:to:))
         try writer["h264Settings"].write(value.h264Settings, with: MediaConvertClientTypes.H264Settings.write(value:to:))
         try writer["h265Settings"].write(value.h265Settings, with: MediaConvertClientTypes.H265Settings.write(value:to:))
         try writer["mpeg2Settings"].write(value.mpeg2Settings, with: MediaConvertClientTypes.Mpeg2Settings.write(value:to:))
@@ -25260,6 +26153,7 @@ extension MediaConvertClientTypes.VideoCodecSettings {
         value.avcIntraSettings = try reader["avcIntraSettings"].readIfPresent(with: MediaConvertClientTypes.AvcIntraSettings.read(from:))
         value.codec = try reader["codec"].readIfPresent()
         value.frameCaptureSettings = try reader["frameCaptureSettings"].readIfPresent(with: MediaConvertClientTypes.FrameCaptureSettings.read(from:))
+        value.gifSettings = try reader["gifSettings"].readIfPresent(with: MediaConvertClientTypes.GifSettings.read(from:))
         value.h264Settings = try reader["h264Settings"].readIfPresent(with: MediaConvertClientTypes.H264Settings.read(from:))
         value.h265Settings = try reader["h265Settings"].readIfPresent(with: MediaConvertClientTypes.H265Settings.read(from:))
         value.mpeg2Settings = try reader["mpeg2Settings"].readIfPresent(with: MediaConvertClientTypes.Mpeg2Settings.read(from:))
@@ -25936,6 +26830,27 @@ extension MediaConvertClientTypes.H264QvbrSettings {
         value.maxAverageBitrate = try reader["maxAverageBitrate"].readIfPresent()
         value.qvbrQualityLevel = try reader["qvbrQualityLevel"].readIfPresent()
         value.qvbrQualityLevelFineTune = try reader["qvbrQualityLevelFineTune"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.GifSettings {
+
+    static func write(value: MediaConvertClientTypes.GifSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["framerateControl"].write(value.framerateControl)
+        try writer["framerateConversionAlgorithm"].write(value.framerateConversionAlgorithm)
+        try writer["framerateDenominator"].write(value.framerateDenominator)
+        try writer["framerateNumerator"].write(value.framerateNumerator)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.GifSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.GifSettings()
+        value.framerateControl = try reader["framerateControl"].readIfPresent()
+        value.framerateConversionAlgorithm = try reader["framerateConversionAlgorithm"].readIfPresent()
+        value.framerateDenominator = try reader["framerateDenominator"].readIfPresent()
+        value.framerateNumerator = try reader["framerateNumerator"].readIfPresent()
         return value
     }
 }
@@ -29323,6 +30238,124 @@ extension MediaConvertClientTypes.JobEngineVersion {
     }
 }
 
+extension MediaConvertClientTypes.ProbeResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ProbeResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.ProbeResult()
+        value.container = try reader["container"].readIfPresent(with: MediaConvertClientTypes.Container.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent(with: MediaConvertClientTypes.Metadata.read(from:))
+        value.trackMappings = try reader["trackMappings"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.TrackMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.TrackMapping {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.TrackMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.TrackMapping()
+        value.audioTrackIndexes = try reader["audioTrackIndexes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataTrackIndexes = try reader["dataTrackIndexes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.videoTrackIndexes = try reader["videoTrackIndexes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.Metadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Metadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.Metadata()
+        value.eTag = try reader["eTag"].readIfPresent()
+        value.fileSize = try reader["fileSize"].readIfPresent()
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.mimeType = try reader["mimeType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.Container {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Container {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.Container()
+        value.duration = try reader["duration"].readIfPresent()
+        value.format = try reader["format"].readIfPresent()
+        value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.Track.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.Track {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Track {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.Track()
+        value.audioProperties = try reader["audioProperties"].readIfPresent(with: MediaConvertClientTypes.AudioProperties.read(from:))
+        value.codec = try reader["codec"].readIfPresent()
+        value.dataProperties = try reader["dataProperties"].readIfPresent(with: MediaConvertClientTypes.DataProperties.read(from:))
+        value.duration = try reader["duration"].readIfPresent()
+        value.index = try reader["index"].readIfPresent()
+        value.trackType = try reader["trackType"].readIfPresent()
+        value.videoProperties = try reader["videoProperties"].readIfPresent(with: MediaConvertClientTypes.VideoProperties.read(from:))
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.VideoProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.VideoProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.VideoProperties()
+        value.bitDepth = try reader["bitDepth"].readIfPresent()
+        value.bitRate = try reader["bitRate"].readIfPresent()
+        value.colorPrimaries = try reader["colorPrimaries"].readIfPresent()
+        value.frameRate = try reader["frameRate"].readIfPresent(with: MediaConvertClientTypes.FrameRate.read(from:))
+        value.height = try reader["height"].readIfPresent()
+        value.matrixCoefficients = try reader["matrixCoefficients"].readIfPresent()
+        value.transferCharacteristics = try reader["transferCharacteristics"].readIfPresent()
+        value.width = try reader["width"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.FrameRate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.FrameRate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.FrameRate()
+        value.denominator = try reader["denominator"].readIfPresent()
+        value.numerator = try reader["numerator"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.DataProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.DataProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.DataProperties()
+        value.languageCode = try reader["languageCode"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.AudioProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.AudioProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.AudioProperties()
+        value.bitDepth = try reader["bitDepth"].readIfPresent()
+        value.bitRate = try reader["bitRate"].readIfPresent()
+        value.channels = try reader["channels"].readIfPresent()
+        value.frameRate = try reader["frameRate"].readIfPresent(with: MediaConvertClientTypes.FrameRate.read(from:))
+        value.languageCode = try reader["languageCode"].readIfPresent()
+        value.sampleRate = try reader["sampleRate"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaConvertClientTypes.ReservationPlanSettings {
 
     static func write(value: MediaConvertClientTypes.ReservationPlanSettings?, to writer: SmithyJSON.Writer) throws {
@@ -29330,6 +30363,14 @@ extension MediaConvertClientTypes.ReservationPlanSettings {
         try writer["commitment"].write(value.commitment)
         try writer["renewalType"].write(value.renewalType)
         try writer["reservedSlots"].write(value.reservedSlots)
+    }
+}
+
+extension MediaConvertClientTypes.ProbeInputFile {
+
+    static func write(value: MediaConvertClientTypes.ProbeInputFile?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fileUrl"].write(value.fileUrl)
     }
 }
 

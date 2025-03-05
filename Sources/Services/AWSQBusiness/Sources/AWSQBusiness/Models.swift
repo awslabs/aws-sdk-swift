@@ -2050,6 +2050,51 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
+    public enum AudioExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioExtractionStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Configuration settings for audio content extraction and processing.
+    public struct AudioExtractionConfiguration: Swift.Sendable {
+        /// The status of audio extraction (ENABLED or DISABLED) for processing audio content from files.
+        /// This member is required.
+        public var audioExtractionStatus: QBusinessClientTypes.AudioExtractionStatus?
+
+        public init(
+            audioExtractionStatus: QBusinessClientTypes.AudioExtractionStatus? = nil
+        ) {
+            self.audioExtractionStatus = audioExtractionStatus
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
     public enum ImageExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -2095,15 +2140,68 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
-    /// The configuration for extracting information from media in documents.
-    public struct MediaExtractionConfiguration: Swift.Sendable {
-        /// The configuration for extracting semantic meaning from images in documents. For more information, see [Extracting semantic meaning from images and visuals](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/extracting-meaning-from-images.html).
-        public var imageExtractionConfiguration: QBusinessClientTypes.ImageExtractionConfiguration?
+    public enum VideoExtractionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoExtractionStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Configuration settings for video content extraction and processing.
+    public struct VideoExtractionConfiguration: Swift.Sendable {
+        /// The status of video extraction (ENABLED or DISABLED) for processing video content from files.
+        /// This member is required.
+        public var videoExtractionStatus: QBusinessClientTypes.VideoExtractionStatus?
 
         public init(
-            imageExtractionConfiguration: QBusinessClientTypes.ImageExtractionConfiguration? = nil
+            videoExtractionStatus: QBusinessClientTypes.VideoExtractionStatus? = nil
         ) {
+            self.videoExtractionStatus = videoExtractionStatus
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// The configuration for extracting information from media in documents.
+    public struct MediaExtractionConfiguration: Swift.Sendable {
+        /// Configuration settings for extracting and processing audio content from media files.
+        public var audioExtractionConfiguration: QBusinessClientTypes.AudioExtractionConfiguration?
+        /// The configuration for extracting semantic meaning from images in documents. For more information, see [Extracting semantic meaning from images and visuals](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/extracting-meaning-from-images.html).
+        public var imageExtractionConfiguration: QBusinessClientTypes.ImageExtractionConfiguration?
+        /// Configuration settings for extracting and processing video content from media files.
+        public var videoExtractionConfiguration: QBusinessClientTypes.VideoExtractionConfiguration?
+
+        public init(
+            audioExtractionConfiguration: QBusinessClientTypes.AudioExtractionConfiguration? = nil,
+            imageExtractionConfiguration: QBusinessClientTypes.ImageExtractionConfiguration? = nil,
+            videoExtractionConfiguration: QBusinessClientTypes.VideoExtractionConfiguration? = nil
+        ) {
+            self.audioExtractionConfiguration = audioExtractionConfiguration
             self.imageExtractionConfiguration = imageExtractionConfiguration
+            self.videoExtractionConfiguration = videoExtractionConfiguration
         }
     }
 }
@@ -4569,6 +4667,51 @@ extension QBusinessClientTypes {
     }
 }
 
+extension QBusinessClientTypes {
+
+    public enum OrchestrationControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrchestrationControl] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// The chat orchestration specific admin controls configured for an Amazon Q Business application. Determines whether Amazon Q Business automatically routes chat requests across configured plugins and data sources in your Amazon Q Business application. For more information, see [Chat orchestration settings](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/guardrails-global-controls.html#guardrails-global-orchestration).
+    public struct AppliedOrchestrationConfiguration: Swift.Sendable {
+        /// Information about whether chat orchestration is enabled or disabled for an Amazon Q Business application.
+        /// This member is required.
+        public var control: QBusinessClientTypes.OrchestrationControl?
+
+        public init(
+            control: QBusinessClientTypes.OrchestrationControl? = nil
+        ) {
+            self.control = control
+        }
+    }
+}
+
 public struct AssociatePermissionInput: Swift.Sendable {
     /// The list of Amazon Q Business actions that the ISV is allowed to perform.
     /// This member is required.
@@ -4783,6 +4926,66 @@ extension QBusinessClientTypes {
             self.error = error
             self.name = name
             self.status = status
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    public enum AudioExtractionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case summary
+        case transcript
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioExtractionType] {
+            return [
+                .summary,
+                .transcript
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .summary: return "SUMMARY"
+            case .transcript: return "TRANSCRIPT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Details about an audio source, including its identifier, format, and time information.
+    public struct AudioSourceDetails: Swift.Sendable {
+        /// The type of audio extraction performed on the content.
+        public var audioExtractionType: QBusinessClientTypes.AudioExtractionType?
+        /// The ending timestamp in milliseconds for the relevant audio segment.
+        public var endTimeMilliseconds: Swift.Int?
+        /// Unique identifier for the audio media file.
+        public var mediaId: Swift.String?
+        /// The MIME type of the audio file (e.g., audio/mp3, audio/wav).
+        public var mediaMimeType: Swift.String?
+        /// The starting timestamp in milliseconds for the relevant audio segment.
+        public var startTimeMilliseconds: Swift.Int?
+
+        public init(
+            audioExtractionType: QBusinessClientTypes.AudioExtractionType? = nil,
+            endTimeMilliseconds: Swift.Int? = nil,
+            mediaId: Swift.String? = nil,
+            mediaMimeType: Swift.String? = nil,
+            startTimeMilliseconds: Swift.Int? = nil
+        ) {
+            self.audioExtractionType = audioExtractionType
+            self.endTimeMilliseconds = endTimeMilliseconds
+            self.mediaId = mediaId
+            self.mediaMimeType = mediaMimeType
+            self.startTimeMilliseconds = startTimeMilliseconds
         }
     }
 }
@@ -5351,6 +5554,99 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
+    /// Details about an image source, including its identifier and format.
+    public struct ImageSourceDetails: Swift.Sendable {
+        /// Unique identifier for the image file.
+        public var mediaId: Swift.String?
+        /// The MIME type of the image file.
+        public var mediaMimeType: Swift.String?
+
+        public init(
+            mediaId: Swift.String? = nil,
+            mediaMimeType: Swift.String? = nil
+        ) {
+            self.mediaId = mediaId
+            self.mediaMimeType = mediaMimeType
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    public enum VideoExtractionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case summary
+        case transcript
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoExtractionType] {
+            return [
+                .summary,
+                .transcript
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .summary: return "SUMMARY"
+            case .transcript: return "TRANSCRIPT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Details about a video source, including its identifier, format, and time information.
+    public struct VideoSourceDetails: Swift.Sendable {
+        /// The ending timestamp in milliseconds for the relevant video segment.
+        public var endTimeMilliseconds: Swift.Int?
+        /// Unique identifier for the video media file.
+        public var mediaId: Swift.String?
+        /// The MIME type of the video file (e.g., video/mp4, video/avi).
+        public var mediaMimeType: Swift.String?
+        /// The starting timestamp in milliseconds for the relevant video segment.
+        public var startTimeMilliseconds: Swift.Int?
+        /// The type of video extraction performed on the content.
+        public var videoExtractionType: QBusinessClientTypes.VideoExtractionType?
+
+        public init(
+            endTimeMilliseconds: Swift.Int? = nil,
+            mediaId: Swift.String? = nil,
+            mediaMimeType: Swift.String? = nil,
+            startTimeMilliseconds: Swift.Int? = nil,
+            videoExtractionType: QBusinessClientTypes.VideoExtractionType? = nil
+        ) {
+            self.endTimeMilliseconds = endTimeMilliseconds
+            self.mediaId = mediaId
+            self.mediaMimeType = mediaMimeType
+            self.startTimeMilliseconds = startTimeMilliseconds
+            self.videoExtractionType = videoExtractionType
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Container for details about different types of media sources (image, audio, or video).
+    public enum SourceDetails: Swift.Sendable {
+        /// Details specific to image content within the source.
+        case imagesourcedetails(QBusinessClientTypes.ImageSourceDetails)
+        /// Details specific to audio content within the source.
+        case audiosourcedetails(QBusinessClientTypes.AudioSourceDetails)
+        /// Details specific to video content within the source.
+        case videosourcedetails(QBusinessClientTypes.VideoSourceDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QBusinessClientTypes {
+
     /// Provides information about a text extract in a chat response that can be attributed to a source document.
     public struct TextSegment: Swift.Sendable {
         /// The zero-based location in the response string where the source attribution starts.
@@ -5358,24 +5654,30 @@ extension QBusinessClientTypes {
         /// The zero-based location in the response string where the source attribution ends.
         public var endOffset: Swift.Int?
         /// The identifier of the media object associated with the text segment in the source attribution.
+        @available(*, deprecated, message: "Deprecated in favor of using mediaId within the respective sourceDetails field. API deprecated since 2025-02-28")
         public var mediaId: Swift.String?
         /// The MIME type (image/png) of the media object associated with the text segment in the source attribution.
+        @available(*, deprecated, message: "Deprecated in favor of using mediaMimeType within the respective sourceDetails field. API deprecated since 2025-02-28")
         public var mediaMimeType: Swift.String?
         /// The relevant text excerpt from a source that was used to generate a citation text segment in an Amazon Q Business chat response.
         public var snippetExcerpt: QBusinessClientTypes.SnippetExcerpt?
+        /// Source information for a segment of extracted text, including its media type.
+        public var sourceDetails: QBusinessClientTypes.SourceDetails?
 
         public init(
             beginOffset: Swift.Int? = nil,
             endOffset: Swift.Int? = nil,
             mediaId: Swift.String? = nil,
             mediaMimeType: Swift.String? = nil,
-            snippetExcerpt: QBusinessClientTypes.SnippetExcerpt? = nil
+            snippetExcerpt: QBusinessClientTypes.SnippetExcerpt? = nil,
+            sourceDetails: QBusinessClientTypes.SourceDetails? = nil
         ) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.mediaId = mediaId
             self.mediaMimeType = mediaMimeType
             self.snippetExcerpt = snippetExcerpt
+            self.sourceDetails = sourceDetails
         }
     }
 }
@@ -5884,6 +6186,37 @@ extension QBusinessClientTypes {
     }
 }
 
+public struct DeleteAttachmentInput: Swift.Sendable {
+    /// The unique identifier for the Amazon Q Business application environment.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier for the attachment.
+    /// This member is required.
+    public var attachmentId: Swift.String?
+    /// The unique identifier of the conversation.
+    /// This member is required.
+    public var conversationId: Swift.String?
+    /// The unique identifier of the user involved in the conversation.
+    public var userId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        attachmentId: Swift.String? = nil,
+        conversationId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.attachmentId = attachmentId
+        self.conversationId = conversationId
+        self.userId = userId
+    }
+}
+
+public struct DeleteAttachmentOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteChatControlsConfigurationInput: Swift.Sendable {
     /// The identifier of the application the chat controls have been configured for.
     /// This member is required.
@@ -6253,6 +6586,8 @@ public struct GetChatControlsConfigurationOutput: Swift.Sendable {
     public var creatorModeConfiguration: QBusinessClientTypes.AppliedCreatorModeConfiguration?
     /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Q Business chat controls configured.
     public var nextToken: Swift.String?
+    /// The chat response orchestration settings for your application. Chat orchestration is optimized to work for English language content. For more details on language support in Amazon Q Business, see [Supported languages](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/supported-languages.html).
+    public var orchestrationConfiguration: QBusinessClientTypes.AppliedOrchestrationConfiguration?
     /// The response scope configured for a Amazon Q Business application. This determines whether your application uses its retrieval augmented generation (RAG) system to generate answers only from your enterprise data, or also uses the large language models (LLM) knowledge to respons to end user questions in chat.
     public var responseScope: QBusinessClientTypes.ResponseScope?
     /// The topic specific controls configured for a Amazon Q Business application.
@@ -6262,12 +6597,14 @@ public struct GetChatControlsConfigurationOutput: Swift.Sendable {
         blockedPhrases: QBusinessClientTypes.BlockedPhrasesConfiguration? = nil,
         creatorModeConfiguration: QBusinessClientTypes.AppliedCreatorModeConfiguration? = nil,
         nextToken: Swift.String? = nil,
+        orchestrationConfiguration: QBusinessClientTypes.AppliedOrchestrationConfiguration? = nil,
         responseScope: QBusinessClientTypes.ResponseScope? = nil,
         topicConfigurations: [QBusinessClientTypes.TopicConfiguration]? = nil
     ) {
         self.blockedPhrases = blockedPhrases
         self.creatorModeConfiguration = creatorModeConfiguration
         self.nextToken = nextToken
+        self.orchestrationConfiguration = orchestrationConfiguration
         self.responseScope = responseScope
         self.topicConfigurations = topicConfigurations
     }
@@ -7576,6 +7913,22 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension QBusinessClientTypes {
+
+    /// Configuration information required to enable chat orchestration for your Amazon Q Business application. Chat orchestration is optimized to work for English language content. For more details on language support in Amazon Q Business, see [Supported languages](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/supported-languages.html).
+    public struct OrchestrationConfiguration: Swift.Sendable {
+        /// Status information about whether chat orchestration is activated or deactivated for your Amazon Q Business application.
+        /// This member is required.
+        public var control: QBusinessClientTypes.OrchestrationControl?
+
+        public init(
+            control: QBusinessClientTypes.OrchestrationControl? = nil
+        ) {
+            self.control = control
+        }
+    }
+}
+
 public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
     /// The identifier of the application for which the chat controls are configured.
     /// This member is required.
@@ -7586,6 +7939,8 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The configuration details for CREATOR_MODE.
     public var creatorModeConfiguration: QBusinessClientTypes.CreatorModeConfiguration?
+    /// The chat response orchestration settings for your application.
+    public var orchestrationConfiguration: QBusinessClientTypes.OrchestrationConfiguration?
     /// The response scope configured for your application. This determines whether your application uses its retrieval augmented generation (RAG) system to generate answers only from your enterprise data, or also uses the large language models (LLM) knowledge to respons to end user questions in chat.
     public var responseScope: QBusinessClientTypes.ResponseScope?
     /// The configured topic specific chat controls you want to update.
@@ -7598,6 +7953,7 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
         blockedPhrasesConfigurationUpdate: QBusinessClientTypes.BlockedPhrasesConfigurationUpdate? = nil,
         clientToken: Swift.String? = nil,
         creatorModeConfiguration: QBusinessClientTypes.CreatorModeConfiguration? = nil,
+        orchestrationConfiguration: QBusinessClientTypes.OrchestrationConfiguration? = nil,
         responseScope: QBusinessClientTypes.ResponseScope? = nil,
         topicConfigurationsToCreateOrUpdate: [QBusinessClientTypes.TopicConfiguration]? = nil,
         topicConfigurationsToDelete: [QBusinessClientTypes.TopicConfiguration]? = nil
@@ -7606,6 +7962,7 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
         self.blockedPhrasesConfigurationUpdate = blockedPhrasesConfigurationUpdate
         self.clientToken = clientToken
         self.creatorModeConfiguration = creatorModeConfiguration
+        self.orchestrationConfiguration = orchestrationConfiguration
         self.responseScope = responseScope
         self.topicConfigurationsToCreateOrUpdate = topicConfigurationsToCreateOrUpdate
         self.topicConfigurationsToDelete = topicConfigurationsToDelete
@@ -8314,6 +8671,34 @@ extension DeleteApplicationInput {
             return nil
         }
         return "/applications/\(applicationId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteAttachmentInput {
+
+    static func urlPathProvider(_ value: DeleteAttachmentInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let conversationId = value.conversationId else {
+            return nil
+        }
+        guard let attachmentId = value.attachmentId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/conversations/\(conversationId.urlPercentEncoding())/attachments/\(attachmentId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteAttachmentInput {
+
+    static func queryItemProvider(_ value: DeleteAttachmentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let userId = value.userId {
+            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            items.append(userIdQueryItem)
+        }
+        return items
     }
 }
 
@@ -9668,6 +10053,7 @@ extension UpdateChatControlsConfigurationInput {
         try writer["blockedPhrasesConfigurationUpdate"].write(value.blockedPhrasesConfigurationUpdate, with: QBusinessClientTypes.BlockedPhrasesConfigurationUpdate.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["creatorModeConfiguration"].write(value.creatorModeConfiguration, with: QBusinessClientTypes.CreatorModeConfiguration.write(value:to:))
+        try writer["orchestrationConfiguration"].write(value.orchestrationConfiguration, with: QBusinessClientTypes.OrchestrationConfiguration.write(value:to:))
         try writer["responseScope"].write(value.responseScope)
         try writer["topicConfigurationsToCreateOrUpdate"].writeList(value.topicConfigurationsToCreateOrUpdate, memberWritingClosure: QBusinessClientTypes.TopicConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["topicConfigurationsToDelete"].writeList(value.topicConfigurationsToDelete, memberWritingClosure: QBusinessClientTypes.TopicConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9969,6 +10355,13 @@ extension DeleteApplicationOutput {
     }
 }
 
+extension DeleteAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAttachmentOutput {
+        return DeleteAttachmentOutput()
+    }
+}
+
 extension DeleteChatControlsConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteChatControlsConfigurationOutput {
@@ -10086,6 +10479,7 @@ extension GetChatControlsConfigurationOutput {
         value.blockedPhrases = try reader["blockedPhrases"].readIfPresent(with: QBusinessClientTypes.BlockedPhrasesConfiguration.read(from:))
         value.creatorModeConfiguration = try reader["creatorModeConfiguration"].readIfPresent(with: QBusinessClientTypes.AppliedCreatorModeConfiguration.read(from:))
         value.nextToken = try reader["nextToken"].readIfPresent()
+        value.orchestrationConfiguration = try reader["orchestrationConfiguration"].readIfPresent(with: QBusinessClientTypes.AppliedOrchestrationConfiguration.read(from:))
         value.responseScope = try reader["responseScope"].readIfPresent()
         value.topicConfigurations = try reader["topicConfigurations"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.TopicConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -10973,6 +11367,25 @@ enum DeleteApplicationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "LicenseNotFoundException": return try LicenseNotFoundException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -12449,6 +12862,64 @@ extension QBusinessClientTypes.TextSegment {
         value.snippetExcerpt = try reader["snippetExcerpt"].readIfPresent(with: QBusinessClientTypes.SnippetExcerpt.read(from:))
         value.mediaId = try reader["mediaId"].readIfPresent()
         value.mediaMimeType = try reader["mediaMimeType"].readIfPresent()
+        value.sourceDetails = try reader["sourceDetails"].readIfPresent(with: QBusinessClientTypes.SourceDetails.read(from:))
+        return value
+    }
+}
+
+extension QBusinessClientTypes.SourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.SourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "imageSourceDetails":
+                return .imagesourcedetails(try reader["imageSourceDetails"].read(with: QBusinessClientTypes.ImageSourceDetails.read(from:)))
+            case "audioSourceDetails":
+                return .audiosourcedetails(try reader["audioSourceDetails"].read(with: QBusinessClientTypes.AudioSourceDetails.read(from:)))
+            case "videoSourceDetails":
+                return .videosourcedetails(try reader["videoSourceDetails"].read(with: QBusinessClientTypes.VideoSourceDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QBusinessClientTypes.VideoSourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.VideoSourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.VideoSourceDetails()
+        value.mediaId = try reader["mediaId"].readIfPresent()
+        value.mediaMimeType = try reader["mediaMimeType"].readIfPresent()
+        value.startTimeMilliseconds = try reader["startTimeMilliseconds"].readIfPresent()
+        value.endTimeMilliseconds = try reader["endTimeMilliseconds"].readIfPresent()
+        value.videoExtractionType = try reader["videoExtractionType"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.AudioSourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AudioSourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.AudioSourceDetails()
+        value.mediaId = try reader["mediaId"].readIfPresent()
+        value.mediaMimeType = try reader["mediaMimeType"].readIfPresent()
+        value.startTimeMilliseconds = try reader["startTimeMilliseconds"].readIfPresent()
+        value.endTimeMilliseconds = try reader["endTimeMilliseconds"].readIfPresent()
+        value.audioExtractionType = try reader["audioExtractionType"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.ImageSourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.ImageSourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.ImageSourceDetails()
+        value.mediaId = try reader["mediaId"].readIfPresent()
+        value.mediaMimeType = try reader["mediaMimeType"].readIfPresent()
         return value
     }
 }
@@ -12582,6 +13053,16 @@ extension QBusinessClientTypes.QuickSightConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.QuickSightConfiguration()
         value.clientNamespace = try reader["clientNamespace"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QBusinessClientTypes.AppliedOrchestrationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AppliedOrchestrationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.AppliedOrchestrationConfiguration()
+        value.control = try reader["control"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12977,13 +13458,47 @@ extension QBusinessClientTypes.MediaExtractionConfiguration {
 
     static func write(value: QBusinessClientTypes.MediaExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioExtractionConfiguration"].write(value.audioExtractionConfiguration, with: QBusinessClientTypes.AudioExtractionConfiguration.write(value:to:))
         try writer["imageExtractionConfiguration"].write(value.imageExtractionConfiguration, with: QBusinessClientTypes.ImageExtractionConfiguration.write(value:to:))
+        try writer["videoExtractionConfiguration"].write(value.videoExtractionConfiguration, with: QBusinessClientTypes.VideoExtractionConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.MediaExtractionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.MediaExtractionConfiguration()
         value.imageExtractionConfiguration = try reader["imageExtractionConfiguration"].readIfPresent(with: QBusinessClientTypes.ImageExtractionConfiguration.read(from:))
+        value.audioExtractionConfiguration = try reader["audioExtractionConfiguration"].readIfPresent(with: QBusinessClientTypes.AudioExtractionConfiguration.read(from:))
+        value.videoExtractionConfiguration = try reader["videoExtractionConfiguration"].readIfPresent(with: QBusinessClientTypes.VideoExtractionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QBusinessClientTypes.VideoExtractionConfiguration {
+
+    static func write(value: QBusinessClientTypes.VideoExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["videoExtractionStatus"].write(value.videoExtractionStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.VideoExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.VideoExtractionConfiguration()
+        value.videoExtractionStatus = try reader["videoExtractionStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QBusinessClientTypes.AudioExtractionConfiguration {
+
+    static func write(value: QBusinessClientTypes.AudioExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioExtractionStatus"].write(value.audioExtractionStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AudioExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.AudioExtractionConfiguration()
+        value.audioExtractionStatus = try reader["audioExtractionStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -14210,6 +14725,14 @@ extension QBusinessClientTypes.RetrieverContentSource {
     static func write(value: QBusinessClientTypes.RetrieverContentSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["retrieverId"].write(value.retrieverId)
+    }
+}
+
+extension QBusinessClientTypes.OrchestrationConfiguration {
+
+    static func write(value: QBusinessClientTypes.OrchestrationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["control"].write(value.control)
     }
 }
 

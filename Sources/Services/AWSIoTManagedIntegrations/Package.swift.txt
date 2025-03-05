@@ -3,12 +3,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "AWSElasticInference",
+    name: "AWSIoTManagedIntegrations",
     platforms: [
         .macOS(.v10_15), .iOS(.v13)
     ],
     products: [
-        .library(name: "AWSElasticInference", targets: ["AWSElasticInference"])
+        .library(name: "AWSIoTManagedIntegrations", targets: ["AWSIoTManagedIntegrations"])
     ],
     dependencies: [
         .package(
@@ -30,7 +30,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "AWSElasticInference",
+            name: "AWSIoTManagedIntegrations",
             dependencies: [
                 .product(
                     name: "AWSClientRuntime",
@@ -84,12 +84,16 @@ let package = Package(
                     name: "SmithyTestUtil",
                     package: "smithy-swift"
                 ),
+                .product(
+                    name: "SmithyTimestamps",
+                    package: "smithy-swift"
+                ),
             ]
         ),
         .testTarget(
-            name: "AWSElasticInferenceTests",
+            name: "AWSIoTManagedIntegrationsTests",
             dependencies: [
-                "AWSElasticInference",
+                "AWSIoTManagedIntegrations",
                 .product(
                     name: "SmithyTestUtil",
                     package: "smithy-swift"

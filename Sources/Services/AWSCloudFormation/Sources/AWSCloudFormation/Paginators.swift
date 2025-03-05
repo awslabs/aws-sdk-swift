@@ -374,6 +374,68 @@ extension PaginatorSequence where OperationStackInput == ListStackInstancesInput
     }
 }
 extension CloudFormationClient {
+    /// Paginate over `[ListStackRefactorActionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStackRefactorActionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStackRefactorActionsOutput`
+    public func listStackRefactorActionsPaginated(input: ListStackRefactorActionsInput) -> ClientRuntime.PaginatorSequence<ListStackRefactorActionsInput, ListStackRefactorActionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListStackRefactorActionsInput, ListStackRefactorActionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStackRefactorActions(input:))
+    }
+}
+
+extension ListStackRefactorActionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListStackRefactorActionsInput {
+        return ListStackRefactorActionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            stackRefactorId: self.stackRefactorId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListStackRefactorActionsInput, OperationStackOutput == ListStackRefactorActionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listStackRefactorActionsPaginated`
+    /// to access the nested member `[CloudFormationClientTypes.StackRefactorAction]`
+    /// - Returns: `[CloudFormationClientTypes.StackRefactorAction]`
+    public func stackRefactorActions() async throws -> [CloudFormationClientTypes.StackRefactorAction] {
+        return try await self.asyncCompactMap { item in item.stackRefactorActions }
+    }
+}
+extension CloudFormationClient {
+    /// Paginate over `[ListStackRefactorsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStackRefactorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStackRefactorsOutput`
+    public func listStackRefactorsPaginated(input: ListStackRefactorsInput) -> ClientRuntime.PaginatorSequence<ListStackRefactorsInput, ListStackRefactorsOutput> {
+        return ClientRuntime.PaginatorSequence<ListStackRefactorsInput, ListStackRefactorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStackRefactors(input:))
+    }
+}
+
+extension ListStackRefactorsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListStackRefactorsInput {
+        return ListStackRefactorsInput(
+            executionStatusFilter: self.executionStatusFilter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListStackRefactorsInput, OperationStackOutput == ListStackRefactorsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listStackRefactorsPaginated`
+    /// to access the nested member `[CloudFormationClientTypes.StackRefactorSummary]`
+    /// - Returns: `[CloudFormationClientTypes.StackRefactorSummary]`
+    public func stackRefactorSummaries() async throws -> [CloudFormationClientTypes.StackRefactorSummary] {
+        return try await self.asyncCompactMap { item in item.stackRefactorSummaries }
+    }
+}
+extension CloudFormationClient {
     /// Paginate over `[ListStackResourcesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

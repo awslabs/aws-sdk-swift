@@ -5394,6 +5394,7 @@ extension MediaLiveClientTypes {
         case medialiveMultiplex
         case mediapackageChannel
         case mediapackageOriginEndpoint
+        case mediatailorPlaybackConfiguration
         case s3Bucket
         case sdkUnknown(Swift.String)
 
@@ -5406,6 +5407,7 @@ extension MediaLiveClientTypes {
                 .medialiveMultiplex,
                 .mediapackageChannel,
                 .mediapackageOriginEndpoint,
+                .mediatailorPlaybackConfiguration,
                 .s3Bucket
             ]
         }
@@ -5424,6 +5426,7 @@ extension MediaLiveClientTypes {
             case .medialiveMultiplex: return "MEDIALIVE_MULTIPLEX"
             case .mediapackageChannel: return "MEDIAPACKAGE_CHANNEL"
             case .mediapackageOriginEndpoint: return "MEDIAPACKAGE_ORIGIN_ENDPOINT"
+            case .mediatailorPlaybackConfiguration: return "MEDIATAILOR_PLAYBACK_CONFIGURATION"
             case .s3Bucket: return "S3_BUCKET"
             case let .sdkUnknown(s): return s
             }
@@ -5680,7 +5683,7 @@ extension MediaLiveClientTypes {
         public var id: Swift.String?
         /// The name that you specified for the ChannelPlacementGroup.
         public var name: Swift.String?
-        /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+        /// An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.
         public var nodes: [Swift.String]?
         /// The current state of the ChannelPlacementGroup.
         public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
@@ -19593,7 +19596,7 @@ public struct CreateChannelPlacementGroupOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The name that you specified for the ChannelPlacementGroup.
     public var name: Swift.String?
-    /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+    /// An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.
     public var nodes: [Swift.String]?
     /// The current state of the ChannelPlacementGroup.
     public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
@@ -19641,6 +19644,8 @@ public struct CreateCloudWatchAlarmTemplateInput: Swift.Sendable {
     /// The period, in seconds, over which the specified statistic is applied.
     /// This member is required.
     public var period: Swift.Int?
+    /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+    public var requestId: Swift.String?
     /// The statistic to apply to the alarm's metric data.
     /// This member is required.
     public var statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic?
@@ -19665,6 +19670,7 @@ public struct CreateCloudWatchAlarmTemplateInput: Swift.Sendable {
         metricName: Swift.String? = nil,
         name: Swift.String? = nil,
         period: Swift.Int? = nil,
+        requestId: Swift.String? = nil,
         statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType? = nil,
@@ -19679,6 +19685,7 @@ public struct CreateCloudWatchAlarmTemplateInput: Swift.Sendable {
         self.metricName = metricName
         self.name = name
         self.period = period
+        self.requestId = requestId
         self.statistic = statistic
         self.tags = tags
         self.targetResourceType = targetResourceType
@@ -19770,16 +19777,20 @@ public struct CreateCloudWatchAlarmTemplateGroupInput: Swift.Sendable {
     /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
     /// This member is required.
     public var name: Swift.String?
+    /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+    public var requestId: Swift.String?
     /// Represents the tags associated with a resource.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil,
+        requestId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.description = description
         self.name = name
+        self.requestId = requestId
         self.tags = tags
     }
 }
@@ -19907,6 +19918,8 @@ public struct CreateEventBridgeRuleTemplateInput: Swift.Sendable {
     /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
     /// This member is required.
     public var name: Swift.String?
+    /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+    public var requestId: Swift.String?
     /// Represents the tags associated with a resource.
     public var tags: [Swift.String: Swift.String]?
 
@@ -19916,6 +19929,7 @@ public struct CreateEventBridgeRuleTemplateInput: Swift.Sendable {
         eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType? = nil,
         groupIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
+        requestId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.description = description
@@ -19923,6 +19937,7 @@ public struct CreateEventBridgeRuleTemplateInput: Swift.Sendable {
         self.eventType = eventType
         self.groupIdentifier = groupIdentifier
         self.name = name
+        self.requestId = requestId
         self.tags = tags
     }
 }
@@ -19982,16 +19997,20 @@ public struct CreateEventBridgeRuleTemplateGroupInput: Swift.Sendable {
     /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
     /// This member is required.
     public var name: Swift.String?
+    /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+    public var requestId: Swift.String?
     /// Represents the tags associated with a resource.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil,
+        requestId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.description = description
         self.name = name
+        self.requestId = requestId
         self.tags = tags
     }
 }
@@ -20821,6 +20840,8 @@ public struct CreateSignalMapInput: Swift.Sendable {
     /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
     /// This member is required.
     public var name: Swift.String?
+    /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+    public var requestId: Swift.String?
     /// Represents the tags associated with a resource.
     public var tags: [Swift.String: Swift.String]?
 
@@ -20830,6 +20851,7 @@ public struct CreateSignalMapInput: Swift.Sendable {
         discoveryEntryPointArn: Swift.String? = nil,
         eventBridgeRuleTemplateGroupIdentifiers: [Swift.String]? = nil,
         name: Swift.String? = nil,
+        requestId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.cloudWatchAlarmTemplateGroupIdentifiers = cloudWatchAlarmTemplateGroupIdentifiers
@@ -20837,6 +20859,7 @@ public struct CreateSignalMapInput: Swift.Sendable {
         self.discoveryEntryPointArn = discoveryEntryPointArn
         self.eventBridgeRuleTemplateGroupIdentifiers = eventBridgeRuleTemplateGroupIdentifiers
         self.name = name
+        self.requestId = requestId
         self.tags = tags
     }
 }
@@ -21137,7 +21160,7 @@ public struct DeleteChannelPlacementGroupOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The name that you specified for the ChannelPlacementGroup.
     public var name: Swift.String?
-    /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+    /// An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.
     public var nodes: [Swift.String]?
     /// The current state of the ChannelPlacementGroup.
     public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
@@ -21822,7 +21845,7 @@ public struct DescribeChannelPlacementGroupOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The name that you specified for the ChannelPlacementGroup.
     public var name: Swift.String?
-    /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+    /// An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.
     public var nodes: [Swift.String]?
     /// The current state of the ChannelPlacementGroup.
     public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
@@ -24920,7 +24943,7 @@ public struct UpdateChannelPlacementGroupOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The name that you specified for the ChannelPlacementGroup.
     public var name: Swift.String?
-    /// An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.
+    /// An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.
     public var nodes: [Swift.String]?
     /// The current state of the ChannelPlacementGroup.
     public var state: MediaLiveClientTypes.ChannelPlacementGroupState?
@@ -27518,6 +27541,7 @@ extension CreateCloudWatchAlarmTemplateInput {
         try writer["metricName"].write(value.metricName)
         try writer["name"].write(value.name)
         try writer["period"].write(value.period)
+        try writer["requestId"].write(value.requestId)
         try writer["statistic"].write(value.statistic)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["targetResourceType"].write(value.targetResourceType)
@@ -27532,6 +27556,7 @@ extension CreateCloudWatchAlarmTemplateGroupInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["requestId"].write(value.requestId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -27558,6 +27583,7 @@ extension CreateEventBridgeRuleTemplateInput {
         try writer["eventType"].write(value.eventType)
         try writer["groupIdentifier"].write(value.groupIdentifier)
         try writer["name"].write(value.name)
+        try writer["requestId"].write(value.requestId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -27568,6 +27594,7 @@ extension CreateEventBridgeRuleTemplateGroupInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["requestId"].write(value.requestId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -27678,6 +27705,7 @@ extension CreateSignalMapInput {
         try writer["discoveryEntryPointArn"].write(value.discoveryEntryPointArn)
         try writer["eventBridgeRuleTemplateGroupIdentifiers"].writeList(value.eventBridgeRuleTemplateGroupIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["requestId"].write(value.requestId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }

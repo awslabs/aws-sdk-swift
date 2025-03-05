@@ -127,7 +127,9 @@ extension ApplicationSignalsClient {
 extension ListServicesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListServicesInput {
         return ListServicesInput(
+            awsAccountId: self.awsAccountId,
             endTime: self.endTime,
+            includeLinkedAccounts: self.includeLinkedAccounts,
             maxResults: self.maxResults,
             nextToken: token,
             startTime: self.startTime

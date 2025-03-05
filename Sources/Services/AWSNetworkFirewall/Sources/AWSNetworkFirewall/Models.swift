@@ -103,6 +103,127 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
+    public enum EnabledAnalysisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case httpHost
+        case tlsSni
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnabledAnalysisType] {
+            return [
+                .httpHost,
+                .tlsSni
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .httpHost: return "HTTP_HOST"
+            case .tlsSni: return "TLS_SNI"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A report that captures key activity from the last 30 days of network traffic monitored by your firewall. You can generate up to one report per traffic type, per 30 day period. For example, when you successfully create an HTTP traffic report, you cannot create another HTTP traffic report until 30 days pass. Alternatively, if you generate a report that combines metrics on both HTTP and HTTPS traffic, you cannot create another report for either traffic type until 30 days pass.
+    public struct AnalysisReport: Swift.Sendable {
+        /// The unique ID of the query that ran when you requested an analysis report.
+        public var analysisReportId: Swift.String?
+        /// The type of traffic that will be used to generate a report.
+        public var analysisType: NetworkFirewallClientTypes.EnabledAnalysisType?
+        /// The date and time the analysis report was ran.
+        public var reportTime: Foundation.Date?
+        /// The status of the analysis report you specify. Statuses include RUNNING, COMPLETED, or FAILED.
+        public var status: Swift.String?
+
+        public init(
+            analysisReportId: Swift.String? = nil,
+            analysisType: NetworkFirewallClientTypes.EnabledAnalysisType? = nil,
+            reportTime: Foundation.Date? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.analysisReportId = analysisReportId
+            self.analysisType = analysisType
+            self.reportTime = reportTime
+            self.status = status
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Attempts made to a access domain.
+    public struct Hits: Swift.Sendable {
+        /// The number of attempts made to access a domain.
+        public var count: Swift.Int
+
+        public init(
+            count: Swift.Int = 0
+        ) {
+            self.count = count
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A unique source IP address that connected to a domain.
+    public struct UniqueSources: Swift.Sendable {
+        /// The number of unique source IP addresses that connected to a domain.
+        public var count: Swift.Int
+
+        public init(
+            count: Swift.Int = 0
+        ) {
+            self.count = count
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The results of a COMPLETED analysis report generated with [StartAnalysisReport]. For an example of traffic analysis report results, see the response syntax of [GetAnalysisReportResults].
+    public struct AnalysisTypeReportResult: Swift.Sendable {
+        /// The most frequently accessed domains.
+        public var domain: Swift.String?
+        /// The date and time any domain was first accessed (within the last 30 day period).
+        public var firstAccessed: Foundation.Date?
+        /// The number of attempts made to access a observed domain.
+        public var hits: NetworkFirewallClientTypes.Hits?
+        /// The date and time any domain was last accessed (within the last 30 day period).
+        public var lastAccessed: Foundation.Date?
+        /// The type of traffic captured by the analysis report.
+        public var `protocol`: Swift.String?
+        /// The number of unique source IP addresses that connected to a domain.
+        public var uniqueSources: NetworkFirewallClientTypes.UniqueSources?
+
+        public init(
+            domain: Swift.String? = nil,
+            firstAccessed: Foundation.Date? = nil,
+            hits: NetworkFirewallClientTypes.Hits? = nil,
+            lastAccessed: Foundation.Date? = nil,
+            `protocol`: Swift.String? = nil,
+            uniqueSources: NetworkFirewallClientTypes.UniqueSources? = nil
+        ) {
+            self.domain = domain
+            self.firstAccessed = firstAccessed
+            self.hits = hits
+            self.lastAccessed = lastAccessed
+            self.`protocol` = `protocol`
+            self.uniqueSources = uniqueSources
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
     public enum IdentifiedType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case statelessRuleContainsTcpFlags
         case statelessRuleForwardingAsymmetrically
@@ -132,7 +253,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// The analysis result for Network Firewall's stateless rule group analyzer. Every time you call [CreateRuleGroup], [UpdateRuleGroup], or [DescribeRuleGroup] on a stateless rule group, Network Firewall analyzes the stateless rule groups in your account and identifies the rules that might adversely effect your firewall's functionality. For example, if Network Firewall detects a rule that's routing traffic asymmetrically, which impacts the service's ability to properly process traffic, the service includes the rule in a list of analysis results.
+    /// The analysis result for Network Firewall's stateless rule group analyzer. Every time you call [CreateRuleGroup], [UpdateRuleGroup], or [DescribeRuleGroup] on a stateless rule group, Network Firewall analyzes the stateless rule groups in your account and identifies the rules that might adversely effect your firewall's functionality. For example, if Network Firewall detects a rule that's routing traffic asymmetrically, which impacts the service's ability to properly process traffic, the service includes the rule in a list of analysis results. The AnalysisResult data type is not related to traffic analysis reports you generate using [StartAnalysisReport]. For information on traffic analysis report results, see [AnalysisTypeReportResult].
     public struct AnalysisResult: Swift.Sendable {
         /// Provides analysis details for the identified rule.
         public var analysisDetail: Swift.String?
@@ -815,6 +936,8 @@ public struct CreateFirewallInput: Swift.Sendable {
     public var deleteProtection: Swift.Bool?
     /// A description of the firewall.
     public var description: Swift.String?
+    /// An optional setting indicating the specific traffic analysis types to enable on the firewall.
+    public var enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]?
     /// A complex type that contains settings for encryption of your firewall resources.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
@@ -828,17 +951,16 @@ public struct CreateFirewallInput: Swift.Sendable {
     /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     public var subnetChangeProtection: Swift.Bool?
     /// The public subnets to use for your Network Firewall firewalls. Each subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a firewall endpoint in each subnet.
-    /// This member is required.
     public var subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]?
     /// The key:value pairs to associate with the resource.
     public var tags: [NetworkFirewallClientTypes.Tag]?
     /// The unique identifier of the VPC where Network Firewall should create the firewall. You can't change this setting after you create the firewall.
-    /// This member is required.
     public var vpcId: Swift.String?
 
     public init(
         deleteProtection: Swift.Bool? = false,
         description: Swift.String? = nil,
+        enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]? = nil,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
         firewallName: Swift.String? = nil,
         firewallPolicyArn: Swift.String? = nil,
@@ -850,6 +972,7 @@ public struct CreateFirewallInput: Swift.Sendable {
     ) {
         self.deleteProtection = deleteProtection
         self.description = description
+        self.enabledAnalysisTypes = enabledAnalysisTypes
         self.encryptionConfiguration = encryptionConfiguration
         self.firewallName = firewallName
         self.firewallPolicyArn = firewallPolicyArn
@@ -869,6 +992,8 @@ extension NetworkFirewallClientTypes {
         public var deleteProtection: Swift.Bool
         /// A description of the firewall.
         public var description: Swift.String?
+        /// An optional setting indicating the specific traffic analysis types to enable on the firewall.
+        public var enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]?
         /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your firewall.
         public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
         /// The Amazon Resource Name (ARN) of the firewall.
@@ -897,6 +1022,7 @@ extension NetworkFirewallClientTypes {
         public init(
             deleteProtection: Swift.Bool = false,
             description: Swift.String? = nil,
+            enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]? = nil,
             encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
             firewallArn: Swift.String? = nil,
             firewallId: Swift.String? = nil,
@@ -910,6 +1036,7 @@ extension NetworkFirewallClientTypes {
         ) {
             self.deleteProtection = deleteProtection
             self.description = description
+            self.enabledAnalysisTypes = enabledAnalysisTypes
             self.encryptionConfiguration = encryptionConfiguration
             self.firewallArn = firewallArn
             self.firewallId = firewallId
@@ -1853,10 +1980,10 @@ extension NetworkFirewallClientTypes {
 
     /// Additional settings for a stateful rule. This is part of the [StatefulRule] configuration.
     public struct RuleOption: Swift.Sendable {
-        /// The keyword for the Suricata compatible rule option. You must include a sid (signature ID), and can optionally include other keywords. For information about Suricata compatible keywords, see [Rule options](https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html#rule-options) in the Suricata documentation.
+        /// The keyword for the Suricata compatible rule option. You must include a sid (signature ID), and can optionally include other keywords. For information about Suricata compatible keywords, see [Rule options](https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html#rule-options) in the Suricata documentation.
         /// This member is required.
         public var keyword: Swift.String?
-        /// The settings of the Suricata compatible rule option. Rule options have zero or more setting values, and the number of possible and required settings depends on the Keyword. For more information about the settings for specific options, see [Rule options](https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html#rule-options).
+        /// The settings of the Suricata compatible rule option. Rule options have zero or more setting values, and the number of possible and required settings depends on the Keyword. For more information about the settings for specific options, see [Rule options](https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html#rule-options).
         public var settings: [Swift.String]?
 
         public init(
@@ -1871,7 +1998,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// A single Suricata rules specification, for use in a stateful rule group. Use this option to specify a simple Suricata rule with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html).
+    /// A single Suricata rules specification, for use in a stateful rule group. Use this option to specify a simple Suricata rule with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html).
     public struct StatefulRule: Swift.Sendable {
         /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow. The actions for a stateful rule are defined as follows:
         ///
@@ -2109,7 +2236,7 @@ extension NetworkFirewallClientTypes {
         public var rulesSourceList: NetworkFirewallClientTypes.RulesSourceList?
         /// Stateful inspection criteria, provided in Suricata compatible rules. Suricata is an open-source threat detection framework that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting. You can't use the priority keyword if the RuleOrder option in [StatefulRuleOptions] is set to STRICT_ORDER.
         public var rulesString: Swift.String?
-        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html).
+        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html).
         public var statefulRules: [NetworkFirewallClientTypes.StatefulRule]?
         /// Stateless inspection criteria to be used in a stateless rule group.
         public var statelessRulesAndCustomActions: NetworkFirewallClientTypes.StatelessRulesAndCustomActions?
@@ -3246,6 +3373,107 @@ extension NetworkFirewallClientTypes {
     }
 }
 
+public struct GetAnalysisReportResultsInput: Swift.Sendable {
+    /// The unique ID of the query that ran when you requested an analysis report.
+    /// This member is required.
+    public var analysisReportId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        analysisReportId: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.analysisReportId = analysisReportId
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct GetAnalysisReportResultsOutput: Swift.Sendable {
+    /// Retrieves the results of a traffic analysis report.
+    public var analysisReportResults: [NetworkFirewallClientTypes.AnalysisTypeReportResult]?
+    /// The type of traffic that will be used to generate a report.
+    public var analysisType: NetworkFirewallClientTypes.EnabledAnalysisType?
+    /// The date and time, up to the current date, from which to stop retrieving analysis data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
+    public var endTime: Foundation.Date?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+    /// The date and time the analysis report was ran.
+    public var reportTime: Foundation.Date?
+    /// The date and time within the last 30 days from which to start retrieving analysis data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ.
+    public var startTime: Foundation.Date?
+    /// The status of the analysis report you specify. Statuses include RUNNING, COMPLETED, or FAILED.
+    public var status: Swift.String?
+
+    public init(
+        analysisReportResults: [NetworkFirewallClientTypes.AnalysisTypeReportResult]? = nil,
+        analysisType: NetworkFirewallClientTypes.EnabledAnalysisType? = nil,
+        endTime: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil,
+        reportTime: Foundation.Date? = nil,
+        startTime: Foundation.Date? = nil,
+        status: Swift.String? = nil
+    ) {
+        self.analysisReportResults = analysisReportResults
+        self.analysisType = analysisType
+        self.endTime = endTime
+        self.nextToken = nextToken
+        self.reportTime = reportTime
+        self.startTime = startTime
+        self.status = status
+    }
+}
+
+public struct ListAnalysisReportsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAnalysisReportsOutput: Swift.Sendable {
+    /// The id and ReportTime associated with a requested analysis report. Does not provide the status of the analysis report.
+    public var analysisReports: [NetworkFirewallClientTypes.AnalysisReport]?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        analysisReports: [NetworkFirewallClientTypes.AnalysisReport]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.analysisReports = analysisReports
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListFirewallPoliciesInput: Swift.Sendable {
     /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
     public var maxResults: Swift.Int?
@@ -3574,6 +3802,38 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct StartAnalysisReportInput: Swift.Sendable {
+    /// The type of traffic that will be used to generate a report.
+    /// This member is required.
+    public var analysisType: NetworkFirewallClientTypes.EnabledAnalysisType?
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+
+    public init(
+        analysisType: NetworkFirewallClientTypes.EnabledAnalysisType? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil
+    ) {
+        self.analysisType = analysisType
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+    }
+}
+
+public struct StartAnalysisReportOutput: Swift.Sendable {
+    /// The unique ID of the query that ran when you requested an analysis report.
+    /// This member is required.
+    public var analysisReportId: Swift.String?
+
+    public init(
+        analysisReportId: Swift.String? = nil
+    ) {
+        self.analysisReportId = analysisReportId
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -3616,6 +3876,52 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdateFirewallAnalysisSettingsInput: Swift.Sendable {
+    /// An optional setting indicating the specific traffic analysis types to enable on the firewall.
+    public var enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]?
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.enabledAnalysisTypes = enabledAnalysisTypes
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateFirewallAnalysisSettingsOutput: Swift.Sendable {
+    /// An optional setting indicating the specific traffic analysis types to enable on the firewall.
+    public var enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]?
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.enabledAnalysisTypes = enabledAnalysisTypes
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.updateToken = updateToken
+    }
 }
 
 /// Unable to change the resource because your account doesn't own it.
@@ -4218,6 +4524,20 @@ extension DisassociateSubnetsInput {
     }
 }
 
+extension GetAnalysisReportResultsInput {
+
+    static func urlPathProvider(_ value: GetAnalysisReportResultsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListAnalysisReportsInput {
+
+    static func urlPathProvider(_ value: ListAnalysisReportsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListFirewallPoliciesInput {
 
     static func urlPathProvider(_ value: ListFirewallPoliciesInput) -> Swift.String? {
@@ -4260,6 +4580,13 @@ extension PutResourcePolicyInput {
     }
 }
 
+extension StartAnalysisReportInput {
+
+    static func urlPathProvider(_ value: StartAnalysisReportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -4270,6 +4597,13 @@ extension TagResourceInput {
 extension UntagResourceInput {
 
     static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateFirewallAnalysisSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateFirewallAnalysisSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4365,6 +4699,7 @@ extension CreateFirewallInput {
         guard let value else { return }
         try writer["DeleteProtection"].write(value.deleteProtection)
         try writer["Description"].write(value.description)
+        try writer["EnabledAnalysisTypes"].writeList(value.enabledAnalysisTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.EnabledAnalysisType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: NetworkFirewallClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["FirewallName"].write(value.firewallName)
         try writer["FirewallPolicyArn"].write(value.firewallPolicyArn)
@@ -4540,6 +4875,29 @@ extension DisassociateSubnetsInput {
     }
 }
 
+extension GetAnalysisReportResultsInput {
+
+    static func write(value: GetAnalysisReportResultsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnalysisReportId"].write(value.analysisReportId)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FirewallName"].write(value.firewallName)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListAnalysisReportsInput {
+
+    static func write(value: ListAnalysisReportsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FirewallName"].write(value.firewallName)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListFirewallPoliciesInput {
 
     static func write(value: ListFirewallPoliciesInput?, to writer: SmithyJSON.Writer) throws {
@@ -4599,6 +4957,16 @@ extension PutResourcePolicyInput {
     }
 }
 
+extension StartAnalysisReportInput {
+
+    static func write(value: StartAnalysisReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnalysisType"].write(value.analysisType)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FirewallName"].write(value.firewallName)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -4614,6 +4982,17 @@ extension UntagResourceInput {
         guard let value else { return }
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateFirewallAnalysisSettingsInput {
+
+    static func write(value: UpdateFirewallAnalysisSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnabledAnalysisTypes"].writeList(value.enabledAnalysisTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.EnabledAnalysisType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FirewallName"].write(value.firewallName)
+        try writer["UpdateToken"].write(value.updateToken)
     }
 }
 
@@ -4979,6 +5358,37 @@ extension DisassociateSubnetsOutput {
     }
 }
 
+extension GetAnalysisReportResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAnalysisReportResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAnalysisReportResultsOutput()
+        value.analysisReportResults = try reader["AnalysisReportResults"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.AnalysisTypeReportResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.analysisType = try reader["AnalysisType"].readIfPresent()
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.reportTime = try reader["ReportTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAnalysisReportsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAnalysisReportsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAnalysisReportsOutput()
+        value.analysisReports = try reader["AnalysisReports"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.AnalysisReport.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListFirewallPoliciesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFirewallPoliciesOutput {
@@ -5051,6 +5461,18 @@ extension PutResourcePolicyOutput {
     }
 }
 
+extension StartAnalysisReportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAnalysisReportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartAnalysisReportOutput()
+        value.analysisReportId = try reader["AnalysisReportId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -5062,6 +5484,21 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateFirewallAnalysisSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateFirewallAnalysisSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateFirewallAnalysisSettingsOutput()
+        value.enabledAnalysisTypes = try reader["EnabledAnalysisTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.EnabledAnalysisType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.firewallName = try reader["FirewallName"].readIfPresent()
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
     }
 }
 
@@ -5536,6 +5973,40 @@ enum DisassociateSubnetsOutputError {
     }
 }
 
+enum GetAnalysisReportResultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAnalysisReportsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListFirewallPoliciesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5635,6 +6106,23 @@ enum PutResourcePolicyOutputError {
     }
 }
 
+enum StartAnalysisReportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5653,6 +6141,23 @@ enum TagResourceOutputError {
 }
 
 enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateFirewallAnalysisSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6026,6 +6531,7 @@ extension NetworkFirewallClientTypes.Firewall {
         value.firewallId = try reader["FirewallId"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.EncryptionConfiguration.read(from:))
+        value.enabledAnalysisTypes = try reader["EnabledAnalysisTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.EnabledAnalysisType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6903,6 +7409,54 @@ extension NetworkFirewallClientTypes.ServerCertificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkFirewallClientTypes.ServerCertificate()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.AnalysisTypeReportResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AnalysisTypeReportResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.AnalysisTypeReportResult()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.firstAccessed = try reader["FirstAccessed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastAccessed = try reader["LastAccessed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.domain = try reader["Domain"].readIfPresent()
+        value.hits = try reader["Hits"].readIfPresent(with: NetworkFirewallClientTypes.Hits.read(from:))
+        value.uniqueSources = try reader["UniqueSources"].readIfPresent(with: NetworkFirewallClientTypes.UniqueSources.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.UniqueSources {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.UniqueSources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.UniqueSources()
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Hits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Hits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Hits()
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.AnalysisReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AnalysisReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.AnalysisReport()
+        value.analysisReportId = try reader["AnalysisReportId"].readIfPresent()
+        value.analysisType = try reader["AnalysisType"].readIfPresent()
+        value.reportTime = try reader["ReportTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }

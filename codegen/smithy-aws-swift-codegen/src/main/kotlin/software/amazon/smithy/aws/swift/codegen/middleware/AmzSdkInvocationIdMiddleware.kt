@@ -30,13 +30,13 @@ class AmzSdkInvocationIdMiddleware(
     override fun renderMiddlewareInit(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
-        op: OperationShape
+        op: OperationShape,
     ) {
         writer.write(
             "\$N<\$N, \$N>()",
             AWSClientRuntimeTypes.Core.AmzSdkInvocationIdMiddleware,
             MiddlewareShapeUtils.inputSymbol(symbolProvider, model, op),
-            MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op)
+            MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op),
         )
     }
 }

@@ -11,14 +11,16 @@ import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 class AWSRestXMLEventStreamTests {
     @Test
     fun `001 EventStreamBodyMiddleware passes in marshal closure argument`() {
-        val context = setupTests(
-            "restxml/xml-event-stream.smithy",
-            "com.test#EventStreamTest"
-        )
-        val contents = TestUtils.getFileContents(
-            context.manifest,
-            "Sources/Example/EventStreamTestClient.swift"
-        )
+        val context =
+            setupTests(
+                "restxml/xml-event-stream.smithy",
+                "com.test#EventStreamTest",
+            )
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/EventStreamTestClient.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         builder.serialize(ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, EventStreamTestClientTypes.TestEvents>(keyPath: \.eventStream, defaultBody: nil, marshalClosure: EventStreamTestClientTypes.TestEvents.marshal))
@@ -28,14 +30,16 @@ class AWSRestXMLEventStreamTests {
 
     @Test
     fun `002 marshal static function variable gets generated for streaming union shape`() {
-        val context = setupTests(
-            "restxml/xml-event-stream.smithy",
-            "com.test#EventStreamTest"
-        )
-        val contents = TestUtils.getFileContents(
-            context.manifest,
-            "Sources/Example/models/TestEvents+MessageMarshallable.swift"
-        )
+        val context =
+            setupTests(
+                "restxml/xml-event-stream.smithy",
+                "com.test#EventStreamTest",
+            )
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/models/TestEvents+MessageMarshallable.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension EventStreamTestClientTypes.TestEvents {
@@ -68,14 +72,16 @@ extension EventStreamTestClientTypes.TestEvents {
 
     @Test
     fun `003 closures get generated for specific event of streaming union`() {
-        val context = setupTests(
-            "restxml/xml-event-stream.smithy",
-            "com.test#EventStreamTest"
-        )
-        val contents = TestUtils.getFileContents(
-            context.manifest,
-            "Sources/Example/models/MessageWithAudio+ReadWrite.swift"
-        )
+        val context =
+            setupTests(
+                "restxml/xml-event-stream.smithy",
+                "com.test#EventStreamTest",
+            )
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/models/MessageWithAudio+ReadWrite.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension EventStreamTestClientTypes.MessageWithAudio {
@@ -100,14 +106,16 @@ extension EventStreamTestClientTypes.MessageWithAudio {
 
     @Test
     fun `004 closures get generated for nested struct of an event`() {
-        val context = setupTests(
-            "restxml/xml-event-stream.smithy",
-            "com.test#EventStreamTest"
-        )
-        val contents = TestUtils.getFileContents(
-            context.manifest,
-            "Sources/Example/models/Audio+ReadWrite.swift"
-        )
+        val context =
+            setupTests(
+                "restxml/xml-event-stream.smithy",
+                "com.test#EventStreamTest",
+            )
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/models/Audio+ReadWrite.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension EventStreamTestClientTypes.Audio {
@@ -128,7 +136,10 @@ extension EventStreamTestClientTypes.Audio {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestXmlTrait.ID)
         RestXMLProtocolGenerator().run {
             generateMessageMarshallable(context.ctx)

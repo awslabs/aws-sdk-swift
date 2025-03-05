@@ -987,6 +987,81 @@ public struct DeleteAppMonitorOutput: Swift.Sendable {
     public init() { }
 }
 
+/// The policy revision ID that you provided doeesn't match the latest policy revision ID.
+public struct InvalidPolicyRevisionIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidPolicyRevisionIdException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The resource-based policy doesn't exist on this app monitor.
+public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PolicyNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteResourcePolicyInput: Swift.Sendable {
+    /// The app monitor that you want to remove the resource policy from.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies a specific policy revision to delete. Provide a PolicyRevisionId to ensure an atomic delete operation. If the revision ID that you provide doesn't match the latest policy revision ID, the request will be rejected with an InvalidPolicyRevisionIdException error.
+    public var policyRevisionId: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        policyRevisionId: Swift.String? = nil
+    ) {
+        self.name = name
+        self.policyRevisionId = policyRevisionId
+    }
+}
+
+public struct DeleteResourcePolicyOutput: Swift.Sendable {
+    /// The revision ID of the policy that was removed, if it had one.
+    public var policyRevisionId: Swift.String?
+
+    public init(
+        policyRevisionId: Swift.String? = nil
+    ) {
+        self.policyRevisionId = policyRevisionId
+    }
+}
+
 public struct DeleteRumMetricsDestinationInput: Swift.Sendable {
     /// The name of the app monitor that is sending metrics to the destination that you want to delete.
     /// This member is required.
@@ -1119,6 +1194,33 @@ public struct GetAppMonitorDataOutput: Swift.Sendable {
     }
 }
 
+public struct GetResourcePolicyInput: Swift.Sendable {
+    /// The name of the app monitor that is associated with the resource-based policy that you want to view.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    ) {
+        self.name = name
+    }
+}
+
+public struct GetResourcePolicyOutput: Swift.Sendable {
+    /// The JSON policy document that you requested.
+    public var policyDocument: Swift.String?
+    /// The revision ID information for this version of the policy document that you requested.
+    public var policyRevisionId: Swift.String?
+
+    public init(
+        policyDocument: Swift.String? = nil,
+        policyRevisionId: Swift.String? = nil
+    ) {
+        self.policyDocument = policyDocument
+        self.policyRevisionId = policyRevisionId
+    }
+}
+
 public struct ListAppMonitorsInput: Swift.Sendable {
     /// The maximum number of results to return in one operation. The default is 50. The maximum that you can specify is 100.
     public var maxResults: Swift.Int?
@@ -1235,6 +1337,90 @@ public struct ListRumMetricsDestinationsOutput: Swift.Sendable {
     ) {
         self.destinations = destinations
         self.nextToken = nextToken
+    }
+}
+
+/// The policy document that you specified is not formatted correctly.
+public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MalformedPolicyDocumentException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The policy document is too large. The limit is 4 KB.
+public struct PolicySizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PolicySizeLimitExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Sendable {
+    /// The name of the app monitor that you want to apply this resource-based policy to. To find the names of your app monitors, you can use the [ListAppMonitors](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_ListAppMonitors.html) operation.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The JSON to use as the resource policy. The document can be up to 4 KB in size. For more information about the contents and syntax for this policy, see [Using resource-based policies with CloudWatch RUM](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-resource-policies.html).
+    /// This member is required.
+    public var policyDocument: Swift.String?
+    /// A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mutating requests against that policy. When you assign a policy revision ID, then later requests about that policy will be rejected with an InvalidPolicyRevisionIdException error if they don't provide the correct current revision ID.
+    public var policyRevisionId: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        policyDocument: Swift.String? = nil,
+        policyRevisionId: Swift.String? = nil
+    ) {
+        self.name = name
+        self.policyDocument = policyDocument
+        self.policyRevisionId = policyRevisionId
+    }
+}
+
+public struct PutResourcePolicyOutput: Swift.Sendable {
+    /// The JSON policy document that you specified.
+    public var policyDocument: Swift.String?
+    /// The policy revision ID information that you specified.
+    public var policyRevisionId: Swift.String?
+
+    public init(
+        policyDocument: Swift.String? = nil,
+        policyRevisionId: Swift.String? = nil
+    ) {
+        self.policyDocument = policyDocument
+        self.policyRevisionId = policyRevisionId
     }
 }
 
@@ -1421,6 +1607,8 @@ extension RUMClientTypes {
 }
 
 public struct PutRumEventsInput: Swift.Sendable {
+    /// If the app monitor uses a resource-based policy that requires PutRumEvents requests to specify a certain alias, specify that alias here. This alias will be compared to the rum:alias context key in the resource-based policy. For more information, see [Using resource-based policies with CloudWatch RUM](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-resource-policies.html).
+    public var alias: Swift.String?
     /// A structure that contains information about the app monitor that collected this telemetry information.
     /// This member is required.
     public var appMonitorDetails: RUMClientTypes.AppMonitorDetails?
@@ -1438,12 +1626,14 @@ public struct PutRumEventsInput: Swift.Sendable {
     public var userDetails: RUMClientTypes.UserDetails?
 
     public init(
+        alias: Swift.String? = nil,
         appMonitorDetails: RUMClientTypes.AppMonitorDetails? = nil,
         batchId: Swift.String? = nil,
         id: Swift.String? = nil,
         rumEvents: [RUMClientTypes.RumEvent]? = nil,
         userDetails: RUMClientTypes.UserDetails? = nil
     ) {
+        self.alias = alias
         self.appMonitorDetails = appMonitorDetails
         self.batchId = batchId
         self.id = id
@@ -1600,6 +1790,28 @@ extension DeleteAppMonitorInput {
     }
 }
 
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        return "/appmonitor/\(name.urlPercentEncoding())/policy"
+    }
+}
+
+extension DeleteResourcePolicyInput {
+
+    static func queryItemProvider(_ value: DeleteResourcePolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let policyRevisionId = value.policyRevisionId {
+            let policyRevisionIdQueryItem = Smithy.URIQueryItem(name: "policyRevisionId".urlPercentEncoding(), value: Swift.String(policyRevisionId).urlPercentEncoding())
+            items.append(policyRevisionIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteRumMetricsDestinationInput {
 
     static func urlPathProvider(_ value: DeleteRumMetricsDestinationInput) -> Swift.String? {
@@ -1645,6 +1857,16 @@ extension GetAppMonitorDataInput {
             return nil
         }
         return "/appmonitor/\(name.urlPercentEncoding())/data"
+    }
+}
+
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        return "/appmonitor/\(name.urlPercentEncoding())/policy"
     }
 }
 
@@ -1704,6 +1926,16 @@ extension ListTagsForResourceInput {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        return "/appmonitor/\(name.urlPercentEncoding())/policy"
     }
 }
 
@@ -1817,10 +2049,20 @@ extension GetAppMonitorDataInput {
     }
 }
 
+extension PutResourcePolicyInput {
+
+    static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PolicyDocument"].write(value.policyDocument)
+        try writer["PolicyRevisionId"].write(value.policyRevisionId)
+    }
+}
+
 extension PutRumEventsInput {
 
     static func write(value: PutRumEventsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Alias"].write(value.alias)
         try writer["AppMonitorDetails"].write(value.appMonitorDetails, with: RUMClientTypes.AppMonitorDetails.write(value:to:))
         try writer["BatchId"].write(value.batchId)
         try writer["RumEvents"].writeList(value.rumEvents, memberWritingClosure: RUMClientTypes.RumEvent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -1926,6 +2168,18 @@ extension DeleteAppMonitorOutput {
     }
 }
 
+extension DeleteResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteResourcePolicyOutput()
+        value.policyRevisionId = try reader["PolicyRevisionId"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteRumMetricsDestinationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRumMetricsDestinationOutput {
@@ -1954,6 +2208,19 @@ extension GetAppMonitorDataOutput {
         var value = GetAppMonitorDataOutput()
         value.events = try reader["Events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourcePolicyOutput()
+        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
+        value.policyRevisionId = try reader["PolicyRevisionId"].readIfPresent()
         return value
     }
 }
@@ -1993,6 +2260,19 @@ extension ListTagsForResourceOutput {
         var value = ListTagsForResourceOutput()
         value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension PutResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutResourcePolicyOutput()
+        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
+        value.policyRevisionId = try reader["PolicyRevisionId"].readIfPresent()
         return value
     }
 }
@@ -2134,6 +2414,27 @@ enum DeleteAppMonitorOutputError {
     }
 }
 
+enum DeleteResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidPolicyRevisionIdException": return try InvalidPolicyRevisionIdException.makeError(baseError: baseError)
+            case "PolicyNotFoundException": return try PolicyNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteRumMetricsDestinationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2189,6 +2490,26 @@ enum GetAppMonitorDataOutputError {
     }
 }
 
+enum GetResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "PolicyNotFoundException": return try PolicyNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAppMonitorsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2233,6 +2554,28 @@ enum ListTagsForResourceOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidPolicyRevisionIdException": return try InvalidPolicyRevisionIdException.makeError(baseError: baseError)
+            case "MalformedPolicyDocumentException": return try MalformedPolicyDocumentException.makeError(baseError: baseError)
+            case "PolicySizeLimitExceededException": return try PolicySizeLimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2444,6 +2787,58 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PolicyNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PolicyNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = PolicyNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidPolicyRevisionIdException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidPolicyRevisionIdException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidPolicyRevisionIdException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PolicySizeLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PolicySizeLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = PolicySizeLimitExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MalformedPolicyDocumentException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedPolicyDocumentException {
+        let reader = baseError.errorBodyReader
+        var value = MalformedPolicyDocumentException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

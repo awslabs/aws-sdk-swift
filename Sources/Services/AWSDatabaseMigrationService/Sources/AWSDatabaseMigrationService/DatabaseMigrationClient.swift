@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DatabaseMigrationClient: ClientRuntime.Client {
     public static let clientName = "DatabaseMigrationClient"
-    public static let version = "1.2.10"
+    public static let version = "1.2.31"
     let client: ClientRuntime.SdkHttpClient
     let config: DatabaseMigrationClient.DatabaseMigrationClientConfiguration
     let serviceName = "Database Migration"
@@ -4781,7 +4781,7 @@ extension DatabaseMigrationClient {
 
     /// Performs the `DescribePendingMaintenanceActions` operation on the `DatabaseMigration` service.
     ///
-    /// For internal use only
+    /// Returns a list of upcoming maintenance events for replication instances in your account in the current Region.
     ///
     /// - Parameter DescribePendingMaintenanceActionsInput :
     ///

@@ -7,7 +7,7 @@ package software.amazon.smithy.aws.swift.codegen
 
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.swift.codegen.middleware.OperationEndpointResolverMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.AWSOperationEndpointResolverMiddleware
 import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
@@ -15,13 +15,16 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.core.GenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
-class OperationEndpointResolverMiddlewareTests {
+class AWSOperationEndpointResolverMiddlewareTests {
     @Test
     fun `test endpoint middleware init`() {
         val writer = SwiftWriter("smithy.example")
         val context = setupTests("endpoints.smithy", "smithy.example#ExampleService")
-        val operation = context.ctx.model.operationShapes.toList().first { it.id.name == "GetThing" }
-        val middleware = OperationEndpointResolverMiddleware(context.ctx, AWSClientRuntimeTypes.Core.AWSEndpointResolverMiddleware)
+        val operation =
+            context.ctx.model.operationShapes
+                .toList()
+                .first { it.id.name == "GetThing" }
+        val middleware = AWSOperationEndpointResolverMiddleware(context.ctx, AWSClientRuntimeTypes.Core.AWSEndpointResolverMiddleware)
         middleware.render(context.ctx, writer, operation, "operationStack")
         var contents = writer.toString()
         val expected = """
@@ -60,12 +63,24 @@ builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetThingOut
     }
 }
 
-private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+private fun setupTests(
+    smithyFile: String,
+    serviceShapeId: String,
+): TestContext {
     val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
     val presigner = PresignerGenerator()
     val generator = AWSRestJson1ProtocolGenerator()
     val codegenContext = GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, context.manifest, generator)
-    val protocolGenerationContext = ProtocolGenerator.GenerationContext(context.ctx.settings, context.ctx.model, context.ctx.service, context.ctx.symbolProvider, listOf(), RestJson1Trait.ID, context.ctx.delegator)
+    val protocolGenerationContext =
+        ProtocolGenerator.GenerationContext(
+            context.ctx.settings,
+            context.ctx.model,
+            context.ctx.service,
+            context.ctx.symbolProvider,
+            listOf(),
+            RestJson1Trait.ID,
+            context.ctx.delegator,
+        )
     codegenContext.protocolGenerator?.initializeMiddleware(context.ctx)
     presigner.writeAdditionalFiles(codegenContext, protocolGenerationContext, context.ctx.delegator)
     context.ctx.delegator.flushWriters()

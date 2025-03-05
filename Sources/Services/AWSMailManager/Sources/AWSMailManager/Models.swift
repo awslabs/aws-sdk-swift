@@ -3491,6 +3491,8 @@ extension MailManagerClientTypes {
 
     /// The metadata about the email.
     public struct Metadata: Swift.Sendable {
+        /// The name of the configuration set used when sent through a configuration set with archiving enabled.
+        public var configurationSet: Swift.String?
         /// The ID of the ingress endpoint through which the email was received.
         public var ingressPointId: Swift.String?
         /// The ID of the rule set that processed the email.
@@ -3499,6 +3501,14 @@ extension MailManagerClientTypes {
         public var senderHostname: Swift.String?
         /// The IP address of the host from which the email was received.
         public var senderIpAddress: Swift.String?
+        /// The name of the API call used when sent through a configuration set with archiving enabled.
+        public var sendingMethod: Swift.String?
+        /// The name of the dedicated IP pool used when sent through a configuration set with archiving enabled.
+        public var sendingPool: Swift.String?
+        /// Specifies the archived email source, identified by either a Rule Set's ARN with an Archive action, or a Configuration Set's Archive ARN.
+        public var sourceArn: Swift.String?
+        /// The identity name used to authorize the sending action when sent through a configuration set with archiving enabled.
+        public var sourceIdentity: Swift.String?
         /// The timestamp of when the email was received.
         public var timestamp: Foundation.Date?
         /// The TLS cipher suite used to communicate with the host from which the email was received.
@@ -3509,19 +3519,29 @@ extension MailManagerClientTypes {
         public var trafficPolicyId: Swift.String?
 
         public init(
+            configurationSet: Swift.String? = nil,
             ingressPointId: Swift.String? = nil,
             ruleSetId: Swift.String? = nil,
             senderHostname: Swift.String? = nil,
             senderIpAddress: Swift.String? = nil,
+            sendingMethod: Swift.String? = nil,
+            sendingPool: Swift.String? = nil,
+            sourceArn: Swift.String? = nil,
+            sourceIdentity: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             tlsCipherSuite: Swift.String? = nil,
             tlsProtocol: Swift.String? = nil,
             trafficPolicyId: Swift.String? = nil
         ) {
+            self.configurationSet = configurationSet
             self.ingressPointId = ingressPointId
             self.ruleSetId = ruleSetId
             self.senderHostname = senderHostname
             self.senderIpAddress = senderIpAddress
+            self.sendingMethod = sendingMethod
+            self.sendingPool = sendingPool
+            self.sourceArn = sourceArn
+            self.sourceIdentity = sourceIdentity
             self.timestamp = timestamp
             self.tlsCipherSuite = tlsCipherSuite
             self.tlsProtocol = tlsProtocol
@@ -3532,7 +3552,7 @@ extension MailManagerClientTypes {
 
 extension MailManagerClientTypes.Metadata: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Metadata(ingressPointId: \(Swift.String(describing: ingressPointId)), ruleSetId: \(Swift.String(describing: ruleSetId)), senderHostname: \(Swift.String(describing: senderHostname)), timestamp: \(Swift.String(describing: timestamp)), tlsCipherSuite: \(Swift.String(describing: tlsCipherSuite)), tlsProtocol: \(Swift.String(describing: tlsProtocol)), trafficPolicyId: \(Swift.String(describing: trafficPolicyId)), senderIpAddress: \"CONTENT_REDACTED\")"}
+        "Metadata(configurationSet: \(Swift.String(describing: configurationSet)), ingressPointId: \(Swift.String(describing: ingressPointId)), ruleSetId: \(Swift.String(describing: ruleSetId)), senderHostname: \(Swift.String(describing: senderHostname)), sendingMethod: \(Swift.String(describing: sendingMethod)), sendingPool: \(Swift.String(describing: sendingPool)), sourceArn: \(Swift.String(describing: sourceArn)), sourceIdentity: \(Swift.String(describing: sourceIdentity)), timestamp: \(Swift.String(describing: timestamp)), tlsCipherSuite: \(Swift.String(describing: tlsCipherSuite)), tlsProtocol: \(Swift.String(describing: tlsProtocol)), trafficPolicyId: \(Swift.String(describing: trafficPolicyId)), senderIpAddress: \"CONTENT_REDACTED\")"}
 }
 
 /// The response containing details about the requested archived email message.
@@ -3754,8 +3774,12 @@ extension MailManagerClientTypes {
         public var receivedTimestamp: Foundation.Date?
         /// The name of the host from which the email was received.
         public var senderHostname: Swift.String?
-        /// The IP address of the host from which the email was received.
+        /// * Mail archived with Mail Manager: The IP address of the client that connects to the ingress endpoint.
+        ///
+        /// * Mail sent through a configuration set with the archiving option enabled: The IP address of the client that makes the SendEmail API call.
         public var senderIpAddress: Swift.String?
+        /// Specifies the archived email source, identified by either a Rule Set's ARN with an Archive action, or a Configuration Set's Archive ARN.
+        public var sourceArn: Swift.String?
         /// The subject header value of the email.
         public var subject: Swift.String?
         /// The email addresses in the To header.
@@ -3781,6 +3805,7 @@ extension MailManagerClientTypes {
             receivedTimestamp: Foundation.Date? = nil,
             senderHostname: Swift.String? = nil,
             senderIpAddress: Swift.String? = nil,
+            sourceArn: Swift.String? = nil,
             subject: Swift.String? = nil,
             to: Swift.String? = nil,
             xMailer: Swift.String? = nil,
@@ -3800,6 +3825,7 @@ extension MailManagerClientTypes {
             self.receivedTimestamp = receivedTimestamp
             self.senderHostname = senderHostname
             self.senderIpAddress = senderIpAddress
+            self.sourceArn = sourceArn
             self.subject = subject
             self.to = to
             self.xMailer = xMailer
@@ -3811,7 +3837,7 @@ extension MailManagerClientTypes {
 
 extension MailManagerClientTypes.Row: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Row(archivedMessageId: \(Swift.String(describing: archivedMessageId)), cc: \(Swift.String(describing: cc)), date: \(Swift.String(describing: date)), envelope: \(Swift.String(describing: envelope)), from: \(Swift.String(describing: from)), hasAttachments: \(Swift.String(describing: hasAttachments)), inReplyTo: \(Swift.String(describing: inReplyTo)), ingressPointId: \(Swift.String(describing: ingressPointId)), messageId: \(Swift.String(describing: messageId)), receivedHeaders: \(Swift.String(describing: receivedHeaders)), receivedTimestamp: \(Swift.String(describing: receivedTimestamp)), senderHostname: \(Swift.String(describing: senderHostname)), subject: \(Swift.String(describing: subject)), to: \(Swift.String(describing: to)), xMailer: \(Swift.String(describing: xMailer)), xOriginalMailer: \(Swift.String(describing: xOriginalMailer)), xPriority: \(Swift.String(describing: xPriority)), senderIpAddress: \"CONTENT_REDACTED\")"}
+        "Row(archivedMessageId: \(Swift.String(describing: archivedMessageId)), cc: \(Swift.String(describing: cc)), date: \(Swift.String(describing: date)), envelope: \(Swift.String(describing: envelope)), from: \(Swift.String(describing: from)), hasAttachments: \(Swift.String(describing: hasAttachments)), inReplyTo: \(Swift.String(describing: inReplyTo)), ingressPointId: \(Swift.String(describing: ingressPointId)), messageId: \(Swift.String(describing: messageId)), receivedHeaders: \(Swift.String(describing: receivedHeaders)), receivedTimestamp: \(Swift.String(describing: receivedTimestamp)), senderHostname: \(Swift.String(describing: senderHostname)), sourceArn: \(Swift.String(describing: sourceArn)), subject: \(Swift.String(describing: subject)), to: \(Swift.String(describing: to)), xMailer: \(Swift.String(describing: xMailer)), xOriginalMailer: \(Swift.String(describing: xOriginalMailer)), xPriority: \(Swift.String(describing: xPriority)), senderIpAddress: \"CONTENT_REDACTED\")"}
 }
 
 /// The response containing search results from a completed archive search.
@@ -8048,6 +8074,11 @@ extension MailManagerClientTypes.Metadata {
         value.senderIpAddress = try reader["SenderIpAddress"].readIfPresent()
         value.tlsCipherSuite = try reader["TlsCipherSuite"].readIfPresent()
         value.tlsProtocol = try reader["TlsProtocol"].readIfPresent()
+        value.sendingMethod = try reader["SendingMethod"].readIfPresent()
+        value.sourceIdentity = try reader["SourceIdentity"].readIfPresent()
+        value.sendingPool = try reader["SendingPool"].readIfPresent()
+        value.configurationSet = try reader["ConfigurationSet"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent()
         return value
     }
 }
@@ -8112,6 +8143,7 @@ extension MailManagerClientTypes.Row {
         value.senderHostname = try reader["SenderHostname"].readIfPresent()
         value.senderIpAddress = try reader["SenderIpAddress"].readIfPresent()
         value.envelope = try reader["Envelope"].readIfPresent(with: MailManagerClientTypes.Envelope.read(from:))
+        value.sourceArn = try reader["SourceArn"].readIfPresent()
         return value
     }
 }

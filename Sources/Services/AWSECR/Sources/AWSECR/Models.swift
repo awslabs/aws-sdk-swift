@@ -2197,6 +2197,7 @@ extension ECRClientTypes {
         case failed
         case findingsUnavailable
         case inProgress
+        case limitExceeded
         case pending
         case scanEligibilityExpired
         case unsupportedImage
@@ -2209,6 +2210,7 @@ extension ECRClientTypes {
                 .failed,
                 .findingsUnavailable,
                 .inProgress,
+                .limitExceeded,
                 .pending,
                 .scanEligibilityExpired,
                 .unsupportedImage
@@ -2227,6 +2229,7 @@ extension ECRClientTypes {
             case .failed: return "FAILED"
             case .findingsUnavailable: return "FINDINGS_UNAVAILABLE"
             case .inProgress: return "IN_PROGRESS"
+            case .limitExceeded: return "LIMIT_EXCEEDED"
             case .pending: return "PENDING"
             case .scanEligibilityExpired: return "SCAN_ELIGIBILITY_EXPIRED"
             case .unsupportedImage: return "UNSUPPORTED_IMAGE"

@@ -27,7 +27,11 @@ class PresignableUrlIntegrationTests {
     @Test
     fun `S3 PutObject's PutObjectPresignedURLMiddleware is rendered`() {
         val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/PutObjectInput+QueryItemMiddlewareForPresignUrl.swift")
+        val contents =
+            TestUtils.getFileContents(
+                context.manifest,
+                "Sources/Example/models/PutObjectInput+QueryItemMiddlewareForPresignUrl.swift",
+            )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 public struct PutObjectPresignedURLMiddleware {
@@ -54,13 +58,26 @@ extension PutObjectPresignedURLMiddleware: Smithy.RequestMessageSerializer {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestXmlTrait.ID)
         val presigner = PresignableUrlIntegration()
         val generator = AWSRestJson1ProtocolGenerator()
 
-        val codegenContext = GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, context.manifest, generator)
-        val protocolGenerationContext = ProtocolGenerator.GenerationContext(context.ctx.settings, context.ctx.model, context.ctx.service, context.ctx.symbolProvider, listOf(), RestJson1Trait.ID, context.ctx.delegator)
+        val codegenContext =
+            GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, context.manifest, generator)
+        val protocolGenerationContext =
+            ProtocolGenerator.GenerationContext(
+                context.ctx.settings,
+                context.ctx.model,
+                context.ctx.service,
+                context.ctx.symbolProvider,
+                listOf(),
+                RestJson1Trait.ID,
+                context.ctx.delegator,
+            )
         codegenContext.protocolGenerator?.initializeMiddleware(context.ctx)
         presigner.writeAdditionalFiles(codegenContext, protocolGenerationContext, context.ctx.delegator)
         context.ctx.delegator.flushWriters()

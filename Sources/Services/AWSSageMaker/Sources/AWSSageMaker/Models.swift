@@ -1147,6 +1147,16 @@ extension SageMakerClientTypes {
         case mlR7i8xlarge
         case mlR7iLarge
         case mlR7iXlarge
+        case mlR8g12xlarge
+        case mlR8g16xlarge
+        case mlR8g24xlarge
+        case mlR8g2xlarge
+        case mlR8g48xlarge
+        case mlR8g4xlarge
+        case mlR8g8xlarge
+        case mlR8gLarge
+        case mlR8gMedium
+        case mlR8gXlarge
         case mlT22xlarge
         case mlT2Large
         case mlT2Medium
@@ -1365,6 +1375,16 @@ extension SageMakerClientTypes {
                 .mlR7i8xlarge,
                 .mlR7iLarge,
                 .mlR7iXlarge,
+                .mlR8g12xlarge,
+                .mlR8g16xlarge,
+                .mlR8g24xlarge,
+                .mlR8g2xlarge,
+                .mlR8g48xlarge,
+                .mlR8g4xlarge,
+                .mlR8g8xlarge,
+                .mlR8gLarge,
+                .mlR8gMedium,
+                .mlR8gXlarge,
                 .mlT22xlarge,
                 .mlT2Large,
                 .mlT2Medium,
@@ -1589,6 +1609,16 @@ extension SageMakerClientTypes {
             case .mlR7i8xlarge: return "ml.r7i.8xlarge"
             case .mlR7iLarge: return "ml.r7i.large"
             case .mlR7iXlarge: return "ml.r7i.xlarge"
+            case .mlR8g12xlarge: return "ml.r8g.12xlarge"
+            case .mlR8g16xlarge: return "ml.r8g.16xlarge"
+            case .mlR8g24xlarge: return "ml.r8g.24xlarge"
+            case .mlR8g2xlarge: return "ml.r8g.2xlarge"
+            case .mlR8g48xlarge: return "ml.r8g.48xlarge"
+            case .mlR8g4xlarge: return "ml.r8g.4xlarge"
+            case .mlR8g8xlarge: return "ml.r8g.8xlarge"
+            case .mlR8gLarge: return "ml.r8g.large"
+            case .mlR8gMedium: return "ml.r8g.medium"
+            case .mlR8gXlarge: return "ml.r8g.xlarge"
             case .mlT22xlarge: return "ml.t2.2xlarge"
             case .mlT2Large: return "ml.t2.large"
             case .mlT2Medium: return "ml.t2.medium"
@@ -2561,6 +2591,22 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The configuration for a private hub model reference that points to a public SageMaker JumpStart model. For more information about private hubs, see [Private curated hubs for foundation model access control in JumpStart](https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-curated-hubs.html).
+    public struct HubAccessConfig: Swift.Sendable {
+        /// The ARN of your private model hub content. This should be a ModelReference resource type that points to a SageMaker JumpStart public hub model.
+        /// This member is required.
+        public var hubContentArn: Swift.String?
+
+        public init(
+            hubContentArn: Swift.String? = nil
+        ) {
+            self.hubContentArn = hubContentArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum S3DataDistribution: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullyReplicated
         case shardedByS3Key
@@ -2626,8 +2672,16 @@ extension SageMakerClientTypes {
     public struct S3DataSource: Swift.Sendable {
         /// A list of one or more attribute names to use that are found in a specified augmented manifest file.
         public var attributeNames: [Swift.String]?
+        /// The configuration for a private hub model reference that points to a SageMaker JumpStart public hub model.
+        public var hubAccessConfig: SageMakerClientTypes.HubAccessConfig?
         /// A list of names of instance groups that get data from the S3 data source.
         public var instanceGroupNames: [Swift.String]?
+        /// The access configuration file to control access to the ML model. You can explicitly accept the model end-user license agreement (EULA) within the ModelAccessConfig.
+        ///
+        /// * If you are a Jumpstart user, see the [End-user license agreements](https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-foundation-models-choose.html#jumpstart-foundation-models-choose-eula) section for more details on accepting the EULA.
+        ///
+        /// * If you are an AutoML user, see the Optional Parameters section of Create an AutoML job to fine-tune text generation models using the API for details on [How to set the EULA acceptance when fine-tuning a model using the AutoML API](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-create-experiment-finetune-llms.html#autopilot-llms-finetuning-api-optional-params).
+        public var modelAccessConfig: SageMakerClientTypes.ModelAccessConfig?
         /// If you want SageMaker to replicate the entire dataset on each ML compute instance that is launched for model training, specify FullyReplicated. If you want SageMaker to replicate a subset of data on each ML compute instance that is launched for model training, specify ShardedByS3Key. If there are n ML compute instances launched for a training job, each instance gets approximately 1/n of the number of S3 objects. In this case, model training on each machine uses only the subset of training data. Don't choose more ML compute instances for training than available S3 objects. If you do, some nodes won't get any data and you will pay for nodes that aren't getting any training data. This applies in both File and Pipe modes. Keep this in mind when developing algorithms. In distributed training, where you use multiple ML compute EC2 instances, you might choose ShardedByS3Key. If the algorithm requires copying training data to the ML storage volume (when TrainingInputMode is set to File), this copies 1/n of the number of objects.
         public var s3DataDistributionType: SageMakerClientTypes.S3DataDistribution?
         /// If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training. If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training. If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile can only be used if the Channel's input mode is Pipe.
@@ -2646,13 +2700,17 @@ extension SageMakerClientTypes {
 
         public init(
             attributeNames: [Swift.String]? = nil,
+            hubAccessConfig: SageMakerClientTypes.HubAccessConfig? = nil,
             instanceGroupNames: [Swift.String]? = nil,
+            modelAccessConfig: SageMakerClientTypes.ModelAccessConfig? = nil,
             s3DataDistributionType: SageMakerClientTypes.S3DataDistribution? = nil,
             s3DataType: SageMakerClientTypes.S3DataType? = nil,
             s3Uri: Swift.String? = nil
         ) {
             self.attributeNames = attributeNames
+            self.hubAccessConfig = hubAccessConfig
             self.instanceGroupNames = instanceGroupNames
+            self.modelAccessConfig = modelAccessConfig
             self.s3DataDistributionType = s3DataDistributionType
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
@@ -7993,7 +8051,11 @@ public struct BatchDeleteClusterNodesInput: Swift.Sendable {
     /// The name of the SageMaker HyperPod cluster from which to delete the specified nodes.
     /// This member is required.
     public var clusterName: Swift.String?
-    /// A list of node IDs to be deleted from the specified cluster. For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
+    /// A list of node IDs to be deleted from the specified cluster.
+    ///
+    /// * For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
+    ///
+    /// * If you need to delete more than 99 instances, contact [Support](http://aws.amazon.com/contact-us/) for assistance.
     /// This member is required.
     public var nodeIds: [Swift.String]?
 
@@ -10103,7 +10165,7 @@ extension SageMakerClientTypes {
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
-        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        /// The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// The current status of the cluster instance group.
         ///
@@ -10183,7 +10245,20 @@ extension SageMakerClientTypes {
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
-        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        /// To configure multi-AZ deployments, customize the Amazon VPC configuration at the instance group level. You can specify different subnets and security groups across different AZs in the instance group specification to override a SageMaker HyperPod cluster's default Amazon VPC configuration. For more information about deploying a cluster in multiple AZs, see [Setting up SageMaker HyperPod clusters across multiple AZs](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-prerequisites.html#sagemaker-hyperpod-prerequisites-multiple-availability-zones). When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:
+        ///
+        /// * Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.
+        ///
+        /// * In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see [Amazon EKS IPv6 Cluster Deployment](https://docs.aws.amazon.com/eks/latest/userguide/deploy-ipv6-cluster.html#_deploy_an_ipv6_cluster_with_eksctl).
+        ///
+        ///
+        /// Additional resources for IPv6 configuration:
+        ///
+        /// * For information about adding IPv6 support to your VPC, see to [IPv6 Support for VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html).
+        ///
+        /// * For information about creating a new IPv6-compatible VPC, see [Amazon VPC Creation Guide](https://docs.aws.amazon.com/vpc/latest/userguide/create-vpc.html).
+        ///
+        /// * To configure SageMaker HyperPod with a custom Amazon VPC, see [Custom Amazon VPC Setup for SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-prerequisites.html#sagemaker-hyperpod-prerequisites-optional-vpc).
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
         public var threadsPerCore: Swift.Int?
@@ -10314,7 +10389,7 @@ extension SageMakerClientTypes {
         public var launchTime: Foundation.Date?
         /// The LifeCycle configuration applied to the instance.
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
-        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        /// The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// The placement details of the SageMaker HyperPod cluster node.
         public var placement: SageMakerClientTypes.ClusterInstancePlacement?
@@ -10322,7 +10397,7 @@ extension SageMakerClientTypes {
         public var privateDnsHostname: Swift.String?
         /// The private primary IP address of the SageMaker HyperPod cluster node.
         public var privatePrimaryIp: Swift.String?
-        /// The private primary IPv6 address of the SageMaker HyperPod cluster node.
+        /// The private primary IPv6 address of the SageMaker HyperPod cluster node when configured with an Amazon VPC that supports IPv6 and includes subnets with IPv6 addressing enabled in either the cluster Amazon VPC configuration or the instance group Amazon VPC configuration.
         public var privatePrimaryIpv6: Swift.String?
         /// The number of threads per CPU core you specified under CreateCluster.
         public var threadsPerCore: Swift.Int?
@@ -12723,7 +12798,20 @@ public struct CreateClusterInput: Swift.Sendable {
     public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
     /// Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see [Tagging Amazon Web Services Resources User Guide](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
     public var tags: [SageMakerClientTypes.Tag]?
-    /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+    /// Specifies the Amazon Virtual Private Cloud (VPC) that is associated with the Amazon SageMaker HyperPod cluster. You can control access to and from your resources by configuring your VPC. For more information, see [Give SageMaker access to resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html). When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:
+    ///
+    /// * Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.
+    ///
+    /// * In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see [Amazon EKS IPv6 Cluster Deployment](https://docs.aws.amazon.com/eks/latest/userguide/deploy-ipv6-cluster.html#_deploy_an_ipv6_cluster_with_eksctl).
+    ///
+    ///
+    /// Additional resources for IPv6 configuration:
+    ///
+    /// * For information about adding IPv6 support to your VPC, see to [IPv6 Support for VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html).
+    ///
+    /// * For information about creating a new IPv6-compatible VPC, see [Amazon VPC Creation Guide](https://docs.aws.amazon.com/vpc/latest/userguide/create-vpc.html).
+    ///
+    /// * To configure SageMaker HyperPod with a custom Amazon VPC, see [Custom Amazon VPC Setup for SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-prerequisites.html#sagemaker-hyperpod-prerequisites-optional-vpc).
     public var vpcConfig: SageMakerClientTypes.VpcConfig?
 
     public init(
@@ -14355,7 +14443,13 @@ extension SageMakerClientTypes {
 
     /// The KernelGateway app settings.
     public struct KernelGatewayAppSettings: Swift.Sendable {
-        /// A list of custom SageMaker AI images that are configured to run as a KernelGateway app.
+        /// A list of custom SageMaker AI images that are configured to run as a KernelGateway app. The maximum number of custom images are as follows.
+        ///
+        /// * On a domain level: 200
+        ///
+        /// * On a space level: 5
+        ///
+        /// * On a user profile level: 5
         public var customImages: [SageMakerClientTypes.CustomImage]?
         /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker AI image used by the KernelGateway app. The Amazon SageMaker AI Studio UI does not use the default instance type value set here. The default instance type set here is used when Apps are created using the CLI or CloudFormation and the instance type parameter value is not passed.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
@@ -15095,14 +15189,18 @@ public struct CreateDomainInput: Swift.Sendable {
 public struct CreateDomainOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the created domain.
     public var domainArn: Swift.String?
+    /// The ID of the created domain.
+    public var domainId: Swift.String?
     /// The URL to the created domain.
     public var url: Swift.String?
 
     public init(
         domainArn: Swift.String? = nil,
+        domainId: Swift.String? = nil,
         url: Swift.String? = nil
     ) {
         self.domainArn = domainArn
+        self.domainId = domainId
         self.url = url
     }
 }
@@ -15588,11 +15686,15 @@ extension SageMakerClientTypes {
 
     public enum ProductionVariantInferenceAmiVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case al2Gpu2
+        case al2Gpu21
+        case al2Gpu31
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProductionVariantInferenceAmiVersion] {
             return [
-                .al2Gpu2
+                .al2Gpu2,
+                .al2Gpu21,
+                .al2Gpu31
             ]
         }
 
@@ -15604,6 +15706,8 @@ extension SageMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .al2Gpu2: return "al2-ami-sagemaker-inference-gpu-2"
+            case .al2Gpu21: return "al2-ami-sagemaker-inference-gpu-2-1"
+            case .al2Gpu31: return "al2-ami-sagemaker-inference-gpu-3-1"
             case let .sdkUnknown(s): return s
             }
         }
@@ -15752,11 +15856,31 @@ extension SageMakerClientTypes {
         ///
         /// * Accelerator: GPU
         ///
-        /// * NVIDIA driver version: 535.54.03
+        /// * NVIDIA driver version: 535
         ///
-        /// * CUDA driver version: 12.2
+        /// * CUDA version: 12.2
         ///
-        /// * Supported instance types: ml.g4dn.*, ml.g5.*, ml.g6.*, ml.p3.*, ml.p4d.*, ml.p4de.*, ml.p5.*
+        ///
+        /// al2-ami-sagemaker-inference-gpu-2-1
+        ///
+        /// * Accelerator: GPU
+        ///
+        /// * NVIDIA driver version: 535
+        ///
+        /// * CUDA version: 12.2
+        ///
+        /// * NVIDIA Container Toolkit with disabled CUDA-compat mounting
+        ///
+        ///
+        /// al2-ami-sagemaker-inference-gpu-3-1
+        ///
+        /// * Accelerator: GPU
+        ///
+        /// * NVIDIA driver version: 550
+        ///
+        /// * CUDA version: 12.4
+        ///
+        /// * NVIDIA Container Toolkit with disabled CUDA-compat mounting
         public var inferenceAmiVersion: SageMakerClientTypes.ProductionVariantInferenceAmiVersion?
         /// Number of instances to launch initially.
         public var initialInstanceCount: Swift.Int?
@@ -29695,12 +29819,14 @@ extension SageMakerClientTypes {
 
     public enum HubContentSupportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deprecated
+        case restricted
         case supported
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HubContentSupportStatus] {
             return [
                 .deprecated,
+                .restricted,
                 .supported
             ]
         }
@@ -29713,6 +29839,7 @@ extension SageMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .deprecated: return "Deprecated"
+            case .restricted: return "Restricted"
             case .supported: return "Supported"
             case let .sdkUnknown(s): return s
             }
@@ -29763,6 +29890,8 @@ public struct DescribeHubContentOutput: Swift.Sendable {
     /// The name of the hub that contains the content.
     /// This member is required.
     public var hubName: Swift.String?
+    /// The last modified time of the hub content.
+    public var lastModifiedTime: Foundation.Date?
     /// The minimum version of the hub content.
     public var referenceMinVersion: Swift.String?
     /// The ARN of the public hub content.
@@ -29787,6 +29916,7 @@ public struct DescribeHubContentOutput: Swift.Sendable {
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         referenceMinVersion: Swift.String? = nil,
         sageMakerPublicHubContentArn: Swift.String? = nil,
         supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
@@ -29807,6 +29937,7 @@ public struct DescribeHubContentOutput: Swift.Sendable {
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
         self.hubName = hubName
+        self.lastModifiedTime = lastModifiedTime
         self.referenceMinVersion = referenceMinVersion
         self.sageMakerPublicHubContentArn = sageMakerPublicHubContentArn
         self.supportStatus = supportStatus
@@ -30571,6 +30702,112 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum InferenceComponentCapacitySizeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityPercent
+        case copyCount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InferenceComponentCapacitySizeType] {
+            return [
+                .capacityPercent,
+                .copyCount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityPercent: return "CAPACITY_PERCENT"
+            case .copyCount: return "COPY_COUNT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies the type and size of the endpoint capacity to activate for a rolling deployment or a rollback strategy. You can specify your batches as either of the following:
+    ///
+    /// * A count of inference component copies
+    ///
+    /// * The overall percentage or your fleet
+    ///
+    ///
+    /// For a rollback strategy, if you don't specify the fields in this object, or if you set the Value parameter to 100%, then SageMaker AI uses a blue/green rollback strategy and rolls all traffic back to the blue fleet.
+    public struct InferenceComponentCapacitySize: Swift.Sendable {
+        /// Specifies the endpoint capacity type. COPY_COUNT The endpoint activates based on the number of inference component copies. CAPACITY_PERCENT The endpoint activates based on the specified percentage of capacity.
+        /// This member is required.
+        public var type: SageMakerClientTypes.InferenceComponentCapacitySizeType?
+        /// Defines the capacity size, either as a number of inference component copies or a capacity percentage.
+        /// This member is required.
+        public var value: Swift.Int?
+
+        public init(
+            type: SageMakerClientTypes.InferenceComponentCapacitySizeType? = nil,
+            value: Swift.Int? = nil
+        ) {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies a rolling deployment strategy for updating a SageMaker AI inference component.
+    public struct InferenceComponentRollingUpdatePolicy: Swift.Sendable {
+        /// The batch size for each rolling step in the deployment process. For each step, SageMaker AI provisions capacity on the new endpoint fleet, routes traffic to that fleet, and terminates capacity on the old endpoint fleet. The value must be between 5% to 50% of the copy count of the inference component.
+        /// This member is required.
+        public var maximumBatchSize: SageMakerClientTypes.InferenceComponentCapacitySize?
+        /// The time limit for the total deployment. Exceeding this limit causes a timeout.
+        public var maximumExecutionTimeoutInSeconds: Swift.Int?
+        /// The batch size for a rollback to the old endpoint fleet. If this field is absent, the value is set to the default, which is 100% of the total capacity. When the default is used, SageMaker AI provisions the entire capacity of the old fleet at once during rollback.
+        public var rollbackMaximumBatchSize: SageMakerClientTypes.InferenceComponentCapacitySize?
+        /// The length of the baking period, during which SageMaker AI monitors alarms for each batch on the new fleet.
+        /// This member is required.
+        public var waitIntervalInSeconds: Swift.Int?
+
+        public init(
+            maximumBatchSize: SageMakerClientTypes.InferenceComponentCapacitySize? = nil,
+            maximumExecutionTimeoutInSeconds: Swift.Int? = nil,
+            rollbackMaximumBatchSize: SageMakerClientTypes.InferenceComponentCapacitySize? = nil,
+            waitIntervalInSeconds: Swift.Int? = nil
+        ) {
+            self.maximumBatchSize = maximumBatchSize
+            self.maximumExecutionTimeoutInSeconds = maximumExecutionTimeoutInSeconds
+            self.rollbackMaximumBatchSize = rollbackMaximumBatchSize
+            self.waitIntervalInSeconds = waitIntervalInSeconds
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The deployment configuration for an endpoint that hosts inference components. The configuration includes the desired deployment strategy and rollback settings.
+    public struct InferenceComponentDeploymentConfig: Swift.Sendable {
+        /// Automatic rollback configuration for handling endpoint deployment failures and recovery.
+        public var autoRollbackConfiguration: SageMakerClientTypes.AutoRollbackConfig?
+        /// Specifies a rolling deployment strategy for updating a SageMaker AI endpoint.
+        /// This member is required.
+        public var rollingUpdatePolicy: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy?
+
+        public init(
+            autoRollbackConfiguration: SageMakerClientTypes.AutoRollbackConfig? = nil,
+            rollingUpdatePolicy: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy? = nil
+        ) {
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.rollingUpdatePolicy = rollingUpdatePolicy
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Details about the runtime settings for the model that is deployed with the inference component.
     public struct InferenceComponentRuntimeConfigSummary: Swift.Sendable {
         /// The number of runtime copies of the model container that are currently deployed.
@@ -30662,6 +30899,8 @@ public struct DescribeInferenceComponentOutput: Swift.Sendable {
     public var inferenceComponentName: Swift.String?
     /// The status of the inference component.
     public var inferenceComponentStatus: SageMakerClientTypes.InferenceComponentStatus?
+    /// The deployment and rollback settings that you assigned to the inference component.
+    public var lastDeploymentConfig: SageMakerClientTypes.InferenceComponentDeploymentConfig?
     /// The time when the inference component was last updated.
     /// This member is required.
     public var lastModifiedTime: Foundation.Date?
@@ -30680,6 +30919,7 @@ public struct DescribeInferenceComponentOutput: Swift.Sendable {
         inferenceComponentArn: Swift.String? = nil,
         inferenceComponentName: Swift.String? = nil,
         inferenceComponentStatus: SageMakerClientTypes.InferenceComponentStatus? = nil,
+        lastDeploymentConfig: SageMakerClientTypes.InferenceComponentDeploymentConfig? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfigSummary? = nil,
         specification: SageMakerClientTypes.InferenceComponentSpecificationSummary? = nil,
@@ -30692,6 +30932,7 @@ public struct DescribeInferenceComponentOutput: Swift.Sendable {
         self.inferenceComponentArn = inferenceComponentArn
         self.inferenceComponentName = inferenceComponentName
         self.inferenceComponentStatus = inferenceComponentStatus
+        self.lastDeploymentConfig = lastDeploymentConfig
         self.lastModifiedTime = lastModifiedTime
         self.runtimeConfig = runtimeConfig
         self.specification = specification
@@ -36817,7 +37058,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The properties of an experiment as returned by the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API.
+    /// The properties of an experiment as returned by the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API. For information about experiments, see the [CreateExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateExperiment.html) API.
     public struct Experiment: Swift.Sendable {
         /// Who created the experiment.
         public var createdBy: SageMakerClientTypes.UserContext?
@@ -38324,6 +38565,8 @@ public struct ImportHubContentInput: Swift.Sendable {
     /// The name of the hub to import content into.
     /// This member is required.
     public var hubName: Swift.String?
+    /// The status of the hub content resource.
+    public var supportStatus: SageMakerClientTypes.HubContentSupportStatus?
     /// Any tags associated with the hub content.
     public var tags: [SageMakerClientTypes.Tag]?
 
@@ -38338,6 +38581,7 @@ public struct ImportHubContentInput: Swift.Sendable {
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil,
+        supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
     ) {
         self.documentSchemaVersion = documentSchemaVersion
@@ -38350,6 +38594,7 @@ public struct ImportHubContentInput: Swift.Sendable {
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
         self.hubName = hubName
+        self.supportStatus = supportStatus
         self.tags = tags
     }
 }
@@ -47251,7 +47496,14 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A versioned model that can be deployed for SageMaker inference.
+    /// A container for your trained model that can be deployed for SageMaker inference. This can include inference code, artifacts, and metadata. The model package type can be one of the following.
+    ///
+    /// * Versioned model: A part of a model package group in Model Registry.
+    ///
+    /// * Unversioned model: Not part of a model package group and used in Amazon Web Services Marketplace.
+    ///
+    ///
+    /// For more information, see [CreateModelPackage](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateModelPackage.html).
     public struct ModelPackage: Swift.Sendable {
         /// An array of additional Inference Specification objects.
         public var additionalInferenceSpecifications: [SageMakerClientTypes.AdditionalInferenceSpecificationDefinition]?
@@ -47297,7 +47549,11 @@ extension SageMakerClientTypes {
         public var modelPackageDescription: Swift.String?
         /// The model group to which the model belongs.
         public var modelPackageGroupName: Swift.String?
-        /// The name of the model.
+        /// The name of the model package. The name can be as follows:
+        ///
+        /// * For a versioned model, the name is automatically generated by SageMaker Model Registry and follows the format 'ModelPackageGroupName/ModelPackageVersion'.
+        ///
+        /// * For an unversioned model, you must provide the name.
         public var modelPackageName: Swift.String?
         /// The status of the model package. This can be one of the following values.
         ///
@@ -47402,7 +47658,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A group of versioned models in the model registry.
+    /// A group of versioned models in the Model Registry.
     public struct ModelPackageGroup: Swift.Sendable {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var createdBy: SageMakerClientTypes.UserContext?
@@ -48721,9 +48977,16 @@ extension SageMakerClientTypes {
         public var model: SageMakerClientTypes.ModelDashboardModel?
         /// An Amazon SageMaker Model Card that documents details about a machine learning model.
         public var modelCard: SageMakerClientTypes.ModelCard?
-        /// A versioned model that can be deployed for SageMaker inference.
+        /// A container for your trained model that can be deployed for SageMaker inference. This can include inference code, artifacts, and metadata. The model package type can be one of the following.
+        ///
+        /// * Versioned model: A part of a model package group in Model Registry.
+        ///
+        /// * Unversioned model: Not part of a model package group and used in Amazon Web Services Marketplace.
+        ///
+        ///
+        /// For more information, see [CreateModelPackage](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateModelPackage.html).
         public var modelPackage: SageMakerClientTypes.ModelPackage?
-        /// A group of versioned models in the model registry.
+        /// A group of versioned models in the Model Registry.
         public var modelPackageGroup: SageMakerClientTypes.ModelPackageGroup?
         /// A SageMaker Model Building Pipeline instance.
         public var pipeline: SageMakerClientTypes.Pipeline?
@@ -49469,16 +49732,20 @@ public struct UpdateClusterInput: Swift.Sendable {
     /// Specify the instance groups to update.
     /// This member is required.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]?
+    /// Specify the names of the instance groups to delete. Use a single , as the separator between multiple names.
+    public var instanceGroupsToDelete: [Swift.String]?
     /// The node recovery mode to be applied to the SageMaker HyperPod cluster.
     public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
 
     public init(
         clusterName: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
+        instanceGroupsToDelete: [Swift.String]? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil
     ) {
         self.clusterName = clusterName
         self.instanceGroups = instanceGroups
+        self.instanceGroupsToDelete = instanceGroupsToDelete
         self.nodeRecovery = nodeRecovery
     }
 }
@@ -50061,6 +50328,113 @@ public struct UpdateHubOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateHubContentInput: Swift.Sendable {
+    /// The description of the hub content.
+    public var hubContentDescription: Swift.String?
+    /// The display name of the hub content.
+    public var hubContentDisplayName: Swift.String?
+    /// A string that provides a description of the hub content. This string can include links, tables, and standard markdown formatting.
+    public var hubContentMarkdown: Swift.String?
+    /// The name of the hub content resource that you want to update.
+    /// This member is required.
+    public var hubContentName: Swift.String?
+    /// The searchable keywords of the hub content.
+    public var hubContentSearchKeywords: [Swift.String]?
+    /// The content type of the resource that you want to update. Only specify a Model or Notebook resource for this API. To update a ModelReference, use the UpdateHubContentReference API instead.
+    /// This member is required.
+    public var hubContentType: SageMakerClientTypes.HubContentType?
+    /// The hub content version that you want to update. For example, if you have two versions of a resource in your hub, you can update the second version.
+    /// This member is required.
+    public var hubContentVersion: Swift.String?
+    /// The name of the SageMaker hub that contains the hub content you want to update. You can optionally use the hub ARN instead.
+    /// This member is required.
+    public var hubName: Swift.String?
+    /// Indicates the current status of the hub content resource.
+    public var supportStatus: SageMakerClientTypes.HubContentSupportStatus?
+
+    public init(
+        hubContentDescription: Swift.String? = nil,
+        hubContentDisplayName: Swift.String? = nil,
+        hubContentMarkdown: Swift.String? = nil,
+        hubContentName: Swift.String? = nil,
+        hubContentSearchKeywords: [Swift.String]? = nil,
+        hubContentType: SageMakerClientTypes.HubContentType? = nil,
+        hubContentVersion: Swift.String? = nil,
+        hubName: Swift.String? = nil,
+        supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
+    ) {
+        self.hubContentDescription = hubContentDescription
+        self.hubContentDisplayName = hubContentDisplayName
+        self.hubContentMarkdown = hubContentMarkdown
+        self.hubContentName = hubContentName
+        self.hubContentSearchKeywords = hubContentSearchKeywords
+        self.hubContentType = hubContentType
+        self.hubContentVersion = hubContentVersion
+        self.hubName = hubName
+        self.supportStatus = supportStatus
+    }
+}
+
+public struct UpdateHubContentOutput: Swift.Sendable {
+    /// The ARN of the private model hub that contains the updated hub content.
+    /// This member is required.
+    public var hubArn: Swift.String?
+    /// The ARN of the hub content resource that was updated.
+    /// This member is required.
+    public var hubContentArn: Swift.String?
+
+    public init(
+        hubArn: Swift.String? = nil,
+        hubContentArn: Swift.String? = nil
+    ) {
+        self.hubArn = hubArn
+        self.hubContentArn = hubContentArn
+    }
+}
+
+public struct UpdateHubContentReferenceInput: Swift.Sendable {
+    /// The name of the hub content resource that you want to update.
+    /// This member is required.
+    public var hubContentName: Swift.String?
+    /// The content type of the resource that you want to update. Only specify a ModelReference resource for this API. To update a Model or Notebook resource, use the UpdateHubContent API instead.
+    /// This member is required.
+    public var hubContentType: SageMakerClientTypes.HubContentType?
+    /// The name of the SageMaker hub that contains the hub content you want to update. You can optionally use the hub ARN instead.
+    /// This member is required.
+    public var hubName: Swift.String?
+    /// The minimum hub content version of the referenced model that you want to use. The minimum version must be older than the latest available version of the referenced model. To support all versions of a model, set the value to 1.0.0.
+    public var minVersion: Swift.String?
+
+    public init(
+        hubContentName: Swift.String? = nil,
+        hubContentType: SageMakerClientTypes.HubContentType? = nil,
+        hubName: Swift.String? = nil,
+        minVersion: Swift.String? = nil
+    ) {
+        self.hubContentName = hubContentName
+        self.hubContentType = hubContentType
+        self.hubName = hubName
+        self.minVersion = minVersion
+    }
+}
+
+public struct UpdateHubContentReferenceOutput: Swift.Sendable {
+    /// The ARN of the private model hub that contains the updated hub content.
+    /// This member is required.
+    public var hubArn: Swift.String?
+    /// The ARN of the hub content resource that was updated.
+    /// This member is required.
+    public var hubContentArn: Swift.String?
+
+    public init(
+        hubArn: Swift.String? = nil,
+        hubContentArn: Swift.String? = nil
+    ) {
+        self.hubArn = hubArn
+        self.hubContentArn = hubContentArn
+    }
+}
+
 public struct UpdateImageInput: Swift.Sendable {
     /// A list of properties to delete. Only the Description and DisplayName properties can be deleted.
     public var deleteProperties: [Swift.String]?
@@ -50186,6 +50560,8 @@ public struct UpdateImageVersionOutput: Swift.Sendable {
 }
 
 public struct UpdateInferenceComponentInput: Swift.Sendable {
+    /// The deployment configuration for the inference component. The configuration contains the desired deployment strategy and rollback settings.
+    public var deploymentConfig: SageMakerClientTypes.InferenceComponentDeploymentConfig?
     /// The name of the inference component.
     /// This member is required.
     public var inferenceComponentName: Swift.String?
@@ -50195,10 +50571,12 @@ public struct UpdateInferenceComponentInput: Swift.Sendable {
     public var specification: SageMakerClientTypes.InferenceComponentSpecification?
 
     public init(
+        deploymentConfig: SageMakerClientTypes.InferenceComponentDeploymentConfig? = nil,
         inferenceComponentName: Swift.String? = nil,
         runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfig? = nil,
         specification: SageMakerClientTypes.InferenceComponentSpecification? = nil
     ) {
+        self.deploymentConfig = deploymentConfig
         self.inferenceComponentName = inferenceComponentName
         self.runtimeConfig = runtimeConfig
         self.specification = specification
@@ -53474,6 +53852,20 @@ extension UpdateHubInput {
     }
 }
 
+extension UpdateHubContentInput {
+
+    static func urlPathProvider(_ value: UpdateHubContentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateHubContentReferenceInput {
+
+    static func urlPathProvider(_ value: UpdateHubContentReferenceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateImageInput {
 
     static func urlPathProvider(_ value: UpdateImageInput) -> Swift.String? {
@@ -55742,6 +56134,7 @@ extension ImportHubContentInput {
         try writer["HubContentType"].write(value.hubContentType)
         try writer["HubContentVersion"].write(value.hubContentVersion)
         try writer["HubName"].write(value.hubName)
+        try writer["SupportStatus"].write(value.supportStatus)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -57287,6 +57680,7 @@ extension UpdateClusterInput {
         guard let value else { return }
         try writer["ClusterName"].write(value.clusterName)
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InstanceGroupsToDelete"].writeList(value.instanceGroupsToDelete, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NodeRecovery"].write(value.nodeRecovery)
     }
 }
@@ -57445,6 +57839,33 @@ extension UpdateHubInput {
     }
 }
 
+extension UpdateHubContentInput {
+
+    static func write(value: UpdateHubContentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HubContentDescription"].write(value.hubContentDescription)
+        try writer["HubContentDisplayName"].write(value.hubContentDisplayName)
+        try writer["HubContentMarkdown"].write(value.hubContentMarkdown)
+        try writer["HubContentName"].write(value.hubContentName)
+        try writer["HubContentSearchKeywords"].writeList(value.hubContentSearchKeywords, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HubContentType"].write(value.hubContentType)
+        try writer["HubContentVersion"].write(value.hubContentVersion)
+        try writer["HubName"].write(value.hubName)
+        try writer["SupportStatus"].write(value.supportStatus)
+    }
+}
+
+extension UpdateHubContentReferenceInput {
+
+    static func write(value: UpdateHubContentReferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HubContentName"].write(value.hubContentName)
+        try writer["HubContentType"].write(value.hubContentType)
+        try writer["HubName"].write(value.hubName)
+        try writer["MinVersion"].write(value.minVersion)
+    }
+}
+
 extension UpdateImageInput {
 
     static func write(value: UpdateImageInput?, to writer: SmithyJSON.Writer) throws {
@@ -57480,6 +57901,7 @@ extension UpdateInferenceComponentInput {
 
     static func write(value: UpdateInferenceComponentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DeploymentConfig"].write(value.deploymentConfig, with: SageMakerClientTypes.InferenceComponentDeploymentConfig.write(value:to:))
         try writer["InferenceComponentName"].write(value.inferenceComponentName)
         try writer["RuntimeConfig"].write(value.runtimeConfig, with: SageMakerClientTypes.InferenceComponentRuntimeConfig.write(value:to:))
         try writer["Specification"].write(value.specification, with: SageMakerClientTypes.InferenceComponentSpecification.write(value:to:))
@@ -57981,6 +58403,7 @@ extension CreateDomainOutput {
         let reader = responseReader
         var value = CreateDomainOutput()
         value.domainArn = try reader["DomainArn"].readIfPresent()
+        value.domainId = try reader["DomainId"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
         return value
     }
@@ -59675,6 +60098,7 @@ extension DescribeHubContentOutput {
         value.hubContentType = try reader["HubContentType"].readIfPresent() ?? .sdkUnknown("")
         value.hubContentVersion = try reader["HubContentVersion"].readIfPresent() ?? ""
         value.hubName = try reader["HubName"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.referenceMinVersion = try reader["ReferenceMinVersion"].readIfPresent()
         value.sageMakerPublicHubContentArn = try reader["SageMakerPublicHubContentArn"].readIfPresent()
         value.supportStatus = try reader["SupportStatus"].readIfPresent()
@@ -59788,6 +60212,7 @@ extension DescribeInferenceComponentOutput {
         value.inferenceComponentArn = try reader["InferenceComponentArn"].readIfPresent() ?? ""
         value.inferenceComponentName = try reader["InferenceComponentName"].readIfPresent() ?? ""
         value.inferenceComponentStatus = try reader["InferenceComponentStatus"].readIfPresent()
+        value.lastDeploymentConfig = try reader["LastDeploymentConfig"].readIfPresent(with: SageMakerClientTypes.InferenceComponentDeploymentConfig.read(from:))
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: SageMakerClientTypes.InferenceComponentRuntimeConfigSummary.read(from:))
         value.specification = try reader["Specification"].readIfPresent(with: SageMakerClientTypes.InferenceComponentSpecificationSummary.read(from:))
@@ -62279,6 +62704,32 @@ extension UpdateHubOutput {
         let reader = responseReader
         var value = UpdateHubOutput()
         value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateHubContentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHubContentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateHubContentOutput()
+        value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateHubContentReferenceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHubContentReferenceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateHubContentReferenceOutput()
+        value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -67203,6 +67654,36 @@ enum UpdateHubOutputError {
     }
 }
 
+enum UpdateHubContentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateHubContentReferenceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateImageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -68425,7 +68906,9 @@ extension SageMakerClientTypes.S3DataSource {
     static func write(value: SageMakerClientTypes.S3DataSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AttributeNames"].writeList(value.attributeNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HubAccessConfig"].write(value.hubAccessConfig, with: SageMakerClientTypes.HubAccessConfig.write(value:to:))
         try writer["InstanceGroupNames"].writeList(value.instanceGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ModelAccessConfig"].write(value.modelAccessConfig, with: SageMakerClientTypes.ModelAccessConfig.write(value:to:))
         try writer["S3DataDistributionType"].write(value.s3DataDistributionType)
         try writer["S3DataType"].write(value.s3DataType)
         try writer["S3Uri"].write(value.s3Uri)
@@ -68439,6 +68922,23 @@ extension SageMakerClientTypes.S3DataSource {
         value.s3DataDistributionType = try reader["S3DataDistributionType"].readIfPresent()
         value.attributeNames = try reader["AttributeNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceGroupNames = try reader["InstanceGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelAccessConfig = try reader["ModelAccessConfig"].readIfPresent(with: SageMakerClientTypes.ModelAccessConfig.read(from:))
+        value.hubAccessConfig = try reader["HubAccessConfig"].readIfPresent(with: SageMakerClientTypes.HubAccessConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.HubAccessConfig {
+
+    static func write(value: SageMakerClientTypes.HubAccessConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HubContentArn"].write(value.hubContentArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HubAccessConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.HubAccessConfig()
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -72464,6 +72964,61 @@ extension SageMakerClientTypes.InferenceComponentRuntimeConfigSummary {
         var value = SageMakerClientTypes.InferenceComponentRuntimeConfigSummary()
         value.desiredCopyCount = try reader["DesiredCopyCount"].readIfPresent()
         value.currentCopyCount = try reader["CurrentCopyCount"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InferenceComponentDeploymentConfig {
+
+    static func write(value: SageMakerClientTypes.InferenceComponentDeploymentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoRollbackConfiguration"].write(value.autoRollbackConfiguration, with: SageMakerClientTypes.AutoRollbackConfig.write(value:to:))
+        try writer["RollingUpdatePolicy"].write(value.rollingUpdatePolicy, with: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentDeploymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InferenceComponentDeploymentConfig()
+        value.rollingUpdatePolicy = try reader["RollingUpdatePolicy"].readIfPresent(with: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy.read(from:))
+        value.autoRollbackConfiguration = try reader["AutoRollbackConfiguration"].readIfPresent(with: SageMakerClientTypes.AutoRollbackConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InferenceComponentRollingUpdatePolicy {
+
+    static func write(value: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumBatchSize"].write(value.maximumBatchSize, with: SageMakerClientTypes.InferenceComponentCapacitySize.write(value:to:))
+        try writer["MaximumExecutionTimeoutInSeconds"].write(value.maximumExecutionTimeoutInSeconds)
+        try writer["RollbackMaximumBatchSize"].write(value.rollbackMaximumBatchSize, with: SageMakerClientTypes.InferenceComponentCapacitySize.write(value:to:))
+        try writer["WaitIntervalInSeconds"].write(value.waitIntervalInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentRollingUpdatePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InferenceComponentRollingUpdatePolicy()
+        value.maximumBatchSize = try reader["MaximumBatchSize"].readIfPresent(with: SageMakerClientTypes.InferenceComponentCapacitySize.read(from:))
+        value.waitIntervalInSeconds = try reader["WaitIntervalInSeconds"].readIfPresent() ?? 0
+        value.maximumExecutionTimeoutInSeconds = try reader["MaximumExecutionTimeoutInSeconds"].readIfPresent()
+        value.rollbackMaximumBatchSize = try reader["RollbackMaximumBatchSize"].readIfPresent(with: SageMakerClientTypes.InferenceComponentCapacitySize.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InferenceComponentCapacitySize {
+
+    static func write(value: SageMakerClientTypes.InferenceComponentCapacitySize?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentCapacitySize {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InferenceComponentCapacitySize()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0
         return value
     }
 }

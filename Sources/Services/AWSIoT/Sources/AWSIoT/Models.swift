@@ -2819,14 +2819,47 @@ extension IoTClientTypes {
 
 extension IoTClientTypes {
 
+    public enum ConfigName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case certAgeThresholdInDays
+        case certExpirationThresholdInDays
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigName] {
+            return [
+                .certAgeThresholdInDays,
+                .certExpirationThresholdInDays
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .certAgeThresholdInDays: return "CERT_AGE_THRESHOLD_IN_DAYS"
+            case .certExpirationThresholdInDays: return "CERT_EXPIRATION_THRESHOLD_IN_DAYS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// Which audit checks are enabled and disabled for this account.
     public struct AuditCheckConfiguration: Swift.Sendable {
+        /// A structure containing the configName and corresponding configValue for configuring audit checks.
+        public var configuration: [Swift.String: Swift.String]?
         /// True if this audit check is enabled for this account.
         public var enabled: Swift.Bool
 
         public init(
+            configuration: [Swift.String: Swift.String]? = nil,
             enabled: Swift.Bool = false
         ) {
+            self.configuration = configuration
             self.enabled = enabled
         }
     }
@@ -33996,6 +34029,7 @@ extension IoTClientTypes.AuditCheckConfiguration {
 
     static func write(value: IoTClientTypes.AuditCheckConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["configuration"].writeMap(value.configuration, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["enabled"].write(value.enabled)
     }
 
@@ -34003,6 +34037,7 @@ extension IoTClientTypes.AuditCheckConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AuditCheckConfiguration()
         value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.configuration = try reader["configuration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

@@ -18,7 +18,7 @@ import struct SmithyIdentity.BearerTokenIdentity
 import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ElasticInferenceClientEndpointPlugin: Plugin {
+public class IoTManagedIntegrationsClientEndpointPlugin: Plugin {
     private var endpointResolver: EndpointResolver
 
     public init(endpointResolver: EndpointResolver) {
@@ -30,7 +30,7 @@ public class ElasticInferenceClientEndpointPlugin: Plugin {
     }
 
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? ElasticInferenceClient.ElasticInferenceClientConfiguration {
+        if let config = clientConfiguration as? IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -41,8 +41,8 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public init() {}
 
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? ElasticInferenceClient.ElasticInferenceClientConfiguration {
-            config.authSchemeResolver = DefaultElasticInferenceAuthSchemeResolver()
+        if let config = clientConfiguration as? IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfiguration {
+            config.authSchemeResolver = DefaultIoTManagedIntegrationsAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
@@ -50,13 +50,13 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     }
 }
 
-public class ElasticInferenceClientAuthSchemePlugin: ClientRuntime.Plugin {
+public class IoTManagedIntegrationsClientAuthSchemePlugin: ClientRuntime.Plugin {
     private var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
     private var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver?
     private var awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)?
     private var bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)?
 
-    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: ElasticInferenceAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
+    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: IoTManagedIntegrationsAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
         self.authSchemeResolver = authSchemeResolver
         self.authSchemes = authSchemes
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
@@ -64,7 +64,7 @@ public class ElasticInferenceClientAuthSchemePlugin: ClientRuntime.Plugin {
     }
 
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? ElasticInferenceClient.ElasticInferenceClientConfiguration {
+        if let config = clientConfiguration as? IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

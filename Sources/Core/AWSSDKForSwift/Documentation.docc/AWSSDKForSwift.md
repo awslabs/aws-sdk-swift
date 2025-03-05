@@ -72,6 +72,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSDKIdentity](../../../../../swift/api/awssdkidentity/latest)
 
+[AWSSDKPartitions](../../../../../swift/api/awssdkpartitions/latest)
+
 
 ## Service Documentation
 
@@ -353,8 +355,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSElasticBeanstalk](../../../../../swift/api/awselasticbeanstalk/latest)
 
-[AWSElasticInference](../../../../../swift/api/awselasticinference/latest)
-
 [AWSElasticLoadBalancing](../../../../../swift/api/awselasticloadbalancing/latest)
 
 [AWSElasticLoadBalancingv2](../../../../../swift/api/awselasticloadbalancingv2/latest)
@@ -450,6 +450,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSIoTFleetWise](../../../../../swift/api/awsiotfleetwise/latest)
 
 [AWSIoTJobsDataPlane](../../../../../swift/api/awsiotjobsdataplane/latest)
+
+[AWSIoTManagedIntegrations](../../../../../swift/api/awsiotmanagedintegrations/latest)
 
 [AWSIoTSecureTunneling](../../../../../swift/api/awsiotsecuretunneling/latest)
 

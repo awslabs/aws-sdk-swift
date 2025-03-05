@@ -8023,8 +8023,8 @@ extension DeleteServiceActionInput {
 extension DeleteTagOptionInput {
 
     static func write(value: DeleteTagOptionInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["Id"].write(value.id)
     }
 }
 
@@ -8186,8 +8186,8 @@ extension DescribeServiceActionExecutionParametersInput {
 extension DescribeTagOptionInput {
 
     static func write(value: DescribeTagOptionInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["Id"].write(value.id)
     }
 }
 
@@ -8244,8 +8244,9 @@ extension DisassociateServiceActionFromProvisioningArtifactInput {
 extension DisassociateTagOptionFromResourceInput {
 
     static func write(value: DisassociateTagOptionFromResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ResourceId"].write(value.resourceId)
+        try writer["TagOptionId"].write(value.tagOptionId)
     }
 }
 
@@ -8461,8 +8462,11 @@ extension ListRecordHistoryInput {
 extension ListResourcesForTagOptionInput {
 
     static func write(value: ListResourcesForTagOptionInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["PageSize"].write(value.pageSize)
+        try writer["PageToken"].write(value.pageToken)
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["TagOptionId"].write(value.tagOptionId)
     }
 }
 

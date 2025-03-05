@@ -1229,13 +1229,13 @@ extension SSMClientTypes {
 public struct CreateAssociationInput: Swift.Sendable {
     /// The details for the CloudWatch alarm you want to apply to an automation or command.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
-    /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
+    /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified and when target changes are detected. Specify true for ApplyOnlyAtCronIntervalif you want the association to run only according to the schedule you specified. For more information, see [Understanding when associations are applied to resources](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling) and [>About target updates with Automation runbooks](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates) in the Amazon Web Services Systems Manager User Guide. This parameter isn't supported for rate expressions.
     public var applyOnlyAtCronInterval: Swift.Bool?
     /// Specify a descriptive name for the association.
     public var associationName: Swift.String?
     /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
     public var automationTargetParameterName: Swift.String?
-    /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+    /// The names of Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar) in the Amazon Web Services Systems Manager User Guide.
     public var calendarNames: [Swift.String]?
     /// The severity level to assign to the association.
     public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
@@ -1428,7 +1428,7 @@ extension SSMClientTypes {
         public var associationVersion: Swift.String?
         /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
         public var automationTargetParameterName: Swift.String?
-        /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+        /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar) in the Amazon Web Services Systems Manager User Guide.
         public var calendarNames: [Swift.String]?
         /// The severity level that is assigned to the association.
         public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
@@ -1561,13 +1561,13 @@ extension SSMClientTypes {
     public struct CreateAssociationBatchRequestEntry: Swift.Sendable {
         /// The details for the CloudWatch alarm you want to apply to an automation or command.
         public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
-        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
+        /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified and when target changes are detected. Specify true for ApplyOnlyAtCronInterval if you want the association to run only according to the schedule you specified. For more information, see [Understanding when associations are applied to resources](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling) and [>About target updates with Automation runbooks](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates) in the Amazon Web Services Systems Manager User Guide. This parameter isn't supported for rate expressions.
         public var applyOnlyAtCronInterval: Swift.Bool
         /// Specify a descriptive name for the association.
         public var associationName: Swift.String?
         /// Specify the target for the association. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
         public var automationTargetParameterName: Swift.String?
-        /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that Change Calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+        /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that Change Calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar) in the Amazon Web Services Systems Manager User Guide.
         public var calendarNames: [Swift.String]?
         /// The severity level to assign to the association.
         public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
@@ -4112,7 +4112,7 @@ public struct DeleteOpsMetadataOutput: Swift.Sendable {
     public init() { }
 }
 
-/// The parameter couldn't be found. Verify the name and try again.
+/// The parameter couldn't be found. Verify the name and try again. For the DeleteParameter and GetParameter actions, if the specified parameter doesn't exist, the ParameterNotFound exception is not recorded in CloudTrail event logs.
 public struct ParameterNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -10365,7 +10365,7 @@ public struct UnsupportedCalendarException: ClientRuntime.ModeledError, AWSClien
 public struct GetCalendarStateInput: Swift.Sendable {
     /// (Optional) The specific time for which you want to get calendar state information, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. If you don't specify a value or AtTime, the current time is used.
     public var atTime: Swift.String?
-    /// The names or Amazon Resource Names (ARNs) of the Systems Manager documents (SSM documents) that represent the calendar entries for which you want to get the state.
+    /// The names of Amazon Resource Names (ARNs) of the Systems Manager documents (SSM documents) that represent the calendar entries for which you want to get the state.
     /// This member is required.
     public var calendarNames: [Swift.String]?
 
@@ -13298,7 +13298,7 @@ extension SSMClientTypes {
 
     /// Information about the association version.
     public struct AssociationVersionInfo: Swift.Sendable {
-        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
+        /// By default, when you create new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
         public var applyOnlyAtCronInterval: Swift.Bool
         /// The ID created by the system when the association was created.
         public var associationId: Swift.String?
@@ -13306,7 +13306,7 @@ extension SSMClientTypes {
         public var associationName: Swift.String?
         /// The association version.
         public var associationVersion: Swift.String?
-        /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations for this version only run when that Change Calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+        /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations for this version only run when that Change Calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar) in the Amazon Web Services Systems Manager User Guide.
         public var calendarNames: [Swift.String]?
         /// The severity level that is assigned to the association.
         public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
@@ -15090,7 +15090,7 @@ public struct ListNodesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
-    /// The name of the resource data sync to retrieve information about. Required for cross-account/cross-Region configurations. Optional for single account/single-Region configurations.
+    /// The name of the Amazon Web Services managed resource data sync to retrieve information about. For cross-account/cross-Region configurations, this parameter is required, and the name of the supported resource data sync is AWS-QuickSetup-ManagedNode. For single account/single-Region configurations, the parameter is not required.
     public var syncName: Swift.String?
 
     public init(
@@ -16827,11 +16827,11 @@ public struct PutParameterInput: Swift.Sendable {
     public var dataType: Swift.String?
     /// Information about the parameter that you want to add to the system. Optional but recommended. Don't enter personally identifiable information in this field.
     public var description: Swift.String?
-    /// The Key Management Service (KMS) ID that you want to use to encrypt a parameter. Use a custom key for better security. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your Amazon Web Services account which is not as secure as using a custom key.
+    /// The Key Management Service (KMS) ID that you want to use to encrypt a parameter. Use a custom key for better security. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your Amazon Web Services account, which is not as secure as using a custom key.
     ///
     /// * To use a custom KMS key, choose the SecureString data type with the Key ID parameter.
     public var keyId: Swift.String?
-    /// The fully qualified name of the parameter that you want to add to the system. You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13 Naming Constraints:
+    /// The fully qualified name of the parameter that you want to create or update. You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13 Naming Constraints:
     ///
     /// * Parameter names are case sensitive.
     ///
@@ -16882,7 +16882,7 @@ public struct PutParameterInput: Swift.Sendable {
     ///
     /// For more information about configuring the default tier option, see [Specifying a default parameter tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html#ps-default-tier) in the Amazon Web Services Systems Manager User Guide.
     public var tier: SSMClientTypes.ParameterTier?
-    /// The type of parameter that you want to add to the system. SecureString isn't currently supported for CloudFormation templates. Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type. Specifying a parameter type isn't required when updating a parameter. You must specify a parameter type when creating a parameter.
+    /// The type of parameter that you want to create. SecureString isn't currently supported for CloudFormation templates. Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type. Specifying a parameter type isn't required when updating a parameter. You must specify a parameter type when creating a parameter.
     public var type: SSMClientTypes.ParameterType?
     /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB. Parameters can't be referenced or nested in the values of other parameters. You can't include values wrapped in double brackets {{}} or {{ssm:parameter-name}} in a parameter value.
     /// This member is required.
@@ -18264,7 +18264,7 @@ public struct InvalidUpdate: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 public struct UpdateAssociationInput: Swift.Sendable {
     /// The details for the CloudWatch alarm you want to apply to an automation or command.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
-    /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter isn't supported for rate expressions. If you chose this option when you created an association and later you edit that association or you make changes to the SSM document on which that association is based (by using the Documents page in the console), State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously selected this option. If this option wasn't selected, State Manager immediately runs the association. You can reset this option. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
+    /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify true for ApplyOnlyAtCronInterval if you want the association to run only according to the schedule you specified. If you chose this option when you created an association and later you edit that association or you make changes to the Automation runbook or SSM document on which that association is based, State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously set ApplyOnlyAtCronInterval to true. If this option wasn't selected, State Manager immediately runs the association. For more information, see [Understanding when associations are applied to resources](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling) and [About target updates with Automation runbooks](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates) in the Amazon Web Services Systems Manager User Guide. This parameter isn't supported for rate expressions. You can reset this parameter. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
     public var applyOnlyAtCronInterval: Swift.Bool?
     /// The ID of the association you want to update.
     /// This member is required.
@@ -18275,7 +18275,7 @@ public struct UpdateAssociationInput: Swift.Sendable {
     public var associationVersion: Swift.String?
     /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
     public var automationTargetParameterName: Swift.String?
-    /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+    /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar) in the Amazon Web Services Systems Manager User Guide.
     public var calendarNames: [Swift.String]?
     /// The severity level to assign to the association.
     public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
@@ -19579,7 +19579,7 @@ public struct ListNodesSummaryInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.) The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var nextToken: Swift.String?
-    /// The name of the resource data sync to retrieve information about. Required for cross-account/cross-Region configuration. Optional for single account/single-Region configurations.
+    /// The name of the Amazon Web Services managed resource data sync to retrieve information about. For cross-account/cross-Region configurations, this parameter is required, and the name of the supported resource data sync is AWS-QuickSetup-ManagedNode. For single account/single-Region configurations, the parameter is not required.
     public var syncName: Swift.String?
 
     public init(

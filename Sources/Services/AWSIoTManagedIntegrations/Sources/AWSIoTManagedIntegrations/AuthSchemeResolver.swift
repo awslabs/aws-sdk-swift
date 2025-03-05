@@ -14,29 +14,29 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolverParameters
 import struct SmithyHTTPAuthAPI.AuthOption
 
-public struct ElasticInferenceAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+public struct IoTManagedIntegrationsAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
     public let operation: Swift.String
     // Region is used for SigV4 auth scheme
     public let region: Swift.String?
 }
 
-public protocol ElasticInferenceAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
+public protocol IoTManagedIntegrationsAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
     // Intentionally empty.
     // This is the parent protocol that all auth scheme resolver implementations of
-    // the service ElasticInference must conform to.
+    // the service IoTManagedIntegrations must conform to.
 }
 
-public struct DefaultElasticInferenceAuthSchemeResolver: ElasticInferenceAuthSchemeResolver {
+public struct DefaultIoTManagedIntegrationsAuthSchemeResolver: IoTManagedIntegrationsAuthSchemeResolver {
 
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
-        guard let serviceParams = params as? ElasticInferenceAuthSchemeResolverParameters else {
+        guard let serviceParams = params as? IoTManagedIntegrationsAuthSchemeResolverParameters else {
             throw Smithy.ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
         }
         switch serviceParams.operation {
             default:
                 var sigV4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
-                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "elastic-inference")
+                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "iotmanagedintegrations")
                 guard let region = serviceParams.region else {
                     throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
@@ -51,6 +51,6 @@ public struct DefaultElasticInferenceAuthSchemeResolver: ElasticInferenceAuthSch
             throw Smithy.ClientError.dataNotFound("Operation name not configured in middleware context for auth scheme resolver params construction.")
         }
         let opRegion = context.getRegion()
-        return ElasticInferenceAuthSchemeResolverParameters(operation: opName, region: opRegion)
+        return IoTManagedIntegrationsAuthSchemeResolverParameters(operation: opName, region: opRegion)
     }
 }

@@ -16,20 +16,21 @@ import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 class AWSRegionClientConfiguration : ClientConfiguration {
     override val swiftProtocolName: Symbol = AWSClientRuntimeTypes.Core.AWSRegionClientConfiguration
 
-    override fun getProperties(ctx: ProtocolGenerator.GenerationContext): Set<ConfigProperty> = setOf(
-        ConfigProperty(
-            "region",
-            SwiftTypes.String.toOptional(),
-            { it.format("\$N.region(region)", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider) },
-            true,
-            true
-        ),
-        ConfigProperty(
-            "signingRegion",
-            SwiftTypes.String.toOptional(),
-            { it.format("\$N.region(region)", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider) },
-            true,
-            true
+    override fun getProperties(ctx: ProtocolGenerator.GenerationContext): Set<ConfigProperty> =
+        setOf(
+            ConfigProperty(
+                "region",
+                SwiftTypes.String.toOptional(),
+                { it.format("\$N.region(region)", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider) },
+                true,
+                true,
+            ),
+            ConfigProperty(
+                "signingRegion",
+                SwiftTypes.String.toOptional(),
+                { it.format("\$N.region(region)", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider) },
+                true,
+                true,
+            ),
         )
-    )
 }

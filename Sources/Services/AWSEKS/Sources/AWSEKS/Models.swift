@@ -2973,6 +2973,25 @@ public struct CreateEksAnywhereSubscriptionInput: Swift.Sendable {
 
 extension EKSClientTypes {
 
+    /// An EKS Anywhere license associated with a subscription.
+    public struct License: Swift.Sendable {
+        /// An id associated with an EKS Anywhere subscription license.
+        public var id: Swift.String?
+        /// An optional license token that can be used for extended support verification.
+        public var token: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            token: Swift.String? = nil
+        ) {
+            self.id = id
+            self.token = token
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// An EKS Anywhere subscription authorizing the customer to support for licensed clusters and access to EKS Anywhere Curated Packages.
     public struct EksAnywhereSubscription: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the subscription.
@@ -2993,6 +3012,8 @@ extension EKSClientTypes {
         public var licenseQuantity: Swift.Int
         /// The type of licenses included in the subscription. Valid value is CLUSTER. With the CLUSTER license type, each license covers support for a single EKS Anywhere cluster.
         public var licenseType: EKSClientTypes.EksAnywhereSubscriptionLicenseType?
+        /// Includes all of the claims in the license token necessary to validate the license for extended support.
+        public var licenses: [EKSClientTypes.License]?
         /// The status of a subscription.
         public var status: Swift.String?
         /// The metadata for a subscription to assist with categorization and organization. Each tag consists of a key and an optional value. Subscription tags do not propagate to any other resources associated with the subscription.
@@ -3010,6 +3031,7 @@ extension EKSClientTypes {
             licenseArns: [Swift.String]? = nil,
             licenseQuantity: Swift.Int = 0,
             licenseType: EKSClientTypes.EksAnywhereSubscriptionLicenseType? = nil,
+            licenses: [EKSClientTypes.License]? = nil,
             status: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             term: EKSClientTypes.EksAnywhereSubscriptionTerm? = nil
@@ -3023,6 +3045,7 @@ extension EKSClientTypes {
             self.licenseArns = licenseArns
             self.licenseQuantity = licenseQuantity
             self.licenseType = licenseType
+            self.licenses = licenses
             self.status = status
             self.tags = tags
             self.term = term
@@ -3307,11 +3330,11 @@ extension EKSClientTypes {
 
     /// An object representing a node group launch template specification. The launch template can't include [SubnetId](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html), [IamInstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IamInstanceProfile.html), [RequestSpotInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotInstances.html), [HibernationOptions](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_HibernationOptionsRequest.html), or [TerminateInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TerminateInstances.html), or the node group deployment or update will fail. For more information about launch templates, see [CreateLaunchTemplate](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplate.html) in the Amazon EC2 API Reference. For more information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide. You must specify either the launch template ID or the launch template name in the request, but not both.
     public struct LaunchTemplateSpecification: Swift.Sendable {
-        /// The ID of the launch template. You must specify either the launch template ID or the launch template name in the request, but not both.
+        /// The ID of the launch template. You must specify either the launch template ID or the launch template name in the request, but not both. After node group creation, you cannot use a different ID.
         public var id: Swift.String?
-        /// The name of the launch template. You must specify either the launch template name or the launch template ID in the request, but not both.
+        /// The name of the launch template. You must specify either the launch template name or the launch template ID in the request, but not both. After node group creation, you cannot use a different name.
         public var name: Swift.String?
-        /// The version number of the launch template to use. If no version is specified, then the template's default version is used.
+        /// The version number of the launch template to use. If no version is specified, then the template's default version is used. You can use a different version for node group updates.
         public var version: Swift.String?
 
         public init(
@@ -3475,7 +3498,7 @@ extension EKSClientTypes {
         public var maxUnavailable: Swift.Int?
         /// The maximum percentage of nodes unavailable during a version update. This percentage of nodes are updated in parallel, up to 100 nodes at once. This value or maxUnavailable is required to have a value.
         public var maxUnavailablePercentage: Swift.Int?
-        /// The configuration for the behavior to follow during a node group version update of this managed node group. You choose between two possible strategies for replacing nodes during an [UpdateNodegroupVersion](https://docs.aws.amazon.com/latest/APIReference/API_UpdateNodegroupVersion.html) action. An Amazon EKS managed node group updates by replacing nodes with new nodes of newer AMI versions in parallel. The update strategy changes the managed node update behavior of the managed node group for each quantity. The default strategy has guardrails to protect you from misconfiguration and launches the new instances first, before terminating the old instances. The minimal strategy removes the guardrails and terminates the old instances before launching the new instances. This minimal strategy is useful in scenarios where you are constrained to resources or costs (for example, with hardware accelerators such as GPUs).
+        /// The configuration for the behavior to follow during a node group version update of this managed node group. You choose between two possible strategies for replacing nodes during an [UpdateNodegroupVersion](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateNodegroupVersion.html) action. An Amazon EKS managed node group updates by replacing nodes with new nodes of newer AMI versions in parallel. The update strategy changes the managed node update behavior of the managed node group for each quantity. The default strategy has guardrails to protect you from misconfiguration and launches the new instances first, before terminating the old instances. The minimal strategy removes the guardrails and terminates the old instances before launching the new instances. This minimal strategy is useful in scenarios where you are constrained to resources or costs (for example, with hardware accelerators such as GPUs).
         public var updateStrategy: EKSClientTypes.NodegroupUpdateStrategies?
 
         public init(
@@ -3506,7 +3529,7 @@ public struct CreateNodegroupInput: Swift.Sendable {
     public var instanceTypes: [Swift.String]?
     /// The Kubernetes labels to apply to the nodes in the node group when they are created.
     public var labels: [Swift.String: Swift.String]?
-    /// An object representing a node group's launch template specification. When using this object, don't directly specify instanceTypes, diskSize, or remoteAccess. Make sure that the launch template meets the requirements in launchTemplateSpecification. Also refer to [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
+    /// An object representing a node group's launch template specification. When using this object, don't directly specify instanceTypes, diskSize, or remoteAccess. You cannot later specify a different launch template ID or name than what was used to create the node group. Make sure that the launch template meets the requirements in launchTemplateSpecification. Also refer to [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var launchTemplate: EKSClientTypes.LaunchTemplateSpecification?
     /// The node auto repair configuration for the node group.
     public var nodeRepairConfig: EKSClientTypes.NodeRepairConfig?
@@ -4492,6 +4515,38 @@ extension EKSClientTypes {
     }
 }
 
+extension EKSClientTypes {
+
+    public enum VersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case extendedSupport
+        case standardSupport
+        case unsupported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VersionStatus] {
+            return [
+                .extendedSupport,
+                .standardSupport,
+                .unsupported
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .extendedSupport: return "EXTENDED_SUPPORT"
+            case .standardSupport: return "STANDARD_SUPPORT"
+            case .unsupported: return "UNSUPPORTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DescribeClusterVersionsInput: Swift.Sendable {
     /// The type of cluster to filter versions by.
     public var clusterType: Swift.String?
@@ -4505,8 +4560,11 @@ public struct DescribeClusterVersionsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Pagination token for the next set of results.
     public var nextToken: Swift.String?
-    /// Filter versions by their current status.
+    /// This field is deprecated. Use versionStatus instead, as that field matches for input and output of this action. Filter versions by their current status.
+    @available(*, deprecated, message: "status has been replaced by versionStatus API deprecated since 2025-02-15")
     public var status: EKSClientTypes.ClusterVersionStatus?
+    /// Filter versions by their current status.
+    public var versionStatus: EKSClientTypes.VersionStatus?
 
     public init(
         clusterType: Swift.String? = nil,
@@ -4515,7 +4573,8 @@ public struct DescribeClusterVersionsInput: Swift.Sendable {
         includeAll: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        status: EKSClientTypes.ClusterVersionStatus? = nil
+        status: EKSClientTypes.ClusterVersionStatus? = nil,
+        versionStatus: EKSClientTypes.VersionStatus? = nil
     ) {
         self.clusterType = clusterType
         self.clusterVersions = clusterVersions
@@ -4524,6 +4583,7 @@ public struct DescribeClusterVersionsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
+        self.versionStatus = versionStatus
     }
 }
 
@@ -4547,8 +4607,10 @@ extension EKSClientTypes {
         public var kubernetesPatchVersion: Swift.String?
         /// The release date of this cluster version.
         public var releaseDate: Foundation.Date?
-        /// Current status of this cluster version.
+        /// This field is deprecated. Use versionStatus instead, as that field matches for input and output of this action. Current status of this cluster version.
         public var status: EKSClientTypes.ClusterVersionStatus?
+        /// Current status of this cluster version.
+        public var versionStatus: EKSClientTypes.VersionStatus?
 
         public init(
             clusterType: Swift.String? = nil,
@@ -4559,7 +4621,8 @@ extension EKSClientTypes {
             endOfStandardSupportDate: Foundation.Date? = nil,
             kubernetesPatchVersion: Swift.String? = nil,
             releaseDate: Foundation.Date? = nil,
-            status: EKSClientTypes.ClusterVersionStatus? = nil
+            status: EKSClientTypes.ClusterVersionStatus? = nil,
+            versionStatus: EKSClientTypes.VersionStatus? = nil
         ) {
             self.clusterType = clusterType
             self.clusterVersion = clusterVersion
@@ -4570,6 +4633,7 @@ extension EKSClientTypes {
             self.kubernetesPatchVersion = kubernetesPatchVersion
             self.releaseDate = releaseDate
             self.status = status
+            self.versionStatus = versionStatus
         }
     }
 }
@@ -5711,7 +5775,7 @@ public struct ListPodIdentityAssociationsInput: Swift.Sendable {
 
 extension EKSClientTypes {
 
-    /// The summarized description of the association. Each summary is simplified by removing these fields compared to the full [PodIdentityAssociation]:
+    /// The summarized description of the association. Each summary is simplified by removing these fields compared to the full [PodIdentityAssociation](https://docs.aws.amazon.com/eks/latest/APIReference/API_PodIdentityAssociation.html):
     ///
     /// * The IAM role: roleArn
     ///
@@ -5753,7 +5817,7 @@ extension EKSClientTypes {
 }
 
 public struct ListPodIdentityAssociationsOutput: Swift.Sendable {
-    /// The list of summarized descriptions of the associations that are in the cluster and match any filters that you provided. Each summary is simplified by removing these fields compared to the full [PodIdentityAssociation]:
+    /// The list of summarized descriptions of the associations that are in the cluster and match any filters that you provided. Each summary is simplified by removing these fields compared to the full [PodIdentityAssociation](https://docs.aws.amazon.com/eks/latest/APIReference/API_PodIdentityAssociation.html):
     ///
     /// * The IAM role: roleArn
     ///
@@ -6398,7 +6462,7 @@ public struct UpdateNodegroupVersionInput: Swift.Sendable {
     public var clusterName: Swift.String?
     /// Force the update if any Pod on the existing node group can't be drained due to a Pod disruption budget issue. If an update fails because all Pods can't be drained, you can force the update after it fails to terminate the old node whether or not any Pod is running on the node.
     public var force: Swift.Bool?
-    /// An object representing a node group's launch template specification. You can only update a node group using a launch template if the node group was originally deployed with a launch template.
+    /// An object representing a node group's launch template specification. You can only update a node group using a launch template if the node group was originally deployed with a launch template. When updating, you must specify the same launch template ID or name that was used to create the node group.
     public var launchTemplate: EKSClientTypes.LaunchTemplateSpecification?
     /// The name of the managed node group to update.
     /// This member is required.
@@ -6822,6 +6886,10 @@ extension DescribeClusterVersionsInput {
         if let includeAll = value.includeAll {
             let includeAllQueryItem = Smithy.URIQueryItem(name: "includeAll".urlPercentEncoding(), value: Swift.String(includeAll).urlPercentEncoding())
             items.append(includeAllQueryItem)
+        }
+        if let versionStatus = value.versionStatus {
+            let versionStatusQueryItem = Smithy.URIQueryItem(name: "versionStatus".urlPercentEncoding(), value: Swift.String(versionStatus.rawValue).urlPercentEncoding())
+            items.append(versionStatusQueryItem)
         }
         if let defaultOnly = value.defaultOnly {
             let defaultOnlyQueryItem = Smithy.URIQueryItem(name: "defaultOnly".urlPercentEncoding(), value: Swift.String(defaultOnly).urlPercentEncoding())
@@ -10099,7 +10167,19 @@ extension EKSClientTypes.EksAnywhereSubscription {
         value.status = try reader["status"].readIfPresent()
         value.autoRenew = try reader["autoRenew"].readIfPresent() ?? false
         value.licenseArns = try reader["licenseArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.licenses = try reader["licenses"].readListIfPresent(memberReadingClosure: EKSClientTypes.License.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.License {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.License {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.License()
+        value.id = try reader["id"].readIfPresent()
+        value.token = try reader["token"].readIfPresent()
         return value
     }
 }
@@ -10448,6 +10528,7 @@ extension EKSClientTypes.ClusterVersionInformation {
         value.endOfStandardSupportDate = try reader["endOfStandardSupportDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.endOfExtendedSupportDate = try reader["endOfExtendedSupportDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["status"].readIfPresent()
+        value.versionStatus = try reader["versionStatus"].readIfPresent()
         value.kubernetesPatchVersion = try reader["kubernetesPatchVersion"].readIfPresent()
         return value
     }
