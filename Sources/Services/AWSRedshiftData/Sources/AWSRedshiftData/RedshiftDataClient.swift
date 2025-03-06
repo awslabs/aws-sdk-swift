@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RedshiftDataClient: ClientRuntime.Client {
     public static let clientName = "RedshiftDataClient"
-    public static let version = "1.2.32"
+    public static let version = "1.2.33"
     let client: ClientRuntime.SdkHttpClient
     let config: RedshiftDataClient.RedshiftDataClientConfiguration
     let serviceName = "Redshift Data"
@@ -1145,7 +1145,7 @@ extension RedshiftDataClient {
 
     /// Performs the `ListStatements` operation on the `RedshiftData` service.
     ///
-    /// List of SQL statements. By default, only finished statements are shown. A token is returned to page through the statement list. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
+    /// List of SQL statements. By default, only finished statements are shown. A token is returned to page through the statement list. When you use identity-enhanced role sessions to list statements, you must provide either the cluster-identifier or workgroup-name parameter. This ensures that the IdC user can only access the Amazon Redshift IdC applications they are assigned. For more information, see [ Trusted identity propagation overview](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html). For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     ///
     /// - Parameter ListStatementsInput : [no documentation found]
     ///

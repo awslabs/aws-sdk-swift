@@ -4930,6 +4930,35 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes {
 
+    public enum EndpointEncryptionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fipsValidated
+        case standardTls
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointEncryptionMode] {
+            return [
+                .fipsValidated,
+                .standardTls
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fipsValidated: return "FIPS_VALIDATED"
+            case .standardTls: return "STANDARD_TLS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     /// Specifies the configurations of the identity center.
     public struct IDCConfig: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the application.
@@ -5494,6 +5523,8 @@ extension WorkSpacesClientTypes {
         public var directoryType: WorkSpacesClientTypes.WorkspaceDirectoryType?
         /// The IP addresses of the DNS servers for the directory.
         public var dnsIpAddresses: [Swift.String]?
+        /// Endpoint encryption mode that allows you to configure the specified directory between Standard TLS and FIPS 140-2 validated mode.
+        public var endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode?
         /// The error message returned.
         public var errorMessage: Swift.String?
         /// The identifier of the IAM role. This is the role that allows Amazon WorkSpaces to make calls to other services, such as Amazon EC2, on your behalf.
@@ -5542,6 +5573,7 @@ extension WorkSpacesClientTypes {
             directoryName: Swift.String? = nil,
             directoryType: WorkSpacesClientTypes.WorkspaceDirectoryType? = nil,
             dnsIpAddresses: [Swift.String]? = nil,
+            endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode? = nil,
             errorMessage: Swift.String? = nil,
             iamRoleId: Swift.String? = nil,
             idcConfig: WorkSpacesClientTypes.IDCConfig? = nil,
@@ -5570,6 +5602,7 @@ extension WorkSpacesClientTypes {
             self.directoryName = directoryName
             self.directoryType = directoryType
             self.dnsIpAddresses = dnsIpAddresses
+            self.endpointEncryptionMode = endpointEncryptionMode
             self.errorMessage = errorMessage
             self.iamRoleId = iamRoleId
             self.idcConfig = idcConfig
@@ -6259,7 +6292,7 @@ public struct DescribeWorkspacesPoolsOutput: Swift.Sendable {
 }
 
 public struct DescribeWorkspacesPoolSessionsInput: Swift.Sendable {
-    /// The maximum number of items to return.
+    /// The maximum size of each page of results. The default value is 20 and the maximum value is 50.
     public var limit: Swift.Int?
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
     public var nextToken: Swift.String?
@@ -6909,6 +6942,28 @@ public struct ModifyClientPropertiesInput: Swift.Sendable {
 }
 
 public struct ModifyClientPropertiesOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct ModifyEndpointEncryptionModeInput: Swift.Sendable {
+    /// The identifier of the directory.
+    /// This member is required.
+    public var directoryId: Swift.String?
+    /// The encryption mode used for endpoint connections when streaming to WorkSpaces Personal or WorkSpace Pools.
+    /// This member is required.
+    public var endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode?
+
+    public init(
+        directoryId: Swift.String? = nil,
+        endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode? = nil
+    ) {
+        self.directoryId = directoryId
+        self.endpointEncryptionMode = endpointEncryptionMode
+    }
+}
+
+public struct ModifyEndpointEncryptionModeOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -8220,6 +8275,13 @@ extension ModifyClientPropertiesInput {
     }
 }
 
+extension ModifyEndpointEncryptionModeInput {
+
+    static func urlPathProvider(_ value: ModifyEndpointEncryptionModeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ModifySamlPropertiesInput {
 
     static func urlPathProvider(_ value: ModifySamlPropertiesInput) -> Swift.String? {
@@ -9005,6 +9067,15 @@ extension ModifyClientPropertiesInput {
         guard let value else { return }
         try writer["ClientProperties"].write(value.clientProperties, with: WorkSpacesClientTypes.ClientProperties.write(value:to:))
         try writer["ResourceId"].write(value.resourceId)
+    }
+}
+
+extension ModifyEndpointEncryptionModeInput {
+
+    static func write(value: ModifyEndpointEncryptionModeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+        try writer["EndpointEncryptionMode"].write(value.endpointEncryptionMode)
     }
 }
 
@@ -9956,6 +10027,13 @@ extension ModifyClientPropertiesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyClientPropertiesOutput {
         return ModifyClientPropertiesOutput()
+    }
+}
+
+extension ModifyEndpointEncryptionModeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyEndpointEncryptionModeOutput {
+        return ModifyEndpointEncryptionModeOutput()
     }
 }
 
@@ -11229,6 +11307,22 @@ enum ModifyClientPropertiesOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InvalidParameterValuesException": return try InvalidParameterValuesException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyEndpointEncryptionModeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12643,6 +12737,7 @@ extension WorkSpacesClientTypes.WorkspaceDirectory {
         value.selfservicePermissions = try reader["SelfservicePermissions"].readIfPresent(with: WorkSpacesClientTypes.SelfservicePermissions.read(from:))
         value.samlProperties = try reader["SamlProperties"].readIfPresent(with: WorkSpacesClientTypes.SamlProperties.read(from:))
         value.certificateBasedAuthProperties = try reader["CertificateBasedAuthProperties"].readIfPresent(with: WorkSpacesClientTypes.CertificateBasedAuthProperties.read(from:))
+        value.endpointEncryptionMode = try reader["EndpointEncryptionMode"].readIfPresent()
         value.microsoftEntraConfig = try reader["MicrosoftEntraConfig"].readIfPresent(with: WorkSpacesClientTypes.MicrosoftEntraConfig.read(from:))
         value.workspaceDirectoryName = try reader["WorkspaceDirectoryName"].readIfPresent()
         value.workspaceDirectoryDescription = try reader["WorkspaceDirectoryDescription"].readIfPresent()

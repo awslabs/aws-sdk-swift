@@ -1146,6 +1146,10 @@ public struct ListSchemasOutput: Swift.Sendable {
 }
 
 public struct ListStatementsInput: Swift.Sendable {
+    /// The cluster identifier. Only statements that ran on this cluster are returned. When providing ClusterIdentifier, then WorkgroupName can't be specified.
+    public var clusterIdentifier: Swift.String?
+    /// The name of the database when listing statements run against a ClusterIdentifier or WorkgroupName.
+    public var database: Swift.String?
     /// The maximum number of SQL statements to return in the response. If more SQL statements exist than fit in one response, then NextToken is returned to page through the results.
     public var maxResults: Swift.Int?
     /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned NextToken value in the next NextToken parameter and retrying the command. If the NextToken field is empty, all response records have been retrieved for the request.
@@ -1170,19 +1174,27 @@ public struct ListStatementsInput: Swift.Sendable {
     ///
     /// * SUBMITTED - The query was submitted, but not yet processed.
     public var status: RedshiftDataClientTypes.StatusString?
+    /// The serverless workgroup name or Amazon Resource Name (ARN). Only statements that ran on this workgroup are returned. When providing WorkgroupName, then ClusterIdentifier can't be specified.
+    public var workgroupName: Swift.String?
 
     public init(
+        clusterIdentifier: Swift.String? = nil,
+        database: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         roleLevel: Swift.Bool? = nil,
         statementName: Swift.String? = nil,
-        status: RedshiftDataClientTypes.StatusString? = nil
+        status: RedshiftDataClientTypes.StatusString? = nil,
+        workgroupName: Swift.String? = nil
     ) {
+        self.clusterIdentifier = clusterIdentifier
+        self.database = database
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.roleLevel = roleLevel
         self.statementName = statementName
         self.status = status
+        self.workgroupName = workgroupName
     }
 }
 
@@ -1549,11 +1561,14 @@ extension ListStatementsInput {
 
     static func write(value: ListStatementsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ClusterIdentifier"].write(value.clusterIdentifier)
+        try writer["Database"].write(value.database)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["RoleLevel"].write(value.roleLevel)
         try writer["StatementName"].write(value.statementName)
         try writer["Status"].write(value.status)
+        try writer["WorkgroupName"].write(value.workgroupName)
     }
 }
 
@@ -2171,8 +2186,8 @@ extension RedshiftDataClientTypes.StatementData {
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.queryParameters = try reader["QueryParameters"].readListIfPresent(memberReadingClosure: RedshiftDataClientTypes.SqlParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.isBatchStatement = try reader["IsBatchStatement"].readIfPresent()
-        value.sessionId = try reader["SessionId"].readIfPresent()
         value.resultFormat = try reader["ResultFormat"].readIfPresent()
+        value.sessionId = try reader["SessionId"].readIfPresent()
         return value
     }
 }

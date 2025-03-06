@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DeadlineClient: ClientRuntime.Client {
     public static let clientName = "DeadlineClient"
-    public static let version = "1.2.32"
+    public static let version = "1.2.33"
     let client: ClientRuntime.SdkHttpClient
     let config: DeadlineClient.DeadlineClientConfiguration
     let serviceName = "deadline"

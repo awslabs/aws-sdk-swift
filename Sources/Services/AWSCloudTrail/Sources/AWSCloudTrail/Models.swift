@@ -2250,7 +2250,7 @@ public struct CreateTrailInput: Swift.Sendable {
     public var s3BucketName: Swift.String?
     /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files). The maximum length is 200 characters.
     public var s3KeyPrefix: Swift.String?
-    /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
+    /// Specifies the name or ARN of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
     public var snsTopicName: Swift.String?
     /// A list of tags.
     public var tagsList: [CloudTrailClientTypes.Tag]?
@@ -6163,7 +6163,7 @@ public struct UpdateTrailInput: Swift.Sendable {
     public var s3BucketName: Swift.String?
     /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files). The maximum length is 200 characters.
     public var s3KeyPrefix: Swift.String?
-    /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
+    /// Specifies the name or ARN of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
     public var snsTopicName: Swift.String?
 
     public init(

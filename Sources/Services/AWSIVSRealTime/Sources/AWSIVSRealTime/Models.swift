@@ -33,8 +33,24 @@ import struct Smithy.URIQueryItem
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// User does not have sufficient access to perform this action.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -47,9 +63,25 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -57,8 +89,24 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// Updating or deleting a resource can cause an inconsistent state.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -71,9 +119,25 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -81,8 +145,24 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// Unexpected error during processing of request.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -95,9 +175,25 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -105,8 +201,24 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// Your account is pending verification.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -119,9 +231,25 @@ public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -129,8 +257,24 @@ public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// Request references a resource which does not exist.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -143,9 +287,25 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -153,8 +313,24 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// Request would cause a service quota to be exceeded.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -167,9 +343,25 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -177,8 +369,24 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var accessControlAllowOrigin: Swift.String? = nil
+        ///
+        public internal(set) var accessControlExposeHeaders: Swift.String? = nil
+        ///
+        public internal(set) var cacheControl: Swift.String? = nil
+        ///
+        public internal(set) var contentSecurityPolicy: Swift.String? = nil
         /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
         public internal(set) var exceptionMessage: Swift.String? = nil
+        ///
+        public internal(set) var strictTransportSecurity: Swift.String? = nil
+        ///
+        public internal(set) var xAmznErrorType: Swift.String? = nil
+        ///
+        public internal(set) var xContentTypeOptions: Swift.String? = nil
+        ///
+        public internal(set) var xFrameOptions: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -191,9 +399,25 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public internal(set) var requestID: Swift.String?
 
     public init(
-        exceptionMessage: Swift.String? = nil
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        exceptionMessage: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xAmznErrorType: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
     ) {
+        self.properties.accessControlAllowOrigin = accessControlAllowOrigin
+        self.properties.accessControlExposeHeaders = accessControlExposeHeaders
+        self.properties.cacheControl = cacheControl
+        self.properties.contentSecurityPolicy = contentSecurityPolicy
         self.properties.exceptionMessage = exceptionMessage
+        self.properties.strictTransportSecurity = strictTransportSecurity
+        self.properties.xAmznErrorType = xAmznErrorType
+        self.properties.xContentTypeOptions = xContentTypeOptions
+        self.properties.xFrameOptions = xFrameOptions
     }
 }
 
@@ -680,7 +904,9 @@ extension IVSRealTimeClientTypes {
     public struct AutoParticipantRecordingConfiguration: Swift.Sendable {
         /// Types of media to be recorded. Default: AUDIO_VIDEO.
         public var mediaTypes: [IVSRealTimeClientTypes.ParticipantRecordingMediaType]?
-        /// ARN of the [StorageConfiguration] resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a [Stage] is created or updated.
+        /// If a stage publisher disconnects and then reconnects within the specified interval, the multiple recordings will be considered a single recording and merged together. The default value is 0, which disables merging.
+        public var recordingReconnectWindowSeconds: Swift.Int
+        /// ARN of the [StorageConfiguration] resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a [Stage] is created or updated. To disable individual participant recording, set this to ""; other fields in this object will get reset to their defaults when sending "".
         /// This member is required.
         public var storageConfigurationArn: Swift.String?
         /// A complex type that allows you to enable/disable the recording of thumbnails for individual participant recording and modify the interval at which thumbnails are generated for the live session.
@@ -688,10 +914,12 @@ extension IVSRealTimeClientTypes {
 
         public init(
             mediaTypes: [IVSRealTimeClientTypes.ParticipantRecordingMediaType]? = nil,
+            recordingReconnectWindowSeconds: Swift.Int = 0,
             storageConfigurationArn: Swift.String? = nil,
             thumbnailConfiguration: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration? = nil
         ) {
             self.mediaTypes = mediaTypes
+            self.recordingReconnectWindowSeconds = recordingReconnectWindowSeconds
             self.storageConfigurationArn = storageConfigurationArn
             self.thumbnailConfiguration = thumbnailConfiguration
         }
@@ -1798,7 +2026,7 @@ extension IVSRealTimeClientTypes {
         public var published: Swift.Bool
         /// Name of the S3 bucket to where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
         public var recordingS3BucketName: Swift.String?
-        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
+        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled. If individual participant recording merge is enabled, and if a stage publisher disconnects from a stage and then reconnects, IVS tries to record to the same S3 prefix as the previous session. See [ Merge Fragmented Individual Participant Recordings].
         public var recordingS3Prefix: Swift.String?
         /// The participant’s recording state.
         public var recordingState: IVSRealTimeClientTypes.ParticipantRecordingState?
@@ -2977,7 +3205,7 @@ public struct UntagResourceInput: Swift.Sendable {
     /// The ARN of the resource to be untagged. The ARN must be URL-encoded.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+    /// Array of tag keys (strings) for the tags to be removed. See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
@@ -4683,7 +4911,32 @@ extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
         var value = AccessDeniedException()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4696,7 +4949,32 @@ extension InternalServerException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
         var value = InternalServerException()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4709,7 +4987,32 @@ extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
         var value = ConflictException()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4722,7 +5025,32 @@ extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
         var value = ResourceNotFoundException()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4735,7 +5063,32 @@ extension ServiceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
         var value = ServiceQuotaExceededException()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4748,7 +5101,32 @@ extension PendingVerification {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PendingVerification {
         let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
         var value = PendingVerification()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4761,7 +5139,32 @@ extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
         var value = ValidationException()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4872,6 +5275,7 @@ extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
     static func write(value: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["mediaTypes"].writeList(value.mediaTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ParticipantRecordingMediaType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["recordingReconnectWindowSeconds"].write(value.recordingReconnectWindowSeconds)
         try writer["storageConfigurationArn"].write(value.storageConfigurationArn)
         try writer["thumbnailConfiguration"].write(value.thumbnailConfiguration, with: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration.write(value:to:))
     }
@@ -4882,6 +5286,7 @@ extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
         value.storageConfigurationArn = try reader["storageConfigurationArn"].readIfPresent() ?? ""
         value.mediaTypes = try reader["mediaTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ParticipantRecordingMediaType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.thumbnailConfiguration = try reader["thumbnailConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration.read(from:))
+        value.recordingReconnectWindowSeconds = try reader["recordingReconnectWindowSeconds"].readIfPresent() ?? 0
         return value
     }
 }

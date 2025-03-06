@@ -5737,23 +5737,12 @@ public struct ListFoundationModelsOutput: Swift.Sendable {
     }
 }
 
-public struct GetPromptRouterInput: Swift.Sendable {
-    /// The prompt router's ARN
-    /// This member is required.
-    public var promptRouterArn: Swift.String?
-
-    public init(
-        promptRouterArn: Swift.String? = nil
-    ) {
-        self.promptRouterArn = promptRouterArn
-    }
-}
-
 extension BedrockClientTypes {
 
     /// The target model for a prompt router.
     public struct PromptRouterTargetModel: Swift.Sendable {
         /// The target model's ARN.
+        /// This member is required.
         public var modelArn: Swift.String?
 
         public init(
@@ -5777,6 +5766,90 @@ extension BedrockClientTypes {
         ) {
             self.responseQualityDifference = responseQualityDifference
         }
+    }
+}
+
+public struct CreatePromptRouterInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of your requests. If not specified, the Amazon Web Services SDK automatically generates one for you.
+    public var clientRequestToken: Swift.String?
+    /// An optional description of the prompt router to help identify its purpose.
+    public var description: Swift.String?
+    /// The default model to use when the routing criteria is not met.
+    /// This member is required.
+    public var fallbackModel: BedrockClientTypes.PromptRouterTargetModel?
+    /// A list of foundation models that the prompt router can route requests to. At least one model must be specified.
+    /// This member is required.
+    public var models: [BedrockClientTypes.PromptRouterTargetModel]?
+    /// The name of the prompt router. The name must be unique within your Amazon Web Services account in the current region.
+    /// This member is required.
+    public var promptRouterName: Swift.String?
+    /// The criteria, which is the response quality difference, used to determine how incoming requests are routed to different models.
+    /// This member is required.
+    public var routingCriteria: BedrockClientTypes.RoutingCriteria?
+    /// An array of key-value pairs to apply to this resource as tags. You can use tags to categorize and manage your Amazon Web Services resources.
+    public var tags: [BedrockClientTypes.Tag]?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        fallbackModel: BedrockClientTypes.PromptRouterTargetModel? = nil,
+        models: [BedrockClientTypes.PromptRouterTargetModel]? = nil,
+        promptRouterName: Swift.String? = nil,
+        routingCriteria: BedrockClientTypes.RoutingCriteria? = nil,
+        tags: [BedrockClientTypes.Tag]? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.description = description
+        self.fallbackModel = fallbackModel
+        self.models = models
+        self.promptRouterName = promptRouterName
+        self.routingCriteria = routingCriteria
+        self.tags = tags
+    }
+}
+
+extension CreatePromptRouterInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePromptRouterInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), fallbackModel: \(Swift.String(describing: fallbackModel)), models: \(Swift.String(describing: models)), promptRouterName: \(Swift.String(describing: promptRouterName)), routingCriteria: \(Swift.String(describing: routingCriteria)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreatePromptRouterOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the prompt router.
+    public var promptRouterArn: Swift.String?
+
+    public init(
+        promptRouterArn: Swift.String? = nil
+    ) {
+        self.promptRouterArn = promptRouterArn
+    }
+}
+
+public struct DeletePromptRouterInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the prompt router to delete.
+    /// This member is required.
+    public var promptRouterArn: Swift.String?
+
+    public init(
+        promptRouterArn: Swift.String? = nil
+    ) {
+        self.promptRouterArn = promptRouterArn
+    }
+}
+
+public struct DeletePromptRouterOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetPromptRouterInput: Swift.Sendable {
+    /// The prompt router's ARN
+    /// This member is required.
+    public var promptRouterArn: Swift.String?
+
+    public init(
+        promptRouterArn: Swift.String? = nil
+    ) {
+        self.promptRouterArn = promptRouterArn
     }
 }
 
@@ -5899,13 +5972,17 @@ public struct ListPromptRoutersInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Specify the pagination token from a previous request to retrieve the next page of results.
     public var nextToken: Swift.String?
+    /// The type of the prompt routers, such as whether it's default or custom.
+    public var type: BedrockClientTypes.PromptRouterType?
 
     public init(
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        type: BedrockClientTypes.PromptRouterType? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.type = type
     }
 }
 
@@ -7247,6 +7324,13 @@ extension CreateModelInvocationJobInput {
     }
 }
 
+extension CreatePromptRouterInput {
+
+    static func urlPathProvider(_ value: CreatePromptRouterInput) -> Swift.String? {
+        return "/prompt-routers"
+    }
+}
+
 extension CreateProvisionedModelThroughputInput {
 
     static func urlPathProvider(_ value: CreateProvisionedModelThroughputInput) -> Swift.String? {
@@ -7320,6 +7404,16 @@ extension DeleteModelInvocationLoggingConfigurationInput {
 
     static func urlPathProvider(_ value: DeleteModelInvocationLoggingConfigurationInput) -> Swift.String? {
         return "/logging/modelinvocations"
+    }
+}
+
+extension DeletePromptRouterInput {
+
+    static func urlPathProvider(_ value: DeletePromptRouterInput) -> Swift.String? {
+        guard let promptRouterArn = value.promptRouterArn else {
+            return nil
+        }
+        return "/prompt-routers/\(promptRouterArn.urlPercentEncoding())"
     }
 }
 
@@ -7968,6 +8062,10 @@ extension ListPromptRoutersInput {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
         return items
     }
 }
@@ -8265,6 +8363,20 @@ extension CreateModelInvocationJobInput {
     }
 }
 
+extension CreatePromptRouterInput {
+
+    static func write(value: CreatePromptRouterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["description"].write(value.description)
+        try writer["fallbackModel"].write(value.fallbackModel, with: BedrockClientTypes.PromptRouterTargetModel.write(value:to:))
+        try writer["models"].writeList(value.models, memberWritingClosure: BedrockClientTypes.PromptRouterTargetModel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["promptRouterName"].write(value.promptRouterName)
+        try writer["routingCriteria"].write(value.routingCriteria, with: BedrockClientTypes.RoutingCriteria.write(value:to:))
+        try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateProvisionedModelThroughputInput {
 
     static func write(value: CreateProvisionedModelThroughputInput?, to writer: SmithyJSON.Writer) throws {
@@ -8481,6 +8593,18 @@ extension CreateModelInvocationJobOutput {
     }
 }
 
+extension CreatePromptRouterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePromptRouterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePromptRouterOutput()
+        value.promptRouterArn = try reader["promptRouterArn"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateProvisionedModelThroughputOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateProvisionedModelThroughputOutput {
@@ -8532,6 +8656,13 @@ extension DeleteModelInvocationLoggingConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteModelInvocationLoggingConfigurationOutput {
         return DeleteModelInvocationLoggingConfigurationOutput()
+    }
+}
+
+extension DeletePromptRouterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePromptRouterOutput {
+        return DeletePromptRouterOutput()
     }
 }
 
@@ -9323,6 +9454,27 @@ enum CreateModelInvocationJobOutputError {
     }
 }
 
+enum CreatePromptRouterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateProvisionedModelThroughputOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9448,6 +9600,24 @@ enum DeleteModelInvocationLoggingConfigurationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePromptRouterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11752,6 +11922,11 @@ extension BedrockClientTypes.CloudWatchConfig {
 
 extension BedrockClientTypes.RoutingCriteria {
 
+    static func write(value: BedrockClientTypes.RoutingCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["responseQualityDifference"].write(value.responseQualityDifference)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RoutingCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.RoutingCriteria()
@@ -11762,10 +11937,15 @@ extension BedrockClientTypes.RoutingCriteria {
 
 extension BedrockClientTypes.PromptRouterTargetModel {
 
+    static func write(value: BedrockClientTypes.PromptRouterTargetModel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelArn"].write(value.modelArn)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.PromptRouterTargetModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.PromptRouterTargetModel()
-        value.modelArn = try reader["modelArn"].readIfPresent()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
         return value
     }
 }
