@@ -3703,6 +3703,115 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    public enum EnrichmentStrategyMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case chunkEntityExtraction
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnrichmentStrategyMethod] {
+            return [
+                .chunkEntityExtraction
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chunkEntityExtraction: return "CHUNK_ENTITY_EXTRACTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The strategy used for performing context enrichment.
+    public struct EnrichmentStrategyConfiguration: Swift.Sendable {
+        /// The method used for the context enrichment strategy.
+        /// This member is required.
+        public var method: BedrockAgentClientTypes.EnrichmentStrategyMethod?
+
+        public init(
+            method: BedrockAgentClientTypes.EnrichmentStrategyMethod? = nil
+        ) {
+            self.method = method
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Context enrichment configuration is used to provide additional context to the RAG application using Amazon Bedrock foundation models.
+    public struct BedrockFoundationModelContextEnrichmentConfiguration: Swift.Sendable {
+        /// The enrichment stategy used to provide additional context. For example, Neptune GraphRAG uses Amazon Bedrock foundation models to perform chunk entity extraction.
+        /// This member is required.
+        public var enrichmentStrategyConfiguration: BedrockAgentClientTypes.EnrichmentStrategyConfiguration?
+        /// The Amazon Resource Name (ARN) of the foundation model used for context enrichment.
+        /// This member is required.
+        public var modelArn: Swift.String?
+
+        public init(
+            enrichmentStrategyConfiguration: BedrockAgentClientTypes.EnrichmentStrategyConfiguration? = nil,
+            modelArn: Swift.String? = nil
+        ) {
+            self.enrichmentStrategyConfiguration = enrichmentStrategyConfiguration
+            self.modelArn = modelArn
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum ContextEnrichmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bedrockFoundationModel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContextEnrichmentType] {
+            return [
+                .bedrockFoundationModel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bedrockFoundationModel: return "BEDROCK_FOUNDATION_MODEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Context enrichment configuration is used to provide additional context to the RAG application.
+    public struct ContextEnrichmentConfiguration: Swift.Sendable {
+        /// The configuration of the Amazon Bedrock foundation model used for context enrichment.
+        public var bedrockFoundationModelConfiguration: BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration?
+        /// The method used for context enrichment. It must be Amazon Bedrock foundation models.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.ContextEnrichmentType?
+
+        public init(
+            bedrockFoundationModelConfiguration: BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration? = nil,
+            type: BedrockAgentClientTypes.ContextEnrichmentType? = nil
+        ) {
+            self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// An Amazon S3 location.
     public struct S3Location: Swift.Sendable {
         /// The location's URI. For example, s3://my-bucket/chunk-processor/.
@@ -3973,6 +4082,8 @@ extension BedrockAgentClientTypes {
     public struct VectorIngestionConfiguration: Swift.Sendable {
         /// Details about how to chunk the documents in the data source. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried.
         public var chunkingConfiguration: BedrockAgentClientTypes.ChunkingConfiguration?
+        /// The context enrichment configuration used for ingestion of the data into the vector store.
+        public var contextEnrichmentConfiguration: BedrockAgentClientTypes.ContextEnrichmentConfiguration?
         /// A custom document transformer for parsed data source documents.
         public var customTransformationConfiguration: BedrockAgentClientTypes.CustomTransformationConfiguration?
         /// Configurations for a parser to use for parsing documents in your data source. If you exclude this field, the default parser will be used.
@@ -3980,10 +4091,12 @@ extension BedrockAgentClientTypes {
 
         public init(
             chunkingConfiguration: BedrockAgentClientTypes.ChunkingConfiguration? = nil,
+            contextEnrichmentConfiguration: BedrockAgentClientTypes.ContextEnrichmentConfiguration? = nil,
             customTransformationConfiguration: BedrockAgentClientTypes.CustomTransformationConfiguration? = nil,
             parsingConfiguration: BedrockAgentClientTypes.ParsingConfiguration? = nil
         ) {
             self.chunkingConfiguration = chunkingConfiguration
+            self.contextEnrichmentConfiguration = contextEnrichmentConfiguration
             self.customTransformationConfiguration = customTransformationConfiguration
             self.parsingConfiguration = parsingConfiguration
         }
@@ -9345,6 +9458,53 @@ extension BedrockAgentClientTypes {
 extension BedrockAgentClientTypes {
 
     /// Contains the names of the fields to which to map information about the vector store.
+    public struct NeptuneAnalyticsFieldMapping: Swift.Sendable {
+        /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
+        /// This member is required.
+        public var metadataField: Swift.String?
+        /// The name of the field in which Amazon Bedrock stores the raw text from your data. The text is split according to the chunking strategy you choose.
+        /// This member is required.
+        public var textField: Swift.String?
+
+        public init(
+            metadataField: Swift.String? = nil,
+            textField: Swift.String? = nil
+        ) {
+            self.metadataField = metadataField
+            self.textField = textField
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains details about the storage configuration of the knowledge base in Amazon Neptune Analytics. For more information, see [Create a vector index in Amazon Neptune Analytics](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-neptune.html).
+    public struct NeptuneAnalyticsConfiguration: Swift.Sendable {
+        /// Contains the names of the fields to which to map information about the vector store.
+        /// This member is required.
+        public var fieldMapping: BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping?
+        /// The Amazon Resource Name (ARN) of the Neptune Analytics vector store.
+        /// This member is required.
+        public var graphArn: Swift.String?
+
+        public init(
+            fieldMapping: BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping? = nil,
+            graphArn: Swift.String? = nil
+        ) {
+            self.fieldMapping = fieldMapping
+            self.graphArn = graphArn
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.NeptuneAnalyticsConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "NeptuneAnalyticsConfiguration(fieldMapping: \(Swift.String(describing: fieldMapping)), graphArn: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains the names of the fields to which to map information about the vector store.
     public struct OpenSearchServerlessFieldMapping: Swift.Sendable {
         /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
         /// This member is required.
@@ -9573,6 +9733,7 @@ extension BedrockAgentClientTypes {
 
     public enum KnowledgeBaseStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mongoDbAtlas
+        case neptuneAnalytics
         case opensearchServerless
         case pinecone
         case rds
@@ -9582,6 +9743,7 @@ extension BedrockAgentClientTypes {
         public static var allCases: [KnowledgeBaseStorageType] {
             return [
                 .mongoDbAtlas,
+                .neptuneAnalytics,
                 .opensearchServerless,
                 .pinecone,
                 .rds,
@@ -9597,6 +9759,7 @@ extension BedrockAgentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .mongoDbAtlas: return "MONGO_DB_ATLAS"
+            case .neptuneAnalytics: return "NEPTUNE_ANALYTICS"
             case .opensearchServerless: return "OPENSEARCH_SERVERLESS"
             case .pinecone: return "PINECONE"
             case .rds: return "RDS"
@@ -9613,6 +9776,8 @@ extension BedrockAgentClientTypes {
     public struct StorageConfiguration: Swift.Sendable {
         /// Contains the storage configuration of the knowledge base in MongoDB Atlas.
         public var mongoDbAtlasConfiguration: BedrockAgentClientTypes.MongoDbAtlasConfiguration?
+        /// Contains details about the Neptune Analytics configuration of the knowledge base in Amazon Neptune. For more information, see [Create a vector index in Amazon Neptune Analytics.](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-neptune.html).
+        public var neptuneAnalyticsConfiguration: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration?
         /// Contains the storage configuration of the knowledge base in Amazon OpenSearch Service.
         public var opensearchServerlessConfiguration: BedrockAgentClientTypes.OpenSearchServerlessConfiguration?
         /// Contains the storage configuration of the knowledge base in Pinecone.
@@ -9627,6 +9792,7 @@ extension BedrockAgentClientTypes {
 
         public init(
             mongoDbAtlasConfiguration: BedrockAgentClientTypes.MongoDbAtlasConfiguration? = nil,
+            neptuneAnalyticsConfiguration: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration? = nil,
             opensearchServerlessConfiguration: BedrockAgentClientTypes.OpenSearchServerlessConfiguration? = nil,
             pineconeConfiguration: BedrockAgentClientTypes.PineconeConfiguration? = nil,
             rdsConfiguration: BedrockAgentClientTypes.RdsConfiguration? = nil,
@@ -9634,6 +9800,7 @@ extension BedrockAgentClientTypes {
             type: BedrockAgentClientTypes.KnowledgeBaseStorageType? = nil
         ) {
             self.mongoDbAtlasConfiguration = mongoDbAtlasConfiguration
+            self.neptuneAnalyticsConfiguration = neptuneAnalyticsConfiguration
             self.opensearchServerlessConfiguration = opensearchServerlessConfiguration
             self.pineconeConfiguration = pineconeConfiguration
             self.rdsConfiguration = rdsConfiguration
@@ -15217,6 +15384,7 @@ extension BedrockAgentClientTypes.VectorIngestionConfiguration {
     static func write(value: BedrockAgentClientTypes.VectorIngestionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["chunkingConfiguration"].write(value.chunkingConfiguration, with: BedrockAgentClientTypes.ChunkingConfiguration.write(value:to:))
+        try writer["contextEnrichmentConfiguration"].write(value.contextEnrichmentConfiguration, with: BedrockAgentClientTypes.ContextEnrichmentConfiguration.write(value:to:))
         try writer["customTransformationConfiguration"].write(value.customTransformationConfiguration, with: BedrockAgentClientTypes.CustomTransformationConfiguration.write(value:to:))
         try writer["parsingConfiguration"].write(value.parsingConfiguration, with: BedrockAgentClientTypes.ParsingConfiguration.write(value:to:))
     }
@@ -15227,6 +15395,56 @@ extension BedrockAgentClientTypes.VectorIngestionConfiguration {
         value.chunkingConfiguration = try reader["chunkingConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ChunkingConfiguration.read(from:))
         value.customTransformationConfiguration = try reader["customTransformationConfiguration"].readIfPresent(with: BedrockAgentClientTypes.CustomTransformationConfiguration.read(from:))
         value.parsingConfiguration = try reader["parsingConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ParsingConfiguration.read(from:))
+        value.contextEnrichmentConfiguration = try reader["contextEnrichmentConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ContextEnrichmentConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.ContextEnrichmentConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.ContextEnrichmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bedrockFoundationModelConfiguration"].write(value.bedrockFoundationModelConfiguration, with: BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ContextEnrichmentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.ContextEnrichmentConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.bedrockFoundationModelConfiguration = try reader["bedrockFoundationModelConfiguration"].readIfPresent(with: BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enrichmentStrategyConfiguration"].write(value.enrichmentStrategyConfiguration, with: BedrockAgentClientTypes.EnrichmentStrategyConfiguration.write(value:to:))
+        try writer["modelArn"].write(value.modelArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration()
+        value.enrichmentStrategyConfiguration = try reader["enrichmentStrategyConfiguration"].readIfPresent(with: BedrockAgentClientTypes.EnrichmentStrategyConfiguration.read(from:))
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.EnrichmentStrategyConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.EnrichmentStrategyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["method"].write(value.method)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.EnrichmentStrategyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.EnrichmentStrategyConfiguration()
+        value.method = try reader["method"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -16842,6 +17060,7 @@ extension BedrockAgentClientTypes.StorageConfiguration {
     static func write(value: BedrockAgentClientTypes.StorageConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["mongoDbAtlasConfiguration"].write(value.mongoDbAtlasConfiguration, with: BedrockAgentClientTypes.MongoDbAtlasConfiguration.write(value:to:))
+        try writer["neptuneAnalyticsConfiguration"].write(value.neptuneAnalyticsConfiguration, with: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration.write(value:to:))
         try writer["opensearchServerlessConfiguration"].write(value.opensearchServerlessConfiguration, with: BedrockAgentClientTypes.OpenSearchServerlessConfiguration.write(value:to:))
         try writer["pineconeConfiguration"].write(value.pineconeConfiguration, with: BedrockAgentClientTypes.PineconeConfiguration.write(value:to:))
         try writer["rdsConfiguration"].write(value.rdsConfiguration, with: BedrockAgentClientTypes.RdsConfiguration.write(value:to:))
@@ -16858,6 +17077,41 @@ extension BedrockAgentClientTypes.StorageConfiguration {
         value.redisEnterpriseCloudConfiguration = try reader["redisEnterpriseCloudConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration.read(from:))
         value.rdsConfiguration = try reader["rdsConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RdsConfiguration.read(from:))
         value.mongoDbAtlasConfiguration = try reader["mongoDbAtlasConfiguration"].readIfPresent(with: BedrockAgentClientTypes.MongoDbAtlasConfiguration.read(from:))
+        value.neptuneAnalyticsConfiguration = try reader["neptuneAnalyticsConfiguration"].readIfPresent(with: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.NeptuneAnalyticsConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldMapping"].write(value.fieldMapping, with: BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping.write(value:to:))
+        try writer["graphArn"].write(value.graphArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.NeptuneAnalyticsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.NeptuneAnalyticsConfiguration()
+        value.graphArn = try reader["graphArn"].readIfPresent() ?? ""
+        value.fieldMapping = try reader["fieldMapping"].readIfPresent(with: BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping {
+
+    static func write(value: BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metadataField"].write(value.metadataField)
+        try writer["textField"].write(value.textField)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping()
+        value.textField = try reader["textField"].readIfPresent() ?? ""
+        value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
         return value
     }
 }

@@ -364,9 +364,9 @@ extension CloudFrontClientTypes {
     public struct AliasICPRecordal: Swift.Sendable, Swift.Equatable {
         /// A domain name associated with a distribution.
         public var cname: Swift.String?
-        /// The Internet Content Provider (ICP) recordal status for a CNAME. The ICPRecordalStatus is set to APPROVED for all CNAMEs (aliases) in regions outside of China. The status values returned are the following:
+        /// The Internet Content Provider (ICP) recordal status for a CNAME. The ICPRecordalStatus is set to APPROVED for all CNAMEs (aliases) in Amazon Web Services Regions outside of China. The status values returned are the following:
         ///
-        /// * APPROVED indicates that the associated CNAME has a valid ICP recordal number. Multiple CNAMEs can be associated with a distribution, and CNAMEs can correspond to different ICP recordals. To be marked as APPROVED, that is, valid to use with China region, a CNAME must have one ICP recordal number associated with it.
+        /// * APPROVED indicates that the associated CNAME has a valid ICP recordal number. Multiple CNAMEs can be associated with a distribution, and CNAMEs can correspond to different ICP recordals. To be marked as APPROVED, that is, valid to use with the China Regions, a CNAME must have one ICP recordal number associated with it.
         ///
         /// * SUSPENDED indicates that the associated CNAME does not have a valid ICP recordal number.
         ///
@@ -4510,7 +4510,7 @@ public struct InvalidTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     }
 }
 
-/// This operation is not supported in this region.
+/// This operation is not supported in this Amazon Web Services Region.
 public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {

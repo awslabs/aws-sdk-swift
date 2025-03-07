@@ -2182,6 +2182,21 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
+    /// An IPAM pool is a collection of IP address CIDRs. IPAM pools enable you to organize your IP addresses according to your routing and security needs.
+    public struct IpamPools: Swift.Sendable {
+        /// The ID of the IPv4 IPAM pool.
+        public var ipv4IpamPoolId: Swift.String?
+
+        public init(
+            ipv4IpamPoolId: Swift.String? = nil
+        ) {
+            self.ipv4IpamPoolId = ipv4IpamPoolId
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
     public enum LoadBalancerSchemeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `internal`
         case internetFacing
@@ -2279,6 +2294,8 @@ public struct CreateLoadBalancerInput: Swift.Sendable {
     public var enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum?
     /// The IP address type. Internal load balancers must use ipv4. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses), dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
+    /// [Application Load Balancers] The IPAM pools to use with the load balancer.
+    public var ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools?
     /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with "internal-".
     /// This member is required.
     public var name: Swift.String?
@@ -2299,6 +2316,7 @@ public struct CreateLoadBalancerInput: Swift.Sendable {
         customerOwnedIpv4Pool: Swift.String? = nil,
         enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum? = nil,
         ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType? = nil,
+        ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools? = nil,
         name: Swift.String? = nil,
         scheme: ElasticLoadBalancingv2ClientTypes.LoadBalancerSchemeEnum? = nil,
         securityGroups: [Swift.String]? = nil,
@@ -2310,6 +2328,7 @@ public struct CreateLoadBalancerInput: Swift.Sendable {
         self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
         self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
         self.ipAddressType = ipAddressType
+        self.ipamPools = ipamPools
         self.name = name
         self.scheme = scheme
         self.securityGroups = securityGroups
@@ -2394,6 +2413,8 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: Swift.String?
         /// The type of IP addresses used for public or private connections by the subnets attached to your load balancer. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses), dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
         public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
+        /// [Application Load Balancers] The IPAM pool in use by the load balancer, if configured.
+        public var ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public var loadBalancerArn: Swift.String?
         /// The name of the load balancer.
@@ -2418,6 +2439,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum? = nil,
             enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: Swift.String? = nil,
             ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType? = nil,
+            ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools? = nil,
             loadBalancerArn: Swift.String? = nil,
             loadBalancerName: Swift.String? = nil,
             scheme: ElasticLoadBalancingv2ClientTypes.LoadBalancerSchemeEnum? = nil,
@@ -2434,6 +2456,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
             self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
             self.ipAddressType = ipAddressType
+            self.ipamPools = ipamPools
             self.loadBalancerArn = loadBalancerArn
             self.loadBalancerName = loadBalancerName
             self.scheme = scheme
@@ -4168,7 +4191,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// * proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.
         ///
-        /// * target_health_state.unhealthy.connection_termination.enabled - Indicates whether the load balancer terminates connections to unhealthy targets. The value is true or false. The default is true.
+        /// * target_health_state.unhealthy.connection_termination.enabled - Indicates whether the load balancer terminates connections to unhealthy targets. The value is true or false. The default is true. This attribute can't be enabled for UDP and TCP_UDP target groups.
         ///
         /// * target_health_state.unhealthy.draining_interval_seconds - The amount of time for Elastic Load Balancing to wait before changing the state of an unhealthy target from unhealthy.draining to unhealthy. The range is 0-360000 seconds. The default value is 0 seconds. Note: This attribute can only be configured when target_health_state.unhealthy.connection_termination.enabled is false.
         ///
@@ -4883,6 +4906,63 @@ public struct ModifyCapacityReservationOutput: Swift.Sendable {
         self.decreaseRequestsRemaining = decreaseRequestsRemaining
         self.lastModifiedTime = lastModifiedTime
         self.minimumLoadBalancerCapacity = minimumLoadBalancerCapacity
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    public enum RemoveIpamPoolEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RemoveIpamPoolEnum] {
+            return [
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ModifyIpPoolsInput: Swift.Sendable {
+    /// The IPAM pools to be modified.
+    public var ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools?
+    /// The Amazon Resource Name (ARN) of the load balancer.
+    /// This member is required.
+    public var loadBalancerArn: Swift.String?
+    /// Remove the IP pools in use by the load balancer.
+    public var removeIpamPools: [ElasticLoadBalancingv2ClientTypes.RemoveIpamPoolEnum]?
+
+    public init(
+        ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools? = nil,
+        loadBalancerArn: Swift.String? = nil,
+        removeIpamPools: [ElasticLoadBalancingv2ClientTypes.RemoveIpamPoolEnum]? = nil
+    ) {
+        self.ipamPools = ipamPools
+        self.loadBalancerArn = loadBalancerArn
+        self.removeIpamPools = removeIpamPools
+    }
+}
+
+public struct ModifyIpPoolsOutput: Swift.Sendable {
+    /// The IPAM pool ID.
+    public var ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools?
+
+    public init(
+        ipamPools: ElasticLoadBalancingv2ClientTypes.IpamPools? = nil
+    ) {
+        self.ipamPools = ipamPools
     }
 }
 
@@ -5676,6 +5756,13 @@ extension ModifyCapacityReservationInput {
     }
 }
 
+extension ModifyIpPoolsInput {
+
+    static func urlPathProvider(_ value: ModifyIpPoolsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ModifyListenerInput {
 
     static func urlPathProvider(_ value: ModifyListenerInput) -> Swift.String? {
@@ -5839,6 +5926,7 @@ extension CreateLoadBalancerInput {
         try writer["CustomerOwnedIpv4Pool"].write(value.customerOwnedIpv4Pool)
         try writer["EnablePrefixForIpv6SourceNat"].write(value.enablePrefixForIpv6SourceNat)
         try writer["IpAddressType"].write(value.ipAddressType)
+        try writer["IpamPools"].write(value.ipamPools, with: ElasticLoadBalancingv2ClientTypes.IpamPools.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["Scheme"].write(value.scheme)
         try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6205,6 +6293,18 @@ extension ModifyCapacityReservationInput {
         try writer["MinimumLoadBalancerCapacity"].write(value.minimumLoadBalancerCapacity, with: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity.write(value:to:))
         try writer["ResetCapacityReservation"].write(value.resetCapacityReservation)
         try writer["Action"].write("ModifyCapacityReservation")
+        try writer["Version"].write("2015-12-01")
+    }
+}
+
+extension ModifyIpPoolsInput {
+
+    static func write(value: ModifyIpPoolsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["IpamPools"].write(value.ipamPools, with: ElasticLoadBalancingv2ClientTypes.IpamPools.write(value:to:))
+        try writer["LoadBalancerArn"].write(value.loadBalancerArn)
+        try writer["RemoveIpamPools"].writeList(value.removeIpamPools, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ElasticLoadBalancingv2ClientTypes.RemoveIpamPoolEnum>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Action"].write("ModifyIpPools")
         try writer["Version"].write("2015-12-01")
     }
 }
@@ -6786,6 +6886,18 @@ extension ModifyCapacityReservationOutput {
         value.decreaseRequestsRemaining = try reader["DecreaseRequestsRemaining"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.minimumLoadBalancerCapacity = try reader["MinimumLoadBalancerCapacity"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity.read(from:))
+        return value
+    }
+}
+
+extension ModifyIpPoolsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyIpPoolsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["ModifyIpPoolsResult"]
+        var value = ModifyIpPoolsOutput()
+        value.ipamPools = try reader["IpamPools"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.IpamPools.read(from:))
         return value
     }
 }
@@ -7529,6 +7641,20 @@ enum ModifyCapacityReservationOutputError {
             case "LoadBalancerNotFound": return try LoadBalancerNotFoundException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "PriorRequestNotComplete": return try PriorRequestNotCompleteException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyIpPoolsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "LoadBalancerNotFound": return try LoadBalancerNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8809,6 +8935,22 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancer {
         value.customerOwnedIpv4Pool = try reader["CustomerOwnedIpv4Pool"].readIfPresent()
         value.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = try reader["EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"].readIfPresent()
         value.enablePrefixForIpv6SourceNat = try reader["EnablePrefixForIpv6SourceNat"].readIfPresent()
+        value.ipamPools = try reader["IpamPools"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.IpamPools.read(from:))
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.IpamPools {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.IpamPools?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Ipv4IpamPoolId"].write(value.ipv4IpamPoolId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.IpamPools {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.IpamPools()
+        value.ipv4IpamPoolId = try reader["Ipv4IpamPoolId"].readIfPresent()
         return value
     }
 }

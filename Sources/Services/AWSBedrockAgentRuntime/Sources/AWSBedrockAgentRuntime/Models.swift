@@ -502,6 +502,38 @@ extension BedrockAgentRuntimeClientTypes.AgentActionGroup: Swift.CustomDebugStri
 
 extension BedrockAgentRuntimeClientTypes {
 
+    public enum AgentCollaboration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case supervisor
+        case supervisorRouter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentCollaboration] {
+            return [
+                .disabled,
+                .supervisor,
+                .supervisorRouter
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .supervisor: return "SUPERVISOR"
+            case .supervisorRouter: return "SUPERVISOR_ROUTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     public enum ConfirmationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case confirm
         case deny
@@ -4970,6 +5002,8 @@ extension BedrockAgentRuntimeClientTypes {
         public var callerChain: [BedrockAgentRuntimeClientTypes.Caller]?
         /// The part's collaborator name.
         public var collaboratorName: Swift.String?
+        /// The time of the trace.
+        public var eventTime: Foundation.Date?
         /// The unique identifier of the session with the agent.
         public var sessionId: Swift.String?
         /// Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-enablement).
@@ -4981,6 +5015,7 @@ extension BedrockAgentRuntimeClientTypes {
             agentVersion: Swift.String? = nil,
             callerChain: [BedrockAgentRuntimeClientTypes.Caller]? = nil,
             collaboratorName: Swift.String? = nil,
+            eventTime: Foundation.Date? = nil,
             sessionId: Swift.String? = nil,
             trace: BedrockAgentRuntimeClientTypes.Trace? = nil
         ) {
@@ -4989,6 +5024,7 @@ extension BedrockAgentRuntimeClientTypes {
             self.agentVersion = agentVersion
             self.callerChain = callerChain
             self.collaboratorName = collaboratorName
+            self.eventTime = eventTime
             self.sessionId = sessionId
             self.trace = trace
         }
@@ -5060,6 +5096,69 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
+    public enum RelayConversationHistory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case toCollaborator
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RelayConversationHistory] {
+            return [
+                .disabled,
+                .toCollaborator
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .toCollaborator: return "TO_COLLABORATOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Settings of an inline collaborator agent.
+    public struct CollaboratorConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the inline collaborator agent.
+        public var agentAliasArn: Swift.String?
+        /// Instructions that tell the inline collaborator agent what it should do and how it should interact with users.
+        /// This member is required.
+        public var collaboratorInstruction: Swift.String?
+        /// Name of the inline collaborator agent which must be the same name as specified for agentName.
+        /// This member is required.
+        public var collaboratorName: Swift.String?
+        /// A relay conversation history for the inline collaborator agent.
+        public var relayConversationHistory: BedrockAgentRuntimeClientTypes.RelayConversationHistory?
+
+        public init(
+            agentAliasArn: Swift.String? = nil,
+            collaboratorInstruction: Swift.String? = nil,
+            collaboratorName: Swift.String? = nil,
+            relayConversationHistory: BedrockAgentRuntimeClientTypes.RelayConversationHistory? = nil
+        ) {
+            self.agentAliasArn = agentAliasArn
+            self.collaboratorInstruction = collaboratorInstruction
+            self.collaboratorName = collaboratorName
+            self.relayConversationHistory = relayConversationHistory
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.CollaboratorConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CollaboratorConfiguration(agentAliasArn: \(Swift.String(describing: agentAliasArn)), relayConversationHistory: \(Swift.String(describing: relayConversationHistory)), collaboratorInstruction: \"CONTENT_REDACTED\", collaboratorName: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// The configuration details for the guardrail.
     public struct GuardrailConfigurationWithArn: Swift.Sendable {
         /// The unique identifier for the guardrail.
@@ -5075,37 +5174,6 @@ extension BedrockAgentRuntimeClientTypes {
         ) {
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
-        }
-    }
-}
-
-extension BedrockAgentRuntimeClientTypes {
-
-    /// Contains parameters that specify various attributes that persist across a session or prompt. You can define session state attributes as key-value pairs when writing a [Lambda function](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html) for an action group or pass them when making an InvokeInlineAgent request. Use session state attributes to control and provide conversational context for your inline agent and to help customize your agent's behavior. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html)
-    public struct InlineSessionState: Swift.Sendable {
-        /// Contains information about the files used by code interpreter.
-        public var files: [BedrockAgentRuntimeClientTypes.InputFile]?
-        /// The identifier of the invocation of an action. This value must match the invocationId returned in the InvokeInlineAgent response for the action whose results are provided in the returnControlInvocationResults field. For more information, see [Return control to the agent developer](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html).
-        public var invocationId: Swift.String?
-        /// Contains attributes that persist across a session and the values of those attributes.
-        public var promptSessionAttributes: [Swift.String: Swift.String]?
-        /// Contains information about the results from the action group invocation. For more information, see [Return control to the agent developer](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html). If you include this field in the sessionState field, the inputText field will be ignored.
-        public var returnControlInvocationResults: [BedrockAgentRuntimeClientTypes.InvocationResultMember]?
-        /// Contains attributes that persist across a session and the values of those attributes.
-        public var sessionAttributes: [Swift.String: Swift.String]?
-
-        public init(
-            files: [BedrockAgentRuntimeClientTypes.InputFile]? = nil,
-            invocationId: Swift.String? = nil,
-            promptSessionAttributes: [Swift.String: Swift.String]? = nil,
-            returnControlInvocationResults: [BedrockAgentRuntimeClientTypes.InvocationResultMember]? = nil,
-            sessionAttributes: [Swift.String: Swift.String]? = nil
-        ) {
-            self.files = files
-            self.invocationId = invocationId
-            self.promptSessionAttributes = promptSessionAttributes
-            self.returnControlInvocationResults = returnControlInvocationResults
-            self.sessionAttributes = sessionAttributes
         }
     }
 }
@@ -5147,6 +5215,8 @@ extension BedrockAgentRuntimeClientTypes {
         public var additionalModelRequestFields: Smithy.Document?
         /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see [Prompt template placeholder variables](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html). For more information, see [Configure the prompt templates](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts-configure.html).
         public var basePromptTemplate: Swift.String?
+        /// The foundation model to use.
+        public var foundationModel: Swift.String?
         /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
         public var inferenceConfiguration: BedrockAgentRuntimeClientTypes.InferenceConfiguration?
         /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType. If you set the field as OVERRIDDEN, the overrideLambda field in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) must be specified with the ARN of a Lambda function.
@@ -5169,6 +5239,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             additionalModelRequestFields: Smithy.Document? = nil,
             basePromptTemplate: Swift.String? = nil,
+            foundationModel: Swift.String? = nil,
             inferenceConfiguration: BedrockAgentRuntimeClientTypes.InferenceConfiguration? = nil,
             parserMode: BedrockAgentRuntimeClientTypes.CreationMode? = nil,
             promptCreationMode: BedrockAgentRuntimeClientTypes.CreationMode? = nil,
@@ -5177,6 +5248,7 @@ extension BedrockAgentRuntimeClientTypes {
         ) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.basePromptTemplate = basePromptTemplate
+            self.foundationModel = foundationModel
             self.inferenceConfiguration = inferenceConfiguration
             self.parserMode = parserMode
             self.promptCreationMode = promptCreationMode
@@ -5188,7 +5260,7 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes.PromptConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PromptConfiguration(additionalModelRequestFields: \(Swift.String(describing: additionalModelRequestFields)), inferenceConfiguration: \(Swift.String(describing: inferenceConfiguration)), parserMode: \(Swift.String(describing: parserMode)), promptCreationMode: \(Swift.String(describing: promptCreationMode)), promptState: \(Swift.String(describing: promptState)), promptType: \(Swift.String(describing: promptType)), basePromptTemplate: \"CONTENT_REDACTED\")"}
+        "PromptConfiguration(additionalModelRequestFields: \(Swift.String(describing: additionalModelRequestFields)), foundationModel: \(Swift.String(describing: foundationModel)), inferenceConfiguration: \(Swift.String(describing: inferenceConfiguration)), parserMode: \(Swift.String(describing: parserMode)), promptCreationMode: \(Swift.String(describing: promptCreationMode)), promptState: \(Swift.String(describing: promptState)), promptType: \(Swift.String(describing: promptType)), basePromptTemplate: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
@@ -5214,6 +5286,41 @@ extension BedrockAgentRuntimeClientTypes {
 extension BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains parameters that specify various attributes that persist across a session or prompt. You can define session state attributes as key-value pairs when writing a [Lambda function](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html) for an action group or pass them when making an InvokeInlineAgent request. Use session state attributes to control and provide conversational context for your inline agent and to help customize your agent's behavior. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html)
+    public struct InlineSessionState: Swift.Sendable {
+        /// Contains the conversation history that persist across sessions.
+        public var conversationHistory: BedrockAgentRuntimeClientTypes.ConversationHistory?
+        /// Contains information about the files used by code interpreter.
+        public var files: [BedrockAgentRuntimeClientTypes.InputFile]?
+        /// The identifier of the invocation of an action. This value must match the invocationId returned in the InvokeInlineAgent response for the action whose results are provided in the returnControlInvocationResults field. For more information, see [Return control to the agent developer](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html).
+        public var invocationId: Swift.String?
+        /// Contains attributes that persist across a session and the values of those attributes.
+        public var promptSessionAttributes: [Swift.String: Swift.String]?
+        /// Contains information about the results from the action group invocation. For more information, see [Return control to the agent developer](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html). If you include this field in the sessionState field, the inputText field will be ignored.
+        public var returnControlInvocationResults: [BedrockAgentRuntimeClientTypes.InvocationResultMember]?
+        /// Contains attributes that persist across a session and the values of those attributes.
+        public var sessionAttributes: [Swift.String: Swift.String]?
+
+        public init(
+            conversationHistory: BedrockAgentRuntimeClientTypes.ConversationHistory? = nil,
+            files: [BedrockAgentRuntimeClientTypes.InputFile]? = nil,
+            invocationId: Swift.String? = nil,
+            promptSessionAttributes: [Swift.String: Swift.String]? = nil,
+            returnControlInvocationResults: [BedrockAgentRuntimeClientTypes.InvocationResultMember]? = nil,
+            sessionAttributes: [Swift.String: Swift.String]? = nil
+        ) {
+            self.conversationHistory = conversationHistory
+            self.files = files
+            self.invocationId = invocationId
+            self.promptSessionAttributes = promptSessionAttributes
+            self.returnControlInvocationResults = returnControlInvocationResults
+            self.sessionAttributes = sessionAttributes
+        }
     }
 }
 
@@ -7662,6 +7769,68 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// List of inline collaborators.
+    public struct Collaborator: Swift.Sendable {
+        /// List of action groups with each action group defining tasks the inline collaborator agent needs to carry out.
+        public var actionGroups: [BedrockAgentRuntimeClientTypes.AgentActionGroup]?
+        /// Defines how the inline supervisor agent handles information across multiple collaborator agents to coordinate a final response.
+        public var agentCollaboration: BedrockAgentRuntimeClientTypes.AgentCollaboration?
+        /// Name of the inline collaborator agent which must be the same name as specified for collaboratorName.
+        public var agentName: Swift.String?
+        /// Settings of the collaborator agent.
+        public var collaboratorConfigurations: [BedrockAgentRuntimeClientTypes.CollaboratorConfiguration]?
+        /// The Amazon Resource Name (ARN) of the AWS KMS key that encrypts the inline collaborator.
+        public var customerEncryptionKeyArn: Swift.String?
+        /// The foundation model used by the inline collaborator agent.
+        /// This member is required.
+        public var foundationModel: Swift.String?
+        /// Details of the guardwrail associated with the inline collaborator.
+        public var guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfigurationWithArn?
+        /// The number of seconds for which the Amazon Bedrock keeps information about the user's conversation with the inline collaborator agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
+        public var idleSessionTTLInSeconds: Swift.Int?
+        /// Instruction that tell the inline collaborator agent what it should do and how it should interact with users.
+        /// This member is required.
+        public var instruction: Swift.String?
+        /// Knowledge base associated with the inline collaborator agent.
+        public var knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]?
+        /// Contains configurations to override prompt templates in different parts of an inline collaborator sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
+        public var promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration?
+
+        public init(
+            actionGroups: [BedrockAgentRuntimeClientTypes.AgentActionGroup]? = nil,
+            agentCollaboration: BedrockAgentRuntimeClientTypes.AgentCollaboration? = nil,
+            agentName: Swift.String? = nil,
+            collaboratorConfigurations: [BedrockAgentRuntimeClientTypes.CollaboratorConfiguration]? = nil,
+            customerEncryptionKeyArn: Swift.String? = nil,
+            foundationModel: Swift.String? = nil,
+            guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfigurationWithArn? = nil,
+            idleSessionTTLInSeconds: Swift.Int? = nil,
+            instruction: Swift.String? = nil,
+            knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]? = nil,
+            promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration? = nil
+        ) {
+            self.actionGroups = actionGroups
+            self.agentCollaboration = agentCollaboration
+            self.agentName = agentName
+            self.collaboratorConfigurations = collaboratorConfigurations
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.foundationModel = foundationModel
+            self.guardrailConfiguration = guardrailConfiguration
+            self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
+            self.instruction = instruction
+            self.knowledgeBases = knowledgeBases
+            self.promptOverrideConfiguration = promptOverrideConfiguration
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.Collaborator: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Collaborator(actionGroups: \(Swift.String(describing: actionGroups)), agentCollaboration: \(Swift.String(describing: agentCollaboration)), collaboratorConfigurations: \(Swift.String(describing: collaboratorConfigurations)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), knowledgeBases: \(Swift.String(describing: knowledgeBases)), agentName: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// Contains parameters that specify various attributes that persist across a session or prompt. You can define session state attributes as key-value pairs when writing a [Lambda function](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html) for an action group or pass them when making an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html) request. Use session state attributes to control and provide conversational context for your agent and to help customize your agent's behavior. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html).
     public struct SessionState: Swift.Sendable {
         /// The state's conversation history.
@@ -7697,81 +7866,6 @@ extension BedrockAgentRuntimeClientTypes {
             self.sessionAttributes = sessionAttributes
         }
     }
-}
-
-public struct InvokeInlineAgentInput: Swift.Sendable {
-    /// A list of action groups with each action group defining the action the inline agent needs to carry out.
-    public var actionGroups: [BedrockAgentRuntimeClientTypes.AgentActionGroup]?
-    /// Model settings for the request.
-    public var bedrockModelConfigurations: BedrockAgentRuntimeClientTypes.InlineBedrockModelConfigurations?
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services KMS key to use to encrypt your inline agent.
-    public var customerEncryptionKeyArn: Swift.String?
-    /// Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see [Using trace](https://docs.aws.amazon.com/bedrock/latest/userguide/trace-events.html).
-    public var enableTrace: Swift.Bool?
-    /// Specifies whether to end the session with the inline agent or not.
-    public var endSession: Swift.Bool?
-    /// The [model identifier (ID)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns) of the model to use for orchestration by the inline agent. For example, meta.llama3-1-70b-instruct-v1:0.
-    /// This member is required.
-    public var foundationModel: Swift.String?
-    /// The [guardrails](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html) to assign to the inline agent.
-    public var guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfigurationWithArn?
-    /// The number of seconds for which the inline agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and the data provided before the timeout is deleted.
-    public var idleSessionTTLInSeconds: Swift.Int?
-    /// Parameters that specify the various attributes of a sessions. You can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html). If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
-    public var inlineSessionState: BedrockAgentRuntimeClientTypes.InlineSessionState?
-    /// The prompt text to send to the agent. If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
-    public var inputText: Swift.String?
-    /// The instructions that tell the inline agent what it should do and how it should interact with users.
-    /// This member is required.
-    public var instruction: Swift.String?
-    /// Contains information of the knowledge bases to associate with.
-    public var knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]?
-    /// Configurations for advanced prompts used to override the default prompts to enhance the accuracy of the inline agent.
-    public var promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration?
-    /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
-    /// This member is required.
-    public var sessionId: Swift.String?
-    /// Specifies the configurations for streaming. To use agent streaming, you need permissions to perform the bedrock:InvokeModelWithResponseStream action.
-    public var streamingConfigurations: BedrockAgentRuntimeClientTypes.StreamingConfigurations?
-
-    public init(
-        actionGroups: [BedrockAgentRuntimeClientTypes.AgentActionGroup]? = nil,
-        bedrockModelConfigurations: BedrockAgentRuntimeClientTypes.InlineBedrockModelConfigurations? = nil,
-        customerEncryptionKeyArn: Swift.String? = nil,
-        enableTrace: Swift.Bool? = nil,
-        endSession: Swift.Bool? = nil,
-        foundationModel: Swift.String? = nil,
-        guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfigurationWithArn? = nil,
-        idleSessionTTLInSeconds: Swift.Int? = nil,
-        inlineSessionState: BedrockAgentRuntimeClientTypes.InlineSessionState? = nil,
-        inputText: Swift.String? = nil,
-        instruction: Swift.String? = nil,
-        knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]? = nil,
-        promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration? = nil,
-        sessionId: Swift.String? = nil,
-        streamingConfigurations: BedrockAgentRuntimeClientTypes.StreamingConfigurations? = nil
-    ) {
-        self.actionGroups = actionGroups
-        self.bedrockModelConfigurations = bedrockModelConfigurations
-        self.customerEncryptionKeyArn = customerEncryptionKeyArn
-        self.enableTrace = enableTrace
-        self.endSession = endSession
-        self.foundationModel = foundationModel
-        self.guardrailConfiguration = guardrailConfiguration
-        self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
-        self.inlineSessionState = inlineSessionState
-        self.inputText = inputText
-        self.instruction = instruction
-        self.knowledgeBases = knowledgeBases
-        self.promptOverrideConfiguration = promptOverrideConfiguration
-        self.sessionId = sessionId
-        self.streamingConfigurations = streamingConfigurations
-    }
-}
-
-extension InvokeInlineAgentInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "InvokeInlineAgentInput(actionGroups: \(Swift.String(describing: actionGroups)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), inlineSessionState: \(Swift.String(describing: inlineSessionState)), knowledgeBases: \(Swift.String(describing: knowledgeBases)), sessionId: \(Swift.String(describing: sessionId)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), inputText: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct RetrieveAndGenerateInput: Swift.Sendable {
@@ -7889,6 +7983,93 @@ public struct InvokeAgentInput: Swift.Sendable {
 extension InvokeAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "InvokeAgentInput(agentAliasId: \(Swift.String(describing: agentAliasId)), agentId: \(Swift.String(describing: agentId)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), memoryId: \(Swift.String(describing: memoryId)), sessionId: \(Swift.String(describing: sessionId)), sessionState: \(Swift.String(describing: sessionState)), sourceArn: \(Swift.String(describing: sourceArn)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), inputText: \"CONTENT_REDACTED\")"}
+}
+
+public struct InvokeInlineAgentInput: Swift.Sendable {
+    /// A list of action groups with each action group defining the action the inline agent needs to carry out.
+    public var actionGroups: [BedrockAgentRuntimeClientTypes.AgentActionGroup]?
+    /// Defines how the inline collaborator agent handles information across multiple collaborator agents to coordinate a final response. The inline collaborator agent can also be the supervisor.
+    public var agentCollaboration: BedrockAgentRuntimeClientTypes.AgentCollaboration?
+    /// Model settings for the request.
+    public var bedrockModelConfigurations: BedrockAgentRuntimeClientTypes.InlineBedrockModelConfigurations?
+    /// Settings for an inline agent collaborator called with [InvokeInlineAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeInlineAgent.html).
+    public var collaboratorConfigurations: [BedrockAgentRuntimeClientTypes.CollaboratorConfiguration]?
+    /// List of collaborator inline agents.
+    public var collaborators: [BedrockAgentRuntimeClientTypes.Collaborator]?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services KMS key to use to encrypt your inline agent.
+    public var customerEncryptionKeyArn: Swift.String?
+    /// Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see [Using trace](https://docs.aws.amazon.com/bedrock/latest/userguide/trace-events.html).
+    public var enableTrace: Swift.Bool?
+    /// Specifies whether to end the session with the inline agent or not.
+    public var endSession: Swift.Bool?
+    /// The [model identifier (ID)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns) of the model to use for orchestration by the inline agent. For example, meta.llama3-1-70b-instruct-v1:0.
+    /// This member is required.
+    public var foundationModel: Swift.String?
+    /// The [guardrails](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html) to assign to the inline agent.
+    public var guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfigurationWithArn?
+    /// The number of seconds for which the inline agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and the data provided before the timeout is deleted.
+    public var idleSessionTTLInSeconds: Swift.Int?
+    /// Parameters that specify the various attributes of a sessions. You can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html). If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
+    public var inlineSessionState: BedrockAgentRuntimeClientTypes.InlineSessionState?
+    /// The prompt text to send to the agent. If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
+    public var inputText: Swift.String?
+    /// The instructions that tell the inline agent what it should do and how it should interact with users.
+    /// This member is required.
+    public var instruction: Swift.String?
+    /// Contains information of the knowledge bases to associate with.
+    public var knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]?
+    /// Configurations for advanced prompts used to override the default prompts to enhance the accuracy of the inline agent.
+    public var promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration?
+    /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// Specifies the configurations for streaming. To use agent streaming, you need permissions to perform the bedrock:InvokeModelWithResponseStream action.
+    public var streamingConfigurations: BedrockAgentRuntimeClientTypes.StreamingConfigurations?
+
+    public init(
+        actionGroups: [BedrockAgentRuntimeClientTypes.AgentActionGroup]? = nil,
+        agentCollaboration: BedrockAgentRuntimeClientTypes.AgentCollaboration? = nil,
+        bedrockModelConfigurations: BedrockAgentRuntimeClientTypes.InlineBedrockModelConfigurations? = nil,
+        collaboratorConfigurations: [BedrockAgentRuntimeClientTypes.CollaboratorConfiguration]? = nil,
+        collaborators: [BedrockAgentRuntimeClientTypes.Collaborator]? = nil,
+        customerEncryptionKeyArn: Swift.String? = nil,
+        enableTrace: Swift.Bool? = nil,
+        endSession: Swift.Bool? = nil,
+        foundationModel: Swift.String? = nil,
+        guardrailConfiguration: BedrockAgentRuntimeClientTypes.GuardrailConfigurationWithArn? = nil,
+        idleSessionTTLInSeconds: Swift.Int? = nil,
+        inlineSessionState: BedrockAgentRuntimeClientTypes.InlineSessionState? = nil,
+        inputText: Swift.String? = nil,
+        instruction: Swift.String? = nil,
+        knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]? = nil,
+        promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration? = nil,
+        sessionId: Swift.String? = nil,
+        streamingConfigurations: BedrockAgentRuntimeClientTypes.StreamingConfigurations? = nil
+    ) {
+        self.actionGroups = actionGroups
+        self.agentCollaboration = agentCollaboration
+        self.bedrockModelConfigurations = bedrockModelConfigurations
+        self.collaboratorConfigurations = collaboratorConfigurations
+        self.collaborators = collaborators
+        self.customerEncryptionKeyArn = customerEncryptionKeyArn
+        self.enableTrace = enableTrace
+        self.endSession = endSession
+        self.foundationModel = foundationModel
+        self.guardrailConfiguration = guardrailConfiguration
+        self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
+        self.inlineSessionState = inlineSessionState
+        self.inputText = inputText
+        self.instruction = instruction
+        self.knowledgeBases = knowledgeBases
+        self.promptOverrideConfiguration = promptOverrideConfiguration
+        self.sessionId = sessionId
+        self.streamingConfigurations = streamingConfigurations
+    }
+}
+
+extension InvokeInlineAgentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InvokeInlineAgentInput(actionGroups: \(Swift.String(describing: actionGroups)), agentCollaboration: \(Swift.String(describing: agentCollaboration)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), collaboratorConfigurations: \(Swift.String(describing: collaboratorConfigurations)), collaborators: \(Swift.String(describing: collaborators)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), inlineSessionState: \(Swift.String(describing: inlineSessionState)), knowledgeBases: \(Swift.String(describing: knowledgeBases)), sessionId: \(Swift.String(describing: sessionId)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), inputText: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateInvocationInput {
@@ -8323,7 +8504,10 @@ extension InvokeInlineAgentInput {
     static func write(value: InvokeInlineAgentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actionGroups"].writeList(value.actionGroups, memberWritingClosure: BedrockAgentRuntimeClientTypes.AgentActionGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["agentCollaboration"].write(value.agentCollaboration)
         try writer["bedrockModelConfigurations"].write(value.bedrockModelConfigurations, with: BedrockAgentRuntimeClientTypes.InlineBedrockModelConfigurations.write(value:to:))
+        try writer["collaboratorConfigurations"].writeList(value.collaboratorConfigurations, memberWritingClosure: BedrockAgentRuntimeClientTypes.CollaboratorConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["collaborators"].writeList(value.collaborators, memberWritingClosure: BedrockAgentRuntimeClientTypes.Collaborator.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["customerEncryptionKeyArn"].write(value.customerEncryptionKeyArn)
         try writer["enableTrace"].write(value.enableTrace)
         try writer["endSession"].write(value.endSession)
@@ -10134,6 +10318,7 @@ extension BedrockAgentRuntimeClientTypes.TracePart {
         value.agentAliasId = try reader["agentAliasId"].readIfPresent()
         value.agentVersion = try reader["agentVersion"].readIfPresent()
         value.callerChain = try reader["callerChain"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.Caller.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventTime = try reader["eventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.collaboratorName = try reader["collaboratorName"].readIfPresent()
         return value
     }
@@ -11843,18 +12028,6 @@ extension BedrockAgentRuntimeClientTypes.ModelPerformanceConfiguration {
     }
 }
 
-extension BedrockAgentRuntimeClientTypes.InlineSessionState {
-
-    static func write(value: BedrockAgentRuntimeClientTypes.InlineSessionState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["files"].writeList(value.files, memberWritingClosure: BedrockAgentRuntimeClientTypes.InputFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["invocationId"].write(value.invocationId)
-        try writer["promptSessionAttributes"].writeMap(value.promptSessionAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["returnControlInvocationResults"].writeList(value.returnControlInvocationResults, memberWritingClosure: BedrockAgentRuntimeClientTypes.InvocationResultMember.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sessionAttributes"].writeMap(value.sessionAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-}
-
 extension BedrockAgentRuntimeClientTypes.AgentActionGroup {
 
     static func write(value: BedrockAgentRuntimeClientTypes.AgentActionGroup?, to writer: SmithyJSON.Writer) throws {
@@ -11975,11 +12148,54 @@ extension BedrockAgentRuntimeClientTypes.PromptConfiguration {
         guard let value else { return }
         try writer["additionalModelRequestFields"].write(value.additionalModelRequestFields)
         try writer["basePromptTemplate"].write(value.basePromptTemplate)
+        try writer["foundationModel"].write(value.foundationModel)
         try writer["inferenceConfiguration"].write(value.inferenceConfiguration, with: BedrockAgentRuntimeClientTypes.InferenceConfiguration.write(value:to:))
         try writer["parserMode"].write(value.parserMode)
         try writer["promptCreationMode"].write(value.promptCreationMode)
         try writer["promptState"].write(value.promptState)
         try writer["promptType"].write(value.promptType)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.CollaboratorConfiguration {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.CollaboratorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentAliasArn"].write(value.agentAliasArn)
+        try writer["collaboratorInstruction"].write(value.collaboratorInstruction)
+        try writer["collaboratorName"].write(value.collaboratorName)
+        try writer["relayConversationHistory"].write(value.relayConversationHistory)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.InlineSessionState {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.InlineSessionState?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conversationHistory"].write(value.conversationHistory, with: BedrockAgentRuntimeClientTypes.ConversationHistory.write(value:to:))
+        try writer["files"].writeList(value.files, memberWritingClosure: BedrockAgentRuntimeClientTypes.InputFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["invocationId"].write(value.invocationId)
+        try writer["promptSessionAttributes"].writeMap(value.promptSessionAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["returnControlInvocationResults"].writeList(value.returnControlInvocationResults, memberWritingClosure: BedrockAgentRuntimeClientTypes.InvocationResultMember.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sessionAttributes"].writeMap(value.sessionAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.Collaborator {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.Collaborator?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionGroups"].writeList(value.actionGroups, memberWritingClosure: BedrockAgentRuntimeClientTypes.AgentActionGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["agentCollaboration"].write(value.agentCollaboration)
+        try writer["agentName"].write(value.agentName)
+        try writer["collaboratorConfigurations"].writeList(value.collaboratorConfigurations, memberWritingClosure: BedrockAgentRuntimeClientTypes.CollaboratorConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["customerEncryptionKeyArn"].write(value.customerEncryptionKeyArn)
+        try writer["foundationModel"].write(value.foundationModel)
+        try writer["guardrailConfiguration"].write(value.guardrailConfiguration, with: BedrockAgentRuntimeClientTypes.GuardrailConfigurationWithArn.write(value:to:))
+        try writer["idleSessionTTLInSeconds"].write(value.idleSessionTTLInSeconds)
+        try writer["instruction"].write(value.instruction)
+        try writer["knowledgeBases"].writeList(value.knowledgeBases, memberWritingClosure: BedrockAgentRuntimeClientTypes.KnowledgeBase.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["promptOverrideConfiguration"].write(value.promptOverrideConfiguration, with: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration.write(value:to:))
     }
 }
 

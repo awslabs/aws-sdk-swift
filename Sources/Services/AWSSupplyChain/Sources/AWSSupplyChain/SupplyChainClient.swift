@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SupplyChainClient: ClientRuntime.Client {
     public static let clientName = "SupplyChainClient"
-    public static let version = "1.2.33"
+    public static let version = "1.2.34"
     let client: ClientRuntime.SdkHttpClient
     let config: SupplyChainClient.SupplyChainClientConfiguration
     let serviceName = "SupplyChain"

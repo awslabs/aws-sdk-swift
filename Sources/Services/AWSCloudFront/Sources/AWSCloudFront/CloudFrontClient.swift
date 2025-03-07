@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudFrontClient: ClientRuntime.Client {
     public static let clientName = "CloudFrontClient"
-    public static let version = "1.2.33"
+    public static let version = "1.2.34"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFrontClient.CloudFrontClientConfiguration
     let serviceName = "CloudFront"
@@ -597,7 +597,7 @@ extension CloudFrontClient {
     /// - `EntityLimitExceeded` : The entity limit has been exceeded.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidTagging` : The tagging specified is not valid.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func createAnycastIpList(input: CreateAnycastIpListInput) async throws -> CreateAnycastIpListOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1366,7 +1366,7 @@ extension CloudFrontClient {
     /// - `FunctionSizeLimitExceeded` : The function is too large. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `TooManyFunctions` : You have reached the maximum number of CloudFront functions for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1602,7 +1602,7 @@ extension CloudFrontClient {
     /// - `EntityLimitExceeded` : The entity limit has been exceeded.
     /// - `EntitySizeLimitExceeded` : The entity size limit was exceeded.
     /// - `InvalidArgument` : An argument is invalid.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func createKeyValueStore(input: CreateKeyValueStoreInput) async throws -> CreateKeyValueStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1667,7 +1667,7 @@ extension CloudFrontClient {
 
     /// Performs the `CreateMonitoringSubscription` operation on the `CloudFront` service.
     ///
-    /// Enables additional CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see [Viewing additional CloudFront distribution metrics](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/viewing-cloudfront-metrics.html#monitoring-console.distributions-additional) in the Amazon CloudFront Developer Guide.
+    /// Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see [Viewing additional CloudFront distribution metrics](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/viewing-cloudfront-metrics.html#monitoring-console.distributions-additional) in the Amazon CloudFront Developer Guide.
     ///
     /// - Parameter CreateMonitoringSubscriptionInput : [no documentation found]
     ///
@@ -1679,7 +1679,7 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `MonitoringSubscriptionAlreadyExists` : A monitoring subscription already exists for the specified distribution.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func createMonitoringSubscription(input: CreateMonitoringSubscriptionInput) async throws -> CreateMonitoringSubscriptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2333,7 +2333,7 @@ extension CloudFrontClient {
     /// - `InconsistentQuantities` : The value of Quantity and the size of Items don't match.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidTagging` : The tagging specified is not valid.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func createVpcOrigin(input: CreateVpcOriginInput) async throws -> CreateVpcOriginOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2414,7 +2414,7 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func deleteAnycastIpList(input: DeleteAnycastIpListInput) async throws -> DeleteAnycastIpListOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2967,7 +2967,7 @@ extension CloudFrontClient {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3119,7 +3119,7 @@ extension CloudFrontClient {
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func deleteKeyValueStore(input: DeleteKeyValueStoreInput) async throws -> DeleteKeyValueStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3194,7 +3194,7 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `NoSuchMonitoringSubscription` : A monitoring subscription does not exist for the specified distribution.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func deleteMonitoringSubscription(input: DeleteMonitoringSubscriptionInput) async throws -> DeleteMonitoringSubscriptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3750,7 +3750,7 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func deleteVpcOrigin(input: DeleteVpcOriginInput) async throws -> DeleteVpcOriginOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3823,7 +3823,7 @@ extension CloudFrontClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchFunctionExists` : The function does not exist.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func describeFunction(input: DescribeFunctionInput) async throws -> DescribeFunctionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3898,7 +3898,7 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func describeKeyValueStore(input: DescribeKeyValueStoreInput) async throws -> DescribeKeyValueStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3972,7 +3972,7 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func getAnycastIpList(input: GetAnycastIpListInput) async throws -> GetAnycastIpListOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4915,7 +4915,7 @@ extension CloudFrontClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchFunctionExists` : The function does not exist.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5205,7 +5205,7 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `NoSuchDistribution` : The specified distribution does not exist.
     /// - `NoSuchMonitoringSubscription` : A monitoring subscription does not exist for the specified distribution.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func getMonitoringSubscription(input: GetMonitoringSubscriptionInput) async throws -> GetMonitoringSubscriptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6082,7 +6082,7 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func getVpcOrigin(input: GetVpcOriginInput) async throws -> GetVpcOriginOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6156,7 +6156,7 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listAnycastIpLists(input: ListAnycastIpListsInput) async throws -> ListAnycastIpListsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6596,7 +6596,7 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listDistributionsByAnycastIpListId(input: ListDistributionsByAnycastIpListIdInput) async throws -> ListDistributionsByAnycastIpListIdOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7040,7 +7040,7 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listDistributionsByVpcOriginId(input: ListDistributionsByVpcOriginIdInput) async throws -> ListDistributionsByVpcOriginIdOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7330,7 +7330,7 @@ extension CloudFrontClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgument` : An argument is invalid.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7550,7 +7550,7 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listKeyValueStores(input: ListKeyValueStoresInput) async throws -> ListKeyValueStoresOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8138,7 +8138,7 @@ extension CloudFrontClient {
     /// - `AccessDenied` : Access denied.
     /// - `EntityNotFound` : The entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func listVpcOrigins(input: ListVpcOriginsInput) async throws -> ListVpcOriginsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8214,7 +8214,7 @@ extension CloudFrontClient {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func publishFunction(input: PublishFunctionInput) async throws -> PublishFunctionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8368,7 +8368,7 @@ extension CloudFrontClient {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `TestFunctionFailed` : The CloudFront function failed.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func testFunction(input: TestFunctionInput) async throws -> TestFunctionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9249,7 +9249,7 @@ extension CloudFrontClient {
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `NoSuchFunctionExists` : The function does not exist.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func updateFunction(input: UpdateFunctionInput) async throws -> UpdateFunctionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -9415,7 +9415,7 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func updateKeyValueStore(input: UpdateKeyValueStoreInput) async throws -> UpdateKeyValueStoreOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -10017,7 +10017,7 @@ extension CloudFrontClient {
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
-    /// - `UnsupportedOperation` : This operation is not supported in this region.
+    /// - `UnsupportedOperation` : This operation is not supported in this Amazon Web Services Region.
     public func updateVpcOrigin(input: UpdateVpcOriginInput) async throws -> UpdateVpcOriginOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
