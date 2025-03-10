@@ -480,12 +480,18 @@ extension BedrockAgentClientTypes {
     public enum ActionGroupSignature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonCodeinterpreter
         case amazonUserinput
+        case anthropicBash
+        case anthropicComputer
+        case anthropicTexteditor
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ActionGroupSignature] {
             return [
                 .amazonCodeinterpreter,
-                .amazonUserinput
+                .amazonUserinput,
+                .anthropicBash,
+                .anthropicComputer,
+                .anthropicTexteditor
             ]
         }
 
@@ -498,6 +504,9 @@ extension BedrockAgentClientTypes {
             switch self {
             case .amazonCodeinterpreter: return "AMAZON.CodeInterpreter"
             case .amazonUserinput: return "AMAZON.UserInput"
+            case .anthropicBash: return "ANTHROPIC.Bash"
+            case .anthropicComputer: return "ANTHROPIC.Computer"
+            case .anthropicTexteditor: return "ANTHROPIC.TextEditor"
             case let .sdkUnknown(s): return s
             }
         }
@@ -526,8 +535,22 @@ public struct CreateAgentActionGroupInput: Swift.Sendable {
     public var description: Swift.String?
     /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
     public var functionSchema: BedrockAgentClientTypes.FunctionSchema?
-    /// To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
+    /// Specify a built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.
+    ///
+    /// * To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.
+    ///
+    /// * To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.
+    ///
+    /// * To allow your agent to use an Anthropic computer use tool, specify one of the following values. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    ///
+    /// * ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.
+    ///
+    /// * ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.
+    ///
+    /// * ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
     public var parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature?
+    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
 
     public init(
         actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor? = nil,
@@ -539,7 +562,8 @@ public struct CreateAgentActionGroupInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         functionSchema: BedrockAgentClientTypes.FunctionSchema? = nil,
-        parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil
+        parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil,
+        parentActionGroupSignatureParams: [Swift.String: Swift.String]? = nil
     ) {
         self.actionGroupExecutor = actionGroupExecutor
         self.actionGroupName = actionGroupName
@@ -551,6 +575,7 @@ public struct CreateAgentActionGroupInput: Swift.Sendable {
         self.description = description
         self.functionSchema = functionSchema
         self.parentActionGroupSignature = parentActionGroupSignature
+        self.parentActionGroupSignatureParams = parentActionGroupSignatureParams
     }
 }
 
@@ -586,6 +611,8 @@ extension BedrockAgentClientTypes {
         public var description: Swift.String?
         /// Defines functions that each define parameters that the agent needs to invoke from the user. Each function represents an action in an action group.
         public var functionSchema: BedrockAgentClientTypes.FunctionSchema?
+        /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+        public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
         /// If this field is set as AMAZON.UserInput, the agent can request the user for additional information when trying to complete a task. The description, apiSchema, and actionGroupExecutor fields must be blank for this action group. During orchestration, if the agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
         public var parentActionSignature: BedrockAgentClientTypes.ActionGroupSignature?
         /// The time at which the action group was last updated.
@@ -604,6 +631,7 @@ extension BedrockAgentClientTypes {
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             functionSchema: BedrockAgentClientTypes.FunctionSchema? = nil,
+            parentActionGroupSignatureParams: [Swift.String: Swift.String]? = nil,
             parentActionSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
@@ -618,6 +646,7 @@ extension BedrockAgentClientTypes {
             self.createdAt = createdAt
             self.description = description
             self.functionSchema = functionSchema
+            self.parentActionGroupSignatureParams = parentActionGroupSignatureParams
             self.parentActionSignature = parentActionSignature
             self.updatedAt = updatedAt
         }
@@ -800,8 +829,28 @@ public struct UpdateAgentActionGroupInput: Swift.Sendable {
     public var description: Swift.String?
     /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
     public var functionSchema: BedrockAgentClientTypes.FunctionSchema?
-    /// To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
+    /// Update the built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.
+    ///
+    /// * To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.
+    ///
+    /// * To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.
+    ///
+    /// * To allow your agent to use an Anthropic computer use tool, specify one of the following values. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    ///
+    /// * ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.
+    ///
+    /// * ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.
+    ///
+    /// * ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
     public var parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature?
+    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
 
     public init(
         actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor? = nil,
@@ -813,7 +862,8 @@ public struct UpdateAgentActionGroupInput: Swift.Sendable {
         apiSchema: BedrockAgentClientTypes.APISchema? = nil,
         description: Swift.String? = nil,
         functionSchema: BedrockAgentClientTypes.FunctionSchema? = nil,
-        parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil
+        parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil,
+        parentActionGroupSignatureParams: [Swift.String: Swift.String]? = nil
     ) {
         self.actionGroupExecutor = actionGroupExecutor
         self.actionGroupId = actionGroupId
@@ -825,6 +875,7 @@ public struct UpdateAgentActionGroupInput: Swift.Sendable {
         self.description = description
         self.functionSchema = functionSchema
         self.parentActionGroupSignature = parentActionGroupSignature
+        self.parentActionGroupSignatureParams = parentActionGroupSignatureParams
     }
 }
 
@@ -1196,7 +1247,7 @@ extension BedrockAgentClientTypes {
         public var foundationModel: Swift.String?
         /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
         public var inferenceConfiguration: BedrockAgentClientTypes.InferenceConfiguration?
-        /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType. If you set the field as OVERRIDEN, the overrideLambda field in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) must be specified with the ARN of a Lambda function.
+        /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType. If you set the field as OVERRIDDEN, the overrideLambda field in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) must be specified with the ARN of a Lambda function.
         public var parserMode: BedrockAgentClientTypes.CreationMode?
         /// Specifies whether to override the default prompt template for this promptType. Set this value to OVERRIDDEN to use the prompt that you provide in the basePromptTemplate. If you leave it as DEFAULT, the agent uses a default prompt template.
         public var promptCreationMode: BedrockAgentClientTypes.CreationMode?
@@ -12122,6 +12173,7 @@ extension CreateAgentActionGroupInput {
         try writer["description"].write(value.description)
         try writer["functionSchema"].write(value.functionSchema, with: BedrockAgentClientTypes.FunctionSchema.write(value:to:))
         try writer["parentActionGroupSignature"].write(value.parentActionGroupSignature)
+        try writer["parentActionGroupSignatureParams"].writeMap(value.parentActionGroupSignatureParams, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -12390,6 +12442,7 @@ extension UpdateAgentActionGroupInput {
         try writer["description"].write(value.description)
         try writer["functionSchema"].write(value.functionSchema, with: BedrockAgentClientTypes.FunctionSchema.write(value:to:))
         try writer["parentActionGroupSignature"].write(value.parentActionGroupSignature)
+        try writer["parentActionGroupSignatureParams"].writeMap(value.parentActionGroupSignatureParams, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -15163,6 +15216,7 @@ extension BedrockAgentClientTypes.AgentActionGroup {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.parentActionSignature = try reader["parentActionSignature"].readIfPresent()
+        value.parentActionGroupSignatureParams = try reader["parentActionGroupSignatureParams"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.actionGroupExecutor = try reader["actionGroupExecutor"].readIfPresent(with: BedrockAgentClientTypes.ActionGroupExecutor.read(from:))
         value.apiSchema = try reader["apiSchema"].readIfPresent(with: BedrockAgentClientTypes.APISchema.read(from:))
         value.functionSchema = try reader["functionSchema"].readIfPresent(with: BedrockAgentClientTypes.FunctionSchema.read(from:))

@@ -3139,32 +3139,28 @@ extension MediaLiveClientTypes {
     public struct EbuTtDDestinationSettings: Swift.Sendable {
         /// Complete this field if you want to include the name of the copyright holder in the copyright tag in the captions metadata.
         public var copyrightHolder: Swift.String?
-        /// Specifies how to handle the gap between the lines (in multi-line captions).
-        ///
-        /// * enabled: Fill with the captions background color (as specified in the input captions).
-        ///
-        /// * disabled: Leave the gap unfilled.
+        /// Specifies the default font size as a percentage of the computed cell size. Valid only if the defaultLineHeight is also set. If you leave this field empty, the default font size is 80% of the cell size.
+        public var defaultFontSize: Swift.Int?
+        /// Documentation update needed
+        public var defaultLineHeight: Swift.Int?
+        /// Specifies how to handle the gap between the lines (in multi-line captions). ENABLED: Fill with the captions background color (as specified in the input captions). DISABLED: Leave the gap unfilled
         public var fillLineGap: MediaLiveClientTypes.EbuTtDFillLineGapControl?
-        /// Specifies the font family to include in the font data attached to the EBU-TT captions. Valid only if styleControl is set to include. If you leave this field empty, the font family is set to "monospaced". (If styleControl is set to exclude, the font family is always set to "monospaced".) You specify only the font family. All other style information (color, bold, position and so on) is copied from the input captions. The size is always set to 100% to allow the downstream player to choose the size.
-        ///
-        /// * Enter a list of font families, as a comma-separated list of font names, in order of preference. The name can be a font family (such as “Arial”), or a generic font family (such as “serif”), or “default” (to let the downstream player choose the font).
-        ///
-        /// * Leave blank to set the family to “monospace”.
+        /// Specifies the font family to include in the font data attached to the EBU-TT captions. Valid only if style_control is set to include. (If style_control is set to exclude, the font family is always set to monospaced.) Enter a list of font families, as a comma-separated list of font names, in order of preference. The name can be a font family (such as Arial), or a generic font family (such as serif), or default (to let the downstream player choose the font). Or leave blank to set the family to monospace. Note that you can specify only the font family. All other style information (color, bold, position and so on) is copied from the input captions. The size is always set to 100% to allow the downstream player to choose the size.
         public var fontFamily: Swift.String?
-        /// Specifies the style information (font color, font position, and so on) to include in the font data that is attached to the EBU-TT captions.
-        ///
-        /// * include: Take the style information (font color, font position, and so on) from the source captions and include that information in the font data attached to the EBU-TT captions. This option is valid only if the source captions are Embedded or Teletext.
-        ///
-        /// * exclude: In the font data attached to the EBU-TT captions, set the font family to "monospaced". Do not include any other style information.
+        /// Specifies the style information to include in the font data that is attached to the EBU-TT captions. INCLUDE: Take the style information from the source captions and include that information in the font data attached to the EBU-TT captions. This option is valid only if the source captions are Embedded or Teletext. EXCLUDE: Set the font family to monospaced. Do not include any other style information.
         public var styleControl: MediaLiveClientTypes.EbuTtDDestinationStyleControl?
 
         public init(
             copyrightHolder: Swift.String? = nil,
+            defaultFontSize: Swift.Int? = nil,
+            defaultLineHeight: Swift.Int? = nil,
             fillLineGap: MediaLiveClientTypes.EbuTtDFillLineGapControl? = nil,
             fontFamily: Swift.String? = nil,
             styleControl: MediaLiveClientTypes.EbuTtDDestinationStyleControl? = nil
         ) {
             self.copyrightHolder = copyrightHolder
+            self.defaultFontSize = defaultFontSize
+            self.defaultLineHeight = defaultLineHeight
             self.fillLineGap = fillLineGap
             self.fontFamily = fontFamily
             self.styleControl = styleControl
@@ -35995,6 +35991,8 @@ extension MediaLiveClientTypes.EbuTtDDestinationSettings {
     static func write(value: MediaLiveClientTypes.EbuTtDDestinationSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["copyrightHolder"].write(value.copyrightHolder)
+        try writer["defaultFontSize"].write(value.defaultFontSize)
+        try writer["defaultLineHeight"].write(value.defaultLineHeight)
         try writer["fillLineGap"].write(value.fillLineGap)
         try writer["fontFamily"].write(value.fontFamily)
         try writer["styleControl"].write(value.styleControl)
@@ -36007,6 +36005,8 @@ extension MediaLiveClientTypes.EbuTtDDestinationSettings {
         value.fillLineGap = try reader["fillLineGap"].readIfPresent()
         value.fontFamily = try reader["fontFamily"].readIfPresent()
         value.styleControl = try reader["styleControl"].readIfPresent()
+        value.defaultFontSize = try reader["defaultFontSize"].readIfPresent()
+        value.defaultLineHeight = try reader["defaultLineHeight"].readIfPresent()
         return value
     }
 }

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SignerClient: ClientRuntime.Client {
     public static let clientName = "SignerClient"
-    public static let version = "1.2.34"
+    public static let version = "1.2.35"
     let client: ClientRuntime.SdkHttpClient
     let config: SignerClient.SignerClientConfiguration
     let serviceName = "signer"

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.2.34"
+    public static let version = "1.2.35"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -13045,7 +13045,7 @@ extension ConnectClient {
 
     /// Performs the `ListRealtimeContactAnalysisSegmentsV2` operation on the `Connect` service.
     ///
-    /// Provides a list of analysis segments for a real-time analysis session.
+    /// Provides a list of analysis segments for a real-time chat analysis session. This API supports CHAT channels only. This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs.
     ///
     /// - Parameter ListRealtimeContactAnalysisSegmentsV2Input : [no documentation found]
     ///
@@ -18105,9 +18105,9 @@ extension ConnectClient {
 
     /// Performs the `TransferContact` operation on the `Connect` service.
     ///
-    /// Transfers contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements:
+    /// Transfers TASK or EMAIL contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements:
     ///
-    /// * Transfer is supported for only TASK contacts.
+    /// * Transfer is supported for only TASK and EMAIL contacts.
     ///
     /// * Do not use both QueueId and UserId in the same call.
     ///

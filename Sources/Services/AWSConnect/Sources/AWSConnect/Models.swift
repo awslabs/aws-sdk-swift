@@ -16901,7 +16901,7 @@ extension ConnectClientTypes {
 }
 
 public struct ListRealtimeContactAnalysisSegmentsV2Output: Swift.Sendable {
-    /// The channel of the contact. Voice will not be returned.
+    /// The channel of the contact. Only CHAT is supported. This API does not support VOICE. If you attempt to use it for the VOICE channel, an InvalidRequestException error occurs.
     /// This member is required.
     public var channel: ConnectClientTypes.RealTimeContactAnalysisSupportedChannel?
     /// If there are additional results, this is the token for the next set of results.
@@ -24211,9 +24211,11 @@ public struct CreateContactInput: Swift.Sendable {
     public var instanceId: Swift.String?
     /// The name of a the contact.
     public var name: Swift.String?
+    /// The ID of the previous contact when creating a transfer contact. This value can be provided only for external audio contacts. For more information, see [Integrate Amazon Connect Contact Lens with external voice systems](https://docs.aws.amazon.com/connect/latest/adminguide/contact-lens-integration.html) in the Amazon Connect Administrator Guide.
+    public var previousContactId: Swift.String?
     /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL | ATTACHMENT.
     public var references: [Swift.String: ConnectClientTypes.Reference]?
-    /// The identifier of the contact in this instance of Amazon Connect.
+    /// The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
     public var relatedContactId: Swift.String?
     /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.
     public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
@@ -24230,6 +24232,7 @@ public struct CreateContactInput: Swift.Sendable {
         initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
+        previousContactId: Swift.String? = nil,
         references: [Swift.String: ConnectClientTypes.Reference]? = nil,
         relatedContactId: Swift.String? = nil,
         segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
@@ -24244,6 +24247,7 @@ public struct CreateContactInput: Swift.Sendable {
         self.initiationMethod = initiationMethod
         self.instanceId = instanceId
         self.name = name
+        self.previousContactId = previousContactId
         self.references = references
         self.relatedContactId = relatedContactId
         self.segmentAttributes = segmentAttributes
@@ -24253,7 +24257,7 @@ public struct CreateContactInput: Swift.Sendable {
 
 extension CreateContactInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateContactInput(attributes: \(Swift.String(describing: attributes)), channel: \(Swift.String(describing: channel)), clientToken: \(Swift.String(describing: clientToken)), expiryDurationInMinutes: \(Swift.String(describing: expiryDurationInMinutes)), initiateAs: \(Swift.String(describing: initiateAs)), initiationMethod: \(Swift.String(describing: initiationMethod)), instanceId: \(Swift.String(describing: instanceId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), userInfo: \(Swift.String(describing: userInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateContactInput(attributes: \(Swift.String(describing: attributes)), channel: \(Swift.String(describing: channel)), clientToken: \(Swift.String(describing: clientToken)), expiryDurationInMinutes: \(Swift.String(describing: expiryDurationInMinutes)), initiateAs: \(Swift.String(describing: initiateAs)), initiationMethod: \(Swift.String(describing: initiationMethod)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), userInfo: \(Swift.String(describing: userInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateEvaluationFormInput: Swift.Sendable {
@@ -25234,7 +25238,7 @@ extension ConnectClientTypes {
         public var description: Swift.String?
         /// Information about the call disconnect experience.
         public var disconnectDetails: ConnectClientTypes.DisconnectDetails?
-        /// The timestamp when the customer endpoint disconnected from Amazon Connect.
+        /// The date and time that the customer endpoint disconnected from the current contact, in UTC time. In transfer scenarios, the DisconnectTimestamp of the previous contact indicates the date and time when that contact ended.
         public var disconnectTimestamp: Foundation.Date?
         /// The identifier for the contact.
         public var id: Swift.String?
@@ -29855,6 +29859,7 @@ extension CreateContactInput {
         try writer["InitiationMethod"].write(value.initiationMethod)
         try writer["InstanceId"].write(value.instanceId)
         try writer["Name"].write(value.name)
+        try writer["PreviousContactId"].write(value.previousContactId)
         try writer["References"].writeMap(value.references, valueWritingClosure: ConnectClientTypes.Reference.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["RelatedContactId"].write(value.relatedContactId)
         try writer["SegmentAttributes"].writeMap(value.segmentAttributes, valueWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)

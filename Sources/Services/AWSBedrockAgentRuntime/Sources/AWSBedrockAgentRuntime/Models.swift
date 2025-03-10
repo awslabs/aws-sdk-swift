@@ -238,12 +238,18 @@ extension BedrockAgentRuntimeClientTypes {
     public enum ActionGroupSignature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonCodeinterpreter
         case amazonUserinput
+        case anthropicBash
+        case anthropicComputer
+        case anthropicTexteditor
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ActionGroupSignature] {
             return [
                 .amazonCodeinterpreter,
-                .amazonUserinput
+                .amazonUserinput,
+                .anthropicBash,
+                .anthropicComputer,
+                .anthropicTexteditor
             ]
         }
 
@@ -256,6 +262,9 @@ extension BedrockAgentRuntimeClientTypes {
             switch self {
             case .amazonCodeinterpreter: return "AMAZON.CodeInterpreter"
             case .amazonUserinput: return "AMAZON.UserInput"
+            case .anthropicBash: return "ANTHROPIC.Bash"
+            case .anthropicComputer: return "ANTHROPIC.Computer"
+            case .anthropicTexteditor: return "ANTHROPIC.TextEditor"
             case let .sdkUnknown(s): return s
             }
         }
@@ -474,8 +483,22 @@ extension BedrockAgentRuntimeClientTypes {
         public var description: Swift.String?
         /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
         public var functionSchema: BedrockAgentRuntimeClientTypes.FunctionSchema?
-        /// To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
+        /// Specify a built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.
+        ///
+        /// * To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.
+        ///
+        /// * To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.
+        ///
+        /// * To allow your agent to use an Anthropic computer use tool, specify one of the following values. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+        ///
+        /// * ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.
+        ///
+        /// * ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.
+        ///
+        /// * ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
         public var parentActionGroupSignature: BedrockAgentRuntimeClientTypes.ActionGroupSignature?
+        /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+        public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
 
         public init(
             actionGroupExecutor: BedrockAgentRuntimeClientTypes.ActionGroupExecutor? = nil,
@@ -483,7 +506,8 @@ extension BedrockAgentRuntimeClientTypes {
             apiSchema: BedrockAgentRuntimeClientTypes.APISchema? = nil,
             description: Swift.String? = nil,
             functionSchema: BedrockAgentRuntimeClientTypes.FunctionSchema? = nil,
-            parentActionGroupSignature: BedrockAgentRuntimeClientTypes.ActionGroupSignature? = nil
+            parentActionGroupSignature: BedrockAgentRuntimeClientTypes.ActionGroupSignature? = nil,
+            parentActionGroupSignatureParams: [Swift.String: Swift.String]? = nil
         ) {
             self.actionGroupExecutor = actionGroupExecutor
             self.actionGroupName = actionGroupName
@@ -491,13 +515,14 @@ extension BedrockAgentRuntimeClientTypes {
             self.description = description
             self.functionSchema = functionSchema
             self.parentActionGroupSignature = parentActionGroupSignature
+            self.parentActionGroupSignatureParams = parentActionGroupSignatureParams
         }
     }
 }
 
 extension BedrockAgentRuntimeClientTypes.AgentActionGroup: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AgentActionGroup(actionGroupExecutor: \(Swift.String(describing: actionGroupExecutor)), apiSchema: \(Swift.String(describing: apiSchema)), functionSchema: \(Swift.String(describing: functionSchema)), parentActionGroupSignature: \(Swift.String(describing: parentActionGroupSignature)), actionGroupName: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "AgentActionGroup(actionGroupExecutor: \(Swift.String(describing: actionGroupExecutor)), apiSchema: \(Swift.String(describing: apiSchema)), functionSchema: \(Swift.String(describing: functionSchema)), parentActionGroupSignature: \(Swift.String(describing: parentActionGroupSignature)), parentActionGroupSignatureParams: \(Swift.String(describing: parentActionGroupSignatureParams)), actionGroupName: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
@@ -563,17 +588,87 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
+    public enum ImageInputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gif
+        case jpeg
+        case png
+        case webp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageInputFormat] {
+            return [
+                .gif,
+                .jpeg,
+                .png,
+                .webp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gif: return "gif"
+            case .jpeg: return "jpeg"
+            case .png: return "png"
+            case .webp: return "webp"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Details about the source of an input image in the result from a function in the action group invocation.
+    public enum ImageInputSource: Swift.Sendable {
+        /// The raw image bytes for the image. If you use an Amazon Web Services SDK, you don't need to encode the image bytes in base64.
+        case bytes(Foundation.Data)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Details about an image in the result from a function in the action group invocation. You can specify images only when the function is a computer use action. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    public struct ImageInput: Swift.Sendable {
+        /// The type of image in the result.
+        /// This member is required.
+        public var format: BedrockAgentRuntimeClientTypes.ImageInputFormat?
+        /// The source of the image in the result.
+        /// This member is required.
+        public var source: BedrockAgentRuntimeClientTypes.ImageInputSource?
+
+        public init(
+            format: BedrockAgentRuntimeClientTypes.ImageInputFormat? = nil,
+            source: BedrockAgentRuntimeClientTypes.ImageInputSource? = nil
+        ) {
+            self.format = format
+            self.source = source
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// Contains the body of the API response. This data type is used in the following API operations:
     ///
     /// * In the returnControlInvocationResults field of the [InvokeAgent request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_RequestSyntax)
     public struct ContentBody: Swift.Sendable {
         /// The body of the API response.
         public var body: Swift.String?
+        /// Lists details, including format and source, for the image in the response from the function call. You can specify only one image and the function in the returnControlInvocationResults must be a computer use action. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+        public var images: [BedrockAgentRuntimeClientTypes.ImageInput]?
 
         public init(
-            body: Swift.String? = nil
+            body: Swift.String? = nil,
+            images: [BedrockAgentRuntimeClientTypes.ImageInput]? = nil
         ) {
             self.body = body
+            self.images = images
         }
     }
 }
@@ -673,7 +768,7 @@ extension BedrockAgentRuntimeClientTypes {
         public var confirmationState: BedrockAgentRuntimeClientTypes.ConfirmationState?
         /// The name of the function that was called.
         public var function: Swift.String?
-        /// The response from the function call using the parameters. The key of the object is the content type (currently, only TEXT is supported). The response may be returned directly or from the Lambda function.
+        /// The response from the function call using the parameters. The response might be returned directly or from the Lambda function. Specify TEXT or IMAGES. The key of the object is the content type. You can only specify one type. If you specify IMAGES, you can specify only one image. You can specify images only when the function in the returnControlInvocationResults is a computer use action. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
         public var responseBody: [Swift.String: BedrockAgentRuntimeClientTypes.ContentBody]?
         /// Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt
         public var responseState: BedrockAgentRuntimeClientTypes.ResponseState?
@@ -7527,7 +7622,14 @@ extension BedrockAgentRuntimeClientTypes {
     public indirect enum RetrievalFilter: Swift.Sendable {
         /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value matches the value in this object. The following example would return data sources with an animal attribute whose value is cat: "equals": { "key": "animal", "value": "cat" }
         case equals(BedrockAgentRuntimeClientTypes.FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value doesn't match the value in this object are returned. The following example would return data sources that don't contain an animal attribute whose value is cat. "notEquals": { "key": "animal", "value": "cat" }
+        /// Knowledge base data sources are returned when:
+        ///
+        /// * It contains a metadata attribute whose name matches the key and whose value doesn't match the value in this object.
+        ///
+        /// * The key is not present in the document.
+        ///
+        ///
+        /// The following example would return data sources that don't contain an animal attribute whose value is cat. "notEquals": { "key": "animal", "value": "cat" }
         case notequals(BedrockAgentRuntimeClientTypes.FilterAttribute)
         /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is greater than the value in this object. The following example would return data sources with an year attribute whose value is greater than 1989: "greaterThan": { "key": "year", "value": 1989 }
         case greaterthan(BedrockAgentRuntimeClientTypes.FilterAttribute)
@@ -7841,11 +7943,15 @@ extension BedrockAgentRuntimeClientTypes {
         public var invocationId: Swift.String?
         /// An array of configurations, each of which applies to a knowledge base attached to the agent.
         public var knowledgeBaseConfigurations: [BedrockAgentRuntimeClientTypes.KnowledgeBaseConfiguration]?
-        /// Contains attributes that persist across a prompt and the values of those attributes. These attributes replace the $prompt_session_attributes$ placeholder variable in the orchestration prompt template. For more information, see [Prompt template placeholder variables](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html).
+        /// Contains attributes that persist across a prompt and the values of those attributes.
+        ///
+        /// * In orchestration prompt template, these attributes replace the $prompt_session_attributes$ placeholder variable. For more information, see [Prompt template placeholder variables](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html).
+        ///
+        /// * In [multi-agent collaboration](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-multi-agent-collaboration.html), the promptSessionAttributes will only be used by supervisor agent when $prompt_session_attributes$ is present in prompt template.
         public var promptSessionAttributes: [Swift.String: Swift.String]?
         /// Contains information about the results from the action group invocation. For more information, see [Return control to the agent developer](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html) and [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html). If you include this field, the inputText field will be ignored.
         public var returnControlInvocationResults: [BedrockAgentRuntimeClientTypes.InvocationResultMember]?
-        /// Contains attributes that persist across a session and the values of those attributes.
+        /// Contains attributes that persist across a session and the values of those attributes. If sessionAttributes are passed to a supervisor agent in [multi-agent collaboration](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-multi-agent-collaboration.html), it will be forwarded to all agent collaborators.
         public var sessionAttributes: [Swift.String: Swift.String]?
 
         public init(
@@ -10837,13 +10943,56 @@ extension BedrockAgentRuntimeClientTypes.ContentBody {
     static func write(value: BedrockAgentRuntimeClientTypes.ContentBody?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["body"].write(value.body)
+        try writer["images"].writeList(value.images, memberWritingClosure: BedrockAgentRuntimeClientTypes.ImageInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.ContentBody {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.ContentBody()
         value.body = try reader["body"].readIfPresent()
+        value.images = try reader["images"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.ImageInput.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ImageInput {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.ImageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["format"].write(value.format)
+        try writer["source"].write(value.source, with: BedrockAgentRuntimeClientTypes.ImageInputSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.ImageInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.ImageInput()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.source = try reader["source"].readIfPresent(with: BedrockAgentRuntimeClientTypes.ImageInputSource.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ImageInputSource {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.ImageInputSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .bytes(bytes):
+                try writer["bytes"].write(bytes)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.ImageInputSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "bytes":
+                return .bytes(try reader["bytes"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -12038,6 +12187,7 @@ extension BedrockAgentRuntimeClientTypes.AgentActionGroup {
         try writer["description"].write(value.description)
         try writer["functionSchema"].write(value.functionSchema, with: BedrockAgentRuntimeClientTypes.FunctionSchema.write(value:to:))
         try writer["parentActionGroupSignature"].write(value.parentActionGroupSignature)
+        try writer["parentActionGroupSignatureParams"].writeMap(value.parentActionGroupSignatureParams, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
