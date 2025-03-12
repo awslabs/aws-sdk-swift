@@ -132,7 +132,7 @@ class AWSHttpProtocolServiceClient(
      */
     private fun renderRegionConfigInitializer(properties: List<ConfigProperty>) {
         writer.openBlock(
-            "public convenience init(region: \$N) throws {",
+            "public init(region: \$N) throws {",
             "}",
             SwiftTypes.String,
         ) {

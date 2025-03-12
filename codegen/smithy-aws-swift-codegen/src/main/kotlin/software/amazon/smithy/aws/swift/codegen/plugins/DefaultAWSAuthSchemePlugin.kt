@@ -36,32 +36,30 @@ class DefaultAWSAuthSchemePlugin(
             writer.write("public init() {}")
             writer.write("")
             writer.openBlock(
-                "public func configureClient(clientConfiguration: \$N) throws {",
+                "public func configureClient(clientConfiguration: inout \$L) throws {",
                 "}",
-                ClientRuntimeTypes.Core.ClientConfiguration,
+                serviceConfig.typeName,
             ) {
-                writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
+                writer.write(
+                    "clientConfiguration.authSchemeResolver = \$L",
+                    "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
+                )
+                writer.write("clientConfiguration.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
+                writer.write(
+                    "clientConfiguration.awsCredentialIdentityResolver = try \$N.awsCredentialIdentityResolver()",
+                    AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
+                )
+                if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
                     writer.write(
-                        "config.authSchemeResolver = \$L",
-                        "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
+                        "clientConfiguration.bearerTokenIdentityResolver = try \$N()",
+                        AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain,
                     )
-                    writer.write("config.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
+                } else {
                     writer.write(
-                        "config.awsCredentialIdentityResolver = try \$N.awsCredentialIdentityResolver()",
-                        AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
+                        "clientConfiguration.bearerTokenIdentityResolver = \$N(token: \$N(token: \"\"))",
+                        SmithyIdentityTypes.StaticBearerTokenIdentityResolver,
+                        SmithyIdentityTypes.BearerTokenIdentity,
                     )
-                    if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
-                        writer.write(
-                            "config.bearerTokenIdentityResolver = try \$N()",
-                            AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain,
-                        )
-                    } else {
-                        writer.write(
-                            "config.bearerTokenIdentityResolver = \$N(token: \$N(token: \"\"))",
-                            SmithyIdentityTypes.StaticBearerTokenIdentityResolver,
-                            SmithyIdentityTypes.BearerTokenIdentity,
-                        )
-                    }
                 }
             }
         }
