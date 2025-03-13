@@ -653,7 +653,7 @@ extension CloudWatchLogsClientTypes {
         public var evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency?
         /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain timestamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message.
         public var filterPattern: Swift.String?
-        /// The ID of the KMS key assigned to this anomaly detector, if any.
+        /// The ARN of the KMS key assigned to this anomaly detector, if any.
         public var kmsKeyId: Swift.String?
         /// The date and time when this anomaly detector was most recently modified.
         public var lastModifiedTimeStamp: Swift.Int
@@ -1332,7 +1332,7 @@ public struct CreateLogAnomalyDetectorInput: Swift.Sendable {
     public var evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency?
     /// You can use this parameter to limit the anomaly detection model to examine only log events that match the pattern you specify here. For more information, see [Filter and Pattern Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
     public var filterPattern: Swift.String?
-    /// Optionally assigns a KMS key to secure this anomaly detector and its findings. If a key is assigned, the anomalies found and the model used by this detector are encrypted at rest with the key. If a key is assigned to an anomaly detector, a user must have permissions for both this key and for the anomaly detector to retrieve information about the anomalies that it finds. For more information about using a KMS key and to see the required IAM policy, see [Use a KMS key with an anomaly detector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/LogsAnomalyDetection-KMS.html).
+    /// Optionally assigns a KMS key to secure this anomaly detector and its findings. If a key is assigned, the anomalies found and the model used by this detector are encrypted at rest with the key. If a key is assigned to an anomaly detector, a user must have permissions for both this key and for the anomaly detector to retrieve information about the anomalies that it finds. Make sure the value provided is a valid KMS key ARN. For more information about using a KMS key and to see the required IAM policy, see [Use a KMS key with an anomaly detector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/LogsAnomalyDetection-KMS.html).
     public var kmsKeyId: Swift.String?
     /// An array containing the ARN of the log group that this anomaly detector will watch. You can specify only one log group ARN.
     /// This member is required.
@@ -3600,7 +3600,7 @@ extension CloudWatchLogsClientTypes {
 public struct FilterLogEventsOutput: Swift.Sendable {
     /// The matched events.
     public var events: [CloudWatchLogsClientTypes.FilteredLogEvent]?
-    /// The token to use when requesting the next set of items. The token expires after 24 hours.
+    /// The token to use when requesting the next set of items. The token expires after 24 hours. If the results don't include a nextToken, then pagination is finished.
     public var nextToken: Swift.String?
     /// Important As of May 15, 2020, this parameter is no longer supported. This parameter returns an empty list. Indicates which log streams have been searched and whether each has been searched completely.
     public var searchedLogStreams: [CloudWatchLogsClientTypes.SearchedLogStream]?
@@ -4169,7 +4169,7 @@ public struct GetLogAnomalyDetectorOutput: Swift.Sendable {
     public var evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency?
     /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain timestamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message.
     public var filterPattern: Swift.String?
-    /// The ID of the KMS key assigned to this anomaly detector, if any.
+    /// The ARN of the KMS key assigned to this anomaly detector, if any.
     public var kmsKeyId: Swift.String?
     /// The date and time when this anomaly detector was most recently modified.
     public var lastModifiedTimeStamp: Swift.Int

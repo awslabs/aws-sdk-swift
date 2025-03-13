@@ -7158,6 +7158,8 @@ extension Inspector2ClientTypes {
 
     /// Details about the step associated with a finding.
     public struct Step: Swift.Sendable {
+        /// The component ARN. The ARN can be null and is not displayed in the Amazon Web Services console.
+        public var componentArn: Swift.String?
         /// The component ID.
         /// This member is required.
         public var componentId: Swift.String?
@@ -7166,9 +7168,11 @@ extension Inspector2ClientTypes {
         public var componentType: Swift.String?
 
         public init(
+            componentArn: Swift.String? = nil,
             componentId: Swift.String? = nil,
             componentType: Swift.String? = nil
         ) {
+            self.componentArn = componentArn
             self.componentId = componentId
             self.componentType = componentType
         }
@@ -13951,6 +13955,7 @@ extension Inspector2ClientTypes.Step {
         var value = Inspector2ClientTypes.Step()
         value.componentId = try reader["componentId"].readIfPresent() ?? ""
         value.componentType = try reader["componentType"].readIfPresent() ?? ""
+        value.componentArn = try reader["componentArn"].readIfPresent()
         return value
     }
 }

@@ -18765,12 +18765,14 @@ extension MediaLiveClientTypes {
 
     /// Global Configuration Output Locking Mode
     public enum GlobalConfigurationOutputLockingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
         case epochLocking
         case pipelineLocking
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GlobalConfigurationOutputLockingMode] {
             return [
+                .disabled,
                 .epochLocking,
                 .pipelineLocking
             ]
@@ -18783,6 +18785,7 @@ extension MediaLiveClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .disabled: return "DISABLED"
             case .epochLocking: return "EPOCH_LOCKING"
             case .pipelineLocking: return "PIPELINE_LOCKING"
             case let .sdkUnknown(s): return s
@@ -18908,7 +18911,7 @@ extension MediaLiveClientTypes {
         public var inputEndAction: MediaLiveClientTypes.GlobalConfigurationInputEndAction?
         /// Settings for system actions when input is lost.
         public var inputLossBehavior: MediaLiveClientTypes.InputLossBehavior?
-        /// Indicates how MediaLive pipelines are synchronized. PIPELINE_LOCKING - MediaLive will attempt to synchronize the output of each pipeline to the other. EPOCH_LOCKING - MediaLive will attempt to synchronize the output of each pipeline to the Unix epoch.
+        /// Indicates how MediaLive pipelines are synchronized. PIPELINE_LOCKING - MediaLive will attempt to synchronize the output of each pipeline to the other. EPOCH_LOCKING - MediaLive will attempt to synchronize the output of each pipeline to the Unix epoch. DISABLED - MediaLive will not attempt to synchronize the output of pipelines. We advise against disabling output locking because it has negative side effects in most workflows. For more information, see the section about output locking (pipeline locking) in the Medialive user guide.
         public var outputLockingMode: MediaLiveClientTypes.GlobalConfigurationOutputLockingMode?
         /// Advanced output locking settings
         public var outputLockingSettings: MediaLiveClientTypes.OutputLockingSettings?

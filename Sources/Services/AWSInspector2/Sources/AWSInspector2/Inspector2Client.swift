@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Inspector2Client: ClientRuntime.Client {
     public static let clientName = "Inspector2Client"
-    public static let version = "1.2.35"
+    public static let version = "1.2.37"
     let client: ClientRuntime.SdkHttpClient
     let config: Inspector2Client.Inspector2ClientConfiguration
     let serviceName = "Inspector2"
@@ -361,7 +361,7 @@ extension Inspector2Client {
 extension Inspector2Client {
     /// Performs the `AssociateMember` operation on the `Inspector2` service.
     ///
-    /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response indicates the association was started but doesn’t indicate whether it completed. You can check if the association completed using [ListMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_ListMembers.html) for multiple accounts or [GetMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_GetMember.html) for a single account. An HTTP 402 response indicates the association failed because the organization size exceeded its limit. For information on limits, see [Amazon Inspector quotas](https://docs.aws.amazon.com/inspector/latest/user/quotas.html).
+    /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response indicates the association was successfully started, but doesn’t indicate whether it was completed. You can check if the association completed by using [ListMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_ListMembers.html) for multiple accounts or [GetMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_GetMember.html) for a single account.
     ///
     /// - Parameter AssociateMemberInput : [no documentation found]
     ///
