@@ -959,6 +959,8 @@ public struct GetChannelOutput: Swift.Sendable {
     public var modifiedAt: Foundation.Date?
     /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
+    /// The time that the channel was last reset.
+    public var resetAt: Foundation.Date?
     /// The comma-separated list of tag key:value pairs assigned to the channel.
     public var tags: [Swift.String: Swift.String]?
 
@@ -974,6 +976,7 @@ public struct GetChannelOutput: Swift.Sendable {
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
         outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
+        resetAt: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.arn = arn
@@ -987,6 +990,7 @@ public struct GetChannelOutput: Swift.Sendable {
         self.inputType = inputType
         self.modifiedAt = modifiedAt
         self.outputHeaderConfiguration = outputHeaderConfiguration
+        self.resetAt = resetAt
         self.tags = tags
     }
 }
@@ -1472,6 +1476,8 @@ extension MediaPackageV2ClientTypes {
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
         /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
         public var startTag: MediaPackageV2ClientTypes.StartTag?
+        /// When enabled, MediaPackage URL-encodes the query string for API requests for HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see [Amazon Web Services Signature Version 4 for API requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) in Identity and Access Management User Guide.
+        public var urlEncodeChildManifest: Swift.Bool?
 
         public init(
             childManifestName: Swift.String? = nil,
@@ -1480,7 +1486,8 @@ extension MediaPackageV2ClientTypes {
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
-            startTag: MediaPackageV2ClientTypes.StartTag? = nil
+            startTag: MediaPackageV2ClientTypes.StartTag? = nil,
+            urlEncodeChildManifest: Swift.Bool? = nil
         ) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
@@ -1489,6 +1496,7 @@ extension MediaPackageV2ClientTypes {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.urlEncodeChildManifest = urlEncodeChildManifest
         }
     }
 }
@@ -1512,6 +1520,8 @@ extension MediaPackageV2ClientTypes {
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
         /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
         public var startTag: MediaPackageV2ClientTypes.StartTag?
+        /// When enabled, MediaPackage URL-encodes the query string for API requests for LL-HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see [Amazon Web Services Signature Version 4 for API requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) in Identity and Access Management User Guide.
+        public var urlEncodeChildManifest: Swift.Bool?
 
         public init(
             childManifestName: Swift.String? = nil,
@@ -1520,7 +1530,8 @@ extension MediaPackageV2ClientTypes {
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
-            startTag: MediaPackageV2ClientTypes.StartTag? = nil
+            startTag: MediaPackageV2ClientTypes.StartTag? = nil,
+            urlEncodeChildManifest: Swift.Bool? = nil
         ) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
@@ -1529,6 +1540,7 @@ extension MediaPackageV2ClientTypes {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.urlEncodeChildManifest = urlEncodeChildManifest
         }
     }
 }
@@ -2108,6 +2120,8 @@ extension MediaPackageV2ClientTypes {
         /// The egress domain URL for stream delivery from MediaPackage.
         /// This member is required.
         public var url: Swift.String?
+        /// When enabled, MediaPackage URL-encodes the query string for API requests for HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see [Amazon Web Services Signature Version 4 for API requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) in Identity and Access Management User Guide.
+        public var urlEncodeChildManifest: Swift.Bool?
 
         public init(
             childManifestName: Swift.String? = nil,
@@ -2117,7 +2131,8 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
-            url: Swift.String? = nil
+            url: Swift.String? = nil,
+            urlEncodeChildManifest: Swift.Bool? = nil
         ) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
@@ -2127,6 +2142,7 @@ extension MediaPackageV2ClientTypes {
             self.scteHls = scteHls
             self.startTag = startTag
             self.url = url
+            self.urlEncodeChildManifest = urlEncodeChildManifest
         }
     }
 }
@@ -2153,6 +2169,8 @@ extension MediaPackageV2ClientTypes {
         /// The egress domain URL for stream delivery from MediaPackage.
         /// This member is required.
         public var url: Swift.String?
+        /// When enabled, MediaPackage URL-encodes the query string for API requests for LL-HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see [Amazon Web Services Signature Version 4 for API requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html) in Identity and Access Management User Guide.
+        public var urlEncodeChildManifest: Swift.Bool?
 
         public init(
             childManifestName: Swift.String? = nil,
@@ -2162,7 +2180,8 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
-            url: Swift.String? = nil
+            url: Swift.String? = nil,
+            urlEncodeChildManifest: Swift.Bool? = nil
         ) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
@@ -2172,6 +2191,7 @@ extension MediaPackageV2ClientTypes {
             self.scteHls = scteHls
             self.startTag = startTag
             self.url = url
+            self.urlEncodeChildManifest = urlEncodeChildManifest
         }
     }
 }
@@ -2338,6 +2358,8 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
     /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
     /// This member is required.
     public var originEndpointName: Swift.String?
+    /// The time that the origin endpoint was last reset.
+    public var resetAt: Foundation.Date?
     /// The segment configuration, including the segment name, duration, and other configuration values.
     /// This member is required.
     public var segment: MediaPackageV2ClientTypes.Segment?
@@ -2360,6 +2382,7 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]? = nil,
         modifiedAt: Foundation.Date? = nil,
         originEndpointName: Swift.String? = nil,
+        resetAt: Foundation.Date? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -2377,6 +2400,7 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
         self.modifiedAt = modifiedAt
         self.originEndpointName = originEndpointName
+        self.resetAt = resetAt
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
         self.tags = tags
@@ -2663,6 +2687,60 @@ public struct PutOriginEndpointPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct ResetOriginEndpointStateInput: Swift.Sendable {
+    /// The name of the channel group that contains the channel with the origin endpoint that you are resetting.
+    /// This member is required.
+    public var channelGroupName: Swift.String?
+    /// The name of the channel with the origin endpoint that you are resetting.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// The name of the origin endpoint that you are resetting.
+    /// This member is required.
+    public var originEndpointName: Swift.String?
+
+    public init(
+        channelGroupName: Swift.String? = nil,
+        channelName: Swift.String? = nil,
+        originEndpointName: Swift.String? = nil
+    ) {
+        self.channelGroupName = channelGroupName
+        self.channelName = channelName
+        self.originEndpointName = originEndpointName
+    }
+}
+
+public struct ResetOriginEndpointStateOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) associated with the endpoint that you just reset.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the channel group that contains the channel with the origin endpoint that you just reset.
+    /// This member is required.
+    public var channelGroupName: Swift.String?
+    /// The name of the channel with the origin endpoint that you just reset.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// The name of the origin endpoint that you just reset.
+    /// This member is required.
+    public var originEndpointName: Swift.String?
+    /// The time that the origin endpoint was last reset.
+    /// This member is required.
+    public var resetAt: Foundation.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        channelGroupName: Swift.String? = nil,
+        channelName: Swift.String? = nil,
+        originEndpointName: Swift.String? = nil,
+        resetAt: Foundation.Date? = nil
+    ) {
+        self.arn = arn
+        self.channelGroupName = channelGroupName
+        self.channelName = channelName
+        self.originEndpointName = originEndpointName
+        self.resetAt = resetAt
+    }
+}
+
 public struct UpdateOriginEndpointInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
@@ -2798,6 +2876,50 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
         self.tags = tags
+    }
+}
+
+public struct ResetChannelStateInput: Swift.Sendable {
+    /// The name of the channel group that contains the channel that you are resetting.
+    /// This member is required.
+    public var channelGroupName: Swift.String?
+    /// The name of the channel that you are resetting.
+    /// This member is required.
+    public var channelName: Swift.String?
+
+    public init(
+        channelGroupName: Swift.String? = nil,
+        channelName: Swift.String? = nil
+    ) {
+        self.channelGroupName = channelGroupName
+        self.channelName = channelName
+    }
+}
+
+public struct ResetChannelStateOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) associated with the channel that you just reset.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the channel group that contains the channel that you just reset.
+    /// This member is required.
+    public var channelGroupName: Swift.String?
+    /// The name of the channel that you just reset.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// The time that the channel was last reset.
+    /// This member is required.
+    public var resetAt: Foundation.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        channelGroupName: Swift.String? = nil,
+        channelName: Swift.String? = nil,
+        resetAt: Foundation.Date? = nil
+    ) {
+        self.arn = arn
+        self.channelGroupName = channelGroupName
+        self.channelName = channelName
+        self.resetAt = resetAt
     }
 }
 
@@ -4155,6 +4277,35 @@ extension PutOriginEndpointPolicyInput {
     }
 }
 
+extension ResetChannelStateInput {
+
+    static func urlPathProvider(_ value: ResetChannelStateInput) -> Swift.String? {
+        guard let channelGroupName = value.channelGroupName else {
+            return nil
+        }
+        guard let channelName = value.channelName else {
+            return nil
+        }
+        return "/channelGroup/\(channelGroupName.urlPercentEncoding())/channel/\(channelName.urlPercentEncoding())/reset"
+    }
+}
+
+extension ResetOriginEndpointStateInput {
+
+    static func urlPathProvider(_ value: ResetOriginEndpointStateInput) -> Swift.String? {
+        guard let channelGroupName = value.channelGroupName else {
+            return nil
+        }
+        guard let channelName = value.channelName else {
+            return nil
+        }
+        guard let originEndpointName = value.originEndpointName else {
+            return nil
+        }
+        return "/channelGroup/\(channelGroupName.urlPercentEncoding())/channel/\(channelName.urlPercentEncoding())/originEndpoint/\(originEndpointName.urlPercentEncoding())/reset"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -4528,6 +4679,7 @@ extension GetChannelOutput {
         value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.outputHeaderConfiguration = try reader["OutputHeaderConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.read(from:))
+        value.resetAt = try reader["ResetAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -4612,6 +4764,7 @@ extension GetOriginEndpointOutput {
         value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
+        value.resetAt = try reader["ResetAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -4709,6 +4862,37 @@ extension PutOriginEndpointPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutOriginEndpointPolicyOutput {
         return PutOriginEndpointPolicyOutput()
+    }
+}
+
+extension ResetChannelStateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ResetChannelStateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ResetChannelStateOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.resetAt = try reader["ResetAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ResetOriginEndpointStateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ResetOriginEndpointStateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ResetOriginEndpointStateOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
+        value.resetAt = try reader["ResetAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 
@@ -5214,6 +5398,44 @@ enum PutOriginEndpointPolicyOutputError {
     }
 }
 
+enum ResetChannelStateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ResetOriginEndpointStateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5681,6 +5903,7 @@ extension MediaPackageV2ClientTypes.GetHlsManifestConfiguration {
         value.scteHls = try reader["ScteHls"].readIfPresent(with: MediaPackageV2ClientTypes.ScteHls.read(from:))
         value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
         value.startTag = try reader["StartTag"].readIfPresent(with: MediaPackageV2ClientTypes.StartTag.read(from:))
+        value.urlEncodeChildManifest = try reader["UrlEncodeChildManifest"].readIfPresent()
         return value
     }
 }
@@ -5753,6 +5976,7 @@ extension MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration {
         value.scteHls = try reader["ScteHls"].readIfPresent(with: MediaPackageV2ClientTypes.ScteHls.read(from:))
         value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
         value.startTag = try reader["StartTag"].readIfPresent(with: MediaPackageV2ClientTypes.StartTag.read(from:))
+        value.urlEncodeChildManifest = try reader["UrlEncodeChildManifest"].readIfPresent()
         return value
     }
 }
@@ -5945,6 +6169,7 @@ extension MediaPackageV2ClientTypes.CreateHlsManifestConfiguration {
         try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
         try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
         try writer["StartTag"].write(value.startTag, with: MediaPackageV2ClientTypes.StartTag.write(value:to:))
+        try writer["UrlEncodeChildManifest"].write(value.urlEncodeChildManifest)
     }
 }
 
@@ -5959,6 +6184,7 @@ extension MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration {
         try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
         try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
         try writer["StartTag"].write(value.startTag, with: MediaPackageV2ClientTypes.StartTag.write(value:to:))
+        try writer["UrlEncodeChildManifest"].write(value.urlEncodeChildManifest)
     }
 }
 

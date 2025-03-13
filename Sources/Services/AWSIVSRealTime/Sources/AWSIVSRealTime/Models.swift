@@ -787,6 +787,21 @@ public struct CreateParticipantTokenOutput: Swift.Sendable {
 
 extension IVSRealTimeClientTypes {
 
+    /// An object representing a configuration of participant HLS recordings for individual participant recording.
+    public struct ParticipantRecordingHlsConfiguration: Swift.Sendable {
+        /// Defines the target duration for recorded segments generated when recording a stage participant. Segments may have durations longer than the specified value when needed to ensure each segment begins with a keyframe. Default: 6.
+        public var targetSegmentDurationSeconds: Swift.Int?
+
+        public init(
+            targetSegmentDurationSeconds: Swift.Int? = 6
+        ) {
+            self.targetSegmentDurationSeconds = targetSegmentDurationSeconds
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
     public enum ParticipantRecordingMediaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case audioOnly
         case audioVideo
@@ -902,6 +917,8 @@ extension IVSRealTimeClientTypes {
 
     /// Object specifying a configuration for individual participant recording.
     public struct AutoParticipantRecordingConfiguration: Swift.Sendable {
+        /// HLS configuration object for individual participant recording.
+        public var hlsConfiguration: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration?
         /// Types of media to be recorded. Default: AUDIO_VIDEO.
         public var mediaTypes: [IVSRealTimeClientTypes.ParticipantRecordingMediaType]?
         /// If a stage publisher disconnects and then reconnects within the specified interval, the multiple recordings will be considered a single recording and merged together. The default value is 0, which disables merging.
@@ -913,11 +930,13 @@ extension IVSRealTimeClientTypes {
         public var thumbnailConfiguration: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration?
 
         public init(
+            hlsConfiguration: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration? = nil,
             mediaTypes: [IVSRealTimeClientTypes.ParticipantRecordingMediaType]? = nil,
             recordingReconnectWindowSeconds: Swift.Int = 0,
             storageConfigurationArn: Swift.String? = nil,
             thumbnailConfiguration: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration? = nil
         ) {
+            self.hlsConfiguration = hlsConfiguration
             self.mediaTypes = mediaTypes
             self.recordingReconnectWindowSeconds = recordingReconnectWindowSeconds
             self.storageConfigurationArn = storageConfigurationArn
@@ -1304,15 +1323,34 @@ extension IVSRealTimeClientTypes {
 
 extension IVSRealTimeClientTypes {
 
+    /// An object representing a configuration of HLS recordings for server-side composition.
+    public struct CompositionRecordingHlsConfiguration: Swift.Sendable {
+        /// Defines the target duration for recorded segments generated when using composite recording. Segments may have durations shorter than the specified value when needed to ensure each segment begins with a keyframe. Default: 2.
+        public var targetSegmentDurationSeconds: Swift.Int?
+
+        public init(
+            targetSegmentDurationSeconds: Swift.Int? = 2
+        ) {
+            self.targetSegmentDurationSeconds = targetSegmentDurationSeconds
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
     /// An object representing a configuration to record a stage stream.
     public struct RecordingConfiguration: Swift.Sendable {
         /// The recording format for storing a recording in Amazon S3.
         public var format: IVSRealTimeClientTypes.RecordingConfigurationFormat?
+        /// An HLS configuration object to return information about how the recording will be configured.
+        public var hlsConfiguration: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration?
 
         public init(
-            format: IVSRealTimeClientTypes.RecordingConfigurationFormat? = nil
+            format: IVSRealTimeClientTypes.RecordingConfigurationFormat? = nil,
+            hlsConfiguration: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration? = nil
         ) {
             self.format = format
+            self.hlsConfiguration = hlsConfiguration
         }
     }
 }
@@ -2026,7 +2064,7 @@ extension IVSRealTimeClientTypes {
         public var published: Swift.Bool
         /// Name of the S3 bucket to where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
         public var recordingS3BucketName: Swift.String?
-        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled. If individual participant recording merge is enabled, and if a stage publisher disconnects from a stage and then reconnects, IVS tries to record to the same S3 prefix as the previous session. See [ Merge Fragmented Individual Participant Recordings].
+        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
         public var recordingS3Prefix: Swift.String?
         /// The participant’s recording state.
         public var recordingState: IVSRealTimeClientTypes.ParticipantRecordingState?
@@ -5274,6 +5312,7 @@ extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
 
     static func write(value: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["hlsConfiguration"].write(value.hlsConfiguration, with: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration.write(value:to:))
         try writer["mediaTypes"].writeList(value.mediaTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ParticipantRecordingMediaType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["recordingReconnectWindowSeconds"].write(value.recordingReconnectWindowSeconds)
         try writer["storageConfigurationArn"].write(value.storageConfigurationArn)
@@ -5287,6 +5326,22 @@ extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
         value.mediaTypes = try reader["mediaTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ParticipantRecordingMediaType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.thumbnailConfiguration = try reader["thumbnailConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration.read(from:))
         value.recordingReconnectWindowSeconds = try reader["recordingReconnectWindowSeconds"].readIfPresent() ?? 0
+        value.hlsConfiguration = try reader["hlsConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetSegmentDurationSeconds"].write(value.targetSegmentDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration()
+        value.targetSegmentDurationSeconds = try reader["targetSegmentDurationSeconds"].readIfPresent()
         return value
     }
 }
@@ -5452,12 +5507,29 @@ extension IVSRealTimeClientTypes.RecordingConfiguration {
     static func write(value: IVSRealTimeClientTypes.RecordingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["format"].write(value.format)
+        try writer["hlsConfiguration"].write(value.hlsConfiguration, with: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.RecordingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IVSRealTimeClientTypes.RecordingConfiguration()
+        value.hlsConfiguration = try reader["hlsConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration.read(from:))
         value.format = try reader["format"].readIfPresent()
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetSegmentDurationSeconds"].write(value.targetSegmentDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration()
+        value.targetSegmentDurationSeconds = try reader["targetSegmentDurationSeconds"].readIfPresent()
         return value
     }
 }

@@ -357,7 +357,7 @@ public struct CreateAppInput: Swift.Sendable {
     public var buildSpec: Swift.String?
     /// The cache configuration for the Amplify app.
     public var cacheConfig: AmplifyClientTypes.CacheConfig?
-    /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
+    /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
     public var computeRoleArn: Swift.String?
     /// The custom HTTP headers for an Amplify app.
     public var customHeaders: Swift.String?
@@ -581,7 +581,7 @@ extension AmplifyClientTypes {
         public var buildSpec: Swift.String?
         /// The cache configuration for the Amplify app. If you don't specify the cache configuration type, Amplify uses the default AMPLIFY_MANAGED setting.
         public var cacheConfig: AmplifyClientTypes.CacheConfig?
-        /// The Amazon Resource Name (ARN) of the IAM role for an SSR app. The Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role for an SSR app. The Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
         public var computeRoleArn: Swift.String?
         /// A timestamp of when Amplify created the application.
         /// This member is required.
@@ -845,7 +845,7 @@ public struct CreateBranchInput: Swift.Sendable {
     public var branchName: Swift.String?
     /// The build specification (build spec) for the branch.
     public var buildSpec: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
+    /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
     public var computeRoleArn: Swift.String?
     /// The description for the branch.
     public var description: Swift.String?
@@ -861,6 +861,8 @@ public struct CreateBranchInput: Swift.Sendable {
     public var enablePerformanceMode: Swift.Bool?
     /// Enables pull request previews for this branch.
     public var enablePullRequestPreview: Swift.Bool?
+    /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see [Skew protection for Amplify deployments](https://docs.aws.amazon.com/amplify/latest/userguide/skew-protection.html) in the Amplify User Guide.
+    public var enableSkewProtection: Swift.Bool?
     /// The environment variables for the branch.
     public var environmentVariables: [Swift.String: Swift.String]?
     /// The framework for the branch.
@@ -889,6 +891,7 @@ public struct CreateBranchInput: Swift.Sendable {
         enableNotification: Swift.Bool? = nil,
         enablePerformanceMode: Swift.Bool? = nil,
         enablePullRequestPreview: Swift.Bool? = nil,
+        enableSkewProtection: Swift.Bool? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
         framework: Swift.String? = nil,
         pullRequestEnvironmentName: Swift.String? = nil,
@@ -910,6 +913,7 @@ public struct CreateBranchInput: Swift.Sendable {
         self.enableNotification = enableNotification
         self.enablePerformanceMode = enablePerformanceMode
         self.enablePullRequestPreview = enablePullRequestPreview
+        self.enableSkewProtection = enableSkewProtection
         self.environmentVariables = environmentVariables
         self.framework = framework
         self.pullRequestEnvironmentName = pullRequestEnvironmentName
@@ -921,7 +925,7 @@ public struct CreateBranchInput: Swift.Sendable {
 
 extension CreateBranchInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateBranchInput(appId: \(Swift.String(describing: appId)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), computeRoleArn: \(Swift.String(describing: computeRoleArn)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "CreateBranchInput(appId: \(Swift.String(describing: appId)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), computeRoleArn: \(Swift.String(describing: computeRoleArn)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), enableSkewProtection: \(Swift.String(describing: enableSkewProtection)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 extension AmplifyClientTypes {
@@ -947,7 +951,7 @@ extension AmplifyClientTypes {
         public var branchName: Swift.String?
         /// The build specification (build spec) content for the branch of an Amplify app.
         public var buildSpec: Swift.String?
-        /// The Amazon Resource Name (ARN) of the IAM role for a branch of an SSR app. The Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role for a branch of an SSR app. The Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
         public var computeRoleArn: Swift.String?
         /// A timestamp of when Amplify created the branch.
         /// This member is required.
@@ -977,6 +981,8 @@ extension AmplifyClientTypes {
         /// Enables pull request previews for the branch.
         /// This member is required.
         public var enablePullRequestPreview: Swift.Bool?
+        /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see [Skew protection for Amplify deployments](https://docs.aws.amazon.com/amplify/latest/userguide/skew-protection.html) in the Amplify User Guide.
+        public var enableSkewProtection: Swift.Bool?
         /// The environment variables specific to a branch of an Amplify app.
         /// This member is required.
         public var environmentVariables: [Swift.String: Swift.String]?
@@ -1024,6 +1030,7 @@ extension AmplifyClientTypes {
             enableNotification: Swift.Bool? = nil,
             enablePerformanceMode: Swift.Bool? = nil,
             enablePullRequestPreview: Swift.Bool? = nil,
+            enableSkewProtection: Swift.Bool? = nil,
             environmentVariables: [Swift.String: Swift.String]? = nil,
             framework: Swift.String? = nil,
             pullRequestEnvironmentName: Swift.String? = nil,
@@ -1054,6 +1061,7 @@ extension AmplifyClientTypes {
             self.enableNotification = enableNotification
             self.enablePerformanceMode = enablePerformanceMode
             self.enablePullRequestPreview = enablePullRequestPreview
+            self.enableSkewProtection = enableSkewProtection
             self.environmentVariables = environmentVariables
             self.framework = framework
             self.pullRequestEnvironmentName = pullRequestEnvironmentName
@@ -1070,7 +1078,7 @@ extension AmplifyClientTypes {
 
 extension AmplifyClientTypes.Branch: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Branch(activeJobId: \(Swift.String(describing: activeJobId)), associatedResources: \(Swift.String(describing: associatedResources)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchArn: \(Swift.String(describing: branchArn)), branchName: \(Swift.String(describing: branchName)), computeRoleArn: \(Swift.String(describing: computeRoleArn)), createTime: \(Swift.String(describing: createTime)), customDomains: \(Swift.String(describing: customDomains)), description: \(Swift.String(describing: description)), destinationBranch: \(Swift.String(describing: destinationBranch)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), sourceBranch: \(Swift.String(describing: sourceBranch)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), thumbnailUrl: \(Swift.String(describing: thumbnailUrl)), totalNumberOfJobs: \(Swift.String(describing: totalNumberOfJobs)), ttl: \(Swift.String(describing: ttl)), updateTime: \(Swift.String(describing: updateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "Branch(activeJobId: \(Swift.String(describing: activeJobId)), associatedResources: \(Swift.String(describing: associatedResources)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchArn: \(Swift.String(describing: branchArn)), branchName: \(Swift.String(describing: branchName)), computeRoleArn: \(Swift.String(describing: computeRoleArn)), createTime: \(Swift.String(describing: createTime)), customDomains: \(Swift.String(describing: customDomains)), description: \(Swift.String(describing: description)), destinationBranch: \(Swift.String(describing: destinationBranch)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), enableSkewProtection: \(Swift.String(describing: enableSkewProtection)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), sourceBranch: \(Swift.String(describing: sourceBranch)), stage: \(Swift.String(describing: stage)), tags: \(Swift.String(describing: tags)), thumbnailUrl: \(Swift.String(describing: thumbnailUrl)), totalNumberOfJobs: \(Swift.String(describing: totalNumberOfJobs)), ttl: \(Swift.String(describing: ttl)), updateTime: \(Swift.String(describing: updateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 /// The result structure for create branch request.
@@ -2776,7 +2784,7 @@ public struct UpdateAppInput: Swift.Sendable {
     public var buildSpec: Swift.String?
     /// The cache configuration for the Amplify app.
     public var cacheConfig: AmplifyClientTypes.CacheConfig?
-    /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
+    /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
     public var computeRoleArn: Swift.String?
     /// The custom HTTP headers for an Amplify app.
     public var customHeaders: Swift.String?
@@ -2886,7 +2894,7 @@ public struct UpdateBranchInput: Swift.Sendable {
     public var branchName: Swift.String?
     /// The build specification (build spec) for the branch.
     public var buildSpec: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
+    /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see [Adding an SSR Compute role](https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html) in the Amplify User Guide.
     public var computeRoleArn: Swift.String?
     /// The description for the branch.
     public var description: Swift.String?
@@ -2902,6 +2910,8 @@ public struct UpdateBranchInput: Swift.Sendable {
     public var enablePerformanceMode: Swift.Bool?
     /// Enables pull request previews for this branch.
     public var enablePullRequestPreview: Swift.Bool?
+    /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see [Skew protection for Amplify deployments](https://docs.aws.amazon.com/amplify/latest/userguide/skew-protection.html) in the Amplify User Guide.
+    public var enableSkewProtection: Swift.Bool?
     /// The environment variables for the branch.
     public var environmentVariables: [Swift.String: Swift.String]?
     /// The framework for the branch.
@@ -2928,6 +2938,7 @@ public struct UpdateBranchInput: Swift.Sendable {
         enableNotification: Swift.Bool? = nil,
         enablePerformanceMode: Swift.Bool? = nil,
         enablePullRequestPreview: Swift.Bool? = nil,
+        enableSkewProtection: Swift.Bool? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
         framework: Swift.String? = nil,
         pullRequestEnvironmentName: Swift.String? = nil,
@@ -2948,6 +2959,7 @@ public struct UpdateBranchInput: Swift.Sendable {
         self.enableNotification = enableNotification
         self.enablePerformanceMode = enablePerformanceMode
         self.enablePullRequestPreview = enablePullRequestPreview
+        self.enableSkewProtection = enableSkewProtection
         self.environmentVariables = environmentVariables
         self.framework = framework
         self.pullRequestEnvironmentName = pullRequestEnvironmentName
@@ -2958,7 +2970,7 @@ public struct UpdateBranchInput: Swift.Sendable {
 
 extension UpdateBranchInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateBranchInput(appId: \(Swift.String(describing: appId)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), computeRoleArn: \(Swift.String(describing: computeRoleArn)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "UpdateBranchInput(appId: \(Swift.String(describing: appId)), backend: \(Swift.String(describing: backend)), backendEnvironmentArn: \(Swift.String(describing: backendEnvironmentArn)), branchName: \(Swift.String(describing: branchName)), computeRoleArn: \(Swift.String(describing: computeRoleArn)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), enableAutoBuild: \(Swift.String(describing: enableAutoBuild)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableNotification: \(Swift.String(describing: enableNotification)), enablePerformanceMode: \(Swift.String(describing: enablePerformanceMode)), enablePullRequestPreview: \(Swift.String(describing: enablePullRequestPreview)), enableSkewProtection: \(Swift.String(describing: enableSkewProtection)), environmentVariables: \(Swift.String(describing: environmentVariables)), framework: \(Swift.String(describing: framework)), pullRequestEnvironmentName: \(Swift.String(describing: pullRequestEnvironmentName)), stage: \(Swift.String(describing: stage)), ttl: \(Swift.String(describing: ttl)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 /// The result structure for the update branch request.
@@ -3670,6 +3682,7 @@ extension CreateBranchInput {
         try writer["enableNotification"].write(value.enableNotification)
         try writer["enablePerformanceMode"].write(value.enablePerformanceMode)
         try writer["enablePullRequestPreview"].write(value.enablePullRequestPreview)
+        try writer["enableSkewProtection"].write(value.enableSkewProtection)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["framework"].write(value.framework)
         try writer["pullRequestEnvironmentName"].write(value.pullRequestEnvironmentName)
@@ -3793,6 +3806,7 @@ extension UpdateBranchInput {
         try writer["enableNotification"].write(value.enableNotification)
         try writer["enablePerformanceMode"].write(value.enablePerformanceMode)
         try writer["enablePullRequestPreview"].write(value.enablePullRequestPreview)
+        try writer["enableSkewProtection"].write(value.enableSkewProtection)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["framework"].write(value.framework)
         try writer["pullRequestEnvironmentName"].write(value.pullRequestEnvironmentName)
@@ -5165,6 +5179,7 @@ extension AmplifyClientTypes.Branch {
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.enableAutoBuild = try reader["enableAutoBuild"].readIfPresent() ?? false
+        value.enableSkewProtection = try reader["enableSkewProtection"].readIfPresent()
         value.customDomains = try reader["customDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.framework = try reader["framework"].readIfPresent() ?? ""
         value.activeJobId = try reader["activeJobId"].readIfPresent() ?? ""

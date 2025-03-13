@@ -5791,21 +5791,25 @@ extension S3ControlClientTypes.Credentials: Swift.CustomDebugStringConvertible {
 public struct GetDataAccessOutput: Swift.Sendable {
     /// The temporary credential token that S3 Access Grants vends.
     public var credentials: S3ControlClientTypes.Credentials?
+    /// The user, group, or role that was granted access to the S3 location scope. For directory identities, this API also returns the grants of the IAM role used for the identity-aware request. For more information on identity-aware sessions, see [Granting permissions to use identity-aware console sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_sts-setcontext.html).
+    public var grantee: S3ControlClientTypes.Grantee?
     /// The S3 URI path of the data to which you are being granted temporary access credentials.
     public var matchedGrantTarget: Swift.String?
 
     public init(
         credentials: S3ControlClientTypes.Credentials? = nil,
+        grantee: S3ControlClientTypes.Grantee? = nil,
         matchedGrantTarget: Swift.String? = nil
     ) {
         self.credentials = credentials
+        self.grantee = grantee
         self.matchedGrantTarget = matchedGrantTarget
     }
 }
 
 extension GetDataAccessOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDataAccessOutput(matchedGrantTarget: \(Swift.String(describing: matchedGrantTarget)), credentials: \"CONTENT_REDACTED\")"}
+        "GetDataAccessOutput(grantee: \(Swift.String(describing: grantee)), matchedGrantTarget: \(Swift.String(describing: matchedGrantTarget)), credentials: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetJobTaggingInput: Swift.Sendable {
@@ -11047,6 +11051,7 @@ extension GetDataAccessOutput {
         let reader = responseReader
         var value = GetDataAccessOutput()
         value.credentials = try reader["Credentials"].readIfPresent(with: S3ControlClientTypes.Credentials.read(from:))
+        value.grantee = try reader["Grantee"].readIfPresent(with: S3ControlClientTypes.Grantee.read(from:))
         value.matchedGrantTarget = try reader["MatchedGrantTarget"].readIfPresent()
         return value
     }
