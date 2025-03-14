@@ -50,7 +50,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
             )
         }
 
-        guard let identity = (identity as? AWSCredentialIdentity) ?? (identity as? S3ExpressIdentity)?.awsCredentialIdentity else {
+        guard let identity = identity.asAWSCredentialIdentity else {
             throw Smithy.ClientError.authError(
                 "Identity passed to the AWSSigV4Signer must be of type Credentials."
             )
@@ -273,6 +273,14 @@ extension SigningConfig {
         default:
             return false
         }
+    }
+}
+
+private extension Identity {
+
+    var asAWSCredentialIdentity: AWSCredentialIdentity? {
+        (self as? AWSCredentialIdentity) ??
+        (self as? S3ExpressIdentity)?.awsCredentialIdentity
     }
 }
 
