@@ -18,7 +18,6 @@ import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 
 class S3ExpressIntegration : SwiftIntegration {
-
     override fun enabledForService(
         model: Model,
         settings: SwiftSettings,
@@ -27,7 +26,7 @@ class S3ExpressIntegration : SwiftIntegration {
     override fun writeAdditionalFiles(
         ctx: SwiftCodegenContext,
         protocolGenerationContext: ProtocolGenerator.GenerationContext,
-        delegator: SwiftDelegator
+        delegator: SwiftDelegator,
     ) {
         delegator.useFileWriter("Sources/AWSS3/S3Client+S3Express.swift") { writer ->
             writer.write("")
@@ -44,7 +43,9 @@ class S3ExpressIntegration : SwiftIntegration {
                     writer.write("let client = S3Client(config: config)")
                     writer.write("let input = CreateSessionInput(bucket: bucket)")
                     writer.write("let output = try await client.createSession(input: input)")
-                    writer.write("guard let creds = output.credentials, let accessKeyID = creds.accessKeyId, let secretAccessKey = creds.secretAccessKey, let sessionToken = creds.sessionToken else { fatalError() }")
+                    writer.write(
+                        "guard let creds = output.credentials, let accessKeyID = creds.accessKeyId, let secretAccessKey = creds.secretAccessKey, let sessionToken = creds.sessionToken else { fatalError() }",
+                    )
                     writer.openBlock("return \$N(", ")", AWSSDKIdentityTypes.S3ExpressIdentity) {
                         writer.write("accessKeyID: accessKeyID,")
                         writer.write("secretAccessKey: secretAccessKey,")
@@ -56,20 +57,20 @@ class S3ExpressIntegration : SwiftIntegration {
         }
     }
 
-    override fun clientConfigurations(ctx: ProtocolGenerator.GenerationContext): List<ClientConfiguration> {
-        return super.clientConfigurations(ctx) + listOf(S3ExpressClientConfiguration())
-    }
+    override fun clientConfigurations(ctx: ProtocolGenerator.GenerationContext): List<ClientConfiguration> =
+        super.clientConfigurations(ctx) + listOf(S3ExpressClientConfiguration())
 }
 
-class S3ExpressClientConfiguration: ClientConfiguration {
-
+class S3ExpressClientConfiguration : ClientConfiguration {
     override val swiftProtocolName: Symbol?
         get() = null
 
-    override fun getProperties(ctx: ProtocolGenerator.GenerationContext): Set<ConfigProperty> {
-        return setOf(ConfigProperty(
-            "s3ExpressIdentityResolver",
-            AWSSDKIdentityTypes.S3ExpressIdentityResolver.toGeneric(),
-            DefaultProvider({ it.format("\$N()", AWSSDKIdentityTypes.DefaultS3ExpressIdentityResolver) }, false, false)))
-    }
+    override fun getProperties(ctx: ProtocolGenerator.GenerationContext): Set<ConfigProperty> =
+        setOf(
+            ConfigProperty(
+                "s3ExpressIdentityResolver",
+                AWSSDKIdentityTypes.S3ExpressIdentityResolver.toGeneric(),
+                DefaultProvider({ it.format("\$N()", AWSSDKIdentityTypes.DefaultS3ExpressIdentityResolver) }, false, false),
+            ),
+        )
 }
