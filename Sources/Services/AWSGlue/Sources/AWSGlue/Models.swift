@@ -275,6 +275,35 @@ extension GlueClientTypes {
     }
 }
 
+extension GlueClientTypes {
+
+    public enum AllowFullTableExternalDataAccessEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `false`
+        case `true`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AllowFullTableExternalDataAccessEnum] {
+            return [
+                .false,
+                .true
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .false: return "False"
+            case .true: return "True"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// A resource to be created or added already exists.
 public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -10007,6 +10036,8 @@ extension GlueClientTypes {
 
     /// A structure that describes catalog properties.
     public struct CatalogInput: Swift.Sendable {
+        /// Allows third-party engines to access data in Amazon S3 locations that are registered with Lake Formation.
+        public var allowFullTableExternalDataAccess: GlueClientTypes.AllowFullTableExternalDataAccessEnum?
         /// A CatalogProperties object that specifies data lake access properties and other custom properties.
         public var catalogProperties: GlueClientTypes.CatalogProperties?
         /// An array of PrincipalPermissions objects. Creates a set of default permissions on the database(s) for principals. Used by Amazon Web Services Lake Formation. Typically should be explicitly set as an empty list.
@@ -10023,6 +10054,7 @@ extension GlueClientTypes {
         public var targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog?
 
         public init(
+            allowFullTableExternalDataAccess: GlueClientTypes.AllowFullTableExternalDataAccessEnum? = nil,
             catalogProperties: GlueClientTypes.CatalogProperties? = nil,
             createDatabaseDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
             createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
@@ -10031,6 +10063,7 @@ extension GlueClientTypes {
             parameters: [Swift.String: Swift.String]? = nil,
             targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog? = nil
         ) {
+            self.allowFullTableExternalDataAccess = allowFullTableExternalDataAccess
             self.catalogProperties = catalogProperties
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
             self.createTableDefaultPermissions = createTableDefaultPermissions
@@ -15844,6 +15877,8 @@ extension GlueClientTypes {
 
     /// The catalog object represents a logical grouping of databases in the Glue Data Catalog or a federated source. You can now create a Redshift-federated catalog or a catalog containing resource links to Redshift databases in another account or region.
     public struct Catalog: Swift.Sendable {
+        /// Allows third-party engines to access data in Amazon S3 locations that are registered with Lake Formation.
+        public var allowFullTableExternalDataAccess: GlueClientTypes.AllowFullTableExternalDataAccessEnum?
         /// The ID of the catalog. To grant access to the default catalog, this field should not be provided.
         public var catalogId: Swift.String?
         /// A CatalogProperties object that specifies data lake access properties and other custom properties.
@@ -15871,6 +15906,7 @@ extension GlueClientTypes {
         public var updateTime: Foundation.Date?
 
         public init(
+            allowFullTableExternalDataAccess: GlueClientTypes.AllowFullTableExternalDataAccessEnum? = nil,
             catalogId: Swift.String? = nil,
             catalogProperties: GlueClientTypes.CatalogPropertiesOutput? = nil,
             createDatabaseDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
@@ -15884,6 +15920,7 @@ extension GlueClientTypes {
             targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog? = nil,
             updateTime: Foundation.Date? = nil
         ) {
+            self.allowFullTableExternalDataAccess = allowFullTableExternalDataAccess
             self.catalogId = catalogId
             self.catalogProperties = catalogProperties
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
@@ -44816,6 +44853,7 @@ extension GlueClientTypes.Catalog {
         value.catalogProperties = try reader["CatalogProperties"].readIfPresent(with: GlueClientTypes.CatalogPropertiesOutput.read(from:))
         value.createTableDefaultPermissions = try reader["CreateTableDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createDatabaseDefaultPermissions = try reader["CreateDatabaseDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowFullTableExternalDataAccess = try reader["AllowFullTableExternalDataAccess"].readIfPresent()
         return value
     }
 }
@@ -46679,6 +46717,7 @@ extension GlueClientTypes.CatalogInput {
 
     static func write(value: GlueClientTypes.CatalogInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AllowFullTableExternalDataAccess"].write(value.allowFullTableExternalDataAccess)
         try writer["CatalogProperties"].write(value.catalogProperties, with: GlueClientTypes.CatalogProperties.write(value:to:))
         try writer["CreateDatabaseDefaultPermissions"].writeList(value.createDatabaseDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CreateTableDefaultPermissions"].writeList(value.createTableDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
