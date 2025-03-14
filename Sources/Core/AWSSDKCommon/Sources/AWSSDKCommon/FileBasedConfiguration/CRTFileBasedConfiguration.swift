@@ -46,13 +46,17 @@ extension CRTFileBasedConfiguration: FileBasedConfiguration {
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil
     ) async throws -> CRTFileBasedConfiguration {
-        let task = Task {
-            try CRTFileBasedConfiguration.make(
-                configFilePath: configFilePath,
-                credentialsFilePath: credentialsFilePath
-            )
+        try await withCheckedThrowingContinuation { continuation in
+            do {
+                let fileBasedConfig = try CRTFileBasedConfiguration.make(
+                    configFilePath: configFilePath,
+                    credentialsFilePath: credentialsFilePath
+                )
+                continuation.resume(returning: fileBasedConfig)
+            } catch {
+                continuation.resume(throwing: error)
+            }
         }
-        return try await task.value
     }
 
     public func section(
