@@ -225,6 +225,70 @@ extension RUMClientTypes {
 
 extension RUMClientTypes {
 
+    public enum DeobfuscationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeobfuscationStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RUMClientTypes {
+
+    /// A structure that contains the configuration for how an app monitor can unminify JavaScript error stack traces using source maps.
+    public struct JavaScriptSourceMaps: Swift.Sendable {
+        /// The S3Uri of the bucket or folder that stores the source map files. It is required if status is ENABLED.
+        public var s3Uri: Swift.String?
+        /// Specifies whether JavaScript error stack traces should be unminified for this app monitor. The default is for JavaScript error stack trace unminification to be DISABLED.
+        /// This member is required.
+        public var status: RUMClientTypes.DeobfuscationStatus?
+
+        public init(
+            s3Uri: Swift.String? = nil,
+            status: RUMClientTypes.DeobfuscationStatus? = nil
+        ) {
+            self.s3Uri = s3Uri
+            self.status = status
+        }
+    }
+}
+
+extension RUMClientTypes {
+
+    /// A structure that contains the configuration for how an app monitor can deobfuscate stack traces.
+    public struct DeobfuscationConfiguration: Swift.Sendable {
+        /// A structure that contains the configuration for how an app monitor can unminify JavaScript error stack traces using source maps.
+        public var javaScriptSourceMaps: RUMClientTypes.JavaScriptSourceMaps?
+
+        public init(
+            javaScriptSourceMaps: RUMClientTypes.JavaScriptSourceMaps? = nil
+        ) {
+            self.javaScriptSourceMaps = javaScriptSourceMaps
+        }
+    }
+}
+
+extension RUMClientTypes {
+
     public enum StateEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case created
@@ -267,8 +331,12 @@ extension RUMClientTypes {
         public var customEvents: RUMClientTypes.CustomEvents?
         /// A structure that contains information about whether this app monitor stores a copy of the telemetry data that RUM collects using CloudWatch Logs.
         public var dataStorage: RUMClientTypes.DataStorage?
+        /// A structure that contains the configuration for how an app monitor can deobfuscate stack traces.
+        public var deobfuscationConfiguration: RUMClientTypes.DeobfuscationConfiguration?
         /// The top-level internet domain name for which your application has administrative authority.
         public var domain: Swift.String?
+        /// List the domain names for which your application has administrative authority.
+        public var domainList: [Swift.String]?
         /// The unique ID of this app monitor.
         public var id: Swift.String?
         /// The date and time of the most recent changes to this app monitor's configuration.
@@ -285,7 +353,9 @@ extension RUMClientTypes {
             created: Swift.String? = nil,
             customEvents: RUMClientTypes.CustomEvents? = nil,
             dataStorage: RUMClientTypes.DataStorage? = nil,
+            deobfuscationConfiguration: RUMClientTypes.DeobfuscationConfiguration? = nil,
             domain: Swift.String? = nil,
+            domainList: [Swift.String]? = nil,
             id: Swift.String? = nil,
             lastModified: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -296,7 +366,9 @@ extension RUMClientTypes {
             self.created = created
             self.customEvents = customEvents
             self.dataStorage = dataStorage
+            self.deobfuscationConfiguration = deobfuscationConfiguration
             self.domain = domain
+            self.domainList = domainList
             self.id = id
             self.lastModified = lastModified
             self.name = name
@@ -933,9 +1005,12 @@ public struct CreateAppMonitorInput: Swift.Sendable {
     public var customEvents: RUMClientTypes.CustomEvents?
     /// Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges. If you omit this parameter, the default is false.
     public var cwLogEnabled: Swift.Bool?
+    /// A structure that contains the configuration for how an app monitor can deobfuscate stack traces.
+    public var deobfuscationConfiguration: RUMClientTypes.DeobfuscationConfiguration?
     /// The top-level internet domain name for which your application has administrative authority.
-    /// This member is required.
     public var domain: Swift.String?
+    /// List the domain names for which your application has administrative authority. The CreateAppMonitor requires either the domain or the domain list.
+    public var domainList: [Swift.String]?
     /// A name for the app monitor.
     /// This member is required.
     public var name: Swift.String?
@@ -946,14 +1021,18 @@ public struct CreateAppMonitorInput: Swift.Sendable {
         appMonitorConfiguration: RUMClientTypes.AppMonitorConfiguration? = nil,
         customEvents: RUMClientTypes.CustomEvents? = nil,
         cwLogEnabled: Swift.Bool? = nil,
+        deobfuscationConfiguration: RUMClientTypes.DeobfuscationConfiguration? = nil,
         domain: Swift.String? = nil,
+        domainList: [Swift.String]? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.appMonitorConfiguration = appMonitorConfiguration
         self.customEvents = customEvents
         self.cwLogEnabled = cwLogEnabled
+        self.deobfuscationConfiguration = deobfuscationConfiguration
         self.domain = domain
+        self.domainList = domainList
         self.name = name
         self.tags = tags
     }
@@ -1461,8 +1540,12 @@ public struct UpdateAppMonitorInput: Swift.Sendable {
     public var customEvents: RUMClientTypes.CustomEvents?
     /// Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges.
     public var cwLogEnabled: Swift.Bool?
+    /// A structure that contains the configuration for how an app monitor can deobfuscate stack traces.
+    public var deobfuscationConfiguration: RUMClientTypes.DeobfuscationConfiguration?
     /// The top-level internet domain name for which your application has administrative authority.
     public var domain: Swift.String?
+    /// List the domain names for which your application has administrative authority. The UpdateAppMonitor allows either the domain or the domain list.
+    public var domainList: [Swift.String]?
     /// The name of the app monitor to update.
     /// This member is required.
     public var name: Swift.String?
@@ -1471,13 +1554,17 @@ public struct UpdateAppMonitorInput: Swift.Sendable {
         appMonitorConfiguration: RUMClientTypes.AppMonitorConfiguration? = nil,
         customEvents: RUMClientTypes.CustomEvents? = nil,
         cwLogEnabled: Swift.Bool? = nil,
+        deobfuscationConfiguration: RUMClientTypes.DeobfuscationConfiguration? = nil,
         domain: Swift.String? = nil,
+        domainList: [Swift.String]? = nil,
         name: Swift.String? = nil
     ) {
         self.appMonitorConfiguration = appMonitorConfiguration
         self.customEvents = customEvents
         self.cwLogEnabled = cwLogEnabled
+        self.deobfuscationConfiguration = deobfuscationConfiguration
         self.domain = domain
+        self.domainList = domainList
         self.name = name
     }
 }
@@ -2032,7 +2119,9 @@ extension CreateAppMonitorInput {
         try writer["AppMonitorConfiguration"].write(value.appMonitorConfiguration, with: RUMClientTypes.AppMonitorConfiguration.write(value:to:))
         try writer["CustomEvents"].write(value.customEvents, with: RUMClientTypes.CustomEvents.write(value:to:))
         try writer["CwLogEnabled"].write(value.cwLogEnabled)
+        try writer["DeobfuscationConfiguration"].write(value.deobfuscationConfiguration, with: RUMClientTypes.DeobfuscationConfiguration.write(value:to:))
         try writer["Domain"].write(value.domain)
+        try writer["DomainList"].writeList(value.domainList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -2095,7 +2184,9 @@ extension UpdateAppMonitorInput {
         try writer["AppMonitorConfiguration"].write(value.appMonitorConfiguration, with: RUMClientTypes.AppMonitorConfiguration.write(value:to:))
         try writer["CustomEvents"].write(value.customEvents, with: RUMClientTypes.CustomEvents.write(value:to:))
         try writer["CwLogEnabled"].write(value.cwLogEnabled)
+        try writer["DeobfuscationConfiguration"].write(value.deobfuscationConfiguration, with: RUMClientTypes.DeobfuscationConfiguration.write(value:to:))
         try writer["Domain"].write(value.domain)
+        try writer["DomainList"].writeList(value.domainList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2919,6 +3010,7 @@ extension RUMClientTypes.AppMonitor {
         var value = RUMClientTypes.AppMonitor()
         value.name = try reader["Name"].readIfPresent()
         value.domain = try reader["Domain"].readIfPresent()
+        value.domainList = try reader["DomainList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["Id"].readIfPresent()
         value.created = try reader["Created"].readIfPresent()
         value.lastModified = try reader["LastModified"].readIfPresent()
@@ -2927,6 +3019,39 @@ extension RUMClientTypes.AppMonitor {
         value.appMonitorConfiguration = try reader["AppMonitorConfiguration"].readIfPresent(with: RUMClientTypes.AppMonitorConfiguration.read(from:))
         value.dataStorage = try reader["DataStorage"].readIfPresent(with: RUMClientTypes.DataStorage.read(from:))
         value.customEvents = try reader["CustomEvents"].readIfPresent(with: RUMClientTypes.CustomEvents.read(from:))
+        value.deobfuscationConfiguration = try reader["DeobfuscationConfiguration"].readIfPresent(with: RUMClientTypes.DeobfuscationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension RUMClientTypes.DeobfuscationConfiguration {
+
+    static func write(value: RUMClientTypes.DeobfuscationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JavaScriptSourceMaps"].write(value.javaScriptSourceMaps, with: RUMClientTypes.JavaScriptSourceMaps.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.DeobfuscationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RUMClientTypes.DeobfuscationConfiguration()
+        value.javaScriptSourceMaps = try reader["JavaScriptSourceMaps"].readIfPresent(with: RUMClientTypes.JavaScriptSourceMaps.read(from:))
+        return value
+    }
+}
+
+extension RUMClientTypes.JavaScriptSourceMaps {
+
+    static func write(value: RUMClientTypes.JavaScriptSourceMaps?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Uri"].write(value.s3Uri)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.JavaScriptSourceMaps {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RUMClientTypes.JavaScriptSourceMaps()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.s3Uri = try reader["S3Uri"].readIfPresent()
         return value
     }
 }

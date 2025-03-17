@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RbinClient: ClientRuntime.Client {
     public static let clientName = "RbinClient"
-    public static let version = "1.2.38"
+    public static let version = "1.2.39"
     let client: ClientRuntime.SdkHttpClient
     let config: RbinClient.RbinClientConfiguration
     let serviceName = "rbin"

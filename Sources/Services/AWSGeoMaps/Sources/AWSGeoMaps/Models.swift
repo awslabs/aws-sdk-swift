@@ -509,7 +509,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         public internal(set) var fieldList: [GeoMapsClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// The field where thebb invalid entry was detected.
+        /// The field where the invalid entry was detected.
         /// This member is required.
         public internal(set) var reason: GeoMapsClientTypes.ValidationExceptionReason? = nil
     }
@@ -531,6 +531,64 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
+    }
+}
+
+extension GeoMapsClientTypes {
+
+    public enum LabelSize: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case large
+        case small
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LabelSize] {
+            return [
+                .large,
+                .small
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .large: return "Large"
+            case .small: return "Small"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoMapsClientTypes {
+
+    public enum MapFeatureMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MapFeatureMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -573,11 +631,13 @@ extension GeoMapsClientTypes {
 
     public enum StaticMapStyle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case satellite
+        case standard
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StaticMapStyle] {
             return [
-                .satellite
+                .satellite,
+                .standard
             ]
         }
 
@@ -589,6 +649,7 @@ extension GeoMapsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .satellite: return "Satellite"
+            case .standard: return "Standard"
             case let .sdkUnknown(s): return s
             }
         }
@@ -602,8 +663,12 @@ public struct GetStaticMapInput: Swift.Sendable {
     public var boundingBox: Swift.String?
     /// Takes in a pair of coordinates, [Lon, Lat], which becomes the center point of the image. This parameter requires that either zoom or radius is set. Cannot be used with Zoom and or Radius Example: 49.295,-123.108
     public var center: Swift.String?
+    /// Sets color tone for map, such as dark and light for specific map styles. It only applies to vector map styles, such as Standard. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
+    public var colorScheme: GeoMapsClientTypes.ColorScheme?
     /// Takes in a string to draw geometries on the image. The input is a comma separated format as follows format: [Lon, Lat] Example: line:-122.407653,37.798557,-122.413291,37.802443;color=%23DD0000;width=7;outline-color=#00DD00;outline-width=5yd|point:-122.40572,37.80004;label=Fog Hill Market;size=large;text-color=%23DD0000;color=#EE4B2B Currently it supports the following geometry types: point, line and polygon. It does not support multiPoint , multiLine and multiPolgyon.
     public var compactOverlay: Swift.String?
+    /// It is a flag that takes in true or false. It prevents the labels that are on the edge of the image from being cut or obscured.
+    public var cropLabels: Swift.Bool?
     /// The map scaling parameter to size the image, icons, and labels. It follows the pattern of ^map(@2x)?$. Example: map, map@2x
     /// This member is required.
     public var fileName: Swift.String?
@@ -614,13 +679,185 @@ public struct GetStaticMapInput: Swift.Sendable {
     public var height: Swift.Int?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
+    /// Overrides the label size auto-calculated by FileName. Takes in one of the values - Small or Large.
+    public var labelSize: GeoMapsClientTypes.LabelSize?
+    /// Specifies the language on the map labels using the BCP 47 language tag, limited to ISO 639-1 two-letter language codes. If the specified language data isn't available for the map image, the labels will default to the regional primary language. Supported codes:
+    ///
+    /// * ar
+    ///
+    /// * as
+    ///
+    /// * az
+    ///
+    /// * be
+    ///
+    /// * bg
+    ///
+    /// * bn
+    ///
+    /// * bs
+    ///
+    /// * ca
+    ///
+    /// * cs
+    ///
+    /// * cy
+    ///
+    /// * da
+    ///
+    /// * de
+    ///
+    /// * el
+    ///
+    /// * en
+    ///
+    /// * es
+    ///
+    /// * et
+    ///
+    /// * eu
+    ///
+    /// * fi
+    ///
+    /// * fo
+    ///
+    /// * fr
+    ///
+    /// * ga
+    ///
+    /// * gl
+    ///
+    /// * gn
+    ///
+    /// * gu
+    ///
+    /// * he
+    ///
+    /// * hi
+    ///
+    /// * hr
+    ///
+    /// * hu
+    ///
+    /// * hy
+    ///
+    /// * id
+    ///
+    /// * is
+    ///
+    /// * it
+    ///
+    /// * ja
+    ///
+    /// * ka
+    ///
+    /// * kk
+    ///
+    /// * km
+    ///
+    /// * kn
+    ///
+    /// * ko
+    ///
+    /// * ky
+    ///
+    /// * lt
+    ///
+    /// * lv
+    ///
+    /// * mk
+    ///
+    /// * ml
+    ///
+    /// * mr
+    ///
+    /// * ms
+    ///
+    /// * mt
+    ///
+    /// * my
+    ///
+    /// * nl
+    ///
+    /// * no
+    ///
+    /// * or
+    ///
+    /// * pa
+    ///
+    /// * pl
+    ///
+    /// * pt
+    ///
+    /// * ro
+    ///
+    /// * ru
+    ///
+    /// * sk
+    ///
+    /// * sl
+    ///
+    /// * sq
+    ///
+    /// * sr
+    ///
+    /// * sv
+    ///
+    /// * ta
+    ///
+    /// * te
+    ///
+    /// * th
+    ///
+    /// * tr
+    ///
+    /// * uk
+    ///
+    /// * uz
+    ///
+    /// * vi
+    ///
+    /// * zh
+    public var language: Swift.String?
     /// Applies additional space (in pixels) around overlay feature to prevent them from being cut or obscured. Value for max and min is determined by: Min: 1 Max: min(height, width)/4 Example: 100
     public var padding: Swift.Int?
+    /// Determines if the result image will display icons representing points of interest on the map.
+    public var pointsOfInterests: GeoMapsClientTypes.MapFeatureMode?
+    /// Specifies the political view, using ISO 3166-2 or ISO 3166-3 country code format. The following political views are currently supported:
+    ///
+    /// * ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands
+    ///
+    /// * EGY: Egypt's view on Bir Tawil
+    ///
+    /// * IND: India's view on Gilgit-Baltistan
+    ///
+    /// * KEN: Kenya's view on the Ilemi Triangle
+    ///
+    /// * MAR: Morocco's view on Western Sahara
+    ///
+    /// * RUS: Russia's view on Crimea
+    ///
+    /// * SDN: Sudan's view on the Halaib Triangle
+    ///
+    /// * SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands
+    ///
+    /// * SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters
+    ///
+    /// * SYR: Syria's view on the Golan Heights
+    ///
+    /// * TUR: Turkey's view on Cyprus and Northern Cyprus
+    ///
+    /// * TZA: Tanzania's view on Lake Malawi
+    ///
+    /// * URY: Uruguay's view on Rincon de Artigas
+    ///
+    /// * VNM: Vietnam's view on the Paracel Islands and Spratly Islands
+    public var politicalView: Swift.String?
     /// Used with center parameter, it specifies the zoom of the image where you can control it on a granular level. Takes in any value >= 1. Example: 1500 Cannot be used with Zoom. Unit: Meters
     public var radius: Swift.Int?
     /// Displays a scale on the bottom right of the map image with the unit specified in the input. Example: KilometersMiles, Miles, Kilometers, MilesKilometers
     public var scaleBarUnit: GeoMapsClientTypes.ScaleBarUnit?
-    /// Style specifies the desired map style for the Style APIs.
+    /// Style specifies the desired map style.
     public var style: GeoMapsClientTypes.StaticMapStyle?
     /// Specifies the width of the map image.
     /// This member is required.
@@ -632,12 +869,18 @@ public struct GetStaticMapInput: Swift.Sendable {
         boundedPositions: Swift.String? = nil,
         boundingBox: Swift.String? = nil,
         center: Swift.String? = nil,
+        colorScheme: GeoMapsClientTypes.ColorScheme? = nil,
         compactOverlay: Swift.String? = nil,
+        cropLabels: Swift.Bool? = nil,
         fileName: Swift.String? = nil,
         geoJsonOverlay: Swift.String? = nil,
         height: Swift.Int? = nil,
         key: Swift.String? = nil,
+        labelSize: GeoMapsClientTypes.LabelSize? = nil,
+        language: Swift.String? = nil,
         padding: Swift.Int? = nil,
+        pointsOfInterests: GeoMapsClientTypes.MapFeatureMode? = nil,
+        politicalView: Swift.String? = nil,
         radius: Swift.Int? = 0,
         scaleBarUnit: GeoMapsClientTypes.ScaleBarUnit? = nil,
         style: GeoMapsClientTypes.StaticMapStyle? = nil,
@@ -647,12 +890,18 @@ public struct GetStaticMapInput: Swift.Sendable {
         self.boundedPositions = boundedPositions
         self.boundingBox = boundingBox
         self.center = center
+        self.colorScheme = colorScheme
         self.compactOverlay = compactOverlay
+        self.cropLabels = cropLabels
         self.fileName = fileName
         self.geoJsonOverlay = geoJsonOverlay
         self.height = height
         self.key = key
+        self.labelSize = labelSize
+        self.language = language
         self.padding = padding
+        self.pointsOfInterests = pointsOfInterests
+        self.politicalView = politicalView
         self.radius = radius
         self.scaleBarUnit = scaleBarUnit
         self.style = style
@@ -663,7 +912,7 @@ public struct GetStaticMapInput: Swift.Sendable {
 
 extension GetStaticMapInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetStaticMapInput(boundedPositions: \(Swift.String(describing: boundedPositions)), boundingBox: \(Swift.String(describing: boundingBox)), center: \(Swift.String(describing: center)), compactOverlay: \(Swift.String(describing: compactOverlay)), fileName: \(Swift.String(describing: fileName)), geoJsonOverlay: \(Swift.String(describing: geoJsonOverlay)), height: \(Swift.String(describing: height)), padding: \(Swift.String(describing: padding)), radius: \(Swift.String(describing: radius)), scaleBarUnit: \(Swift.String(describing: scaleBarUnit)), style: \(Swift.String(describing: style)), width: \(Swift.String(describing: width)), zoom: \(Swift.String(describing: zoom)), key: \"CONTENT_REDACTED\")"}
+        "GetStaticMapInput(boundedPositions: \(Swift.String(describing: boundedPositions)), boundingBox: \(Swift.String(describing: boundingBox)), center: \(Swift.String(describing: center)), colorScheme: \(Swift.String(describing: colorScheme)), compactOverlay: \(Swift.String(describing: compactOverlay)), cropLabels: \(Swift.String(describing: cropLabels)), fileName: \(Swift.String(describing: fileName)), geoJsonOverlay: \(Swift.String(describing: geoJsonOverlay)), height: \(Swift.String(describing: height)), labelSize: \(Swift.String(describing: labelSize)), language: \(Swift.String(describing: language)), padding: \(Swift.String(describing: padding)), pointsOfInterests: \(Swift.String(describing: pointsOfInterests)), politicalView: \(Swift.String(describing: politicalView)), radius: \(Swift.String(describing: radius)), scaleBarUnit: \(Swift.String(describing: scaleBarUnit)), style: \(Swift.String(describing: style)), width: \(Swift.String(describing: width)), zoom: \(Swift.String(describing: zoom)), key: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStaticMapOutput: Swift.Sendable {
@@ -710,8 +959,6 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
     /// * KEN: Kenya's view on the Ilemi Triangle
     ///
     /// * MAR: Morocco's view on Western Sahara
-    ///
-    /// * PAK: Pakistan's view on Jammu and Kashmir and the Junagadh Area
     ///
     /// * RUS: Russia's view on Crimea
     ///
@@ -813,7 +1060,7 @@ extension GetTileInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct GetTileOutput: Swift.Sendable {
-    /// The blob represents a vector tile in mvt format for the GetTile API.
+    /// The blob represents a vector tile in mvt or a raster tile in an image format.
     public var blob: Foundation.Data?
     /// Header that instructs caching configuration for the client.
     public var cacheControl: Swift.String?
@@ -898,17 +1145,41 @@ extension GetStaticMapInput {
             let centerQueryItem = Smithy.URIQueryItem(name: "center".urlPercentEncoding(), value: Swift.String(center).urlPercentEncoding())
             items.append(centerQueryItem)
         }
+        if let pointsOfInterests = value.pointsOfInterests {
+            let pointsOfInterestsQueryItem = Smithy.URIQueryItem(name: "pois".urlPercentEncoding(), value: Swift.String(pointsOfInterests.rawValue).urlPercentEncoding())
+            items.append(pointsOfInterestsQueryItem)
+        }
         if let boundedPositions = value.boundedPositions {
             let boundedPositionsQueryItem = Smithy.URIQueryItem(name: "bounded-positions".urlPercentEncoding(), value: Swift.String(boundedPositions).urlPercentEncoding())
             items.append(boundedPositionsQueryItem)
+        }
+        if let colorScheme = value.colorScheme {
+            let colorSchemeQueryItem = Smithy.URIQueryItem(name: "color-scheme".urlPercentEncoding(), value: Swift.String(colorScheme.rawValue).urlPercentEncoding())
+            items.append(colorSchemeQueryItem)
+        }
+        if let cropLabels = value.cropLabels {
+            let cropLabelsQueryItem = Smithy.URIQueryItem(name: "crop-labels".urlPercentEncoding(), value: Swift.String(cropLabels).urlPercentEncoding())
+            items.append(cropLabelsQueryItem)
+        }
+        if let labelSize = value.labelSize {
+            let labelSizeQueryItem = Smithy.URIQueryItem(name: "label-size".urlPercentEncoding(), value: Swift.String(labelSize.rawValue).urlPercentEncoding())
+            items.append(labelSizeQueryItem)
         }
         if let scaleBarUnit = value.scaleBarUnit {
             let scaleBarUnitQueryItem = Smithy.URIQueryItem(name: "scale-unit".urlPercentEncoding(), value: Swift.String(scaleBarUnit.rawValue).urlPercentEncoding())
             items.append(scaleBarUnitQueryItem)
         }
+        if let language = value.language {
+            let languageQueryItem = Smithy.URIQueryItem(name: "lang".urlPercentEncoding(), value: Swift.String(language).urlPercentEncoding())
+            items.append(languageQueryItem)
+        }
         if let boundingBox = value.boundingBox {
             let boundingBoxQueryItem = Smithy.URIQueryItem(name: "bounding-box".urlPercentEncoding(), value: Swift.String(boundingBox).urlPercentEncoding())
             items.append(boundingBoxQueryItem)
+        }
+        if let politicalView = value.politicalView {
+            let politicalViewQueryItem = Smithy.URIQueryItem(name: "political-view".urlPercentEncoding(), value: Swift.String(politicalView).urlPercentEncoding())
+            items.append(politicalViewQueryItem)
         }
         if let geoJsonOverlay = value.geoJsonOverlay {
             let geoJsonOverlayQueryItem = Smithy.URIQueryItem(name: "geojson-overlay".urlPercentEncoding(), value: Swift.String(geoJsonOverlay).urlPercentEncoding())

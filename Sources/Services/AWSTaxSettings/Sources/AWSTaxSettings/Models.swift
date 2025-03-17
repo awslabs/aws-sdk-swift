@@ -858,13 +858,13 @@ extension TaxSettingsClientTypes {
 
     /// Additional tax information to specify for a TRN in Vietnam.
     public struct VietnamAdditionalInfo: Swift.Sendable {
-        /// The electronic transaction code number on the tax return document.
+        /// The electronic transaction code number on the tax return document. This field must be provided for successful API operation.
         public var electronicTransactionCodeNumber: Swift.String?
-        /// The enterprise identification number for tax registration.
+        /// The enterprise identification number for tax registration. This field must be provided for successful API operation.
         public var enterpriseIdentificationNumber: Swift.String?
-        /// The payment voucher number on the tax return payment document.
+        /// The payment voucher number on the tax return payment document. This field must be provided for successful API operation.
         public var paymentVoucherNumber: Swift.String?
-        /// The date on the tax return payment document.
+        /// The date on the tax return payment document. This field must be provided for successful API operation.
         public var paymentVoucherNumberDate: Swift.String?
 
         public init(
@@ -2107,7 +2107,7 @@ extension TaxSettingsClientTypes {
         /// Your tax registration unique identifier.
         /// This member is required.
         public var registrationId: Swift.String?
-        /// Type of your tax registration. This can be either VAT or GST.
+        /// Type of your tax registration.
         /// This member is required.
         public var registrationType: TaxSettingsClientTypes.TaxRegistrationType?
         /// The industry that describes your business. For business-to-business (B2B) customers, specify Business. For business-to-consumer (B2C) customers, specify Individual. For business-to-government (B2G), specify Government. Note that certain values may not applicable for the request country. Please refer to country specific information in API document.
@@ -2451,7 +2451,7 @@ public struct PutTaxExemptionInput: Swift.Sendable {
     /// The exemption certificate.
     /// This member is required.
     public var exemptionCertificate: TaxSettingsClientTypes.ExemptionCertificate?
-    /// The exemption type.
+    /// The exemption type. Use the supported tax exemption type description.
     /// This member is required.
     public var exemptionType: Swift.String?
 

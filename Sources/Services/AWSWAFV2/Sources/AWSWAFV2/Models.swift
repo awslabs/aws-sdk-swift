@@ -661,6 +661,30 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    /// Inspect fragments of the request URI. You can specify the parts of the URI fragment to inspect and you can narrow the set of URI fragments to inspect by including or excluding specific keys. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification. Example JSON: "UriFragment": { "MatchPattern": { "All": {} }, "MatchScope": "KEY", "OversizeHandling": "MATCH" }
+    public struct UriFragment: Swift.Sendable {
+        /// What WAF should do if it fails to completely parse the JSON body. The options are the following:
+        ///
+        /// * EVALUATE_AS_STRING - Inspect the body as plain text. WAF applies the text transformations and inspection criteria that you defined for the JSON inspection to the body text string.
+        ///
+        /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
+        ///
+        /// * NO_MATCH - Treat the web request as not matching the rule statement.
+        ///
+        ///
+        /// If you don't provide this setting, WAF parses and evaluates the content only up to the first parsing failure that it encounters. Example JSON: { "UriFragment": { "FallbackBehavior": "MATCH"} } WAF parsing doesn't fully validate the input JSON string, so parsing can succeed even for invalid JSON. When parsing succeeds, WAF doesn't apply the fallback behavior. For more information, see [JSON body](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-fields-list.html#waf-rule-statement-request-component-json-body) in the WAF Developer Guide.
+        public var fallbackBehavior: WAFV2ClientTypes.FallbackBehavior?
+
+        public init(
+            fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil
+        ) {
+            self.fallbackBehavior = fallbackBehavior
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     /// Inspect the path component of the URI of the web request. This is the part of the web request that identifies a resource. For example, /images/daily-ad.jpg. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "UriPath": {}
     public struct UriPath: Swift.Sendable {
 
@@ -720,6 +744,8 @@ extension WAFV2ClientTypes {
         public var singleHeader: WAFV2ClientTypes.SingleHeader?
         /// Inspect a single query argument. Provide the name of the query argument to inspect, such as UserName or SalesRegion. The name can be up to 30 characters long and isn't case sensitive. Example JSON: "SingleQueryArgument": { "Name": "myArgument" }
         public var singleQueryArgument: WAFV2ClientTypes.SingleQueryArgument?
+        /// Inspect fragments of the request URI. You must configure scope and pattern matching filters in the UriFragment object, to define the fragment of a URI that WAF inspects. Only the first 8 KB (8192 bytes) of a request's URI fragments and only the first 200 URI fragments are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize URI fragment content in the UriFragment object. WAF applies the pattern matching filters to the cookies that it receives from the underlying host service.
+        public var uriFragment: WAFV2ClientTypes.UriFragment?
         /// Inspect the request URI path. This is the part of the web request that identifies a resource, for example, /images/daily-ad.jpg.
         public var uriPath: WAFV2ClientTypes.UriPath?
 
@@ -736,6 +762,7 @@ extension WAFV2ClientTypes {
             queryString: WAFV2ClientTypes.QueryString? = nil,
             singleHeader: WAFV2ClientTypes.SingleHeader? = nil,
             singleQueryArgument: WAFV2ClientTypes.SingleQueryArgument? = nil,
+            uriFragment: WAFV2ClientTypes.UriFragment? = nil,
             uriPath: WAFV2ClientTypes.UriPath? = nil
         ) {
             self.allQueryArguments = allQueryArguments
@@ -750,6 +777,7 @@ extension WAFV2ClientTypes {
             self.queryString = queryString
             self.singleHeader = singleHeader
             self.singleQueryArgument = singleQueryArgument
+            self.uriFragment = uriFragment
             self.uriPath = uriPath
         }
     }
@@ -11411,6 +11439,7 @@ extension WAFV2ClientTypes.FieldToMatch {
         try writer["QueryString"].write(value.queryString, with: WAFV2ClientTypes.QueryString.write(value:to:))
         try writer["SingleHeader"].write(value.singleHeader, with: WAFV2ClientTypes.SingleHeader.write(value:to:))
         try writer["SingleQueryArgument"].write(value.singleQueryArgument, with: WAFV2ClientTypes.SingleQueryArgument.write(value:to:))
+        try writer["UriFragment"].write(value.uriFragment, with: WAFV2ClientTypes.UriFragment.write(value:to:))
         try writer["UriPath"].write(value.uriPath, with: WAFV2ClientTypes.UriPath.write(value:to:))
     }
 
@@ -11430,6 +11459,22 @@ extension WAFV2ClientTypes.FieldToMatch {
         value.headerOrder = try reader["HeaderOrder"].readIfPresent(with: WAFV2ClientTypes.HeaderOrder.read(from:))
         value.ja3Fingerprint = try reader["JA3Fingerprint"].readIfPresent(with: WAFV2ClientTypes.JA3Fingerprint.read(from:))
         value.ja4Fingerprint = try reader["JA4Fingerprint"].readIfPresent(with: WAFV2ClientTypes.JA4Fingerprint.read(from:))
+        value.uriFragment = try reader["UriFragment"].readIfPresent(with: WAFV2ClientTypes.UriFragment.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.UriFragment {
+
+    static func write(value: WAFV2ClientTypes.UriFragment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FallbackBehavior"].write(value.fallbackBehavior)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.UriFragment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.UriFragment()
+        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent()
         return value
     }
 }
