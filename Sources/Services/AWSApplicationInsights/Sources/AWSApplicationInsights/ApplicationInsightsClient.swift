@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationInsightsClient: ClientRuntime.Client {
     public static let clientName = "ApplicationInsightsClient"
-    public static let version = "1.2.39"
+    public static let version = "1.2.40"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationInsightsClient.ApplicationInsightsClientConfiguration
     let serviceName = "Application Insights"
