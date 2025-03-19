@@ -13847,6 +13847,14 @@ extension SageMakerClientTypes {
         case mlC54xlarge
         case mlC59xlarge
         case mlC5Xlarge
+        case mlC6i12xlarge
+        case mlC6i16xlarge
+        case mlC6i24xlarge
+        case mlC6i2xlarge
+        case mlC6i32xlarge
+        case mlC6i4xlarge
+        case mlC6i8xlarge
+        case mlC6iXlarge
         case mlG4dn12xlarge
         case mlG4dn16xlarge
         case mlG4dn2xlarge
@@ -13861,6 +13869,22 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
+        case mlG612xlarge
+        case mlG616xlarge
+        case mlG624xlarge
+        case mlG62xlarge
+        case mlG648xlarge
+        case mlG64xlarge
+        case mlG68xlarge
+        case mlG6Xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -13872,6 +13896,15 @@ extension SageMakerClientTypes {
         case mlM54xlarge
         case mlM5Large
         case mlM5Xlarge
+        case mlM6i12xlarge
+        case mlM6i16xlarge
+        case mlM6i24xlarge
+        case mlM6i2xlarge
+        case mlM6i32xlarge
+        case mlM6i4xlarge
+        case mlM6i8xlarge
+        case mlM6iLarge
+        case mlM6iXlarge
         case mlP216xlarge
         case mlP28xlarge
         case mlP2Xlarge
@@ -13911,6 +13944,14 @@ extension SageMakerClientTypes {
                 .mlC54xlarge,
                 .mlC59xlarge,
                 .mlC5Xlarge,
+                .mlC6i12xlarge,
+                .mlC6i16xlarge,
+                .mlC6i24xlarge,
+                .mlC6i2xlarge,
+                .mlC6i32xlarge,
+                .mlC6i4xlarge,
+                .mlC6i8xlarge,
+                .mlC6iXlarge,
                 .mlG4dn12xlarge,
                 .mlG4dn16xlarge,
                 .mlG4dn2xlarge,
@@ -13925,6 +13966,22 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
+                .mlG612xlarge,
+                .mlG616xlarge,
+                .mlG624xlarge,
+                .mlG62xlarge,
+                .mlG648xlarge,
+                .mlG64xlarge,
+                .mlG68xlarge,
+                .mlG6Xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -13936,6 +13993,15 @@ extension SageMakerClientTypes {
                 .mlM54xlarge,
                 .mlM5Large,
                 .mlM5Xlarge,
+                .mlM6i12xlarge,
+                .mlM6i16xlarge,
+                .mlM6i24xlarge,
+                .mlM6i2xlarge,
+                .mlM6i32xlarge,
+                .mlM6i4xlarge,
+                .mlM6i8xlarge,
+                .mlM6iLarge,
+                .mlM6iXlarge,
                 .mlP216xlarge,
                 .mlP28xlarge,
                 .mlP2Xlarge,
@@ -13981,6 +14047,14 @@ extension SageMakerClientTypes {
             case .mlC54xlarge: return "ml.c5.4xlarge"
             case .mlC59xlarge: return "ml.c5.9xlarge"
             case .mlC5Xlarge: return "ml.c5.xlarge"
+            case .mlC6i12xlarge: return "ml.c6i.12xlarge"
+            case .mlC6i16xlarge: return "ml.c6i.16xlarge"
+            case .mlC6i24xlarge: return "ml.c6i.24xlarge"
+            case .mlC6i2xlarge: return "ml.c6i.2xlarge"
+            case .mlC6i32xlarge: return "ml.c6i.32xlarge"
+            case .mlC6i4xlarge: return "ml.c6i.4xlarge"
+            case .mlC6i8xlarge: return "ml.c6i.8xlarge"
+            case .mlC6iXlarge: return "ml.c6i.xlarge"
             case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
             case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
             case .mlG4dn2xlarge: return "ml.g4dn.2xlarge"
@@ -13995,6 +14069,22 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
+            case .mlG612xlarge: return "ml.g6.12xlarge"
+            case .mlG616xlarge: return "ml.g6.16xlarge"
+            case .mlG624xlarge: return "ml.g6.24xlarge"
+            case .mlG62xlarge: return "ml.g6.2xlarge"
+            case .mlG648xlarge: return "ml.g6.48xlarge"
+            case .mlG64xlarge: return "ml.g6.4xlarge"
+            case .mlG68xlarge: return "ml.g6.8xlarge"
+            case .mlG6Xlarge: return "ml.g6.xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -14006,6 +14096,15 @@ extension SageMakerClientTypes {
             case .mlM54xlarge: return "ml.m5.4xlarge"
             case .mlM5Large: return "ml.m5.large"
             case .mlM5Xlarge: return "ml.m5.xlarge"
+            case .mlM6i12xlarge: return "ml.m6i.12xlarge"
+            case .mlM6i16xlarge: return "ml.m6i.16xlarge"
+            case .mlM6i24xlarge: return "ml.m6i.24xlarge"
+            case .mlM6i2xlarge: return "ml.m6i.2xlarge"
+            case .mlM6i32xlarge: return "ml.m6i.32xlarge"
+            case .mlM6i4xlarge: return "ml.m6i.4xlarge"
+            case .mlM6i8xlarge: return "ml.m6i.8xlarge"
+            case .mlM6iLarge: return "ml.m6i.large"
+            case .mlM6iXlarge: return "ml.m6i.xlarge"
             case .mlP216xlarge: return "ml.p2.16xlarge"
             case .mlP28xlarge: return "ml.p2.8xlarge"
             case .mlP2Xlarge: return "ml.p2.xlarge"
@@ -23745,7 +23844,7 @@ extension SageMakerClientTypes {
 
     /// Configuration for uploading output from the processing container.
     public struct ProcessingOutputConfig: Swift.Sendable {
-        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the processing job output. KmsKeyId can be an ID of a KMS key, ARN of a KMS key, alias of a KMS key, or alias of a KMS key. The KmsKeyId is applied to all outputs.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the processing job output. KmsKeyId can be an ID of a KMS key, ARN of a KMS key, or alias of a KMS key. The KmsKeyId is applied to all outputs.
         public var kmsKeyId: Swift.String?
         /// An array of outputs configuring the data to upload from the processing container.
         /// This member is required.
@@ -39831,7 +39930,6 @@ public struct ListClusterNodesOutput: Swift.Sendable {
     /// This member is required.
     public var clusterNodeSummaries: [SageMakerClientTypes.ClusterNodeSummary]?
     /// The next token specified for listing instances in a SageMaker HyperPod cluster.
-    /// This member is required.
     public var nextToken: Swift.String?
 
     public init(
@@ -39898,7 +39996,6 @@ public struct ListClustersOutput: Swift.Sendable {
     /// This member is required.
     public var clusterSummaries: [SageMakerClientTypes.ClusterSummary]?
     /// If the result of the previous ListClusters request was truncated, the response includes a NextToken. To retrieve the next set of clusters, use the token in the next request.
-    /// This member is required.
     public var nextToken: Swift.String?
 
     public init(
@@ -61286,7 +61383,7 @@ extension ListClusterNodesOutput {
         let reader = responseReader
         var value = ListClusterNodesOutput()
         value.clusterNodeSummaries = try reader["ClusterNodeSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterNodeSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.nextToken = try reader["NextToken"].readIfPresent() ?? ""
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -61299,7 +61396,7 @@ extension ListClustersOutput {
         let reader = responseReader
         var value = ListClustersOutput()
         value.clusterSummaries = try reader["ClusterSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.nextToken = try reader["NextToken"].readIfPresent() ?? ""
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }

@@ -43,6 +43,7 @@ extension MediaConnectClientTypes {
     public enum ModelProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cdi
         case fujitsuQos
+        case ndiSpeedHq
         case rist
         case rtp
         case rtpFec
@@ -58,6 +59,7 @@ extension MediaConnectClientTypes {
             return [
                 .cdi,
                 .fujitsuQos,
+                .ndiSpeedHq,
                 .rist,
                 .rtp,
                 .rtpFec,
@@ -79,6 +81,7 @@ extension MediaConnectClientTypes {
             switch self {
             case .cdi: return "cdi"
             case .fujitsuQos: return "fujitsu-qos"
+            case .ndiSpeedHq: return "ndi-speed-hq"
             case .rist: return "rist"
             case .rtp: return "rtp"
             case .rtpFec: return "rtp-fec"
@@ -110,7 +113,7 @@ extension MediaConnectClientTypes {
         /// The network output port.
         /// This member is required.
         public var port: Swift.Int?
-        /// The network output protocol.
+        /// The network output protocol. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         /// This member is required.
         public var `protocol`: MediaConnectClientTypes.ModelProtocol?
         /// The network output TTL.
@@ -137,9 +140,9 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Add an output to a bridge.
+    /// Add outputs to the specified bridge.
     public struct AddBridgeOutputRequest: Swift.Sendable {
-        /// Add a network output to an existing bridge.
+        /// The network output of the bridge. A network output is delivered to your premises.
         public var networkOutput: MediaConnectClientTypes.AddBridgeNetworkOutputRequest?
 
         public init(
@@ -169,7 +172,7 @@ extension MediaConnectClientTypes {
 
     /// Add a flow source to an existing bridge.
     public struct AddBridgeFlowSourceRequest: Swift.Sendable {
-        /// The Amazon Resource Number (ARN) of the cloud flow to use as a source of this bridge.
+        /// The Amazon Resource Number (ARN) of the flow to use as a source of this bridge.
         /// This member is required.
         public var flowArn: Swift.String?
         /// The name of the VPC interface attachment to use for this source.
@@ -223,7 +226,7 @@ extension MediaConnectClientTypes {
         /// The network source port.
         /// This member is required.
         public var port: Swift.Int?
-        /// The network source protocol.
+        /// The network source protocol. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         /// This member is required.
         public var `protocol`: MediaConnectClientTypes.ModelProtocol?
 
@@ -247,11 +250,11 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Add a source to an existing bridge.
+    /// Add an output to a bridge.
     public struct AddBridgeSourceRequest: Swift.Sendable {
-        /// Add a flow source to an existing bridge.
+        /// The source of the flow.
         public var flowSource: MediaConnectClientTypes.AddBridgeFlowSourceRequest?
-        /// Add a network source to an existing bridge.
+        /// The source of the network.
         public var networkSource: MediaConnectClientTypes.AddBridgeNetworkSourceRequest?
 
         public init(
@@ -630,14 +633,14 @@ extension MediaConnectClientTypes {
         public var deviceId: Swift.String?
         /// The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
         public var keyType: MediaConnectClientTypes.KeyType?
-        /// The AWS Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        /// The Amazon Web Services Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public var region: Swift.String?
         /// An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public var resourceId: Swift.String?
-        /// The ARN of the role that you created during setup (when you set up AWS Elemental MediaConnect as a trusted entity).
+        /// The ARN of the role that you created during setup (when you set up MediaConnect as a trusted entity).
         /// This member is required.
         public var roleArn: Swift.String?
-        /// The ARN of the secret that you created in AWS Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption.
+        /// The ARN of the secret that you created in Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption.
         public var secretArn: Swift.String?
         /// The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public var url: Swift.String?
@@ -684,7 +687,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// The transport parameters that you want to associate with an outbound media stream.
+    /// The definition of a media stream that you want to associate with the output.
     public struct DestinationConfigurationRequest: Swift.Sendable {
         /// The IP address where you want MediaConnect to send contents of the media stream.
         /// This member is required.
@@ -797,7 +800,7 @@ extension MediaConnectClientTypes {
 
     /// The media stream that you want to associate with the output, and the parameters for that association.
     public struct MediaStreamOutputConfigurationRequest: Swift.Sendable {
-        /// The transport parameters that you want to associate with the media stream.
+        /// The media streams that you want to associate with the output.
         public var destinationConfigurations: [MediaConnectClientTypes.DestinationConfigurationRequest]?
         /// The format that will be used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
         /// This member is required.
@@ -853,17 +856,17 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// The output that you want to add to this flow.
+    /// A request to add an output to a flow.
     public struct AddOutputRequest: Swift.Sendable {
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public var cidrAllowList: [Swift.String]?
-        /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
+        /// A description of the output. This description appears only on the Audit Manager console and will not be seen by the end user.
         public var description: Swift.String?
         /// The IP address from which video will be sent to output destinations.
         public var destination: Swift.String?
         /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.
         public var encryption: MediaConnectClientTypes.Encryption?
-        /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
+        /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public var maxLatency: Swift.Int?
         /// The media streams that are associated with the output, and the parameters for those associations.
         public var mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]?
@@ -871,11 +874,15 @@ extension MediaConnectClientTypes {
         public var minLatency: Swift.Int?
         /// The name of the output. This value must be unique within the current flow.
         public var name: Swift.String?
+        /// A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+        public var ndiProgramName: Swift.String?
+        /// A quality setting for the NDI Speed HQ encoder.
+        public var ndiSpeedHqQuality: Swift.Int?
         /// An indication of whether the new output should be enabled or disabled as soon as it is created. If you don't specify the outputStatus field in your request, MediaConnect sets it to ENABLED.
         public var outputStatus: MediaConnectClientTypes.OutputStatus?
         /// The port to use when content is distributed to this output.
         public var port: Swift.Int?
-        /// The protocol to use for the output.
+        /// The protocol to use for the output. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         /// This member is required.
         public var `protocol`: MediaConnectClientTypes.ModelProtocol?
         /// The remote ID for the Zixi-pull output stream.
@@ -898,6 +905,8 @@ extension MediaConnectClientTypes {
             mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]? = nil,
             minLatency: Swift.Int? = nil,
             name: Swift.String? = nil,
+            ndiProgramName: Swift.String? = nil,
+            ndiSpeedHqQuality: Swift.Int? = nil,
             outputStatus: MediaConnectClientTypes.OutputStatus? = nil,
             port: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
@@ -915,6 +924,8 @@ extension MediaConnectClientTypes {
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
             self.name = name
+            self.ndiProgramName = ndiProgramName
+            self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.outputStatus = outputStatus
             self.port = port
             self.`protocol` = `protocol`
@@ -992,7 +1003,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// The output of the bridge. A flow output is delivered to the AWS cloud.
+    /// The output of the bridge. A flow output is delivered to the Amazon Web Services cloud.
     public struct BridgeFlowOutput: Swift.Sendable {
         /// The Amazon Resource Number (ARN) of the cloud flow.
         /// This member is required.
@@ -1020,7 +1031,7 @@ extension MediaConnectClientTypes {
 
     /// The output of the bridge. A network output is delivered to your premises.
     public struct BridgeNetworkOutput: Swift.Sendable {
-        /// The network output IP Address.
+        /// The network output IP address.
         /// This member is required.
         public var ipAddress: Swift.String?
         /// The network output name.
@@ -1029,10 +1040,10 @@ extension MediaConnectClientTypes {
         /// The network output's gateway network name.
         /// This member is required.
         public var networkName: Swift.String?
-        /// The network output port.
+        /// The network output's port.
         /// This member is required.
         public var port: Swift.Int?
-        /// The network output protocol.
+        /// The network output protocol. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         /// This member is required.
         public var `protocol`: MediaConnectClientTypes.ModelProtocol?
         /// The network output TTL.
@@ -1061,9 +1072,9 @@ extension MediaConnectClientTypes {
 
     /// The output of the bridge.
     public struct BridgeOutput: Swift.Sendable {
-        /// The output of the bridge. A flow output is delivered to the AWS cloud.
+        /// The output of the associated flow.
         public var flowOutput: MediaConnectClientTypes.BridgeFlowOutput?
-        /// The output of the bridge. A network output is delivered to your premises.
+        /// The network output for the bridge.
         public var networkOutput: MediaConnectClientTypes.BridgeNetworkOutput?
 
         public init(
@@ -1123,7 +1134,7 @@ extension MediaConnectClientTypes {
         /// The network source port.
         /// This member is required.
         public var port: Swift.Int?
-        /// The network source protocol.
+        /// The network source protocol. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         /// This member is required.
         public var `protocol`: MediaConnectClientTypes.ModelProtocol?
 
@@ -1149,9 +1160,9 @@ extension MediaConnectClientTypes {
 
     /// The bridge's source.
     public struct BridgeSource: Swift.Sendable {
-        /// The source of the bridge. A flow source originates in MediaConnect as an existing cloud flow.
+        /// The source of the associated flow.
         public var flowSource: MediaConnectClientTypes.BridgeFlowSource?
-        /// The source of the bridge. A network source originates at your premises.
+        /// The network source for the bridge.
         public var networkSource: MediaConnectClientTypes.BridgeNetworkSource?
 
         public init(
@@ -1182,18 +1193,18 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// The transport parameters that are associated with an outbound media stream.
+    /// The transport parameters that you want to associate with an outbound media stream.
     public struct DestinationConfiguration: Swift.Sendable {
-        /// The IP address where contents of the media stream will be sent.
+        /// The IP address where you want MediaConnect to send contents of the media stream.
         /// This member is required.
         public var destinationIp: Swift.String?
-        /// The port to use when the content of the media stream is distributed to the output.
+        /// The port that you want MediaConnect to use when it distributes the media stream to the output.
         /// This member is required.
         public var destinationPort: Swift.Int?
-        /// The VPC interface that is used for the media stream associated with the output.
+        /// The VPC interface that you want to use for the media stream associated with the output.
         /// This member is required.
         public var interface: MediaConnectClientTypes.Interface?
-        /// The IP address that the receiver requires in order to establish a connection with the flow. This value is represented by the elastic network interface IP address of the VPC. This field applies only to outputs that use the CDI or ST 2110 JPEG XS protocol.
+        /// The IP address that the receiver requires in order to establish a connection with the flow. This value is represented by the elastic network interface IP address of the VPC. This field applies only to outputs that use the CDI or ST 2110 JPEG XS or protocol.
         /// This member is required.
         public var outboundIp: Swift.String?
 
@@ -1258,7 +1269,7 @@ extension MediaConnectClientTypes {
         /// The name of the entitlement.
         /// This member is required.
         public var name: Swift.String?
-        /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
+        /// The Amazon Web Services account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
         /// This member is required.
         public var subscribers: [Swift.String]?
 
@@ -1309,7 +1320,7 @@ extension MediaConnectClientTypes {
     public struct GrantEntitlementRequest: Swift.Sendable {
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public var dataTransferSubscriberFeePercent: Swift.Int?
-        /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
+        /// A description of the entitlement. This description appears only on the MediaConnect console and will not be seen by the subscriber or end user.
         public var description: Swift.String?
         /// The type of encryption that will be used on the output that is associated with this entitlement. Allowable encryption types: static-key, speke.
         public var encryption: MediaConnectClientTypes.Encryption?
@@ -1317,7 +1328,7 @@ extension MediaConnectClientTypes {
         public var entitlementStatus: MediaConnectClientTypes.EntitlementStatus?
         /// The name of the entitlement. This value must be unique within the current flow.
         public var name: Swift.String?
-        /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
+        /// The Amazon Web Services account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
         /// This member is required.
         public var subscribers: [Swift.String]?
 
@@ -1452,6 +1463,7 @@ extension MediaConnectClientTypes {
         /// The ARN of the bridge.
         /// This member is required.
         public var bridgeArn: Swift.String?
+        /// The state of the bridge.
         /// This member is required.
         public var bridgeState: MediaConnectClientTypes.BridgeState?
         /// The type of the bridge.
@@ -1482,7 +1494,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// An entitlement that has been granted to you from other AWS accounts.
+    /// An entitlement that has been granted to you from other Amazon Web Services accounts.
     public struct ListedEntitlement: Swift.Sendable {
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public var dataTransferSubscriberFeePercent: Swift.Int?
@@ -1551,7 +1563,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// The maintenance setting of a flow
+    /// The maintenance setting of a flow.
     public struct Maintenance: Swift.Sendable {
         /// A day of a week when the maintenance will happen. Use Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
         public var maintenanceDay: MediaConnectClientTypes.MaintenanceDay?
@@ -1651,7 +1663,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Provides a summary of a flow, including its ARN, Availability Zone, and source type.
+    /// A summary of a flow, including its ARN, Availability Zone, and source type.
     public struct ListedFlow: Swift.Sendable {
         /// The Availability Zone that the flow was created in.
         /// This member is required.
@@ -1662,12 +1674,12 @@ extension MediaConnectClientTypes {
         /// The ARN of the flow.
         /// This member is required.
         public var flowArn: Swift.String?
-        /// The maintenance setting of a flow
+        /// The maintenance settings for the flow.
         public var maintenance: MediaConnectClientTypes.Maintenance?
         /// The name of the flow.
         /// This member is required.
         public var name: Swift.String?
-        /// The type of source. This value is either owned (originated somewhere other than an AWS Elemental MediaConnect flow owned by another AWS account) or entitled (originated at an AWS Elemental MediaConnect flow owned by another AWS account).
+        /// The type of source. This value is either owned (originated somewhere other than an MediaConnect flow owned by another Amazon Web Services account) or entitled (originated at a MediaConnect flow owned by another Amazon Web Services account).
         /// This member is required.
         public var sourceType: MediaConnectClientTypes.SourceType?
         /// The current status of the flow.
@@ -1737,11 +1749,12 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Provides a summary of a gateway, including its name, ARN, and status.
+    /// A summary of a gateway, including its name, ARN, and status.
     public struct ListedGateway: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the gateway.
         /// This member is required.
         public var gatewayArn: Swift.String?
+        /// The status of the gateway.
         /// This member is required.
         public var gatewayState: MediaConnectClientTypes.GatewayState?
         /// The name of the gateway.
@@ -1803,7 +1816,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Provides a summary of an instance.
+    /// A summary of an instance.
     public struct ListedGatewayInstance: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the gateway.
         /// This member is required.
@@ -1833,19 +1846,19 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// FMTP
+    /// A set of parameters that define the media stream.
     public struct Fmtp: Swift.Sendable {
         /// The format of the audio channel.
         public var channelOrder: Swift.String?
-        /// The format that is used for the representation of color.
+        /// The format used for the representation of color.
         public var colorimetry: MediaConnectClientTypes.Colorimetry?
-        /// The frame rate for the video stream, in frames/second. For example: 60000/1001. If you specify a whole number, MediaConnect uses a ratio of N/1. For example, if you specify 60, MediaConnect uses 60/1 as the exactFramerate.
+        /// The frame rate for the video stream, in frames/second. For example: 60000/1001.
         public var exactFramerate: Swift.String?
         /// The pixel aspect ratio (PAR) of the video.
         public var par: Swift.String?
         /// The encoding range of the video.
         public var range: MediaConnectClientTypes.Range?
-        /// The type of compression that was used to smooth the video’s appearance
+        /// The type of compression that was used to smooth the video’s appearance.
         public var scanMode: MediaConnectClientTypes.ScanMode?
         /// The transfer characteristic system (TCS) that is used in the video.
         public var tcs: MediaConnectClientTypes.Tcs?
@@ -1874,7 +1887,7 @@ extension MediaConnectClientTypes {
 
     /// Attributes that are related to the media stream.
     public struct MediaStreamAttributes: Swift.Sendable {
-        /// A set of parameters that define the media stream.
+        /// The settings that you want to use to define the media stream.
         /// This member is required.
         public var fmtp: MediaConnectClientTypes.Fmtp?
         /// The audio language, in a format that is recognized by the receiver.
@@ -1892,7 +1905,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// A single track or stream of media that contains video, audio, or ancillary data. After you add a media stream to a flow, you can associate it with sources and outputs on that flow, as long as they use the CDI protocol or the ST 2110 JPEG XS protocol. Each source or output can consist of one or many media streams.
+    /// A media stream represents one component of your content, such as video, audio, or ancillary data. After you add a media stream to your flow, you can associate it with sources and outputs that use the ST 2110 JPEG XS or CDI protocol.
     public struct MediaStream: Swift.Sendable {
         /// Attributes that are related to the media stream.
         public var attributes: MediaConnectClientTypes.MediaStreamAttributes?
@@ -1967,7 +1980,7 @@ extension MediaConnectClientTypes {
         /// The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
         /// This member is required.
         public var encodingName: MediaConnectClientTypes.EncodingName?
-        /// Encoding parameters
+        /// A collection of parameters that determine how MediaConnect will convert the content. These fields only apply to outputs on flows that have a CDI source.
         public var encodingParameters: MediaConnectClientTypes.EncodingParameters?
         /// The name of the media stream.
         /// This member is required.
@@ -1994,9 +2007,9 @@ extension MediaConnectClientTypes {
         /// The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
         /// This member is required.
         public var encodingName: MediaConnectClientTypes.EncodingName?
-        /// The transport parameters that are associated with an incoming media stream.
+        /// The media streams that you want to associate with the source.
         public var inputConfigurations: [MediaConnectClientTypes.InputConfiguration]?
-        /// The name of the media stream.
+        /// A name that helps you distinguish one media stream from another.
         /// This member is required.
         public var mediaStreamName: Swift.String?
 
@@ -2014,12 +2027,12 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// The definition of a media stream that you want to associate with the source.
+    /// The media stream that you want to associate with the source, and the parameters for that association.
     public struct MediaStreamSourceConfigurationRequest: Swift.Sendable {
-        /// The format you want to use to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
+        /// The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
         /// This member is required.
         public var encodingName: MediaConnectClientTypes.EncodingName?
-        /// The transport parameters that you want to associate with the media stream.
+        /// The media streams that you want to associate with the source.
         public var inputConfigurations: [MediaConnectClientTypes.InputConfigurationRequest]?
         /// The name of the media stream.
         /// This member is required.
@@ -2039,6 +2052,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// The details of an error message.
     public struct MessageDetail: Swift.Sendable {
         /// The error code.
         /// This member is required.
@@ -2057,6 +2071,31 @@ extension MediaConnectClientTypes {
             self.code = code
             self.message = message
             self.resourceName = resourceName
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Specifies the configuration settings for individual NDI discovery servers. A maximum of 3 servers is allowed.
+    public struct NdiDiscoveryServerConfig: Swift.Sendable {
+        /// The unique network address of the NDI discovery server.
+        /// This member is required.
+        public var discoveryServerAddress: Swift.String?
+        /// The port for the NDI discovery server. Defaults to 5959 if a custom port isn't specified.
+        public var discoveryServerPort: Swift.Int?
+        /// The identifier for the Virtual Private Cloud (VPC) network interface used by the flow.
+        /// This member is required.
+        public var vpcInterfaceAdapter: Swift.String?
+
+        public init(
+            discoveryServerAddress: Swift.String? = nil,
+            discoveryServerPort: Swift.Int? = nil,
+            vpcInterfaceAdapter: Swift.String? = nil
+        ) {
+            self.discoveryServerAddress = discoveryServerAddress
+            self.discoveryServerPort = discoveryServerPort
+            self.vpcInterfaceAdapter = vpcInterfaceAdapter
         }
     }
 }
@@ -2214,17 +2253,21 @@ extension MediaConnectClientTypes {
 
     /// Attributes related to the transport stream that are used in a source or output.
     public struct Transport: Swift.Sendable {
-        /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16
         public var cidrAllowList: [Swift.String]?
         /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
         public var maxBitrate: Swift.Int?
-        /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
+        /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public var maxLatency: Swift.Int?
         /// The size of the buffer (in milliseconds) to use to sync incoming source data.
         public var maxSyncBuffer: Swift.Int?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public var minLatency: Swift.Int?
-        /// The protocol that is used by the source or output.
+        /// A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+        public var ndiProgramName: Swift.String?
+        /// A quality setting for the NDI Speed HQ encoder.
+        public var ndiSpeedHqQuality: Swift.Int?
+        /// The protocol that is used by the source or output. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         /// This member is required.
         public var `protocol`: MediaConnectClientTypes.ModelProtocol?
         /// The remote ID for the Zixi-pull stream.
@@ -2248,6 +2291,8 @@ extension MediaConnectClientTypes {
             maxLatency: Swift.Int? = nil,
             maxSyncBuffer: Swift.Int? = nil,
             minLatency: Swift.Int? = nil,
+            ndiProgramName: Swift.String? = nil,
+            ndiSpeedHqQuality: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
             remoteId: Swift.String? = nil,
             senderControlPort: Swift.Int? = nil,
@@ -2262,6 +2307,8 @@ extension MediaConnectClientTypes {
             self.maxLatency = maxLatency
             self.maxSyncBuffer = maxSyncBuffer
             self.minLatency = minLatency
+            self.ndiProgramName = ndiProgramName
+            self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.`protocol` = `protocol`
             self.remoteId = remoteId
             self.senderControlPort = senderControlPort
@@ -2278,7 +2325,7 @@ extension MediaConnectClientTypes {
 
     /// The settings for an output.
     public struct Output: Swift.Sendable {
-        /// The ARN of the bridge that added this output.
+        /// The ARN of the bridge added to this output.
         public var bridgeArn: Swift.String?
         /// The bridge output ports currently in use.
         public var bridgePorts: [Swift.Int]?
@@ -2294,7 +2341,7 @@ extension MediaConnectClientTypes {
         public var entitlementArn: Swift.String?
         /// The IP address that the receiver requires in order to establish a connection with the flow. For public networking, the ListenerAddress is represented by the elastic IP address of the flow. For private networking, the ListenerAddress is represented by the elastic network interface IP address of the VPC. This field applies only to outputs that use the Zixi pull or SRT listener protocol.
         public var listenerAddress: Swift.String?
-        /// The input ARN of the AWS Elemental MediaLive channel. This parameter is relevant only for outputs that were added by creating a MediaLive input.
+        /// The input ARN of the MediaLive channel. This parameter is relevant only for outputs that were added by creating a MediaLive input.
         public var mediaLiveInputArn: Swift.String?
         /// The configuration for each media stream that is associated with the output.
         public var mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfiguration]?
@@ -2488,7 +2535,7 @@ extension MediaConnectClientTypes {
     public struct SetSourceRequest: Swift.Sendable {
         /// The type of encryption that is used on the content ingested from this source. Allowable encryption types: static-key.
         public var decryption: MediaConnectClientTypes.Encryption?
-        /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
+        /// A description for the source. This value is not used or seen outside of the current MediaConnect account.
         public var description: Swift.String?
         /// The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.
         public var entitlementArn: Swift.String?
@@ -2498,7 +2545,7 @@ extension MediaConnectClientTypes {
         public var ingestPort: Swift.Int?
         /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
         public var maxBitrate: Swift.Int?
-        /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
+        /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public var maxLatency: Swift.Int?
         /// The size of the buffer (in milliseconds) to use to sync incoming source data.
         public var maxSyncBuffer: Swift.Int?
@@ -2508,7 +2555,7 @@ extension MediaConnectClientTypes {
         public var minLatency: Swift.Int?
         /// The name of the source.
         public var name: Swift.String?
-        /// The protocol that is used by the source.
+        /// The protocol that is used by the source. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public var `protocol`: MediaConnectClientTypes.ModelProtocol?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
         public var senderControlPort: Swift.Int?
@@ -2597,9 +2644,9 @@ extension MediaConnectClientTypes {
         public var dataTransferSubscriberFeePercent: Swift.Int?
         /// The type of encryption that is used on the content ingested from this source.
         public var decryption: MediaConnectClientTypes.Encryption?
-        /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
+        /// A description for the source. This value is not used or seen outside of the current MediaConnect account.
         public var description: Swift.String?
-        /// The ARN of the entitlement that allows you to subscribe to content that comes from another AWS account. The entitlement is set by the content originator and the ARN is generated as part of the originator's flow.
+        /// The ARN of the entitlement that allows you to subscribe to content that comes from another Amazon Web Services account. The entitlement is set by the content originator and the ARN is generated as part of the originator's flow.
         public var entitlementArn: Swift.String?
         /// The source configuration for cloud flows receiving a stream from a bridge.
         public var gatewayBridgeSource: MediaConnectClientTypes.GatewayBridgeSource?
@@ -2612,9 +2659,9 @@ extension MediaConnectClientTypes {
         /// The name of the source.
         /// This member is required.
         public var name: Swift.String?
-        /// The port that the flow uses to send outbound requests to initiate connection with the sender.
-        public var senderControlPort: Swift.Int?
         /// The IP address that the flow communicates with to initiate connection with the sender.
+        public var senderControlPort: Swift.Int?
+        /// The port that the flow uses to send outbound requests to initiate connection with the sender.
         public var senderIpAddress: Swift.String?
         /// The ARN of the source.
         /// This member is required.
@@ -2767,7 +2814,7 @@ extension MediaConnectClientTypes {
 
     /// Configures settings for the BlackFrames metric.
     public struct BlackFrames: Swift.Sendable {
-        /// Indicates whether the BlackFrames metric is enabled or disabled.
+        /// Indicates whether the BlackFrames metric is enabled or disabled..
         public var state: MediaConnectClientTypes.State?
         /// Specifies the number of consecutive seconds of black frames that triggers an event or alert.
         public var thresholdSeconds: Swift.Int?
@@ -2851,7 +2898,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// The settings for a VPC Source.
+    /// The settings for a VPC source.
     public struct VpcInterface: Swift.Sendable {
         /// Immutable and has to be a unique against other VpcInterfaces in this Flow.
         /// This member is required.
@@ -2862,13 +2909,13 @@ extension MediaConnectClientTypes {
         /// The type of network interface.
         /// This member is required.
         public var networkInterfaceType: MediaConnectClientTypes.NetworkInterfaceType?
-        /// Role Arn MediaConnect can assumes to create ENIs in customer's account
+        /// A role Arn MediaConnect can assume to create ENIs in your account.
         /// This member is required.
         public var roleArn: Swift.String?
         /// Security Group IDs to be used on ENI.
         /// This member is required.
         public var securityGroupIds: [Swift.String]?
-        /// Subnet must be in the AZ of the Flow
+        /// Subnet must be in the AZ of the Flow.
         /// This member is required.
         public var subnetId: Swift.String?
 
@@ -2892,20 +2939,20 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Desired VPC Interface for a Flow
+    /// The details of the VPC interfaces that you want to add to the flow.
     public struct VpcInterfaceRequest: Swift.Sendable {
-        /// The name of the VPC Interface. This value must be unique within the current flow.
+        /// The name for the VPC interface. This name must be unique within the flow.
         /// This member is required.
         public var name: Swift.String?
-        /// The type of network interface. If this value is not included in the request, MediaConnect uses ENA as the networkInterfaceType.
+        /// The type of network interface.
         public var networkInterfaceType: MediaConnectClientTypes.NetworkInterfaceType?
-        /// Role Arn MediaConnect can assumes to create ENIs in customer's account
+        /// The Amazon Resource Name (ARN) of the role that you created when you set up MediaConnect as a trusted service.
         /// This member is required.
         public var roleArn: Swift.String?
-        /// Security Group IDs to be used on ENI.
+        /// A virtual firewall to control inbound and outbound traffic.
         /// This member is required.
         public var securityGroupIds: [Swift.String]?
-        /// Subnet must be in the AZ of the Flow
+        /// The subnet IDs that you want to use for your VPC interface. A range of IP addresses in your VPC. When you create your VPC, you specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. This is the primary CIDR block for your VPC. When you create a subnet for your VPC, you specify the CIDR block for the subnet, which is a subset of the VPC CIDR block. The subnets that you use across all VPC interfaces on the flow must be in the same Availability Zone as the flow.
         /// This member is required.
         public var subnetId: Swift.String?
 
@@ -2925,11 +2972,10 @@ extension MediaConnectClientTypes {
     }
 }
 
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+/// This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
 public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2950,11 +2996,10 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+/// The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2962,7 +3007,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ConflictException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
+    public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
@@ -2975,11 +3020,10 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+/// You do not have sufficient access to perform this action.
 public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3000,11 +3044,10 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+/// The server encountered an internal error and is unable to complete the request.
 public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3012,7 +3055,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InternalServerErrorException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
+    public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
@@ -3025,11 +3068,10 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+/// One or more of the resources in the request does not exist in the system.
 public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3050,11 +3092,10 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+/// The service is currently unavailable or busy.
 public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3062,7 +3103,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ServiceUnavailableException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
+    public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
@@ -3075,11 +3116,10 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+/// The request was denied due to request throttling.
 public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3087,7 +3127,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "TooManyRequestsException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
+    public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
@@ -3100,9 +3140,8 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// A request to add outputs to the specified bridge.
 public struct AddBridgeOutputsInput: Swift.Sendable {
-    /// The ARN of the bridge that you want to update.
+    /// The Amazon Resource Name (ARN) of the bridge that you want to update.
     /// This member is required.
     public var bridgeArn: Swift.String?
     /// The outputs that you want to add to this bridge.
@@ -3119,7 +3158,7 @@ public struct AddBridgeOutputsInput: Swift.Sendable {
 }
 
 public struct AddBridgeOutputsOutput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the bridge.
+    /// The ARN of the bridge that you added outputs to.
     public var bridgeArn: Swift.String?
     /// The outputs that you added to this bridge.
     public var outputs: [MediaConnectClientTypes.BridgeOutput]?
@@ -3133,9 +3172,8 @@ public struct AddBridgeOutputsOutput: Swift.Sendable {
     }
 }
 
-/// A request to add sources to the specified bridge.
 public struct AddBridgeSourcesInput: Swift.Sendable {
-    /// The ARN of the bridge that you want to update.
+    /// The Amazon Resource Name (ARN) of the bridge that you want to update.
     /// This member is required.
     public var bridgeArn: Swift.String?
     /// The sources that you want to add to this bridge.
@@ -3152,7 +3190,7 @@ public struct AddBridgeSourcesInput: Swift.Sendable {
 }
 
 public struct AddBridgeSourcesOutput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the bridge.
+    /// The ARN of the bridge that you added sources to.
     public var bridgeArn: Swift.String?
     /// The sources that you added to this bridge.
     public var sources: [MediaConnectClientTypes.BridgeSource]?
@@ -3168,8 +3206,9 @@ public struct AddBridgeSourcesOutput: Swift.Sendable {
 
 extension MediaConnectClientTypes {
 
+    /// Create a bridge with the egress bridge type. An egress bridge is a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
     public struct AddEgressGatewayBridgeRequest: Swift.Sendable {
-        /// The maximum expected bitrate (in bps).
+        /// The maximum expected bitrate (in bps) of the egress bridge.
         /// This member is required.
         public var maxBitrate: Swift.Int?
 
@@ -3181,7 +3220,6 @@ extension MediaConnectClientTypes {
     }
 }
 
-/// A request to add media streams to the flow.
 public struct AddFlowMediaStreamsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the flow.
     /// This member is required.
@@ -3214,11 +3252,10 @@ public struct AddFlowMediaStreamsOutput: Swift.Sendable {
     }
 }
 
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+/// Exception raised by Elemental MediaConnect when adding the flow output. See the error message for the operation for more information on the cause of this exception.
 public struct AddFlowOutputs420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3239,12 +3276,11 @@ public struct AddFlowOutputs420Exception: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-/// A request to add outputs to the specified flow.
 public struct AddFlowOutputsInput: Swift.Sendable {
-    /// The flow that you want to add outputs to.
+    /// The Amazon Resource Name (ARN) of the flow that you want to add outputs to.
     /// This member is required.
     public var flowArn: Swift.String?
-    /// A list of outputs that you want to add.
+    /// A list of outputs that you want to add to the flow.
     /// This member is required.
     public var outputs: [MediaConnectClientTypes.AddOutputRequest]?
 
@@ -3272,12 +3308,11 @@ public struct AddFlowOutputsOutput: Swift.Sendable {
     }
 }
 
-/// A request to add sources to the flow.
 public struct AddFlowSourcesInput: Swift.Sendable {
-    /// The flow that you want to mutate.
+    /// The Amazon Resource Name (ARN) of the flow that you want to update.
     /// This member is required.
     public var flowArn: Swift.String?
-    /// A list of sources that you want to add.
+    /// A list of sources that you want to add to the flow.
     /// This member is required.
     public var sources: [MediaConnectClientTypes.SetSourceRequest]?
 
@@ -3305,12 +3340,11 @@ public struct AddFlowSourcesOutput: Swift.Sendable {
     }
 }
 
-/// A request to add VPC interfaces to the flow.
 public struct AddFlowVpcInterfacesInput: Swift.Sendable {
-    /// The flow that you want to mutate.
+    /// The Amazon Resource Name (ARN) of the flow that you want to update.
     /// This member is required.
     public var flowArn: Swift.String?
-    /// A list of VPC interfaces that you want to add.
+    /// A list of VPC interfaces that you want to add to the flow.
     /// This member is required.
     public var vpcInterfaces: [MediaConnectClientTypes.VpcInterfaceRequest]?
 
@@ -3340,11 +3374,12 @@ public struct AddFlowVpcInterfacesOutput: Swift.Sendable {
 
 extension MediaConnectClientTypes {
 
+    /// Create a bridge with the ingress bridge type. An ingress bridge is a ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
     public struct AddIngressGatewayBridgeRequest: Swift.Sendable {
-        /// The maximum expected bitrate (in bps).
+        /// The maximum expected bitrate (in bps) of the ingress bridge.
         /// This member is required.
         public var maxBitrate: Swift.Int?
-        /// The maximum number of expected outputs.
+        /// The maximum number of expected outputs on the ingress bridge.
         /// This member is required.
         public var maxOutputs: Swift.Int?
 
@@ -3360,9 +3395,9 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Create maintenance setting for a flow
+    /// Create a maintenance setting for a flow.
     public struct AddMaintenance: Swift.Sendable {
-        /// A day of a week when the maintenance will happen. Use Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+        /// A day of a week when the maintenance will happen.
         /// This member is required.
         public var maintenanceDay: MediaConnectClientTypes.MaintenanceDay?
         /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes must be 00. Example: 13:00. The default value is 02:00.
@@ -3381,6 +3416,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// Create a bridge with the egress bridge type. An egress bridge is a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
     public struct EgressGatewayBridge: Swift.Sendable {
         /// The ID of the instance running this bridge.
         public var instanceId: Swift.String?
@@ -3400,6 +3436,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// Create a bridge with the ingress bridge type. An ingress bridge is a ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
     public struct IngressGatewayBridge: Swift.Sendable {
         /// The ID of the instance running this bridge.
         public var instanceId: Swift.String?
@@ -3472,10 +3509,11 @@ extension MediaConnectClientTypes {
     public struct FailoverConfig: Swift.Sendable {
         /// The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful recovery from any single-source loss. FAILOVER allows switching between different streams.
         public var failoverMode: MediaConnectClientTypes.FailoverMode?
-        /// Search window time to look for dash-7 packets
+        /// Search window time to look for dash-7 packets.
         public var recoveryWindow: Swift.Int?
         /// The priority you want to assign to a source. You can have a primary stream and a backup stream or two equally prioritized streams.
         public var sourcePriority: MediaConnectClientTypes.SourcePriority?
+        /// The state of source failover on the flow. If the state is inactive, the flow can have only one source. If the state is active, the flow can have one or two sources.
         public var state: MediaConnectClientTypes.State?
 
         public init(
@@ -3494,15 +3532,19 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// A Bridge is the connection between your datacenter's Instances and the AWS cloud. A bridge can be used to send video from the AWS cloud to your datacenter or from your datacenter to the AWS cloud.
+    /// A Bridge is the connection between your data center's Instances and the Amazon Web Services cloud. A bridge can be used to send video from the Amazon Web Services cloud to your data center or from your data center to the Amazon Web Services cloud.
     public struct Bridge: Swift.Sendable {
         /// The Amazon Resource Number (ARN) of the bridge.
         /// This member is required.
         public var bridgeArn: Swift.String?
+        /// Messages with details about the bridge.
         public var bridgeMessages: [MediaConnectClientTypes.MessageDetail]?
+        /// The state of the bridge.
         /// This member is required.
         public var bridgeState: MediaConnectClientTypes.BridgeState?
+        /// An egress bridge is a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
         public var egressGatewayBridge: MediaConnectClientTypes.EgressGatewayBridge?
+        /// An ingress bridge is a ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
         public var ingressGatewayBridge: MediaConnectClientTypes.IngressGatewayBridge?
         /// The name of the bridge.
         /// This member is required.
@@ -3572,6 +3614,540 @@ extension MediaConnectClientTypes {
     }
 }
 
+/// Exception raised by Elemental MediaConnect when creating the bridge. See the error message for the operation for more information on the cause of this exception.
+public struct CreateBridge420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CreateBridge420Exception" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateBridgeInput: Swift.Sendable {
+    /// An egress bridge is a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
+    public var egressGatewayBridge: MediaConnectClientTypes.AddEgressGatewayBridgeRequest?
+    /// An ingress bridge is a ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
+    public var ingressGatewayBridge: MediaConnectClientTypes.AddIngressGatewayBridgeRequest?
+    /// The name of the bridge. This name can not be modified after the bridge is created.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The outputs that you want to add to this bridge.
+    public var outputs: [MediaConnectClientTypes.AddBridgeOutputRequest]?
+    /// The bridge placement Amazon Resource Number (ARN).
+    /// This member is required.
+    public var placementArn: Swift.String?
+    /// The settings for source failover.
+    public var sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig?
+    /// The sources that you want to add to this bridge.
+    /// This member is required.
+    public var sources: [MediaConnectClientTypes.AddBridgeSourceRequest]?
+
+    public init(
+        egressGatewayBridge: MediaConnectClientTypes.AddEgressGatewayBridgeRequest? = nil,
+        ingressGatewayBridge: MediaConnectClientTypes.AddIngressGatewayBridgeRequest? = nil,
+        name: Swift.String? = nil,
+        outputs: [MediaConnectClientTypes.AddBridgeOutputRequest]? = nil,
+        placementArn: Swift.String? = nil,
+        sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig? = nil,
+        sources: [MediaConnectClientTypes.AddBridgeSourceRequest]? = nil
+    ) {
+        self.egressGatewayBridge = egressGatewayBridge
+        self.ingressGatewayBridge = ingressGatewayBridge
+        self.name = name
+        self.outputs = outputs
+        self.placementArn = placementArn
+        self.sourceFailoverConfig = sourceFailoverConfig
+        self.sources = sources
+    }
+}
+
+public struct CreateBridgeOutput: Swift.Sendable {
+    /// The name of the bridge that was created.
+    public var bridge: MediaConnectClientTypes.Bridge?
+
+    public init(
+        bridge: MediaConnectClientTypes.Bridge? = nil
+    ) {
+        self.bridge = bridge
+    }
+}
+
+public struct DeleteBridgeInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the bridge that you want to delete.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+
+    public init(
+        bridgeArn: Swift.String? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+    }
+}
+
+public struct DeleteBridgeOutput: Swift.Sendable {
+    /// The ARN of the deleted bridge.
+    public var bridgeArn: Swift.String?
+
+    public init(
+        bridgeArn: Swift.String? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+    }
+}
+
+public struct DescribeBridgeInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the bridge that you want to describe.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+
+    public init(
+        bridgeArn: Swift.String? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+    }
+}
+
+public struct DescribeBridgeOutput: Swift.Sendable {
+    /// The bridge that you requested a description of.
+    public var bridge: MediaConnectClientTypes.Bridge?
+
+    public init(
+        bridge: MediaConnectClientTypes.Bridge? = nil
+    ) {
+        self.bridge = bridge
+    }
+}
+
+public struct ListBridgesInput: Swift.Sendable {
+    /// Filter the list results to display only the bridges associated with the selected ARN.
+    public var filterArn: Swift.String?
+    /// The maximum number of results to return per API request. For example, you submit a ListBridges request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    public var maxResults: Swift.Int?
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init(
+        filterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filterArn = filterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListBridgesOutput: Swift.Sendable {
+    /// A list of bridge summaries.
+    public var bridges: [MediaConnectClientTypes.ListedBridge]?
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init(
+        bridges: [MediaConnectClientTypes.ListedBridge]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.bridges = bridges
+        self.nextToken = nextToken
+    }
+}
+
+public struct RemoveBridgeOutputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the bridge that you want to update.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    /// The name of the bridge output that you want to remove.
+    /// This member is required.
+    public var outputName: Swift.String?
+
+    public init(
+        bridgeArn: Swift.String? = nil,
+        outputName: Swift.String? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+        self.outputName = outputName
+    }
+}
+
+public struct RemoveBridgeOutputOutput: Swift.Sendable {
+    /// The ARN of the bridge from which the output was removed.
+    public var bridgeArn: Swift.String?
+    /// The name of the bridge output that was removed.
+    public var outputName: Swift.String?
+
+    public init(
+        bridgeArn: Swift.String? = nil,
+        outputName: Swift.String? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+        self.outputName = outputName
+    }
+}
+
+public struct RemoveBridgeSourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the bridge that you want to update.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    /// The name of the bridge source that you want to remove.
+    /// This member is required.
+    public var sourceName: Swift.String?
+
+    public init(
+        bridgeArn: Swift.String? = nil,
+        sourceName: Swift.String? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+        self.sourceName = sourceName
+    }
+}
+
+public struct RemoveBridgeSourceOutput: Swift.Sendable {
+    /// The ARN of the bridge from which the source was removed.
+    public var bridgeArn: Swift.String?
+    /// The name of the bridge source that was removed.
+    public var sourceName: Swift.String?
+
+    public init(
+        bridgeArn: Swift.String? = nil,
+        sourceName: Swift.String? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+        self.sourceName = sourceName
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Update an existing egress-type bridge.
+    public struct UpdateEgressGatewayBridgeRequest: Swift.Sendable {
+        /// The maximum expected bitrate (in bps).
+        public var maxBitrate: Swift.Int?
+
+        public init(
+            maxBitrate: Swift.Int? = nil
+        ) {
+            self.maxBitrate = maxBitrate
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Update an existing ingress-type bridge.
+    public struct UpdateIngressGatewayBridgeRequest: Swift.Sendable {
+        /// The maximum expected bitrate (in bps).
+        public var maxBitrate: Swift.Int?
+        /// The maximum number of expected outputs.
+        public var maxOutputs: Swift.Int?
+
+        public init(
+            maxBitrate: Swift.Int? = nil,
+            maxOutputs: Swift.Int? = nil
+        ) {
+            self.maxBitrate = maxBitrate
+            self.maxOutputs = maxOutputs
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The settings for source failover.
+    public struct UpdateFailoverConfig: Swift.Sendable {
+        /// The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful recovery from any single-source loss. FAILOVER allows switching between different streams.
+        public var failoverMode: MediaConnectClientTypes.FailoverMode?
+        /// Recovery window time to look for dash-7 packets.
+        public var recoveryWindow: Swift.Int?
+        /// The priority you want to assign to a source. You can have a primary stream and a backup stream or two equally prioritized streams.
+        public var sourcePriority: MediaConnectClientTypes.SourcePriority?
+        /// The state of source failover on the flow. If the state is inactive, the flow can have only one source. If the state is active, the flow can have one or two sources.
+        public var state: MediaConnectClientTypes.State?
+
+        public init(
+            failoverMode: MediaConnectClientTypes.FailoverMode? = nil,
+            recoveryWindow: Swift.Int? = nil,
+            sourcePriority: MediaConnectClientTypes.SourcePriority? = nil,
+            state: MediaConnectClientTypes.State? = nil
+        ) {
+            self.failoverMode = failoverMode
+            self.recoveryWindow = recoveryWindow
+            self.sourcePriority = sourcePriority
+            self.state = state
+        }
+    }
+}
+
+public struct UpdateBridgeInput: Swift.Sendable {
+    /// TheAmazon Resource Name (ARN) of the bridge that you want to update.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    /// A cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
+    public var egressGatewayBridge: MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest?
+    /// A ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
+    public var ingressGatewayBridge: MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest?
+    /// The settings for source failover.
+    public var sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig?
+
+    public init(
+        bridgeArn: Swift.String? = nil,
+        egressGatewayBridge: MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest? = nil,
+        ingressGatewayBridge: MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest? = nil,
+        sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+        self.egressGatewayBridge = egressGatewayBridge
+        self.ingressGatewayBridge = ingressGatewayBridge
+        self.sourceFailoverConfig = sourceFailoverConfig
+    }
+}
+
+public struct UpdateBridgeOutput: Swift.Sendable {
+    /// The bridge that was updated.
+    public var bridge: MediaConnectClientTypes.Bridge?
+
+    public init(
+        bridge: MediaConnectClientTypes.Bridge? = nil
+    ) {
+        self.bridge = bridge
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Update an existing network output.
+    public struct UpdateBridgeNetworkOutputRequest: Swift.Sendable {
+        /// The network output IP Address.
+        public var ipAddress: Swift.String?
+        /// The network output's gateway network name.
+        public var networkName: Swift.String?
+        /// The network output port.
+        public var port: Swift.Int?
+        /// The network output protocol. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
+        public var `protocol`: MediaConnectClientTypes.ModelProtocol?
+        /// The network output TTL.
+        public var ttl: Swift.Int?
+
+        public init(
+            ipAddress: Swift.String? = nil,
+            networkName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
+            ttl: Swift.Int? = nil
+        ) {
+            self.ipAddress = ipAddress
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+            self.ttl = ttl
+        }
+    }
+}
+
+public struct UpdateBridgeOutputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the bridge that you want to update.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    /// The network of the bridge output.
+    public var networkOutput: MediaConnectClientTypes.UpdateBridgeNetworkOutputRequest?
+    /// Tname of the output that you want to update.
+    /// This member is required.
+    public var outputName: Swift.String?
+
+    public init(
+        bridgeArn: Swift.String? = nil,
+        networkOutput: MediaConnectClientTypes.UpdateBridgeNetworkOutputRequest? = nil,
+        outputName: Swift.String? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+        self.networkOutput = networkOutput
+        self.outputName = outputName
+    }
+}
+
+public struct UpdateBridgeOutputOutput: Swift.Sendable {
+    /// The ARN of the bridge that was updated.
+    public var bridgeArn: Swift.String?
+    /// The bridge output that was updated.
+    public var output: MediaConnectClientTypes.BridgeOutput?
+
+    public init(
+        bridgeArn: Swift.String? = nil,
+        output: MediaConnectClientTypes.BridgeOutput? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+        self.output = output
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Update the flow source of the bridge.
+    public struct UpdateBridgeFlowSourceRequest: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) that identifies the MediaConnect resource from which to delete tags.
+        public var flowArn: Swift.String?
+        /// The name of the VPC interface attachment to use for this source.
+        public var flowVpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment?
+
+        public init(
+            flowArn: Swift.String? = nil,
+            flowVpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
+        ) {
+            self.flowArn = flowArn
+            self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Update the network source of the bridge.
+    public struct UpdateBridgeNetworkSourceRequest: Swift.Sendable {
+        /// The network source multicast IP.
+        public var multicastIp: Swift.String?
+        /// The settings related to the multicast source.
+        public var multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings?
+        /// The network source's gateway network name.
+        public var networkName: Swift.String?
+        /// The network source port.
+        public var port: Swift.Int?
+        /// The network source protocol. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
+        public var `protocol`: MediaConnectClientTypes.ModelProtocol?
+
+        public init(
+            multicastIp: Swift.String? = nil,
+            multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings? = nil,
+            networkName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: MediaConnectClientTypes.ModelProtocol? = nil
+        ) {
+            self.multicastIp = multicastIp
+            self.multicastSourceSettings = multicastSourceSettings
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+        }
+    }
+}
+
+public struct UpdateBridgeSourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the bridge that you want to update.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    /// The name of the flow that you want to update.
+    public var flowSource: MediaConnectClientTypes.UpdateBridgeFlowSourceRequest?
+    /// The network for the bridge source.
+    public var networkSource: MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest?
+    /// The name of the source that you want to update.
+    /// This member is required.
+    public var sourceName: Swift.String?
+
+    public init(
+        bridgeArn: Swift.String? = nil,
+        flowSource: MediaConnectClientTypes.UpdateBridgeFlowSourceRequest? = nil,
+        networkSource: MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest? = nil,
+        sourceName: Swift.String? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+        self.flowSource = flowSource
+        self.networkSource = networkSource
+        self.sourceName = sourceName
+    }
+}
+
+public struct UpdateBridgeSourceOutput: Swift.Sendable {
+    /// The ARN of the updated bridge source.
+    public var bridgeArn: Swift.String?
+    /// The updated bridge source.
+    public var source: MediaConnectClientTypes.BridgeSource?
+
+    public init(
+        bridgeArn: Swift.String? = nil,
+        source: MediaConnectClientTypes.BridgeSource? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+        self.source = source
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum DesiredState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleted
+        case standby
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DesiredState] {
+            return [
+                .active,
+                .deleted,
+                .standby
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleted: return "DELETED"
+            case .standby: return "STANDBY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateBridgeStateInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the bridge that you want to update the state of.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    /// The desired state for the bridge.
+    /// This member is required.
+    public var desiredState: MediaConnectClientTypes.DesiredState?
+
+    public init(
+        bridgeArn: Swift.String? = nil,
+        desiredState: MediaConnectClientTypes.DesiredState? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+        self.desiredState = desiredState
+    }
+}
+
+public struct UpdateBridgeStateOutput: Swift.Sendable {
+    /// The ARN of the updated bridge.
+    public var bridgeArn: Swift.String?
+    /// The new state of the bridge.
+    public var desiredState: MediaConnectClientTypes.DesiredState?
+
+    public init(
+        bridgeArn: Swift.String? = nil,
+        desiredState: MediaConnectClientTypes.DesiredState? = nil
+    ) {
+        self.bridgeArn = bridgeArn
+        self.desiredState = desiredState
+    }
+}
+
 extension MediaConnectClientTypes {
 
     public enum ConnectionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -3630,86 +4206,10 @@ extension MediaConnectClientTypes {
     }
 }
 
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-public struct CreateBridge420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The error message returned by AWS Elemental MediaConnect.
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "CreateBridge420Exception" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// Creates a new bridge. The request must include one source.
-public struct CreateBridgeInput: Swift.Sendable {
-    /// Create a bridge with the egress bridge type. An egress bridge is a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
-    public var egressGatewayBridge: MediaConnectClientTypes.AddEgressGatewayBridgeRequest?
-    /// Create a bridge with the ingress bridge type. An ingress bridge is a ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
-    public var ingressGatewayBridge: MediaConnectClientTypes.AddIngressGatewayBridgeRequest?
-    /// The name of the bridge. This name can not be modified after the bridge is created.
-    /// This member is required.
-    public var name: Swift.String?
-    /// The outputs that you want to add to this bridge.
-    public var outputs: [MediaConnectClientTypes.AddBridgeOutputRequest]?
-    /// The bridge placement Amazon Resource Number (ARN).
-    /// This member is required.
-    public var placementArn: Swift.String?
-    /// The settings for source failover.
-    public var sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig?
-    /// The sources that you want to add to this bridge.
-    /// This member is required.
-    public var sources: [MediaConnectClientTypes.AddBridgeSourceRequest]?
-
-    public init(
-        egressGatewayBridge: MediaConnectClientTypes.AddEgressGatewayBridgeRequest? = nil,
-        ingressGatewayBridge: MediaConnectClientTypes.AddIngressGatewayBridgeRequest? = nil,
-        name: Swift.String? = nil,
-        outputs: [MediaConnectClientTypes.AddBridgeOutputRequest]? = nil,
-        placementArn: Swift.String? = nil,
-        sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig? = nil,
-        sources: [MediaConnectClientTypes.AddBridgeSourceRequest]? = nil
-    ) {
-        self.egressGatewayBridge = egressGatewayBridge
-        self.ingressGatewayBridge = ingressGatewayBridge
-        self.name = name
-        self.outputs = outputs
-        self.placementArn = placementArn
-        self.sourceFailoverConfig = sourceFailoverConfig
-        self.sources = sources
-    }
-}
-
-public struct CreateBridgeOutput: Swift.Sendable {
-    /// A Bridge is the connection between your datacenter's Instances and the AWS cloud. A bridge can be used to send video from the AWS cloud to your datacenter or from your datacenter to the AWS cloud.
-    public var bridge: MediaConnectClientTypes.Bridge?
-
-    public init(
-        bridge: MediaConnectClientTypes.Bridge? = nil
-    ) {
-        self.bridge = bridge
-    }
-}
-
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+/// Exception raised by Elemental MediaConnect when creating the flow. See the error message for the operation for more information on the cause of this exception.
 public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3727,6 +4227,87 @@ public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRunti
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum FlowSize: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case large
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowSize] {
+            return [
+                .large,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .large: return "LARGE"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum NdiState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NdiState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+    public struct NdiConfig: Swift.Sendable {
+        /// A prefix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect generates a unique 12-character ID as the prefix.
+        public var machineName: Swift.String?
+        /// A list of up to three NDI discovery server configurations. While not required by the API, this configuration is necessary for NDI functionality to work properly.
+        public var ndiDiscoveryServers: [MediaConnectClientTypes.NdiDiscoveryServerConfig]?
+        /// A setting that controls whether NDI outputs can be used in the flow. Must be ENABLED to add NDI outputs. Default is DISABLED.
+        public var ndiState: MediaConnectClientTypes.NdiState?
+
+        public init(
+            machineName: Swift.String? = nil,
+            ndiDiscoveryServers: [MediaConnectClientTypes.NdiDiscoveryServerConfig]? = nil,
+            ndiState: MediaConnectClientTypes.NdiState? = nil
+        ) {
+            self.machineName = machineName
+            self.ndiDiscoveryServers = ndiDiscoveryServers
+            self.ndiState = ndiState
+        }
     }
 }
 
@@ -3767,7 +4348,7 @@ extension MediaConnectClientTypes {
         public var audioMonitoringSettings: [MediaConnectClientTypes.AudioMonitoringSetting]?
         /// Indicates whether content quality analysis is enabled or disabled.
         public var contentQualityAnalysisState: MediaConnectClientTypes.ContentQualityAnalysisState?
-        /// The state of thumbnail monitoring.
+        /// Indicates whether thumbnails are enabled or disabled.
         public var thumbnailState: MediaConnectClientTypes.ThumbnailState?
         /// Contains the settings for video stream metrics monitoring.
         public var videoMonitoringSettings: [MediaConnectClientTypes.VideoMonitoringSetting]?
@@ -3786,27 +4367,31 @@ extension MediaConnectClientTypes {
     }
 }
 
-/// Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
 public struct CreateFlowInput: Swift.Sendable {
-    /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS Region.
+    /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current Amazon Web Services Region.
     public var availabilityZone: Swift.String?
     /// The entitlements that you want to grant on a flow.
     public var entitlements: [MediaConnectClientTypes.GrantEntitlementRequest]?
-    /// Create maintenance setting for a flow
+    /// Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
+    public var flowSize: MediaConnectClientTypes.FlowSize?
+    /// The maintenance settings you want to use for the flow.
     public var maintenance: MediaConnectClientTypes.AddMaintenance?
     /// The media streams that you want to add to the flow. You can associate these media streams with sources and outputs on the flow.
     public var mediaStreams: [MediaConnectClientTypes.AddMediaStreamRequest]?
     /// The name of the flow.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+    public var ndiConfig: MediaConnectClientTypes.NdiConfig?
     /// The outputs that you want to add to this flow.
     public var outputs: [MediaConnectClientTypes.AddOutputRequest]?
-    /// The settings for the source of the flow.
+    /// The settings for the source that you want to use for the new flow.
     public var source: MediaConnectClientTypes.SetSourceRequest?
     /// The settings for source failover.
     public var sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig?
     /// The settings for source monitoring.
     public var sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig?
+    /// The sources that are assigned to the flow.
     public var sources: [MediaConnectClientTypes.SetSourceRequest]?
     /// The VPC interfaces you want on the flow.
     public var vpcInterfaces: [MediaConnectClientTypes.VpcInterfaceRequest]?
@@ -3814,9 +4399,11 @@ public struct CreateFlowInput: Swift.Sendable {
     public init(
         availabilityZone: Swift.String? = nil,
         entitlements: [MediaConnectClientTypes.GrantEntitlementRequest]? = nil,
+        flowSize: MediaConnectClientTypes.FlowSize? = nil,
         maintenance: MediaConnectClientTypes.AddMaintenance? = nil,
         mediaStreams: [MediaConnectClientTypes.AddMediaStreamRequest]? = nil,
         name: Swift.String? = nil,
+        ndiConfig: MediaConnectClientTypes.NdiConfig? = nil,
         outputs: [MediaConnectClientTypes.AddOutputRequest]? = nil,
         source: MediaConnectClientTypes.SetSourceRequest? = nil,
         sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig? = nil,
@@ -3826,9 +4413,11 @@ public struct CreateFlowInput: Swift.Sendable {
     ) {
         self.availabilityZone = availabilityZone
         self.entitlements = entitlements
+        self.flowSize = flowSize
         self.maintenance = maintenance
         self.mediaStreams = mediaStreams
         self.name = name
+        self.ndiConfig = ndiConfig
         self.outputs = outputs
         self.source = source
         self.sourceFailoverConfig = sourceFailoverConfig
@@ -3842,10 +4431,10 @@ extension MediaConnectClientTypes {
 
     /// The settings for a flow, including its source, outputs, and entitlements.
     public struct Flow: Swift.Sendable {
-        /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS.
+        /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current Amazon Web Services Region.
         /// This member is required.
         public var availabilityZone: Swift.String?
-        /// A description of the flow. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
+        /// A description of the flow. This value is not used or seen outside of the current MediaConnect account.
         public var description: Swift.String?
         /// The IP address from which video will be sent to output destinations.
         public var egressIp: Swift.String?
@@ -3855,23 +4444,28 @@ extension MediaConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the flow.
         /// This member is required.
         public var flowArn: Swift.String?
-        /// The maintenance setting of a flow
+        /// Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
+        public var flowSize: MediaConnectClientTypes.FlowSize?
+        /// The maintenance settings for the flow.
         public var maintenance: MediaConnectClientTypes.Maintenance?
         /// The media streams that are associated with the flow. After you associate a media stream with a source, you can also associate it with outputs on the flow.
         public var mediaStreams: [MediaConnectClientTypes.MediaStream]?
         /// The name of the flow.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+        public var ndiConfig: MediaConnectClientTypes.NdiConfig?
         /// The outputs in this flow.
         /// This member is required.
         public var outputs: [MediaConnectClientTypes.Output]?
-        /// The settings for the source of the flow.
+        /// The source for the flow.
         /// This member is required.
         public var source: MediaConnectClientTypes.Source?
-        /// The settings for source failover.
+        /// The settings for the source failover.
         public var sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig?
         /// The settings for source monitoring.
         public var sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig?
+        /// The settings for the sources that are assigned to the flow.
         public var sources: [MediaConnectClientTypes.Source]?
         /// The current status of the flow.
         /// This member is required.
@@ -3885,9 +4479,11 @@ extension MediaConnectClientTypes {
             egressIp: Swift.String? = nil,
             entitlements: [MediaConnectClientTypes.Entitlement]? = nil,
             flowArn: Swift.String? = nil,
+            flowSize: MediaConnectClientTypes.FlowSize? = nil,
             maintenance: MediaConnectClientTypes.Maintenance? = nil,
             mediaStreams: [MediaConnectClientTypes.MediaStream]? = nil,
             name: Swift.String? = nil,
+            ndiConfig: MediaConnectClientTypes.NdiConfig? = nil,
             outputs: [MediaConnectClientTypes.Output]? = nil,
             source: MediaConnectClientTypes.Source? = nil,
             sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig? = nil,
@@ -3901,9 +4497,11 @@ extension MediaConnectClientTypes {
             self.egressIp = egressIp
             self.entitlements = entitlements
             self.flowArn = flowArn
+            self.flowSize = flowSize
             self.maintenance = maintenance
             self.mediaStreams = mediaStreams
             self.name = name
+            self.ndiConfig = ndiConfig
             self.outputs = outputs
             self.source = source
             self.sourceFailoverConfig = sourceFailoverConfig
@@ -3916,7 +4514,7 @@ extension MediaConnectClientTypes {
 }
 
 public struct CreateFlowOutput: Swift.Sendable {
-    /// The settings for a flow, including its source, outputs, and entitlements.
+    /// The flow that you created.
     public var flow: MediaConnectClientTypes.Flow?
 
     public init(
@@ -3926,11 +4524,10 @@ public struct CreateFlowOutput: Swift.Sendable {
     }
 }
 
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+/// Exception raised by Elemental MediaConnect when creating the gateway. See the error message for the operation for more information on the cause of this exception.
 public struct CreateGateway420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3951,7 +4548,6 @@ public struct CreateGateway420Exception: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// Creates a new gateway. The request must include at least one network (up to 4).
 public struct CreateGatewayInput: Swift.Sendable {
     /// The range of IP addresses that are allowed to contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
     /// This member is required.
@@ -3959,7 +4555,7 @@ public struct CreateGatewayInput: Swift.Sendable {
     /// The name of the gateway. This name can not be modified after the gateway is created.
     /// This member is required.
     public var name: Swift.String?
-    /// The list of networks that you want to add.
+    /// The list of networks that you want to add to the gateway.
     /// This member is required.
     public var networks: [MediaConnectClientTypes.GatewayNetwork]?
 
@@ -3984,6 +4580,7 @@ extension MediaConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the gateway.
         /// This member is required.
         public var gatewayArn: Swift.String?
+        /// Messages with information about the gateway.
         public var gatewayMessages: [MediaConnectClientTypes.MessageDetail]?
         /// The current status of the gateway.
         public var gatewayState: MediaConnectClientTypes.GatewayState?
@@ -4013,7 +4610,7 @@ extension MediaConnectClientTypes {
 }
 
 public struct CreateGatewayOutput: Swift.Sendable {
-    /// The settings for a gateway, including its networks.
+    /// The gateway that you created.
     public var gateway: MediaConnectClientTypes.Gateway?
 
     public init(
@@ -4023,31 +4620,8 @@ public struct CreateGatewayOutput: Swift.Sendable {
     }
 }
 
-public struct DeleteBridgeInput: Swift.Sendable {
-    /// The ARN of the bridge that you want to delete.
-    /// This member is required.
-    public var bridgeArn: Swift.String?
-
-    public init(
-        bridgeArn: Swift.String? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-    }
-}
-
-public struct DeleteBridgeOutput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the deleted bridge.
-    public var bridgeArn: Swift.String?
-
-    public init(
-        bridgeArn: Swift.String? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-    }
-}
-
 public struct DeleteFlowInput: Swift.Sendable {
-    /// The ARN of the flow that you want to delete.
+    /// The Amazon Resource Name (ARN) of the flow that you want to delete.
     /// This member is required.
     public var flowArn: Swift.String?
 
@@ -4074,7 +4648,7 @@ public struct DeleteFlowOutput: Swift.Sendable {
 }
 
 public struct DeleteGatewayInput: Swift.Sendable {
-    /// The ARN of the gateway that you want to delete.
+    /// The Amazon Resource Name (ARN) of the gateway that you want to delete.
     /// This member is required.
     public var gatewayArn: Swift.String?
 
@@ -4086,7 +4660,7 @@ public struct DeleteGatewayInput: Swift.Sendable {
 }
 
 public struct DeleteGatewayOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the gateway that was deleted.
+    /// The ARN of the gateway that was deleted.
     public var gatewayArn: Swift.String?
 
     public init(
@@ -4113,7 +4687,7 @@ public struct DeregisterGatewayInstanceInput: Swift.Sendable {
 }
 
 public struct DeregisterGatewayInstanceOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the instance.
+    /// The ARN of the instance.
     public var gatewayInstanceArn: Swift.String?
     /// The status of the instance.
     public var instanceState: MediaConnectClientTypes.InstanceState?
@@ -4124,29 +4698,6 @@ public struct DeregisterGatewayInstanceOutput: Swift.Sendable {
     ) {
         self.gatewayInstanceArn = gatewayInstanceArn
         self.instanceState = instanceState
-    }
-}
-
-public struct DescribeBridgeInput: Swift.Sendable {
-    /// The ARN of the bridge that you want to describe.
-    /// This member is required.
-    public var bridgeArn: Swift.String?
-
-    public init(
-        bridgeArn: Swift.String? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-    }
-}
-
-public struct DescribeBridgeOutput: Swift.Sendable {
-    /// A Bridge is the connection between your datacenter's Instances and the AWS cloud. A bridge can be used to send video from the AWS cloud to your datacenter or from your datacenter to the AWS cloud.
-    public var bridge: MediaConnectClientTypes.Bridge?
-
-    public init(
-        bridge: MediaConnectClientTypes.Bridge? = nil
-    ) {
-        self.bridge = bridge
     }
 }
 
@@ -4179,9 +4730,9 @@ extension MediaConnectClientTypes {
 }
 
 public struct DescribeFlowOutput: Swift.Sendable {
-    /// The settings for a flow, including its source, outputs, and entitlements.
+    /// The flow that you requested a description of.
     public var flow: MediaConnectClientTypes.Flow?
-    /// Messages that provide the state of the flow.
+    /// Any errors that apply currently to the flow. If there are no errors, MediaConnect will not include this field in the response.
     public var messages: MediaConnectClientTypes.Messages?
 
     public init(
@@ -4228,7 +4779,7 @@ public struct DescribeFlowSourceMetadataOutput: Swift.Sendable {
     public var messages: [MediaConnectClientTypes.MessageDetail]?
     /// The timestamp of the most recent change in metadata for this flow’s source.
     public var timestamp: Foundation.Date?
-    /// The metadata of the transport stream in the current flow's source.
+    /// Information about the flow's transport media.
     public var transportMediaInfo: MediaConnectClientTypes.TransportMediaInfo?
 
     public init(
@@ -4301,7 +4852,7 @@ public struct DescribeFlowSourceThumbnailOutput: Swift.Sendable {
 }
 
 public struct DescribeGatewayInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the gateway that you want to describe.
+    /// The ARN of the gateway that you want to describe.
     /// This member is required.
     public var gatewayArn: Swift.String?
 
@@ -4313,7 +4864,7 @@ public struct DescribeGatewayInput: Swift.Sendable {
 }
 
 public struct DescribeGatewayOutput: Swift.Sendable {
-    /// The settings for a gateway, including its networks.
+    /// The gateway that you wanted to describe.
     public var gateway: MediaConnectClientTypes.Gateway?
 
     public init(
@@ -4339,7 +4890,7 @@ extension MediaConnectClientTypes {
 
     /// The settings for an instance in a gateway.
     public struct GatewayInstance: Swift.Sendable {
-        /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
+        /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be deployed to this instance.
         /// This member is required.
         public var bridgePlacement: MediaConnectClientTypes.BridgePlacement?
         /// The connection state of the instance.
@@ -4348,12 +4899,13 @@ extension MediaConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the instance.
         /// This member is required.
         public var gatewayArn: Swift.String?
-        /// The Amazon Resource Name (ARN) of the gateway.
+        /// The ARN of the gateway.
         /// This member is required.
         public var gatewayInstanceArn: Swift.String?
-        /// The managed instance ID generated by the SSM install. This will begin with "mi-".
+        /// The instance ID generated by the SSM install. This will begin with "mi-".
         /// This member is required.
         public var instanceId: Swift.String?
+        /// Messages with information about the gateway.
         public var instanceMessages: [MediaConnectClientTypes.MessageDetail]?
         /// The status of the instance.
         /// This member is required.
@@ -4385,7 +4937,7 @@ extension MediaConnectClientTypes {
 }
 
 public struct DescribeGatewayInstanceOutput: Swift.Sendable {
-    /// The settings for an instance in a gateway.
+    /// The gateway instance that you requested a description of.
     public var gatewayInstance: MediaConnectClientTypes.GatewayInstance?
 
     public init(
@@ -4396,7 +4948,7 @@ public struct DescribeGatewayInstanceOutput: Swift.Sendable {
 }
 
 public struct DescribeOfferingInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the offering.
+    /// The ARN of the offering.
     /// This member is required.
     public var offeringArn: Swift.String?
 
@@ -4408,7 +4960,7 @@ public struct DescribeOfferingInput: Swift.Sendable {
 }
 
 public struct DescribeOfferingOutput: Swift.Sendable {
-    /// A savings plan that reserves a certain amount of outbound bandwidth usage at a discounted rate each month over a period of time.
+    /// The offering that you requested a description of.
     public var offering: MediaConnectClientTypes.Offering?
 
     public init(
@@ -4419,7 +4971,7 @@ public struct DescribeOfferingOutput: Swift.Sendable {
 }
 
 public struct DescribeReservationInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the reservation.
+    /// The Amazon Resource Name (ARN) of the offering.
     /// This member is required.
     public var reservationArn: Swift.String?
 
@@ -4441,43 +4993,10 @@ public struct DescribeReservationOutput: Swift.Sendable {
     }
 }
 
-extension MediaConnectClientTypes {
-
-    public enum DesiredState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case deleted
-        case standby
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DesiredState] {
-            return [
-                .active,
-                .deleted,
-                .standby
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "ACTIVE"
-            case .deleted: return "DELETED"
-            case .standby: return "STANDBY"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+/// Exception raised by Elemental MediaConnect when granting the entitlement. See the error message for the operation for more information on the cause of this exception.
 public struct GrantFlowEntitlements420Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// The error message returned by AWS Elemental MediaConnect.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4498,12 +5017,11 @@ public struct GrantFlowEntitlements420Exception: ClientRuntime.ModeledError, AWS
     }
 }
 
-/// A request to grant entitlements on a flow.
 public struct GrantFlowEntitlementsInput: Swift.Sendable {
     /// The list of entitlements that you want to grant.
     /// This member is required.
     public var entitlements: [MediaConnectClientTypes.GrantEntitlementRequest]?
-    /// The flow that you want to grant entitlements on.
+    /// The Amazon Resource Name (ARN) of the flow that you want to grant entitlements on.
     /// This member is required.
     public var flowArn: Swift.String?
 
@@ -4531,74 +5049,10 @@ public struct GrantFlowEntitlementsOutput: Swift.Sendable {
     }
 }
 
-public struct ListBridgesInput: Swift.Sendable {
-    /// Filter the list results to display only the bridges associated with the selected Amazon Resource Name (ARN).
-    public var filterArn: Swift.String?
-    /// The maximum number of results to return per API request. For example, you submit a ListBridges request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-    public var maxResults: Swift.Int?
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
-    public var nextToken: Swift.String?
-
-    public init(
-        filterArn: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.filterArn = filterArn
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListBridgesOutput: Swift.Sendable {
-    /// A list of bridge summaries.
-    public var bridges: [MediaConnectClientTypes.ListedBridge]?
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
-    public var nextToken: Swift.String?
-
-    public init(
-        bridges: [MediaConnectClientTypes.ListedBridge]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.bridges = bridges
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListEntitlementsInput: Swift.Sendable {
-    /// The maximum number of results to return per API request. For example, you submit a ListEntitlements request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 20 results per page.
-    public var maxResults: Swift.Int?
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
-    public var nextToken: Swift.String?
-
-    public init(
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListEntitlementsOutput: Swift.Sendable {
-    /// A list of entitlements that have been granted to you from other AWS accounts.
-    public var entitlements: [MediaConnectClientTypes.ListedEntitlement]?
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
-    public var nextToken: Swift.String?
-
-    public init(
-        entitlements: [MediaConnectClientTypes.ListedEntitlement]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.entitlements = entitlements
-        self.nextToken = nextToken
-    }
-}
-
 public struct ListFlowsInput: Swift.Sendable {
     /// The maximum number of results to return per API request. For example, you submit a ListFlows request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
     public var maxResults: Swift.Int?
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
     public var nextToken: Swift.String?
 
     public init(
@@ -4613,7 +5067,7 @@ public struct ListFlowsInput: Swift.Sendable {
 public struct ListFlowsOutput: Swift.Sendable {
     /// A list of flow summaries.
     public var flows: [MediaConnectClientTypes.ListedFlow]?
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
     public var nextToken: Swift.String?
 
     public init(
@@ -4625,249 +5079,8 @@ public struct ListFlowsOutput: Swift.Sendable {
     }
 }
 
-public struct ListGatewayInstancesInput: Swift.Sendable {
-    /// Filter the list results to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
-    public var filterArn: Swift.String?
-    /// The maximum number of results to return per API request. For example, you submit a ListInstances request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-    public var maxResults: Swift.Int?
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
-    public var nextToken: Swift.String?
-
-    public init(
-        filterArn: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.filterArn = filterArn
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListGatewayInstancesOutput: Swift.Sendable {
-    /// A list of instance summaries.
-    public var instances: [MediaConnectClientTypes.ListedGatewayInstance]?
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
-    public var nextToken: Swift.String?
-
-    public init(
-        instances: [MediaConnectClientTypes.ListedGatewayInstance]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.instances = instances
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListGatewaysInput: Swift.Sendable {
-    /// The maximum number of results to return per API request. For example, you submit a ListGateways request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-    public var maxResults: Swift.Int?
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
-    public var nextToken: Swift.String?
-
-    public init(
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListGatewaysOutput: Swift.Sendable {
-    /// A list of gateway summaries.
-    public var gateways: [MediaConnectClientTypes.ListedGateway]?
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
-    public var nextToken: Swift.String?
-
-    public init(
-        gateways: [MediaConnectClientTypes.ListedGateway]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.gateways = gateways
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListOfferingsInput: Swift.Sendable {
-    /// The maximum number of results to return per API request. For example, you submit a ListOfferings request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-    public var maxResults: Swift.Int?
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
-    public var nextToken: Swift.String?
-
-    public init(
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListOfferingsOutput: Swift.Sendable {
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
-    public var nextToken: Swift.String?
-    /// A list of offerings that are available to this account in the current AWS Region.
-    public var offerings: [MediaConnectClientTypes.Offering]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        offerings: [MediaConnectClientTypes.Offering]? = nil
-    ) {
-        self.nextToken = nextToken
-        self.offerings = offerings
-    }
-}
-
-public struct ListReservationsInput: Swift.Sendable {
-    /// The maximum number of results to return per API request. For example, you submit a ListReservations request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-    public var maxResults: Swift.Int?
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
-    public var nextToken: Swift.String?
-
-    public init(
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListReservationsOutput: Swift.Sendable {
-    /// The token that identifies which batch of results that you want to see. For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListReservations request a second time and specify the NextToken value.
-    public var nextToken: Swift.String?
-    /// A list of all reservations that have been purchased by this account in the current AWS Region.
-    public var reservations: [MediaConnectClientTypes.Reservation]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        reservations: [MediaConnectClientTypes.Reservation]? = nil
-    ) {
-        self.nextToken = nextToken
-        self.reservations = reservations
-    }
-}
-
-public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource for which to list the tags.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-
-    public init(
-        resourceArn: Swift.String? = nil
-    ) {
-        self.resourceArn = resourceArn
-    }
-}
-
-public struct ListTagsForResourceOutput: Swift.Sendable {
-    /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.tags = tags
-    }
-}
-
-/// A request to purchase a offering.
-public struct PurchaseOfferingInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the offering.
-    /// This member is required.
-    public var offeringArn: Swift.String?
-    /// The name that you want to use for the reservation.
-    /// This member is required.
-    public var reservationName: Swift.String?
-    /// The date and time that you want the reservation to begin, in Coordinated Universal Time (UTC). You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
-    /// This member is required.
-    public var start: Swift.String?
-
-    public init(
-        offeringArn: Swift.String? = nil,
-        reservationName: Swift.String? = nil,
-        start: Swift.String? = nil
-    ) {
-        self.offeringArn = offeringArn
-        self.reservationName = reservationName
-        self.start = start
-    }
-}
-
-public struct PurchaseOfferingOutput: Swift.Sendable {
-    /// A pricing agreement for a discounted rate for a specific outbound bandwidth that your MediaConnect account will use each month over a specific time period. The discounted rate in the reservation applies to outbound bandwidth for all flows from your account until your account reaches the amount of bandwidth in your reservation. If you use more outbound bandwidth than the agreed upon amount in a single month, the overage is charged at the on-demand rate.
-    public var reservation: MediaConnectClientTypes.Reservation?
-
-    public init(
-        reservation: MediaConnectClientTypes.Reservation? = nil
-    ) {
-        self.reservation = reservation
-    }
-}
-
-public struct RemoveBridgeOutputInput: Swift.Sendable {
-    /// The ARN of the bridge that you want to update.
-    /// This member is required.
-    public var bridgeArn: Swift.String?
-    /// The name of the bridge output that you want to remove.
-    /// This member is required.
-    public var outputName: Swift.String?
-
-    public init(
-        bridgeArn: Swift.String? = nil,
-        outputName: Swift.String? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-        self.outputName = outputName
-    }
-}
-
-public struct RemoveBridgeOutputOutput: Swift.Sendable {
-    public var bridgeArn: Swift.String?
-    public var outputName: Swift.String?
-
-    public init(
-        bridgeArn: Swift.String? = nil,
-        outputName: Swift.String? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-        self.outputName = outputName
-    }
-}
-
-public struct RemoveBridgeSourceInput: Swift.Sendable {
-    /// The ARN of the bridge that you want to update.
-    /// This member is required.
-    public var bridgeArn: Swift.String?
-    /// The name of the bridge source that you want to remove.
-    /// This member is required.
-    public var sourceName: Swift.String?
-
-    public init(
-        bridgeArn: Swift.String? = nil,
-        sourceName: Swift.String? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-        self.sourceName = sourceName
-    }
-}
-
-public struct RemoveBridgeSourceOutput: Swift.Sendable {
-    public var bridgeArn: Swift.String?
-    public var sourceName: Swift.String?
-
-    public init(
-        bridgeArn: Swift.String? = nil,
-        sourceName: Swift.String? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-        self.sourceName = sourceName
-    }
-}
-
 public struct RemoveFlowMediaStreamInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the flow.
+    /// The Amazon Resource Name (ARN) of the flow that you want to update.
     /// This member is required.
     public var flowArn: Swift.String?
     /// The name of the media stream that you want to remove.
@@ -4884,7 +5097,7 @@ public struct RemoveFlowMediaStreamInput: Swift.Sendable {
 }
 
 public struct RemoveFlowMediaStreamOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the flow.
+    /// The ARN of the flow that was updated.
     public var flowArn: Swift.String?
     /// The name of the media stream that was removed.
     public var mediaStreamName: Swift.String?
@@ -4899,7 +5112,7 @@ public struct RemoveFlowMediaStreamOutput: Swift.Sendable {
 }
 
 public struct RemoveFlowOutputInput: Swift.Sendable {
-    /// The flow that you want to remove an output from.
+    /// The Amazon Resource Name (ARN) of the flow that you want to remove an output from.
     /// This member is required.
     public var flowArn: Swift.String?
     /// The ARN of the output that you want to remove.
@@ -4916,7 +5129,7 @@ public struct RemoveFlowOutputInput: Swift.Sendable {
 }
 
 public struct RemoveFlowOutputOutput: Swift.Sendable {
-    /// The ARN of the flow that is associated with the output you removed.
+    /// The ARN of the flow that the output was removed from.
     public var flowArn: Swift.String?
     /// The ARN of the output that was removed.
     public var outputArn: Swift.String?
@@ -4931,7 +5144,7 @@ public struct RemoveFlowOutputOutput: Swift.Sendable {
 }
 
 public struct RemoveFlowSourceInput: Swift.Sendable {
-    /// The flow that you want to remove a source from.
+    /// The Amazon Resource Name (ARN) of the flow that you want to remove a source from.
     /// This member is required.
     public var flowArn: Swift.String?
     /// The ARN of the source that you want to remove.
@@ -4948,7 +5161,7 @@ public struct RemoveFlowSourceInput: Swift.Sendable {
 }
 
 public struct RemoveFlowSourceOutput: Swift.Sendable {
-    /// The ARN of the flow that is associated with the source you removed.
+    /// The ARN of the flow that the source was removed from.
     public var flowArn: Swift.String?
     /// The ARN of the source that was removed.
     public var sourceArn: Swift.String?
@@ -4963,7 +5176,7 @@ public struct RemoveFlowSourceOutput: Swift.Sendable {
 }
 
 public struct RemoveFlowVpcInterfaceInput: Swift.Sendable {
-    /// The flow that you want to remove a VPC interface from.
+    /// The Amazon Resource Name (ARN) of the flow that you want to remove a VPC interface from.
     /// This member is required.
     public var flowArn: Swift.String?
     /// The name of the VPC interface that you want to remove.
@@ -4982,7 +5195,7 @@ public struct RemoveFlowVpcInterfaceInput: Swift.Sendable {
 public struct RemoveFlowVpcInterfaceOutput: Swift.Sendable {
     /// The ARN of the flow that is associated with the VPC interface you removed.
     public var flowArn: Swift.String?
-    /// IDs of network interfaces associated with the removed VPC interface that Media Connect was unable to remove.
+    /// IDs of network interfaces associated with the removed VPC interface that MediaConnect was unable to remove.
     public var nonDeletedNetworkInterfaceIds: [Swift.String]?
     /// The name of the VPC interface that was removed.
     public var vpcInterfaceName: Swift.String?
@@ -4999,7 +5212,7 @@ public struct RemoveFlowVpcInterfaceOutput: Swift.Sendable {
 }
 
 public struct RevokeFlowEntitlementInput: Swift.Sendable {
-    /// The ARN of the entitlement that you want to revoke.
+    /// The Amazon Resource Name (ARN) of the entitlement that you want to revoke.
     /// This member is required.
     public var entitlementArn: Swift.String?
     /// The flow that you want to revoke an entitlement from.
@@ -5031,7 +5244,7 @@ public struct RevokeFlowEntitlementOutput: Swift.Sendable {
 }
 
 public struct StartFlowInput: Swift.Sendable {
-    /// The ARN of the flow that you want to start.
+    /// The Amazon Resource Name (ARN) of the flow that you want to start.
     /// This member is required.
     public var flowArn: Swift.String?
 
@@ -5058,7 +5271,7 @@ public struct StartFlowOutput: Swift.Sendable {
 }
 
 public struct StopFlowInput: Swift.Sendable {
-    /// The ARN of the flow that you want to stop.
+    /// The Amazon Resource Name (ARN) of the flow that you want to stop.
     /// This member is required.
     public var flowArn: Swift.String?
 
@@ -5084,329 +5297,11 @@ public struct StopFlowOutput: Swift.Sendable {
     }
 }
 
-/// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
-public struct TagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource to which to add tags.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-    /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
-    /// This member is required.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        resourceArn: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.resourceArn = resourceArn
-        self.tags = tags
-    }
-}
-
-public struct UntagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource from which to delete tags.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-    /// The keys of the tags to be removed.
-    /// This member is required.
-    public var tagKeys: [Swift.String]?
-
-    public init(
-        resourceArn: Swift.String? = nil,
-        tagKeys: [Swift.String]? = nil
-    ) {
-        self.resourceArn = resourceArn
-        self.tagKeys = tagKeys
-    }
-}
-
 extension MediaConnectClientTypes {
 
-    public struct UpdateEgressGatewayBridgeRequest: Swift.Sendable {
-        /// Update an existing egress-type bridge.
-        public var maxBitrate: Swift.Int?
-
-        public init(
-            maxBitrate: Swift.Int? = nil
-        ) {
-            self.maxBitrate = maxBitrate
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    public struct UpdateIngressGatewayBridgeRequest: Swift.Sendable {
-        /// The maximum expected bitrate (in bps).
-        public var maxBitrate: Swift.Int?
-        /// The maximum number of expected outputs.
-        public var maxOutputs: Swift.Int?
-
-        public init(
-            maxBitrate: Swift.Int? = nil,
-            maxOutputs: Swift.Int? = nil
-        ) {
-            self.maxBitrate = maxBitrate
-            self.maxOutputs = maxOutputs
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    /// The settings for source failover.
-    public struct UpdateFailoverConfig: Swift.Sendable {
-        /// The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful recovery from any single-source loss. FAILOVER allows switching between different streams.
-        public var failoverMode: MediaConnectClientTypes.FailoverMode?
-        /// Recovery window time to look for dash-7 packets
-        public var recoveryWindow: Swift.Int?
-        /// The priority you want to assign to a source. You can have a primary stream and a backup stream or two equally prioritized streams.
-        public var sourcePriority: MediaConnectClientTypes.SourcePriority?
-        public var state: MediaConnectClientTypes.State?
-
-        public init(
-            failoverMode: MediaConnectClientTypes.FailoverMode? = nil,
-            recoveryWindow: Swift.Int? = nil,
-            sourcePriority: MediaConnectClientTypes.SourcePriority? = nil,
-            state: MediaConnectClientTypes.State? = nil
-        ) {
-            self.failoverMode = failoverMode
-            self.recoveryWindow = recoveryWindow
-            self.sourcePriority = sourcePriority
-            self.state = state
-        }
-    }
-}
-
-/// A request to update the bridge.
-public struct UpdateBridgeInput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the bridge that you want to update.
-    /// This member is required.
-    public var bridgeArn: Swift.String?
-    public var egressGatewayBridge: MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest?
-    public var ingressGatewayBridge: MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest?
-    /// The settings for source failover.
-    public var sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig?
-
-    public init(
-        bridgeArn: Swift.String? = nil,
-        egressGatewayBridge: MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest? = nil,
-        ingressGatewayBridge: MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest? = nil,
-        sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-        self.egressGatewayBridge = egressGatewayBridge
-        self.ingressGatewayBridge = ingressGatewayBridge
-        self.sourceFailoverConfig = sourceFailoverConfig
-    }
-}
-
-public struct UpdateBridgeOutput: Swift.Sendable {
-    /// A Bridge is the connection between your datacenter's Instances and the AWS cloud. A bridge can be used to send video from the AWS cloud to your datacenter or from your datacenter to the AWS cloud.
-    public var bridge: MediaConnectClientTypes.Bridge?
-
-    public init(
-        bridge: MediaConnectClientTypes.Bridge? = nil
-    ) {
-        self.bridge = bridge
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    /// Update an existing network output.
-    public struct UpdateBridgeNetworkOutputRequest: Swift.Sendable {
-        /// The network output IP Address.
-        public var ipAddress: Swift.String?
-        /// The network output's gateway network name.
-        public var networkName: Swift.String?
-        /// The network output port.
-        public var port: Swift.Int?
-        /// The network output protocol.
-        public var `protocol`: MediaConnectClientTypes.ModelProtocol?
-        /// The network output TTL.
-        public var ttl: Swift.Int?
-
-        public init(
-            ipAddress: Swift.String? = nil,
-            networkName: Swift.String? = nil,
-            port: Swift.Int? = nil,
-            `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
-            ttl: Swift.Int? = nil
-        ) {
-            self.ipAddress = ipAddress
-            self.networkName = networkName
-            self.port = port
-            self.`protocol` = `protocol`
-            self.ttl = ttl
-        }
-    }
-}
-
-/// The fields that you want to update in the bridge output.
-public struct UpdateBridgeOutputInput: Swift.Sendable {
-    /// The ARN of the bridge that you want to update.
-    /// This member is required.
-    public var bridgeArn: Swift.String?
-    /// Update an existing network output.
-    public var networkOutput: MediaConnectClientTypes.UpdateBridgeNetworkOutputRequest?
-    /// The name of the bridge output that you want to update.
-    /// This member is required.
-    public var outputName: Swift.String?
-
-    public init(
-        bridgeArn: Swift.String? = nil,
-        networkOutput: MediaConnectClientTypes.UpdateBridgeNetworkOutputRequest? = nil,
-        outputName: Swift.String? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-        self.networkOutput = networkOutput
-        self.outputName = outputName
-    }
-}
-
-public struct UpdateBridgeOutputOutput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the bridge.
-    public var bridgeArn: Swift.String?
-    /// The output that you updated.
-    public var output: MediaConnectClientTypes.BridgeOutput?
-
-    public init(
-        bridgeArn: Swift.String? = nil,
-        output: MediaConnectClientTypes.BridgeOutput? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-        self.output = output
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    /// Update the flow source of the bridge.
-    public struct UpdateBridgeFlowSourceRequest: Swift.Sendable {
-        /// The ARN of the cloud flow to use as a source of this bridge.
-        public var flowArn: Swift.String?
-        /// The name of the VPC interface attachment to use for this source.
-        public var flowVpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment?
-
-        public init(
-            flowArn: Swift.String? = nil,
-            flowVpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
-        ) {
-            self.flowArn = flowArn
-            self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    /// Update the network source of the bridge.
-    public struct UpdateBridgeNetworkSourceRequest: Swift.Sendable {
-        /// The network source multicast IP.
-        public var multicastIp: Swift.String?
-        /// The settings related to the multicast source.
-        public var multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings?
-        /// The network source's gateway network name.
-        public var networkName: Swift.String?
-        /// The network source port.
-        public var port: Swift.Int?
-        /// The network source protocol.
-        public var `protocol`: MediaConnectClientTypes.ModelProtocol?
-
-        public init(
-            multicastIp: Swift.String? = nil,
-            multicastSourceSettings: MediaConnectClientTypes.MulticastSourceSettings? = nil,
-            networkName: Swift.String? = nil,
-            port: Swift.Int? = nil,
-            `protocol`: MediaConnectClientTypes.ModelProtocol? = nil
-        ) {
-            self.multicastIp = multicastIp
-            self.multicastSourceSettings = multicastSourceSettings
-            self.networkName = networkName
-            self.port = port
-            self.`protocol` = `protocol`
-        }
-    }
-}
-
-/// The fields that you want to update in the bridge source.
-public struct UpdateBridgeSourceInput: Swift.Sendable {
-    /// The ARN of the bridge that you want to update.
-    /// This member is required.
-    public var bridgeArn: Swift.String?
-    /// Update the flow source of the bridge.
-    public var flowSource: MediaConnectClientTypes.UpdateBridgeFlowSourceRequest?
-    /// Update the network source of the bridge.
-    public var networkSource: MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest?
-    /// The name of the source that you want to update.
-    /// This member is required.
-    public var sourceName: Swift.String?
-
-    public init(
-        bridgeArn: Swift.String? = nil,
-        flowSource: MediaConnectClientTypes.UpdateBridgeFlowSourceRequest? = nil,
-        networkSource: MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest? = nil,
-        sourceName: Swift.String? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-        self.flowSource = flowSource
-        self.networkSource = networkSource
-        self.sourceName = sourceName
-    }
-}
-
-public struct UpdateBridgeSourceOutput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the bridge.
-    public var bridgeArn: Swift.String?
-    /// The bridge's source.
-    public var source: MediaConnectClientTypes.BridgeSource?
-
-    public init(
-        bridgeArn: Swift.String? = nil,
-        source: MediaConnectClientTypes.BridgeSource? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-        self.source = source
-    }
-}
-
-/// A request to update the bridge state.
-public struct UpdateBridgeStateInput: Swift.Sendable {
-    /// The ARN of the bridge that you want to update.
-    /// This member is required.
-    public var bridgeArn: Swift.String?
-    /// This member is required.
-    public var desiredState: MediaConnectClientTypes.DesiredState?
-
-    public init(
-        bridgeArn: Swift.String? = nil,
-        desiredState: MediaConnectClientTypes.DesiredState? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-        self.desiredState = desiredState
-    }
-}
-
-public struct UpdateBridgeStateOutput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the bridge.
-    public var bridgeArn: Swift.String?
-    /// The state of the bridge. ACTIVE or STANDBY.
-    public var desiredState: MediaConnectClientTypes.DesiredState?
-
-    public init(
-        bridgeArn: Swift.String? = nil,
-        desiredState: MediaConnectClientTypes.DesiredState? = nil
-    ) {
-        self.bridgeArn = bridgeArn
-        self.desiredState = desiredState
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    /// Update maintenance setting for a flow
+    /// Update maintenance setting for a flow.
     public struct UpdateMaintenance: Swift.Sendable {
-        /// A day of a week when the maintenance will happen. use Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+        /// A day of a week when the maintenance will happen.
         public var maintenanceDay: MediaConnectClientTypes.MaintenanceDay?
         /// A scheduled date in ISO UTC format when the maintenance will happen. Use YYYY-MM-DD format. Example: 2021-01-30.
         public var maintenanceScheduledDate: Swift.String?
@@ -5425,13 +5320,14 @@ extension MediaConnectClientTypes {
     }
 }
 
-/// A request to update flow.
 public struct UpdateFlowInput: Swift.Sendable {
-    /// The flow that you want to update.
+    /// The Amazon Resource Name (ARN) of the flow that you want to update.
     /// This member is required.
     public var flowArn: Swift.String?
-    /// Update maintenance setting for a flow
+    /// The maintenance setting of the flow.
     public var maintenance: MediaConnectClientTypes.UpdateMaintenance?
+    /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+    public var ndiConfig: MediaConnectClientTypes.NdiConfig?
     /// The settings for source failover.
     public var sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig?
     /// The settings for source monitoring.
@@ -5440,18 +5336,20 @@ public struct UpdateFlowInput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         maintenance: MediaConnectClientTypes.UpdateMaintenance? = nil,
+        ndiConfig: MediaConnectClientTypes.NdiConfig? = nil,
         sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig? = nil,
         sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig? = nil
     ) {
         self.flowArn = flowArn
         self.maintenance = maintenance
+        self.ndiConfig = ndiConfig
         self.sourceFailoverConfig = sourceFailoverConfig
         self.sourceMonitoringConfig = sourceMonitoringConfig
     }
 }
 
 public struct UpdateFlowOutput: Swift.Sendable {
-    /// The settings for a flow, including its source, outputs, and entitlements.
+    /// The updated flow.
     public var flow: MediaConnectClientTypes.Flow?
 
     public init(
@@ -5473,13 +5371,13 @@ extension MediaConnectClientTypes {
         public var deviceId: Swift.String?
         /// The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
         public var keyType: MediaConnectClientTypes.KeyType?
-        /// The AWS Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        /// The Amazon Web Services Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public var region: Swift.String?
         /// An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public var resourceId: Swift.String?
-        /// The ARN of the role that you created during setup (when you set up AWS Elemental MediaConnect as a trusted entity).
+        /// The ARN of the role that you created during setup (when you set up MediaConnect as a trusted entity).
         public var roleArn: Swift.String?
-        /// The ARN of the secret that you created in AWS Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption.
+        /// The ARN of the secret that you created in Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption.
         public var secretArn: Swift.String?
         /// The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public var url: Swift.String?
@@ -5508,21 +5406,20 @@ extension MediaConnectClientTypes {
     }
 }
 
-/// The entitlement fields that you want to update.
 public struct UpdateFlowEntitlementInput: Swift.Sendable {
-    /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
+    /// A description of the entitlement. This description appears only on the MediaConnect console and will not be seen by the subscriber or end user.
     public var description: Swift.String?
     /// The type of encryption that will be used on the output associated with this entitlement. Allowable encryption types: static-key, speke.
     public var encryption: MediaConnectClientTypes.UpdateEncryption?
-    /// The ARN of the entitlement that you want to update.
+    /// The Amazon Resource Name (ARN) of the entitlement that you want to update.
     /// This member is required.
     public var entitlementArn: Swift.String?
     /// An indication of whether you want to enable the entitlement to allow access, or disable it to stop streaming content to the subscriber’s flow temporarily. If you don’t specify the entitlementStatus field in your request, MediaConnect leaves the value unchanged.
     public var entitlementStatus: MediaConnectClientTypes.EntitlementStatus?
-    /// The flow that is associated with the entitlement that you want to update.
+    /// The ARN of the flow that is associated with the entitlement that you want to update.
     /// This member is required.
     public var flowArn: Swift.String?
-    /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
+    /// The Amazon Web Services account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
     public var subscribers: [Swift.String]?
 
     public init(
@@ -5557,18 +5454,17 @@ public struct UpdateFlowEntitlementOutput: Swift.Sendable {
     }
 }
 
-/// The fields that you want to update in the media stream.
 public struct UpdateFlowMediaStreamInput: Swift.Sendable {
     /// The attributes that you want to assign to the media stream.
     public var attributes: MediaConnectClientTypes.MediaStreamAttributesRequest?
-    /// The sample rate (in Hz) for the stream. If the media stream type is video or ancillary data, set this value to 90000. If the media stream type is audio, set this value to either 48000 or 96000.
+    /// The sample rate for the stream. This value in measured in kHz.
     public var clockRate: Swift.Int?
-    /// Description
+    /// A description that can help you quickly identify what your media stream is used for.
     public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) of the flow.
+    /// The Amazon Resource Name (ARN) of the flow that is associated with the media stream that you updated.
     /// This member is required.
     public var flowArn: Swift.String?
-    /// The name of the media stream that you want to update.
+    /// The media stream that you updated.
     /// This member is required.
     public var mediaStreamName: Swift.String?
     /// The type of media stream.
@@ -5610,25 +5506,28 @@ public struct UpdateFlowMediaStreamOutput: Swift.Sendable {
     }
 }
 
-/// The fields that you want to update in the output.
 public struct UpdateFlowOutputInput: Swift.Sendable {
     /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
     public var cidrAllowList: [Swift.String]?
-    /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
+    /// A description of the output. This description appears only on the MediaConnect console and will not be seen by the end user.
     public var description: Swift.String?
     /// The IP address where you want to send the output.
     public var destination: Swift.String?
     /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.
     public var encryption: MediaConnectClientTypes.UpdateEncryption?
-    /// The flow that is associated with the output that you want to update.
+    /// The Amazon Resource Name (ARN) of the flow that is associated with the output that you want to update.
     /// This member is required.
     public var flowArn: Swift.String?
-    /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
+    /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
     public var maxLatency: Swift.Int?
     /// The media streams that are associated with the output, and the parameters for those associations.
     public var mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]?
     /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
     public var minLatency: Swift.Int?
+    /// A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+    public var ndiProgramName: Swift.String?
+    /// A quality setting for the NDI Speed HQ encoder.
+    public var ndiSpeedHqQuality: Swift.Int?
     /// The ARN of the output that you want to update.
     /// This member is required.
     public var outputArn: Swift.String?
@@ -5636,7 +5535,7 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
     public var outputStatus: MediaConnectClientTypes.OutputStatus?
     /// The port to use when content is distributed to this output.
     public var port: Swift.Int?
-    /// The protocol to use for the output.
+    /// The protocol to use for the output. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
     public var `protocol`: MediaConnectClientTypes.ModelProtocol?
     /// The remote ID for the Zixi-pull stream.
     public var remoteId: Swift.String?
@@ -5660,6 +5559,8 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
         maxLatency: Swift.Int? = nil,
         mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]? = nil,
         minLatency: Swift.Int? = nil,
+        ndiProgramName: Swift.String? = nil,
+        ndiSpeedHqQuality: Swift.Int? = nil,
         outputArn: Swift.String? = nil,
         outputStatus: MediaConnectClientTypes.OutputStatus? = nil,
         port: Swift.Int? = nil,
@@ -5679,6 +5580,8 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
         self.maxLatency = maxLatency
         self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
         self.minLatency = minLatency
+        self.ndiProgramName = ndiProgramName
+        self.ndiSpeedHqQuality = ndiSpeedHqQuality
         self.outputArn = outputArn
         self.outputStatus = outputStatus
         self.port = port
@@ -5726,32 +5629,31 @@ extension MediaConnectClientTypes {
     }
 }
 
-/// A request to update the source of a flow.
 public struct UpdateFlowSourceInput: Swift.Sendable {
-    /// The type of encryption used on the content ingested from this source. Allowable encryption types: static-key.
+    /// The type of encryption that is used on the content ingested from the source.
     public var decryption: MediaConnectClientTypes.UpdateEncryption?
-    /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
+    /// A description of the source. This description is not visible outside of the current Amazon Web Services account.
     public var description: Swift.String?
-    /// The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.
+    /// The Amazon Resource Name (ARN) of the entitlement that allows you to subscribe to the flow. The entitlement is set by the content originator, and the ARN is generated as part of the originator's flow.
     public var entitlementArn: Swift.String?
-    /// The flow that is associated with the source that you want to update.
+    /// The ARN of the flow that you want to update.
     /// This member is required.
     public var flowArn: Swift.String?
     /// The source configuration for cloud flows receiving a stream from a bridge.
     public var gatewayBridgeSource: MediaConnectClientTypes.UpdateGatewayBridgeSourceRequest?
-    /// The port that the flow will be listening on for incoming content.
+    /// The port that the flow listens on for incoming content. If the protocol of the source is Zixi, the port must be set to 2088.
     public var ingestPort: Swift.Int?
-    /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
+    /// The maximum bitrate for RIST, RTP, and RTP-FEC streams.
     public var maxBitrate: Swift.Int?
-    /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
+    /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
     public var maxLatency: Swift.Int?
     /// The size of the buffer (in milliseconds) to use to sync incoming source data.
     public var maxSyncBuffer: Swift.Int?
-    /// The media streams that are associated with the source, and the parameters for those associations.
+    /// The media stream that is associated with the source, and the parameters for that association.
     public var mediaStreamSourceConfigurations: [MediaConnectClientTypes.MediaStreamSourceConfigurationRequest]?
     /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
     public var minLatency: Swift.Int?
-    /// The protocol that is used by the source.
+    /// The protocol that the source uses to deliver the content to MediaConnect. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
     public var `protocol`: MediaConnectClientTypes.ModelProtocol?
     /// The port that the flow uses to send outbound requests to initiate connection with the sender.
     public var senderControlPort: Swift.Int?
@@ -5760,15 +5662,15 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
     /// The ARN of the source that you want to update.
     /// This member is required.
     public var sourceArn: Swift.String?
-    /// Source IP or domain name for SRT-caller protocol.
+    /// The source IP or domain name for SRT-caller protocol.
     public var sourceListenerAddress: Swift.String?
     /// Source port for SRT-caller protocol.
     public var sourceListenerPort: Swift.Int?
     /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
     public var streamId: Swift.String?
-    /// The name of the VPC interface to use for this source.
+    /// The name of the VPC interface that you want to send your output to.
     public var vpcInterfaceName: Swift.String?
-    /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+    /// The range of IP addresses that are allowed to contribute content to your source. Format the IP addresses as a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
     public var whitelistCidr: Swift.String?
 
     public init(
@@ -5817,9 +5719,9 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
 }
 
 public struct UpdateFlowSourceOutput: Swift.Sendable {
-    /// The ARN of the flow that you want to update.
+    /// The ARN of the flow that you was updated.
     public var flowArn: Swift.String?
-    /// The settings for the source of the flow.
+    /// The details of the sources that are assigned to the flow.
     public var source: MediaConnectClientTypes.Source?
 
     public init(
@@ -5831,11 +5733,44 @@ public struct UpdateFlowSourceOutput: Swift.Sendable {
     }
 }
 
-/// A request to update gateway instance state.
+public struct ListGatewayInstancesInput: Swift.Sendable {
+    /// Filter the list results to display only the instances associated with the selected Gateway ARN.
+    public var filterArn: Swift.String?
+    /// The maximum number of results to return per API request. For example, you submit a ListInstances request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    public var maxResults: Swift.Int?
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init(
+        filterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filterArn = filterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListGatewayInstancesOutput: Swift.Sendable {
+    /// A list of instance summaries.
+    public var instances: [MediaConnectClientTypes.ListedGatewayInstance]?
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init(
+        instances: [MediaConnectClientTypes.ListedGatewayInstance]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.instances = instances
+        self.nextToken = nextToken
+    }
+}
+
 public struct UpdateGatewayInstanceInput: Swift.Sendable {
-    /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
+    /// The state of the instance. ACTIVE or INACTIVE.
     public var bridgePlacement: MediaConnectClientTypes.BridgePlacement?
-    /// The Amazon Resource Name (ARN) of the instance that you want to update.
+    /// The Amazon Resource Name (ARN) of the gateway instance that you want to update.
     /// This member is required.
     public var gatewayInstanceArn: Swift.String?
 
@@ -5849,9 +5784,9 @@ public struct UpdateGatewayInstanceInput: Swift.Sendable {
 }
 
 public struct UpdateGatewayInstanceOutput: Swift.Sendable {
-    /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
+    /// The state of the instance. ACTIVE or INACTIVE.
     public var bridgePlacement: MediaConnectClientTypes.BridgePlacement?
-    /// The Amazon Resource Name (ARN) of the instance.
+    /// The ARN of the instance that was updated.
     public var gatewayInstanceArn: Swift.String?
 
     public init(
@@ -5860,6 +5795,216 @@ public struct UpdateGatewayInstanceOutput: Swift.Sendable {
     ) {
         self.bridgePlacement = bridgePlacement
         self.gatewayInstanceArn = gatewayInstanceArn
+    }
+}
+
+public struct ListGatewaysInput: Swift.Sendable {
+    /// The maximum number of results to return per API request. For example, you submit a ListGateways request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    public var maxResults: Swift.Int?
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListGatewaysOutput: Swift.Sendable {
+    /// A list of gateway summaries.
+    public var gateways: [MediaConnectClientTypes.ListedGateway]?
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init(
+        gateways: [MediaConnectClientTypes.ListedGateway]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.gateways = gateways
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListEntitlementsInput: Swift.Sendable {
+    /// The maximum number of results to return per API request. For example, you submit a ListEntitlements request with set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 20 results per page.
+    public var maxResults: Swift.Int?
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListEntitlementsOutput: Swift.Sendable {
+    /// A list of entitlements that have been granted to you from other Amazon Web Services accounts.
+    public var entitlements: [MediaConnectClientTypes.ListedEntitlement]?
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init(
+        entitlements: [MediaConnectClientTypes.ListedEntitlement]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.entitlements = entitlements
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListOfferingsInput: Swift.Sendable {
+    /// The maximum number of results to return per API request. For example, you submit a ListOfferings request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    public var maxResults: Swift.Int?
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListOfferingsOutput: Swift.Sendable {
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+    /// A list of offerings that are available to this account in the current Amazon Web Services Region.
+    public var offerings: [MediaConnectClientTypes.Offering]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        offerings: [MediaConnectClientTypes.Offering]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.offerings = offerings
+    }
+}
+
+public struct ListReservationsInput: Swift.Sendable {
+    /// The maximum number of results to return per API request. For example, you submit a ListReservations request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    public var maxResults: Swift.Int?
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListReservationsOutput: Swift.Sendable {
+    /// The token that identifies the batch of results that you want to see. For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListReservations request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+    /// A list of all reservations that have been purchased by this account in the current Amazon Web Services Region.
+    public var reservations: [MediaConnectClientTypes.Reservation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        reservations: [MediaConnectClientTypes.Reservation]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.reservations = reservations
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that identifies the MediaConnect resource for which to list the tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
+public struct PurchaseOfferingInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the offering.
+    /// This member is required.
+    public var offeringArn: Swift.String?
+    /// The name that you want to use for the reservation.
+    /// This member is required.
+    public var reservationName: Swift.String?
+    /// The date and time that you want the reservation to begin, in Coordinated Universal Time (UTC). You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
+    /// This member is required.
+    public var start: Swift.String?
+
+    public init(
+        offeringArn: Swift.String? = nil,
+        reservationName: Swift.String? = nil,
+        start: Swift.String? = nil
+    ) {
+        self.offeringArn = offeringArn
+        self.reservationName = reservationName
+        self.start = start
+    }
+}
+
+public struct PurchaseOfferingOutput: Swift.Sendable {
+    /// The details of the reservation that you just created when you purchased the offering.
+    public var reservation: MediaConnectClientTypes.Reservation?
+
+    public init(
+        reservation: MediaConnectClientTypes.Reservation? = nil
+    ) {
+        self.reservation = reservation
+    }
+}
+
+public struct TagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that identifies the MediaConnect resource to which to add tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource that you want to untag.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The keys of the tags to be removed.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
     }
 }
 
@@ -6608,9 +6753,11 @@ extension CreateFlowInput {
         guard let value else { return }
         try writer["availabilityZone"].write(value.availabilityZone)
         try writer["entitlements"].writeList(value.entitlements, memberWritingClosure: MediaConnectClientTypes.GrantEntitlementRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["flowSize"].write(value.flowSize)
         try writer["maintenance"].write(value.maintenance, with: MediaConnectClientTypes.AddMaintenance.write(value:to:))
         try writer["mediaStreams"].writeList(value.mediaStreams, memberWritingClosure: MediaConnectClientTypes.AddMediaStreamRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["ndiConfig"].write(value.ndiConfig, with: MediaConnectClientTypes.NdiConfig.write(value:to:))
         try writer["outputs"].writeList(value.outputs, memberWritingClosure: MediaConnectClientTypes.AddOutputRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["source"].write(value.source, with: MediaConnectClientTypes.SetSourceRequest.write(value:to:))
         try writer["sourceFailoverConfig"].write(value.sourceFailoverConfig, with: MediaConnectClientTypes.FailoverConfig.write(value:to:))
@@ -6695,6 +6842,7 @@ extension UpdateFlowInput {
     static func write(value: UpdateFlowInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["maintenance"].write(value.maintenance, with: MediaConnectClientTypes.UpdateMaintenance.write(value:to:))
+        try writer["ndiConfig"].write(value.ndiConfig, with: MediaConnectClientTypes.NdiConfig.write(value:to:))
         try writer["sourceFailoverConfig"].write(value.sourceFailoverConfig, with: MediaConnectClientTypes.UpdateFailoverConfig.write(value:to:))
         try writer["sourceMonitoringConfig"].write(value.sourceMonitoringConfig, with: MediaConnectClientTypes.MonitoringConfig.write(value:to:))
     }
@@ -6734,6 +6882,8 @@ extension UpdateFlowOutputInput {
         try writer["maxLatency"].write(value.maxLatency)
         try writer["mediaStreamOutputConfigurations"].writeList(value.mediaStreamOutputConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamOutputConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["minLatency"].write(value.minLatency)
+        try writer["ndiProgramName"].write(value.ndiProgramName)
+        try writer["ndiSpeedHqQuality"].write(value.ndiSpeedHqQuality)
         try writer["outputStatus"].write(value.outputStatus)
         try writer["port"].write(value.port)
         try writer["protocol"].write(value.`protocol`)
@@ -8766,6 +8916,8 @@ extension MediaConnectClientTypes.Transport {
         value.sourceListenerAddress = try reader["sourceListenerAddress"].readIfPresent()
         value.sourceListenerPort = try reader["sourceListenerPort"].readIfPresent()
         value.streamId = try reader["streamId"].readIfPresent()
+        value.ndiSpeedHqQuality = try reader["ndiSpeedHqQuality"].readIfPresent()
+        value.ndiProgramName = try reader["ndiProgramName"].readIfPresent()
         return value
     }
 }
@@ -9032,6 +9184,46 @@ extension MediaConnectClientTypes.Flow {
         value.vpcInterfaces = try reader["vpcInterfaces"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.VpcInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaConnectClientTypes.Maintenance.read(from:))
         value.sourceMonitoringConfig = try reader["sourceMonitoringConfig"].readIfPresent(with: MediaConnectClientTypes.MonitoringConfig.read(from:))
+        value.flowSize = try reader["flowSize"].readIfPresent()
+        value.ndiConfig = try reader["ndiConfig"].readIfPresent(with: MediaConnectClientTypes.NdiConfig.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiConfig {
+
+    static func write(value: MediaConnectClientTypes.NdiConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["machineName"].write(value.machineName)
+        try writer["ndiDiscoveryServers"].writeList(value.ndiDiscoveryServers, memberWritingClosure: MediaConnectClientTypes.NdiDiscoveryServerConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ndiState"].write(value.ndiState)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiConfig()
+        value.ndiState = try reader["ndiState"].readIfPresent()
+        value.machineName = try reader["machineName"].readIfPresent()
+        value.ndiDiscoveryServers = try reader["ndiDiscoveryServers"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.NdiDiscoveryServerConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiDiscoveryServerConfig {
+
+    static func write(value: MediaConnectClientTypes.NdiDiscoveryServerConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["discoveryServerAddress"].write(value.discoveryServerAddress)
+        try writer["discoveryServerPort"].write(value.discoveryServerPort)
+        try writer["vpcInterfaceAdapter"].write(value.vpcInterfaceAdapter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiDiscoveryServerConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiDiscoveryServerConfig()
+        value.discoveryServerAddress = try reader["discoveryServerAddress"].readIfPresent() ?? ""
+        value.discoveryServerPort = try reader["discoveryServerPort"].readIfPresent()
+        value.vpcInterfaceAdapter = try reader["vpcInterfaceAdapter"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9513,6 +9705,8 @@ extension MediaConnectClientTypes.AddOutputRequest {
         try writer["mediaStreamOutputConfigurations"].writeList(value.mediaStreamOutputConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamOutputConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["minLatency"].write(value.minLatency)
         try writer["name"].write(value.name)
+        try writer["ndiProgramName"].write(value.ndiProgramName)
+        try writer["ndiSpeedHqQuality"].write(value.ndiSpeedHqQuality)
         try writer["outputStatus"].write(value.outputStatus)
         try writer["port"].write(value.port)
         try writer["protocol"].write(value.`protocol`)

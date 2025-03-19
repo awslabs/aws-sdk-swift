@@ -1091,7 +1091,7 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    /// The [ Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode) configuration for the event source. Use Provisioned Mode to customize the minimum and maximum number of event pollers for your event source. An event poller is a compute unit that provides approximately 5 MBps of throughput.
+    /// The [ provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode) configuration for the event source. Use Provisioned Mode to customize the minimum and maximum number of event pollers for your event source. An event poller is a compute unit that provides approximately 5 MBps of throughput.
     public struct ProvisionedPollerConfig: Swift.Sendable {
         /// The maximum number of event pollers this event source can scale up to.
         public var maximumPollers: Swift.Int?
@@ -1366,7 +1366,7 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
     public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
     public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -1507,7 +1507,7 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
     public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -2003,6 +2003,7 @@ extension LambdaClientTypes {
         case ruby27
         case ruby32
         case ruby33
+        case ruby34
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Runtime] {
@@ -2046,7 +2047,8 @@ extension LambdaClientTypes {
                 .ruby25,
                 .ruby27,
                 .ruby32,
-                .ruby33
+                .ruby33,
+                .ruby34
             ]
         }
 
@@ -2097,6 +2099,7 @@ extension LambdaClientTypes {
             case .ruby27: return "ruby2.7"
             case .ruby32: return "ruby3.2"
             case .ruby33: return "ruby3.3"
+            case .ruby34: return "ruby3.4"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3268,7 +3271,7 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
     public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -3678,7 +3681,7 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
     public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -5131,7 +5134,7 @@ public struct ENILimitReachedException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// The request body could not be parsed as JSON.
+/// The request body could not be parsed as JSON, or a request header is invalid. For example, the 'x-amzn-RequestId' header is not a valid UUID string.
 public struct InvalidRequestContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -6087,7 +6090,7 @@ extension LambdaClientTypes {
         public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
         /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
         public var parallelizationFactor: Swift.Int?
-        /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+        /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
         public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
         /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
         public var queues: [Swift.String]?
@@ -7679,7 +7682,7 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
     public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
     public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
     public var scalingConfig: LambdaClientTypes.ScalingConfig?
@@ -7774,7 +7777,7 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
     public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
