@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaTailorClient: ClientRuntime.Client {
     public static let clientName = "MediaTailorClient"
-    public static let version = "1.2.40"
+    public static let version = "1.2.41"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaTailorClient.MediaTailorClientConfiguration
     let serviceName = "MediaTailor"

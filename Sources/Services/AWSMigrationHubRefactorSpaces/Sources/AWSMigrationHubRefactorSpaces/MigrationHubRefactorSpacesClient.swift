@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubRefactorSpacesClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubRefactorSpacesClient"
-    public static let version = "1.2.40"
+    public static let version = "1.2.41"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubRefactorSpacesClient.MigrationHubRefactorSpacesClientConfiguration
     let serviceName = "Migration Hub Refactor Spaces"
