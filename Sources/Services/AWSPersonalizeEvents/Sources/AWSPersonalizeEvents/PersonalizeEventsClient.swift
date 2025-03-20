@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PersonalizeEventsClient: ClientRuntime.Client {
     public static let clientName = "PersonalizeEventsClient"
-    public static let version = "1.2.41"
+    public static let version = "1.2.42"
     let client: ClientRuntime.SdkHttpClient
     let config: PersonalizeEventsClient.PersonalizeEventsClientConfiguration
     let serviceName = "Personalize Events"

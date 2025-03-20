@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NetworkMonitorClient: ClientRuntime.Client {
     public static let clientName = "NetworkMonitorClient"
-    public static let version = "1.2.41"
+    public static let version = "1.2.42"
     let client: ClientRuntime.SdkHttpClient
     let config: NetworkMonitorClient.NetworkMonitorClientConfiguration
     let serviceName = "NetworkMonitor"

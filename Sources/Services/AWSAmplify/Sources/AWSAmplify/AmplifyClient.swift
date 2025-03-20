@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AmplifyClient: ClientRuntime.Client {
     public static let clientName = "AmplifyClient"
-    public static let version = "1.2.41"
+    public static let version = "1.2.42"
     let client: ClientRuntime.SdkHttpClient
     let config: AmplifyClient.AmplifyClientConfiguration
     let serviceName = "Amplify"
@@ -1953,7 +1953,7 @@ extension AmplifyClient {
 
     /// Performs the `ListArtifacts` operation on the `Amplify` service.
     ///
-    /// Returns a list of artifacts for a specified app, branch, and job.
+    /// Returns a list of end-to-end testing artifacts for a specified app, branch, and job. To return the build artifacts, use the [GetJob](https://docs.aws.amazon.com/amplify/latest/APIReference/API_GetJob.html) API. For more information about Amplify testing support, see [Setting up end-to-end Cypress tests for your Amplify application](https://docs.aws.amazon.com/amplify/latest/userguide/running-tests.html) in the Amplify Hosting User Guide.
     ///
     /// - Parameter ListArtifactsInput : Describes the request structure for the list artifacts request.
     ///
