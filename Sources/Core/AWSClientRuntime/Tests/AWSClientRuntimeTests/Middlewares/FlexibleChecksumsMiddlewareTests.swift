@@ -448,7 +448,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
 
 }
 
-class TestLogger: LogAgent {
+class TestLogger: LogAgent, @unchecked Sendable {
     var name: String
 
     var messages: [(level: LogAgentLevel, message: String)] = []
