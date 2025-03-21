@@ -46,6 +46,36 @@ extension Route53RecoveryControlConfigClientTypes {
 
 extension Route53RecoveryControlConfigClientTypes {
 
+    /// The network type of a cluster. NetworkType can be one of the following: IPV4: Cluster endpoints support IPv4 only. DUALSTACK: Cluster endpoints support both IPv4 and IPv6.
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "DUALSTACK"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53RecoveryControlConfigClientTypes {
+
     /// The deployment status of a resource. Status can be one of the following: PENDING: Amazon Route 53 Application Recovery Controller is creating the resource. DEPLOYED: The resource is deployed and ready to use. PENDING_DELETION: Amazon Route 53 Application Recovery Controller is deleting the resource.
     public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deployed
@@ -87,6 +117,8 @@ extension Route53RecoveryControlConfigClientTypes {
         public var clusterEndpoints: [Route53RecoveryControlConfigClientTypes.ClusterEndpoint]?
         /// The name of the cluster.
         public var name: Swift.String?
+        /// The network type of the cluster. NetworkType can be one of the following: IPV4, DUALSTACK.
+        public var networkType: Route53RecoveryControlConfigClientTypes.NetworkType?
         /// The Amazon Web Services account ID of the cluster owner.
         public var owner: Swift.String?
         /// Deployment status of a resource. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
@@ -96,12 +128,14 @@ extension Route53RecoveryControlConfigClientTypes {
             clusterArn: Swift.String? = nil,
             clusterEndpoints: [Route53RecoveryControlConfigClientTypes.ClusterEndpoint]? = nil,
             name: Swift.String? = nil,
+            networkType: Route53RecoveryControlConfigClientTypes.NetworkType? = nil,
             owner: Swift.String? = nil,
             status: Route53RecoveryControlConfigClientTypes.Status? = nil
         ) {
             self.clusterArn = clusterArn
             self.clusterEndpoints = clusterEndpoints
             self.name = name
+            self.networkType = networkType
             self.owner = owner
             self.status = status
         }
@@ -562,16 +596,20 @@ public struct CreateClusterInput: Swift.Sendable {
     /// The name of the cluster.
     /// This member is required.
     public var clusterName: Swift.String?
+    /// The network type of the cluster. NetworkType can be one of the following: IPV4, DUALSTACK.
+    public var networkType: Route53RecoveryControlConfigClientTypes.NetworkType?
     /// The tags associated with the cluster.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
+        networkType: Route53RecoveryControlConfigClientTypes.NetworkType? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.clusterName = clusterName
+        self.networkType = networkType
         self.tags = tags
     }
 }
@@ -1227,6 +1265,35 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+/// The details of the cluster that you're updating.
+public struct UpdateClusterInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The network type of the cluster. NetworkType can be one of the following: IPV4, DUALSTACK.
+    /// This member is required.
+    public var networkType: Route53RecoveryControlConfigClientTypes.NetworkType?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        networkType: Route53RecoveryControlConfigClientTypes.NetworkType? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.networkType = networkType
+    }
+}
+
+public struct UpdateClusterOutput: Swift.Sendable {
+    /// The cluster that was updated.
+    public var cluster: Route53RecoveryControlConfigClientTypes.Cluster?
+
+    public init(
+        cluster: Route53RecoveryControlConfigClientTypes.Cluster? = nil
+    ) {
+        self.cluster = cluster
+    }
+}
+
 /// The details of the control panel that you're updating.
 public struct UpdateControlPanelInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the control panel.
@@ -1608,6 +1675,13 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateClusterInput {
+
+    static func urlPathProvider(_ value: UpdateClusterInput) -> Swift.String? {
+        return "/cluster"
+    }
+}
+
 extension UpdateControlPanelInput {
 
     static func urlPathProvider(_ value: UpdateControlPanelInput) -> Swift.String? {
@@ -1635,6 +1709,7 @@ extension CreateClusterInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["ClusterName"].write(value.clusterName)
+        try writer["NetworkType"].write(value.networkType)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -1677,6 +1752,15 @@ extension TagResourceInput {
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateClusterInput {
+
+    static func write(value: UpdateClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterArn"].write(value.clusterArn)
+        try writer["NetworkType"].write(value.networkType)
     }
 }
 
@@ -1933,6 +2017,18 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateClusterOutput()
+        value.cluster = try reader["Cluster"].readIfPresent(with: Route53RecoveryControlConfigClientTypes.Cluster.read(from:))
+        return value
     }
 }
 
@@ -2344,6 +2440,25 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateControlPanelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2499,6 +2614,7 @@ extension Route53RecoveryControlConfigClientTypes.Cluster {
         value.name = try reader["Name"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.owner = try reader["Owner"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
         return value
     }
 }

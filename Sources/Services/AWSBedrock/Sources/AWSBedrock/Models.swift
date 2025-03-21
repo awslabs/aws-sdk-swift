@@ -4208,9 +4208,30 @@ public struct GetImportedModelInput: Swift.Sendable {
     }
 }
 
+extension BedrockClientTypes {
+
+    /// A CustomModelUnit (CMU) is an abstract view of the hardware utilization that Amazon Bedrock needs to host a single copy of your custom model. A model copy represents a single instance of your imported model that is ready to serve inference requests. Amazon Bedrock determines the number of custom model units that a model copy needs when you import the custom model. You can use CustomModelUnits to estimate the cost of running your custom model. For more information, see Calculate the cost of running a custom model in the Amazon Bedrock user guide.
+    public struct CustomModelUnits: Swift.Sendable {
+        /// The number of custom model units used to host a model copy.
+        public var customModelUnitsPerModelCopy: Swift.Int?
+        /// The version of the custom model unit. Use to determine the billing rate for the custom model unit.
+        public var customModelUnitsVersion: Swift.String?
+
+        public init(
+            customModelUnitsPerModelCopy: Swift.Int? = nil,
+            customModelUnitsVersion: Swift.String? = nil
+        ) {
+            self.customModelUnitsPerModelCopy = customModelUnitsPerModelCopy
+            self.customModelUnitsVersion = customModelUnitsVersion
+        }
+    }
+}
+
 public struct GetImportedModelOutput: Swift.Sendable {
     /// Creation time of the imported model.
     public var creationTime: Foundation.Date?
+    /// Information about the hardware utilization for a single copy of the model.
+    public var customModelUnits: BedrockClientTypes.CustomModelUnits?
     /// Specifies if the imported model supports converse.
     public var instructSupported: Swift.Bool?
     /// Job Amazon Resource Name (ARN) associated with the imported model.
@@ -4230,6 +4251,7 @@ public struct GetImportedModelOutput: Swift.Sendable {
 
     public init(
         creationTime: Foundation.Date? = nil,
+        customModelUnits: BedrockClientTypes.CustomModelUnits? = nil,
         instructSupported: Swift.Bool? = nil,
         jobArn: Swift.String? = nil,
         jobName: Swift.String? = nil,
@@ -4240,6 +4262,7 @@ public struct GetImportedModelOutput: Swift.Sendable {
         modelName: Swift.String? = nil
     ) {
         self.creationTime = creationTime
+        self.customModelUnits = customModelUnits
         self.instructSupported = instructSupported
         self.jobArn = jobArn
         self.jobName = jobName
@@ -8907,6 +8930,7 @@ extension GetImportedModelOutput {
         let reader = responseReader
         var value = GetImportedModelOutput()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.customModelUnits = try reader["customModelUnits"].readIfPresent(with: BedrockClientTypes.CustomModelUnits.read(from:))
         value.instructSupported = try reader["instructSupported"].readIfPresent()
         value.jobArn = try reader["jobArn"].readIfPresent()
         value.jobName = try reader["jobName"].readIfPresent()
@@ -11950,6 +11974,17 @@ extension BedrockClientTypes.S3DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.S3DataSource()
         value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockClientTypes.CustomModelUnits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomModelUnits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.CustomModelUnits()
+        value.customModelUnitsPerModelCopy = try reader["customModelUnitsPerModelCopy"].readIfPresent()
+        value.customModelUnitsVersion = try reader["customModelUnitsVersion"].readIfPresent()
         return value
     }
 }

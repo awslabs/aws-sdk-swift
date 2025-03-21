@@ -22673,6 +22673,14 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
         case mlG612xlarge
         case mlG616xlarge
         case mlG624xlarge
@@ -22703,6 +22711,14 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
                 .mlG612xlarge,
                 .mlG616xlarge,
                 .mlG624xlarge,
@@ -22739,6 +22755,14 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
             case .mlG612xlarge: return "ml.g6.12xlarge"
             case .mlG616xlarge: return "ml.g6.16xlarge"
             case .mlG624xlarge: return "ml.g6.24xlarge"
@@ -49151,6 +49175,7 @@ public struct SearchOutput: Swift.Sendable {
 
 public struct SearchTrainingPlanOfferingsInput: Swift.Sendable {
     /// The desired duration in hours for the training plan offerings.
+    /// This member is required.
     public var durationHours: Swift.Int?
     /// A filter to search for reserved capacity offerings with an end time before a specified date.
     public var endTimeBefore: Foundation.Date?
