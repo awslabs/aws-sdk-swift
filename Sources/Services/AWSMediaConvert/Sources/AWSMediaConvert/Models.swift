@@ -8373,7 +8373,7 @@ extension MediaConvertClientTypes {
         public var dashSignaledSystemIds: [Swift.String]?
         /// Specify the SPEKE version, either v1.0 or v2.0, that MediaConvert uses when encrypting your output. For more information, see: https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE v2.0 video preset and a SPEKE v2.0 audio preset.
         public var encryptionContractConfiguration: MediaConvertClientTypes.EncryptionContractConfiguration?
-        /// Specify the DRM system ID that you want signaled in the HLS manifest that MediaConvert creates as part of this CMAF package. The HLS manifest can currently signal only one system ID. For more information, see https://dashif.org/identifiers/content_protection/.
+        /// Specify up to 3 DRM system IDs that you want signaled in the HLS manifest that MediaConvert creates as part of this CMAF package. For more information, see https://dashif.org/identifiers/content_protection/.
         public var hlsSignaledSystemIds: [Swift.String]?
         /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
         public var resourceId: Swift.String?
@@ -8773,16 +8773,18 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+    /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
     public enum CmafSegmentLengthControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case exact
         case gopMultiple
+        case match
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CmafSegmentLengthControl] {
             return [
                 .exact,
-                .gopMultiple
+                .gopMultiple,
+                .match
             ]
         }
 
@@ -8795,6 +8797,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .exact: return "EXACT"
             case .gopMultiple: return "GOP_MULTIPLE"
+            case .match: return "MATCH"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9027,7 +9030,7 @@ extension MediaConvertClientTypes {
         public var segmentControl: MediaConvertClientTypes.CmafSegmentControl?
         /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control to specify whether the encoder enforces this value strictly. Use Segment control to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public var segmentLength: Swift.Int?
-        /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
         public var segmentLengthControl: MediaConvertClientTypes.CmafSegmentLengthControl?
         /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of variant manifest.
         public var streamInfResolution: MediaConvertClientTypes.CmafStreamInfResolution?
@@ -9174,7 +9177,7 @@ extension MediaConvertClientTypes {
         public var encryptionContractConfiguration: MediaConvertClientTypes.EncryptionContractConfiguration?
         /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
         public var resourceId: Swift.String?
-        /// Relates to SPEKE implementation. DRM system identifiers. DASH output groups support a max of two system ids. Other group types support one system id. See https://dashif.org/identifiers/content_protection/ for more details.
+        /// Relates to SPEKE implementation. DRM system identifiers. DASH output groups support a max of two system ids. HLS output groups support a max of 3 system ids. Other group types support one system id. See https://dashif.org/identifiers/content_protection/ for more details.
         public var systemIds: [Swift.String]?
         /// Specify the URL to the key server that your SPEKE-compliant DRM key provider uses to provide keys for encrypting your content.
         public var url: Swift.String?
@@ -9467,16 +9470,18 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+    /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
     public enum DashIsoSegmentLengthControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case exact
         case gopMultiple
+        case match
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DashIsoSegmentLengthControl] {
             return [
                 .exact,
-                .gopMultiple
+                .gopMultiple,
+                .match
             ]
         }
 
@@ -9489,6 +9494,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .exact: return "EXACT"
             case .gopMultiple: return "GOP_MULTIPLE"
+            case .match: return "MATCH"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9597,7 +9603,7 @@ extension MediaConvertClientTypes {
         public var segmentControl: MediaConvertClientTypes.DashIsoSegmentControl?
         /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 30. Related settings: Use Segment length control to specify whether the encoder enforces this value strictly. Use Segment control to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public var segmentLength: Swift.Int?
-        /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
         public var segmentLengthControl: MediaConvertClientTypes.DashIsoSegmentLengthControl?
         /// Specify the video sample composition time offset mode in the output fMP4 TRUN box. For wider player compatibility, set Video composition offsets to Unsigned or leave blank. The earliest presentation time may be greater than zero, and sample composition time offsets will increment using unsigned integers. For strict fMP4 video and audio timing, set Video composition offsets to Signed. The earliest presentation time will be equal to zero, and sample composition time offsets will increment using signed integers.
         public var videoCompositionOffsets: MediaConvertClientTypes.DashIsoVideoCompositionOffsets?
@@ -10298,16 +10304,18 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+    /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
     public enum HlsSegmentLengthControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case exact
         case gopMultiple
+        case match
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HlsSegmentLengthControl] {
             return [
                 .exact,
-                .gopMultiple
+                .gopMultiple,
+                .match
             ]
         }
 
@@ -10320,6 +10328,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .exact: return "EXACT"
             case .gopMultiple: return "GOP_MULTIPLE"
+            case .match: return "MATCH"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10473,7 +10482,7 @@ extension MediaConvertClientTypes {
         public var segmentControl: MediaConvertClientTypes.HlsSegmentControl?
         /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control to specify whether the encoder enforces this value strictly. Use Segment control to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public var segmentLength: Swift.Int?
-        /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
         public var segmentLengthControl: MediaConvertClientTypes.HlsSegmentLengthControl?
         /// Specify the number of segments to write to a subdirectory before starting a new one. You must also set Directory structure to Subdirectory per stream for this setting to have an effect.
         public var segmentsPerSubdirectory: Swift.Int?
@@ -11746,15 +11755,17 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds. Then specify the number of seconds with PTS offset.
+    /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds or Milliseconds. Then specify the number of seconds or milliseconds with PTS offset.
     public enum TsPtsOffset: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auto
+        case milliseconds
         case seconds
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TsPtsOffset] {
             return [
                 .auto,
+                .milliseconds,
                 .seconds
             ]
         }
@@ -11767,6 +11778,7 @@ extension MediaConvertClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .auto: return "AUTO"
+            case .milliseconds: return "MILLISECONDS"
             case .seconds: return "SECONDS"
             case let .sdkUnknown(s): return s
             }
@@ -11933,6 +11945,8 @@ extension MediaConvertClientTypes {
         public var audioFramesPerPes: Swift.Int?
         /// Specify the packet identifiers (PIDs) for any elementary audio streams you include in this output. Specify multiple PIDs as a JSON array. Default is the range 482-492.
         public var audioPids: [Swift.Int]?
+        /// Manually specify the difference in PTS offset that will be applied to the audio track, in seconds or milliseconds, when you set PTS offset to Seconds or Milliseconds. Enter an integer from -10000 to 10000. Leave blank to keep the default value 0.
+        public var audioPtsOffsetDelta: Swift.Int?
         /// Specify the output bitrate of the transport stream in bits per second. Setting to 0 lets the muxer automatically determine the appropriate bitrate. Other common values are 3750000, 7500000, and 15000000.
         public var bitrate: Swift.Int?
         /// Controls what buffer model to use for accurate interleaving. If set to MULTIPLEX, use multiplex buffer model. If set to NONE, this can lead to lower latency, but low-memory devices may not be able to play back the stream without interruptions.
@@ -11987,7 +12001,7 @@ extension MediaConvertClientTypes {
         public var programNumber: Swift.Int?
         /// Manually specify the initial PTS offset, in seconds, when you set PTS offset to Seconds. Enter an integer from 0 to 3600. Leave blank to keep the default value 2.
         public var ptsOffset: Swift.Int?
-        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds. Then specify the number of seconds with PTS offset.
+        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds or Milliseconds. Then specify the number of seconds or milliseconds with PTS offset.
         public var ptsOffsetMode: MediaConvertClientTypes.TsPtsOffset?
         /// When set to CBR, inserts null packets into transport stream to fill specified bitrate. When set to VBR, the bitrate setting acts as the maximum bitrate, but the output will not be padded up to that bitrate.
         public var rateMode: MediaConvertClientTypes.M2tsRateMode?
@@ -12015,6 +12029,7 @@ extension MediaConvertClientTypes {
             audioDuration: MediaConvertClientTypes.M2tsAudioDuration? = nil,
             audioFramesPerPes: Swift.Int? = nil,
             audioPids: [Swift.Int]? = nil,
+            audioPtsOffsetDelta: Swift.Int? = nil,
             bitrate: Swift.Int? = nil,
             bufferModel: MediaConvertClientTypes.M2tsBufferModel? = nil,
             dataPTSControl: MediaConvertClientTypes.M2tsDataPtsControl? = nil,
@@ -12058,6 +12073,7 @@ extension MediaConvertClientTypes {
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
+            self.audioPtsOffsetDelta = audioPtsOffsetDelta
             self.bitrate = bitrate
             self.bufferModel = bufferModel
             self.dataPTSControl = dataPTSControl
@@ -12290,6 +12306,8 @@ extension MediaConvertClientTypes {
         public var audioFramesPerPes: Swift.Int?
         /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation.
         public var audioPids: [Swift.Int]?
+        /// Manually specify the difference in PTS offset that will be applied to the audio track, in seconds or milliseconds, when you set PTS offset to Seconds or Milliseconds. Enter an integer from -10000 to 10000. Leave blank to keep the default value 0.
+        public var audioPtsOffsetDelta: Swift.Int?
         /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets with Presentation Timestamp (PTS) values greater than or equal to the first video packet PTS (MediaConvert drops captions and data packets with lesser PTS values). Keep the default value AUTO to allow all PTS values.
         public var dataPTSControl: MediaConvertClientTypes.M3u8DataPtsControl?
         /// Specify the maximum time, in milliseconds, between Program Clock References (PCRs) inserted into the transport stream.
@@ -12312,7 +12330,7 @@ extension MediaConvertClientTypes {
         public var programNumber: Swift.Int?
         /// Manually specify the initial PTS offset, in seconds, when you set PTS offset to Seconds. Enter an integer from 0 to 3600. Leave blank to keep the default value 2.
         public var ptsOffset: Swift.Int?
-        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds. Then specify the number of seconds with PTS offset.
+        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds or Milliseconds. Then specify the number of seconds or milliseconds with PTS offset.
         public var ptsOffsetMode: MediaConvertClientTypes.TsPtsOffset?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream.
         public var scte35Pid: Swift.Int?
@@ -12331,6 +12349,7 @@ extension MediaConvertClientTypes {
             audioDuration: MediaConvertClientTypes.M3u8AudioDuration? = nil,
             audioFramesPerPes: Swift.Int? = nil,
             audioPids: [Swift.Int]? = nil,
+            audioPtsOffsetDelta: Swift.Int? = nil,
             dataPTSControl: MediaConvertClientTypes.M3u8DataPtsControl? = nil,
             maxPcrInterval: Swift.Int? = nil,
             nielsenId3: MediaConvertClientTypes.M3u8NielsenId3? = nil,
@@ -12353,6 +12372,7 @@ extension MediaConvertClientTypes {
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
+            self.audioPtsOffsetDelta = audioPtsOffsetDelta
             self.dataPTSControl = dataPTSControl
             self.maxPcrInterval = maxPcrInterval
             self.nielsenId3 = nielsenId3
@@ -27181,6 +27201,7 @@ extension MediaConvertClientTypes.M3u8Settings {
         try writer["audioDuration"].write(value.audioDuration)
         try writer["audioFramesPerPes"].write(value.audioFramesPerPes)
         try writer["audioPids"].writeList(value.audioPids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["audioPtsOffsetDelta"].write(value.audioPtsOffsetDelta)
         try writer["dataPTSControl"].write(value.dataPTSControl)
         try writer["maxPcrInterval"].write(value.maxPcrInterval)
         try writer["nielsenId3"].write(value.nielsenId3)
@@ -27207,6 +27228,7 @@ extension MediaConvertClientTypes.M3u8Settings {
         value.audioDuration = try reader["audioDuration"].readIfPresent()
         value.audioFramesPerPes = try reader["audioFramesPerPes"].readIfPresent()
         value.audioPids = try reader["audioPids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.audioPtsOffsetDelta = try reader["audioPtsOffsetDelta"].readIfPresent()
         value.dataPTSControl = try reader["dataPTSControl"].readIfPresent()
         value.maxPcrInterval = try reader["maxPcrInterval"].readIfPresent()
         value.nielsenId3 = try reader["nielsenId3"].readIfPresent()
@@ -27237,6 +27259,7 @@ extension MediaConvertClientTypes.M2tsSettings {
         try writer["audioDuration"].write(value.audioDuration)
         try writer["audioFramesPerPes"].write(value.audioFramesPerPes)
         try writer["audioPids"].writeList(value.audioPids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["audioPtsOffsetDelta"].write(value.audioPtsOffsetDelta)
         try writer["bitrate"].write(value.bitrate)
         try writer["bufferModel"].write(value.bufferModel)
         try writer["dataPTSControl"].write(value.dataPTSControl)
@@ -27284,6 +27307,7 @@ extension MediaConvertClientTypes.M2tsSettings {
         value.audioDuration = try reader["audioDuration"].readIfPresent()
         value.audioFramesPerPes = try reader["audioFramesPerPes"].readIfPresent()
         value.audioPids = try reader["audioPids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.audioPtsOffsetDelta = try reader["audioPtsOffsetDelta"].readIfPresent()
         value.bitrate = try reader["bitrate"].readIfPresent()
         value.bufferModel = try reader["bufferModel"].readIfPresent()
         value.dataPTSControl = try reader["dataPTSControl"].readIfPresent()

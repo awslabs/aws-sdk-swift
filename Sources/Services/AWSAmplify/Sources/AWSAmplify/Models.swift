@@ -1494,6 +1494,8 @@ extension AmplifyClientTypes {
 
     /// Describes a webhook that connects repository events to an Amplify app.
     public struct Webhook: Swift.Sendable {
+        /// The unique ID of an Amplify app.
+        public var appId: Swift.String?
         /// The name for a branch that is part of an Amplify app.
         /// This member is required.
         public var branchName: Swift.String?
@@ -1517,6 +1519,7 @@ extension AmplifyClientTypes {
         public var webhookUrl: Swift.String?
 
         public init(
+            appId: Swift.String? = nil,
             branchName: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
@@ -1525,6 +1528,7 @@ extension AmplifyClientTypes {
             webhookId: Swift.String? = nil,
             webhookUrl: Swift.String? = nil
         ) {
+            self.appId = appId
             self.branchName = branchName
             self.createTime = createTime
             self.description = description
@@ -2116,7 +2120,7 @@ extension AmplifyClientTypes {
 
     /// Describes an execution step, for an execution job, for an Amplify app.
     public struct Step: Swift.Sendable {
-        /// The URL to the artifact for the execution step.
+        /// The URL to the build artifact for the execution step.
         public var artifactsUrl: Swift.String?
         /// The context for the current step. Includes a build image if the step is build.
         public var context: Swift.String?
@@ -5286,6 +5290,7 @@ extension AmplifyClientTypes.Webhook {
         value.webhookArn = try reader["webhookArn"].readIfPresent() ?? ""
         value.webhookId = try reader["webhookId"].readIfPresent() ?? ""
         value.webhookUrl = try reader["webhookUrl"].readIfPresent() ?? ""
+        value.appId = try reader["appId"].readIfPresent()
         value.branchName = try reader["branchName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent() ?? ""
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")

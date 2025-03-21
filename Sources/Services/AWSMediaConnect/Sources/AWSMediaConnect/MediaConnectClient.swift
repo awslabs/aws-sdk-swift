@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaConnectClient: ClientRuntime.Client {
     public static let clientName = "MediaConnectClient"
-    public static let version = "1.2.38"
+    public static let version = "1.2.43"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaConnectClient.MediaConnectClientConfiguration
     let serviceName = "MediaConnect"
@@ -363,20 +363,20 @@ extension MediaConnectClient {
     ///
     /// Adds outputs to an existing bridge.
     ///
-    /// - Parameter AddBridgeOutputsInput : A request to add outputs to the specified bridge.
+    /// - Parameter AddBridgeOutputsInput : [no documentation found]
     ///
     /// - Returns: `AddBridgeOutputsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func addBridgeOutputs(input: AddBridgeOutputsInput) async throws -> AddBridgeOutputsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -443,20 +443,20 @@ extension MediaConnectClient {
     ///
     /// Adds sources to an existing bridge.
     ///
-    /// - Parameter AddBridgeSourcesInput : A request to add sources to the specified bridge.
+    /// - Parameter AddBridgeSourcesInput : [no documentation found]
     ///
     /// - Returns: `AddBridgeSourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func addBridgeSources(input: AddBridgeSourcesInput) async throws -> AddBridgeSourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -523,19 +523,19 @@ extension MediaConnectClient {
     ///
     /// Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
     ///
-    /// - Parameter AddFlowMediaStreamsInput : A request to add media streams to the flow.
+    /// - Parameter AddFlowMediaStreamsInput : [no documentation found]
     ///
     /// - Returns: `AddFlowMediaStreamsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func addFlowMediaStreams(input: AddFlowMediaStreamsInput) async throws -> AddFlowMediaStreamsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -602,20 +602,20 @@ extension MediaConnectClient {
     ///
     /// Adds outputs to an existing flow. You can create up to 50 outputs per flow.
     ///
-    /// - Parameter AddFlowOutputsInput : A request to add outputs to the specified flow.
+    /// - Parameter AddFlowOutputsInput : [no documentation found]
     ///
     /// - Returns: `AddFlowOutputsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AddFlowOutputs420Exception` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `AddFlowOutputs420Exception` : Exception raised by Elemental MediaConnect when adding the flow output. See the error message for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func addFlowOutputs(input: AddFlowOutputsInput) async throws -> AddFlowOutputsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -680,21 +680,21 @@ extension MediaConnectClient {
 
     /// Performs the `AddFlowSources` operation on the `MediaConnect` service.
     ///
-    /// Adds Sources to flow
+    /// Adds sources to a flow.
     ///
-    /// - Parameter AddFlowSourcesInput : A request to add sources to the flow.
+    /// - Parameter AddFlowSourcesInput : [no documentation found]
     ///
     /// - Returns: `AddFlowSourcesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func addFlowSources(input: AddFlowSourcesInput) async throws -> AddFlowSourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -759,21 +759,21 @@ extension MediaConnectClient {
 
     /// Performs the `AddFlowVpcInterfaces` operation on the `MediaConnect` service.
     ///
-    /// Adds VPC interfaces to flow
+    /// Adds VPC interfaces to a flow.
     ///
-    /// - Parameter AddFlowVpcInterfacesInput : A request to add VPC interfaces to the flow.
+    /// - Parameter AddFlowVpcInterfacesInput : [no documentation found]
     ///
     /// - Returns: `AddFlowVpcInterfacesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func addFlowVpcInterfaces(input: AddFlowVpcInterfacesInput) async throws -> AddFlowVpcInterfacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -840,20 +840,20 @@ extension MediaConnectClient {
     ///
     /// Creates a new bridge. The request must include one source.
     ///
-    /// - Parameter CreateBridgeInput : Creates a new bridge. The request must include one source.
+    /// - Parameter CreateBridgeInput : [no documentation found]
     ///
     /// - Returns: `CreateBridgeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `CreateBridge420Exception` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `CreateBridge420Exception` : Exception raised by Elemental MediaConnect when creating the bridge. See the error message for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func createBridge(input: CreateBridgeInput) async throws -> CreateBridgeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -920,19 +920,19 @@ extension MediaConnectClient {
     ///
     /// Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
     ///
-    /// - Parameter CreateFlowInput : Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
+    /// - Parameter CreateFlowInput : [no documentation found]
     ///
     /// - Returns: `CreateFlowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `CreateFlow420Exception` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `CreateFlow420Exception` : Exception raised by Elemental MediaConnect when creating the flow. See the error message for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func createFlow(input: CreateFlowInput) async throws -> CreateFlowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -997,22 +997,22 @@ extension MediaConnectClient {
 
     /// Performs the `CreateGateway` operation on the `MediaConnect` service.
     ///
-    /// Creates a new gateway. The request must include at least one network (up to 4).
+    /// Creates a new gateway. The request must include at least one network (up to four).
     ///
-    /// - Parameter CreateGatewayInput : Creates a new gateway. The request must include at least one network (up to 4).
+    /// - Parameter CreateGatewayInput : [no documentation found]
     ///
     /// - Returns: `CreateGatewayOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `CreateGateway420Exception` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `CreateGateway420Exception` : Exception raised by Elemental MediaConnect when creating the gateway. See the error message for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func createGateway(input: CreateGatewayInput) async throws -> CreateGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1086,13 +1086,13 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func deleteBridge(input: DeleteBridgeInput) async throws -> DeleteBridgeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1163,12 +1163,12 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func deleteFlow(input: DeleteFlowInput) async throws -> DeleteFlowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1239,13 +1239,13 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1316,13 +1316,13 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func deregisterGatewayInstance(input: DeregisterGatewayInstanceInput) async throws -> DeregisterGatewayInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1394,13 +1394,13 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func describeBridge(input: DescribeBridgeInput) async throws -> DescribeBridgeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1462,7 +1462,7 @@ extension MediaConnectClient {
 
     /// Performs the `DescribeFlow` operation on the `MediaConnect` service.
     ///
-    /// Displays the details of a flow. The response includes the flow ARN, name, and Availability Zone, as well as details about the source, outputs, and entitlements.
+    /// Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN), name, and Availability Zone, as well as details about the source, outputs, and entitlements.
     ///
     /// - Parameter DescribeFlowInput : [no documentation found]
     ///
@@ -1471,12 +1471,12 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func describeFlow(input: DescribeFlowInput) async throws -> DescribeFlowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1538,7 +1538,7 @@ extension MediaConnectClient {
 
     /// Performs the `DescribeFlowSourceMetadata` operation on the `MediaConnect` service.
     ///
-    /// Displays details of the flow's source stream. The response contains information about the contents of the stream and its programs.
+    /// The DescribeFlowSourceMetadata API is used to view information about the flow's source transport stream and programs. This API displays status messages about the flow's source as well as details about the program's video, audio, and other data.
     ///
     /// - Parameter DescribeFlowSourceMetadataInput : [no documentation found]
     ///
@@ -1547,12 +1547,12 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func describeFlowSourceMetadata(input: DescribeFlowSourceMetadataInput) async throws -> DescribeFlowSourceMetadataOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1614,7 +1614,7 @@ extension MediaConnectClient {
 
     /// Performs the `DescribeFlowSourceThumbnail` operation on the `MediaConnect` service.
     ///
-    /// Displays the thumbnail details of a flow's source stream.
+    /// Describes the thumbnail for the flow source.
     ///
     /// - Parameter DescribeFlowSourceThumbnailInput : [no documentation found]
     ///
@@ -1623,12 +1623,12 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func describeFlowSourceThumbnail(input: DescribeFlowSourceThumbnailInput) async throws -> DescribeFlowSourceThumbnailOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1690,7 +1690,7 @@ extension MediaConnectClient {
 
     /// Performs the `DescribeGateway` operation on the `MediaConnect` service.
     ///
-    /// Displays the details of a gateway. The response includes the gateway ARN, name, and CIDR blocks, as well as details about the networks.
+    /// Displays the details of a gateway. The response includes the gateway Amazon Resource Name (ARN), name, and CIDR blocks, as well as details about the networks.
     ///
     /// - Parameter DescribeGatewayInput : [no documentation found]
     ///
@@ -1699,13 +1699,13 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func describeGateway(input: DescribeGatewayInput) async throws -> DescribeGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1776,13 +1776,13 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func describeGatewayInstance(input: DescribeGatewayInstanceInput) async throws -> DescribeGatewayInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1853,11 +1853,11 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func describeOffering(input: DescribeOfferingInput) async throws -> DescribeOfferingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1928,11 +1928,11 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func describeReservation(input: DescribeReservationInput) async throws -> DescribeReservationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1996,20 +1996,20 @@ extension MediaConnectClient {
     ///
     /// Grants entitlements to an existing flow.
     ///
-    /// - Parameter GrantFlowEntitlementsInput : A request to grant entitlements on a flow.
+    /// - Parameter GrantFlowEntitlementsInput : [no documentation found]
     ///
     /// - Returns: `GrantFlowEntitlementsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `GrantFlowEntitlements420Exception` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `GrantFlowEntitlements420Exception` : Exception raised by Elemental MediaConnect when granting the entitlement. See the error message for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func grantFlowEntitlements(input: GrantFlowEntitlementsInput) async throws -> GrantFlowEntitlementsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2074,7 +2074,7 @@ extension MediaConnectClient {
 
     /// Performs the `ListBridges` operation on the `MediaConnect` service.
     ///
-    /// Displays a list of bridges that are associated with this account and an optionally specified Arn. This request returns a paginated result.
+    /// Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result.
     ///
     /// - Parameter ListBridgesInput : [no documentation found]
     ///
@@ -2083,11 +2083,11 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func listBridges(input: ListBridgesInput) async throws -> ListBridgesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2159,10 +2159,10 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func listEntitlements(input: ListEntitlementsInput) async throws -> ListEntitlementsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2234,10 +2234,10 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func listFlows(input: ListFlowsInput) async throws -> ListFlowsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2300,7 +2300,7 @@ extension MediaConnectClient {
 
     /// Performs the `ListGatewayInstances` operation on the `MediaConnect` service.
     ///
-    /// Displays a list of instances associated with the AWS account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
+    /// Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
     ///
     /// - Parameter ListGatewayInstancesInput : [no documentation found]
     ///
@@ -2309,11 +2309,11 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func listGatewayInstances(input: ListGatewayInstancesInput) async throws -> ListGatewayInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2385,11 +2385,11 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2452,7 +2452,7 @@ extension MediaConnectClient {
 
     /// Performs the `ListOfferings` operation on the `MediaConnect` service.
     ///
-    /// Displays a list of all offerings that are available to this account in the current AWS Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
+    /// Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
     ///
     /// - Parameter ListOfferingsInput : [no documentation found]
     ///
@@ -2461,10 +2461,10 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2527,7 +2527,7 @@ extension MediaConnectClient {
 
     /// Performs the `ListReservations` operation on the `MediaConnect` service.
     ///
-    /// Displays a list of all reservations that have been purchased by this account in the current AWS Region. This list includes all reservations in all states (such as active and expired).
+    /// Displays a list of all reservations that have been purchased by this account in the current Amazon Web Services Region. This list includes all reservations in all states (such as active and expired).
     ///
     /// - Parameter ListReservationsInput : [no documentation found]
     ///
@@ -2536,10 +2536,10 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func listReservations(input: ListReservationsInput) async throws -> ListReservationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2602,7 +2602,7 @@ extension MediaConnectClient {
 
     /// Performs the `ListTagsForResource` operation on the `MediaConnect` service.
     ///
-    /// List all tags on an AWS Elemental MediaConnect resource
+    /// List all tags on a MediaConnect resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -2611,9 +2611,9 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2677,19 +2677,19 @@ extension MediaConnectClient {
     ///
     /// Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
     ///
-    /// - Parameter PurchaseOfferingInput : A request to purchase a offering.
+    /// - Parameter PurchaseOfferingInput : [no documentation found]
     ///
     /// - Returns: `PurchaseOfferingOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2763,13 +2763,13 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func removeBridgeOutput(input: RemoveBridgeOutputInput) async throws -> RemoveBridgeOutputOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2840,13 +2840,13 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func removeBridgeSource(input: RemoveBridgeSourceInput) async throws -> RemoveBridgeSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2917,12 +2917,12 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func removeFlowMediaStream(input: RemoveFlowMediaStreamInput) async throws -> RemoveFlowMediaStreamOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2993,12 +2993,12 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func removeFlowOutput(input: RemoveFlowOutputInput) async throws -> RemoveFlowOutputOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3069,12 +3069,12 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func removeFlowSource(input: RemoveFlowSourceInput) async throws -> RemoveFlowSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3145,12 +3145,12 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func removeFlowVpcInterface(input: RemoveFlowVpcInterfaceInput) async throws -> RemoveFlowVpcInterfaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3221,12 +3221,12 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func revokeFlowEntitlement(input: RevokeFlowEntitlementInput) async throws -> RevokeFlowEntitlementOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3297,12 +3297,12 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func startFlow(input: StartFlowInput) async throws -> StartFlowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3373,12 +3373,12 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func stopFlow(input: StopFlowInput) async throws -> StopFlowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3442,16 +3442,16 @@ extension MediaConnectClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
-    /// - Parameter TagResourceInput : The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    /// - Parameter TagResourceInput : [no documentation found]
     ///
     /// - Returns: `TagResourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3525,9 +3525,9 @@ extension MediaConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3590,22 +3590,22 @@ extension MediaConnectClient {
 
     /// Performs the `UpdateBridge` operation on the `MediaConnect` service.
     ///
-    /// Updates the bridge
+    /// Updates the bridge.
     ///
-    /// - Parameter UpdateBridgeInput : A request to update the bridge.
+    /// - Parameter UpdateBridgeInput : [no documentation found]
     ///
     /// - Returns: `UpdateBridgeOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func updateBridge(input: UpdateBridgeInput) async throws -> UpdateBridgeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -3672,20 +3672,20 @@ extension MediaConnectClient {
     ///
     /// Updates an existing bridge output.
     ///
-    /// - Parameter UpdateBridgeOutputInput : The fields that you want to update in the bridge output.
+    /// - Parameter UpdateBridgeOutputInput : [no documentation found]
     ///
     /// - Returns: `UpdateBridgeOutputOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func updateBridgeOutput(input: UpdateBridgeOutputInput) async throws -> UpdateBridgeOutputOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -3752,20 +3752,20 @@ extension MediaConnectClient {
     ///
     /// Updates an existing bridge source.
     ///
-    /// - Parameter UpdateBridgeSourceInput : The fields that you want to update in the bridge source.
+    /// - Parameter UpdateBridgeSourceInput : [no documentation found]
     ///
     /// - Returns: `UpdateBridgeSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func updateBridgeSource(input: UpdateBridgeSourceInput) async throws -> UpdateBridgeSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -3830,22 +3830,22 @@ extension MediaConnectClient {
 
     /// Performs the `UpdateBridgeState` operation on the `MediaConnect` service.
     ///
-    /// Updates the bridge state
+    /// Updates the bridge state.
     ///
-    /// - Parameter UpdateBridgeStateInput : A request to update the bridge state.
+    /// - Parameter UpdateBridgeStateInput : [no documentation found]
     ///
     /// - Returns: `UpdateBridgeStateOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func updateBridgeState(input: UpdateBridgeStateInput) async throws -> UpdateBridgeStateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -3910,21 +3910,21 @@ extension MediaConnectClient {
 
     /// Performs the `UpdateFlow` operation on the `MediaConnect` service.
     ///
-    /// Updates flow
+    /// Updates an existing flow.
     ///
-    /// - Parameter UpdateFlowInput : A request to update flow.
+    /// - Parameter UpdateFlowInput : [no documentation found]
     ///
     /// - Returns: `UpdateFlowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func updateFlow(input: UpdateFlowInput) async throws -> UpdateFlowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -3989,21 +3989,21 @@ extension MediaConnectClient {
 
     /// Performs the `UpdateFlowEntitlement` operation on the `MediaConnect` service.
     ///
-    /// You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
+    /// Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
     ///
-    /// - Parameter UpdateFlowEntitlementInput : The entitlement fields that you want to update.
+    /// - Parameter UpdateFlowEntitlementInput : [no documentation found]
     ///
     /// - Returns: `UpdateFlowEntitlementOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func updateFlowEntitlement(input: UpdateFlowEntitlementInput) async throws -> UpdateFlowEntitlementOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -4070,19 +4070,19 @@ extension MediaConnectClient {
     ///
     /// Updates an existing media stream.
     ///
-    /// - Parameter UpdateFlowMediaStreamInput : The fields that you want to update in the media stream.
+    /// - Parameter UpdateFlowMediaStreamInput : [no documentation found]
     ///
     /// - Returns: `UpdateFlowMediaStreamOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func updateFlowMediaStream(input: UpdateFlowMediaStreamInput) async throws -> UpdateFlowMediaStreamOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -4149,19 +4149,19 @@ extension MediaConnectClient {
     ///
     /// Updates an existing flow output.
     ///
-    /// - Parameter UpdateFlowOutputInput : The fields that you want to update in the output.
+    /// - Parameter UpdateFlowOutputInput : [no documentation found]
     ///
     /// - Returns: `UpdateFlowOutputOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func updateFlowOutput(input: UpdateFlowOutputInput) async throws -> UpdateFlowOutputOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -4228,19 +4228,19 @@ extension MediaConnectClient {
     ///
     /// Updates the source of a flow.
     ///
-    /// - Parameter UpdateFlowSourceInput : A request to update the source of a flow.
+    /// - Parameter UpdateFlowSourceInput : [no documentation found]
     ///
     /// - Returns: `UpdateFlowSourceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func updateFlowSource(input: UpdateFlowSourceInput) async throws -> UpdateFlowSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -4305,22 +4305,22 @@ extension MediaConnectClient {
 
     /// Performs the `UpdateGatewayInstance` operation on the `MediaConnect` service.
     ///
-    /// Updates the configuration of an existing Gateway Instance.
+    /// Updates an existing gateway instance.
     ///
-    /// - Parameter UpdateGatewayInstanceInput : A request to update gateway instance state.
+    /// - Parameter UpdateGatewayInstanceInput : [no documentation found]
     ///
     /// - Returns: `UpdateGatewayInstanceOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
-    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
     public func updateGatewayInstance(input: UpdateGatewayInstanceInput) async throws -> UpdateGatewayInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)

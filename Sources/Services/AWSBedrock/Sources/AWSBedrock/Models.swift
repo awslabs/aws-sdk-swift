@@ -1097,10 +1097,28 @@ extension BedrockClientTypes.EvaluationBedrockModel: Swift.CustomDebugStringConv
 
 extension BedrockClientTypes {
 
+    /// A summary of a model used for a model evaluation job where you provide your own inference response data.
+    public struct EvaluationPrecomputedInferenceSource: Swift.Sendable {
+        /// A label that identifies a model used in a model evaluation job where you provide your own inference response data.
+        /// This member is required.
+        public var inferenceSourceIdentifier: Swift.String?
+
+        public init(
+            inferenceSourceIdentifier: Swift.String? = nil
+        ) {
+            self.inferenceSourceIdentifier = inferenceSourceIdentifier
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// Defines the models used in the model evaluation job.
     public enum EvaluationModelConfig: Swift.Sendable {
         /// Defines the Amazon Bedrock model or inference profile and inference parameters you want used.
         case bedrockmodel(BedrockClientTypes.EvaluationBedrockModel)
+        /// Defines the model used to generate inference response data for a model evaluation job where you provide your own inference response data.
+        case precomputedinferencesource(BedrockClientTypes.EvaluationPrecomputedInferenceSource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1506,6 +1524,50 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// A summary of a RAG source used for a retrieve-and-generate Knowledge Base evaluation job where you provide your own inference response data.
+    public struct EvaluationPrecomputedRetrieveAndGenerateSourceConfig: Swift.Sendable {
+        /// A label that identifies the RAG source used for a retrieve-and-generate Knowledge Base evaluation job where you provide your own inference response data.
+        /// This member is required.
+        public var ragSourceIdentifier: Swift.String?
+
+        public init(
+            ragSourceIdentifier: Swift.String? = nil
+        ) {
+            self.ragSourceIdentifier = ragSourceIdentifier
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A summary of a RAG source used for a retrieve-only Knowledge Base evaluation job where you provide your own inference response data.
+    public struct EvaluationPrecomputedRetrieveSourceConfig: Swift.Sendable {
+        /// A label that identifies the RAG source used for a retrieve-only Knowledge Base evaluation job where you provide your own inference response data.
+        /// This member is required.
+        public var ragSourceIdentifier: Swift.String?
+
+        public init(
+            ragSourceIdentifier: Swift.String? = nil
+        ) {
+            self.ragSourceIdentifier = ragSourceIdentifier
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A summary of a RAG source used for a Knowledge Base evaluation job where you provide your own inference response data.
+    public enum EvaluationPrecomputedRagSourceConfig: Swift.Sendable {
+        /// A summary of a RAG source used for a retrieve-only Knowledge Base evaluation job where you provide your own inference response data.
+        case retrievesourceconfig(BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig)
+        /// A summary of a RAG source used for a retrieve-and-generate Knowledge Base evaluation job where you provide your own inference response data.
+        case retrieveandgeneratesourceconfig(BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
     /// The Amazon S3 location where the results of your evaluation job are saved.
     public struct EvaluationOutputDataConfig: Swift.Sendable {
         /// The Amazon S3 URI where the results of the evaluation job are saved.
@@ -1678,6 +1740,63 @@ public struct ListEvaluationJobsInput: Swift.Sendable {
 
 extension BedrockClientTypes {
 
+    /// A summary of the models used in an Amazon Bedrock model evaluation job. These resources can be models in Amazon Bedrock or models outside of Amazon Bedrock that you use to generate your own inference response data.
+    public struct EvaluationModelConfigSummary: Swift.Sendable {
+        /// The Amazon Resource Names (ARNs) of the models used for the evaluation job.
+        public var bedrockModelIdentifiers: [Swift.String]?
+        /// A label that identifies the models used for a model evaluation job where you provide your own inference response data.
+        public var precomputedInferenceSourceIdentifiers: [Swift.String]?
+
+        public init(
+            bedrockModelIdentifiers: [Swift.String]? = nil,
+            precomputedInferenceSourceIdentifiers: [Swift.String]? = nil
+        ) {
+            self.bedrockModelIdentifiers = bedrockModelIdentifiers
+            self.precomputedInferenceSourceIdentifiers = precomputedInferenceSourceIdentifiers
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A summary of the RAG resources used in an Amazon Bedrock Knowledge Base evaluation job. These resources can be Knowledge Bases in Amazon Bedrock or RAG sources outside of Amazon Bedrock that you use to generate your own inference response data.
+    public struct EvaluationRagConfigSummary: Swift.Sendable {
+        /// The Amazon Resource Names (ARNs) of the Knowledge Base resources used for a Knowledge Base evaluation job where Amazon Bedrock invokes the Knowledge Base for you.
+        public var bedrockKnowledgeBaseIdentifiers: [Swift.String]?
+        /// A label that identifies the RAG sources used for a Knowledge Base evaluation job where you provide your own inference response data.
+        public var precomputedRagSourceIdentifiers: [Swift.String]?
+
+        public init(
+            bedrockKnowledgeBaseIdentifiers: [Swift.String]? = nil,
+            precomputedRagSourceIdentifiers: [Swift.String]? = nil
+        ) {
+            self.bedrockKnowledgeBaseIdentifiers = bedrockKnowledgeBaseIdentifiers
+            self.precomputedRagSourceIdentifiers = precomputedRagSourceIdentifiers
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Identifies the models, Knowledge Bases, or other RAG sources evaluated in a model or Knowledge Base evaluation job.
+    public struct EvaluationInferenceConfigSummary: Swift.Sendable {
+        /// A summary of the models used in an Amazon Bedrock model evaluation job. These resources can be models in Amazon Bedrock or models outside of Amazon Bedrock that you use to generate your own inference response data.
+        public var modelConfigSummary: BedrockClientTypes.EvaluationModelConfigSummary?
+        /// A summary of the RAG resources used in an Amazon Bedrock Knowledge Base evaluation job. These resources can be Knowledge Bases in Amazon Bedrock or RAG sources outside of Amazon Bedrock that you use to generate your own inference response data.
+        public var ragConfigSummary: BedrockClientTypes.EvaluationRagConfigSummary?
+
+        public init(
+            modelConfigSummary: BedrockClientTypes.EvaluationModelConfigSummary? = nil,
+            ragConfigSummary: BedrockClientTypes.EvaluationRagConfigSummary? = nil
+        ) {
+            self.modelConfigSummary = modelConfigSummary
+            self.ragConfigSummary = ragConfigSummary
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// Summary information of an evaluation job.
     public struct EvaluationSummary: Swift.Sendable {
         /// Specifies whether the evaluation job is for evaluating a model or evaluating a knowledge base (retrieval and response generation).
@@ -1690,6 +1809,8 @@ extension BedrockClientTypes {
         public var evaluationTaskTypes: [BedrockClientTypes.EvaluationTaskType]?
         /// The Amazon Resource Names (ARNs) of the models used to compute the metrics for a knowledge base evaluation job.
         public var evaluatorModelIdentifiers: [Swift.String]?
+        /// Identifies the models, Knowledge Bases, or other RAG sources evaluated in a model or Knowledge Base evaluation job.
+        public var inferenceConfigSummary: BedrockClientTypes.EvaluationInferenceConfigSummary?
         /// The Amazon Resource Name (ARN) of the evaluation job.
         /// This member is required.
         public var jobArn: Swift.String?
@@ -1700,8 +1821,10 @@ extension BedrockClientTypes {
         /// This member is required.
         public var jobType: BedrockClientTypes.EvaluationJobType?
         /// The Amazon Resource Names (ARNs) of the model(s) used for the evaluation job.
+        @available(*, deprecated, message: "Inference identifiers should be retrieved from the inferenceConfigSummary API deprecated since 2025-03-07")
         public var modelIdentifiers: [Swift.String]?
         /// The Amazon Resource Names (ARNs) of the knowledge base resources used for a knowledge base evaluation job.
+        @available(*, deprecated, message: "Inference identifiers should be retrieved from the inferenceConfigSummary API deprecated since 2025-03-07")
         public var ragIdentifiers: [Swift.String]?
         /// The current status of the evaluation job.
         /// This member is required.
@@ -1712,6 +1835,7 @@ extension BedrockClientTypes {
             creationTime: Foundation.Date? = nil,
             evaluationTaskTypes: [BedrockClientTypes.EvaluationTaskType]? = nil,
             evaluatorModelIdentifiers: [Swift.String]? = nil,
+            inferenceConfigSummary: BedrockClientTypes.EvaluationInferenceConfigSummary? = nil,
             jobArn: Swift.String? = nil,
             jobName: Swift.String? = nil,
             jobType: BedrockClientTypes.EvaluationJobType? = nil,
@@ -1723,6 +1847,7 @@ extension BedrockClientTypes {
             self.creationTime = creationTime
             self.evaluationTaskTypes = evaluationTaskTypes
             self.evaluatorModelIdentifiers = evaluatorModelIdentifiers
+            self.inferenceConfigSummary = inferenceConfigSummary
             self.jobArn = jobArn
             self.jobName = jobName
             self.jobType = jobType
@@ -4083,9 +4208,30 @@ public struct GetImportedModelInput: Swift.Sendable {
     }
 }
 
+extension BedrockClientTypes {
+
+    /// A CustomModelUnit (CMU) is an abstract view of the hardware utilization that Amazon Bedrock needs to host a single copy of your custom model. A model copy represents a single instance of your imported model that is ready to serve inference requests. Amazon Bedrock determines the number of custom model units that a model copy needs when you import the custom model. You can use CustomModelUnits to estimate the cost of running your custom model. For more information, see Calculate the cost of running a custom model in the Amazon Bedrock user guide.
+    public struct CustomModelUnits: Swift.Sendable {
+        /// The number of custom model units used to host a model copy.
+        public var customModelUnitsPerModelCopy: Swift.Int?
+        /// The version of the custom model unit. Use to determine the billing rate for the custom model unit.
+        public var customModelUnitsVersion: Swift.String?
+
+        public init(
+            customModelUnitsPerModelCopy: Swift.Int? = nil,
+            customModelUnitsVersion: Swift.String? = nil
+        ) {
+            self.customModelUnitsPerModelCopy = customModelUnitsPerModelCopy
+            self.customModelUnitsVersion = customModelUnitsVersion
+        }
+    }
+}
+
 public struct GetImportedModelOutput: Swift.Sendable {
     /// Creation time of the imported model.
     public var creationTime: Foundation.Date?
+    /// Information about the hardware utilization for a single copy of the model.
+    public var customModelUnits: BedrockClientTypes.CustomModelUnits?
     /// Specifies if the imported model supports converse.
     public var instructSupported: Swift.Bool?
     /// Job Amazon Resource Name (ARN) associated with the imported model.
@@ -4105,6 +4251,7 @@ public struct GetImportedModelOutput: Swift.Sendable {
 
     public init(
         creationTime: Foundation.Date? = nil,
+        customModelUnits: BedrockClientTypes.CustomModelUnits? = nil,
         instructSupported: Swift.Bool? = nil,
         jobArn: Swift.String? = nil,
         jobName: Swift.String? = nil,
@@ -4115,6 +4262,7 @@ public struct GetImportedModelOutput: Swift.Sendable {
         modelName: Swift.String? = nil
     ) {
         self.creationTime = creationTime
+        self.customModelUnits = customModelUnits
         self.instructSupported = instructSupported
         self.jobArn = jobArn
         self.jobName = jobName
@@ -7101,6 +7249,8 @@ extension BedrockClientTypes {
     public indirect enum RAGConfig: Swift.Sendable {
         /// Contains configuration details for knowledge base retrieval and response generation.
         case knowledgebaseconfig(BedrockClientTypes.KnowledgeBaseConfig)
+        /// Contains configuration details about the RAG source used to generate inference response data for a Knowledge Base evaluation job.
+        case precomputedragsourceconfig(BedrockClientTypes.EvaluationPrecomputedRagSourceConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -8780,6 +8930,7 @@ extension GetImportedModelOutput {
         let reader = responseReader
         var value = GetImportedModelOutput()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.customModelUnits = try reader["customModelUnits"].readIfPresent(with: BedrockClientTypes.CustomModelUnits.read(from:))
         value.instructSupported = try reader["instructSupported"].readIfPresent()
         value.jobArn = try reader["jobArn"].readIfPresent()
         value.jobName = try reader["jobName"].readIfPresent()
@@ -11032,6 +11183,8 @@ extension BedrockClientTypes.RAGConfig {
         switch value {
             case let .knowledgebaseconfig(knowledgebaseconfig):
                 try writer["knowledgeBaseConfig"].write(knowledgebaseconfig, with: BedrockClientTypes.KnowledgeBaseConfig.write(value:to:))
+            case let .precomputedragsourceconfig(precomputedragsourceconfig):
+                try writer["precomputedRagSourceConfig"].write(precomputedragsourceconfig, with: BedrockClientTypes.EvaluationPrecomputedRagSourceConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -11043,9 +11196,69 @@ extension BedrockClientTypes.RAGConfig {
         switch name {
             case "knowledgeBaseConfig":
                 return .knowledgebaseconfig(try reader["knowledgeBaseConfig"].read(with: BedrockClientTypes.KnowledgeBaseConfig.read(from:)))
+            case "precomputedRagSourceConfig":
+                return .precomputedragsourceconfig(try reader["precomputedRagSourceConfig"].read(with: BedrockClientTypes.EvaluationPrecomputedRagSourceConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockClientTypes.EvaluationPrecomputedRagSourceConfig {
+
+    static func write(value: BedrockClientTypes.EvaluationPrecomputedRagSourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .retrieveandgeneratesourceconfig(retrieveandgeneratesourceconfig):
+                try writer["retrieveAndGenerateSourceConfig"].write(retrieveandgeneratesourceconfig, with: BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig.write(value:to:))
+            case let .retrievesourceconfig(retrievesourceconfig):
+                try writer["retrieveSourceConfig"].write(retrievesourceconfig, with: BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationPrecomputedRagSourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "retrieveSourceConfig":
+                return .retrievesourceconfig(try reader["retrieveSourceConfig"].read(with: BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig.read(from:)))
+            case "retrieveAndGenerateSourceConfig":
+                return .retrieveandgeneratesourceconfig(try reader["retrieveAndGenerateSourceConfig"].read(with: BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig {
+
+    static func write(value: BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ragSourceIdentifier"].write(value.ragSourceIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig()
+        value.ragSourceIdentifier = try reader["ragSourceIdentifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig {
+
+    static func write(value: BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ragSourceIdentifier"].write(value.ragSourceIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig()
+        value.ragSourceIdentifier = try reader["ragSourceIdentifier"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -11478,6 +11691,8 @@ extension BedrockClientTypes.EvaluationModelConfig {
         switch value {
             case let .bedrockmodel(bedrockmodel):
                 try writer["bedrockModel"].write(bedrockmodel, with: BedrockClientTypes.EvaluationBedrockModel.write(value:to:))
+            case let .precomputedinferencesource(precomputedinferencesource):
+                try writer["precomputedInferenceSource"].write(precomputedinferencesource, with: BedrockClientTypes.EvaluationPrecomputedInferenceSource.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -11489,9 +11704,26 @@ extension BedrockClientTypes.EvaluationModelConfig {
         switch name {
             case "bedrockModel":
                 return .bedrockmodel(try reader["bedrockModel"].read(with: BedrockClientTypes.EvaluationBedrockModel.read(from:)))
+            case "precomputedInferenceSource":
+                return .precomputedinferencesource(try reader["precomputedInferenceSource"].read(with: BedrockClientTypes.EvaluationPrecomputedInferenceSource.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockClientTypes.EvaluationPrecomputedInferenceSource {
+
+    static func write(value: BedrockClientTypes.EvaluationPrecomputedInferenceSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inferenceSourceIdentifier"].write(value.inferenceSourceIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationPrecomputedInferenceSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.EvaluationPrecomputedInferenceSource()
+        value.inferenceSourceIdentifier = try reader["inferenceSourceIdentifier"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -11746,6 +11978,17 @@ extension BedrockClientTypes.S3DataSource {
     }
 }
 
+extension BedrockClientTypes.CustomModelUnits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomModelUnits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.CustomModelUnits()
+        value.customModelUnitsPerModelCopy = try reader["customModelUnitsPerModelCopy"].readIfPresent()
+        value.customModelUnitsVersion = try reader["customModelUnitsVersion"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockClientTypes.InferenceProfileModel {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.InferenceProfileModel {
@@ -11980,7 +12223,41 @@ extension BedrockClientTypes.EvaluationSummary {
         value.modelIdentifiers = try reader["modelIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.ragIdentifiers = try reader["ragIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.evaluatorModelIdentifiers = try reader["evaluatorModelIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inferenceConfigSummary = try reader["inferenceConfigSummary"].readIfPresent(with: BedrockClientTypes.EvaluationInferenceConfigSummary.read(from:))
         value.applicationType = try reader["applicationType"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.EvaluationInferenceConfigSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationInferenceConfigSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.EvaluationInferenceConfigSummary()
+        value.modelConfigSummary = try reader["modelConfigSummary"].readIfPresent(with: BedrockClientTypes.EvaluationModelConfigSummary.read(from:))
+        value.ragConfigSummary = try reader["ragConfigSummary"].readIfPresent(with: BedrockClientTypes.EvaluationRagConfigSummary.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.EvaluationRagConfigSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationRagConfigSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.EvaluationRagConfigSummary()
+        value.bedrockKnowledgeBaseIdentifiers = try reader["bedrockKnowledgeBaseIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.precomputedRagSourceIdentifiers = try reader["precomputedRagSourceIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockClientTypes.EvaluationModelConfigSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationModelConfigSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.EvaluationModelConfigSummary()
+        value.bedrockModelIdentifiers = try reader["bedrockModelIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.precomputedInferenceSourceIdentifiers = try reader["precomputedInferenceSourceIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

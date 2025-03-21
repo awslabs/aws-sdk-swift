@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServerlessApplicationRepositoryClient: ClientRuntime.Client {
     public static let clientName = "ServerlessApplicationRepositoryClient"
-    public static let version = "1.2.38"
+    public static let version = "1.2.43"
     let client: ClientRuntime.SdkHttpClient
     let config: ServerlessApplicationRepositoryClient.ServerlessApplicationRepositoryClientConfiguration
     let serviceName = "ServerlessApplicationRepository"

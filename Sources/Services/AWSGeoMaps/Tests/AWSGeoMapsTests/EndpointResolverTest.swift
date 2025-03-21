@@ -251,7 +251,7 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://maps.geo-fips.us-gov-west-1.us-gov.api.aws/v2", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://maps.geo-fips.us-gov-west-1.api.aws/v2", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -271,7 +271,7 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://maps.geo-fips.us-gov-west-1.us-gov.amazonaws.com/v2", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://maps.geo-fips.us-gov-west-1.amazonaws.com/v2", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -291,7 +291,7 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://maps.geo.us-gov-west-1.us-gov.api.aws/v2", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://maps.geo.us-gov-west-1.api.aws/v2", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -311,7 +311,7 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://maps.geo.us-gov-west-1.us-gov.amazonaws.com/v2", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://maps.geo.us-gov-west-1.amazonaws.com/v2", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }

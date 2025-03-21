@@ -1883,6 +1883,8 @@ extension MailManagerClientTypes {
     public enum RuleBooleanToEvaluate: Swift.Sendable {
         /// The boolean type representing the allowed attribute types for an email.
         case attribute(MailManagerClientTypes.RuleBooleanEmailAttribute)
+        /// The Add On ARN and its returned value to evaluate in a boolean condition expression.
+        case analysis(MailManagerClientTypes.Analysis)
         /// The structure representing the address lists and address list attribute that will be used in evaluation of boolean expression.
         case isinaddresslist(MailManagerClientTypes.RuleIsInAddressList)
         case sdkUnknown(Swift.String)
@@ -2270,6 +2272,8 @@ extension MailManagerClientTypes {
         case attribute(MailManagerClientTypes.RuleStringEmailAttribute)
         /// The email MIME X-Header attribute to evaluate in a string condition expression.
         case mimeheaderattribute(Swift.String)
+        /// The Add On ARN and its returned value to evaluate in a string condition expression.
+        case analysis(MailManagerClientTypes.Analysis)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2807,6 +2811,8 @@ extension MailManagerClientTypes {
     public enum IngressStringToEvaluate: Swift.Sendable {
         /// The enum type representing the allowed attribute types for a string condition.
         case attribute(MailManagerClientTypes.IngressStringEmailAttribute)
+        /// The structure type for a string condition stating the Add On ARN and its returned value.
+        case analysis(MailManagerClientTypes.IngressAnalysis)
         case sdkUnknown(Swift.String)
     }
 }
@@ -8685,6 +8691,8 @@ extension MailManagerClientTypes.RuleStringToEvaluate {
     static func write(value: MailManagerClientTypes.RuleStringToEvaluate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .analysis(analysis):
+                try writer["Analysis"].write(analysis, with: MailManagerClientTypes.Analysis.write(value:to:))
             case let .attribute(attribute):
                 try writer["Attribute"].write(attribute)
             case let .mimeheaderattribute(mimeheaderattribute):
@@ -8702,6 +8710,8 @@ extension MailManagerClientTypes.RuleStringToEvaluate {
                 return .attribute(try reader["Attribute"].read())
             case "MimeHeaderAttribute":
                 return .mimeheaderattribute(try reader["MimeHeaderAttribute"].read())
+            case "Analysis":
+                return .analysis(try reader["Analysis"].read(with: MailManagerClientTypes.Analysis.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -8730,6 +8740,8 @@ extension MailManagerClientTypes.RuleBooleanToEvaluate {
     static func write(value: MailManagerClientTypes.RuleBooleanToEvaluate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .analysis(analysis):
+                try writer["Analysis"].write(analysis, with: MailManagerClientTypes.Analysis.write(value:to:))
             case let .attribute(attribute):
                 try writer["Attribute"].write(attribute)
             case let .isinaddresslist(isinaddresslist):
@@ -8745,6 +8757,8 @@ extension MailManagerClientTypes.RuleBooleanToEvaluate {
         switch name {
             case "Attribute":
                 return .attribute(try reader["Attribute"].read())
+            case "Analysis":
+                return .analysis(try reader["Analysis"].read(with: MailManagerClientTypes.Analysis.read(from:)))
             case "IsInAddressList":
                 return .isinaddresslist(try reader["IsInAddressList"].read(with: MailManagerClientTypes.RuleIsInAddressList.read(from:)))
             default:
@@ -9012,6 +9026,8 @@ extension MailManagerClientTypes.IngressStringToEvaluate {
     static func write(value: MailManagerClientTypes.IngressStringToEvaluate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .analysis(analysis):
+                try writer["Analysis"].write(analysis, with: MailManagerClientTypes.IngressAnalysis.write(value:to:))
             case let .attribute(attribute):
                 try writer["Attribute"].write(attribute)
             case let .sdkUnknown(sdkUnknown):
@@ -9025,6 +9041,8 @@ extension MailManagerClientTypes.IngressStringToEvaluate {
         switch name {
             case "Attribute":
                 return .attribute(try reader["Attribute"].read())
+            case "Analysis":
+                return .analysis(try reader["Analysis"].read(with: MailManagerClientTypes.IngressAnalysis.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

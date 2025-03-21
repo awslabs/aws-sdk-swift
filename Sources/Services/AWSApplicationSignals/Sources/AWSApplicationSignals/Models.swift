@@ -851,6 +851,168 @@ public struct BatchGetServiceLevelObjectiveBudgetReportOutput: Swift.Sendable {
     }
 }
 
+/// Resource not found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// Can't find the resource id.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The resource type is not valid.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The recurrence rule for the SLO time window exclusion .
+    public struct RecurrenceRule: Swift.Sendable {
+        /// A cron or rate expression that specifies the schedule for the exclusion window.
+        /// This member is required.
+        public var expression: Swift.String?
+
+        public init(
+            expression: Swift.String? = nil
+        ) {
+            self.expression = expression
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The object that defines the time length of an exclusion window.
+    public struct Window: Swift.Sendable {
+        /// The number of time units for the exclusion window length.
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// The unit of time for the exclusion window duration. Valid values: MINUTE, HOUR, DAY, MONTH.
+        /// This member is required.
+        public var durationUnit: ApplicationSignalsClientTypes.DurationUnit?
+
+        public init(
+            duration: Swift.Int? = nil,
+            durationUnit: ApplicationSignalsClientTypes.DurationUnit? = nil
+        ) {
+            self.duration = duration
+            self.durationUnit = durationUnit
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The core SLO time window exclusion object that includes Window, StartTime, RecurrenceRule, and Reason.
+    public struct ExclusionWindow: Swift.Sendable {
+        /// A description explaining why this time period should be excluded from SLO calculations.
+        public var reason: Swift.String?
+        /// The recurrence rule for the SLO time window exclusion. Supports both cron and rate expressions.
+        public var recurrenceRule: ApplicationSignalsClientTypes.RecurrenceRule?
+        /// The start of the SLO time window exclusion. Defaults to current time if not specified.
+        public var startTime: Foundation.Date?
+        /// The SLO time window exclusion .
+        /// This member is required.
+        public var window: ApplicationSignalsClientTypes.Window?
+
+        public init(
+            reason: Swift.String? = nil,
+            recurrenceRule: ApplicationSignalsClientTypes.RecurrenceRule? = nil,
+            startTime: Foundation.Date? = nil,
+            window: ApplicationSignalsClientTypes.Window? = nil
+        ) {
+            self.reason = reason
+            self.recurrenceRule = recurrenceRule
+            self.startTime = startTime
+            self.window = window
+        }
+    }
+}
+
+public struct BatchUpdateExclusionWindowsInput: Swift.Sendable {
+    /// A list of exclusion windows to add to the specified SLOs. You can add up to 10 exclusion windows per SLO.
+    public var addExclusionWindows: [ApplicationSignalsClientTypes.ExclusionWindow]?
+    /// A list of exclusion windows to remove from the specified SLOs. The window configuration must match an existing exclusion window.
+    public var removeExclusionWindows: [ApplicationSignalsClientTypes.ExclusionWindow]?
+    /// The list of SLO IDs to add or remove exclusion windows from.
+    /// This member is required.
+    public var sloIds: [Swift.String]?
+
+    public init(
+        addExclusionWindows: [ApplicationSignalsClientTypes.ExclusionWindow]? = nil,
+        removeExclusionWindows: [ApplicationSignalsClientTypes.ExclusionWindow]? = nil,
+        sloIds: [Swift.String]? = nil
+    ) {
+        self.addExclusionWindows = addExclusionWindows
+        self.removeExclusionWindows = removeExclusionWindows
+        self.sloIds = sloIds
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// An array of structures, where each structure includes an error indicating that one of the requests in the array was not valid.
+    public struct BatchUpdateExclusionWindowsError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The SLO ID in the error.
+        /// This member is required.
+        public var sloId: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            sloId: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.sloId = sloId
+        }
+    }
+}
+
+public struct BatchUpdateExclusionWindowsOutput: Swift.Sendable {
+    /// A list of errors that occurred while processing the request.
+    /// This member is required.
+    public var errors: [ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError]?
+    /// The list of SLO IDs that were successfully processed.
+    /// This member is required.
+    public var sloIds: [Swift.String]?
+
+    public init(
+        errors: [ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError]? = nil,
+        sloIds: [Swift.String]? = nil
+    ) {
+        self.errors = errors
+        self.sloIds = sloIds
+    }
+}
+
 public struct GetServiceInput: Swift.Sendable {
     /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.
     /// This member is required.
@@ -1242,6 +1404,42 @@ public struct ListServiceDependentsOutput: Swift.Sendable {
     }
 }
 
+public struct ListServiceLevelObjectiveExclusionWindowsInput: Swift.Sendable {
+    /// The ID of the SLO to list exclusion windows for.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
+    public var maxResults: Swift.Int?
+    /// Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
+    public var nextToken: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.id = id
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListServiceLevelObjectiveExclusionWindowsOutput: Swift.Sendable {
+    /// A list of exclusion windows configured for the SLO.
+    /// This member is required.
+    public var exclusionWindows: [ApplicationSignalsClientTypes.ExclusionWindow]?
+    /// Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
+    public var nextToken: Swift.String?
+
+    public init(
+        exclusionWindows: [ApplicationSignalsClientTypes.ExclusionWindow]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.exclusionWindows = exclusionWindows
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListServiceOperationsInput: Swift.Sendable {
     /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested end time will be rounded to the nearest hour.
     /// This member is required.
@@ -1456,40 +1654,6 @@ public struct ListServicesOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.serviceSummaries = serviceSummaries
         self.startTime = startTime
-    }
-}
-
-/// Resource not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// Can't find the resource id.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The resource type is not valid.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
     }
 }
 
@@ -2086,6 +2250,13 @@ extension BatchGetServiceLevelObjectiveBudgetReportInput {
     }
 }
 
+extension BatchUpdateExclusionWindowsInput {
+
+    static func urlPathProvider(_ value: BatchUpdateExclusionWindowsInput) -> Swift.String? {
+        return "/exclusion-windows"
+    }
+}
+
 extension CreateServiceLevelObjectiveInput {
 
     static func urlPathProvider(_ value: CreateServiceLevelObjectiveInput) -> Swift.String? {
@@ -2206,6 +2377,32 @@ extension ListServiceDependentsInput {
         }
         let startTimeQueryItem = Smithy.URIQueryItem(name: "StartTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
         items.append(startTimeQueryItem)
+        return items
+    }
+}
+
+extension ListServiceLevelObjectiveExclusionWindowsInput {
+
+    static func urlPathProvider(_ value: ListServiceLevelObjectiveExclusionWindowsInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/slo/\(id.urlPercentEncoding())/exclusion-windows"
+    }
+}
+
+extension ListServiceLevelObjectiveExclusionWindowsInput {
+
+    static func queryItemProvider(_ value: ListServiceLevelObjectiveExclusionWindowsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
         return items
     }
 }
@@ -2384,6 +2581,16 @@ extension BatchGetServiceLevelObjectiveBudgetReportInput {
     }
 }
 
+extension BatchUpdateExclusionWindowsInput {
+
+    static func write(value: BatchUpdateExclusionWindowsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddExclusionWindows"].writeList(value.addExclusionWindows, memberWritingClosure: ApplicationSignalsClientTypes.ExclusionWindow.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RemoveExclusionWindows"].writeList(value.removeExclusionWindows, memberWritingClosure: ApplicationSignalsClientTypes.ExclusionWindow.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SloIds"].writeList(value.sloIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateServiceLevelObjectiveInput {
 
     static func write(value: CreateServiceLevelObjectiveInput?, to writer: SmithyJSON.Writer) throws {
@@ -2482,6 +2689,19 @@ extension BatchGetServiceLevelObjectiveBudgetReportOutput {
     }
 }
 
+extension BatchUpdateExclusionWindowsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchUpdateExclusionWindowsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchUpdateExclusionWindowsOutput()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sloIds = try reader["SloIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension CreateServiceLevelObjectiveOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateServiceLevelObjectiveOutput {
@@ -2554,6 +2774,19 @@ extension ListServiceDependentsOutput {
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.serviceDependents = try reader["ServiceDependents"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceDependent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ListServiceLevelObjectiveExclusionWindowsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListServiceLevelObjectiveExclusionWindowsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListServiceLevelObjectiveExclusionWindowsOutput()
+        value.exclusionWindows = try reader["ExclusionWindows"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ExclusionWindow.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -2661,6 +2894,22 @@ enum BatchGetServiceLevelObjectiveBudgetReportOutputError {
     }
 }
 
+enum BatchUpdateExclusionWindowsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateServiceLevelObjectiveOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2749,6 +2998,22 @@ enum ListServiceDependentsOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListServiceLevelObjectiveExclusionWindowsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationError": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2905,6 +3170,21 @@ extension ValidationException {
     }
 }
 
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
@@ -2937,21 +3217,6 @@ extension ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3239,6 +3504,18 @@ extension ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError {
     }
 }
 
+extension ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError()
+        value.sloId = try reader["SloId"].readIfPresent() ?? ""
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ApplicationSignalsClientTypes.ServiceLevelObjective {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelObjective {
@@ -3322,6 +3599,59 @@ extension ApplicationSignalsClientTypes.ServiceDependent {
         value.dependentKeyAttributes = try reader["DependentKeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.dependentOperationName = try reader["DependentOperationName"].readIfPresent()
         value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.ExclusionWindow {
+
+    static func write(value: ApplicationSignalsClientTypes.ExclusionWindow?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Reason"].write(value.reason)
+        try writer["RecurrenceRule"].write(value.recurrenceRule, with: ApplicationSignalsClientTypes.RecurrenceRule.write(value:to:))
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Window"].write(value.window, with: ApplicationSignalsClientTypes.Window.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ExclusionWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.ExclusionWindow()
+        value.window = try reader["Window"].readIfPresent(with: ApplicationSignalsClientTypes.Window.read(from:))
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.recurrenceRule = try reader["RecurrenceRule"].readIfPresent(with: ApplicationSignalsClientTypes.RecurrenceRule.read(from:))
+        value.reason = try reader["Reason"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.RecurrenceRule {
+
+    static func write(value: ApplicationSignalsClientTypes.RecurrenceRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Expression"].write(value.expression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.RecurrenceRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.RecurrenceRule()
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.Window {
+
+    static func write(value: ApplicationSignalsClientTypes.Window?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Duration"].write(value.duration)
+        try writer["DurationUnit"].write(value.durationUnit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Window {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.Window()
+        value.durationUnit = try reader["DurationUnit"].readIfPresent() ?? .sdkUnknown("")
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
         return value
     }
 }

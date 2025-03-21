@@ -6529,15 +6529,19 @@ extension DataZoneClientTypes {
 
     /// The single sign-on details in Amazon DataZone.
     public struct SingleSignOn: Swift.Sendable {
+        /// The ARN of the IDC instance.
+        public var idcInstanceArn: Swift.String?
         /// The type of single sign-on in Amazon DataZone.
         public var type: DataZoneClientTypes.AuthType?
         /// The single sign-on user assignment in Amazon DataZone.
         public var userAssignment: DataZoneClientTypes.UserAssignment?
 
         public init(
+            idcInstanceArn: Swift.String? = nil,
             type: DataZoneClientTypes.AuthType? = nil,
             userAssignment: DataZoneClientTypes.UserAssignment? = nil
         ) {
+            self.idcInstanceArn = idcInstanceArn
             self.type = type
             self.userAssignment = userAssignment
         }
@@ -31999,6 +32003,7 @@ extension DataZoneClientTypes.SingleSignOn {
 
     static func write(value: DataZoneClientTypes.SingleSignOn?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["idcInstanceArn"].write(value.idcInstanceArn)
         try writer["type"].write(value.type)
         try writer["userAssignment"].write(value.userAssignment)
     }
@@ -32008,6 +32013,7 @@ extension DataZoneClientTypes.SingleSignOn {
         var value = DataZoneClientTypes.SingleSignOn()
         value.type = try reader["type"].readIfPresent()
         value.userAssignment = try reader["userAssignment"].readIfPresent()
+        value.idcInstanceArn = try reader["idcInstanceArn"].readIfPresent()
         return value
     }
 }
