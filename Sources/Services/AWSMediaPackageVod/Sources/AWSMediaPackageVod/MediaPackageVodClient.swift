@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaPackageVodClient: ClientRuntime.Client {
     public static let clientName = "MediaPackageVodClient"
-    public static let version = "1.2.43"
+    public static let version = "1.2.44"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaPackageVodClient.MediaPackageVodClientConfiguration
     let serviceName = "MediaPackage Vod"

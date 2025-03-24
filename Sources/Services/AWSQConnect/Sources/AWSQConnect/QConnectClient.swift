@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QConnectClient: ClientRuntime.Client {
     public static let clientName = "QConnectClient"
-    public static let version = "1.2.43"
+    public static let version = "1.2.44"
     let client: ClientRuntime.SdkHttpClient
     let config: QConnectClient.QConnectClientConfiguration
     let serviceName = "QConnect"
@@ -5505,7 +5505,7 @@ extension QConnectClient {
 
     /// Performs the `RemoveAssistantAIAgent` operation on the `QConnect` service.
     ///
-    /// Removes the AI Agent that is set for use by defafult on an Amazon Q in Connect Assistant.
+    /// Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
     ///
     /// - Parameter RemoveAssistantAIAgentInput : [no documentation found]
     ///
@@ -6661,7 +6661,7 @@ extension QConnectClient {
 
     /// Performs the `UpdateAssistantAIAgent` operation on the `QConnect` service.
     ///
-    /// Updates the AI Agent that is set for use by defafult on an Amazon Q in Connect Assistant.
+    /// Updates the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
     ///
     /// - Parameter UpdateAssistantAIAgentInput : [no documentation found]
     ///

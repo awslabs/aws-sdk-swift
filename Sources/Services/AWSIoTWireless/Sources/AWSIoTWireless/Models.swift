@@ -910,7 +910,6 @@ extension IoTWirelessClientTypes {
         /// This member is required.
         public var earfcn: Swift.Int?
         /// E-UTRAN (Evolved Universal Terrestrial Radio Access Network) cell global identifier (EUTRANCID).
-        /// This member is required.
         public var eutranCid: Swift.Int?
         /// Physical cell ID.
         /// This member is required.
@@ -922,7 +921,7 @@ extension IoTWirelessClientTypes {
 
         public init(
             earfcn: Swift.Int? = nil,
-            eutranCid: Swift.Int? = nil,
+            eutranCid: Swift.Int? = 0,
             pci: Swift.Int? = nil,
             rsrp: Swift.Int? = nil,
             rsrq: Swift.Float? = nil
@@ -1703,7 +1702,7 @@ public struct CreateFuotaTaskInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// The description of the new resource.
     public var description: Swift.String?
-    /// The Descriptor specifies some metadata about the File being transferred using FUOTA e.g. the software version. It is sent transparently to the device. It is a binary field encoded in base64
+    /// The descriptor is the metadata about the file that is transferred to the device using FUOTA, such as the software version. It is a binary field encoded in base64.
     public var descriptor: Swift.String?
     /// The S3 URI points to a firmware update image that is to be used with a FUOTA task.
     /// This member is required.
@@ -1798,11 +1797,11 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
-    /// Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the sequence provided in the list.
+    /// Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the list, with the transmission interval as the time interval between each message.
     public struct ParticipatingGatewaysMulticast: Swift.Sendable {
-        /// The list of gateways that you want to use for sending the multicast downlink. Each downlink will be sent to all the gateways in the list with transmission interval between them. If list is empty the gateway list will be dynamically selected similar to the case of no ParticipatingGateways
+        /// The list of gateways that you want to use for sending the multicast downlink message. Each downlink message will be sent to all the gateways in the list in the order that you provided. If the gateway list is empty, then AWS IoT Core for LoRaWAN chooses the gateways that were most recently used by the devices to send an uplink message.
         public var gatewayList: [Swift.String]?
-        /// The duration of time for which AWS IoT Core for LoRaWAN will wait before transmitting the multicast payload to the next gateway in the list.
+        /// The duration of time in milliseconds for which AWS IoT Core for LoRaWAN will wait before transmitting the multicast payload to the next gateway in the list.
         public var transmissionInterval: Swift.Int?
 
         public init(
@@ -1821,7 +1820,7 @@ extension IoTWirelessClientTypes {
     public struct LoRaWANMulticast: Swift.Sendable {
         /// DlClass for LoRaWAM, valid values are ClassB and ClassC.
         public var dlClass: IoTWirelessClientTypes.DlClass?
-        /// Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the sequence provided in the list.
+        /// Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the list, with the transmission interval as the time interval between each message.
         public var participatingGateways: IoTWirelessClientTypes.ParticipatingGatewaysMulticast?
         /// Supported RfRegions
         public var rfRegion: IoTWirelessClientTypes.SupportedRfRegion?
@@ -3819,7 +3818,7 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
-    /// The event for a log message, if the log message is tied to a fuota task.
+    /// The event for a log message, if the log message is tied to a FUOTA task.
     public enum FuotaTaskEvent: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fuota
         case sdkUnknown(Swift.String)
@@ -3846,9 +3845,9 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
-    /// The log options for a FUOTA task event and can be used to set log levels for a specific fuota task event. For a LoRaWAN FuotaTask type, possible event for a log message is Fuota.
+    /// The log options for a FUOTA task event and can be used to set log levels for a specific FUOTA task event. For a LoRaWAN FUOTA task, the only possible event for a log message is Fuota.
     public struct FuotaTaskEventLogOption: Swift.Sendable {
-        /// The event for a log message, if the log message is tied to a fuota task.
+        /// The event for a log message, if the log message is tied to a FUOTA task.
         /// This member is required.
         public var event: IoTWirelessClientTypes.FuotaTaskEvent?
         /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs.
@@ -3867,7 +3866,7 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
-    /// The fuota task type.
+    /// The FUOTA task type.
     public enum FuotaTaskType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lorawan
         case sdkUnknown(Swift.String)
@@ -3894,14 +3893,14 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
-    /// The log options for fuota tasks and can be used to set log levels for a specific type of fuota task.
+    /// The log options for FUOTA tasks and can be used to set log levels for a specific type of FUOTA task.
     public struct FuotaTaskLogOption: Swift.Sendable {
         /// The list of FUOTA task event log options.
         public var events: [IoTWirelessClientTypes.FuotaTaskEventLogOption]?
         /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs.
         /// This member is required.
         public var logLevel: IoTWirelessClientTypes.LogLevel?
-        /// The fuota task type.
+        /// The FUOTA task type.
         /// This member is required.
         public var type: IoTWirelessClientTypes.FuotaTaskType?
 
@@ -4196,7 +4195,7 @@ public struct GetFuotaTaskOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The description of the new resource.
     public var description: Swift.String?
-    /// The Descriptor specifies some metadata about the File being transferred using FUOTA e.g. the software version. It is sent transparently to the device. It is a binary field encoded in base64
+    /// The descriptor is the metadata about the file that is transferred to the device using FUOTA, such as the software version. It is a binary field encoded in base64.
     public var descriptor: Swift.String?
     /// The S3 URI points to a firmware update image that is to be used with a FUOTA task.
     public var firmwareUpdateImage: Swift.String?
@@ -4444,7 +4443,7 @@ extension IoTWirelessClientTypes {
 public struct GetLogLevelsByResourceTypesOutput: Swift.Sendable {
     /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs.
     public var defaultLogLevel: IoTWirelessClientTypes.LogLevel?
-    /// The list of fuota task log options.
+    /// The list of FUOTA task log options.
     public var fuotaTaskLogOptions: [IoTWirelessClientTypes.FuotaTaskLogOption]?
     /// The list of wireless device log options.
     public var wirelessDeviceLogOptions: [IoTWirelessClientTypes.WirelessDeviceLogOption]?
@@ -4841,7 +4840,7 @@ extension IoTWirelessClientTypes {
         public var numberOfDevicesInGroup: Swift.Int?
         /// Number of devices that are requested to be associated with the multicast group.
         public var numberOfDevicesRequested: Swift.Int?
-        /// Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the sequence provided in the list.
+        /// Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the list, with the transmission interval as the time interval between each message.
         public var participatingGateways: IoTWirelessClientTypes.ParticipatingGatewaysMulticast?
         /// Supported RfRegions
         public var rfRegion: IoTWirelessClientTypes.SupportedRfRegion?
@@ -5483,10 +5482,10 @@ public struct GetResourceEventConfigurationOutput: Swift.Sendable {
 }
 
 public struct GetResourceLogLevelInput: Swift.Sendable {
-    /// The identifier of the resource. For a Wireless Device, it is the wireless device ID. For a wireless gateway, it is the wireless gateway ID.
+    /// The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
-    /// The type of the resource, which can be WirelessDevice, WirelessGateway or FuotaTask.
+    /// The type of resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
     /// This member is required.
     public var resourceType: Swift.String?
 
@@ -5568,7 +5567,7 @@ extension IoTWirelessClientTypes {
 }
 
 public struct GetServiceEndpointInput: Swift.Sendable {
-    /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint or CLAIM for the global endpoint.
+    /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint.
     public var serviceType: IoTWirelessClientTypes.WirelessGatewayServiceType?
 
     public init(
@@ -7528,10 +7527,10 @@ public struct PutResourceLogLevelInput: Swift.Sendable {
     /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs.
     /// This member is required.
     public var logLevel: IoTWirelessClientTypes.LogLevel?
-    /// The identifier of the resource. For a Wireless Device, it is the wireless device ID. For a wireless gateway, it is the wireless gateway ID.
+    /// The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
-    /// The type of the resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
+    /// The type of resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
     /// This member is required.
     public var resourceType: Swift.String?
 
@@ -7562,10 +7561,10 @@ public struct ResetAllResourceLogLevelsOutput: Swift.Sendable {
 }
 
 public struct ResetResourceLogLevelInput: Swift.Sendable {
-    /// The identifier of the resource. For a Wireless Device, it is the wireless device ID. For a wireless gateway, it is the wireless gateway ID.
+    /// The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
-    /// The type of the resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
+    /// The type of resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
     /// This member is required.
     public var resourceType: Swift.String?
 
@@ -8149,7 +8148,7 @@ public struct UpdateEventConfigurationByResourceTypesOutput: Swift.Sendable {
 public struct UpdateFuotaTaskInput: Swift.Sendable {
     /// The description of the new resource.
     public var description: Swift.String?
-    /// The Descriptor specifies some metadata about the File being transferred using FUOTA e.g. the software version. It is sent transparently to the device. It is a binary field encoded in base64
+    /// The descriptor is the metadata about the file that is transferred to the device using FUOTA, such as the software version. It is a binary field encoded in base64.
     public var descriptor: Swift.String?
     /// The S3 URI points to a firmware update image that is to be used with a FUOTA task.
     public var firmwareUpdateImage: Swift.String?
@@ -8202,7 +8201,7 @@ public struct UpdateFuotaTaskOutput: Swift.Sendable {
 public struct UpdateLogLevelsByResourceTypesInput: Swift.Sendable {
     /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs.
     public var defaultLogLevel: IoTWirelessClientTypes.LogLevel?
-    /// The list of fuota task log options.
+    /// The list of FUOTA task log options.
     public var fuotaTaskLogOptions: [IoTWirelessClientTypes.FuotaTaskLogOption]?
     /// The list of wireless device log options.
     public var wirelessDeviceLogOptions: [IoTWirelessClientTypes.WirelessDeviceLogOption]?

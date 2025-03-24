@@ -408,7 +408,7 @@ extension QConnectClientTypes {
         public var associationConfigurations: [QConnectClientTypes.AssociationConfiguration]?
         /// The AI Prompt identifier for the Intent Labeling prompt used by the ANSWER_RECOMMENDATION AI Agent.
         public var intentLabelingGenerationAIPromptId: Swift.String?
-        /// The locale to which specifies the language and region settings that determine the response language for [QueryAssistant](https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_QueryAssistant.html). Changing this locale to anything other than en_US will turn off recommendations triggered by contact transcripts for agent assistance, as this feature is not supported in multiple languages.
+        /// The locale to which specifies the language and region settings that determine the response language for [QueryAssistant](https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_QueryAssistant.html). Changing this locale to anything other than en_US, en_GB, or en_AU will turn off recommendations triggered by contact transcripts for agent assistance, as this feature is not supported in multiple languages.
         public var locale: Swift.String?
         /// The AI Prompt identifier for the Query Reformulation prompt used by the ANSWER_RECOMMENDATION AI Agent.
         public var queryReformulationAIPromptId: Swift.String?
@@ -2471,7 +2471,7 @@ public struct CreateAIPromptInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The description of the AI Prompt.
     public var description: Swift.String?
-    /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1
+    /// The identifier of the model used for this AI Prompt. Model Ids supported are: anthropic.claude-3-haiku-20240307-v1:0
     /// This member is required.
     public var modelId: Swift.String?
     /// The name of the AI Prompt.
@@ -2540,7 +2540,7 @@ extension QConnectClientTypes {
         public var assistantId: Swift.String?
         /// The description of the AI Prompt.
         public var description: Swift.String?
-        /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1.
+        /// The identifier of the model used for this AI Prompt. Model Ids supported are: anthropic.claude-3-haiku-20240307-v1:0.
         /// This member is required.
         public var modelId: Swift.String?
         /// The time the AI Prompt was last modified.
@@ -2782,7 +2782,7 @@ extension QConnectClientTypes {
         public var assistantId: Swift.String?
         /// The description of the AI Prompt.
         public var description: Swift.String?
-        /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1.
+        /// The identifier of the model used for this AI Prompt. Model Ids supported are: anthropic.claude-3-haiku-20240307-v1:0.
         /// This member is required.
         public var modelId: Swift.String?
         /// The time the AI Prompt was last modified.
@@ -5329,7 +5329,7 @@ public struct ListMessagesOutput: Swift.Sendable {
 
 extension QConnectClientTypes {
 
-    /// The conversation history data to included in conversation context data before the the Amazon Q in Connect session..
+    /// The conversation history data to included in conversation context data before the Amazon Q in Connect session.
     public struct SelfServiceConversationHistory: Swift.Sendable {
         /// The bot response of the conversation history data.
         public var botResponse: Swift.String?
