@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EKSClient: ClientRuntime.Client {
     public static let clientName = "EKSClient"
-    public static let version = "1.2.44"
+    public static let version = "1.2.45"
     let client: ClientRuntime.SdkHttpClient
     let config: EKSClient.EKSClientConfiguration
     let serviceName = "EKS"
@@ -453,6 +453,7 @@ extension EKSClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests.
     public func associateEncryptionConfig(input: AssociateEncryptionConfigInput) async throws -> AssociateEncryptionConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -533,6 +534,7 @@ extension EKSClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests.
     public func associateIdentityProviderConfig(input: AssociateIdentityProviderConfigInput) async throws -> AssociateIdentityProviderConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2813,6 +2815,7 @@ extension EKSClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests.
     public func disassociateIdentityProviderConfig(input: DisassociateIdentityProviderConfigInput) async throws -> DisassociateIdentityProviderConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4254,6 +4257,7 @@ extension EKSClient {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests.
     public func updateClusterConfig(input: UpdateClusterConfigInput) async throws -> UpdateClusterConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4331,9 +4335,11 @@ extension EKSClient {
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
+    /// - `InvalidStateException` : Amazon EKS detected upgrade readiness issues. Call the [ListInsights](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListInsights.html) API to view detected upgrade blocking issues. Pass the [force](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateClusterVersion.html#API_UpdateClusterVersion_RequestBody) flag when updating to override upgrade readiness errors.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests.
     public func updateClusterVersion(input: UpdateClusterVersionInput) async throws -> UpdateClusterVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
