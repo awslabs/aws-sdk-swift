@@ -23,7 +23,7 @@ struct AWSSTSGetCallerIdentity: PerformanceTest {
 
     static func getCallerIdentity() async throws -> Double {
         let start = Date()
-        let client = try STSClient(region: "us-west-2")
+        let client = try await STSClient()
         _ = try await client.getCallerIdentity(input: .init())
         return Date().timeIntervalSince(start) * 1000  // Convert seconds to milliseconds
     }
