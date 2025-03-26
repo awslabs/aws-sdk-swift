@@ -2219,15 +2219,19 @@ public struct CreateDomainNameInput: Swift.Sendable {
     /// The domain name.
     /// This member is required.
     public var domainName: Swift.String?
+    /// A map with keys of TagKey objects and values of TagValue objects.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         certificateArn: Swift.String? = nil,
         description: Swift.String? = nil,
-        domainName: Swift.String? = nil
+        domainName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.certificateArn = certificateArn
         self.description = description
         self.domainName = domainName
+        self.tags = tags
     }
 }
 
@@ -2243,21 +2247,29 @@ extension AppSyncClientTypes {
         public var description: Swift.String?
         /// The domain name.
         public var domainName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the domain name.
+        public var domainNameArn: Swift.String?
         /// The ID of your Amazon Route 53 hosted zone.
         public var hostedZoneId: Swift.String?
+        /// A map with keys of TagKey objects and values of TagValue objects.
+        public var tags: [Swift.String: Swift.String]?
 
         public init(
             appsyncDomainName: Swift.String? = nil,
             certificateArn: Swift.String? = nil,
             description: Swift.String? = nil,
             domainName: Swift.String? = nil,
-            hostedZoneId: Swift.String? = nil
+            domainNameArn: Swift.String? = nil,
+            hostedZoneId: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
         ) {
             self.appsyncDomainName = appsyncDomainName
             self.certificateArn = certificateArn
             self.description = description
             self.domainName = domainName
+            self.domainNameArn = domainNameArn
             self.hostedZoneId = hostedZoneId
+            self.tags = tags
         }
     }
 }
@@ -7081,6 +7093,7 @@ extension CreateDomainNameInput {
         try writer["certificateArn"].write(value.certificateArn)
         try writer["description"].write(value.description)
         try writer["domainName"].write(value.domainName)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -10159,6 +10172,8 @@ extension AppSyncClientTypes.DomainNameConfig {
         value.certificateArn = try reader["certificateArn"].readIfPresent()
         value.appsyncDomainName = try reader["appsyncDomainName"].readIfPresent()
         value.hostedZoneId = try reader["hostedZoneId"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
         return value
     }
 }

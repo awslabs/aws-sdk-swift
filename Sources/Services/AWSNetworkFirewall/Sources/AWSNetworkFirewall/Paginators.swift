@@ -138,6 +138,72 @@ extension PaginatorSequence where OperationStackInput == ListFirewallsInput, Ope
     }
 }
 extension NetworkFirewallClient {
+    /// Paginate over `[ListFlowOperationResultsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFlowOperationResultsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFlowOperationResultsOutput`
+    public func listFlowOperationResultsPaginated(input: ListFlowOperationResultsInput) -> ClientRuntime.PaginatorSequence<ListFlowOperationResultsInput, ListFlowOperationResultsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFlowOperationResults(input:))
+    }
+}
+
+extension ListFlowOperationResultsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFlowOperationResultsInput {
+        return ListFlowOperationResultsInput(
+            availabilityZone: self.availabilityZone,
+            firewallArn: self.firewallArn,
+            flowOperationId: self.flowOperationId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListFlowOperationResultsInput, OperationStackOutput == ListFlowOperationResultsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listFlowOperationResultsPaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.Flow]`
+    /// - Returns: `[NetworkFirewallClientTypes.Flow]`
+    public func flows() async throws -> [NetworkFirewallClientTypes.Flow] {
+        return try await self.asyncCompactMap { item in item.flows }
+    }
+}
+extension NetworkFirewallClient {
+    /// Paginate over `[ListFlowOperationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFlowOperationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFlowOperationsOutput`
+    public func listFlowOperationsPaginated(input: ListFlowOperationsInput) -> ClientRuntime.PaginatorSequence<ListFlowOperationsInput, ListFlowOperationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFlowOperationsInput, ListFlowOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFlowOperations(input:))
+    }
+}
+
+extension ListFlowOperationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFlowOperationsInput {
+        return ListFlowOperationsInput(
+            availabilityZone: self.availabilityZone,
+            firewallArn: self.firewallArn,
+            flowOperationType: self.flowOperationType,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListFlowOperationsInput, OperationStackOutput == ListFlowOperationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listFlowOperationsPaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.FlowOperationMetadata]`
+    /// - Returns: `[NetworkFirewallClientTypes.FlowOperationMetadata]`
+    public func flowOperations() async throws -> [NetworkFirewallClientTypes.FlowOperationMetadata] {
+        return try await self.asyncCompactMap { item in item.flowOperations }
+    }
+}
+extension NetworkFirewallClient {
     /// Paginate over `[ListRuleGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

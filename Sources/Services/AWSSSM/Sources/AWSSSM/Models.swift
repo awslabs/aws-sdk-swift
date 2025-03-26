@@ -3192,6 +3192,35 @@ extension SSMClientTypes {
 
 extension SSMClientTypes {
 
+    public enum PatchComplianceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case compliant
+        case noncompliant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PatchComplianceStatus] {
+            return [
+                .compliant,
+                .noncompliant
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .compliant: return "COMPLIANT"
+            case .noncompliant: return "NON_COMPLIANT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
     public enum OperatingSystem: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case almalinux
         case amazonlinux
@@ -3333,6 +3362,8 @@ public struct CreatePatchBaselineInput: Swift.Sendable {
     public var approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel?
     /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
     public var approvedPatchesEnableNonSecurity: Swift.Bool?
+    /// Indicates the status you want to assign to security patches that are available but not approved because they don't meet the installation criteria specified in the patch baseline. Example scenario: Security patches that you might want installed can be skipped if you have specified a long period to wait after a patch is released before installation. If an update to the patch is released during your specified waiting period, the waiting period for installing the patch starts over. If the waiting period is too long, multiple versions of the patch could be released but never installed. Supported for Windows Server managed nodes only.
+    public var availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus?
     /// User-provided idempotency token.
     public var clientToken: Swift.String?
     /// A description of the patch baseline.
@@ -3365,6 +3396,7 @@ public struct CreatePatchBaselineInput: Swift.Sendable {
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
         approvedPatchesEnableNonSecurity: Swift.Bool? = false,
+        availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         globalFilters: SSMClientTypes.PatchFilterGroup? = nil,
@@ -3379,6 +3411,7 @@ public struct CreatePatchBaselineInput: Swift.Sendable {
         self.approvedPatches = approvedPatches
         self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
         self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+        self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
         self.clientToken = clientToken
         self.description = description
         self.globalFilters = globalFilters
@@ -6983,6 +7016,7 @@ public struct DescribeInstancePatchesInput: Swift.Sendable {
 extension SSMClientTypes {
 
     public enum PatchComplianceDataState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case availablesecurityupdate
         case failed
         case installed
         case installedother
@@ -6994,6 +7028,7 @@ extension SSMClientTypes {
 
         public static var allCases: [PatchComplianceDataState] {
             return [
+                .availablesecurityupdate,
                 .failed,
                 .installed,
                 .installedother,
@@ -7011,6 +7046,7 @@ extension SSMClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .availablesecurityupdate: return "AVAILABLE_SECURITY_UPDATE"
             case .failed: return "FAILED"
             case .installed: return "INSTALLED"
             case .installedother: return "INSTALLED_OTHER"
@@ -7180,6 +7216,8 @@ extension SSMClientTypes {
 
     /// Defines the high-level patch compliance state for a managed node, providing information about the number of installed, missing, not applicable, and failed patches along with metadata about the operation when this information was gathered for the managed node.
     public struct InstancePatchState: Swift.Sendable {
+        /// The number of security-related patches that are available but not approved because they didn't meet the patch baseline requirements. For example, an updated version of a patch might have been released before the specified auto-approval period was over. Applies to Windows Server managed nodes only.
+        public var availableSecurityUpdateCount: Swift.Int?
         /// The ID of the patch baseline used to patch the managed node.
         /// This member is required.
         public var baselineId: Swift.String?
@@ -7240,6 +7278,7 @@ extension SSMClientTypes {
         public var unreportedNotApplicableCount: Swift.Int?
 
         public init(
+            availableSecurityUpdateCount: Swift.Int? = 0,
             baselineId: Swift.String? = nil,
             criticalNonCompliantCount: Swift.Int? = 0,
             failedCount: Swift.Int = 0,
@@ -7263,6 +7302,7 @@ extension SSMClientTypes {
             snapshotId: Swift.String? = nil,
             unreportedNotApplicableCount: Swift.Int? = 0
         ) {
+            self.availableSecurityUpdateCount = availableSecurityUpdateCount
             self.baselineId = baselineId
             self.criticalNonCompliantCount = criticalNonCompliantCount
             self.failedCount = failedCount
@@ -7291,7 +7331,7 @@ extension SSMClientTypes {
 
 extension SSMClientTypes.InstancePatchState: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InstancePatchState(baselineId: \(Swift.String(describing: baselineId)), criticalNonCompliantCount: \(Swift.String(describing: criticalNonCompliantCount)), failedCount: \(Swift.String(describing: failedCount)), installOverrideList: \(Swift.String(describing: installOverrideList)), installedCount: \(Swift.String(describing: installedCount)), installedOtherCount: \(Swift.String(describing: installedOtherCount)), installedPendingRebootCount: \(Swift.String(describing: installedPendingRebootCount)), installedRejectedCount: \(Swift.String(describing: installedRejectedCount)), instanceId: \(Swift.String(describing: instanceId)), lastNoRebootInstallOperationTime: \(Swift.String(describing: lastNoRebootInstallOperationTime)), missingCount: \(Swift.String(describing: missingCount)), notApplicableCount: \(Swift.String(describing: notApplicableCount)), operation: \(Swift.String(describing: operation)), operationEndTime: \(Swift.String(describing: operationEndTime)), operationStartTime: \(Swift.String(describing: operationStartTime)), otherNonCompliantCount: \(Swift.String(describing: otherNonCompliantCount)), patchGroup: \(Swift.String(describing: patchGroup)), rebootOption: \(Swift.String(describing: rebootOption)), securityNonCompliantCount: \(Swift.String(describing: securityNonCompliantCount)), snapshotId: \(Swift.String(describing: snapshotId)), unreportedNotApplicableCount: \(Swift.String(describing: unreportedNotApplicableCount)), ownerInformation: \"CONTENT_REDACTED\")"}
+        "InstancePatchState(availableSecurityUpdateCount: \(Swift.String(describing: availableSecurityUpdateCount)), baselineId: \(Swift.String(describing: baselineId)), criticalNonCompliantCount: \(Swift.String(describing: criticalNonCompliantCount)), failedCount: \(Swift.String(describing: failedCount)), installOverrideList: \(Swift.String(describing: installOverrideList)), installedCount: \(Swift.String(describing: installedCount)), installedOtherCount: \(Swift.String(describing: installedOtherCount)), installedPendingRebootCount: \(Swift.String(describing: installedPendingRebootCount)), installedRejectedCount: \(Swift.String(describing: installedRejectedCount)), instanceId: \(Swift.String(describing: instanceId)), lastNoRebootInstallOperationTime: \(Swift.String(describing: lastNoRebootInstallOperationTime)), missingCount: \(Swift.String(describing: missingCount)), notApplicableCount: \(Swift.String(describing: notApplicableCount)), operation: \(Swift.String(describing: operation)), operationEndTime: \(Swift.String(describing: operationEndTime)), operationStartTime: \(Swift.String(describing: operationStartTime)), otherNonCompliantCount: \(Swift.String(describing: otherNonCompliantCount)), patchGroup: \(Swift.String(describing: patchGroup)), rebootOption: \(Swift.String(describing: rebootOption)), securityNonCompliantCount: \(Swift.String(describing: securityNonCompliantCount)), snapshotId: \(Swift.String(describing: snapshotId)), unreportedNotApplicableCount: \(Swift.String(describing: unreportedNotApplicableCount)), ownerInformation: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeInstancePatchStatesOutput: Swift.Sendable {
@@ -9628,6 +9668,8 @@ public struct DescribePatchGroupStateInput: Swift.Sendable {
 public struct DescribePatchGroupStateOutput: Swift.Sendable {
     /// The number of managed nodes in the patch group.
     public var instances: Swift.Int
+    /// The number of managed nodes for which security-related patches are available but not approved because because they didn't meet the patch baseline requirements. For example, an updated version of a patch might have been released before the specified auto-approval period was over. Applies to Windows Server managed nodes only.
+    public var instancesWithAvailableSecurityUpdates: Swift.Int?
     /// The number of managed nodes where patches that are specified as Critical for compliance reporting in the patch baseline aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
     public var instancesWithCriticalNonCompliantPatches: Swift.Int?
     /// The number of managed nodes with patches from the patch baseline that failed to install.
@@ -9653,6 +9695,7 @@ public struct DescribePatchGroupStateOutput: Swift.Sendable {
 
     public init(
         instances: Swift.Int = 0,
+        instancesWithAvailableSecurityUpdates: Swift.Int? = 0,
         instancesWithCriticalNonCompliantPatches: Swift.Int? = 0,
         instancesWithFailedPatches: Swift.Int = 0,
         instancesWithInstalledOtherPatches: Swift.Int = 0,
@@ -9666,6 +9709,7 @@ public struct DescribePatchGroupStateOutput: Swift.Sendable {
         instancesWithUnreportedNotApplicablePatches: Swift.Int? = 0
     ) {
         self.instances = instances
+        self.instancesWithAvailableSecurityUpdates = instancesWithAvailableSecurityUpdates
         self.instancesWithCriticalNonCompliantPatches = instancesWithCriticalNonCompliantPatches
         self.instancesWithFailedPatches = instancesWithFailedPatches
         self.instancesWithInstalledOtherPatches = instancesWithInstalledOtherPatches
@@ -10751,6 +10795,8 @@ extension SSMClientTypes {
         public var approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel?
         /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
         public var approvedPatchesEnableNonSecurity: Swift.Bool
+        /// Indicates whether managed nodes for which there are available security-related patches that have not been approved by the baseline are being defined as COMPLIANT or NON_COMPLIANT. This option is specified when the CreatePatchBaseline or UpdatePatchBaseline commands are run. Applies to Windows Server managed nodes only.
+        public var availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus?
         /// A set of patch filters, typically used for approval rules.
         public var globalFilters: SSMClientTypes.PatchFilterGroup?
         /// The operating system rule used by the patch baseline override.
@@ -10767,6 +10813,7 @@ extension SSMClientTypes {
             approvedPatches: [Swift.String]? = nil,
             approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
             approvedPatchesEnableNonSecurity: Swift.Bool = false,
+            availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
             globalFilters: SSMClientTypes.PatchFilterGroup? = nil,
             operatingSystem: SSMClientTypes.OperatingSystem? = nil,
             rejectedPatches: [Swift.String]? = nil,
@@ -10777,6 +10824,7 @@ extension SSMClientTypes {
             self.approvedPatches = approvedPatches
             self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
             self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+            self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
             self.globalFilters = globalFilters
             self.operatingSystem = operatingSystem
             self.rejectedPatches = rejectedPatches
@@ -12790,6 +12838,8 @@ public struct GetPatchBaselineOutput: Swift.Sendable {
     public var approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel?
     /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
     public var approvedPatchesEnableNonSecurity: Swift.Bool?
+    /// Indicates the compliance status of managed nodes for which security-related patches are available but were not approved. This preference is specified when the CreatePatchBaseline or UpdatePatchBaseline commands are run. Applies to Windows Server managed nodes only.
+    public var availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus?
     /// The ID of the retrieved patch baseline.
     public var baselineId: Swift.String?
     /// The date the patch baseline was created.
@@ -12818,6 +12868,7 @@ public struct GetPatchBaselineOutput: Swift.Sendable {
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
         approvedPatchesEnableNonSecurity: Swift.Bool? = false,
+        availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
         baselineId: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
@@ -12834,6 +12885,7 @@ public struct GetPatchBaselineOutput: Swift.Sendable {
         self.approvedPatches = approvedPatches
         self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
         self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+        self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
         self.baselineId = baselineId
         self.createdDate = createdDate
         self.description = description
@@ -16083,9 +16135,9 @@ public struct DocumentPermissionLimit: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 public struct ModifyDocumentPermissionInput: Swift.Sendable {
-    /// The Amazon Web Services users that should have access to the document. The account IDs can either be a group of account IDs or All.
+    /// The Amazon Web Services users that should have access to the document. The account IDs can either be a group of account IDs or All. You must specify a value for this parameter or the AccountIdsToRemove parameter.
     public var accountIdsToAdd: [Swift.String]?
-    /// The Amazon Web Services users that should no longer have access to the document. The Amazon Web Services user can either be a group of account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify an ID to add and the same ID to remove, the system removes access to the document.
+    /// The Amazon Web Services users that should no longer have access to the document. The Amazon Web Services user can either be a group of account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify an ID to add and the same ID to remove, the system removes access to the document. You must specify a value for this parameter or the AccountIdsToAdd parameter.
     public var accountIdsToRemove: [Swift.String]?
     /// The name of the document that you want to share.
     /// This member is required.
@@ -16846,7 +16898,7 @@ public struct PutParameterInput: Swift.Sendable {
     /// * Parameter hierarchies are limited to a maximum depth of fifteen levels.
     ///
     ///
-    /// For additional information about valid values for parameter names, see [Creating Systems Manager parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html) in the Amazon Web Services Systems Manager User Guide. The maximum length constraint of 2048 characters listed below includes 1037 characters reserved for internal use by Systems Manager. The maximum length for a parameter name that you create is 1011 characters. This includes the characters in the ARN that precede the name you specify, such as arn:aws:ssm:us-east-2:111122223333:parameter/.
+    /// For additional information about valid values for parameter names, see [Creating Systems Manager parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html) in the Amazon Web Services Systems Manager User Guide. The reported maximum length of 2048 characters for a parameter name includes 1037 characters that are reserved for internal use by Systems Manager. The maximum length for a parameter name that you specify is 1011 characters. This count of 1011 characters includes the characters in the ARN that precede the name you specify. This ARN length will vary depending on your partition and Region. For example, the following 45 characters count toward the 1011 character maximum for a parameter created in the US East (Ohio) Region: arn:aws:ssm:us-east-2:111122223333:parameter/.
     /// This member is required.
     public var name: Swift.String?
     /// Overwrite an existing parameter. The default value is false.
@@ -19198,6 +19250,8 @@ public struct UpdatePatchBaselineInput: Swift.Sendable {
     public var approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel?
     /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
     public var approvedPatchesEnableNonSecurity: Swift.Bool?
+    /// Indicates the status to be assigned to security patches that are available but not approved because they don't meet the installation criteria specified in the patch baseline. Example scenario: Security patches that you might want installed can be skipped if you have specified a long period to wait after a patch is released before installation. If an update to the patch is released during your specified waiting period, the waiting period for installing the patch starts over. If the waiting period is too long, multiple versions of the patch could be released but never installed. Supported for Windows Server managed nodes only.
+    public var availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus?
     /// The ID of the patch baseline to update.
     /// This member is required.
     public var baselineId: Swift.String?
@@ -19221,6 +19275,7 @@ public struct UpdatePatchBaselineInput: Swift.Sendable {
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
         approvedPatchesEnableNonSecurity: Swift.Bool? = false,
+        availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
         baselineId: Swift.String? = nil,
         description: Swift.String? = nil,
         globalFilters: SSMClientTypes.PatchFilterGroup? = nil,
@@ -19234,6 +19289,7 @@ public struct UpdatePatchBaselineInput: Swift.Sendable {
         self.approvedPatches = approvedPatches
         self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
         self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+        self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
         self.baselineId = baselineId
         self.description = description
         self.globalFilters = globalFilters
@@ -19254,6 +19310,8 @@ public struct UpdatePatchBaselineOutput: Swift.Sendable {
     public var approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel?
     /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
     public var approvedPatchesEnableNonSecurity: Swift.Bool?
+    /// Indicates the compliance status of managed nodes for which security-related patches are available but were not approved. This preference is specified when the CreatePatchBaseline or UpdatePatchBaseline commands are run. Applies to Windows Server managed nodes only.
+    public var availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus?
     /// The ID of the deleted patch baseline.
     public var baselineId: Swift.String?
     /// The date when the patch baseline was created.
@@ -19280,6 +19338,7 @@ public struct UpdatePatchBaselineOutput: Swift.Sendable {
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
         approvedPatchesEnableNonSecurity: Swift.Bool? = false,
+        availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
         baselineId: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
@@ -19295,6 +19354,7 @@ public struct UpdatePatchBaselineOutput: Swift.Sendable {
         self.approvedPatches = approvedPatches
         self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
         self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+        self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
         self.baselineId = baselineId
         self.createdDate = createdDate
         self.description = description
@@ -20770,6 +20830,7 @@ extension CreatePatchBaselineInput {
         try writer["ApprovedPatches"].writeList(value.approvedPatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ApprovedPatchesComplianceLevel"].write(value.approvedPatchesComplianceLevel)
         try writer["ApprovedPatchesEnableNonSecurity"].write(value.approvedPatchesEnableNonSecurity)
+        try writer["AvailableSecurityUpdatesComplianceStatus"].write(value.availableSecurityUpdatesComplianceStatus)
         try writer["ClientToken"].write(value.clientToken)
         try writer["Description"].write(value.description)
         try writer["GlobalFilters"].write(value.globalFilters, with: SSMClientTypes.PatchFilterGroup.write(value:to:))
@@ -22206,6 +22267,7 @@ extension UpdatePatchBaselineInput {
         try writer["ApprovedPatches"].writeList(value.approvedPatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ApprovedPatchesComplianceLevel"].write(value.approvedPatchesComplianceLevel)
         try writer["ApprovedPatchesEnableNonSecurity"].write(value.approvedPatchesEnableNonSecurity)
+        try writer["AvailableSecurityUpdatesComplianceStatus"].write(value.availableSecurityUpdatesComplianceStatus)
         try writer["BaselineId"].write(value.baselineId)
         try writer["Description"].write(value.description)
         try writer["GlobalFilters"].write(value.globalFilters, with: SSMClientTypes.PatchFilterGroup.write(value:to:))
@@ -22930,6 +22992,7 @@ extension DescribePatchGroupStateOutput {
         let reader = responseReader
         var value = DescribePatchGroupStateOutput()
         value.instances = try reader["Instances"].readIfPresent() ?? 0
+        value.instancesWithAvailableSecurityUpdates = try reader["InstancesWithAvailableSecurityUpdates"].readIfPresent()
         value.instancesWithCriticalNonCompliantPatches = try reader["InstancesWithCriticalNonCompliantPatches"].readIfPresent()
         value.instancesWithFailedPatches = try reader["InstancesWithFailedPatches"].readIfPresent() ?? 0
         value.instancesWithInstalledOtherPatches = try reader["InstancesWithInstalledOtherPatches"].readIfPresent() ?? 0
@@ -23359,6 +23422,7 @@ extension GetPatchBaselineOutput {
         value.approvedPatches = try reader["ApprovedPatches"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.approvedPatchesComplianceLevel = try reader["ApprovedPatchesComplianceLevel"].readIfPresent()
         value.approvedPatchesEnableNonSecurity = try reader["ApprovedPatchesEnableNonSecurity"].readIfPresent()
+        value.availableSecurityUpdatesComplianceStatus = try reader["AvailableSecurityUpdatesComplianceStatus"].readIfPresent()
         value.baselineId = try reader["BaselineId"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
@@ -24066,6 +24130,7 @@ extension UpdatePatchBaselineOutput {
         value.approvedPatches = try reader["ApprovedPatches"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.approvedPatchesComplianceLevel = try reader["ApprovedPatchesComplianceLevel"].readIfPresent()
         value.approvedPatchesEnableNonSecurity = try reader["ApprovedPatchesEnableNonSecurity"].readIfPresent()
+        value.availableSecurityUpdatesComplianceStatus = try reader["AvailableSecurityUpdatesComplianceStatus"].readIfPresent()
         value.baselineId = try reader["BaselineId"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
@@ -29062,6 +29127,7 @@ extension SSMClientTypes.InstancePatchState {
         value.failedCount = try reader["FailedCount"].readIfPresent() ?? 0
         value.unreportedNotApplicableCount = try reader["UnreportedNotApplicableCount"].readIfPresent()
         value.notApplicableCount = try reader["NotApplicableCount"].readIfPresent() ?? 0
+        value.availableSecurityUpdateCount = try reader["AvailableSecurityUpdateCount"].readIfPresent()
         value.operationStartTime = try reader["OperationStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.operationEndTime = try reader["OperationEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.operation = try reader["Operation"].readIfPresent() ?? .sdkUnknown("")
@@ -30730,6 +30796,7 @@ extension SSMClientTypes.BaselineOverride {
         try writer["ApprovedPatches"].writeList(value.approvedPatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ApprovedPatchesComplianceLevel"].write(value.approvedPatchesComplianceLevel)
         try writer["ApprovedPatchesEnableNonSecurity"].write(value.approvedPatchesEnableNonSecurity)
+        try writer["AvailableSecurityUpdatesComplianceStatus"].write(value.availableSecurityUpdatesComplianceStatus)
         try writer["GlobalFilters"].write(value.globalFilters, with: SSMClientTypes.PatchFilterGroup.write(value:to:))
         try writer["OperatingSystem"].write(value.operatingSystem)
         try writer["RejectedPatches"].writeList(value.rejectedPatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)

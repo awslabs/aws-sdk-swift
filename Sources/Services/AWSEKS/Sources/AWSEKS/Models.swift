@@ -986,6 +986,33 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
+/// The request or operation couldn't be performed because a service is throttling requests.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The Amazon EKS cluster associated with the exception.
+        public internal(set) var clusterName: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.clusterName = clusterName
+        self.properties.message = message
+    }
+}
+
 extension EKSClientTypes {
 
     /// Identifies the Key Management Service (KMS) key used to encrypt the secrets.
@@ -6300,9 +6327,38 @@ public struct UpdateClusterConfigOutput: Swift.Sendable {
     }
 }
 
+/// Amazon EKS detected upgrade readiness issues. Call the [ListInsights](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListInsights.html) API to view detected upgrade blocking issues. Pass the [force](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateClusterVersion.html#API_UpdateClusterVersion_RequestBody) flag when updating to override upgrade readiness errors.
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The Amazon EKS cluster associated with the exception.
+        public internal(set) var clusterName: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidStateException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.clusterName = clusterName
+        self.properties.message = message
+    }
+}
+
 public struct UpdateClusterVersionInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
+    /// Set this value to true to override upgrade-blocking readiness checks when updating a cluster.
+    public var force: Swift.Bool?
     /// The name of the Amazon EKS cluster to update.
     /// This member is required.
     public var name: Swift.String?
@@ -6312,10 +6368,12 @@ public struct UpdateClusterVersionInput: Swift.Sendable {
 
     public init(
         clientRequestToken: Swift.String? = nil,
+        force: Swift.Bool? = false,
         name: Swift.String? = nil,
         version: Swift.String? = nil
     ) {
         self.clientRequestToken = clientRequestToken
+        self.force = force
         self.name = name
         self.version = version
     }
@@ -7734,6 +7792,7 @@ extension UpdateClusterVersionInput {
     static func write(value: UpdateClusterVersionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["force"].write(value.force)
         try writer["version"].write(value.version)
     }
 }
@@ -8498,6 +8557,7 @@ enum AssociateEncryptionConfigOutputError {
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8517,6 +8577,7 @@ enum AssociateIdentityProviderConfigOutputError {
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9047,6 +9108,7 @@ enum DisassociateIdentityProviderConfigOutputError {
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9371,6 +9433,7 @@ enum UpdateClusterConfigOutputError {
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9387,9 +9450,11 @@ enum UpdateClusterVersionOutputError {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9538,6 +9603,20 @@ extension InvalidParameterException {
     }
 }
 
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.clusterName = try reader["clusterName"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceInUseException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
@@ -9660,6 +9739,20 @@ extension ResourcePropagationDelayException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourcePropagationDelayException {
         let reader = baseError.errorBodyReader
         var value = ResourcePropagationDelayException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidStateException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidStateException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidStateException()
+        value.properties.clusterName = try reader["clusterName"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

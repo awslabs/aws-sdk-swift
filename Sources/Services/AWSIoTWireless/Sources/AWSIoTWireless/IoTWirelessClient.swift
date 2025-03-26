@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTWirelessClient: ClientRuntime.Client {
     public static let clientName = "IoTWirelessClient"
-    public static let version = "1.2.36"
+    public static let version = "1.2.46"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTWirelessClient.IoTWirelessClientConfiguration
     let serviceName = "IoT Wireless"
@@ -216,7 +216,7 @@ extension IoTWirelessClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultIoTWirelessAuthSchemeResolver(),
@@ -270,7 +270,7 @@ extension IoTWirelessClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultIoTWirelessAuthSchemeResolver(),
@@ -2024,7 +2024,7 @@ extension IoTWirelessClient {
 
     /// Performs the `DeleteMulticastGroup` operation on the `IoTWireless` service.
     ///
-    /// Deletes a multicast group if it is not in use by a fuota task.
+    /// Deletes a multicast group if it is not in use by a FUOTA task.
     ///
     /// - Parameter DeleteMulticastGroupInput : [no documentation found]
     ///
@@ -2861,7 +2861,7 @@ extension IoTWirelessClient {
 
     /// Performs the `DisassociateMulticastGroupFromFuotaTask` operation on the `IoTWireless` service.
     ///
-    /// Disassociates a multicast group from a fuota task.
+    /// Disassociates a multicast group from a FUOTA task.
     ///
     /// - Parameter DisassociateMulticastGroupFromFuotaTaskInput : [no documentation found]
     ///
@@ -3612,7 +3612,7 @@ extension IoTWirelessClient {
 
     /// Performs the `GetLogLevelsByResourceTypes` operation on the `IoTWireless` service.
     ///
-    /// Returns current default log levels or log levels by resource types. Based on resource types, log levels can be for wireless device log options or wireless gateway log options.
+    /// Returns current default log levels or log levels by resource types. Based on the resource type, log levels can be returned for wireless device, wireless gateway, or FUOTA task log options.
     ///
     /// - Parameter GetLogLevelsByResourceTypesInput : [no documentation found]
     ///
@@ -4450,7 +4450,7 @@ extension IoTWirelessClient {
 
     /// Performs the `GetResourceLogLevel` operation on the `IoTWireless` service.
     ///
-    /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device, wireless gateway or fuota task.
+    /// Fetches the log-level override, if any, for a given resource ID and resource type..
     ///
     /// - Parameter GetResourceLogLevelInput : [no documentation found]
     ///
@@ -5882,7 +5882,7 @@ extension IoTWirelessClient {
 
     /// Performs the `ListMulticastGroupsByFuotaTask` operation on the `IoTWireless` service.
     ///
-    /// List all multicast groups associated with a fuota task.
+    /// List all multicast groups associated with a FUOTA task.
     ///
     /// - Parameter ListMulticastGroupsByFuotaTaskInput : [no documentation found]
     ///
@@ -6793,7 +6793,7 @@ extension IoTWirelessClient {
 
     /// Performs the `PutResourceLogLevel` operation on the `IoTWireless` service.
     ///
-    /// Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway or a wireless device. A limit of 200 log level override can be set per account.
+    /// Sets the log-level override for a resource ID and resource type. A limit of 200 log level override can be set per account.
     ///
     /// - Parameter PutResourceLogLevelInput : [no documentation found]
     ///
@@ -6872,7 +6872,7 @@ extension IoTWirelessClient {
 
     /// Performs the `ResetAllResourceLogLevels` operation on the `IoTWireless` service.
     ///
-    /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and fuota tasks.
+    /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and FUOTA tasks.
     ///
     /// - Parameter ResetAllResourceLogLevelsInput : [no documentation found]
     ///
@@ -6947,7 +6947,7 @@ extension IoTWirelessClient {
 
     /// Performs the `ResetResourceLogLevel` operation on the `IoTWireless` service.
     ///
-    /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device, a wireless gateway, or a fuota task.
+    /// Removes the log-level override, if any, for a specific resource ID and resource type. It can be used for a wireless device, a wireless gateway, or a FUOTA task.
     ///
     /// - Parameter ResetResourceLogLevelInput : [no documentation found]
     ///
@@ -8117,7 +8117,7 @@ extension IoTWirelessClient {
 
     /// Performs the `UpdateLogLevelsByResourceTypes` operation on the `IoTWireless` service.
     ///
-    /// Set default log level, or log levels by resource types. This can be for wireless device log options or wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
+    /// Set default log level, or log levels by resource types. This can be for wireless device, wireless gateway, or FUOTA task log options, and is used to control the log messages that'll be displayed in CloudWatch.
     ///
     /// - Parameter UpdateLogLevelsByResourceTypesInput : [no documentation found]
     ///

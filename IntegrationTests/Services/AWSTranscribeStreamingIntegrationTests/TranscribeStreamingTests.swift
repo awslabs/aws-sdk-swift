@@ -52,7 +52,7 @@ final class TranscribeStreamingTests: XCTestCase {
         let dataRate = Double(audioDataSize) / duration
         let delay = Double(chunkSize) / dataRate
 
-        let client = try TranscribeStreamingClient(region: "us-west-2")
+        let client = try TranscribeStreamingClient(region: "us-east-2")
 
         let audioStream = AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Error> { continuation in
             Task {

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ACMPCAClient: ClientRuntime.Client {
     public static let clientName = "ACMPCAClient"
-    public static let version = "1.2.36"
+    public static let version = "1.2.46"
     let client: ClientRuntime.SdkHttpClient
     let config: ACMPCAClient.ACMPCAClientConfiguration
     let serviceName = "ACM PCA"
@@ -213,7 +213,7 @@ extension ACMPCAClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultACMPCAAuthSchemeResolver(),
@@ -267,7 +267,7 @@ extension ACMPCAClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultACMPCAAuthSchemeResolver(),
@@ -1754,6 +1754,7 @@ extension ACMPCAClient {
     /// __Possible Exceptions:__
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     /// - `InvalidStateException` : The state of the private CA does not allow this action to occur.
+    /// - `RequestFailedException` : The request has failed for an unspecified reason.
     /// - `ResourceNotFoundException` : A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
     public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = Smithy.ContextBuilder()
