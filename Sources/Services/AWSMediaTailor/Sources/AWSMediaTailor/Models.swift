@@ -45,6 +45,178 @@ public struct UntagResourceOutput: Swift.Sendable {
 
 extension MediaTailorClientTypes {
 
+    public enum AdsInteractionExcludeEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case adMarkerFound
+        case beaconFired
+        case emptyVastResponse
+        case emptyVmapResponse
+        case errorAdsInvalidResponse
+        case errorAdsIo
+        case errorAdsResponseParse
+        case errorAdsResponseUnknownRootElement
+        case errorAdsTimeout
+        case errorDisallowedHost
+        case errorFiringBeaconFailed
+        case errorPersonalizationDisabled
+        case errorUnknown
+        case errorUnknownHost
+        case errorVastInvalidMediaFile
+        case errorVastInvalidVastAdTagUri
+        case errorVastMissingCreatives
+        case errorVastMissingImpression
+        case errorVastMissingMediafiles
+        case errorVastMissingOverlays
+        case errorVastMultipleLinear
+        case errorVastMultipleTrackingEvents
+        case errorVastRedirectEmptyResponse
+        case errorVastRedirectFailed
+        case errorVastRedirectMultipleVast
+        case filledAvail
+        case filledOverlayAvail
+        case interstitialVodFailure
+        case interstitialVodSuccess
+        case makingAdsRequest
+        case modifiedTargetUrl
+        case nonAdMarkerFound
+        case redirectedVastResponse
+        case vastRedirect
+        case vastResponse
+        case vodTimeBasedAvailPlanSuccess
+        case vodTimeBasedAvailPlanVastResponseForOffset
+        case vodTimeBasedAvailPlanWarningNoAdvertisements
+        case warningNoAdvertisements
+        case warningUrlVariableSubstitutionFailed
+        case warningVpaidAdDropped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdsInteractionExcludeEventType] {
+            return [
+                .adMarkerFound,
+                .beaconFired,
+                .emptyVastResponse,
+                .emptyVmapResponse,
+                .errorAdsInvalidResponse,
+                .errorAdsIo,
+                .errorAdsResponseParse,
+                .errorAdsResponseUnknownRootElement,
+                .errorAdsTimeout,
+                .errorDisallowedHost,
+                .errorFiringBeaconFailed,
+                .errorPersonalizationDisabled,
+                .errorUnknown,
+                .errorUnknownHost,
+                .errorVastInvalidMediaFile,
+                .errorVastInvalidVastAdTagUri,
+                .errorVastMissingCreatives,
+                .errorVastMissingImpression,
+                .errorVastMissingMediafiles,
+                .errorVastMissingOverlays,
+                .errorVastMultipleLinear,
+                .errorVastMultipleTrackingEvents,
+                .errorVastRedirectEmptyResponse,
+                .errorVastRedirectFailed,
+                .errorVastRedirectMultipleVast,
+                .filledAvail,
+                .filledOverlayAvail,
+                .interstitialVodFailure,
+                .interstitialVodSuccess,
+                .makingAdsRequest,
+                .modifiedTargetUrl,
+                .nonAdMarkerFound,
+                .redirectedVastResponse,
+                .vastRedirect,
+                .vastResponse,
+                .vodTimeBasedAvailPlanSuccess,
+                .vodTimeBasedAvailPlanVastResponseForOffset,
+                .vodTimeBasedAvailPlanWarningNoAdvertisements,
+                .warningNoAdvertisements,
+                .warningUrlVariableSubstitutionFailed,
+                .warningVpaidAdDropped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .adMarkerFound: return "AD_MARKER_FOUND"
+            case .beaconFired: return "BEACON_FIRED"
+            case .emptyVastResponse: return "EMPTY_VAST_RESPONSE"
+            case .emptyVmapResponse: return "EMPTY_VMAP_RESPONSE"
+            case .errorAdsInvalidResponse: return "ERROR_ADS_INVALID_RESPONSE"
+            case .errorAdsIo: return "ERROR_ADS_IO"
+            case .errorAdsResponseParse: return "ERROR_ADS_RESPONSE_PARSE"
+            case .errorAdsResponseUnknownRootElement: return "ERROR_ADS_RESPONSE_UNKNOWN_ROOT_ELEMENT"
+            case .errorAdsTimeout: return "ERROR_ADS_TIMEOUT"
+            case .errorDisallowedHost: return "ERROR_DISALLOWED_HOST"
+            case .errorFiringBeaconFailed: return "ERROR_FIRING_BEACON_FAILED"
+            case .errorPersonalizationDisabled: return "ERROR_PERSONALIZATION_DISABLED"
+            case .errorUnknown: return "ERROR_UNKNOWN"
+            case .errorUnknownHost: return "ERROR_UNKNOWN_HOST"
+            case .errorVastInvalidMediaFile: return "ERROR_VAST_INVALID_MEDIA_FILE"
+            case .errorVastInvalidVastAdTagUri: return "ERROR_VAST_INVALID_VAST_AD_TAG_URI"
+            case .errorVastMissingCreatives: return "ERROR_VAST_MISSING_CREATIVES"
+            case .errorVastMissingImpression: return "ERROR_VAST_MISSING_IMPRESSION"
+            case .errorVastMissingMediafiles: return "ERROR_VAST_MISSING_MEDIAFILES"
+            case .errorVastMissingOverlays: return "ERROR_VAST_MISSING_OVERLAYS"
+            case .errorVastMultipleLinear: return "ERROR_VAST_MULTIPLE_LINEAR"
+            case .errorVastMultipleTrackingEvents: return "ERROR_VAST_MULTIPLE_TRACKING_EVENTS"
+            case .errorVastRedirectEmptyResponse: return "ERROR_VAST_REDIRECT_EMPTY_RESPONSE"
+            case .errorVastRedirectFailed: return "ERROR_VAST_REDIRECT_FAILED"
+            case .errorVastRedirectMultipleVast: return "ERROR_VAST_REDIRECT_MULTIPLE_VAST"
+            case .filledAvail: return "FILLED_AVAIL"
+            case .filledOverlayAvail: return "FILLED_OVERLAY_AVAIL"
+            case .interstitialVodFailure: return "INTERSTITIAL_VOD_FAILURE"
+            case .interstitialVodSuccess: return "INTERSTITIAL_VOD_SUCCESS"
+            case .makingAdsRequest: return "MAKING_ADS_REQUEST"
+            case .modifiedTargetUrl: return "MODIFIED_TARGET_URL"
+            case .nonAdMarkerFound: return "NON_AD_MARKER_FOUND"
+            case .redirectedVastResponse: return "REDIRECTED_VAST_RESPONSE"
+            case .vastRedirect: return "VAST_REDIRECT"
+            case .vastResponse: return "VAST_RESPONSE"
+            case .vodTimeBasedAvailPlanSuccess: return "VOD_TIME_BASED_AVAIL_PLAN_SUCCESS"
+            case .vodTimeBasedAvailPlanVastResponseForOffset: return "VOD_TIME_BASED_AVAIL_PLAN_VAST_RESPONSE_FOR_OFFSET"
+            case .vodTimeBasedAvailPlanWarningNoAdvertisements: return "VOD_TIME_BASED_AVAIL_PLAN_WARNING_NO_ADVERTISEMENTS"
+            case .warningNoAdvertisements: return "WARNING_NO_ADVERTISEMENTS"
+            case .warningUrlVariableSubstitutionFailed: return "WARNING_URL_VARIABLE_SUBSTITUTION_FAILED"
+            case .warningVpaidAdDropped: return "WARNING_VPAID_AD_DROPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum AdsInteractionPublishOptInEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rawAdsResponse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdsInteractionPublishOptInEventType] {
+            return [
+                .rawAdsResponse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .rawAdsResponse: return "RAW_ADS_RESPONSE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// For SCTE35_ENHANCED output, defines a key and corresponding value. MediaTailor generates these pairs within the EXT-X-ASSETtag.
     public struct KeyValuePair: Swift.Sendable {
         /// For SCTE35_ENHANCED output, defines a key. MediaTailor takes this key, and its associated value, and generates the key/value pair within the EXT-X-ASSETtag. If you specify a key, you must also specify a corresponding value.
@@ -805,7 +977,7 @@ extension MediaTailorClientTypes {
 
     /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns.
     public struct AdConditioningConfiguration: Swift.Sendable {
-        /// For ads that have media files with streaming delivery and supported file extensions, indicates what transcoding action MediaTailor takes when it first receives these ads from the ADS. TRANSCODE indicates that MediaTailor must transcode the ads. NONE indicates that you have already transcoded the ads outside of MediaTailor and don't need them transcoded as part of the ad insertion workflow. For more information about ad conditioning see [https://docs.aws.amazon.com/precondition-ads.html](https://docs.aws.amazon.com/precondition-ads.html).
+        /// For ads that have media files with streaming delivery and supported file extensions, indicates what transcoding action MediaTailor takes when it first receives these ads from the ADS. TRANSCODE indicates that MediaTailor must transcode the ads. NONE indicates that you have already transcoded the ads outside of MediaTailor and don't need them transcoded as part of the ad insertion workflow. For more information about ad conditioning see [Using preconditioned ads](https://docs.aws.amazon.com/mediatailor/latest/ug/precondition-ads.html) in the Elemental MediaTailor user guide.
         /// This member is required.
         public var streamingMediaFileConditioning: MediaTailorClientTypes.StreamingMediaFileConditioning?
 
@@ -1057,19 +1229,180 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    /// Settings for customizing what events are included in logs for interactions with the ad decision server (ADS). For more information about ADS logs, inlcuding descriptions of the event types, see [MediaTailor ADS logs description and event types](https://docs.aws.amazon.com/mediatailor/latest/ug/ads-log-format.html) in Elemental MediaTailor User Guide.
+    public struct AdsInteractionLog: Swift.Sendable {
+        /// Indicates that MediaTailor won't emit the selected events in the logs for playback sessions that are initialized with this configuration.
+        public var excludeEventTypes: [MediaTailorClientTypes.AdsInteractionExcludeEventType]?
+        /// Indicates that MediaTailor emits RAW_ADS_RESPONSE logs for playback sessions that are initialized with this configuration.
+        public var publishOptInEventTypes: [MediaTailorClientTypes.AdsInteractionPublishOptInEventType]?
+
+        public init(
+            excludeEventTypes: [MediaTailorClientTypes.AdsInteractionExcludeEventType]? = nil,
+            publishOptInEventTypes: [MediaTailorClientTypes.AdsInteractionPublishOptInEventType]? = nil
+        ) {
+            self.excludeEventTypes = excludeEventTypes
+            self.publishOptInEventTypes = publishOptInEventTypes
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum ManifestServiceExcludeEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case configSecurityError
+        case configSyntaxError
+        case connectionError
+        case errorAdsInterpolation
+        case errorBumperEndInterpolation
+        case errorBumperStartInterpolation
+        case errorCdnAdSegmentInterpolation
+        case errorCdnContentSegmentInterpolation
+        case errorLivePreRollAdsInterpolation
+        case errorOriginPrefixInterpolation
+        case errorProfileNameInterpolation
+        case errorSlateAdUrlInterpolation
+        case generatedManifest
+        case hostDisallowed
+        case incompatibleHlsVersion
+        case invalidSinglePeriodDashManifest
+        case ioError
+        case lastPeriodMissingAudio
+        case lastPeriodMissingAudioWarning
+        case manifestError
+        case noMasterOrMediaPlaylist
+        case noMasterPlaylist
+        case noMediaPlaylist
+        case originManifest
+        case parsingError
+        case scte35ParsingError
+        case sessionInitialized
+        case timeoutError
+        case trackingResponse
+        case unknownError
+        case unknownHost
+        case unsupportedSinglePeriodDashManifest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManifestServiceExcludeEventType] {
+            return [
+                .configSecurityError,
+                .configSyntaxError,
+                .connectionError,
+                .errorAdsInterpolation,
+                .errorBumperEndInterpolation,
+                .errorBumperStartInterpolation,
+                .errorCdnAdSegmentInterpolation,
+                .errorCdnContentSegmentInterpolation,
+                .errorLivePreRollAdsInterpolation,
+                .errorOriginPrefixInterpolation,
+                .errorProfileNameInterpolation,
+                .errorSlateAdUrlInterpolation,
+                .generatedManifest,
+                .hostDisallowed,
+                .incompatibleHlsVersion,
+                .invalidSinglePeriodDashManifest,
+                .ioError,
+                .lastPeriodMissingAudio,
+                .lastPeriodMissingAudioWarning,
+                .manifestError,
+                .noMasterOrMediaPlaylist,
+                .noMasterPlaylist,
+                .noMediaPlaylist,
+                .originManifest,
+                .parsingError,
+                .scte35ParsingError,
+                .sessionInitialized,
+                .timeoutError,
+                .trackingResponse,
+                .unknownError,
+                .unknownHost,
+                .unsupportedSinglePeriodDashManifest
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .configSecurityError: return "CONFIG_SECURITY_ERROR"
+            case .configSyntaxError: return "CONFIG_SYNTAX_ERROR"
+            case .connectionError: return "CONNECTION_ERROR"
+            case .errorAdsInterpolation: return "ERROR_ADS_INTERPOLATION"
+            case .errorBumperEndInterpolation: return "ERROR_BUMPER_END_INTERPOLATION"
+            case .errorBumperStartInterpolation: return "ERROR_BUMPER_START_INTERPOLATION"
+            case .errorCdnAdSegmentInterpolation: return "ERROR_CDN_AD_SEGMENT_INTERPOLATION"
+            case .errorCdnContentSegmentInterpolation: return "ERROR_CDN_CONTENT_SEGMENT_INTERPOLATION"
+            case .errorLivePreRollAdsInterpolation: return "ERROR_LIVE_PRE_ROLL_ADS_INTERPOLATION"
+            case .errorOriginPrefixInterpolation: return "ERROR_ORIGIN_PREFIX_INTERPOLATION"
+            case .errorProfileNameInterpolation: return "ERROR_PROFILE_NAME_INTERPOLATION"
+            case .errorSlateAdUrlInterpolation: return "ERROR_SLATE_AD_URL_INTERPOLATION"
+            case .generatedManifest: return "GENERATED_MANIFEST"
+            case .hostDisallowed: return "HOST_DISALLOWED"
+            case .incompatibleHlsVersion: return "INCOMPATIBLE_HLS_VERSION"
+            case .invalidSinglePeriodDashManifest: return "INVALID_SINGLE_PERIOD_DASH_MANIFEST"
+            case .ioError: return "IO_ERROR"
+            case .lastPeriodMissingAudio: return "LAST_PERIOD_MISSING_AUDIO"
+            case .lastPeriodMissingAudioWarning: return "LAST_PERIOD_MISSING_AUDIO_WARNING"
+            case .manifestError: return "MANIFEST_ERROR"
+            case .noMasterOrMediaPlaylist: return "NO_MASTER_OR_MEDIA_PLAYLIST"
+            case .noMasterPlaylist: return "NO_MASTER_PLAYLIST"
+            case .noMediaPlaylist: return "NO_MEDIA_PLAYLIST"
+            case .originManifest: return "ORIGIN_MANIFEST"
+            case .parsingError: return "PARSING_ERROR"
+            case .scte35ParsingError: return "SCTE35_PARSING_ERROR"
+            case .sessionInitialized: return "SESSION_INITIALIZED"
+            case .timeoutError: return "TIMEOUT_ERROR"
+            case .trackingResponse: return "TRACKING_RESPONSE"
+            case .unknownError: return "UNKNOWN_ERROR"
+            case .unknownHost: return "UNKNOWN_HOST"
+            case .unsupportedSinglePeriodDashManifest: return "UNSUPPORTED_SINGLE_PERIOD_DASH_MANIFEST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// Settings for customizing what events are included in logs for interactions with the origin server. For more information about manifest service logs, including descriptions of the event types, see [MediaTailor manifest logs description and event types](https://docs.aws.amazon.com/mediatailor/latest/ug/log-types.html) in Elemental MediaTailor User Guide.
+    public struct ManifestServiceInteractionLog: Swift.Sendable {
+        /// Indicates that MediaTailor won't emit the selected events in the logs for playback sessions that are initialized with this configuration.
+        public var excludeEventTypes: [MediaTailorClientTypes.ManifestServiceExcludeEventType]?
+
+        public init(
+            excludeEventTypes: [MediaTailorClientTypes.ManifestServiceExcludeEventType]? = nil
+        ) {
+            self.excludeEventTypes = excludeEventTypes
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
     public struct LogConfiguration: Swift.Sendable {
+        /// Settings for customizing what events are included in logs for interactions with the ad decision server (ADS).
+        public var adsInteractionLog: MediaTailorClientTypes.AdsInteractionLog?
         /// The method used for collecting logs from AWS Elemental MediaTailor. LEGACY_CLOUDWATCH indicates that MediaTailor is sending logs directly to Amazon CloudWatch Logs. VENDED_LOGS indicates that MediaTailor is sending logs to CloudWatch, which then vends the logs to your destination of choice. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream.
         public var enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]?
+        /// Settings for customizing what events are included in logs for interactions with the origin server.
+        public var manifestServiceInteractionLog: MediaTailorClientTypes.ManifestServiceInteractionLog?
         /// The percentage of session logs that MediaTailor sends to your configured log destination. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html). Valid values: 0 - 100
         /// This member is required.
         public var percentEnabled: Swift.Int?
 
         public init(
+            adsInteractionLog: MediaTailorClientTypes.AdsInteractionLog? = nil,
             enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]? = nil,
+            manifestServiceInteractionLog: MediaTailorClientTypes.ManifestServiceInteractionLog? = nil,
             percentEnabled: Swift.Int? = nil
         ) {
+            self.adsInteractionLog = adsInteractionLog
             self.enabledLoggingStrategies = enabledLoggingStrategies
+            self.manifestServiceInteractionLog = manifestServiceInteractionLog
             self.percentEnabled = percentEnabled
         }
     }
@@ -2664,8 +2997,12 @@ public struct UpdateChannelOutput: Swift.Sendable {
 
 /// Configures Amazon CloudWatch log settings for a playback configuration.
 public struct ConfigureLogsForPlaybackConfigurationInput: Swift.Sendable {
+    /// The event types that MediaTailor emits in logs for interactions with the ADS.
+    public var adsInteractionLog: MediaTailorClientTypes.AdsInteractionLog?
     /// The method used for collecting logs from AWS Elemental MediaTailor. To configure MediaTailor to send logs directly to Amazon CloudWatch Logs, choose LEGACY_CLOUDWATCH. To configure MediaTailor to send logs to CloudWatch, which then vends the logs to your destination of choice, choose VENDED_LOGS. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream. To use vended logs, you must configure the delivery destination in Amazon CloudWatch, as described in [Enable logging from AWS services, Logging that requires additional permissions [V2]](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html#AWS-vended-logs-permissions-V2).
     public var enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]?
+    /// The event types that MediaTailor emits in logs for interactions with the origin server.
+    public var manifestServiceInteractionLog: MediaTailorClientTypes.ManifestServiceInteractionLog?
     /// The percentage of session logs that MediaTailor sends to your CloudWatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html). Valid values: 0 - 100
     /// This member is required.
     public var percentEnabled: Swift.Int?
@@ -2674,19 +3011,27 @@ public struct ConfigureLogsForPlaybackConfigurationInput: Swift.Sendable {
     public var playbackConfigurationName: Swift.String?
 
     public init(
+        adsInteractionLog: MediaTailorClientTypes.AdsInteractionLog? = nil,
         enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]? = nil,
+        manifestServiceInteractionLog: MediaTailorClientTypes.ManifestServiceInteractionLog? = nil,
         percentEnabled: Swift.Int? = nil,
         playbackConfigurationName: Swift.String? = nil
     ) {
+        self.adsInteractionLog = adsInteractionLog
         self.enabledLoggingStrategies = enabledLoggingStrategies
+        self.manifestServiceInteractionLog = manifestServiceInteractionLog
         self.percentEnabled = percentEnabled
         self.playbackConfigurationName = playbackConfigurationName
     }
 }
 
 public struct ConfigureLogsForPlaybackConfigurationOutput: Swift.Sendable {
+    /// The event types that MediaTailor emits in logs for interactions with the ADS.
+    public var adsInteractionLog: MediaTailorClientTypes.AdsInteractionLog?
     /// The method used for collecting logs from AWS Elemental MediaTailor. LEGACY_CLOUDWATCH indicates that MediaTailor is sending logs directly to Amazon CloudWatch Logs. VENDED_LOGS indicates that MediaTailor is sending logs to CloudWatch, which then vends the logs to your destination of choice. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream.
     public var enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]?
+    /// The event types that MediaTailor emits in logs for interactions with the origin server.
+    public var manifestServiceInteractionLog: MediaTailorClientTypes.ManifestServiceInteractionLog?
     /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account.
     /// This member is required.
     public var percentEnabled: Swift.Int?
@@ -2694,11 +3039,15 @@ public struct ConfigureLogsForPlaybackConfigurationOutput: Swift.Sendable {
     public var playbackConfigurationName: Swift.String?
 
     public init(
+        adsInteractionLog: MediaTailorClientTypes.AdsInteractionLog? = nil,
         enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]? = nil,
+        manifestServiceInteractionLog: MediaTailorClientTypes.ManifestServiceInteractionLog? = nil,
         percentEnabled: Swift.Int? = nil,
         playbackConfigurationName: Swift.String? = nil
     ) {
+        self.adsInteractionLog = adsInteractionLog
         self.enabledLoggingStrategies = enabledLoggingStrategies
+        self.manifestServiceInteractionLog = manifestServiceInteractionLog
         self.percentEnabled = percentEnabled
         self.playbackConfigurationName = playbackConfigurationName
     }
@@ -4626,7 +4975,9 @@ extension ConfigureLogsForPlaybackConfigurationInput {
 
     static func write(value: ConfigureLogsForPlaybackConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AdsInteractionLog"].write(value.adsInteractionLog, with: MediaTailorClientTypes.AdsInteractionLog.write(value:to:))
         try writer["EnabledLoggingStrategies"].writeList(value.enabledLoggingStrategies, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.LoggingStrategy>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ManifestServiceInteractionLog"].write(value.manifestServiceInteractionLog, with: MediaTailorClientTypes.ManifestServiceInteractionLog.write(value:to:))
         try writer["PercentEnabled"].write(value.percentEnabled)
         try writer["PlaybackConfigurationName"].write(value.playbackConfigurationName)
     }
@@ -4816,7 +5167,9 @@ extension ConfigureLogsForPlaybackConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ConfigureLogsForPlaybackConfigurationOutput()
+        value.adsInteractionLog = try reader["AdsInteractionLog"].readIfPresent(with: MediaTailorClientTypes.AdsInteractionLog.read(from:))
         value.enabledLoggingStrategies = try reader["EnabledLoggingStrategies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LoggingStrategy>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.manifestServiceInteractionLog = try reader["ManifestServiceInteractionLog"].readIfPresent(with: MediaTailorClientTypes.ManifestServiceInteractionLog.read(from:))
         value.percentEnabled = try reader["PercentEnabled"].readIfPresent() ?? 0
         value.playbackConfigurationName = try reader["PlaybackConfigurationName"].readIfPresent()
         return value
@@ -6036,6 +6389,38 @@ extension BadRequestException {
     }
 }
 
+extension MediaTailorClientTypes.AdsInteractionLog {
+
+    static func write(value: MediaTailorClientTypes.AdsInteractionLog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExcludeEventTypes"].writeList(value.excludeEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.AdsInteractionExcludeEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PublishOptInEventTypes"].writeList(value.publishOptInEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.AdsInteractionPublishOptInEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdsInteractionLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.AdsInteractionLog()
+        value.publishOptInEventTypes = try reader["PublishOptInEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.AdsInteractionPublishOptInEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludeEventTypes = try reader["ExcludeEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.AdsInteractionExcludeEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.ManifestServiceInteractionLog {
+
+    static func write(value: MediaTailorClientTypes.ManifestServiceInteractionLog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExcludeEventTypes"].writeList(value.excludeEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.ManifestServiceExcludeEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ManifestServiceInteractionLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.ManifestServiceInteractionLog()
+        value.excludeEventTypes = try reader["ExcludeEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.ManifestServiceExcludeEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension MediaTailorClientTypes.SlateSource {
 
     static func write(value: MediaTailorClientTypes.SlateSource?, to writer: SmithyJSON.Writer) throws {
@@ -6597,6 +6982,8 @@ extension MediaTailorClientTypes.LogConfiguration {
         var value = MediaTailorClientTypes.LogConfiguration()
         value.percentEnabled = try reader["PercentEnabled"].readIfPresent() ?? 0
         value.enabledLoggingStrategies = try reader["EnabledLoggingStrategies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LoggingStrategy>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.adsInteractionLog = try reader["AdsInteractionLog"].readIfPresent(with: MediaTailorClientTypes.AdsInteractionLog.read(from:))
+        value.manifestServiceInteractionLog = try reader["ManifestServiceInteractionLog"].readIfPresent(with: MediaTailorClientTypes.ManifestServiceInteractionLog.read(from:))
         return value
     }
 }
