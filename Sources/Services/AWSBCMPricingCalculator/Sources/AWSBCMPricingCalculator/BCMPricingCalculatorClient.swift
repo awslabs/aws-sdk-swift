@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BCMPricingCalculatorClient: ClientRuntime.Client {
     public static let clientName = "BCMPricingCalculatorClient"
-    public static let version = "1.2.46"
+    public static let version = "1.2.47"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMPricingCalculatorClient.BCMPricingCalculatorClientConfiguration
     let serviceName = "BCM Pricing Calculator"
@@ -1743,7 +1743,7 @@ extension BCMPricingCalculatorClient {
 
     /// Performs the `GetPreferences` operation on the `BCMPricingCalculator` service.
     ///
-    /// Retrieves the current preferences for the Amazon Web Services Cost Explorer service.
+    /// Retrieves the current preferences for Pricing Calculator.
     ///
     /// - Parameter GetPreferencesInput : [no documentation found]
     ///
@@ -3099,7 +3099,7 @@ extension BCMPricingCalculatorClient {
 
     /// Performs the `UpdatePreferences` operation on the `BCMPricingCalculator` service.
     ///
-    /// Updates the preferences for the Amazon Web Services Cost Explorer service.
+    /// Updates the preferences for Pricing Calculator.
     ///
     /// - Parameter UpdatePreferencesInput : [no documentation found]
     ///

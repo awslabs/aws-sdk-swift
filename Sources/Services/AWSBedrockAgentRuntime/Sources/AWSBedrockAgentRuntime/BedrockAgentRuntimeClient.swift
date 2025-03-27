@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentRuntimeClient"
-    public static let version = "1.2.46"
+    public static let version = "1.2.47"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentRuntimeClient.BedrockAgentRuntimeClientConfiguration
     let serviceName = "Bedrock Agent Runtime"
@@ -1087,17 +1087,6 @@ extension BedrockAgentRuntimeClient {
     /// * To continue the same conversation with an agent, use the same sessionId value in the request.
     ///
     /// * To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-events).
-    ///
-    /// * To stream agent responses, make sure that only orchestration prompt is enabled. Agent streaming is not supported for the following steps:
-    ///
-    /// * Pre-processing
-    ///
-    /// * Post-processing
-    ///
-    /// * Agent with 1 Knowledge base and User Input not enabled
-    ///
-    ///
-    ///
     ///
     /// * End a conversation by setting endSession to true.
     ///

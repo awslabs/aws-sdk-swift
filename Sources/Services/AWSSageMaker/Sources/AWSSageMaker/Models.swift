@@ -12499,6 +12499,8 @@ public struct CreateAppInput: Swift.Sendable {
     /// The domain ID.
     /// This member is required.
     public var domainId: Swift.String?
+    /// Indicates whether the application is launched in recovery mode.
+    public var recoveryMode: Swift.Bool?
     /// The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance. The value of InstanceType passed as part of the ResourceSpec in the CreateApp call overrides the value passed as part of the ResourceSpec configured for the user profile or the domain. If InstanceType is not specified in any of those three ResourceSpec values for a KernelGateway app, the CreateApp call fails with a request validation error.
     public var resourceSpec: SageMakerClientTypes.ResourceSpec?
     /// The name of the space. If this value is not set, then UserProfileName must be set.
@@ -12512,6 +12514,7 @@ public struct CreateAppInput: Swift.Sendable {
         appName: Swift.String? = nil,
         appType: SageMakerClientTypes.AppType? = nil,
         domainId: Swift.String? = nil,
+        recoveryMode: Swift.Bool? = nil,
         resourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
         spaceName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
@@ -12520,6 +12523,7 @@ public struct CreateAppInput: Swift.Sendable {
         self.appName = appName
         self.appType = appType
         self.domainId = domainId
+        self.recoveryMode = recoveryMode
         self.resourceSpec = resourceSpec
         self.spaceName = spaceName
         self.tags = tags
@@ -27210,6 +27214,8 @@ public struct DescribeAppOutput: Swift.Sendable {
     public var lastHealthCheckTimestamp: Foundation.Date?
     /// The timestamp of the last user's activity. LastUserActivityTimestamp is also updated when SageMaker AI performs health checks without user activity. As a result, this value is set to the same value as LastHealthCheckTimestamp.
     public var lastUserActivityTimestamp: Foundation.Date?
+    /// Indicates whether the application is launched in recovery mode.
+    public var recoveryMode: Swift.Bool?
     /// The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance.
     public var resourceSpec: SageMakerClientTypes.ResourceSpec?
     /// The name of the space. If this value is not set, then UserProfileName must be set.
@@ -27229,6 +27235,7 @@ public struct DescribeAppOutput: Swift.Sendable {
         failureReason: Swift.String? = nil,
         lastHealthCheckTimestamp: Foundation.Date? = nil,
         lastUserActivityTimestamp: Foundation.Date? = nil,
+        recoveryMode: Swift.Bool? = nil,
         resourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
         spaceName: Swift.String? = nil,
         status: SageMakerClientTypes.AppStatus? = nil,
@@ -27243,6 +27250,7 @@ public struct DescribeAppOutput: Swift.Sendable {
         self.failureReason = failureReason
         self.lastHealthCheckTimestamp = lastHealthCheckTimestamp
         self.lastUserActivityTimestamp = lastUserActivityTimestamp
+        self.recoveryMode = recoveryMode
         self.resourceSpec = resourceSpec
         self.spaceName = spaceName
         self.status = status
@@ -54242,6 +54250,7 @@ extension CreateAppInput {
         try writer["AppName"].write(value.appName)
         try writer["AppType"].write(value.appType)
         try writer["DomainId"].write(value.domainId)
+        try writer["RecoveryMode"].write(value.recoveryMode)
         try writer["ResourceSpec"].write(value.resourceSpec, with: SageMakerClientTypes.ResourceSpec.write(value:to:))
         try writer["SpaceName"].write(value.spaceName)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -59644,6 +59653,7 @@ extension DescribeAppOutput {
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.lastHealthCheckTimestamp = try reader["LastHealthCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUserActivityTimestamp = try reader["LastUserActivityTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.recoveryMode = try reader["RecoveryMode"].readIfPresent()
         value.resourceSpec = try reader["ResourceSpec"].readIfPresent(with: SageMakerClientTypes.ResourceSpec.read(from:))
         value.spaceName = try reader["SpaceName"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()

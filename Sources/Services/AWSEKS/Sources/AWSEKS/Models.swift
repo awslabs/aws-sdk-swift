@@ -609,8 +609,10 @@ extension EKSClientTypes {
         case al2X8664
         case al2X8664Gpu
         case bottlerocketArm64
+        case bottlerocketArm64Fips
         case bottlerocketArm64Nvidia
         case bottlerocketX8664
+        case bottlerocketX8664Fips
         case bottlerocketX8664Nvidia
         case custom
         case windowsCore2019X8664
@@ -629,8 +631,10 @@ extension EKSClientTypes {
                 .al2X8664,
                 .al2X8664Gpu,
                 .bottlerocketArm64,
+                .bottlerocketArm64Fips,
                 .bottlerocketArm64Nvidia,
                 .bottlerocketX8664,
+                .bottlerocketX8664Fips,
                 .bottlerocketX8664Nvidia,
                 .custom,
                 .windowsCore2019X8664,
@@ -655,8 +659,10 @@ extension EKSClientTypes {
             case .al2X8664: return "AL2_x86_64"
             case .al2X8664Gpu: return "AL2_x86_64_GPU"
             case .bottlerocketArm64: return "BOTTLEROCKET_ARM_64"
+            case .bottlerocketArm64Fips: return "BOTTLEROCKET_ARM_64_FIPS"
             case .bottlerocketArm64Nvidia: return "BOTTLEROCKET_ARM_64_NVIDIA"
             case .bottlerocketX8664: return "BOTTLEROCKET_x86_64"
+            case .bottlerocketX8664Fips: return "BOTTLEROCKET_x86_64_FIPS"
             case .bottlerocketX8664Nvidia: return "BOTTLEROCKET_x86_64_NVIDIA"
             case .custom: return "CUSTOM"
             case .windowsCore2019X8664: return "WINDOWS_CORE_2019_x86_64"
