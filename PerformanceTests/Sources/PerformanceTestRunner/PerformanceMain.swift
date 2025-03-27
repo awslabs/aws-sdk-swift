@@ -10,9 +10,9 @@ import ClientRuntime
 
 // MARK: - Main Entry Point
 @main
-struct PerformanceTestRun {
+struct PerformanceMain {
     static func main() async throws {
-        let runner = BenchmarkRunner(iterations: 5)
+        let runner = PerformanceTestRunner(iterations: 5)
         let commitId = ProcessRunner.getGitCommitId()
         let sdkVersion = ProcessRunner.getSdkVersion()
 
@@ -21,17 +21,16 @@ struct PerformanceTestRun {
             AWSSTSGetCallerIdentity()
         ]
 
-        var benchmarks: [BenchmarkResult] = []
+        var results: [PerformanceTestResult] = []
         for test in performanceTests {
-            let result = try await runner.runBenchmark(test)
-            benchmarks.append(result)
+            let result = try await runner.runTest(test)
+            results.append(result)
         }
 
-        let report = BenchmarkReport(
-            productId: "AWS SDK for Swift",
+        let report = PerformanceTestReport(
             sdkVersion: sdkVersion,
             commitId: commitId,
-            results: benchmarks
+            results: results
         )
         report.printFormatted()
     }

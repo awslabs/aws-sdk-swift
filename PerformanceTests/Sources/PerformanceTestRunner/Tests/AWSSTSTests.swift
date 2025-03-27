@@ -13,7 +13,7 @@ struct AWSSTSGetCallerIdentity: PerformanceTest {
 
     let description = "The total time between initiating a GetCallerIdentity and reading the last byte of the object."
 
-    let unit = "Milliseconds"
+    let unit = Unit.milliseconds
 
     let dimensions = [
         Dimension(name: "OS", value: OperatingSystem.current.rawValue),

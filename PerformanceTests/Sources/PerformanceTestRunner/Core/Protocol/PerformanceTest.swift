@@ -8,7 +8,7 @@
 protocol PerformanceTest {
     var name: String { get }
     var description: String { get }
-    var unit: String { get }
+    var unit: Unit { get }
     var dimensions: [Dimension] { get }
     var test: () async throws -> Double { get }
 }

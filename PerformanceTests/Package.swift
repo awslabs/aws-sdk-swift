@@ -10,7 +10,7 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "PerformanceTestScript",
+            name: "PerformanceTestRunner",
             dependencies: [
                 .product(name: "AWSSTS", package: "aws-sdk-swift"),
             ]
