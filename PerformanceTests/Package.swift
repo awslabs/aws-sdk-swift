@@ -6,7 +6,7 @@ let package = Package(
     name: "SDKWorkbench",
     platforms: [.macOS(.v12), .iOS(.v15)],
     dependencies: [
-        .package(name: "aws-sdk-swift", path: "../../aws-sdk-swift"),
+        .package(name: "aws-sdk-swift", path: ".."),
     ],
     targets: [
         .executableTarget(

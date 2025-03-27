@@ -38,6 +38,7 @@ struct ProcessRunner {
 
     /// Retrieves the SDK version from a file.
     static func getSdkVersion() -> String {
-        return ProcessRunner.runProcess(arguments: ["cat", "../../aws-sdk-swift/Package.version"])
+        let version = ProcessRunner.runProcess(arguments: ["cat", "../../aws-sdk-swift/Package.version"])
+        return version.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

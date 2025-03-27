@@ -6,6 +6,6 @@
 //
 
 struct Dimension: Codable {
-    let name: String
-    let value: String
+    let name: String  // The name of the dimension. MUST comply with CloudWatch constraints on dimension name.
+    let value: String // The value of the dimension. MUST comply with CloudWatch constraints on dimension value.
 }
