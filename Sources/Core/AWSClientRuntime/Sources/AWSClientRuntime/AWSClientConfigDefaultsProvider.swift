@@ -179,4 +179,22 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
             )
         }
     }
+
+    public static func disableS3ExpressSessionAuth(
+        _ disableS3ExpressSessionAuth: Bool? = nil
+    ) throws -> Bool {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
+        return FieldResolver(
+            configValue: disableS3ExpressSessionAuth,
+            envVarName: "AWS_S3_DISABLE_EXPRESS_SESSION_AUTH",
+            configFieldName: "s3_disable_express_session_auth",
+            fileBasedConfig: fileBasedConfig,
+            profileName: nil, converter: { value in
+                switch value {
+                case "true": return true
+                case "false": return false
+                default: return nil
+                }
+            }).value ?? false
+    }
 }

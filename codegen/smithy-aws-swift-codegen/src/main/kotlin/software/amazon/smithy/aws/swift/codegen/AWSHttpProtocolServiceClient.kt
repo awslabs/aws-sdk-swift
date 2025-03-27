@@ -119,6 +119,19 @@ class AWSHttpProtocolServiceClient(
                         true,
                     )
                 }
+                "disableS3ExpressSessionAuth" -> {
+                    ConfigProperty(
+                        "disableS3ExpressSessionAuth",
+                        SwiftTypes.Bool.toOptional(),
+                        { writer ->
+                            writer.format(
+                                "\$N.disableS3ExpressSessionAuth()",
+                                AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
+                            )
+                        },
+                        true,
+                    )
+                }
                 else -> property
             }
         }
