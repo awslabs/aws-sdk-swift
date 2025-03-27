@@ -1740,6 +1740,48 @@ extension BedrockAgentRuntimeClientTypes.FlowTraceConditionNodeResultEvent: Swif
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// Contains information about an action (operation) called by a node in an Amazon Bedrock flow. The service generates action events for calls made by prompt nodes, agent nodes, and Amazon Web Services Lambda nodes.
+    public struct FlowTraceNodeActionEvent: Swift.Sendable {
+        /// The name of the node that called the operation.
+        /// This member is required.
+        public var nodeName: Swift.String?
+        /// The name of the operation that the node called.
+        /// This member is required.
+        public var operationName: Swift.String?
+        /// The ID of the request that the node made to the operation.
+        /// This member is required.
+        public var requestId: Swift.String?
+        /// The name of the service that the node called.
+        /// This member is required.
+        public var serviceName: Swift.String?
+        /// The date and time that the operation was called.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            nodeName: Swift.String? = nil,
+            operationName: Swift.String? = nil,
+            requestId: Swift.String? = nil,
+            serviceName: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.nodeName = nodeName
+            self.operationName = operationName
+            self.requestId = requestId
+            self.serviceName = serviceName
+            self.timestamp = timestamp
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowTraceNodeActionEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// Contains the content of the node input. For more information, see [Track each step in your prompt flow by viewing its trace in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html).
     public enum FlowTraceNodeInputContent: Swift.Sendable {
         /// The content of the node input.
@@ -1886,6 +1928,8 @@ extension BedrockAgentRuntimeClientTypes {
         case nodeoutputtrace(BedrockAgentRuntimeClientTypes.FlowTraceNodeOutputEvent)
         /// Contains information about an output from a condition node.
         case conditionnoderesulttrace(BedrockAgentRuntimeClientTypes.FlowTraceConditionNodeResultEvent)
+        /// Contains information about an action (operation) called by a node. For more information, see [Track each step in your prompt flow by viewing its trace in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html).
+        case nodeactiontrace(BedrockAgentRuntimeClientTypes.FlowTraceNodeActionEvent)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2777,7 +2821,7 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// Configurations for streaming.
     public struct StreamingConfigurations: Swift.Sendable {
-        /// The guardrail interval to apply as response is generated.
+        /// The guardrail interval to apply as response is generated. By default, the guardrail interval is set to 50 characters. If a larger interval is specified, the response will be generated in larger chunks with fewer ApplyGuardrail calls. The following examples show the response generated for Hello, I am an agent input string. Example response in chunks: Interval set to 3 characters 'Hel', 'lo, ','I am', ' an', ' Age', 'nt' Each chunk has at least 3 characters except for the last chunk Example response in chunks: Interval set to 20 or more characters Hello, I am an Agent
         public var applyGuardrailInterval: Swift.Int?
         /// Specifies whether to enable streaming for the final response. This is set to false by default.
         public var streamFinalResponse: Swift.Bool
@@ -11480,9 +11524,25 @@ extension BedrockAgentRuntimeClientTypes.FlowTrace {
                 return .nodeoutputtrace(try reader["nodeOutputTrace"].read(with: BedrockAgentRuntimeClientTypes.FlowTraceNodeOutputEvent.read(from:)))
             case "conditionNodeResultTrace":
                 return .conditionnoderesulttrace(try reader["conditionNodeResultTrace"].read(with: BedrockAgentRuntimeClientTypes.FlowTraceConditionNodeResultEvent.read(from:)))
+            case "nodeActionTrace":
+                return .nodeactiontrace(try reader["nodeActionTrace"].read(with: BedrockAgentRuntimeClientTypes.FlowTraceNodeActionEvent.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowTraceNodeActionEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowTraceNodeActionEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.FlowTraceNodeActionEvent()
+        value.nodeName = try reader["nodeName"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
+        value.operationName = try reader["operationName"].readIfPresent() ?? ""
+        return value
     }
 }
 

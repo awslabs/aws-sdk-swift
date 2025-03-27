@@ -326,7 +326,8 @@ extension ListResourceScansInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListResourceScansInput {
         return ListResourceScansInput(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            scanTypeFilter: self.scanTypeFilter
         )}
 }
 
