@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaConvertClient: ClientRuntime.Client {
     public static let clientName = "MediaConvertClient"
-    public static let version = "1.2.44"
+    public static let version = "1.2.47"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaConvertClient.MediaConvertClientConfiguration
     let serviceName = "MediaConvert"
@@ -2134,7 +2134,7 @@ extension MediaConvertClient {
 
     /// Performs the `Probe` operation on the `MediaConvert` service.
     ///
-    /// The Probe operation analyzes the provided media file and returns comprehensive metadata about its container format, tracks, and any encountered errors.
+    /// Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
     ///
     /// - Parameter ProbeInput : [no documentation found]
     ///

@@ -8616,11 +8616,13 @@ extension CreateProjectProfileOutput: Swift.CustomDebugStringConvertible {
 extension DataZoneClientTypes {
 
     public enum RuleAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createListingChangeSet
         case createSubscriptionRequest
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RuleAction] {
             return [
+                .createListingChangeSet,
                 .createSubscriptionRequest
             ]
         }
@@ -8632,6 +8634,7 @@ extension DataZoneClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .createListingChangeSet: return "CREATE_LISTING_CHANGE_SET"
             case .createSubscriptionRequest: return "CREATE_SUBSCRIPTION_REQUEST"
             case let .sdkUnknown(s): return s
             }

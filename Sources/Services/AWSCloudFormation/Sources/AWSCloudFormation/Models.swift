@@ -2581,7 +2581,7 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
-    /// The user-specified preferences for how CloudFormation performs a stack set operation. For more information about maximum concurrent accounts and failure tolerance, see [Stack set operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html#stackset-ops-options).
+    /// The user-specified preferences for how CloudFormation performs a stack set operation. For more information about maximum concurrent accounts and failure tolerance, see [Stack set operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html#stackset-ops-options). StackSetOperationPreferences don't apply to AutoDeployment, even if it's enabled.
     public struct StackSetOperationPreferences: Swift.Sendable {
         /// Specifies how the concurrency level behaves during the operation execution.
         ///
@@ -2599,7 +2599,7 @@ extension CloudFormationClientTypes {
         public var maxConcurrentPercentage: Swift.Int?
         /// The concurrency type of deploying StackSets operations in Regions, could be in parallel or one Region at a time.
         public var regionConcurrencyType: CloudFormationClientTypes.RegionConcurrencyType?
-        /// The order of the Regions where you want to perform the stack operation. RegionOrder isn't followed if AutoDeployment is enabled.
+        /// The order of the Regions where you want to perform the stack operation.
         public var regionOrder: [Swift.String]?
 
         public init(
@@ -2881,18 +2881,18 @@ extension CloudFormationClientTypes {
 }
 
 public struct CreateStackSetInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the IAM role to use to create this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Prerequisites for using StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html) in the CloudFormation User Guide.
+    /// The Amazon Resource Name (ARN) of the IAM role to use to create this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Grant self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html) in the CloudFormation User Guide. Valid only if the permissions model is SELF_MANAGED.
     public var administrationRoleARN: Swift.String?
-    /// Describes whether StackSets automatically deploys to Organizations accounts that are added to the target organization or organizational unit (OU). Specify only if PermissionModel is SERVICE_MANAGED.
+    /// Describes whether StackSets automatically deploys to Organizations accounts that are added to the target organization or organizational unit (OU). For more information, see [Manage automatic deployments for CloudFormation StackSets that use service-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-manage-auto-deployment.html) in the CloudFormation User Guide. Required if the permissions model is SERVICE_MANAGED. (Not used with self-managed permissions.)
     public var autoDeployment: CloudFormationClientTypes.AutoDeployment?
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
     ///
     /// * To create a stack set with service-managed permissions while signed in to the management account, specify SELF.
     ///
     /// * To create a stack set with service-managed permissions while signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated admin in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the CloudFormation User Guide.
     ///
     ///
-    /// Stack sets with service-managed permissions are created in the management account, including stack sets that are created by delegated administrators.
+    /// Stack sets with service-managed permissions are created in the management account, including stack sets that are created by delegated administrators. Valid only if the permissions model is SERVICE_MANAGED.
     public var callAs: CloudFormationClientTypes.CallAs?
     /// In some cases, you must explicitly acknowledge that your stack set template contains certain capabilities in order for CloudFormation to create the stack set and related stack instances.
     ///
@@ -2930,7 +2930,7 @@ public struct CreateStackSetInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// A description of the stack set. You can use the description to identify the stack set's purpose or other important information.
     public var description: Swift.String?
-    /// The name of the IAM execution role to use to create the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets.
+    /// The name of the IAM execution role to use to create the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets. Valid only if the permissions model is SELF_MANAGED.
     public var executionRoleName: Swift.String?
     /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
     public var managedExecution: CloudFormationClientTypes.ManagedExecution?
@@ -4048,6 +4048,21 @@ public struct DescribeResourceScanInput: Swift.Sendable {
 
 extension CloudFormationClientTypes {
 
+    /// A filter that is used to specify which resource types to scan.
+    public struct ScanFilter: Swift.Sendable {
+        /// An array of strings where each string represents an Amazon Web Services resource type you want to scan. Each string defines the resource type using the format AWS::ServiceName::ResourceType, for example, AWS::DynamoDB::Table. For the full list of supported resource types, see the [Resource type support](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html) table in the CloudFormation User Guide. To scan all resource types within a service, you can use a wildcard, represented by an asterisk (*). You can place a asterisk at only the end of the string, for example, AWS::S3::*.
+        public var types: [Swift.String]?
+
+        public init(
+            types: [Swift.String]? = nil
+        ) {
+            self.types = types
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
     public enum ResourceScanStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case complete
         case expired
@@ -4090,13 +4105,15 @@ public struct DescribeResourceScanOutput: Swift.Sendable {
     public var resourceScanId: Swift.String?
     /// The list of resource types for the specified scan. Resource types are only available for scans with a Status set to COMPLETE or FAILED .
     public var resourceTypes: [Swift.String]?
-    /// The number of resources that were read. This is only available for scans with a Status set to COMPLETE, EXPIRED, or FAILED . This field may be 0 if the resource scan failed with a ResourceScanLimitExceededException.
+    /// The number of resources that were read. This is only available for scans with a Status set to COMPLETE, EXPIRED, or FAILED. This field may be 0 if the resource scan failed with a ResourceScanLimitExceededException.
     public var resourcesRead: Swift.Int?
     /// The number of resources that were listed. This is only available for scans with a Status set to COMPLETE, EXPIRED, or FAILED .
     public var resourcesScanned: Swift.Int?
+    /// The scan filters that were used.
+    public var scanFilters: [CloudFormationClientTypes.ScanFilter]?
     /// The time that the resource scan was started.
     public var startTime: Foundation.Date?
-    /// Status of the resource scan. INPROGRESS The resource scan is still in progress. COMPLETE The resource scan is complete. EXPIRED The resource scan has expired. FAILED The resource scan has failed.
+    /// Status of the resource scan. IN_PROGRESS The resource scan is still in progress. COMPLETE The resource scan is complete. EXPIRED The resource scan has expired. FAILED The resource scan has failed.
     public var status: CloudFormationClientTypes.ResourceScanStatus?
     /// The reason for the resource scan status, providing more information if a failure happened.
     public var statusReason: Swift.String?
@@ -4108,6 +4125,7 @@ public struct DescribeResourceScanOutput: Swift.Sendable {
         resourceTypes: [Swift.String]? = nil,
         resourcesRead: Swift.Int? = nil,
         resourcesScanned: Swift.Int? = nil,
+        scanFilters: [CloudFormationClientTypes.ScanFilter]? = nil,
         startTime: Foundation.Date? = nil,
         status: CloudFormationClientTypes.ResourceScanStatus? = nil,
         statusReason: Swift.String? = nil
@@ -4118,6 +4136,7 @@ public struct DescribeResourceScanOutput: Swift.Sendable {
         self.resourceTypes = resourceTypes
         self.resourcesRead = resourcesRead
         self.resourcesScanned = resourcesScanned
+        self.scanFilters = scanFilters
         self.startTime = startTime
         self.status = status
         self.statusReason = statusReason
@@ -4265,9 +4284,6 @@ public struct DescribeStackEventsInput: Swift.Sendable {
     /// * Running stacks: You can specify either the stack's name or its unique stack ID.
     ///
     /// * Deleted stacks: You must specify the unique stack ID.
-    ///
-    ///
-    /// Default: There is no default value.
     public var stackName: Swift.String?
 
     public init(
@@ -4975,7 +4991,7 @@ public struct DescribeStackRefactorOutput: Swift.Sendable {
 
 /// The input for [DescribeStackResource] action.
 public struct DescribeStackResourceInput: Swift.Sendable {
-    /// The logical name of the resource as specified in the template. Default: There is no default value.
+    /// The logical name of the resource as specified in the template.
     /// This member is required.
     public var logicalResourceId: Swift.String?
     /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:
@@ -4983,9 +4999,6 @@ public struct DescribeStackResourceInput: Swift.Sendable {
     /// * Running stacks: You can specify either the stack's name or its unique stack ID.
     ///
     /// * Deleted stacks: You must specify the unique stack ID.
-    ///
-    ///
-    /// Default: There is no default value.
     /// This member is required.
     public var stackName: Swift.String?
 
@@ -5344,9 +5357,9 @@ public struct DescribeStackResourceDriftsOutput: Swift.Sendable {
 
 /// The input for [DescribeStackResources] action.
 public struct DescribeStackResourcesInput: Swift.Sendable {
-    /// The logical name of the resource as specified in the template. Default: There is no default value.
+    /// The logical name of the resource as specified in the template.
     public var logicalResourceId: Swift.String?
-    /// The name or unique identifier that corresponds to a physical instance ID of a resource supported by CloudFormation. For example, for an Amazon Elastic Compute Cloud (EC2) instance, PhysicalResourceId corresponds to the InstanceId. You can pass the EC2 InstanceId to DescribeStackResources to find which stack the instance belongs to and what other resources are part of the stack. Required: Conditional. If you don't specify PhysicalResourceId, you must specify StackName. Default: There is no default value.
+    /// The name or unique identifier that corresponds to a physical instance ID of a resource supported by CloudFormation. For example, for an Amazon Elastic Compute Cloud (EC2) instance, PhysicalResourceId corresponds to the InstanceId. You can pass the EC2 InstanceId to DescribeStackResources to find which stack the instance belongs to and what other resources are part of the stack. Required: Conditional. If you don't specify PhysicalResourceId, you must specify StackName.
     public var physicalResourceId: Swift.String?
     /// The name or the unique stack ID that is associated with the stack, which aren't always interchangeable:
     ///
@@ -5355,7 +5368,7 @@ public struct DescribeStackResourcesInput: Swift.Sendable {
     /// * Deleted stacks: You must specify the unique stack ID.
     ///
     ///
-    /// Default: There is no default value. Required: Conditional. If you don't specify StackName, you must specify PhysicalResourceId.
+    /// Required: Conditional. If you don't specify StackName, you must specify PhysicalResourceId.
     public var stackName: Swift.String?
 
     public init(
@@ -5449,9 +5462,6 @@ public struct DescribeStacksInput: Swift.Sendable {
     /// * Running stacks: You can specify either the stack's name or its unique stack ID.
     ///
     /// * Deleted stacks: You must specify the unique stack ID.
-    ///
-    ///
-    /// Default: There is no default value.
     public var stackName: Swift.String?
 
     public init(
@@ -6959,9 +6969,6 @@ public struct GetTemplateInput: Swift.Sendable {
     /// * Running stacks: You can specify either the stack's name or its unique stack ID.
     ///
     /// * Deleted stacks: You must specify the unique stack ID.
-    ///
-    ///
-    /// Default: There is no default value.
     public var stackName: Swift.String?
     /// For templates that include transforms, the stage of the template that CloudFormation returns. To get the user-submitted template, specify Original. To get the template after CloudFormation has processed all transforms, specify Processed. If the template doesn't include transforms, Original and Processed return the same template. By default, CloudFormation specifies Processed.
     public var templateStage: CloudFormationClientTypes.TemplateStage?
@@ -7755,18 +7762,51 @@ public struct ListResourceScanResourcesOutput: Swift.Sendable {
     }
 }
 
+extension CloudFormationClientTypes {
+
+    public enum ScanType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case partial
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanType] {
+            return [
+                .full,
+                .partial
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .partial: return "PARTIAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListResourceScansInput: Swift.Sendable {
     /// If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. The default value is 10. The maximum value is 100.
     public var maxResults: Swift.Int?
     /// A string that identifies the next page of resource scan results.
     public var nextToken: Swift.String?
+    /// The scan type that you want to get summary information about. The default is FULL.
+    public var scanTypeFilter: CloudFormationClientTypes.ScanType?
 
     public init(
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        scanTypeFilter: CloudFormationClientTypes.ScanType? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.scanTypeFilter = scanTypeFilter
     }
 }
 
@@ -7780,9 +7820,11 @@ extension CloudFormationClientTypes {
         public var percentageCompleted: Swift.Double?
         /// The Amazon Resource Name (ARN) of the resource scan.
         public var resourceScanId: Swift.String?
+        /// The scan type that has been completed.
+        public var scanType: CloudFormationClientTypes.ScanType?
         /// The time that the resource scan was started.
         public var startTime: Foundation.Date?
-        /// Status of the resource scan. INPROGRESS The resource scan is still in progress. COMPLETE The resource scan is complete. EXPIRED The resource scan has expired. FAILED The resource scan has failed.
+        /// Status of the resource scan. IN_PROGRESS The resource scan is still in progress. COMPLETE The resource scan is complete. EXPIRED The resource scan has expired. FAILED The resource scan has failed.
         public var status: CloudFormationClientTypes.ResourceScanStatus?
         /// The reason for the resource scan status, providing more information if a failure happened.
         public var statusReason: Swift.String?
@@ -7791,6 +7833,7 @@ extension CloudFormationClientTypes {
             endTime: Foundation.Date? = nil,
             percentageCompleted: Swift.Double? = nil,
             resourceScanId: Swift.String? = nil,
+            scanType: CloudFormationClientTypes.ScanType? = nil,
             startTime: Foundation.Date? = nil,
             status: CloudFormationClientTypes.ResourceScanStatus? = nil,
             statusReason: Swift.String? = nil
@@ -7798,6 +7841,7 @@ extension CloudFormationClientTypes {
             self.endTime = endTime
             self.percentageCompleted = percentageCompleted
             self.resourceScanId = resourceScanId
+            self.scanType = scanType
             self.startTime = startTime
             self.status = status
             self.statusReason = statusReason
@@ -8401,9 +8445,6 @@ public struct ListStackResourcesInput: Swift.Sendable {
     /// * Running stacks: You can specify either the stack's name or its unique stack ID.
     ///
     /// * Deleted stacks: You must specify the unique stack ID.
-    ///
-    ///
-    /// Default: There is no default value.
     /// This member is required.
     public var stackName: Swift.String?
 
@@ -9937,11 +9978,15 @@ public struct ResourceScanLimitExceededException: ClientRuntime.ModeledError, AW
 public struct StartResourceScanInput: Swift.Sendable {
     /// A unique identifier for this StartResourceScan request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to start a new resource scan.
     public var clientRequestToken: Swift.String?
+    /// The scan filters to use.
+    public var scanFilters: [CloudFormationClientTypes.ScanFilter]?
 
     public init(
-        clientRequestToken: Swift.String? = nil
+        clientRequestToken: Swift.String? = nil,
+        scanFilters: [CloudFormationClientTypes.ScanFilter]? = nil
     ) {
         self.clientRequestToken = clientRequestToken
+        self.scanFilters = scanFilters
     }
 }
 
@@ -10272,9 +10317,9 @@ public struct UpdateStackInstancesOutput: Swift.Sendable {
 public struct UpdateStackSetInput: Swift.Sendable {
     /// [Self-managed permissions] The accounts in which to update associated stack instances. If you specify accounts, you must also specify the Amazon Web Services Regions in which to update stack set instances. To update all the stack instances associated with this stack set, don't specify the Accounts or Regions properties. If the stack set update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Amazon Web Services Regions. If the stack set update does not include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Amazon Web Services Regions, while leaving all other stack instances with their existing stack instance status.
     public var accounts: [Swift.String]?
-    /// The Amazon Resource Name (ARN) of the IAM role to use to update this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Prerequisites for using CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html) in the CloudFormation User Guide. If you specified a customized administrator role when you created the stack set, you must specify a customized administrator role, even if it is the same customized administrator role used with this stack set previously.
+    /// [Self-managed permissions] The Amazon Resource Name (ARN) of the IAM role to use to update this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Grant self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html) in the CloudFormation User Guide. If you specified a customized administrator role when you created the stack set, you must specify a customized administrator role, even if it is the same customized administrator role used with this stack set previously.
     public var administrationRoleARN: Swift.String?
-    /// [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU). If you specify AutoDeployment, don't specify DeploymentTargets or Regions.
+    /// [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU). For more information, see [Manage automatic deployments for CloudFormation StackSets that use service-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-manage-auto-deployment.html) in the CloudFormation User Guide. If you specify AutoDeployment, don't specify DeploymentTargets or Regions.
     public var autoDeployment: CloudFormationClientTypes.AutoDeployment?
     /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
     ///
@@ -10318,7 +10363,7 @@ public struct UpdateStackSetInput: Swift.Sendable {
     public var deploymentTargets: CloudFormationClientTypes.DeploymentTargets?
     /// A brief description of updates that you are making.
     public var description: Swift.String?
-    /// The name of the IAM execution role to use to update the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets. If you specify a customized execution role, CloudFormation uses that role to update the stack. If you do not specify a customized execution role, CloudFormation performs the update using the role previously associated with the stack set, so long as you have permissions to perform operations on the stack set.
+    /// [Self-managed permissions] The name of the IAM execution role to use to update the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets. If you specify a customized execution role, CloudFormation uses that role to update the stack. If you do not specify a customized execution role, CloudFormation performs the update using the role previously associated with the stack set, so long as you have permissions to perform operations on the stack set.
     public var executionRoleName: Swift.String?
     /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
     public var managedExecution: CloudFormationClientTypes.ManagedExecution?
@@ -11849,6 +11894,7 @@ extension ListResourceScansInput {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["ScanTypeFilter"].write(value.scanTypeFilter)
         try writer["Action"].write("ListResourceScans")
         try writer["Version"].write("2010-05-15")
     }
@@ -12159,6 +12205,7 @@ extension StartResourceScanInput {
     static func write(value: StartResourceScanInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
+        try writer["ScanFilters"].writeList(value.scanFilters, memberWritingClosure: CloudFormationClientTypes.ScanFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Action"].write("StartResourceScan")
         try writer["Version"].write("2010-05-15")
     }
@@ -12605,6 +12652,7 @@ extension DescribeResourceScanOutput {
         value.resourceTypes = try reader["ResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.resourcesRead = try reader["ResourcesRead"].readIfPresent()
         value.resourcesScanned = try reader["ResourcesScanned"].readIfPresent()
+        value.scanFilters = try reader["ScanFilters"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.ScanFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.status = try reader["Status"].readIfPresent()
         value.statusReason = try reader["StatusReason"].readIfPresent()
@@ -15365,6 +15413,21 @@ extension CloudFormationClientTypes.TemplateConfiguration {
     }
 }
 
+extension CloudFormationClientTypes.ScanFilter {
+
+    static func write(value: CloudFormationClientTypes.ScanFilter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ScanFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.ScanFilter()
+        value.types = try reader["Types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension CloudFormationClientTypes.StackEvent {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackEvent {
@@ -15898,6 +15961,7 @@ extension CloudFormationClientTypes.ResourceScanSummary {
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.percentageCompleted = try reader["PercentageCompleted"].readIfPresent()
+        value.scanType = try reader["ScanType"].readIfPresent()
         return value
     }
 }

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudFormationClient: ClientRuntime.Client {
     public static let clientName = "CloudFormationClient"
-    public static let version = "1.2.44"
+    public static let version = "1.2.47"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFormationClient.CloudFormationClientConfiguration
     let serviceName = "CloudFormation"
@@ -6645,7 +6645,7 @@ extension CloudFormationClient {
 
     /// Performs the `UpdateStackSet` operation on the `CloudFormation` service.
     ///
-    /// Updates the stack set, and associated stack instances in the specified accounts and Amazon Web Services Regions. Even if the stack set operation created by updating the stack set fails (completely or partially, below or above a specified failure tolerance), the stack set is updated with your changes. Subsequent [CreateStackInstances] calls on the specified stack set use the updated stack set.
+    /// Updates the stack set and associated stack instances in the specified accounts and Amazon Web Services Regions. Even if the stack set operation created by updating the stack set fails (completely or partially, below or above a specified failure tolerance), the stack set is updated with your changes. Subsequent [CreateStackInstances] calls on the specified stack set use the updated stack set.
     ///
     /// - Parameter UpdateStackSetInput : [no documentation found]
     ///

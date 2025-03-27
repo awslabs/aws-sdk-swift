@@ -423,6 +423,7 @@ extension PollyClientTypes {
         case jacek
         case jan
         case jasmine
+        case jihye
         case jitka
         case joanna
         case joey
@@ -526,6 +527,7 @@ extension PollyClientTypes {
                 .jacek,
                 .jan,
                 .jasmine,
+                .jihye,
                 .jitka,
                 .joanna,
                 .joey,
@@ -635,6 +637,7 @@ extension PollyClientTypes {
             case .jacek: return "Jacek"
             case .jan: return "Jan"
             case .jasmine: return "Jasmine"
+            case .jihye: return "Jihye"
             case .jitka: return "Jitka"
             case .joanna: return "Joanna"
             case .joey: return "Joey"

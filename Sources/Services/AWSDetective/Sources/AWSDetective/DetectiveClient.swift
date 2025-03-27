@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DetectiveClient: ClientRuntime.Client {
     public static let clientName = "DetectiveClient"
-    public static let version = "1.2.44"
+    public static let version = "1.2.47"
     let client: ClientRuntime.SdkHttpClient
     let config: DetectiveClient.DetectiveClientConfiguration
     let serviceName = "Detective"

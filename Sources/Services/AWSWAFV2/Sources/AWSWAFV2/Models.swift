@@ -218,6 +218,8 @@ extension WAFV2ClientTypes {
         ///
         /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
         ///
+        /// * For Amplify, use the CloudFront limit.
+        ///
         ///
         /// The options for oversize handling are the following:
         ///
@@ -582,6 +584,8 @@ extension WAFV2ClientTypes {
         ///
         /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
         ///
+        /// * For Amplify, use the CloudFront limit.
+        ///
         ///
         /// The options for oversize handling are the following:
         ///
@@ -714,6 +718,8 @@ extension WAFV2ClientTypes {
         ///
         /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
         ///
+        /// * For Amplify, use the CloudFront limit.
+        ///
         ///
         /// For information about how to handle oversized request bodies, see the Body object configuration.
         public var body: WAFV2ClientTypes.Body?
@@ -732,6 +738,8 @@ extension WAFV2ClientTypes {
         /// * For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
         ///
         /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
+        ///
+        /// * For Amplify, use the CloudFront limit.
         ///
         ///
         /// For information about how to handle oversized request bodies, see the JsonBody object configuration.
@@ -3554,6 +3562,8 @@ public struct AssociateWebACLInput: Swift.Sendable {
     /// * For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
     ///
     /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
+    ///
+    /// * For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
@@ -3893,7 +3903,7 @@ public struct CheckCapacityOutput: Swift.Sendable {
 }
 
 public struct CreateAPIKeyInput: Swift.Sendable {
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4097,7 +4107,7 @@ public struct CreateIPSetInput: Swift.Sendable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4190,7 +4200,7 @@ public struct CreateRegexPatternSetInput: Swift.Sendable {
     /// Array of regular expression strings.
     /// This member is required.
     public var regularExpressionList: [WAFV2ClientTypes.Regex]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4576,7 +4586,7 @@ public struct DeleteAPIKeyInput: Swift.Sendable {
     /// The encrypted API key that you want to delete.
     /// This member is required.
     public var apiKey: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4659,7 +4669,7 @@ public struct DeleteIPSetInput: Swift.Sendable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4792,7 +4802,7 @@ public struct DeleteRegexPatternSetInput: Swift.Sendable {
     /// The name of the set. You cannot change the name after you create the set.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4828,7 +4838,7 @@ public struct DeleteRuleGroupInput: Swift.Sendable {
     /// The name of the rule group. You cannot change the name of a rule group after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4864,7 +4874,7 @@ public struct DeleteWebACLInput: Swift.Sendable {
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4891,7 +4901,7 @@ public struct DeleteWebACLOutput: Swift.Sendable {
 }
 
 public struct DescribeAllManagedProductsInput: Swift.Sendable {
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4965,7 +4975,7 @@ public struct DescribeAllManagedProductsOutput: Swift.Sendable {
 }
 
 public struct DescribeManagedProductsByVendorInput: Swift.Sendable {
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5000,7 +5010,7 @@ public struct DescribeManagedRuleGroupInput: Swift.Sendable {
     /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5117,6 +5127,8 @@ public struct DisassociateWebACLInput: Swift.Sendable {
     /// * For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
     ///
     /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
+    ///
+    /// * For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -5193,7 +5205,7 @@ public struct GetDecryptedAPIKeyInput: Swift.Sendable {
     /// The encrypted API key.
     /// This member is required.
     public var apiKey: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5232,7 +5244,7 @@ public struct GetIPSetInput: Swift.Sendable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5551,7 +5563,7 @@ public struct GetManagedRuleSetInput: Swift.Sendable {
     /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5773,7 +5785,7 @@ public struct GetRateBasedStatementManagedKeysInput: Swift.Sendable {
     /// The name of the rate-based rule to get the keys for. If you have the rule defined inside a rule group that you're using in your web ACL, also provide the name of the rule group reference statement in the request parameter RuleGroupRuleName.
     /// This member is required.
     public var ruleName: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5843,7 +5855,7 @@ public struct GetRegexPatternSetInput: Swift.Sendable {
     /// The name of the set. You cannot change the name after you create the set.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5915,7 +5927,7 @@ public struct GetRuleGroupInput: Swift.Sendable {
     public var id: Swift.String?
     /// The name of the rule group. You cannot change the name of a rule group after you create it.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5963,7 +5975,7 @@ public struct GetSampledRequestsInput: Swift.Sendable {
     /// The metric name assigned to the Rule or RuleGroup dimension for which you want a sample of requests.
     /// This member is required.
     public var ruleMetricName: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6208,25 +6220,26 @@ public struct GetSampledRequestsOutput: Swift.Sendable {
 }
 
 public struct GetWebACLInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the web ACL that you want to retrieve.
+    public var arn: Swift.String?
     /// The unique identifier for the web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
-    /// This member is required.
     public var id: Swift.String?
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
-    /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
     /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
-    /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
     public init(
+        arn: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
     ) {
+        self.arn = arn
         self.id = id
         self.name = name
         self.scope = scope
@@ -6247,6 +6260,8 @@ public struct GetWebACLForResourceInput: Swift.Sendable {
     /// * For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
     ///
     /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
+    ///
+    /// * For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -6262,7 +6277,7 @@ public struct ListAPIKeysInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6305,7 +6320,7 @@ public struct ListAvailableManagedRuleGroupsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6374,7 +6389,7 @@ public struct ListAvailableManagedRuleGroupVersionsInput: Swift.Sendable {
     public var name: Swift.String?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6443,7 +6458,7 @@ public struct ListIPSetsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6484,7 +6499,7 @@ public struct ListLoggingConfigurationsInput: Swift.Sendable {
     public var logScope: WAFV2ClientTypes.LogScope?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6525,7 +6540,7 @@ public struct ListManagedRuleSetsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6657,7 +6672,7 @@ public struct ListRegexPatternSetsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6694,6 +6709,7 @@ public struct ListRegexPatternSetsOutput: Swift.Sendable {
 extension WAFV2ClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amplify
         case apiGateway
         case applicationLoadBalancer
         case appsync
@@ -6704,6 +6720,7 @@ extension WAFV2ClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
+                .amplify,
                 .apiGateway,
                 .applicationLoadBalancer,
                 .appsync,
@@ -6720,6 +6737,7 @@ extension WAFV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .amplify: return "AMPLIFY"
             case .apiGateway: return "API_GATEWAY"
             case .applicationLoadBalancer: return "APPLICATION_LOAD_BALANCER"
             case .appsync: return "APPSYNC"
@@ -6764,7 +6782,7 @@ public struct ListRuleGroupsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6857,7 +6875,7 @@ public struct ListWebACLsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6991,7 +7009,7 @@ public struct PutManagedRuleSetVersionsInput: Swift.Sendable {
     public var name: Swift.String?
     /// The version of the named managed rule group that you'd like your customers to choose, from among your version offerings.
     public var recommendedVersion: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7178,7 +7196,7 @@ public struct UpdateIPSetInput: Swift.Sendable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7227,7 +7245,7 @@ public struct UpdateManagedRuleSetVersionExpiryDateInput: Swift.Sendable {
     /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7289,7 +7307,7 @@ public struct UpdateRegexPatternSetInput: Swift.Sendable {
     ///
     /// This member is required.
     public var regularExpressionList: [WAFV2ClientTypes.Regex]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7844,7 +7862,7 @@ public struct CheckCapacityInput: Swift.Sendable {
     /// An array of [Rule] that you're configuring to use in a rule group or web ACL.
     /// This member is required.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7874,7 +7892,7 @@ public struct CreateRuleGroupInput: Swift.Sendable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7929,7 +7947,7 @@ public struct CreateWebACLInput: Swift.Sendable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7991,7 +8009,7 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -8050,7 +8068,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -8113,7 +8131,7 @@ public struct GetRuleGroupOutput: Swift.Sendable {
 
 extension WAFV2ClientTypes {
 
-    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, and Amazon Web Services Verified Access instance.
+    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.
     public struct WebACL: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         /// This member is required.
@@ -8932,6 +8950,7 @@ extension GetWebACLInput {
 
     static func write(value: GetWebACLInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ARN"].write(value.arn)
         try writer["Id"].write(value.id)
         try writer["Name"].write(value.name)
         try writer["Scope"].write(value.scope)

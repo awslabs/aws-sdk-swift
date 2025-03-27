@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SFNClient: ClientRuntime.Client {
     public static let clientName = "SFNClient"
-    public static let version = "1.2.44"
+    public static let version = "1.2.47"
     let client: ClientRuntime.SdkHttpClient
     let config: SFNClient.SFNClientConfiguration
     let serviceName = "SFN"

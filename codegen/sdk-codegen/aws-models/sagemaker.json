@@ -9846,6 +9846,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image\n      created on the instance.</p>\n         <note>\n            <p>The value of <code>InstanceType</code> passed as part of the <code>ResourceSpec</code>\n        in the <code>CreateApp</code> call overrides the value passed as part of the\n          <code>ResourceSpec</code> configured for the user profile or the domain. If\n          <code>InstanceType</code> is not specified in any of those three <code>ResourceSpec</code>\n        values for a <code>KernelGateway</code> app, the <code>CreateApp</code> call fails with a\n        request validation error.</p>\n         </note>"
                     }
+                },
+                "RecoveryMode": {
+                    "target": "com.amazonaws.sagemaker#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      Indicates whether the application is launched in recovery mode.\n    </p>"
+                    }
                 }
             },
             "traits": {
@@ -13996,6 +14002,12 @@
                         "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The ARN of the IAM role that the partner application uses.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "KmsKeyId": {
+                    "target": "com.amazonaws.sagemaker#KmsKeyId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>SageMaker Partner AI Apps uses Amazon Web Services KMS to encrypt data at rest using an Amazon Web Services managed key by default. For more control, specify a\n         customer managed key.</p>"
                     }
                 },
                 "MaintenanceConfig": {
@@ -19262,6 +19274,12 @@
                     "target": "com.amazonaws.sagemaker#AppStatus",
                     "traits": {
                         "smithy.api#documentation": "<p>The status.</p>"
+                    }
+                },
+                "RecoveryMode": {
+                    "target": "com.amazonaws.sagemaker#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      Indicates whether the application is launched in recovery mode.\n    </p>"
                     }
                 },
                 "LastHealthCheckTimestamp": {
@@ -25523,10 +25541,22 @@
                         "smithy.api#documentation": "<p>The time that the SageMaker Partner AI App was created.</p>"
                     }
                 },
+                "LastModifiedTime": {
+                    "target": "com.amazonaws.sagemaker#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time that the SageMaker Partner AI App was last modified.</p>"
+                    }
+                },
                 "ExecutionRoleArn": {
                     "target": "com.amazonaws.sagemaker#RoleArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The ARN of the IAM role associated with the SageMaker Partner AI App.</p>"
+                    }
+                },
+                "KmsKeyId": {
+                    "target": "com.amazonaws.sagemaker#KmsKeyId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Web Services KMS customer managed key used to encrypt the data at rest associated with SageMaker Partner AI Apps.</p>"
                     }
                 },
                 "BaseUrl": {

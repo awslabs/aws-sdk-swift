@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DirectConnectClient: ClientRuntime.Client {
     public static let clientName = "DirectConnectClient"
-    public static let version = "1.2.44"
+    public static let version = "1.2.47"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectConnectClient.DirectConnectClientConfiguration
     let serviceName = "Direct Connect"
@@ -3283,6 +3283,10 @@ extension DirectConnectClient {
     /// * A Direct Connect gateway and a virtual private gateway The response contains the association between the Direct Connect gateway and virtual private gateway.
     ///
     /// * A Direct Connect gateway and a transit gateway The response contains the association between the Direct Connect gateway and transit gateway.
+    ///
+    /// * A Direct Connect gateway and a virtual private gateway The response contains the association between the Direct Connect gateway and virtual private gateway.
+    ///
+    /// * A Direct Connect gateway association to a Cloud WAN core network The response contains the Cloud WAN core network ID that the Direct Connect gateway is associated to.
     ///
     /// - Parameter DescribeDirectConnectGatewayAssociationsInput : [no documentation found]
     ///

@@ -7875,6 +7875,8 @@ extension MediaConvertClientTypes {
     public struct AutomatedAbrSettings: Swift.Sendable {
         /// Specify the maximum average bitrate for MediaConvert to use in your automated ABR stack. If you don't specify a value, MediaConvert uses 8,000,000 (8 mb/s) by default. The average bitrate of your highest-quality rendition will be equal to or below this value, depending on the quality, complexity, and resolution of your content. Note that the instantaneous maximum bitrate may vary above the value that you specify.
         public var maxAbrBitrate: Swift.Int?
+        /// Optional. Specify the QVBR quality level to use for all renditions in your automated ABR stack. To have MediaConvert automatically determine the quality level: Leave blank. To manually specify a quality level: Enter an integer from 1 to 10. MediaConvert will use a quality level up to the value that you specify, depending on your source. For more information about QVBR quality levels, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/qvbr-guidelines.html
+        public var maxQualityLevel: Swift.Double?
         /// Optional. The maximum number of renditions that MediaConvert will create in your automated ABR stack. The number of renditions is determined automatically, based on analysis of each job, but will never exceed this limit. When you set this to Auto in the console, which is equivalent to excluding it from your JSON job specification, MediaConvert defaults to a limit of 15.
         public var maxRenditions: Swift.Int?
         /// Specify the minimum average bitrate for MediaConvert to use in your automated ABR stack. If you don't specify a value, MediaConvert uses 600,000 (600 kb/s) by default. The average bitrate of your lowest-quality rendition will be near this value. Note that the instantaneous minimum bitrate may vary below the value that you specify.
@@ -7884,11 +7886,13 @@ extension MediaConvertClientTypes {
 
         public init(
             maxAbrBitrate: Swift.Int? = nil,
+            maxQualityLevel: Swift.Double? = nil,
             maxRenditions: Swift.Int? = nil,
             minAbrBitrate: Swift.Int? = nil,
             rules: [MediaConvertClientTypes.AutomatedAbrRule]? = nil
         ) {
             self.maxAbrBitrate = maxAbrBitrate
+            self.maxQualityLevel = maxQualityLevel
             self.maxRenditions = maxRenditions
             self.minAbrBitrate = minAbrBitrate
             self.rules = rules
@@ -21642,7 +21646,7 @@ extension MediaConvertClientTypes {
 
     /// The input file that needs to be analyzed.
     public struct ProbeInputFile: Swift.Sendable {
-        /// The URI to your input file(s) that is stored in Amazon S3 or on an HTTP(S) server.
+        /// Specify the S3, HTTP, or HTTPS URL for your media file.
         public var fileUrl: Swift.String?
 
         public init(
@@ -21690,11 +21694,11 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// the calculated frame rate of the asset.
+    /// The frame rate of the video or audio track.
     public struct FrameRate: Swift.Sendable {
-        /// the denominator of the frame rate of the asset.
+        /// The denominator, or bottom number, in the fractional frame rate. For example, if your frame rate is 24000 / 1001 (23.976 frames per second), then the denominator would be 1001.
         public var denominator: Swift.Int?
-        /// the numerator of the frame rate of the asset.
+        /// The numerator, or top number, in the fractional frame rate. For example, if your frame rate is 24000 / 1001 (23.976 frames per second), then the numerator would be 24000.
         public var numerator: Swift.Int?
 
         public init(
@@ -21709,17 +21713,17 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Properties specific to audio tracks.
+    /// Details about the media file's audio track.
     public struct AudioProperties: Swift.Sendable {
         /// The bit depth of the audio track.
         public var bitDepth: Swift.Int?
-        /// The bit rate of the audio track in bits per second.
+        /// The bit rate of the audio track, in bits per second.
         public var bitRate: Swift.Int?
-        /// The number of audio channels.
+        /// The number of audio channels in the audio track.
         public var channels: Swift.Int?
-        /// the calculated frame rate of the asset.
+        /// The frame rate of the video or audio track.
         public var frameRate: MediaConvertClientTypes.FrameRate?
-        /// the language code of the track
+        /// The language code of the audio track, in three character ISO 639-3 format.
         public var languageCode: Swift.String?
         /// The sample rate of the audio track.
         public var sampleRate: Swift.Int?
@@ -21833,9 +21837,9 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Properties specific to data tracks.
+    /// Details about the media file's data track.
     public struct DataProperties: Swift.Sendable {
-        /// the language code of the track
+        /// The language code of the data track, in three character ISO 639-3 format.
         public var languageCode: Swift.String?
 
         public init(
@@ -21880,7 +21884,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// the color primaries.
+    /// The color space color primaries of the video track.
     public enum ColorPrimaries: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ebu3213E
         case genericFilm
@@ -21952,7 +21956,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// the matrix coefficients.
+    /// The color space matrix coefficients of the video track.
     public enum MatrixCoefficients: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cdCl
         case cdNcl
@@ -22030,7 +22034,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// the transfer characteristics.
+    /// The color space transfer characteristics of the video track.
     public enum TransferCharacteristics: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aribB67
         case iec6196621
@@ -22111,23 +22115,23 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Properties specific to video tracks.
+    /// Details about the media file's video track.
     public struct VideoProperties: Swift.Sendable {
         /// The bit depth of the video track.
         public var bitDepth: Swift.Int?
-        /// The bit rate of the video track in bits per second.
+        /// The bit rate of the video track, in bits per second.
         public var bitRate: Swift.Int?
-        /// the color primaries.
+        /// The color space color primaries of the video track.
         public var colorPrimaries: MediaConvertClientTypes.ColorPrimaries?
-        /// the calculated frame rate of the asset.
+        /// The frame rate of the video or audio track.
         public var frameRate: MediaConvertClientTypes.FrameRate?
-        /// The height of the video track in pixels.
+        /// The height of the video track, in pixels.
         public var height: Swift.Int?
-        /// the matrix coefficients.
+        /// The color space matrix coefficients of the video track.
         public var matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients?
-        /// the transfer characteristics.
+        /// The color space transfer characteristics of the video track.
         public var transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics?
-        /// The width of the video track in pixels.
+        /// The width of the video track, in pixels.
         public var width: Swift.Int?
 
         public init(
@@ -22154,21 +22158,21 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// The track information such as codec, duration, etc.
+    /// Details about each track (video, audio, or data) in the media file.
     public struct Track: Swift.Sendable {
-        /// Properties specific to audio tracks.
+        /// Details about the media file's audio track.
         public var audioProperties: MediaConvertClientTypes.AudioProperties?
-        /// The codec used for the track.
+        /// The codec of the audio or video track, or caption format of the data track.
         public var codec: MediaConvertClientTypes.Codec?
-        /// Properties specific to data tracks.
+        /// Details about the media file's data track.
         public var dataProperties: MediaConvertClientTypes.DataProperties?
-        /// The duration of the track in seconds.
+        /// The duration of the track, in seconds.
         public var duration: Swift.Double?
-        /// The index of the track.
+        /// The unique index number of the track, starting at 1.
         public var index: Swift.Int?
-        /// The type of the track (video, audio, or data).
+        /// The type of track: video, audio, or data.
         public var trackType: MediaConvertClientTypes.TrackType?
-        /// Properties specific to video tracks.
+        /// Details about the media file's video track.
         public var videoProperties: MediaConvertClientTypes.VideoProperties?
 
         public init(
@@ -22193,13 +22197,13 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Information about the container format of the media file.
+    /// The container of your media file. This information helps you understand the overall structure and details of your media, including format, duration, and track layout.
     public struct Container: Swift.Sendable {
-        /// The duration of the media file in seconds.
+        /// The total duration of your media file, in seconds.
         public var duration: Swift.Double?
-        /// The format of the container
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), or WebM. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public var format: MediaConvertClientTypes.Format?
-        /// List of Track objects.
+        /// Details about each track (video, audio, or data) in the media file.
         public var tracks: [MediaConvertClientTypes.Track]?
 
         public init(
@@ -22216,15 +22220,15 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Metadata about the file.
+    /// Metadata and other file information.
     public struct Metadata: Swift.Sendable {
-        /// The ETag of the file.
+        /// The entity tag (ETag) of the file.
         public var eTag: Swift.String?
-        /// The size of the file in bytes.
+        /// The size of the media file, in bytes.
         public var fileSize: Swift.Int?
-        /// The last modification time of the file.
+        /// The last modification timestamp of the media file, in Unix time.
         public var lastModified: Foundation.Date?
-        /// The MIME type of the file.
+        /// The MIME type of the media file.
         public var mimeType: Swift.String?
 
         public init(
@@ -22243,13 +22247,13 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Track mapping information.
+    /// An array containing track mapping information.
     public struct TrackMapping: Swift.Sendable {
-        /// The indexes of the audio tracks.
+        /// The index numbers of the audio tracks in your media file.
         public var audioTrackIndexes: [Swift.Int]?
-        /// The indexes of the data tracks.
+        /// The index numbers of the data tracks in your media file.
         public var dataTrackIndexes: [Swift.Int]?
-        /// The indexes of the video tracks.
+        /// The index numbers of the video tracks in your media file.
         public var videoTrackIndexes: [Swift.Int]?
 
         public init(
@@ -22266,13 +22270,13 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// The metadata and analysis results for a media file.
+    /// Probe results for your media file.
     public struct ProbeResult: Swift.Sendable {
-        /// Information about the container format of the media file.
+        /// The container of your media file. This information helps you understand the overall structure and details of your media, including format, duration, and track layout.
         public var container: MediaConvertClientTypes.Container?
-        /// Metadata about the file.
+        /// Metadata and other file information.
         public var metadata: MediaConvertClientTypes.Metadata?
-        /// List of Track mapping objects.
+        /// An array containing track mapping information.
         public var trackMappings: [MediaConvertClientTypes.TrackMapping]?
 
         public init(
@@ -23659,7 +23663,7 @@ public struct ListVersionsOutput: Swift.Sendable {
 }
 
 public struct ProbeInput: Swift.Sendable {
-    /// The list of input media files to be probed.
+    /// Specify a media file to probe.
     public var inputFiles: [MediaConvertClientTypes.ProbeInputFile]?
 
     public init(
@@ -23670,7 +23674,7 @@ public struct ProbeInput: Swift.Sendable {
 }
 
 public struct ProbeOutput: Swift.Sendable {
-    /// List of probe results for the input media file(s).
+    /// Probe results for your media file.
     public var probeResults: [MediaConvertClientTypes.ProbeResult]?
 
     public init(
@@ -28957,6 +28961,7 @@ extension MediaConvertClientTypes.AutomatedAbrSettings {
     static func write(value: MediaConvertClientTypes.AutomatedAbrSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["maxAbrBitrate"].write(value.maxAbrBitrate)
+        try writer["maxQualityLevel"].write(value.maxQualityLevel)
         try writer["maxRenditions"].write(value.maxRenditions)
         try writer["minAbrBitrate"].write(value.minAbrBitrate)
         try writer["rules"].writeList(value.rules, memberWritingClosure: MediaConvertClientTypes.AutomatedAbrRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -28966,6 +28971,7 @@ extension MediaConvertClientTypes.AutomatedAbrSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.AutomatedAbrSettings()
         value.maxAbrBitrate = try reader["maxAbrBitrate"].readIfPresent()
+        value.maxQualityLevel = try reader["maxQualityLevel"].readIfPresent()
         value.maxRenditions = try reader["maxRenditions"].readIfPresent()
         value.minAbrBitrate = try reader["minAbrBitrate"].readIfPresent()
         value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.AutomatedAbrRule.read(from:), memberNodeInfo: "member", isFlattened: false)

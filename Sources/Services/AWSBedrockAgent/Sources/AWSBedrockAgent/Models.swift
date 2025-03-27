@@ -849,7 +849,7 @@ public struct UpdateAgentActionGroupInput: Swift.Sendable {
     ///
     /// During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
     public var parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature?
-    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
     public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
 
     public init(
@@ -3801,7 +3801,7 @@ extension BedrockAgentClientTypes {
         /// The enrichment stategy used to provide additional context. For example, Neptune GraphRAG uses Amazon Bedrock foundation models to perform chunk entity extraction.
         /// This member is required.
         public var enrichmentStrategyConfiguration: BedrockAgentClientTypes.EnrichmentStrategyConfiguration?
-        /// The Amazon Resource Name (ARN) of the foundation model used for context enrichment.
+        /// The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.
         /// This member is required.
         public var modelArn: Swift.String?
 
@@ -9556,6 +9556,68 @@ extension BedrockAgentClientTypes.NeptuneAnalyticsConfiguration: Swift.CustomDeb
 extension BedrockAgentClientTypes {
 
     /// Contains the names of the fields to which to map information about the vector store.
+    public struct OpenSearchManagedClusterFieldMapping: Swift.Sendable {
+        /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
+        /// This member is required.
+        public var metadataField: Swift.String?
+        /// The name of the field in which Amazon Bedrock stores the raw text from your data. The text is split according to the chunking strategy you choose.
+        /// This member is required.
+        public var textField: Swift.String?
+        /// The name of the field in which Amazon Bedrock stores the vector embeddings for your data sources.
+        /// This member is required.
+        public var vectorField: Swift.String?
+
+        public init(
+            metadataField: Swift.String? = nil,
+            textField: Swift.String? = nil,
+            vectorField: Swift.String? = nil
+        ) {
+            self.metadataField = metadataField
+            self.textField = textField
+            self.vectorField = vectorField
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains details about the Managed Cluster configuration of the knowledge base in Amazon OpenSearch Service. For more information, see [Create a vector index in OpenSearch Managed Cluster](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-osm.html).
+    public struct OpenSearchManagedClusterConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the OpenSearch domain.
+        /// This member is required.
+        public var domainArn: Swift.String?
+        /// The endpoint URL the OpenSearch domain.
+        /// This member is required.
+        public var domainEndpoint: Swift.String?
+        /// Contains the names of the fields to which to map information about the vector store.
+        /// This member is required.
+        public var fieldMapping: BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping?
+        /// The name of the vector store.
+        /// This member is required.
+        public var vectorIndexName: Swift.String?
+
+        public init(
+            domainArn: Swift.String? = nil,
+            domainEndpoint: Swift.String? = nil,
+            fieldMapping: BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping? = nil,
+            vectorIndexName: Swift.String? = nil
+        ) {
+            self.domainArn = domainArn
+            self.domainEndpoint = domainEndpoint
+            self.fieldMapping = fieldMapping
+            self.vectorIndexName = vectorIndexName
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenSearchManagedClusterConfiguration(domainArn: \(Swift.String(describing: domainArn)), domainEndpoint: \(Swift.String(describing: domainEndpoint)), fieldMapping: \(Swift.String(describing: fieldMapping)), vectorIndexName: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains the names of the fields to which to map information about the vector store.
     public struct OpenSearchServerlessFieldMapping: Swift.Sendable {
         /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
         /// This member is required.
@@ -9785,6 +9847,7 @@ extension BedrockAgentClientTypes {
     public enum KnowledgeBaseStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mongoDbAtlas
         case neptuneAnalytics
+        case opensearchManagedCluster
         case opensearchServerless
         case pinecone
         case rds
@@ -9795,6 +9858,7 @@ extension BedrockAgentClientTypes {
             return [
                 .mongoDbAtlas,
                 .neptuneAnalytics,
+                .opensearchManagedCluster,
                 .opensearchServerless,
                 .pinecone,
                 .rds,
@@ -9811,6 +9875,7 @@ extension BedrockAgentClientTypes {
             switch self {
             case .mongoDbAtlas: return "MONGO_DB_ATLAS"
             case .neptuneAnalytics: return "NEPTUNE_ANALYTICS"
+            case .opensearchManagedCluster: return "OPENSEARCH_MANAGED_CLUSTER"
             case .opensearchServerless: return "OPENSEARCH_SERVERLESS"
             case .pinecone: return "PINECONE"
             case .rds: return "RDS"
@@ -9829,6 +9894,8 @@ extension BedrockAgentClientTypes {
         public var mongoDbAtlasConfiguration: BedrockAgentClientTypes.MongoDbAtlasConfiguration?
         /// Contains details about the Neptune Analytics configuration of the knowledge base in Amazon Neptune. For more information, see [Create a vector index in Amazon Neptune Analytics.](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-neptune.html).
         public var neptuneAnalyticsConfiguration: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration?
+        /// Contains details about the storage configuration of the knowledge base in OpenSearch Managed Cluster. For more information, see [Create a vector index in Amazon OpenSearch Service](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-osm.html).
+        public var opensearchManagedClusterConfiguration: BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration?
         /// Contains the storage configuration of the knowledge base in Amazon OpenSearch Service.
         public var opensearchServerlessConfiguration: BedrockAgentClientTypes.OpenSearchServerlessConfiguration?
         /// Contains the storage configuration of the knowledge base in Pinecone.
@@ -9844,6 +9911,7 @@ extension BedrockAgentClientTypes {
         public init(
             mongoDbAtlasConfiguration: BedrockAgentClientTypes.MongoDbAtlasConfiguration? = nil,
             neptuneAnalyticsConfiguration: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration? = nil,
+            opensearchManagedClusterConfiguration: BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration? = nil,
             opensearchServerlessConfiguration: BedrockAgentClientTypes.OpenSearchServerlessConfiguration? = nil,
             pineconeConfiguration: BedrockAgentClientTypes.PineconeConfiguration? = nil,
             rdsConfiguration: BedrockAgentClientTypes.RdsConfiguration? = nil,
@@ -9852,6 +9920,7 @@ extension BedrockAgentClientTypes {
         ) {
             self.mongoDbAtlasConfiguration = mongoDbAtlasConfiguration
             self.neptuneAnalyticsConfiguration = neptuneAnalyticsConfiguration
+            self.opensearchManagedClusterConfiguration = opensearchManagedClusterConfiguration
             self.opensearchServerlessConfiguration = opensearchServerlessConfiguration
             self.pineconeConfiguration = pineconeConfiguration
             self.rdsConfiguration = rdsConfiguration
@@ -17115,6 +17184,7 @@ extension BedrockAgentClientTypes.StorageConfiguration {
         guard let value else { return }
         try writer["mongoDbAtlasConfiguration"].write(value.mongoDbAtlasConfiguration, with: BedrockAgentClientTypes.MongoDbAtlasConfiguration.write(value:to:))
         try writer["neptuneAnalyticsConfiguration"].write(value.neptuneAnalyticsConfiguration, with: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration.write(value:to:))
+        try writer["opensearchManagedClusterConfiguration"].write(value.opensearchManagedClusterConfiguration, with: BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration.write(value:to:))
         try writer["opensearchServerlessConfiguration"].write(value.opensearchServerlessConfiguration, with: BedrockAgentClientTypes.OpenSearchServerlessConfiguration.write(value:to:))
         try writer["pineconeConfiguration"].write(value.pineconeConfiguration, with: BedrockAgentClientTypes.PineconeConfiguration.write(value:to:))
         try writer["rdsConfiguration"].write(value.rdsConfiguration, with: BedrockAgentClientTypes.RdsConfiguration.write(value:to:))
@@ -17127,6 +17197,7 @@ extension BedrockAgentClientTypes.StorageConfiguration {
         var value = BedrockAgentClientTypes.StorageConfiguration()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.opensearchServerlessConfiguration = try reader["opensearchServerlessConfiguration"].readIfPresent(with: BedrockAgentClientTypes.OpenSearchServerlessConfiguration.read(from:))
+        value.opensearchManagedClusterConfiguration = try reader["opensearchManagedClusterConfiguration"].readIfPresent(with: BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration.read(from:))
         value.pineconeConfiguration = try reader["pineconeConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PineconeConfiguration.read(from:))
         value.redisEnterpriseCloudConfiguration = try reader["redisEnterpriseCloudConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration.read(from:))
         value.rdsConfiguration = try reader["rdsConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RdsConfiguration.read(from:))
@@ -17332,6 +17403,46 @@ extension BedrockAgentClientTypes.PineconeFieldMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PineconeFieldMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.PineconeFieldMapping()
+        value.textField = try reader["textField"].readIfPresent() ?? ""
+        value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainArn"].write(value.domainArn)
+        try writer["domainEndpoint"].write(value.domainEndpoint)
+        try writer["fieldMapping"].write(value.fieldMapping, with: BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping.write(value:to:))
+        try writer["vectorIndexName"].write(value.vectorIndexName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration()
+        value.domainEndpoint = try reader["domainEndpoint"].readIfPresent() ?? ""
+        value.domainArn = try reader["domainArn"].readIfPresent() ?? ""
+        value.vectorIndexName = try reader["vectorIndexName"].readIfPresent() ?? ""
+        value.fieldMapping = try reader["fieldMapping"].readIfPresent(with: BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping {
+
+    static func write(value: BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metadataField"].write(value.metadataField)
+        try writer["textField"].write(value.textField)
+        try writer["vectorField"].write(value.vectorField)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping()
+        value.vectorField = try reader["vectorField"].readIfPresent() ?? ""
         value.textField = try reader["textField"].readIfPresent() ?? ""
         value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
         return value

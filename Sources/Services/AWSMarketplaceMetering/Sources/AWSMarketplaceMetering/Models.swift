@@ -47,7 +47,7 @@ public struct DisabledApiException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-/// An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
+/// An internal error has occurred. Retry your request. If the problem persists, post a message with details on the Amazon Web Services forums.
 public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -139,7 +139,7 @@ public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// The usage allocation objects are invalid, or the number of allocations is greater than 500 for a single usage record.
+/// Sum of allocated usage quantities is not equal to the usage quantity.
 public struct InvalidUsageAllocationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -276,10 +276,11 @@ extension MarketplaceMeteringClientTypes {
 
     /// A UsageRecord indicates a quantity of usage for a given product, customer, dimension and time. Multiple requests with the same UsageRecords as input will be de-duplicated to prevent double charges.
     public struct UsageRecord: Swift.Sendable {
+        /// The CustomerAWSAccountID parameter specifies the AWS account ID of the buyer.
+        public var customerAWSAccountId: Swift.String?
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
-        /// This member is required.
         public var customerIdentifier: Swift.String?
-        /// During the process of registering a product on AWS Marketplace, dimensions are specified. These represent different units of value in your application.
+        /// During the process of registering a product on Amazon Web Services Marketplace, dimensions are specified. These represent different units of value in your application.
         /// This member is required.
         public var dimension: Swift.String?
         /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
@@ -291,12 +292,14 @@ extension MarketplaceMeteringClientTypes {
         public var usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]?
 
         public init(
-            customerIdentifier: Swift.String? = nil,
+            customerAWSAccountId: Swift.String? = nil,
+            customerIdentifier: Swift.String? = "",
             dimension: Swift.String? = nil,
             quantity: Swift.Int? = nil,
             timestamp: Foundation.Date? = nil,
             usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]? = nil
         ) {
+            self.customerAWSAccountId = customerAWSAccountId
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.quantity = quantity
@@ -308,7 +311,7 @@ extension MarketplaceMeteringClientTypes {
 
 /// A BatchMeterUsageRequest contains UsageRecords, which indicate quantities of usage within your application.
 public struct BatchMeterUsageInput: Swift.Sendable {
-    /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
+    /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product.
     /// This member is required.
     public var productCode: Swift.String?
     /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time.
@@ -372,7 +375,7 @@ extension MarketplaceMeteringClientTypes {
         ///
         /// * The customer identifier provided in the metering record does not have an active agreement or subscription with this product. Future UsageRecords for this customer will fail until the customer subscribes to your product.
         ///
-        /// * The customer's AWS account was suspended.
+        /// * The customer's Amazon Web Services account was suspended.
         ///
         ///
         ///
@@ -396,7 +399,7 @@ extension MarketplaceMeteringClientTypes {
 
 /// Contains the UsageRecords processed by BatchMeterUsage and any records that have failed due to transient error.
 public struct BatchMeterUsageOutput: Swift.Sendable {
-    /// Contains all UsageRecords processed by BatchMeterUsage. These records were either honored by AWS Marketplace Metering Service or were invalid. Invalid records should be fixed before being resubmitted.
+    /// Contains all UsageRecords processed by BatchMeterUsage. These records were either honored by Amazon Web Services Marketplace Metering Service or were invalid. Invalid records should be fixed before being resubmitted.
     public var results: [MarketplaceMeteringClientTypes.UsageRecordResult]?
     /// Contains all UsageRecords that were not processed by BatchMeterUsage. This is a list of UsageRecords. You can retry the failed request by making another BatchMeterUsage call with this list as input in the BatchMeterUsageRequest.
     public var unprocessedRecords: [MarketplaceMeteringClientTypes.UsageRecord]?
@@ -456,7 +459,7 @@ public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The endpoint being called is in a AWS Region different from your EC2 instance, ECS task, or EKS pod. The Region of the Metering Service endpoint and the AWS Region of the resource must match.
+/// The endpoint being called is in a Amazon Web Services Region different from your EC2 instance, ECS task, or EKS pod. The Region of the Metering Service endpoint and the Amazon Web Services Region of the resource must match.
 public struct InvalidEndpointRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -482,10 +485,10 @@ public struct InvalidEndpointRegionException: ClientRuntime.ModeledError, AWSCli
 public struct MeterUsageInput: Swift.Sendable {
     /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException. Defaults to false if not specified.
     public var dryRun: Swift.Bool?
-    /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
+    /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product.
     /// This member is required.
     public var productCode: Swift.String?
-    /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.
+    /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
     /// This member is required.
     public var timestamp: Foundation.Date?
     /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the UsageQuantity of the MeterUsage request, and each UsageAllocation must have a unique set of tags (include no tags).
@@ -547,7 +550,7 @@ public struct InvalidPublicKeyVersionException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-/// RegisterUsage must be called in the same AWS Region the ECS task was launched in. This prevents a container from hardcoding a Region (e.g. withRegion(“us-east-1”) when calling RegisterUsage.
+/// RegisterUsage must be called in the same Amazon Web Services Region the ECS task was launched in. This prevents a container from hardcoding a Region (e.g. withRegion(“us-east-1”) when calling RegisterUsage.
 public struct InvalidRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -570,7 +573,7 @@ public struct InvalidRegionException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-/// AWS Marketplace does not support metering usage from the underlying platform. Currently, Amazon ECS, Amazon EKS, and AWS Fargate are supported.
+/// Amazon Web Services Marketplace does not support metering usage from the underlying platform. Currently, Amazon ECS, Amazon EKS, and Fargate are supported.
 public struct PlatformNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -596,10 +599,10 @@ public struct PlatformNotSupportedException: ClientRuntime.ModeledError, AWSClie
 public struct RegisterUsageInput: Swift.Sendable {
     /// (Optional) To scope down the registration to a specific running software instance and guard against replay attacks.
     public var nonce: Swift.String?
-    /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
+    /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product.
     /// This member is required.
     public var productCode: Swift.String?
-    /// Public Key Version provided by AWS Marketplace
+    /// Public Key Version provided by Amazon Web Services Marketplace
     /// This member is required.
     public var publicKeyVersion: Swift.Int?
 
@@ -690,7 +693,7 @@ public struct ResolveCustomerInput: Swift.Sendable {
 
 /// The result of the ResolveCustomer operation. Contains the CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
 public struct ResolveCustomerOutput: Swift.Sendable {
-    /// The CustomerAWSAccountId provides the AWS account ID associated with the CustomerIdentifier for the individual customer.
+    /// The CustomerAWSAccountId provides the Amazon Web Services account ID associated with the CustomerIdentifier for the individual customer.
     public var customerAWSAccountId: Swift.String?
     /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
     public var customerIdentifier: Swift.String?
@@ -1149,6 +1152,7 @@ extension MarketplaceMeteringClientTypes.UsageRecord {
 
     static func write(value: MarketplaceMeteringClientTypes.UsageRecord?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CustomerAWSAccountId"].write(value.customerAWSAccountId)
         try writer["CustomerIdentifier"].write(value.customerIdentifier)
         try writer["Dimension"].write(value.dimension)
         try writer["Quantity"].write(value.quantity)
@@ -1164,6 +1168,7 @@ extension MarketplaceMeteringClientTypes.UsageRecord {
         value.dimension = try reader["Dimension"].readIfPresent() ?? ""
         value.quantity = try reader["Quantity"].readIfPresent()
         value.usageAllocations = try reader["UsageAllocations"].readListIfPresent(memberReadingClosure: MarketplaceMeteringClientTypes.UsageAllocation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customerAWSAccountId = try reader["CustomerAWSAccountId"].readIfPresent()
         return value
     }
 }
