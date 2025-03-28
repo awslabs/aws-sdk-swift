@@ -651,6 +651,8 @@ extension CodeBuildClientTypes {
 
     /// Information about the cache for the build project.
     public struct ProjectCache: Swift.Sendable {
+        /// Defines the scope of the cache. You can use this namespace to share a cache across multiple projects. For more information, see [Cache sharing between projects](https://docs.aws.amazon.com/codebuild/latest/userguide/caching-s3.html#caching-s3-sharing) in the CodeBuild User Guide.
+        public var cacheNamespace: Swift.String?
         /// Information about the cache location:
         ///
         /// * NO_CACHE or LOCAL: This value is ignored.
@@ -685,10 +687,12 @@ extension CodeBuildClientTypes {
         public var type: CodeBuildClientTypes.CacheType?
 
         public init(
+            cacheNamespace: Swift.String? = nil,
             location: Swift.String? = nil,
             modes: [CodeBuildClientTypes.CacheMode]? = nil,
             type: CodeBuildClientTypes.CacheType? = nil
         ) {
+            self.cacheNamespace = cacheNamespace
             self.location = location
             self.modes = modes
             self.type = type
@@ -9429,6 +9433,7 @@ extension CodeBuildClientTypes.ProjectCache {
 
     static func write(value: CodeBuildClientTypes.ProjectCache?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["cacheNamespace"].write(value.cacheNamespace)
         try writer["location"].write(value.location)
         try writer["modes"].writeList(value.modes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CodeBuildClientTypes.CacheMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["type"].write(value.type)
@@ -9440,6 +9445,7 @@ extension CodeBuildClientTypes.ProjectCache {
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.location = try reader["location"].readIfPresent()
         value.modes = try reader["modes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeBuildClientTypes.CacheMode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cacheNamespace = try reader["cacheNamespace"].readIfPresent()
         return value
     }
 }

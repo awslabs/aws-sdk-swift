@@ -1147,6 +1147,8 @@ extension BedrockRuntimeClientTypes {
 
     /// The details on the use of the guardrail.
     public struct GuardrailUsage: Swift.Sendable {
+        /// The content policy image units processed by the guardrail.
+        public var contentPolicyImageUnits: Swift.Int?
         /// The content policy units processed by the guardrail.
         /// This member is required.
         public var contentPolicyUnits: Swift.Int?
@@ -1167,6 +1169,7 @@ extension BedrockRuntimeClientTypes {
         public var wordPolicyUnits: Swift.Int?
 
         public init(
+            contentPolicyImageUnits: Swift.Int? = nil,
             contentPolicyUnits: Swift.Int? = nil,
             contextualGroundingPolicyUnits: Swift.Int? = nil,
             sensitiveInformationPolicyFreeUnits: Swift.Int? = nil,
@@ -1174,6 +1177,7 @@ extension BedrockRuntimeClientTypes {
             topicPolicyUnits: Swift.Int? = nil,
             wordPolicyUnits: Swift.Int? = nil
         ) {
+            self.contentPolicyImageUnits = contentPolicyImageUnits
             self.contentPolicyUnits = contentPolicyUnits
             self.contextualGroundingPolicyUnits = contextualGroundingPolicyUnits
             self.sensitiveInformationPolicyFreeUnits = sensitiveInformationPolicyFreeUnits
@@ -4403,6 +4407,7 @@ extension BedrockRuntimeClientTypes.GuardrailUsage {
         value.sensitiveInformationPolicyUnits = try reader["sensitiveInformationPolicyUnits"].readIfPresent() ?? 0
         value.sensitiveInformationPolicyFreeUnits = try reader["sensitiveInformationPolicyFreeUnits"].readIfPresent() ?? 0
         value.contextualGroundingPolicyUnits = try reader["contextualGroundingPolicyUnits"].readIfPresent() ?? 0
+        value.contentPolicyImageUnits = try reader["contentPolicyImageUnits"].readIfPresent()
         return value
     }
 }
