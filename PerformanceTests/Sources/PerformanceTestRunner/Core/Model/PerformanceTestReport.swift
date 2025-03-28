@@ -7,10 +7,18 @@
 
 import Foundation
 
+/// Represents a report containing the results of performance tests.
 struct PerformanceTestReport: Codable {
+    /// The product ID of the SDK.
     var productId: String = "AWS SDK for Swift"
+
+    /// The version of the SDK. Optional.
     let sdkVersion: String?
+
+    /// The git commit ID.
     let commitId: String
+
+    /// An array of result objects, representing the results of each test that was run.
     let results: [PerformanceTestResult]
 }
 

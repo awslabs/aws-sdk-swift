@@ -7,8 +7,8 @@
 
 enum OperatingSystem: String {
     case macOS = "macOS"
-    case linux = "Linux"
-    case unknownOS = "Unknown"
+    case linux = "linux"
+    case unknownOS = "unknown"
 
     static var current: OperatingSystem {
     #if os(macOS)
