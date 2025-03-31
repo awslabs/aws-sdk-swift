@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SESv2Client: ClientRuntime.Client {
     public static let clientName = "SESv2Client"
-    public static let version = "1.2.48"
+    public static let version = "1.2.49"
     let client: ClientRuntime.SdkHttpClient
     let config: SESv2Client.SESv2ClientConfiguration
     let serviceName = "SESv2"
@@ -4064,7 +4064,7 @@ extension SESv2Client {
 
     /// Performs the `ListContactLists` operation on the `SESv2` service.
     ///
-    /// Lists all of the contact lists available.
+    /// Lists all of the contact lists available. If your output includes a "NextToken" field with a string value, this indicates there may be additional contacts on the filtered list - regardless of the number of contacts returned.
     ///
     /// - Parameter ListContactListsInput : [no documentation found]
     ///

@@ -1212,6 +1212,7 @@ extension EKSClientTypes {
         case podIdentityAssociations
         case publicAccessCidrs
         case releaseVersion
+        case remoteNetworkConfig
         case resolveConflicts
         case securityGroups
         case serviceAccountRoleArn
@@ -1251,6 +1252,7 @@ extension EKSClientTypes {
                 .podIdentityAssociations,
                 .publicAccessCidrs,
                 .releaseVersion,
+                .remoteNetworkConfig,
                 .resolveConflicts,
                 .securityGroups,
                 .serviceAccountRoleArn,
@@ -1296,6 +1298,7 @@ extension EKSClientTypes {
             case .podIdentityAssociations: return "PodIdentityAssociations"
             case .publicAccessCidrs: return "PublicAccessCidrs"
             case .releaseVersion: return "ReleaseVersion"
+            case .remoteNetworkConfig: return "RemoteNetworkConfig"
             case .resolveConflicts: return "ResolveConflicts"
             case .securityGroups: return "SecurityGroups"
             case .serviceAccountRoleArn: return "ServiceAccountRoleArn"
@@ -1379,6 +1382,7 @@ extension EKSClientTypes {
         case disassociateIdentityProviderConfig
         case endpointAccessUpdate
         case loggingUpdate
+        case remoteNetworkConfigUpdate
         case upgradePolicyUpdate
         case versionUpdate
         case vpcConfigUpdate
@@ -1396,6 +1400,7 @@ extension EKSClientTypes {
                 .disassociateIdentityProviderConfig,
                 .endpointAccessUpdate,
                 .loggingUpdate,
+                .remoteNetworkConfigUpdate,
                 .upgradePolicyUpdate,
                 .versionUpdate,
                 .vpcConfigUpdate,
@@ -1419,6 +1424,7 @@ extension EKSClientTypes {
             case .disassociateIdentityProviderConfig: return "DisassociateIdentityProviderConfig"
             case .endpointAccessUpdate: return "EndpointAccessUpdate"
             case .loggingUpdate: return "LoggingUpdate"
+            case .remoteNetworkConfigUpdate: return "RemoteNetworkConfigUpdate"
             case .upgradePolicyUpdate: return "UpgradePolicyUpdate"
             case .versionUpdate: return "VersionUpdate"
             case .vpcConfigUpdate: return "VpcConfigUpdate"
@@ -2111,7 +2117,7 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
-    /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+    /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
     public struct RemoteNetworkConfigRequest: Swift.Sendable {
         /// The list of network CIDRs that can contain hybrid nodes. These CIDR blocks define the expected IP address range of the hybrid nodes that join the cluster. These blocks are typically determined by your network administrator. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example,  10.2.0.0/16). It must satisfy the following requirements:
         ///
@@ -2284,7 +2290,7 @@ public struct CreateClusterInput: Swift.Sendable {
     public var name: Swift.String?
     /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review [Local clusters for Amazon EKS on Amazon Web Services Outposts](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-overview.html) in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
     public var outpostConfig: EKSClientTypes.OutpostConfigRequest?
-    /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+    /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
     public var remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigRequest?
     /// The VPC configuration that's used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see [Cluster VPC Considerations](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) and [Cluster Security Group Considerations](https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html) in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane.
     /// This member is required.
@@ -2628,7 +2634,7 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
-    /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+    /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
     public struct RemoteNetworkConfigResponse: Swift.Sendable {
         /// The list of network CIDRs that can contain hybrid nodes.
         public var remoteNodeNetworks: [EKSClientTypes.RemoteNodeNetwork]?
@@ -2808,7 +2814,7 @@ extension EKSClientTypes {
         public var outpostConfig: EKSClientTypes.OutpostConfigResponse?
         /// The platform version of your Amazon EKS cluster. For more information about clusters deployed on the Amazon Web Services Cloud, see [Platform versions](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) in the Amazon EKS User Guide . For more information about local clusters deployed on an Outpost, see [Amazon EKS local cluster platform versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-platform-versions.html) in the Amazon EKS User Guide .
         public var platformVersion: Swift.String?
-        /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+        /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
         public var remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigResponse?
         /// The VPC configuration used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see [Cluster VPC considerations](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) and [Cluster security group considerations](https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html) in the Amazon EKS User Guide.
         public var resourcesVpcConfig: EKSClientTypes.VpcConfigResponse?
@@ -6288,6 +6294,8 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
     /// The name of the Amazon EKS cluster to update.
     /// This member is required.
     public var name: Swift.String?
+    /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
+    public var remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigRequest?
     /// An object representing the VPC configuration to use for an Amazon EKS cluster.
     public var resourcesVpcConfig: EKSClientTypes.VpcConfigRequest?
     /// Update the configuration of the block storage capability of your EKS Auto Mode cluster. For example, enable the capability.
@@ -6304,6 +6312,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest? = nil,
         logging: EKSClientTypes.Logging? = nil,
         name: Swift.String? = nil,
+        remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigRequest? = nil,
         resourcesVpcConfig: EKSClientTypes.VpcConfigRequest? = nil,
         storageConfig: EKSClientTypes.StorageConfigRequest? = nil,
         upgradePolicy: EKSClientTypes.UpgradePolicyRequest? = nil,
@@ -6315,6 +6324,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         self.kubernetesNetworkConfig = kubernetesNetworkConfig
         self.logging = logging
         self.name = name
+        self.remoteNetworkConfig = remoteNetworkConfig
         self.resourcesVpcConfig = resourcesVpcConfig
         self.storageConfig = storageConfig
         self.upgradePolicy = upgradePolicy
@@ -7786,6 +7796,7 @@ extension UpdateClusterConfigInput {
         try writer["computeConfig"].write(value.computeConfig, with: EKSClientTypes.ComputeConfigRequest.write(value:to:))
         try writer["kubernetesNetworkConfig"].write(value.kubernetesNetworkConfig, with: EKSClientTypes.KubernetesNetworkConfigRequest.write(value:to:))
         try writer["logging"].write(value.logging, with: EKSClientTypes.Logging.write(value:to:))
+        try writer["remoteNetworkConfig"].write(value.remoteNetworkConfig, with: EKSClientTypes.RemoteNetworkConfigRequest.write(value:to:))
         try writer["resourcesVpcConfig"].write(value.resourcesVpcConfig, with: EKSClientTypes.VpcConfigRequest.write(value:to:))
         try writer["storageConfig"].write(value.storageConfig, with: EKSClientTypes.StorageConfigRequest.write(value:to:))
         try writer["upgradePolicy"].write(value.upgradePolicy, with: EKSClientTypes.UpgradePolicyRequest.write(value:to:))

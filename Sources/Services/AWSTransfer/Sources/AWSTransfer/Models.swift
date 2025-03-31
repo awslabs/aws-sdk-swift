@@ -2898,6 +2898,35 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
+    public enum WebAppEndpointPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fips
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebAppEndpointPolicy] {
+            return [
+                .fips,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fips: return "FIPS"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     /// Contains an integer value that represents the value for number of concurrent connections or the user sessions on your web app.
     public enum WebAppUnits: Swift.Sendable {
         /// An integer that represents the number of units for your desired number of concurrent connections, or the number of user sessions on your web app at the same time. Each increment allows an additional 250 concurrent sessions: a value of 1 sets the number of concurrent sessions to 250; 2 sets a value of 500, and so on.
@@ -2907,13 +2936,15 @@ extension TransferClientTypes {
 }
 
 public struct CreateWebAppInput: Swift.Sendable {
-    /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
+    /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value. Before you enter a custom URL for this parameter, follow the steps described in [Update your access endpoint with a custom URL](https://docs.aws.amazon.com/transfer/latest/userguide/webapp-customize.html).
     public var accessEndpoint: Swift.String?
-    /// You can provide a structure that contains the details for the identity provider to use with your web app.
+    /// You can provide a structure that contains the details for the identity provider to use with your web app. For more details about this parameter, see [Configure your identity provider for Transfer Family web apps](https://docs.aws.amazon.com/transfer/latest/userguide/webapp-identity-center.html).
     /// This member is required.
     public var identityProviderDetails: TransferClientTypes.WebAppIdentityProviderDetails?
     /// Key-value pairs that can be used to group and search for web apps.
     public var tags: [TransferClientTypes.Tag]?
+    /// Setting for the type of endpoint policy for the web app. The default value is STANDARD. If you are creating the web app in an Amazon Web Services GovCloud (US) Region, you can set this parameter to FIPS.
+    public var webAppEndpointPolicy: TransferClientTypes.WebAppEndpointPolicy?
     /// A union that contains the value for number of concurrent connections or the user sessions on your web app.
     public var webAppUnits: TransferClientTypes.WebAppUnits?
 
@@ -2921,11 +2952,13 @@ public struct CreateWebAppInput: Swift.Sendable {
         accessEndpoint: Swift.String? = nil,
         identityProviderDetails: TransferClientTypes.WebAppIdentityProviderDetails? = nil,
         tags: [TransferClientTypes.Tag]? = nil,
+        webAppEndpointPolicy: TransferClientTypes.WebAppEndpointPolicy? = nil,
         webAppUnits: TransferClientTypes.WebAppUnits? = nil
     ) {
         self.accessEndpoint = accessEndpoint
         self.identityProviderDetails = identityProviderDetails
         self.tags = tags
+        self.webAppEndpointPolicy = webAppEndpointPolicy
         self.webAppUnits = webAppUnits
     }
 }
@@ -4249,7 +4282,7 @@ extension TransferClientTypes {
         public var posixProfile: TransferClientTypes.PosixProfile?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3 bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
         public var role: Swift.String?
-        /// Specifies the public key portion of the Secure Shell (SSH) keys stored for the described user.
+        /// Specifies the public key portion of the Secure Shell (SSH) keys stored for the described user. To delete the public key body, set its value to zero keys, as shown here: SshPublicKeys: []
         public var sshPublicKeys: [TransferClientTypes.SshPublicKey]?
         /// Specifies the key-value pairs for the user requested. Tag can be used to search for and group users for a variety of purposes.
         public var tags: [TransferClientTypes.Tag]?
@@ -4307,6 +4340,8 @@ extension TransferClientTypes {
         public var tags: [TransferClientTypes.Tag]?
         /// The WebAppEndpoint is the unique URL for your Transfer Family web app. This is the value that you use when you configure Origins on CloudFront.
         public var webAppEndpoint: Swift.String?
+        /// Setting for the type of endpoint policy for the web app. The default value is STANDARD. If your web app was created in an Amazon Web Services GovCloud (US) Region, the value of this parameter can be FIPS, which indicates the web app endpoint is FIPS-compliant.
+        public var webAppEndpointPolicy: TransferClientTypes.WebAppEndpointPolicy?
         /// The unique identifier for the web app.
         /// This member is required.
         public var webAppId: Swift.String?
@@ -4319,6 +4354,7 @@ extension TransferClientTypes {
             describedIdentityProviderDetails: TransferClientTypes.DescribedWebAppIdentityProviderDetails? = nil,
             tags: [TransferClientTypes.Tag]? = nil,
             webAppEndpoint: Swift.String? = nil,
+            webAppEndpointPolicy: TransferClientTypes.WebAppEndpointPolicy? = nil,
             webAppId: Swift.String? = nil,
             webAppUnits: TransferClientTypes.WebAppUnits? = nil
         ) {
@@ -4327,6 +4363,7 @@ extension TransferClientTypes {
             self.describedIdentityProviderDetails = describedIdentityProviderDetails
             self.tags = tags
             self.webAppEndpoint = webAppEndpoint
+            self.webAppEndpointPolicy = webAppEndpointPolicy
             self.webAppId = webAppId
             self.webAppUnits = webAppUnits
         }
@@ -4340,7 +4377,7 @@ extension TransferClientTypes {
         /// Returns the Amazon Resource Name (ARN) for the web app.
         /// This member is required.
         public var arn: Swift.String?
-        /// Returns a icon file data string (in base64 encoding).
+        /// Returns an icon file data string (in base64 encoding).
         public var faviconFile: Foundation.Data?
         /// Returns a logo file data string (in base64 encoding).
         public var logoFile: Foundation.Data?
@@ -6001,7 +6038,7 @@ public struct UpdateUserOutput: Swift.Sendable {
 }
 
 public struct UpdateWebAppCustomizationInput: Swift.Sendable {
-    /// Specify icon file data string (in base64 encoding).
+    /// Specify an icon file data string (in base64 encoding).
     public var faviconFile: Foundation.Data?
     /// Specify logo file data string (in base64 encoding).
     public var logoFile: Foundation.Data?
@@ -6691,6 +6728,7 @@ extension CreateWebAppInput {
         try writer["AccessEndpoint"].write(value.accessEndpoint)
         try writer["IdentityProviderDetails"].write(value.identityProviderDetails, with: TransferClientTypes.WebAppIdentityProviderDetails.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TransferClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WebAppEndpointPolicy"].write(value.webAppEndpointPolicy)
         try writer["WebAppUnits"].write(value.webAppUnits, with: TransferClientTypes.WebAppUnits.write(value:to:))
     }
 }
@@ -10017,6 +10055,7 @@ extension TransferClientTypes.DescribedWebApp {
         value.webAppEndpoint = try reader["WebAppEndpoint"].readIfPresent()
         value.webAppUnits = try reader["WebAppUnits"].readIfPresent(with: TransferClientTypes.WebAppUnits.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.webAppEndpointPolicy = try reader["WebAppEndpointPolicy"].readIfPresent()
         return value
     }
 }
