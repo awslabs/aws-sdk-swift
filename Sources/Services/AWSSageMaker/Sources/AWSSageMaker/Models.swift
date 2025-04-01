@@ -22658,15 +22658,19 @@ public struct CreateNotebookInstanceLifecycleConfigInput: Swift.Sendable {
     public var onCreate: [SageMakerClientTypes.NotebookInstanceLifecycleHook]?
     /// A shell script that runs every time you start a notebook instance, including when you create the notebook instance. The shell script must be a base64-encoded string.
     public var onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]?
+    /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
+    public var tags: [SageMakerClientTypes.Tag]?
 
     public init(
         notebookInstanceLifecycleConfigName: Swift.String? = nil,
         onCreate: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil,
-        onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil
+        onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
     ) {
         self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
         self.onCreate = onCreate
         self.onStart = onStart
+        self.tags = tags
     }
 }
 
@@ -54949,6 +54953,7 @@ extension CreateNotebookInstanceLifecycleConfigInput {
         try writer["NotebookInstanceLifecycleConfigName"].write(value.notebookInstanceLifecycleConfigName)
         try writer["OnCreate"].writeList(value.onCreate, memberWritingClosure: SageMakerClientTypes.NotebookInstanceLifecycleHook.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OnStart"].writeList(value.onStart, memberWritingClosure: SageMakerClientTypes.NotebookInstanceLifecycleHook.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
