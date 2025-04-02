@@ -5923,7 +5923,7 @@ extension ECSClientTypes {
     public struct Rollback: Swift.Sendable {
         /// The reason the rollback happened. For example, the circuit breaker initiated the rollback operation.
         public var reason: Swift.String?
-        /// The ARN of the service revision deployed as part of the rollback. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. When the type is InferenceAccelerator, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
+        /// The ARN of the service revision deployed as part of the rollback.
         public var serviceRevisionArn: Swift.String?
         /// Time time that the rollback started. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
         public var startedAt: Foundation.Date?

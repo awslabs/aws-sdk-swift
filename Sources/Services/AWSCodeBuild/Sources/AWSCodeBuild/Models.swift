@@ -987,6 +987,7 @@ extension CodeBuildClientTypes {
         case windowsContainer
         case windowsEc2
         case windowsServer2019Container
+        case windowsServer2022Container
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EnvironmentType] {
@@ -1001,7 +1002,8 @@ extension CodeBuildClientTypes {
                 .macArm,
                 .windowsContainer,
                 .windowsEc2,
-                .windowsServer2019Container
+                .windowsServer2019Container,
+                .windowsServer2022Container
             ]
         }
 
@@ -1023,6 +1025,7 @@ extension CodeBuildClientTypes {
             case .windowsContainer: return "WINDOWS_CONTAINER"
             case .windowsEc2: return "WINDOWS_EC2"
             case .windowsServer2019Container: return "WINDOWS_SERVER_2019_CONTAINER"
+            case .windowsServer2022Container: return "WINDOWS_SERVER_2022_CONTAINER"
             case let .sdkUnknown(s): return s
             }
         }

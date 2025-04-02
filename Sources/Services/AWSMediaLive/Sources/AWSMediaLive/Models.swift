@@ -6654,6 +6654,78 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// The location of the SDP file for one of the SMPTE 2110 streams in a receiver group.
+    public struct InputSdpLocation: Swift.Sendable {
+        /// The index of the media stream in the SDP file for one SMPTE 2110 stream.
+        public var mediaIndex: Swift.Int?
+        /// The URL of the SDP file for one SMPTE 2110 stream.
+        public var sdpUrl: Swift.String?
+
+        public init(
+            mediaIndex: Swift.Int? = nil,
+            sdpUrl: Swift.String? = nil
+        ) {
+            self.mediaIndex = mediaIndex
+            self.sdpUrl = sdpUrl
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Information about the SDP files that describe the SMPTE 2110 streams that go into one SMPTE 2110 receiver group.
+    public struct Smpte2110ReceiverGroupSdpSettings: Swift.Sendable {
+        /// A list of InputSdpLocations. Each item in the list specifies the SDP file and index for one ancillary SMPTE 2110 stream. Each stream encapsulates one captions stream (out of any number you can include) or the single SCTE 35 stream that you can include.
+        public var ancillarySdps: [MediaLiveClientTypes.InputSdpLocation]?
+        /// A list of InputSdpLocations. Each item in the list specifies the SDP file and index for one audio SMPTE 2110 stream.
+        public var audioSdps: [MediaLiveClientTypes.InputSdpLocation]?
+        /// The InputSdpLocation that specifies the SDP file and index for the single video SMPTE 2110 stream for this 2110 input.
+        public var videoSdp: MediaLiveClientTypes.InputSdpLocation?
+
+        public init(
+            ancillarySdps: [MediaLiveClientTypes.InputSdpLocation]? = nil,
+            audioSdps: [MediaLiveClientTypes.InputSdpLocation]? = nil,
+            videoSdp: MediaLiveClientTypes.InputSdpLocation? = nil
+        ) {
+            self.ancillarySdps = ancillarySdps
+            self.audioSdps = audioSdps
+            self.videoSdp = videoSdp
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// A receiver group is a collection of video, audio, and ancillary streams that you want to group together and attach to one input.
+    public struct Smpte2110ReceiverGroup: Swift.Sendable {
+        /// The single Smpte2110ReceiverGroupSdpSettings that identify the video, audio, and ancillary streams for this receiver group.
+        public var sdpSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSdpSettings?
+
+        public init(
+            sdpSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSdpSettings? = nil
+        ) {
+            self.sdpSettings = sdpSettings
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Configures the sources for the SMPTE 2110 Receiver Group input.
+    public struct Smpte2110ReceiverGroupSettings: Swift.Sendable {
+        /// Placeholder documentation for __listOfSmpte2110ReceiverGroup
+        public var smpte2110ReceiverGroups: [MediaLiveClientTypes.Smpte2110ReceiverGroup]?
+
+        public init(
+            smpte2110ReceiverGroups: [MediaLiveClientTypes.Smpte2110ReceiverGroup]? = nil
+        ) {
+            self.smpte2110ReceiverGroups = smpte2110ReceiverGroups
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// The settings for a PULL type input.
     public struct InputSource: Swift.Sendable {
         /// The key used to extract the password from EC2 Parameter store.
@@ -6824,6 +6896,7 @@ extension MediaLiveClientTypes {
         case rtmpPull
         case rtmpPush
         case rtpPush
+        case smpte2110ReceiverGroup
         case srtCaller
         case tsFile
         case udpPush
@@ -6840,6 +6913,7 @@ extension MediaLiveClientTypes {
                 .rtmpPull,
                 .rtmpPush,
                 .rtpPush,
+                .smpte2110ReceiverGroup,
                 .srtCaller,
                 .tsFile,
                 .udpPush,
@@ -6862,6 +6936,7 @@ extension MediaLiveClientTypes {
             case .rtmpPull: return "RTMP_PULL"
             case .rtmpPush: return "RTMP_PUSH"
             case .rtpPush: return "RTP_PUSH"
+            case .smpte2110ReceiverGroup: return "SMPTE_2110_RECEIVER_GROUP"
             case .srtCaller: return "SRT_CALLER"
             case .tsFile: return "TS_FILE"
             case .udpPush: return "UDP_PUSH"
@@ -6904,6 +6979,8 @@ extension MediaLiveClientTypes {
         public var roleArn: Swift.String?
         /// A list of IDs for all the Input Security Groups attached to the input.
         public var securityGroups: [Swift.String]?
+        /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
+        public var smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings?
         /// A list of the sources of the input (PULL-type).
         public var sources: [MediaLiveClientTypes.InputSource]?
         /// The settings associated with an SRT input.
@@ -6930,6 +7007,7 @@ extension MediaLiveClientTypes {
             name: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             securityGroups: [Swift.String]? = nil,
+            smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
             sources: [MediaLiveClientTypes.InputSource]? = nil,
             srtSettings: MediaLiveClientTypes.SrtSettings? = nil,
             state: MediaLiveClientTypes.InputState? = nil,
@@ -6950,6 +7028,7 @@ extension MediaLiveClientTypes {
             self.name = name
             self.roleArn = roleArn
             self.securityGroups = securityGroups
+            self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
             self.sources = sources
             self.srtSettings = srtSettings
             self.state = state
@@ -20120,6 +20199,8 @@ public struct CreateInputInput: Swift.Sendable {
     public var requestId: Swift.String?
     /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
     public var roleArn: Swift.String?
+    /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
+    public var smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings?
     /// The source URLs for a PULL-type input. Every PULL type input needs exactly two source URLs for redundancy. Only specify sources for PULL type Inputs. Leave Destinations empty.
     public var sources: [MediaLiveClientTypes.InputSourceRequest]?
     /// The settings associated with an SRT input.
@@ -20141,6 +20222,7 @@ public struct CreateInputInput: Swift.Sendable {
         name: Swift.String? = nil,
         requestId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
+        smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
         sources: [MediaLiveClientTypes.InputSourceRequest]? = nil,
         srtSettings: MediaLiveClientTypes.SrtSettingsRequest? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -20156,6 +20238,7 @@ public struct CreateInputInput: Swift.Sendable {
         self.name = name
         self.requestId = requestId
         self.roleArn = roleArn
+        self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
         self.sources = sources
         self.srtSettings = srtSettings
         self.tags = tags
@@ -21964,6 +22047,8 @@ public struct DescribeInputOutput: Swift.Sendable {
     public var roleArn: Swift.String?
     /// A list of IDs for all the Input Security Groups attached to the input.
     public var securityGroups: [Swift.String]?
+    /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
+    public var smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings?
     /// A list of the sources of the input (PULL-type).
     public var sources: [MediaLiveClientTypes.InputSource]?
     /// The settings associated with an SRT input.
@@ -21990,6 +22075,7 @@ public struct DescribeInputOutput: Swift.Sendable {
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         securityGroups: [Swift.String]? = nil,
+        smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
         sources: [MediaLiveClientTypes.InputSource]? = nil,
         srtSettings: MediaLiveClientTypes.SrtSettings? = nil,
         state: MediaLiveClientTypes.InputState? = nil,
@@ -22010,6 +22096,7 @@ public struct DescribeInputOutput: Swift.Sendable {
         self.name = name
         self.roleArn = roleArn
         self.securityGroups = securityGroups
+        self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
         self.sources = sources
         self.srtSettings = srtSettings
         self.state = state
@@ -25381,6 +25468,8 @@ public struct UpdateInputInput: Swift.Sendable {
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
     public var roleArn: Swift.String?
+    /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
+    public var smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings?
     /// The source URLs for a PULL-type input. Every PULL type input needs exactly two source URLs for redundancy. Only specify sources for PULL type Inputs. Leave Destinations empty.
     public var sources: [MediaLiveClientTypes.InputSourceRequest]?
     /// The settings associated with an SRT input.
@@ -25395,6 +25484,7 @@ public struct UpdateInputInput: Swift.Sendable {
         multicastSettings: MediaLiveClientTypes.MulticastSettingsUpdateRequest? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
+        smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
         sources: [MediaLiveClientTypes.InputSourceRequest]? = nil,
         srtSettings: MediaLiveClientTypes.SrtSettingsRequest? = nil
     ) {
@@ -25406,6 +25496,7 @@ public struct UpdateInputInput: Swift.Sendable {
         self.multicastSettings = multicastSettings
         self.name = name
         self.roleArn = roleArn
+        self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
         self.sources = sources
         self.srtSettings = srtSettings
     }
@@ -27611,6 +27702,7 @@ extension CreateInputInput {
         try writer["name"].write(value.name)
         try writer["requestId"].write(value.requestId)
         try writer["roleArn"].write(value.roleArn)
+        try writer["smpte2110ReceiverGroupSettings"].write(value.smpte2110ReceiverGroupSettings, with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.write(value:to:))
         try writer["sources"].writeList(value.sources, memberWritingClosure: MediaLiveClientTypes.InputSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["srtSettings"].write(value.srtSettings, with: MediaLiveClientTypes.SrtSettingsRequest.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -27888,6 +27980,7 @@ extension UpdateInputInput {
         try writer["multicastSettings"].write(value.multicastSettings, with: MediaLiveClientTypes.MulticastSettingsUpdateRequest.write(value:to:))
         try writer["name"].write(value.name)
         try writer["roleArn"].write(value.roleArn)
+        try writer["smpte2110ReceiverGroupSettings"].write(value.smpte2110ReceiverGroupSettings, with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.write(value:to:))
         try writer["sources"].writeList(value.sources, memberWritingClosure: MediaLiveClientTypes.InputSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["srtSettings"].write(value.srtSettings, with: MediaLiveClientTypes.SrtSettingsRequest.write(value:to:))
     }
@@ -28659,6 +28752,7 @@ extension DescribeInputOutput {
         value.name = try reader["name"].readIfPresent()
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.smpte2110ReceiverGroupSettings = try reader["smpte2110ReceiverGroupSettings"].readIfPresent(with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.read(from:))
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.srtSettings = try reader["srtSettings"].readIfPresent(with: MediaLiveClientTypes.SrtSettings.read(from:))
         value.state = try reader["state"].readIfPresent()
@@ -36846,6 +36940,73 @@ extension MediaLiveClientTypes.Input {
         value.srtSettings = try reader["srtSettings"].readIfPresent(with: MediaLiveClientTypes.SrtSettings.read(from:))
         value.inputNetworkLocation = try reader["inputNetworkLocation"].readIfPresent()
         value.multicastSettings = try reader["multicastSettings"].readIfPresent(with: MediaLiveClientTypes.MulticastSettings.read(from:))
+        value.smpte2110ReceiverGroupSettings = try reader["smpte2110ReceiverGroupSettings"].readIfPresent(with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.Smpte2110ReceiverGroupSettings {
+
+    static func write(value: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["smpte2110ReceiverGroups"].writeList(value.smpte2110ReceiverGroups, memberWritingClosure: MediaLiveClientTypes.Smpte2110ReceiverGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Smpte2110ReceiverGroupSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.Smpte2110ReceiverGroupSettings()
+        value.smpte2110ReceiverGroups = try reader["smpte2110ReceiverGroups"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.Smpte2110ReceiverGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.Smpte2110ReceiverGroup {
+
+    static func write(value: MediaLiveClientTypes.Smpte2110ReceiverGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sdpSettings"].write(value.sdpSettings, with: MediaLiveClientTypes.Smpte2110ReceiverGroupSdpSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Smpte2110ReceiverGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.Smpte2110ReceiverGroup()
+        value.sdpSettings = try reader["sdpSettings"].readIfPresent(with: MediaLiveClientTypes.Smpte2110ReceiverGroupSdpSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.Smpte2110ReceiverGroupSdpSettings {
+
+    static func write(value: MediaLiveClientTypes.Smpte2110ReceiverGroupSdpSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ancillarySdps"].writeList(value.ancillarySdps, memberWritingClosure: MediaLiveClientTypes.InputSdpLocation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["audioSdps"].writeList(value.audioSdps, memberWritingClosure: MediaLiveClientTypes.InputSdpLocation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["videoSdp"].write(value.videoSdp, with: MediaLiveClientTypes.InputSdpLocation.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Smpte2110ReceiverGroupSdpSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.Smpte2110ReceiverGroupSdpSettings()
+        value.ancillarySdps = try reader["ancillarySdps"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputSdpLocation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.audioSdps = try reader["audioSdps"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputSdpLocation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.videoSdp = try reader["videoSdp"].readIfPresent(with: MediaLiveClientTypes.InputSdpLocation.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.InputSdpLocation {
+
+    static func write(value: MediaLiveClientTypes.InputSdpLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mediaIndex"].write(value.mediaIndex)
+        try writer["sdpUrl"].write(value.sdpUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.InputSdpLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.InputSdpLocation()
+        value.mediaIndex = try reader["mediaIndex"].readIfPresent()
+        value.sdpUrl = try reader["sdpUrl"].readIfPresent()
         return value
     }
 }
