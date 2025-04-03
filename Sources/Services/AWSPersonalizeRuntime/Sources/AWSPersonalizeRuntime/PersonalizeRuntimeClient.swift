@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PersonalizeRuntimeClient: ClientRuntime.Client {
     public static let clientName = "PersonalizeRuntimeClient"
-    public static let version = "1.2.51"
+    public static let version = "1.2.52"
     let client: ClientRuntime.SdkHttpClient
     let config: PersonalizeRuntimeClient.PersonalizeRuntimeClientConfiguration
     let serviceName = "Personalize Runtime"

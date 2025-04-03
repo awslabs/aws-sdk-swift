@@ -244,6 +244,22 @@ public let partitions = #"""
         "description" : "US ISOF SOUTH"
       }
     }
+  }, {
+    "id" : "aws-eusc",
+    "outputs" : {
+      "dnsSuffix" : "amazonaws.eu",
+      "dualStackDnsSuffix" : "amazonaws.eu",
+      "implicitGlobalRegion" : "eusc-de-east-1",
+      "name" : "aws-eusc",
+      "supportsDualStack" : false,
+      "supportsFIPS" : true
+    },
+    "regionRegex" : "^eusc\\-(de)\\-\\w+\\-\\d+$",
+    "regions" : {
+      "eusc-de-east-1" : {
+        "description" : "EU (Germany)"
+      }
+    }
   } ],
   "version" : "1.1"
 }

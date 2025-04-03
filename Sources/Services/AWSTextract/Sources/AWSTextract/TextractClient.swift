@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TextractClient: ClientRuntime.Client {
     public static let clientName = "TextractClient"
-    public static let version = "1.2.51"
+    public static let version = "1.2.52"
     let client: ClientRuntime.SdkHttpClient
     let config: TextractClient.TextractClientConfiguration
     let serviceName = "Textract"

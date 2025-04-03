@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IVSRealTimeClient: ClientRuntime.Client {
     public static let clientName = "IVSRealTimeClient"
-    public static let version = "1.2.51"
+    public static let version = "1.2.52"
     let client: ClientRuntime.SdkHttpClient
     let config: IVSRealTimeClient.IVSRealTimeClientConfiguration
     let serviceName = "IVS RealTime"

@@ -1563,7 +1563,7 @@ extension OpenSearchClientTypes {
         /// Internal ID of the package that you want to associate with a domain.
         /// This member is required.
         public var packageID: Swift.String?
-        /// List of package IDs that must be associated with the domain with or before the package can be associated.
+        /// List of package IDs that must be linked to the domain before or simultaneously with the package association.
         public var prerequisitePackageIDList: [Swift.String]?
 
         public init(
@@ -1907,11 +1907,11 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// Configurations of the OpenSearch Application.
+    /// Configuration settings for an OpenSearch application. For more information, see see [Using the OpenSearch user interface in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/application.html).
     public struct AppConfig: Swift.Sendable {
-        /// Specify the item to configure, such as admin role for the OpenSearch Application.
+        /// The configuration item to set, such as the admin role for the OpenSearch application.
         public var key: OpenSearchClientTypes.AppConfigType?
-        /// Specifies the value to configure for the key, such as an IAM user ARN.
+        /// The value assigned to the configuration key, such as an IAM user ARN.
         public var value: Swift.String?
 
         public init(
@@ -1945,13 +1945,13 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// Settings for IAM Identity Center.
+    /// Configuration settings for enabling and managing IAM Identity Center.
     public struct IamIdentityCenterOptionsInput: Swift.Sendable {
-        /// Enable/disable settings for IAM Identity Center.
+        /// Specifies whether IAM Identity Center is enabled or disabled.
         public var enabled: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
         public var iamIdentityCenterInstanceArn: Swift.String?
-        /// Amazon Resource Name of IAM Identity Center's application.
+        /// The ARN of the IAM role associated with the IAM Identity Center application.
         public var iamRoleForIdentityCenterApplicationArn: Swift.String?
 
         public init(
@@ -1967,15 +1967,15 @@ extension OpenSearchClientTypes {
 }
 
 public struct CreateApplicationInput: Swift.Sendable {
-    /// Configurations of the OpenSearch Application, inlcuding admin configuration.
+    /// Configuration settings for the OpenSearch application, including administrative options.
     public var appConfigs: [OpenSearchClientTypes.AppConfig]?
-    /// A unique client idempotency token. It will be auto generated if not provided.
+    /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
-    /// Data sources to be associated with the OpenSearch Application.
+    /// The data sources to link to the OpenSearch application.
     public var dataSources: [OpenSearchClientTypes.DataSource]?
-    /// Settings of IAM Identity Center for the OpenSearch Application.
+    /// Configuration settings for integrating Amazon Web Services IAM Identity Center with the OpenSearch application.
     public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptionsInput?
-    /// Name of the OpenSearch Appication to create. Application names are unique across the applications owned by an account within an Amazon Web Services Region.
+    /// The unique name of the OpenSearch application. Names must be unique within an Amazon Web Services Region for each account.
     /// This member is required.
     public var name: Swift.String?
     /// A list of tags attached to a domain.
@@ -2000,15 +2000,15 @@ public struct CreateApplicationInput: Swift.Sendable {
 
 extension OpenSearchClientTypes {
 
-    /// Settings for IAM Identity Center for an OpenSearch Application.
+    /// Configuration settings for IAM Identity Center in an OpenSearch Application.
     public struct IamIdentityCenterOptions: Swift.Sendable {
-        /// IAM Identity Center is enabled for the OpenSearch Application.
+        /// Indicates whether IAM Identity Center is enabled for the OpenSearch Application.
         public var enabled: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
         public var iamIdentityCenterApplicationArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
         public var iamIdentityCenterInstanceArn: Swift.String?
-        /// Amazon Resource Name of the IAM Identity Center's Application created for the OpenSearch Application after enabling IAM Identity Center.
+        /// The Amazon Resource Name (ARN) of the IAM role assigned to the IAM Identity Center application for the OpenSearch Application.
         public var iamRoleForIdentityCenterApplicationArn: Swift.String?
 
         public init(
@@ -2026,19 +2026,19 @@ extension OpenSearchClientTypes {
 }
 
 public struct CreateApplicationOutput: Swift.Sendable {
-    /// Configurations of the OpenSearch Application, inlcuding admin configuration.
+    /// Configuration settings for the OpenSearch application, including administrative options.
     public var appConfigs: [OpenSearchClientTypes.AppConfig]?
     /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
     public var arn: Swift.String?
-    /// Timestamp when the OpenSearch Application was created.
+    /// The timestamp indicating when the OpenSearch application was created.
     public var createdAt: Foundation.Date?
-    /// Data sources associated with the created OpenSearch Application.
+    /// The data sources linked to the OpenSearch application.
     public var dataSources: [OpenSearchClientTypes.DataSource]?
-    /// Settings of IAM Identity Center for the created OpenSearch Application.
+    /// The IAM Identity Center settings configured for the OpenSearch application.
     public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions?
-    /// Unique identifier for the created OpenSearch Application.
+    /// The unique identifier assigned to the OpenSearch application.
     public var id: Swift.String?
-    /// Name of the created OpenSearch Application.
+    /// The name of the OpenSearch application.
     public var name: Swift.String?
     /// A list of tags attached to a domain.
     public var tagList: [OpenSearchClientTypes.Tag]?
@@ -2584,13 +2584,13 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// Container for specifying configuration of any node type.
+    /// Configuration options for defining the setup of any node type within the cluster.
     public struct NodeConfig: Swift.Sendable {
-        /// The number of nodes of a particular node type in the cluster.
+        /// The number of nodes of a specific type within the cluster.
         public var count: Swift.Int?
-        /// A boolean that indicates whether a particular node type is enabled or not.
+        /// A boolean value indicating whether a specific node type is active or inactive.
         public var enabled: Swift.Bool?
-        /// The instance type of a particular node type in the cluster.
+        /// The instance type of a particular node within the cluster.
         public var type: OpenSearchClientTypes.OpenSearchPartitionInstanceType?
 
         public init(
@@ -2633,11 +2633,11 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// Container for specifying node type.
+    /// Configuration settings for defining the node type within a cluster.
     public struct NodeOption: Swift.Sendable {
-        /// Container for specifying configuration of any node type.
+        /// Configuration options for defining the setup of any node type.
         public var nodeConfig: OpenSearchClientTypes.NodeConfig?
-        /// Container for node type like coordinating.
+        /// Defines the type of node, such as coordinating nodes.
         public var nodeType: OpenSearchClientTypes.NodeOptionsNodeType?
 
         public init(
@@ -3005,15 +3005,15 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// Container for IAM Identity Center Options settings.
+    /// Configuration settings for enabling and managing IAM Identity Center.
     public struct IdentityCenterOptionsInput: Swift.Sendable {
-        /// True to enable IAM Identity Center for API access in Amazon OpenSearch Service.
+        /// Indicates whether IAM Identity Center is enabled for API access in Amazon OpenSearch Service.
         public var enabledAPIAccess: Swift.Bool?
-        /// The ARN for IAM Identity Center Instance which will be used for IAM Identity Center Application creation.
+        /// The ARN of the IAM Identity Center instance used to create an OpenSearch UI application that uses IAM Identity Center for authentication.
         public var identityCenterInstanceARN: Swift.String?
-        /// Specify the attribute that contains the backend role (groupName, groupID) of IAM Identity Center
+        /// Specifies the attribute that contains the backend role identifier (such as group name or group ID) in IAM Identity Center.
         public var rolesKey: OpenSearchClientTypes.RolesKeyIdCOption?
-        /// Specify the attribute that contains the subject (username, userID, email) of IAM Identity Center.
+        /// Specifies the attribute that contains the subject identifier (such as username, user ID, or email) in IAM Identity Center.
         public var subjectKey: OpenSearchClientTypes.SubjectKeyIdCOption?
 
         public init(
@@ -3278,7 +3278,7 @@ public struct CreateDomainInput: Swift.Sendable {
     public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
     /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomains).
     public var engineVersion: Swift.String?
-    /// Options for IAM Identity Center Option control for the domain.
+    /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
     public var identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsInput?
     /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If you set your IP address type to dual stack, you can't change your address type later.
     public var ipAddressType: OpenSearchClientTypes.IPAddressType?
@@ -3575,19 +3575,19 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// Container for IAM Identity Center Options settings.
+    /// Settings container for integrating IAM Identity Center with OpenSearch UI applications, which enables enabling secure user authentication and access control across multiple data sources. This setup supports single sign-on (SSO) through IAM Identity Center, allowing centralized user management.
     public struct IdentityCenterOptions: Swift.Sendable {
-        /// True to enable IAM Identity Center for API access in Amazon OpenSearch Service.
+        /// Indicates whether IAM Identity Center is enabled for the application.
         public var enabledAPIAccess: Swift.Bool?
-        /// The ARN for IAM Identity Center Application which will integrate with Amazon OpenSearch Service.
+        /// The ARN of the IAM Identity Center application that integrates with Amazon OpenSearch Service.
         public var identityCenterApplicationARN: Swift.String?
-        /// The ARN for IAM Identity Center Instance.
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
         public var identityCenterInstanceARN: Swift.String?
-        /// The ID of IAM Identity Store.
+        /// The identifier of the IAM Identity Store.
         public var identityStoreId: Swift.String?
-        /// Specify the attribute that contains the backend role (groupName, groupID) of IAM Identity Center
+        /// Specifies the attribute that contains the backend role identifier (such as group name or group ID) in IAM Identity Center.
         public var rolesKey: OpenSearchClientTypes.RolesKeyIdCOption?
-        /// Specify the attribute that contains the subject (username, userID, email) of IAM Identity Center.
+        /// Specifies the attribute that contains the subject identifier (such as username, user ID, or email) in IAM Identity Center.
         public var subjectKey: OpenSearchClientTypes.SubjectKeyIdCOption?
 
         public init(
@@ -3751,7 +3751,7 @@ extension OpenSearchClientTypes {
         public var endpoints: [Swift.String: Swift.String]?
         /// Version of OpenSearch or Elasticsearch that the domain is running, in the format Elasticsearch_X.Y or OpenSearch_X.Y.
         public var engineVersion: Swift.String?
-        /// Container for IAM Identity Center Option control for the domain.
+        /// Configuration options for controlling IAM Identity Center integration within a domain.
         public var identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptions?
         /// The type of IP addresses supported by the endpoint for the domain.
         public var ipAddressType: OpenSearchClientTypes.IPAddressType?
@@ -4154,7 +4154,7 @@ extension OpenSearchClientTypes {
 
     /// Encryption options for a package.
     public struct PackageEncryptionOptions: Swift.Sendable {
-        /// This indicates whether encryption is enabled for the package.
+        /// Whether encryption is enabled for the package.
         /// This member is required.
         public var encryptionEnabled: Swift.Bool?
         /// KMS key ID for encrypting the package.
@@ -4191,9 +4191,9 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// The vending options for a package to determine if the package can be used by other users.
+    /// Configuration options for determining whether a package can be made available for use by other users.
     public struct PackageVendingOptions: Swift.Sendable {
-        /// This indicates whether vending is enabled for the package to determine if package can be used by other users.
+        /// Indicates whether the package vending feature is enabled, allowing the package to be used by other users.
         /// This member is required.
         public var vendingEnabled: Swift.Bool?
 
@@ -4348,13 +4348,13 @@ extension OpenSearchClientTypes {
         public var lastUpdatedAt: Foundation.Date?
         /// User-specified description of the package.
         public var packageDescription: Swift.String?
-        /// Package Encryption Options for a package.
+        /// Encryption options for a package.
         public var packageEncryptionOptions: OpenSearchClientTypes.PackageEncryptionOptions?
         /// The unique identifier of the package.
         public var packageID: Swift.String?
         /// The user-specified name of the package.
         public var packageName: Swift.String?
-        /// The owner of the package who is allowed to create/update a package and add users to the package scope.
+        /// The owner of the package who is allowed to create and update a package and add users to the package scope.
         public var packageOwner: Swift.String?
         /// The current status of the package. The available options are AVAILABLE, COPYING, COPY_FAILED, VALIDATNG, VALIDATION_FAILED, DELETING, and DELETE_FAILED.
         public var packageStatus: OpenSearchClientTypes.PackageStatus?
@@ -4526,7 +4526,7 @@ public struct CreateVpcEndpointOutput: Swift.Sendable {
 }
 
 public struct DeleteApplicationInput: Swift.Sendable {
-    /// Unique identifier for the OpenSearch Application that you want to delete.
+    /// The unique identifier of the OpenSearch application to delete.
     /// This member is required.
     public var id: Swift.String?
 
@@ -5386,12 +5386,12 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// The status of IAM Identity Center Options settings for a domain.
+    /// The status of IAM Identity Center configuration settings for a domain.
     public struct IdentityCenterOptionsStatus: Swift.Sendable {
-        /// Container for IAM Identity Center Options settings.
+        /// Configuration settings for IAM Identity Center integration.
         /// This member is required.
         public var options: OpenSearchClientTypes.IdentityCenterOptions?
-        /// The status of IAM Identity Center Options settings for a domain.
+        /// The status of IAM Identity Center configuration settings for a domain.
         /// This member is required.
         public var status: OpenSearchClientTypes.OptionStatus?
 
@@ -5574,7 +5574,7 @@ extension OpenSearchClientTypes {
         public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptionsStatus?
         /// The OpenSearch or Elasticsearch version that the domain is running.
         public var engineVersion: OpenSearchClientTypes.VersionStatus?
-        /// Container for IAM Identity Center Option control for the domain.
+        /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
         public var identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsStatus?
         /// Choose either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If you set your IP address type to dual stack, you can't change your address type later.
         public var ipAddressType: OpenSearchClientTypes.IPAddressTypeStatus?
@@ -6016,13 +6016,13 @@ extension OpenSearchClientTypes {
         public var nodeId: Swift.String?
         /// Indicates if the node is active or in standby.
         public var nodeStatus: OpenSearchClientTypes.NodeStatus?
-        /// Indicates whether the nodes is a data, master, or ultrawarm node.
+        /// Indicates whether the nodes is a data, master, or UltraWarm node.
         public var nodeType: OpenSearchClientTypes.NodeType?
         /// The storage size of the node, in GiB.
         public var storageSize: Swift.String?
         /// Indicates if the node has EBS or instance storage.
         public var storageType: Swift.String?
-        /// If the nodes has EBS storage, indicates if the volume type is GP2 or GP3. Only applicable for data nodes.
+        /// If the nodes has EBS storage, indicates if the volume type is gp2 or gp3. Only applicable for data nodes.
         public var storageVolumeType: OpenSearchClientTypes.VolumeType?
 
         public init(
@@ -6934,7 +6934,7 @@ public struct DissociatePackagesOutput: Swift.Sendable {
 }
 
 public struct GetApplicationInput: Swift.Sendable {
-    /// Unique identifier of the checked OpenSearch Application.
+    /// The unique identifier of the OpenSearch application to retrieve.
     /// This member is required.
     public var id: Swift.String?
 
@@ -6984,25 +6984,25 @@ extension OpenSearchClientTypes {
 }
 
 public struct GetApplicationOutput: Swift.Sendable {
-    /// App configurations of the checked OpenSearch Application.
+    /// The configuration settings of the OpenSearch application.
     public var appConfigs: [OpenSearchClientTypes.AppConfig]?
     /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
     public var arn: Swift.String?
-    /// Timestamp at which the checked OpenSearch Application was created.
+    /// The timestamp when the OpenSearch application was created.
     public var createdAt: Foundation.Date?
-    /// Associated data sources to the checked OpenSearch Application.
+    /// The data sources associated with the OpenSearch application.
     public var dataSources: [OpenSearchClientTypes.DataSource]?
-    /// Endpoint URL of the checked OpenSearch Application.
+    /// The endpoint URL of the OpenSearch application.
     public var endpoint: Swift.String?
-    /// IAM Identity Center settings for the checked OpenSearch Application.
+    /// The IAM Identity Center settings configured for the OpenSearch application.
     public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions?
-    /// Unique identifier of the checked OpenSearch Application.
+    /// The unique identifier of the OpenSearch application.
     public var id: Swift.String?
-    /// Timestamp at which the checked OpenSearch Application was last updated.
+    /// The timestamp of the last update to the OpenSearch application.
     public var lastUpdatedAt: Foundation.Date?
-    /// Name of the checked OpenSearch Application.
+    /// The name of the OpenSearch application.
     public var name: Swift.String?
-    /// Current status of the checked OpenSearch Application. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+    /// The current status of the OpenSearch application. Possible values: CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
     public var status: OpenSearchClientTypes.ApplicationStatus?
 
     public init(
@@ -7593,7 +7593,7 @@ public struct ListApplicationsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
-    /// OpenSearch Application Status can be used as filters for the listing request. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+    /// Filters the list of OpenSearch applications by status. Possible values: CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
     public var statuses: [OpenSearchClientTypes.ApplicationStatus]?
 
     public init(
@@ -7609,21 +7609,21 @@ public struct ListApplicationsInput: Swift.Sendable {
 
 extension OpenSearchClientTypes {
 
-    /// Basic information of the OpenSearch Application.
+    /// Basic details of an OpenSearch application.
     public struct ApplicationSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
         public var arn: Swift.String?
-        /// Timestamp at which an OpenSearch Application was created.
+        /// The timestamp when an OpenSearch application was created.
         public var createdAt: Foundation.Date?
-        /// Endpoint URL of an OpenSearch Application.
+        /// The endpoint URL of an OpenSearch application.
         public var endpoint: Swift.String?
-        /// Unique identifier for an OpenSearch application.
+        /// The unique identifier of an OpenSearch application.
         public var id: Swift.String?
-        /// Timestamp at which an OpenSearch Application was last updated.
+        /// The timestamp of the last update to an OpenSearch application.
         public var lastUpdatedAt: Foundation.Date?
-        /// Name of an OpenSearch Application.
+        /// The name of an OpenSearch application.
         public var name: Swift.String?
-        /// Status of an OpenSearch Application. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+        /// The current status of an OpenSearch application. Possible values: CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
         public var status: OpenSearchClientTypes.ApplicationStatus?
 
         public init(
@@ -7647,7 +7647,7 @@ extension OpenSearchClientTypes {
 }
 
 public struct ListApplicationsOutput: Swift.Sendable {
-    /// Summary of the OpenSearch Applications, including ID, ARN, name, endpoint, status, create time and last update time.
+    /// Summarizes OpenSearch applications, including ID, ARN, name, endpoint, status, creation time, and last update time.
     public var applicationSummaries: [OpenSearchClientTypes.ApplicationSummary]?
     /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
@@ -8579,11 +8579,11 @@ public struct StartServiceSoftwareUpdateOutput: Swift.Sendable {
 }
 
 public struct UpdateApplicationInput: Swift.Sendable {
-    /// Configurations to be changed for the OpenSearch Application.
+    /// The configuration settings to modify for the OpenSearch application.
     public var appConfigs: [OpenSearchClientTypes.AppConfig]?
-    /// Data sources to be associated with the OpenSearch Application.
+    /// The data sources to associate with the OpenSearch application.
     public var dataSources: [OpenSearchClientTypes.DataSource]?
-    /// Unique identifier of the OpenSearch Application to be updated.
+    /// The unique identifier for the OpenSearch application to be updated.
     /// This member is required.
     public var id: Swift.String?
 
@@ -8599,21 +8599,21 @@ public struct UpdateApplicationInput: Swift.Sendable {
 }
 
 public struct UpdateApplicationOutput: Swift.Sendable {
-    /// Configurations for the updated OpenSearch Application.
+    /// The configuration settings for the updated OpenSearch application.
     public var appConfigs: [OpenSearchClientTypes.AppConfig]?
     /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
     public var arn: Swift.String?
-    /// Timestamp at which the OpenSearch Application was created.
+    /// The timestamp when the OpenSearch application was originally created.
     public var createdAt: Foundation.Date?
-    /// Data sources associated with the updated OpenSearch Application.
+    /// The data sources associated with the updated OpenSearch application.
     public var dataSources: [OpenSearchClientTypes.DataSource]?
-    /// IAM Identity Center settings for the updated OpenSearch Application.
+    /// The IAM Identity Center configuration for the updated OpenSearch application.
     public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions?
-    /// Unique identifier of the updated OpenSearch Application.
+    /// The unique identifier of the updated OpenSearch application.
     public var id: Swift.String?
-    /// Timestamp at which the OpenSearch Application was last updated.
+    /// The timestamp when the OpenSearch application was last updated.
     public var lastUpdatedAt: Foundation.Date?
-    /// Name of the updated OpenSearch Application.
+    /// The name of the updated OpenSearch application.
     public var name: Swift.String?
 
     public init(
@@ -8788,7 +8788,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
     public var ebsOptions: OpenSearchClientTypes.EBSOptions?
     /// Encryption at rest options for the domain.
     public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
-    /// Container for IAM Identity Center Options settings.
+    /// Configuration settings for enabling and managing IAM Identity Center.
     public var identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsInput?
     /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If your IP address type is currently set to dual stack, you can't change it.
     public var ipAddressType: OpenSearchClientTypes.IPAddressType?

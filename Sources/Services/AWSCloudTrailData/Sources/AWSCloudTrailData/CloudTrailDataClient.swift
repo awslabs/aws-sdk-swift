@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudTrailDataClient: ClientRuntime.Client {
     public static let clientName = "CloudTrailDataClient"
-    public static let version = "1.2.51"
+    public static let version = "1.2.52"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudTrailDataClient.CloudTrailDataClientConfiguration
     let serviceName = "CloudTrail Data"

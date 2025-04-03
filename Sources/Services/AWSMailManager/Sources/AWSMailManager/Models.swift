@@ -1421,6 +1421,79 @@ extension MailManagerClientTypes {
 
 extension MailManagerClientTypes {
 
+    /// Specifies the network configuration for the private ingress point.
+    public struct PrivateNetworkConfiguration: Swift.Sendable {
+        /// The identifier of the VPC endpoint to associate with this private ingress point.
+        /// This member is required.
+        public var vpcEndpointId: Swift.String?
+
+        public init(
+            vpcEndpointId: Swift.String? = nil
+        ) {
+            self.vpcEndpointId = vpcEndpointId
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
+    public enum IpType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualStack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpType] {
+            return [
+                .dualStack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "DUAL_STACK"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
+    /// Specifies the network configuration for the public ingress point.
+    public struct PublicNetworkConfiguration: Swift.Sendable {
+        /// The IP address type for the public ingress point. Valid values are IPV4 and DUAL_STACK.
+        /// This member is required.
+        public var ipType: MailManagerClientTypes.IpType?
+
+        public init(
+            ipType: MailManagerClientTypes.IpType? = .ipv4
+        ) {
+            self.ipType = ipType
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
+    /// The network type (IPv4-only, Dual-Stack, PrivateLink) of the ingress endpoint resource.
+    public enum NetworkConfiguration: Swift.Sendable {
+        /// Specifies the network configuration for the public ingress point.
+        case publicnetworkconfiguration(MailManagerClientTypes.PublicNetworkConfiguration)
+        /// Specifies the network configuration for the private ingress point.
+        case privatenetworkconfiguration(MailManagerClientTypes.PrivateNetworkConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MailManagerClientTypes {
+
     public enum IngressPointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auth
         case `open`
@@ -1456,6 +1529,8 @@ public struct CreateIngressPointInput: Swift.Sendable {
     /// A user friendly name for an ingress endpoint resource.
     /// This member is required.
     public var ingressPointName: Swift.String?
+    /// Specifies the network configuration for the ingress point. This allows you to create an IPv4-only, Dual-Stack, or PrivateLink type of ingress point. If not specified, the default network type is IPv4-only.
+    public var networkConfiguration: MailManagerClientTypes.NetworkConfiguration?
     /// The identifier of an existing rule set that you attach to an ingress endpoint resource.
     /// This member is required.
     public var ruleSetId: Swift.String?
@@ -1472,6 +1547,7 @@ public struct CreateIngressPointInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         ingressPointConfiguration: MailManagerClientTypes.IngressPointConfiguration? = nil,
         ingressPointName: Swift.String? = nil,
+        networkConfiguration: MailManagerClientTypes.NetworkConfiguration? = nil,
         ruleSetId: Swift.String? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil,
         trafficPolicyId: Swift.String? = nil,
@@ -1480,6 +1556,7 @@ public struct CreateIngressPointInput: Swift.Sendable {
         self.clientToken = clientToken
         self.ingressPointConfiguration = ingressPointConfiguration
         self.ingressPointName = ingressPointName
+        self.networkConfiguration = networkConfiguration
         self.ruleSetId = ruleSetId
         self.tags = tags
         self.trafficPolicyId = trafficPolicyId
@@ -2781,6 +2858,68 @@ extension MailManagerClientTypes {
 
 extension MailManagerClientTypes {
 
+    public enum IngressIpv6Attribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case senderIpv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IngressIpv6Attribute] {
+            return [
+                .senderIpv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .senderIpv6: return "SENDER_IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
+    /// The structure for an IPv6 based condition matching on the incoming mail.
+    public enum IngressIpv6ToEvaluate: Swift.Sendable {
+        /// An enum type representing the allowed attribute types for an IPv6 condition.
+        case attribute(MailManagerClientTypes.IngressIpv6Attribute)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MailManagerClientTypes {
+
+    /// The union type representing the allowed types for the left hand side of an IPv6 condition.
+    public struct IngressIpv6Expression: Swift.Sendable {
+        /// The left hand side argument of an IPv6 condition expression.
+        /// This member is required.
+        public var evaluate: MailManagerClientTypes.IngressIpv6ToEvaluate?
+        /// The matching operator for an IPv6 condition expression.
+        /// This member is required.
+        public var `operator`: MailManagerClientTypes.IngressIpOperator?
+        /// The right hand side argument of an IPv6 condition expression.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            evaluate: MailManagerClientTypes.IngressIpv6ToEvaluate? = nil,
+            `operator`: MailManagerClientTypes.IngressIpOperator? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.evaluate = evaluate
+            self.`operator` = `operator`
+            self.values = values
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
     public enum IngressStringEmailAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case recipient
         case sdkUnknown(Swift.String)
@@ -3009,6 +3148,8 @@ extension MailManagerClientTypes {
         case stringexpression(MailManagerClientTypes.IngressStringExpression)
         /// This represents an IP based condition matching on the incoming mail. It performs the operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'.
         case ipexpression(MailManagerClientTypes.IngressIpv4Expression)
+        /// This represents an IPv6 based condition matching on the incoming mail. It performs the operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'.
+        case ipv6expression(MailManagerClientTypes.IngressIpv6Expression)
         /// This represents a TLS based condition matching on the incoming mail. It performs the operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'.
         case tlsexpression(MailManagerClientTypes.IngressTlsProtocolExpression)
         /// This represents a boolean type condition matching on the incoming mail. It performs the boolean operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'.
@@ -3970,6 +4111,8 @@ public struct GetIngressPointOutput: Swift.Sendable {
     public var ingressPointName: Swift.String?
     /// The timestamp of when the ingress endpoint was last updated.
     public var lastUpdatedTimestamp: Foundation.Date?
+    /// The network configuration for the ingress point.
+    public var networkConfiguration: MailManagerClientTypes.NetworkConfiguration?
     /// The identifier of a rule set resource associated with the ingress endpoint.
     public var ruleSetId: Swift.String?
     /// The status of the ingress endpoint resource.
@@ -3987,6 +4130,7 @@ public struct GetIngressPointOutput: Swift.Sendable {
         ingressPointId: Swift.String? = nil,
         ingressPointName: Swift.String? = nil,
         lastUpdatedTimestamp: Foundation.Date? = nil,
+        networkConfiguration: MailManagerClientTypes.NetworkConfiguration? = nil,
         ruleSetId: Swift.String? = nil,
         status: MailManagerClientTypes.IngressPointStatus? = nil,
         trafficPolicyId: Swift.String? = nil,
@@ -3999,6 +4143,7 @@ public struct GetIngressPointOutput: Swift.Sendable {
         self.ingressPointId = ingressPointId
         self.ingressPointName = ingressPointName
         self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        self.networkConfiguration = networkConfiguration
         self.ruleSetId = ruleSetId
         self.status = status
         self.trafficPolicyId = trafficPolicyId
@@ -5599,6 +5744,7 @@ extension CreateIngressPointInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["IngressPointConfiguration"].write(value.ingressPointConfiguration, with: MailManagerClientTypes.IngressPointConfiguration.write(value:to:))
         try writer["IngressPointName"].write(value.ingressPointName)
+        try writer["NetworkConfiguration"].write(value.networkConfiguration, with: MailManagerClientTypes.NetworkConfiguration.write(value:to:))
         try writer["RuleSetId"].write(value.ruleSetId)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: MailManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TrafficPolicyId"].write(value.trafficPolicyId)
@@ -6446,6 +6592,7 @@ extension GetIngressPointOutput {
         value.ingressPointId = try reader["IngressPointId"].readIfPresent() ?? ""
         value.ingressPointName = try reader["IngressPointName"].readIfPresent() ?? ""
         value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.networkConfiguration = try reader["NetworkConfiguration"].readIfPresent(with: MailManagerClientTypes.NetworkConfiguration.read(from:))
         value.ruleSetId = try reader["RuleSetId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent()
@@ -8177,6 +8324,64 @@ extension MailManagerClientTypes.IngressPointPasswordConfiguration {
     }
 }
 
+extension MailManagerClientTypes.NetworkConfiguration {
+
+    static func write(value: MailManagerClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .privatenetworkconfiguration(privatenetworkconfiguration):
+                try writer["PrivateNetworkConfiguration"].write(privatenetworkconfiguration, with: MailManagerClientTypes.PrivateNetworkConfiguration.write(value:to:))
+            case let .publicnetworkconfiguration(publicnetworkconfiguration):
+                try writer["PublicNetworkConfiguration"].write(publicnetworkconfiguration, with: MailManagerClientTypes.PublicNetworkConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.NetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "PublicNetworkConfiguration":
+                return .publicnetworkconfiguration(try reader["PublicNetworkConfiguration"].read(with: MailManagerClientTypes.PublicNetworkConfiguration.read(from:)))
+            case "PrivateNetworkConfiguration":
+                return .privatenetworkconfiguration(try reader["PrivateNetworkConfiguration"].read(with: MailManagerClientTypes.PrivateNetworkConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MailManagerClientTypes.PrivateNetworkConfiguration {
+
+    static func write(value: MailManagerClientTypes.PrivateNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.PrivateNetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.PrivateNetworkConfiguration()
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MailManagerClientTypes.PublicNetworkConfiguration {
+
+    static func write(value: MailManagerClientTypes.PublicNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IpType"].write(value.ipType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.PublicNetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.PublicNetworkConfiguration()
+        value.ipType = try reader["IpType"].readIfPresent() ?? .ipv4
+        return value
+    }
+}
+
 extension MailManagerClientTypes.RelayAuthentication {
 
     static func write(value: MailManagerClientTypes.RelayAuthentication?, to writer: SmithyJSON.Writer) throws {
@@ -8810,6 +9015,8 @@ extension MailManagerClientTypes.PolicyCondition {
                 try writer["BooleanExpression"].write(booleanexpression, with: MailManagerClientTypes.IngressBooleanExpression.write(value:to:))
             case let .ipexpression(ipexpression):
                 try writer["IpExpression"].write(ipexpression, with: MailManagerClientTypes.IngressIpv4Expression.write(value:to:))
+            case let .ipv6expression(ipv6expression):
+                try writer["Ipv6Expression"].write(ipv6expression, with: MailManagerClientTypes.IngressIpv6Expression.write(value:to:))
             case let .stringexpression(stringexpression):
                 try writer["StringExpression"].write(stringexpression, with: MailManagerClientTypes.IngressStringExpression.write(value:to:))
             case let .tlsexpression(tlsexpression):
@@ -8827,6 +9034,8 @@ extension MailManagerClientTypes.PolicyCondition {
                 return .stringexpression(try reader["StringExpression"].read(with: MailManagerClientTypes.IngressStringExpression.read(from:)))
             case "IpExpression":
                 return .ipexpression(try reader["IpExpression"].read(with: MailManagerClientTypes.IngressIpv4Expression.read(from:)))
+            case "Ipv6Expression":
+                return .ipv6expression(try reader["Ipv6Expression"].read(with: MailManagerClientTypes.IngressIpv6Expression.read(from:)))
             case "TlsExpression":
                 return .tlsexpression(try reader["TlsExpression"].read(with: MailManagerClientTypes.IngressTlsProtocolExpression.read(from:)))
             case "BooleanExpression":
@@ -8948,6 +9157,49 @@ extension MailManagerClientTypes.IngressTlsProtocolToEvaluate {
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressTlsProtocolToEvaluate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Attribute":
+                return .attribute(try reader["Attribute"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MailManagerClientTypes.IngressIpv6Expression {
+
+    static func write(value: MailManagerClientTypes.IngressIpv6Expression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.IngressIpv6ToEvaluate.write(value:to:))
+        try writer["Operator"].write(value.`operator`)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressIpv6Expression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.IngressIpv6Expression()
+        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressIpv6ToEvaluate.read(from:))
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MailManagerClientTypes.IngressIpv6ToEvaluate {
+
+    static func write(value: MailManagerClientTypes.IngressIpv6ToEvaluate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .attribute(attribute):
+                try writer["Attribute"].write(attribute)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressIpv6ToEvaluate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
