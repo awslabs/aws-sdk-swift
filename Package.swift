@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.0
 
 //
 // Copyright Amazon.com Inc. or its affiliates.
@@ -514,7 +514,7 @@ private var clientRuntimeDependency: Package.Dependency {
 }
 
 private var crtDependency: Package.Dependency {
-    .package(url: "https://github.com/awslabs/aws-crt-swift", exact: crtVersion)
+    .package(url: "https://github.com/awslabs/aws-crt-swift", branch: "swift6-support")
 }
 
 private var doccDependencyOrNil: Package.Dependency? {
