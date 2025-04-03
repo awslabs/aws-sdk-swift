@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OpenSearchClient: ClientRuntime.Client {
     public static let clientName = "OpenSearchClient"
-    public static let version = "1.2.51"
+    public static let version = "1.2.52"
     let client: ClientRuntime.SdkHttpClient
     let config: OpenSearchClient.OpenSearchClientConfiguration
     let serviceName = "OpenSearch"
@@ -1063,7 +1063,7 @@ extension OpenSearchClient {
 
     /// Performs the `CreateApplication` operation on the `OpenSearch` service.
     ///
-    /// Creates an OpenSearch Application.
+    /// Creates an OpenSearch UI application. For more information, see [Using the OpenSearch user interface in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/application.html).
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
     ///
@@ -1459,7 +1459,7 @@ extension OpenSearchClient {
 
     /// Performs the `DeleteApplication` operation on the `OpenSearch` service.
     ///
-    /// Deletes an existing OpenSearch Application.
+    /// Deletes a specified OpenSearch application.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
     ///
@@ -3345,7 +3345,7 @@ extension OpenSearchClient {
 
     /// Performs the `GetApplication` operation on the `OpenSearch` service.
     ///
-    /// Check the configuration and status of an existing OpenSearch Application.
+    /// Retrieves the configuration and status of an existing OpenSearch application.
     ///
     /// - Parameter GetApplicationInput : [no documentation found]
     ///
@@ -3951,7 +3951,7 @@ extension OpenSearchClient {
 
     /// Performs the `ListApplications` operation on the `OpenSearch` service.
     ///
-    /// List all OpenSearch Applications under your account.
+    /// Lists all OpenSearch applications under your account.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
     ///
@@ -5466,7 +5466,7 @@ extension OpenSearchClient {
 
     /// Performs the `UpdateApplication` operation on the `OpenSearch` service.
     ///
-    /// Update the OpenSearch Application.
+    /// Updates the configuration and settings of an existing OpenSearch application.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
     ///

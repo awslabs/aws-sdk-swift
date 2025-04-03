@@ -1088,6 +1088,8 @@ extension ChimeSDKVoiceClientTypes {
     public struct PhoneNumberOrder: Swift.Sendable {
         /// The phone number order creation time stamp, in ISO 8601 format.
         public var createdTimestamp: Foundation.Date?
+        /// The Firm Order Commitment (FOC) date for phone number porting orders. This field is null if a phone number order is not a porting order.
+        public var focDate: Foundation.Date?
         /// The type of phone number being ordered, local or toll-free.
         public var orderType: ChimeSDKVoiceClientTypes.PhoneNumberOrderType?
         /// The ordered phone number details, such as the phone number in E.164 format and the phone number status.
@@ -1103,6 +1105,7 @@ extension ChimeSDKVoiceClientTypes {
 
         public init(
             createdTimestamp: Foundation.Date? = nil,
+            focDate: Foundation.Date? = nil,
             orderType: ChimeSDKVoiceClientTypes.PhoneNumberOrderType? = nil,
             orderedPhoneNumbers: [ChimeSDKVoiceClientTypes.OrderedPhoneNumber]? = nil,
             phoneNumberOrderId: Swift.String? = nil,
@@ -1111,6 +1114,7 @@ extension ChimeSDKVoiceClientTypes {
             updatedTimestamp: Foundation.Date? = nil
         ) {
             self.createdTimestamp = createdTimestamp
+            self.focDate = focDate
             self.orderType = orderType
             self.orderedPhoneNumbers = orderedPhoneNumbers
             self.phoneNumberOrderId = phoneNumberOrderId
@@ -10024,6 +10028,7 @@ enum ValidateE911AddressOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
@@ -10228,6 +10233,7 @@ extension ChimeSDKVoiceClientTypes.PhoneNumberOrder {
         value.orderedPhoneNumbers = try reader["OrderedPhoneNumbers"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.OrderedPhoneNumber.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.focDate = try reader["FocDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

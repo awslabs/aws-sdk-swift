@@ -423,6 +423,7 @@ extension TranscribeClientTypes {
         case viVn
         case woSn
         case zhCn
+        case zhHk
         case zhTw
         case zuZa
         case sdkUnknown(Swift.String)
@@ -530,6 +531,7 @@ extension TranscribeClientTypes {
                 .viVn,
                 .woSn,
                 .zhCn,
+                .zhHk,
                 .zhTw,
                 .zuZa
             ]
@@ -643,6 +645,7 @@ extension TranscribeClientTypes {
             case .viVn: return "vi-VN"
             case .woSn: return "wo-SN"
             case .zhCn: return "zh-CN"
+            case .zhHk: return "zh-HK"
             case .zhTw: return "zh-TW"
             case .zuZa: return "zu-ZA"
             case let .sdkUnknown(s): return s
