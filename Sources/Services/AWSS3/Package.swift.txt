@@ -24,6 +24,10 @@ let package = Package(
             exact: "0.0.1"
         ),
         .package(
+            id: "aws-sdk-swift.AWSSDKIdentity",
+            exact: "0.0.1"
+        ),
+        .package(
             url: "https://github.com/smithy-lang/smithy-swift",
             exact: "0.0.1"
         ),
@@ -43,6 +47,10 @@ let package = Package(
                 .product(
                     name: "AWSSDKHTTPAuth",
                     package: "aws-sdk-swift.AWSSDKHTTPAuth"
+                ),
+                .product(
+                    name: "AWSSDKIdentity",
+                    package: "aws-sdk-swift.AWSSDKIdentity"
                 ),
                 .product(
                     name: "ClientRuntime",
