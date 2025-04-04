@@ -625,7 +625,7 @@ public struct DescribeGroupInput: Swift.Sendable {
     /// The Identifier (ID) of the directory associated with the group.
     /// This member is required.
     public var directoryId: Swift.String?
-    /// One or more attributes to be returned for the group. For a list of supported attributes, see [Directory Service Data Attributes](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ad_data-attributes.html).
+    /// One or more attributes to be returned for the group. For a list of supported attributes, see [Directory Service Data Attributes](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ad_data_attributes.html).
     public var otherAttributes: [Swift.String]?
     /// The domain name that's associated with the group. This parameter is optional, so you can return groups outside of your Managed Microsoft AD domain. When no value is defined, only your Managed Microsoft AD groups are returned. This value is case insensitive.
     public var realm: Swift.String?
@@ -736,7 +736,7 @@ public struct DescribeUserOutput: Swift.Sendable {
     public var sid: Swift.String?
     /// The last name of the user.
     public var surname: Swift.String?
-    /// The UPN that is an Internet-style login name for a user and is based on the Internet standard [RFC 822](https://www.ietf.org/rfc/rfc0822.txt). The UPN is shorter than the distinguished name and easier to remember.
+    /// The UPN that is an Internet-style login name for a user and is based on the Internet standard [RFC 822](https://datatracker.ietf.org/doc/html/rfc822). The UPN is shorter than the distinguished name and easier to remember.
     public var userPrincipalName: Swift.String?
 
     public init(
@@ -1382,7 +1382,7 @@ extension DirectoryServiceDataClientTypes {
         public var sid: Swift.String?
         /// The last name of the user.
         public var surname: Swift.String?
-        /// The UPN that is an internet-style login name for a user and based on the internet standard [RFC 822](https://www.ietf.org/rfc/rfc0822.txt). The UPN is shorter than the distinguished name and easier to remember.
+        /// The UPN that is an internet-style login name for a user and based on the internet standard [RFC 822](https://datatracker.ietf.org/doc/html/rfc822). The UPN is shorter than the distinguished name and easier to remember.
         public var userPrincipalName: Swift.String?
 
         public init(
@@ -1526,7 +1526,7 @@ public struct UpdateUserInput: Swift.Sendable {
     public var emailAddress: Swift.String?
     /// The first name of the user.
     public var givenName: Swift.String?
-    /// An expression that defines one or more attribute names with the data type and value of each attribute. A key is an attribute name, and the value is a list of maps. For a list of supported attributes, see [Directory Service Data Attributes](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ad_data-attributes.html). Attribute names are case insensitive.
+    /// An expression that defines one or more attribute names with the data type and value of each attribute. A key is an attribute name, and the value is a list of maps. For a list of supported attributes, see [Directory Service Data Attributes](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ad_data_attributes.html). Attribute names are case insensitive.
     public var otherAttributes: [Swift.String: DirectoryServiceDataClientTypes.AttributeValue]?
     /// The name of the user.
     /// This member is required.

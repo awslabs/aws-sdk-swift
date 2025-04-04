@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3ControlClient: ClientRuntime.Client {
     public static let clientName = "S3ControlClient"
-    public static let version = "1.2.52"
+    public static let version = "1.2.53"
     let client: ClientRuntime.SdkHttpClient
     let config: S3ControlClient.S3ControlClientConfiguration
     let serviceName = "S3 Control"
@@ -6090,26 +6090,7 @@ extension S3ControlClient {
 
     /// Performs the `PutAccessPointScope` operation on the `S3Control` service.
     ///
-    /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. You can include one or more of the following API operations as permissions:
-    ///
-    /// * PutObjet
-    ///
-    /// * GetObject
-    ///
-    /// * DeleteObject
-    ///
-    /// * ListBucket
-    ///
-    /// * GetObjectAttributes
-    ///
-    /// * AbortMultipartUpload
-    ///
-    /// * ListBucketMultipartUpload
-    ///
-    /// * ListMultiPartUploadParts
-    ///
-    ///
-    /// You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 512 KB in size. To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
+    /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
     ///
     /// - Parameter PutAccessPointScopeInput : [no documentation found]
     ///

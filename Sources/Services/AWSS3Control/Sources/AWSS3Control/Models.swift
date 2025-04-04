@@ -1408,7 +1408,7 @@ extension S3ControlClientTypes {
     public struct Scope: Swift.Sendable {
         /// You can include one or more API operations as permissions.
         public var permissions: [S3ControlClientTypes.ScopePermission]?
-        /// You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 512 KB in size.
+        /// You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size.
         public var prefixes: [Swift.String]?
 
         public init(
