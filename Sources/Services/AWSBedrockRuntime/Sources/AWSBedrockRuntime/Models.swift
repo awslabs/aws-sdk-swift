@@ -1147,6 +1147,8 @@ extension BedrockRuntimeClientTypes {
 
     /// The details on the use of the guardrail.
     public struct GuardrailUsage: Swift.Sendable {
+        /// The content policy image units processed by the guardrail.
+        public var contentPolicyImageUnits: Swift.Int?
         /// The content policy units processed by the guardrail.
         /// This member is required.
         public var contentPolicyUnits: Swift.Int?
@@ -1167,6 +1169,7 @@ extension BedrockRuntimeClientTypes {
         public var wordPolicyUnits: Swift.Int?
 
         public init(
+            contentPolicyImageUnits: Swift.Int? = nil,
             contentPolicyUnits: Swift.Int? = nil,
             contextualGroundingPolicyUnits: Swift.Int? = nil,
             sensitiveInformationPolicyFreeUnits: Swift.Int? = nil,
@@ -1174,6 +1177,7 @@ extension BedrockRuntimeClientTypes {
             topicPolicyUnits: Swift.Int? = nil,
             wordPolicyUnits: Swift.Int? = nil
         ) {
+            self.contentPolicyImageUnits = contentPolicyImageUnits
             self.contentPolicyUnits = contentPolicyUnits
             self.contextualGroundingPolicyUnits = contextualGroundingPolicyUnits
             self.sensitiveInformationPolicyFreeUnits = sensitiveInformationPolicyFreeUnits
@@ -1882,6 +1886,48 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    public enum CachePointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CachePointType] {
+            return [
+                .default
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "default"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Defines a section of content to be cached for reuse in subsequent API calls.
+    public struct CachePointBlock: Swift.Sendable {
+        /// Specifies the type of cache point within the CachePointBlock.
+        /// This member is required.
+        public var type: BedrockRuntimeClientTypes.CachePointType?
+
+        public init(
+            type: BedrockRuntimeClientTypes.CachePointType? = nil
+        ) {
+            self.type = type
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     public enum DocumentFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case csv
         case doc
@@ -2432,6 +2478,8 @@ extension BedrockRuntimeClientTypes {
         case toolresult(BedrockRuntimeClientTypes.ToolResultBlock)
         /// Contains the content to assess with the guardrail. If you don't specify guardContent in a call to the Converse API, the guardrail (if passed in the Converse API) assesses the entire message. For more information, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
         case guardcontent(BedrockRuntimeClientTypes.GuardrailConverseContentBlock)
+        /// CachePoint to include in the message.
+        case cachepoint(BedrockRuntimeClientTypes.CachePointBlock)
         /// Contains content regarding the reasoning that is carried out by the model. Reasoning refers to a Chain of Thought (CoT) that the model generates to enhance the accuracy of its final response.
         case reasoningcontent(BedrockRuntimeClientTypes.ReasoningContentBlock)
         case sdkUnknown(Swift.String)
@@ -2558,6 +2606,8 @@ extension BedrockRuntimeClientTypes {
         case text(Swift.String)
         /// A content block to assess with the guardrail. Use with the [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) or [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) API operations. For more information, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
         case guardcontent(BedrockRuntimeClientTypes.GuardrailConverseContentBlock)
+        /// CachePoint to include in the system prompt.
+        case cachepoint(BedrockRuntimeClientTypes.CachePointBlock)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2651,6 +2701,8 @@ extension BedrockRuntimeClientTypes {
     public enum Tool: Swift.Sendable {
         /// The specfication for the tool.
         case toolspec(BedrockRuntimeClientTypes.ToolSpecification)
+        /// CachePoint to include in the tool configuration.
+        case cachepoint(BedrockRuntimeClientTypes.CachePointBlock)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2873,6 +2925,10 @@ extension BedrockRuntimeClientTypes {
 
     /// The tokens used in a message API inference call.
     public struct TokenUsage: Swift.Sendable {
+        /// The number of input tokens read from the cache for the request.
+        public var cacheReadInputTokens: Swift.Int?
+        /// The number of input tokens written to the cache for the request.
+        public var cacheWriteInputTokens: Swift.Int?
         /// The number of tokens sent in the request to the model.
         /// This member is required.
         public var inputTokens: Swift.Int?
@@ -2884,10 +2940,14 @@ extension BedrockRuntimeClientTypes {
         public var totalTokens: Swift.Int?
 
         public init(
+            cacheReadInputTokens: Swift.Int? = nil,
+            cacheWriteInputTokens: Swift.Int? = nil,
             inputTokens: Swift.Int? = nil,
             outputTokens: Swift.Int? = nil,
             totalTokens: Swift.Int? = nil
         ) {
+            self.cacheReadInputTokens = cacheReadInputTokens
+            self.cacheWriteInputTokens = cacheWriteInputTokens
             self.inputTokens = inputTokens
             self.outputTokens = outputTokens
             self.totalTokens = totalTokens
@@ -4403,6 +4463,7 @@ extension BedrockRuntimeClientTypes.GuardrailUsage {
         value.sensitiveInformationPolicyUnits = try reader["sensitiveInformationPolicyUnits"].readIfPresent() ?? 0
         value.sensitiveInformationPolicyFreeUnits = try reader["sensitiveInformationPolicyFreeUnits"].readIfPresent() ?? 0
         value.contextualGroundingPolicyUnits = try reader["contextualGroundingPolicyUnits"].readIfPresent() ?? 0
+        value.contentPolicyImageUnits = try reader["contentPolicyImageUnits"].readIfPresent()
         return value
     }
 }
@@ -4651,6 +4712,8 @@ extension BedrockRuntimeClientTypes.ContentBlock {
     static func write(value: BedrockRuntimeClientTypes.ContentBlock?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .cachepoint(cachepoint):
+                try writer["cachePoint"].write(cachepoint, with: BedrockRuntimeClientTypes.CachePointBlock.write(value:to:))
             case let .document(document):
                 try writer["document"].write(document, with: BedrockRuntimeClientTypes.DocumentBlock.write(value:to:))
             case let .guardcontent(guardcontent):
@@ -4690,6 +4753,8 @@ extension BedrockRuntimeClientTypes.ContentBlock {
                 return .toolresult(try reader["toolResult"].read(with: BedrockRuntimeClientTypes.ToolResultBlock.read(from:)))
             case "guardContent":
                 return .guardcontent(try reader["guardContent"].read(with: BedrockRuntimeClientTypes.GuardrailConverseContentBlock.read(from:)))
+            case "cachePoint":
+                return .cachepoint(try reader["cachePoint"].read(with: BedrockRuntimeClientTypes.CachePointBlock.read(from:)))
             case "reasoningContent":
                 return .reasoningcontent(try reader["reasoningContent"].read(with: BedrockRuntimeClientTypes.ReasoningContentBlock.read(from:)))
             default:
@@ -4739,6 +4804,21 @@ extension BedrockRuntimeClientTypes.ReasoningTextBlock {
         var value = BedrockRuntimeClientTypes.ReasoningTextBlock()
         value.text = try reader["text"].readIfPresent() ?? ""
         value.signature = try reader["signature"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.CachePointBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.CachePointBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.CachePointBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.CachePointBlock()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5061,6 +5141,8 @@ extension BedrockRuntimeClientTypes.TokenUsage {
         value.inputTokens = try reader["inputTokens"].readIfPresent() ?? 0
         value.outputTokens = try reader["outputTokens"].readIfPresent() ?? 0
         value.totalTokens = try reader["totalTokens"].readIfPresent() ?? 0
+        value.cacheReadInputTokens = try reader["cacheReadInputTokens"].readIfPresent()
+        value.cacheWriteInputTokens = try reader["cacheWriteInputTokens"].readIfPresent()
         return value
     }
 }
@@ -5465,6 +5547,8 @@ extension BedrockRuntimeClientTypes.SystemContentBlock {
     static func write(value: BedrockRuntimeClientTypes.SystemContentBlock?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .cachepoint(cachepoint):
+                try writer["cachePoint"].write(cachepoint, with: BedrockRuntimeClientTypes.CachePointBlock.write(value:to:))
             case let .guardcontent(guardcontent):
                 try writer["guardContent"].write(guardcontent, with: BedrockRuntimeClientTypes.GuardrailConverseContentBlock.write(value:to:))
             case let .text(text):
@@ -5541,6 +5625,8 @@ extension BedrockRuntimeClientTypes.Tool {
     static func write(value: BedrockRuntimeClientTypes.Tool?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .cachepoint(cachepoint):
+                try writer["cachePoint"].write(cachepoint, with: BedrockRuntimeClientTypes.CachePointBlock.write(value:to:))
             case let .toolspec(toolspec):
                 try writer["toolSpec"].write(toolspec, with: BedrockRuntimeClientTypes.ToolSpecification.write(value:to:))
             case let .sdkUnknown(sdkUnknown):

@@ -58,6 +58,7 @@ extension OutpostsClient {
 extension GetOutpostSupportedInstanceTypesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetOutpostSupportedInstanceTypesInput {
         return GetOutpostSupportedInstanceTypesInput(
+            assetId: self.assetId,
             maxResults: self.maxResults,
             nextToken: token,
             orderId: self.orderId,

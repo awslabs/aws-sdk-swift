@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKVoiceClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKVoiceClient"
-    public static let version = "1.2.47"
+    public static let version = "1.2.53"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKVoiceClient.ChimeSDKVoiceClientConfiguration
     let serviceName = "Chime SDK Voice"
@@ -7884,6 +7884,7 @@ extension ChimeSDKVoiceClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have the permissions needed to run this action.
     /// - `BadRequestException` : The input parameters don't match the service's restrictions.
     /// - `ForbiddenException` : The client is permanently forbidden from making the request.
     /// - `NotFoundException` : The requested resource couldn't be found.

@@ -4741,6 +4741,8 @@ public struct ListSchemasOutput: Swift.Sendable {
 }
 
 public struct UpdateCollaborationInput: Swift.Sendable {
+    /// The analytics engine.
+    public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
     /// The identifier for the collaboration.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -4750,10 +4752,12 @@ public struct UpdateCollaborationInput: Swift.Sendable {
     public var name: Swift.String?
 
     public init(
+        analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine? = nil,
         collaborationIdentifier: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
+        self.analyticsEngine = analyticsEngine
         self.collaborationIdentifier = collaborationIdentifier
         self.description = description
         self.name = name
@@ -11046,6 +11050,7 @@ extension UpdateCollaborationInput {
 
     static func write(value: UpdateCollaborationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["analyticsEngine"].write(value.analyticsEngine)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
     }

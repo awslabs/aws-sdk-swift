@@ -1074,7 +1074,7 @@ public struct CreatePullThroughCacheRuleInput: Swift.Sendable {
     public var upstreamRegistry: ECRClientTypes.UpstreamRegistry?
     /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.
     ///
-    /// * Amazon ECR (ecr) – dkr.ecr..amazonaws.com
+    /// * Amazon ECR (ecr) – .dkr.ecr..amazonaws.com
     ///
     /// * Amazon ECR Public (ecr-public) – public.ecr.aws
     ///
@@ -2305,7 +2305,7 @@ extension ECRClientTypes {
         public var imageScanFindingsSummary: ECRClientTypes.ImageScanFindingsSummary?
         /// The current state of the scan.
         public var imageScanStatus: ECRClientTypes.ImageScanStatus?
-        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list. Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image sizes returned by [DescribeImages].
+        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list. Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console.
         public var imageSizeInBytes: Swift.Int?
         /// The list of tags associated with this image.
         public var imageTags: [Swift.String]?
@@ -3260,7 +3260,7 @@ extension ECRClientTypes {
 }
 
 public struct GetAuthorizationTokenOutput: Swift.Sendable {
-    /// A list of authorization token data objects that correspond to the registryIds values in the request.
+    /// A list of authorization token data objects that correspond to the registryIds values in the request. The size of the authorization token returned by Amazon ECR is not fixed. We recommend that you don't make assumptions about the maximum size.
     public var authorizationData: [ECRClientTypes.AuthorizationData]?
 
     public init(

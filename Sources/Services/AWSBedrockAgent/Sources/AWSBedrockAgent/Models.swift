@@ -9482,6 +9482,8 @@ extension BedrockAgentClientTypes {
         /// Contains the names of the fields to which to map information about the vector store.
         /// This member is required.
         public var fieldMapping: BedrockAgentClientTypes.MongoDbAtlasFieldMapping?
+        /// The name of the text search index in the MongoDB collection. This is required for using the hybrid search feature.
+        public var textIndexName: Swift.String?
         /// The name of the MongoDB Atlas vector search index.
         /// This member is required.
         public var vectorIndexName: Swift.String?
@@ -9493,6 +9495,7 @@ extension BedrockAgentClientTypes {
             endpoint: Swift.String? = nil,
             endpointServiceName: Swift.String? = nil,
             fieldMapping: BedrockAgentClientTypes.MongoDbAtlasFieldMapping? = nil,
+            textIndexName: Swift.String? = nil,
             vectorIndexName: Swift.String? = nil
         ) {
             self.collectionName = collectionName
@@ -9501,6 +9504,7 @@ extension BedrockAgentClientTypes {
             self.endpoint = endpoint
             self.endpointServiceName = endpointServiceName
             self.fieldMapping = fieldMapping
+            self.textIndexName = textIndexName
             self.vectorIndexName = vectorIndexName
         }
     }
@@ -9722,6 +9726,8 @@ extension BedrockAgentClientTypes {
 
     /// Contains the names of the fields to which to map information about the vector store.
     public struct RdsFieldMapping: Swift.Sendable {
+        /// Provide a name for the universal metadata field where Amazon Bedrock will store any custom metadata from your data source.
+        public var customMetadataField: Swift.String?
         /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
         /// This member is required.
         public var metadataField: Swift.String?
@@ -9736,11 +9742,13 @@ extension BedrockAgentClientTypes {
         public var vectorField: Swift.String?
 
         public init(
+            customMetadataField: Swift.String? = nil,
             metadataField: Swift.String? = nil,
             primaryKeyField: Swift.String? = nil,
             textField: Swift.String? = nil,
             vectorField: Swift.String? = nil
         ) {
+            self.customMetadataField = customMetadataField
             self.metadataField = metadataField
             self.primaryKeyField = primaryKeyField
             self.textField = textField
@@ -17251,6 +17259,7 @@ extension BedrockAgentClientTypes.MongoDbAtlasConfiguration {
         try writer["endpoint"].write(value.endpoint)
         try writer["endpointServiceName"].write(value.endpointServiceName)
         try writer["fieldMapping"].write(value.fieldMapping, with: BedrockAgentClientTypes.MongoDbAtlasFieldMapping.write(value:to:))
+        try writer["textIndexName"].write(value.textIndexName)
         try writer["vectorIndexName"].write(value.vectorIndexName)
     }
 
@@ -17264,6 +17273,7 @@ extension BedrockAgentClientTypes.MongoDbAtlasConfiguration {
         value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent() ?? ""
         value.fieldMapping = try reader["fieldMapping"].readIfPresent(with: BedrockAgentClientTypes.MongoDbAtlasFieldMapping.read(from:))
         value.endpointServiceName = try reader["endpointServiceName"].readIfPresent()
+        value.textIndexName = try reader["textIndexName"].readIfPresent()
         return value
     }
 }
@@ -17314,6 +17324,7 @@ extension BedrockAgentClientTypes.RdsFieldMapping {
 
     static func write(value: BedrockAgentClientTypes.RdsFieldMapping?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["customMetadataField"].write(value.customMetadataField)
         try writer["metadataField"].write(value.metadataField)
         try writer["primaryKeyField"].write(value.primaryKeyField)
         try writer["textField"].write(value.textField)
@@ -17327,6 +17338,7 @@ extension BedrockAgentClientTypes.RdsFieldMapping {
         value.vectorField = try reader["vectorField"].readIfPresent() ?? ""
         value.textField = try reader["textField"].readIfPresent() ?? ""
         value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
+        value.customMetadataField = try reader["customMetadataField"].readIfPresent()
         return value
     }
 }

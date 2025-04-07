@@ -1411,6 +1411,8 @@ extension Route53ClientTypes {
         case saEast1
         case usEast1
         case usEast2
+        case usGovEast1
+        case usGovWest1
         case usWest1
         case usWest2
         case sdkUnknown(Swift.String)
@@ -1449,6 +1451,8 @@ extension Route53ClientTypes {
                 .saEast1,
                 .usEast1,
                 .usEast2,
+                .usGovEast1,
+                .usGovWest1,
                 .usWest1,
                 .usWest2
             ]
@@ -1493,6 +1497,8 @@ extension Route53ClientTypes {
             case .saEast1: return "sa-east-1"
             case .usEast1: return "us-east-1"
             case .usEast2: return "us-east-2"
+            case .usGovEast1: return "us-gov-east-1"
+            case .usGovWest1: return "us-gov-west-1"
             case .usWest1: return "us-west-1"
             case .usWest2: return "us-west-2"
             case let .sdkUnknown(s): return s

@@ -3592,6 +3592,19 @@ extension SageMakerClientTypes {
         /// The ML compute instance type for the transform job. If you are using built-in algorithms to transform moderately sized datasets, we recommend using ml.m4.xlarge or ml.m5.largeinstance types.
         /// This member is required.
         public var instanceType: SageMakerClientTypes.TransformInstanceType?
+        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. al2-ami-sagemaker-batch-gpu-470
+        ///
+        /// * Accelerator: GPU
+        ///
+        /// * NVIDIA driver version: 470
+        ///
+        ///
+        /// al2-ami-sagemaker-batch-gpu-535
+        ///
+        /// * Accelerator: GPU
+        ///
+        /// * NVIDIA driver version: 535
+        public var transformAmiVersion: Swift.String?
         /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt model data on the storage volume attached to the ML compute instance(s) that run the batch transform job. Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see [Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes). For more information about local instance storage encryption, see [SSD Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html). The VolumeKmsKeyId can be any of the following formats:
         ///
         /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
@@ -3606,10 +3619,12 @@ extension SageMakerClientTypes {
         public init(
             instanceCount: Swift.Int? = nil,
             instanceType: SageMakerClientTypes.TransformInstanceType? = nil,
+            transformAmiVersion: Swift.String? = nil,
             volumeKmsKeyId: Swift.String? = nil
         ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
+            self.transformAmiVersion = transformAmiVersion
             self.volumeKmsKeyId = volumeKmsKeyId
         }
     }
@@ -9823,6 +9838,13 @@ extension SageMakerClientTypes {
         case mlG6Xlarge
         case mlGr64xlarge
         case mlGr68xlarge
+        case mlI3en12xlarge
+        case mlI3en24xlarge
+        case mlI3en2xlarge
+        case mlI3en3xlarge
+        case mlI3en6xlarge
+        case mlI3enLarge
+        case mlI3enXlarge
         case mlM512xlarge
         case mlM516xlarge
         case mlM524xlarge
@@ -9840,6 +9862,15 @@ extension SageMakerClientTypes {
         case mlM6i8xlarge
         case mlM6iLarge
         case mlM6iXlarge
+        case mlM7i12xlarge
+        case mlM7i16xlarge
+        case mlM7i24xlarge
+        case mlM7i2xlarge
+        case mlM7i48xlarge
+        case mlM7i4xlarge
+        case mlM7i8xlarge
+        case mlM7iLarge
+        case mlM7iXlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
         case mlP5en48xlarge
@@ -9854,6 +9885,15 @@ extension SageMakerClientTypes {
         case mlR6i8xlarge
         case mlR6iLarge
         case mlR6iXlarge
+        case mlR7i12xlarge
+        case mlR7i16xlarge
+        case mlR7i24xlarge
+        case mlR7i2xlarge
+        case mlR7i48xlarge
+        case mlR7i4xlarge
+        case mlR7i8xlarge
+        case mlR7iLarge
+        case mlR7iXlarge
         case mlT32xlarge
         case mlT3Large
         case mlT3Medium
@@ -9913,6 +9953,13 @@ extension SageMakerClientTypes {
                 .mlG6Xlarge,
                 .mlGr64xlarge,
                 .mlGr68xlarge,
+                .mlI3en12xlarge,
+                .mlI3en24xlarge,
+                .mlI3en2xlarge,
+                .mlI3en3xlarge,
+                .mlI3en6xlarge,
+                .mlI3enLarge,
+                .mlI3enXlarge,
                 .mlM512xlarge,
                 .mlM516xlarge,
                 .mlM524xlarge,
@@ -9930,6 +9977,15 @@ extension SageMakerClientTypes {
                 .mlM6i8xlarge,
                 .mlM6iLarge,
                 .mlM6iXlarge,
+                .mlM7i12xlarge,
+                .mlM7i16xlarge,
+                .mlM7i24xlarge,
+                .mlM7i2xlarge,
+                .mlM7i48xlarge,
+                .mlM7i4xlarge,
+                .mlM7i8xlarge,
+                .mlM7iLarge,
+                .mlM7iXlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
                 .mlP5en48xlarge,
@@ -9944,6 +10000,15 @@ extension SageMakerClientTypes {
                 .mlR6i8xlarge,
                 .mlR6iLarge,
                 .mlR6iXlarge,
+                .mlR7i12xlarge,
+                .mlR7i16xlarge,
+                .mlR7i24xlarge,
+                .mlR7i2xlarge,
+                .mlR7i48xlarge,
+                .mlR7i4xlarge,
+                .mlR7i8xlarge,
+                .mlR7iLarge,
+                .mlR7iXlarge,
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
@@ -10009,6 +10074,13 @@ extension SageMakerClientTypes {
             case .mlG6Xlarge: return "ml.g6.xlarge"
             case .mlGr64xlarge: return "ml.gr6.4xlarge"
             case .mlGr68xlarge: return "ml.gr6.8xlarge"
+            case .mlI3en12xlarge: return "ml.i3en.12xlarge"
+            case .mlI3en24xlarge: return "ml.i3en.24xlarge"
+            case .mlI3en2xlarge: return "ml.i3en.2xlarge"
+            case .mlI3en3xlarge: return "ml.i3en.3xlarge"
+            case .mlI3en6xlarge: return "ml.i3en.6xlarge"
+            case .mlI3enLarge: return "ml.i3en.large"
+            case .mlI3enXlarge: return "ml.i3en.xlarge"
             case .mlM512xlarge: return "ml.m5.12xlarge"
             case .mlM516xlarge: return "ml.m5.16xlarge"
             case .mlM524xlarge: return "ml.m5.24xlarge"
@@ -10026,6 +10098,15 @@ extension SageMakerClientTypes {
             case .mlM6i8xlarge: return "ml.m6i.8xlarge"
             case .mlM6iLarge: return "ml.m6i.large"
             case .mlM6iXlarge: return "ml.m6i.xlarge"
+            case .mlM7i12xlarge: return "ml.m7i.12xlarge"
+            case .mlM7i16xlarge: return "ml.m7i.16xlarge"
+            case .mlM7i24xlarge: return "ml.m7i.24xlarge"
+            case .mlM7i2xlarge: return "ml.m7i.2xlarge"
+            case .mlM7i48xlarge: return "ml.m7i.48xlarge"
+            case .mlM7i4xlarge: return "ml.m7i.4xlarge"
+            case .mlM7i8xlarge: return "ml.m7i.8xlarge"
+            case .mlM7iLarge: return "ml.m7i.large"
+            case .mlM7iXlarge: return "ml.m7i.xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
@@ -10040,6 +10121,15 @@ extension SageMakerClientTypes {
             case .mlR6i8xlarge: return "ml.r6i.8xlarge"
             case .mlR6iLarge: return "ml.r6i.large"
             case .mlR6iXlarge: return "ml.r6i.xlarge"
+            case .mlR7i12xlarge: return "ml.r7i.12xlarge"
+            case .mlR7i16xlarge: return "ml.r7i.16xlarge"
+            case .mlR7i24xlarge: return "ml.r7i.24xlarge"
+            case .mlR7i2xlarge: return "ml.r7i.2xlarge"
+            case .mlR7i48xlarge: return "ml.r7i.48xlarge"
+            case .mlR7i4xlarge: return "ml.r7i.4xlarge"
+            case .mlR7i8xlarge: return "ml.r7i.8xlarge"
+            case .mlR7iLarge: return "ml.r7i.large"
+            case .mlR7iXlarge: return "ml.r7i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
@@ -22643,15 +22733,19 @@ public struct CreateNotebookInstanceLifecycleConfigInput: Swift.Sendable {
     public var onCreate: [SageMakerClientTypes.NotebookInstanceLifecycleHook]?
     /// A shell script that runs every time you start a notebook instance, including when you create the notebook instance. The shell script must be a base64-encoded string.
     public var onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]?
+    /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
+    public var tags: [SageMakerClientTypes.Tag]?
 
     public init(
         notebookInstanceLifecycleConfigName: Swift.String? = nil,
         onCreate: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil,
-        onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil
+        onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
     ) {
         self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
         self.onCreate = onCreate
         self.onStart = onStart
+        self.tags = tags
     }
 }
 
@@ -48438,6 +48532,35 @@ public struct RegisterDevicesInput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
+    public enum Relation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equalTo
+        case greaterThanOrEqualTo
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Relation] {
+            return [
+                .equalTo,
+                .greaterThanOrEqualTo
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equalTo: return "EqualTo"
+            case .greaterThanOrEqualTo: return "GreaterThanOrEqualTo"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Configuration for remote debugging for the [UpdateTrainingJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateTrainingJob.html) API. To learn more about the remote debugging functionality of SageMaker, see [Access a training container through Amazon Web Services Systems Manager (SSM) for remote debugging](https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html).
     public struct RemoteDebugConfigForUpdate: Swift.Sendable {
         /// If set to True, enables remote debugging.
@@ -49178,18 +49301,45 @@ extension SageMakerClientTypes {
     }
 }
 
+extension SageMakerClientTypes {
+
+    /// Represents the total number of matching results and indicates how accurate that count is. The Value field provides the count, which may be exact or estimated. The Relation field indicates whether it's an exact figure or a lower bound. This helps understand the full scope of search results, especially when dealing with large result sets.
+    public struct TotalHits: Swift.Sendable {
+        /// Indicates the relationship between the returned Value and the actual total number of matching results. Possible values are:
+        ///
+        /// * EqualTo: The Value is the exact count of matching results.
+        ///
+        /// * GreaterThanOrEqualTo: The Value is a lower bound of the actual count of matching results.
+        public var relation: SageMakerClientTypes.Relation?
+        /// The total number of matching results. This value may be exact or an estimate, depending on the Relation field.
+        public var value: Swift.Int?
+
+        public init(
+            relation: SageMakerClientTypes.Relation? = nil,
+            value: Swift.Int? = nil
+        ) {
+            self.relation = relation
+            self.value = value
+        }
+    }
+}
+
 public struct SearchOutput: Swift.Sendable {
     /// If the result of the previous Search request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request.
     public var nextToken: Swift.String?
     /// A list of SearchRecord objects.
     public var results: [SageMakerClientTypes.SearchRecord]?
+    /// The total number of matching results.
+    public var totalHits: SageMakerClientTypes.TotalHits?
 
     public init(
         nextToken: Swift.String? = nil,
-        results: [SageMakerClientTypes.SearchRecord]? = nil
+        results: [SageMakerClientTypes.SearchRecord]? = nil,
+        totalHits: SageMakerClientTypes.TotalHits? = nil
     ) {
         self.nextToken = nextToken
         self.results = results
+        self.totalHits = totalHits
     }
 }
 
@@ -54878,6 +55028,7 @@ extension CreateNotebookInstanceLifecycleConfigInput {
         try writer["NotebookInstanceLifecycleConfigName"].write(value.notebookInstanceLifecycleConfigName)
         try writer["OnCreate"].writeList(value.onCreate, memberWritingClosure: SageMakerClientTypes.NotebookInstanceLifecycleHook.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OnStart"].writeList(value.onStart, memberWritingClosure: SageMakerClientTypes.NotebookInstanceLifecycleHook.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -62428,6 +62579,7 @@ extension SearchOutput {
         var value = SearchOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.results = try reader["Results"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.SearchRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalHits = try reader["TotalHits"].readIfPresent(with: SageMakerClientTypes.TotalHits.read(from:))
         return value
     }
 }
@@ -68772,6 +68924,7 @@ extension SageMakerClientTypes.TransformResources {
         guard let value else { return }
         try writer["InstanceCount"].write(value.instanceCount)
         try writer["InstanceType"].write(value.instanceType)
+        try writer["TransformAmiVersion"].write(value.transformAmiVersion)
         try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
     }
 
@@ -68781,6 +68934,7 @@ extension SageMakerClientTypes.TransformResources {
         value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
         value.instanceCount = try reader["InstanceCount"].readIfPresent() ?? 0
         value.volumeKmsKeyId = try reader["VolumeKmsKeyId"].readIfPresent()
+        value.transformAmiVersion = try reader["TransformAmiVersion"].readIfPresent()
         return value
     }
 }
@@ -78601,6 +78755,17 @@ extension SageMakerClientTypes.Experiment {
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.TotalHits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TotalHits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.TotalHits()
+        value.value = try reader["Value"].readIfPresent()
+        value.relation = try reader["Relation"].readIfPresent()
         return value
     }
 }

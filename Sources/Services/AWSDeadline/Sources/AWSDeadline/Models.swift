@@ -345,7 +345,6 @@ extension DeadlineClientTypes {
         /// This member is required.
         public var stepId: Swift.String?
         /// The task ID.
-        /// This member is required.
         public var taskId: Swift.String?
 
         public init(
@@ -3359,7 +3358,7 @@ public struct CreateJobInput: Swift.Sendable {
     public var maxWorkerCount: Swift.Int?
     /// The parameters for the job.
     public var parameters: [Swift.String: DeadlineClientTypes.JobParameter]?
-    /// The priority of the job on a scale of 0 to 100. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
+    /// The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
     /// This member is required.
     public var priority: Swift.Int?
     /// The ID of the queue that the job is submitted to.
@@ -3655,7 +3654,7 @@ public struct CreateQueueInput: Swift.Sendable {
 
 extension CreateQueueInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateQueueInput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", requiredFileSystemLocationNames: \"CONTENT_REDACTED\")"}
+        "CreateQueueInput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateQueueOutput: Swift.Sendable {
@@ -3705,7 +3704,7 @@ public struct CreateQueueEnvironmentInput: Swift.Sendable {
     /// The farm ID of the farm to connect to the environment.
     /// This member is required.
     public var farmId: Swift.String?
-    /// Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority. If two environments share the same priority value, the environment created first takes higher priority.
+    /// Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority (activated first and deactivated last). If two environments share the same priority value, the environment created first takes higher priority.
     /// This member is required.
     public var priority: Swift.Int?
     /// The queue ID to connect the queue and environment.
@@ -5240,7 +5239,7 @@ extension DeadlineClientTypes {
         public var completedStatus: DeadlineClientTypes.CompletedStatus?
         /// The date and time the resource ended running.
         public var endedAt: Foundation.Date?
-        /// The process exit code.
+        /// The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes.
         public var processExitCode: Swift.Int?
         /// A message to indicate the progress of the updated session action.
         public var progressMessage: Swift.String?
@@ -6109,7 +6108,7 @@ public struct GetQueueOutput: Swift.Sendable {
 
 extension GetQueueOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetQueueOutput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), blockedReason: \(Swift.String(describing: blockedReason)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", requiredFileSystemLocationNames: \"CONTENT_REDACTED\")"}
+        "GetQueueOutput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), blockedReason: \(Swift.String(describing: blockedReason)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetQueueEnvironmentInput: Swift.Sendable {
@@ -6726,7 +6725,6 @@ extension DeadlineClientTypes {
         /// This member is required.
         public var stepId: Swift.String?
         /// The task ID.
-        /// This member is required.
         public var taskId: Swift.String?
 
         public init(
@@ -6826,7 +6824,7 @@ public struct GetSessionActionOutput: Swift.Sendable {
     public var definition: DeadlineClientTypes.SessionActionDefinition?
     /// The date and time the resource ended running.
     public var endedAt: Foundation.Date?
-    /// The exit code to exit the session.
+    /// The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes.
     public var processExitCode: Swift.Int?
     /// The message that communicates the progress of the session action.
     public var progressMessage: Swift.String?
@@ -7771,7 +7769,6 @@ extension DeadlineClientTypes {
         /// This member is required.
         public var stepId: Swift.String?
         /// The task ID.
-        /// This member is required.
         public var taskId: Swift.String?
 
         public init(
@@ -8958,7 +8955,7 @@ public struct UpdateQueueInput: Swift.Sendable {
 
 extension UpdateQueueInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateQueueInput(allowedStorageProfileIdsToAdd: \(Swift.String(describing: allowedStorageProfileIdsToAdd)), allowedStorageProfileIdsToRemove: \(Swift.String(describing: allowedStorageProfileIdsToRemove)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", requiredFileSystemLocationNamesToAdd: \"CONTENT_REDACTED\", requiredFileSystemLocationNamesToRemove: \"CONTENT_REDACTED\")"}
+        "UpdateQueueInput(allowedStorageProfileIdsToAdd: \(Swift.String(describing: allowedStorageProfileIdsToAdd)), allowedStorageProfileIdsToRemove: \(Swift.String(describing: allowedStorageProfileIdsToRemove)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), requiredFileSystemLocationNamesToAdd: \(Swift.String(describing: requiredFileSystemLocationNamesToAdd)), requiredFileSystemLocationNamesToRemove: \(Swift.String(describing: requiredFileSystemLocationNamesToRemove)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateQueueOutput: Swift.Sendable {
@@ -10288,15 +10285,52 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
+    public enum SearchTermMatchingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contains
+        case fuzzyMatch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchTermMatchingType] {
+            return [
+                .contains,
+                .fuzzyMatch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contains: return "CONTAINS"
+            case .fuzzyMatch: return "FUZZY_MATCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
     /// Searches for a particular search term.
     public struct SearchTermFilterExpression: Swift.Sendable {
+        /// Specifies how Deadline Cloud matches your search term in the results. If you don't specify a matchType the default is FUZZY_MATCH.
+        ///
+        /// * FUZZY_MATCH - Matches if a portion of the search term is found in the result.
+        ///
+        /// * CONTAINS - Matches if the exact search term is contained in the result.
+        public var matchType: DeadlineClientTypes.SearchTermMatchingType?
         /// The term to search for.
         /// This member is required.
         public var searchTerm: Swift.String?
 
         public init(
+            matchType: DeadlineClientTypes.SearchTermMatchingType? = .fuzzyMatch,
             searchTerm: Swift.String? = nil
         ) {
+            self.matchType = matchType
             self.searchTerm = searchTerm
         }
     }
@@ -18451,7 +18485,7 @@ extension DeadlineClientTypes.TaskRunSessionActionDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.TaskRunSessionActionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.TaskRunSessionActionDefinition()
-        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent()
         value.stepId = try reader["stepId"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.TaskParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
@@ -18959,7 +18993,7 @@ extension DeadlineClientTypes.TaskRunSessionActionDefinitionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.TaskRunSessionActionDefinitionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.TaskRunSessionActionDefinitionSummary()
-        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent()
         value.stepId = try reader["stepId"].readIfPresent() ?? ""
         return value
     }
@@ -19260,7 +19294,7 @@ extension DeadlineClientTypes.AssignedTaskRunSessionActionDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.AssignedTaskRunSessionActionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.AssignedTaskRunSessionActionDefinition()
-        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent()
         value.stepId = try reader["stepId"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.TaskParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
@@ -19423,6 +19457,7 @@ extension DeadlineClientTypes.SearchTermFilterExpression {
 
     static func write(value: DeadlineClientTypes.SearchTermFilterExpression?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["matchType"].write(value.matchType)
         try writer["searchTerm"].write(value.searchTerm)
     }
 }

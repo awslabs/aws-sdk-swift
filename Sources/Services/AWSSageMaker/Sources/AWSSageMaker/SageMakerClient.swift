@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerClient: ClientRuntime.Client {
     public static let clientName = "SageMakerClient"
-    public static let version = "1.2.47"
+    public static let version = "1.2.53"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerClient.SageMakerClientConfiguration
     let serviceName = "SageMaker"
@@ -5297,7 +5297,7 @@ extension SageMakerClient {
     ///
     /// * TransformOutput - Identifies the Amazon S3 location where you want Amazon SageMaker to save the results from the transform job.
     ///
-    /// * TransformResources - Identifies the ML compute instances for the transform job.
+    /// * TransformResources - Identifies the ML compute instances and AMI image versions for the transform job.
     ///
     ///
     /// For more information about how batch transformation works, see [Batch Transform](https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform.html).

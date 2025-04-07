@@ -276,7 +276,7 @@ extension OutpostsClientTypes {
 
     /// Information about hardware assets.
     public struct AssetInfo: Swift.Sendable {
-        /// The ID of the asset.
+        /// The ID of the asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
         public var assetId: Swift.String?
         /// The position of an asset in a rack.
         public var assetLocation: OutpostsClientTypes.AssetLocation?
@@ -350,7 +350,7 @@ extension OutpostsClientTypes {
     public struct AssetInstance: Swift.Sendable {
         /// The ID of the Amazon Web Services account.
         public var accountId: Swift.String?
-        /// The ID of the asset.
+        /// The ID of the asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
         public var assetId: Swift.String?
         /// The Amazon Web Services service name of the instance.
         public var awsServiceName: OutpostsClientTypes.AWSServiceName?
@@ -704,6 +704,8 @@ extension OutpostsClientTypes {
 
     /// The summary of the capacity task.
     public struct CapacityTaskSummary: Swift.Sendable {
+        /// The ID of the asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
+        public var assetId: Swift.String?
         /// The ID of the specified capacity task.
         public var capacityTaskId: Swift.String?
         /// The status of the capacity task.
@@ -720,6 +722,7 @@ extension OutpostsClientTypes {
         public var outpostId: Swift.String?
 
         public init(
+            assetId: Swift.String? = nil,
             capacityTaskId: Swift.String? = nil,
             capacityTaskStatus: OutpostsClientTypes.CapacityTaskStatus? = nil,
             completionDate: Foundation.Date? = nil,
@@ -728,6 +731,7 @@ extension OutpostsClientTypes {
             orderId: Swift.String? = nil,
             outpostId: Swift.String? = nil
         ) {
+            self.assetId = assetId
             self.capacityTaskId = capacityTaskId
             self.capacityTaskStatus = capacityTaskStatus
             self.completionDate = completionDate
@@ -1059,7 +1063,7 @@ extension OutpostsClientTypes {
 
     /// Information about a line item asset.
     public struct LineItemAssetInformation: Swift.Sendable {
-        /// The ID of the asset.
+        /// The ID of the asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
         public var assetId: Swift.String?
         /// The MAC addresses of the asset.
         public var macAddressList: [Swift.String]?
@@ -2140,6 +2144,8 @@ extension OutpostsClientTypes {
 }
 
 public struct GetCapacityTaskOutput: Swift.Sendable {
+    /// The ID of the Outpost asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
+    public var assetId: Swift.String?
     /// ID of the capacity task.
     public var capacityTaskId: Swift.String?
     /// Status of the capacity task. A capacity task can have one of the following statuses:
@@ -2148,7 +2154,15 @@ public struct GetCapacityTaskOutput: Swift.Sendable {
     ///
     /// * IN_PROGRESS - The capacity task is running and cannot be cancelled.
     ///
+    /// * FAILED - The capacity task could not be completed.
+    ///
+    /// * COMPLETED - The capacity task has completed successfully.
+    ///
     /// * WAITING_FOR_EVACUATION - The capacity task requires capacity to run. You must stop the recommended EC2 running instances to free up capacity for the task to run.
+    ///
+    /// * CANCELLATION_IN_PROGRESS - The capacity task has been cancelled and is in the process of cleaning up resources.
+    ///
+    /// * CANCELLED - The capacity task is cancelled.
     public var capacityTaskStatus: OutpostsClientTypes.CapacityTaskStatus?
     /// The date the capacity task ran successfully.
     public var completionDate: Foundation.Date?
@@ -2176,6 +2190,7 @@ public struct GetCapacityTaskOutput: Swift.Sendable {
     public var taskActionOnBlockingInstances: OutpostsClientTypes.TaskActionOnBlockingInstances?
 
     public init(
+        assetId: Swift.String? = nil,
         capacityTaskId: Swift.String? = nil,
         capacityTaskStatus: OutpostsClientTypes.CapacityTaskStatus? = nil,
         completionDate: Foundation.Date? = nil,
@@ -2189,6 +2204,7 @@ public struct GetCapacityTaskOutput: Swift.Sendable {
         requestedInstancePools: [OutpostsClientTypes.InstanceTypeCapacity]? = nil,
         taskActionOnBlockingInstances: OutpostsClientTypes.TaskActionOnBlockingInstances? = nil
     ) {
+        self.assetId = assetId
         self.capacityTaskId = capacityTaskId
         self.capacityTaskStatus = capacityTaskStatus
         self.completionDate = completionDate
@@ -2363,6 +2379,8 @@ public struct GetOutpostInstanceTypesOutput: Swift.Sendable {
 }
 
 public struct GetOutpostSupportedInstanceTypesInput: Swift.Sendable {
+    /// The ID of the Outpost asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
+    public var assetId: Swift.String?
     /// The maximum page size.
     public var maxResults: Swift.Int?
     /// The pagination token.
@@ -2374,11 +2392,13 @@ public struct GetOutpostSupportedInstanceTypesInput: Swift.Sendable {
     public var outpostIdentifier: Swift.String?
 
     public init(
+        assetId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         orderId: Swift.String? = nil,
         outpostIdentifier: Swift.String? = nil
     ) {
+        self.assetId = assetId
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.orderId = orderId
@@ -2868,6 +2888,8 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct StartCapacityTaskInput: Swift.Sendable {
+    /// The ID of the Outpost asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
+    public var assetId: Swift.String?
     /// You can request a dry run to determine if the instance type and instance size changes is above or below available instance capacity. Requesting a dry run does not make any changes to your plan.
     public var dryRun: Swift.Bool?
     /// The instance pools specified in the capacity task.
@@ -2888,6 +2910,7 @@ public struct StartCapacityTaskInput: Swift.Sendable {
     public var taskActionOnBlockingInstances: OutpostsClientTypes.TaskActionOnBlockingInstances?
 
     public init(
+        assetId: Swift.String? = nil,
         dryRun: Swift.Bool? = false,
         instancePools: [OutpostsClientTypes.InstanceTypeCapacity]? = nil,
         instancesToExclude: OutpostsClientTypes.InstancesToExclude? = nil,
@@ -2895,6 +2918,7 @@ public struct StartCapacityTaskInput: Swift.Sendable {
         outpostIdentifier: Swift.String? = nil,
         taskActionOnBlockingInstances: OutpostsClientTypes.TaskActionOnBlockingInstances? = nil
     ) {
+        self.assetId = assetId
         self.dryRun = dryRun
         self.instancePools = instancePools
         self.instancesToExclude = instancesToExclude
@@ -2905,6 +2929,8 @@ public struct StartCapacityTaskInput: Swift.Sendable {
 }
 
 public struct StartCapacityTaskOutput: Swift.Sendable {
+    /// The ID of the asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
+    public var assetId: Swift.String?
     /// ID of the capacity task that you want to start.
     public var capacityTaskId: Swift.String?
     /// Status of the specified capacity task.
@@ -2935,6 +2961,7 @@ public struct StartCapacityTaskOutput: Swift.Sendable {
     public var taskActionOnBlockingInstances: OutpostsClientTypes.TaskActionOnBlockingInstances?
 
     public init(
+        assetId: Swift.String? = nil,
         capacityTaskId: Swift.String? = nil,
         capacityTaskStatus: OutpostsClientTypes.CapacityTaskStatus? = nil,
         completionDate: Foundation.Date? = nil,
@@ -2948,6 +2975,7 @@ public struct StartCapacityTaskOutput: Swift.Sendable {
         requestedInstancePools: [OutpostsClientTypes.InstanceTypeCapacity]? = nil,
         taskActionOnBlockingInstances: OutpostsClientTypes.TaskActionOnBlockingInstances? = nil
     ) {
+        self.assetId = assetId
         self.capacityTaskId = capacityTaskId
         self.capacityTaskStatus = capacityTaskStatus
         self.completionDate = completionDate
@@ -3436,6 +3464,10 @@ extension GetOutpostSupportedInstanceTypesInput {
             let orderIdQueryItem = Smithy.URIQueryItem(name: "OrderId".urlPercentEncoding(), value: Swift.String(orderId).urlPercentEncoding())
             items.append(orderIdQueryItem)
         }
+        if let assetId = value.assetId {
+            let assetIdQueryItem = Smithy.URIQueryItem(name: "AssetId".urlPercentEncoding(), value: Swift.String(assetId).urlPercentEncoding())
+            items.append(assetIdQueryItem)
+        }
         return items
     }
 }
@@ -3920,6 +3952,7 @@ extension StartCapacityTaskInput {
 
     static func write(value: StartCapacityTaskInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AssetId"].write(value.assetId)
         try writer["DryRun"].write(value.dryRun)
         try writer["InstancePools"].writeList(value.instancePools, memberWritingClosure: OutpostsClientTypes.InstanceTypeCapacity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InstancesToExclude"].write(value.instancesToExclude, with: OutpostsClientTypes.InstancesToExclude.write(value:to:))
@@ -4063,6 +4096,7 @@ extension GetCapacityTaskOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetCapacityTaskOutput()
+        value.assetId = try reader["AssetId"].readIfPresent()
         value.capacityTaskId = try reader["CapacityTaskId"].readIfPresent()
         value.capacityTaskStatus = try reader["CapacityTaskStatus"].readIfPresent()
         value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -4305,6 +4339,7 @@ extension StartCapacityTaskOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartCapacityTaskOutput()
+        value.assetId = try reader["AssetId"].readIfPresent()
         value.capacityTaskId = try reader["CapacityTaskId"].readIfPresent()
         value.capacityTaskStatus = try reader["CapacityTaskStatus"].readIfPresent()
         value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -5392,6 +5427,7 @@ extension OutpostsClientTypes.CapacityTaskSummary {
         value.capacityTaskId = try reader["CapacityTaskId"].readIfPresent()
         value.outpostId = try reader["OutpostId"].readIfPresent()
         value.orderId = try reader["OrderId"].readIfPresent()
+        value.assetId = try reader["AssetId"].readIfPresent()
         value.capacityTaskStatus = try reader["CapacityTaskStatus"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)

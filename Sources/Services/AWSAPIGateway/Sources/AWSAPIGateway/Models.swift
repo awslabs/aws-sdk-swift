@@ -1214,6 +1214,35 @@ public struct CreateDocumentationVersionOutput: Swift.Sendable {
 
 extension APIGatewayClientTypes {
 
+    public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpAddressType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension APIGatewayClientTypes {
+
     /// The endpoint type. The valid values are EDGE for edge-optimized API setup, most suitable for mobile applications; REGIONAL for regional API endpoint setup, most suitable for calling from AWS Region; and PRIVATE for private APIs.
     public enum EndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case edge
@@ -1247,17 +1276,21 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes {
 
-    /// The endpoint configuration to indicate the types of endpoints an API (RestApi) or its custom domain name (DomainName) has.
+    /// The endpoint configuration to indicate the types of endpoints an API (RestApi) or its custom domain name (DomainName) has and the IP address types that can invoke it.
     public struct EndpointConfiguration: Swift.Sendable {
+        /// The IP address types that can invoke an API (RestApi) or a DomainName. Use ipv4 to allow only IPv4 addresses to invoke an API or DomainName, or use dualstack to allow both IPv4 and IPv6 addresses to invoke an API or a DomainName. For the PRIVATE endpoint type, only dualstack is supported.
+        public var ipAddressType: APIGatewayClientTypes.IpAddressType?
         /// A list of endpoint types of an API (RestApi) or its custom domain name (DomainName). For an edge-optimized API and its custom domain name, the endpoint type is "EDGE". For a regional API and its custom domain name, the endpoint type is REGIONAL. For a private API, the endpoint type is PRIVATE.
         public var types: [APIGatewayClientTypes.EndpointType]?
         /// A list of VpcEndpointIds of an API (RestApi) against which to create Route53 ALIASes. It is only supported for PRIVATE endpoint type.
         public var vpcEndpointIds: [Swift.String]?
 
         public init(
+            ipAddressType: APIGatewayClientTypes.IpAddressType? = nil,
             types: [APIGatewayClientTypes.EndpointType]? = nil,
             vpcEndpointIds: [Swift.String]? = nil
         ) {
+            self.ipAddressType = ipAddressType
             self.types = types
             self.vpcEndpointIds = vpcEndpointIds
         }
@@ -1327,7 +1360,7 @@ public struct CreateDomainNameInput: Swift.Sendable {
     /// The name of the DomainName resource.
     /// This member is required.
     public var domainName: Swift.String?
-    /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
+    /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
     public var mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthenticationInput?
@@ -1460,7 +1493,7 @@ public struct CreateDomainNameOutput: Swift.Sendable {
     public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
     /// An optional text message containing detailed information about status of the DomainName migration.
     public var domainNameStatusMessage: Swift.String?
-    /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
+    /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
     public var managementPolicy: Swift.String?
@@ -2047,7 +2080,7 @@ public struct CreateRestApiInput: Swift.Sendable {
     public var description: Swift.String?
     /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint
     public var disableExecuteApiEndpoint: Swift.Bool?
-    /// The endpoint configuration of this RestApi showing the endpoint types of the API.
+    /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
     public var minimumCompressionSize: Swift.Int?
@@ -2100,7 +2133,7 @@ public struct CreateRestApiOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
     public var disableExecuteApiEndpoint: Swift.Bool
-    /// The endpoint configuration of this RestApi showing the endpoint types of the API.
+    /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
     public var id: Swift.String?
@@ -4126,7 +4159,7 @@ public struct GetDomainNameOutput: Swift.Sendable {
     public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
     /// An optional text message containing detailed information about status of the DomainName migration.
     public var domainNameStatusMessage: Swift.String?
-    /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
+    /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
     public var managementPolicy: Swift.String?
@@ -4334,7 +4367,7 @@ extension APIGatewayClientTypes {
         public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
         /// An optional text message containing detailed information about status of the DomainName migration.
         public var domainNameStatusMessage: Swift.String?
-        /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
+        /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
         public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
         /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
         public var managementPolicy: Swift.String?
@@ -5257,7 +5290,7 @@ public struct GetRestApiOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
     public var disableExecuteApiEndpoint: Swift.Bool
-    /// The endpoint configuration of this RestApi showing the endpoint types of the API.
+    /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
     public var id: Swift.String?
@@ -5339,7 +5372,7 @@ extension APIGatewayClientTypes {
         public var description: Swift.String?
         /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
         public var disableExecuteApiEndpoint: Swift.Bool
-        /// The endpoint configuration of this RestApi showing the endpoint types of the API.
+        /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
         public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
         /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
         public var id: Swift.String?
@@ -6380,7 +6413,7 @@ public struct ImportRestApiOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
     public var disableExecuteApiEndpoint: Swift.Bool
-    /// The endpoint configuration of this RestApi showing the endpoint types of the API.
+    /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
     public var id: Swift.String?
@@ -6916,7 +6949,7 @@ public struct PutRestApiOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
     public var disableExecuteApiEndpoint: Swift.Bool
-    /// The endpoint configuration of this RestApi showing the endpoint types of the API.
+    /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
     public var id: Swift.String?
@@ -7685,7 +7718,7 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
     public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
     /// An optional text message containing detailed information about status of the DomainName migration.
     public var domainNameStatusMessage: Swift.String?
-    /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
+    /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
     public var managementPolicy: Swift.String?
@@ -8266,7 +8299,7 @@ public struct UpdateRestApiOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
     public var disableExecuteApiEndpoint: Swift.Bool
-    /// The endpoint configuration of this RestApi showing the endpoint types of the API.
+    /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
     public var id: Swift.String?
@@ -15485,6 +15518,7 @@ extension APIGatewayClientTypes.EndpointConfiguration {
 
     static func write(value: APIGatewayClientTypes.EndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<APIGatewayClientTypes.EndpointType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vpcEndpointIds"].writeList(value.vpcEndpointIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -15493,6 +15527,7 @@ extension APIGatewayClientTypes.EndpointConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.EndpointConfiguration()
         value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<APIGatewayClientTypes.EndpointType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.vpcEndpointIds = try reader["vpcEndpointIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
