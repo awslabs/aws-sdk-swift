@@ -716,6 +716,35 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    public enum GuardrailOutputScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case interventions
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailOutputScope] {
+            return [
+                .full,
+                .interventions
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .interventions: return "INTERVENTIONS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     public enum GuardrailContentSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case input
         case output
@@ -753,6 +782,8 @@ public struct ApplyGuardrailInput: Swift.Sendable {
     /// The guardrail version used in the request to apply the guardrail.
     /// This member is required.
     public var guardrailVersion: Swift.String?
+    /// Specifies the scope of the output that you get in the response. Set to FULL to return the entire output, including any detected and non-detected entries in the response for enhanced debugging. Note that the full output scope doesn't apply to word filters or regex in sensitive information filters. It does apply to all other filtering policies, including sensitive information with filters that can detect personally identifiable information (PII).
+    public var outputScope: BedrockRuntimeClientTypes.GuardrailOutputScope?
     /// The source of data used in the request to apply the guardrail.
     /// This member is required.
     public var source: BedrockRuntimeClientTypes.GuardrailContentSource?
@@ -761,11 +792,13 @@ public struct ApplyGuardrailInput: Swift.Sendable {
         content: [BedrockRuntimeClientTypes.GuardrailContentBlock]? = nil,
         guardrailIdentifier: Swift.String? = nil,
         guardrailVersion: Swift.String? = nil,
+        outputScope: BedrockRuntimeClientTypes.GuardrailOutputScope? = nil,
         source: BedrockRuntimeClientTypes.GuardrailContentSource? = nil
     ) {
         self.content = content
         self.guardrailIdentifier = guardrailIdentifier
         self.guardrailVersion = guardrailVersion
+        self.outputScope = outputScope
         self.source = source
     }
 }
@@ -803,11 +836,13 @@ extension BedrockRuntimeClientTypes {
 
     public enum GuardrailContentPolicyAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case blocked
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GuardrailContentPolicyAction] {
             return [
-                .blocked
+                .blocked,
+                .none
             ]
         }
 
@@ -819,6 +854,7 @@ extension BedrockRuntimeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .blocked: return "BLOCKED"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -946,6 +982,8 @@ extension BedrockRuntimeClientTypes {
         /// The guardrail confidence.
         /// This member is required.
         public var confidence: BedrockRuntimeClientTypes.GuardrailContentFilterConfidence?
+        /// Indicates whether content that breaches the guardrail configuration is detected.
+        public var detected: Swift.Bool?
         /// The filter strength setting for the guardrail content filter.
         public var filterStrength: BedrockRuntimeClientTypes.GuardrailContentFilterStrength?
         /// The guardrail type.
@@ -955,11 +993,13 @@ extension BedrockRuntimeClientTypes {
         public init(
             action: BedrockRuntimeClientTypes.GuardrailContentPolicyAction? = nil,
             confidence: BedrockRuntimeClientTypes.GuardrailContentFilterConfidence? = nil,
+            detected: Swift.Bool? = nil,
             filterStrength: BedrockRuntimeClientTypes.GuardrailContentFilterStrength? = nil,
             type: BedrockRuntimeClientTypes.GuardrailContentFilterType? = nil
         ) {
             self.action = action
             self.confidence = confidence
+            self.detected = detected
             self.filterStrength = filterStrength
             self.type = type
         }
@@ -1047,6 +1087,8 @@ extension BedrockRuntimeClientTypes {
         /// The action performed by the guardrails contextual grounding filter.
         /// This member is required.
         public var action: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAction?
+        /// Indicates whether content that fails the contextual grounding evaluation (grounding or relevance score less than the corresponding threshold) was detected.
+        public var detected: Swift.Bool?
         /// The score generated by contextual grounding filter.
         /// This member is required.
         public var score: Swift.Double?
@@ -1059,11 +1101,13 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             action: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAction? = nil,
+            detected: Swift.Bool? = nil,
             score: Swift.Double? = nil,
             threshold: Swift.Double? = nil,
             type: BedrockRuntimeClientTypes.GuardrailContextualGroundingFilterType? = nil
         ) {
             self.action = action
+            self.detected = detected
             self.score = score
             self.threshold = threshold
             self.type = type
@@ -1216,12 +1260,14 @@ extension BedrockRuntimeClientTypes {
     public enum GuardrailSensitiveInformationPolicyAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case anonymized
         case blocked
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GuardrailSensitiveInformationPolicyAction] {
             return [
                 .anonymized,
-                .blocked
+                .blocked,
+                .none
             ]
         }
 
@@ -1234,6 +1280,7 @@ extension BedrockRuntimeClientTypes {
             switch self {
             case .anonymized: return "ANONYMIZED"
             case .blocked: return "BLOCKED"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1363,6 +1410,8 @@ extension BedrockRuntimeClientTypes {
         /// The PII entity filter action.
         /// This member is required.
         public var action: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction?
+        /// Indicates whether personally identifiable information (PII) that breaches the guardrail configuration is detected.
+        public var detected: Swift.Bool?
         /// The PII entity filter match.
         /// This member is required.
         public var match: Swift.String?
@@ -1372,10 +1421,12 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             action: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction? = nil,
+            detected: Swift.Bool? = nil,
             match: Swift.String? = nil,
             type: BedrockRuntimeClientTypes.GuardrailPiiEntityType? = nil
         ) {
             self.action = action
+            self.detected = detected
             self.match = match
             self.type = type
         }
@@ -1389,6 +1440,8 @@ extension BedrockRuntimeClientTypes {
         /// The region filter action.
         /// This member is required.
         public var action: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction?
+        /// Indicates whether custom regex entities that breach the guardrail configuration are detected.
+        public var detected: Swift.Bool?
         /// The regesx filter match.
         public var match: Swift.String?
         /// The regex filter name.
@@ -1398,11 +1451,13 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             action: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction? = nil,
+            detected: Swift.Bool? = nil,
             match: Swift.String? = nil,
             name: Swift.String? = nil,
             regex: Swift.String? = nil
         ) {
             self.action = action
+            self.detected = detected
             self.match = match
             self.name = name
             self.regex = regex
@@ -1435,11 +1490,13 @@ extension BedrockRuntimeClientTypes {
 
     public enum GuardrailTopicPolicyAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case blocked
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GuardrailTopicPolicyAction] {
             return [
-                .blocked
+                .blocked,
+                .none
             ]
         }
 
@@ -1451,6 +1508,7 @@ extension BedrockRuntimeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .blocked: return "BLOCKED"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1490,6 +1548,8 @@ extension BedrockRuntimeClientTypes {
         /// The action the guardrail should take when it intervenes on a topic.
         /// This member is required.
         public var action: BedrockRuntimeClientTypes.GuardrailTopicPolicyAction?
+        /// Indicates whether topic content that breaches the guardrail configuration is detected.
+        public var detected: Swift.Bool?
         /// The name for the guardrail.
         /// This member is required.
         public var name: Swift.String?
@@ -1499,10 +1559,12 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             action: BedrockRuntimeClientTypes.GuardrailTopicPolicyAction? = nil,
+            detected: Swift.Bool? = nil,
             name: Swift.String? = nil,
             type: BedrockRuntimeClientTypes.GuardrailTopicType? = nil
         ) {
             self.action = action
+            self.detected = detected
             self.name = name
             self.type = type
         }
@@ -1529,11 +1591,13 @@ extension BedrockRuntimeClientTypes {
 
     public enum GuardrailWordPolicyAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case blocked
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GuardrailWordPolicyAction] {
             return [
-                .blocked
+                .blocked,
+                .none
             ]
         }
 
@@ -1545,6 +1609,7 @@ extension BedrockRuntimeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .blocked: return "BLOCKED"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1558,15 +1623,19 @@ extension BedrockRuntimeClientTypes {
         /// The action for the custom word.
         /// This member is required.
         public var action: BedrockRuntimeClientTypes.GuardrailWordPolicyAction?
+        /// Indicates whether custom word content that breaches the guardrail configuration is detected.
+        public var detected: Swift.Bool?
         /// The match for the custom word.
         /// This member is required.
         public var match: Swift.String?
 
         public init(
             action: BedrockRuntimeClientTypes.GuardrailWordPolicyAction? = nil,
+            detected: Swift.Bool? = nil,
             match: Swift.String? = nil
         ) {
             self.action = action
+            self.detected = detected
             self.match = match
         }
     }
@@ -1605,6 +1674,8 @@ extension BedrockRuntimeClientTypes {
         /// The action for the managed word.
         /// This member is required.
         public var action: BedrockRuntimeClientTypes.GuardrailWordPolicyAction?
+        /// Indicates whether managed word content that breaches the guardrail configuration is detected.
+        public var detected: Swift.Bool?
         /// The match for the managed word.
         /// This member is required.
         public var match: Swift.String?
@@ -1614,10 +1685,12 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             action: BedrockRuntimeClientTypes.GuardrailWordPolicyAction? = nil,
+            detected: Swift.Bool? = nil,
             match: Swift.String? = nil,
             type: BedrockRuntimeClientTypes.GuardrailManagedWordType? = nil
         ) {
             self.action = action
+            self.detected = detected
             self.match = match
             self.type = type
         }
@@ -1699,6 +1772,8 @@ public struct ApplyGuardrailOutput: Swift.Sendable {
     /// The action taken in the response from the guardrail.
     /// This member is required.
     public var action: BedrockRuntimeClientTypes.GuardrailAction?
+    /// The reason for the action taken when harmful content is detected.
+    public var actionReason: Swift.String?
     /// The assessment details in the response from the guardrail.
     /// This member is required.
     public var assessments: [BedrockRuntimeClientTypes.GuardrailAssessment]?
@@ -1713,12 +1788,14 @@ public struct ApplyGuardrailOutput: Swift.Sendable {
 
     public init(
         action: BedrockRuntimeClientTypes.GuardrailAction? = nil,
+        actionReason: Swift.String? = nil,
         assessments: [BedrockRuntimeClientTypes.GuardrailAssessment]? = nil,
         guardrailCoverage: BedrockRuntimeClientTypes.GuardrailCoverage? = nil,
         outputs: [BedrockRuntimeClientTypes.GuardrailOutputContent]? = nil,
         usage: BedrockRuntimeClientTypes.GuardrailUsage? = nil
     ) {
         self.action = action
+        self.actionReason = actionReason
         self.assessments = assessments
         self.guardrailCoverage = guardrailCoverage
         self.outputs = outputs
@@ -1808,12 +1885,14 @@ extension BedrockRuntimeClientTypes {
     public enum GuardrailTrace: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
+        case enabledFull
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GuardrailTrace] {
             return [
                 .disabled,
-                .enabled
+                .enabled,
+                .enabledFull
             ]
         }
 
@@ -1826,6 +1905,7 @@ extension BedrockRuntimeClientTypes {
             switch self {
             case .disabled: return "disabled"
             case .enabled: return "enabled"
+            case .enabledFull: return "enabled_full"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2868,6 +2948,8 @@ extension BedrockRuntimeClientTypes {
 
     /// A Top level guardrail trace object. For more information, see [ConverseTrace].
     public struct GuardrailTraceAssessment: Swift.Sendable {
+        /// Provides the reason for the action taken when harmful content is detected.
+        public var actionReason: Swift.String?
         /// The input assessment.
         public var inputAssessment: [Swift.String: BedrockRuntimeClientTypes.GuardrailAssessment]?
         /// The output from the model.
@@ -2876,10 +2958,12 @@ extension BedrockRuntimeClientTypes {
         public var outputAssessments: [Swift.String: [BedrockRuntimeClientTypes.GuardrailAssessment]]?
 
         public init(
+            actionReason: Swift.String? = nil,
             inputAssessment: [Swift.String: BedrockRuntimeClientTypes.GuardrailAssessment]? = nil,
             modelOutput: [Swift.String]? = nil,
             outputAssessments: [Swift.String: [BedrockRuntimeClientTypes.GuardrailAssessment]]? = nil
         ) {
+            self.actionReason = actionReason
             self.inputAssessment = inputAssessment
             self.modelOutput = modelOutput
             self.outputAssessments = outputAssessments
@@ -3422,12 +3506,14 @@ extension BedrockRuntimeClientTypes {
     public enum Trace: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
+        case enabledFull
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Trace] {
             return [
                 .disabled,
-                .enabled
+                .enabled,
+                .enabledFull
             ]
         }
 
@@ -3440,6 +3526,7 @@ extension BedrockRuntimeClientTypes {
             switch self {
             case .disabled: return "DISABLED"
             case .enabled: return "ENABLED"
+            case .enabledFull: return "ENABLED_FULL"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3816,6 +3903,7 @@ extension ApplyGuardrailInput {
     static func write(value: ApplyGuardrailInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["content"].writeList(value.content, memberWritingClosure: BedrockRuntimeClientTypes.GuardrailContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["outputScope"].write(value.outputScope)
         try writer["source"].write(value.source)
     }
 }
@@ -3890,6 +3978,7 @@ extension ApplyGuardrailOutput {
         let reader = responseReader
         var value = ApplyGuardrailOutput()
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.actionReason = try reader["actionReason"].readIfPresent()
         value.assessments = try reader["assessments"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.guardrailCoverage = try reader["guardrailCoverage"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailCoverage.read(from:))
         value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailOutputContent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -4557,6 +4646,7 @@ extension BedrockRuntimeClientTypes.GuardrailContextualGroundingFilter {
         value.threshold = try reader["threshold"].readIfPresent() ?? 0.0
         value.score = try reader["score"].readIfPresent() ?? 0.0
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -4581,6 +4671,7 @@ extension BedrockRuntimeClientTypes.GuardrailRegexFilter {
         value.match = try reader["match"].readIfPresent()
         value.regex = try reader["regex"].readIfPresent()
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -4593,6 +4684,7 @@ extension BedrockRuntimeClientTypes.GuardrailPiiEntityFilter {
         value.match = try reader["match"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -4616,6 +4708,7 @@ extension BedrockRuntimeClientTypes.GuardrailManagedWord {
         value.match = try reader["match"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -4627,6 +4720,7 @@ extension BedrockRuntimeClientTypes.GuardrailCustomWord {
         var value = BedrockRuntimeClientTypes.GuardrailCustomWord()
         value.match = try reader["match"].readIfPresent() ?? ""
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -4650,6 +4744,7 @@ extension BedrockRuntimeClientTypes.GuardrailContentFilter {
         value.confidence = try reader["confidence"].readIfPresent() ?? .sdkUnknown("")
         value.filterStrength = try reader["filterStrength"].readIfPresent()
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -4672,6 +4767,7 @@ extension BedrockRuntimeClientTypes.GuardrailTopic {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -5186,6 +5282,7 @@ extension BedrockRuntimeClientTypes.GuardrailTraceAssessment {
         value.modelOutput = try reader["modelOutput"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputAssessment = try reader["inputAssessment"].readMapIfPresent(valueReadingClosure: BedrockRuntimeClientTypes.GuardrailAssessment.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.outputAssessments = try reader["outputAssessments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.actionReason = try reader["actionReason"].readIfPresent()
         return value
     }
 }
