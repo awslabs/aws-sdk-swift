@@ -32,12 +32,14 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.Document
 import struct Smithy.URIQueryItem
 import struct SmithyEventStreams.DefaultMessageDecoderStream
+import struct SmithyEventStreamsAPI.Header
 import struct SmithyEventStreamsAPI.Message
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
+import typealias SmithyEventStreamsAPI.MarshalClosure
 import typealias SmithyEventStreamsAPI.UnmarshalClosure
 
 /// The request is denied because you do not have sufficient permissions to perform the requested action. For troubleshooting this error, see [AccessDeniedException](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-access-denied) in the Amazon Bedrock User Guide
@@ -716,6 +718,35 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    public enum GuardrailOutputScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case interventions
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailOutputScope] {
+            return [
+                .full,
+                .interventions
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .interventions: return "INTERVENTIONS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     public enum GuardrailContentSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case input
         case output
@@ -753,6 +784,8 @@ public struct ApplyGuardrailInput: Swift.Sendable {
     /// The guardrail version used in the request to apply the guardrail.
     /// This member is required.
     public var guardrailVersion: Swift.String?
+    /// Specifies the scope of the output that you get in the response. Set to FULL to return the entire output, including any detected and non-detected entries in the response for enhanced debugging. Note that the full output scope doesn't apply to word filters or regex in sensitive information filters. It does apply to all other filtering policies, including sensitive information with filters that can detect personally identifiable information (PII).
+    public var outputScope: BedrockRuntimeClientTypes.GuardrailOutputScope?
     /// The source of data used in the request to apply the guardrail.
     /// This member is required.
     public var source: BedrockRuntimeClientTypes.GuardrailContentSource?
@@ -761,11 +794,13 @@ public struct ApplyGuardrailInput: Swift.Sendable {
         content: [BedrockRuntimeClientTypes.GuardrailContentBlock]? = nil,
         guardrailIdentifier: Swift.String? = nil,
         guardrailVersion: Swift.String? = nil,
+        outputScope: BedrockRuntimeClientTypes.GuardrailOutputScope? = nil,
         source: BedrockRuntimeClientTypes.GuardrailContentSource? = nil
     ) {
         self.content = content
         self.guardrailIdentifier = guardrailIdentifier
         self.guardrailVersion = guardrailVersion
+        self.outputScope = outputScope
         self.source = source
     }
 }
@@ -803,11 +838,13 @@ extension BedrockRuntimeClientTypes {
 
     public enum GuardrailContentPolicyAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case blocked
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GuardrailContentPolicyAction] {
             return [
-                .blocked
+                .blocked,
+                .none
             ]
         }
 
@@ -819,6 +856,7 @@ extension BedrockRuntimeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .blocked: return "BLOCKED"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -946,6 +984,8 @@ extension BedrockRuntimeClientTypes {
         /// The guardrail confidence.
         /// This member is required.
         public var confidence: BedrockRuntimeClientTypes.GuardrailContentFilterConfidence?
+        /// Indicates whether content that breaches the guardrail configuration is detected.
+        public var detected: Swift.Bool?
         /// The filter strength setting for the guardrail content filter.
         public var filterStrength: BedrockRuntimeClientTypes.GuardrailContentFilterStrength?
         /// The guardrail type.
@@ -955,11 +995,13 @@ extension BedrockRuntimeClientTypes {
         public init(
             action: BedrockRuntimeClientTypes.GuardrailContentPolicyAction? = nil,
             confidence: BedrockRuntimeClientTypes.GuardrailContentFilterConfidence? = nil,
+            detected: Swift.Bool? = nil,
             filterStrength: BedrockRuntimeClientTypes.GuardrailContentFilterStrength? = nil,
             type: BedrockRuntimeClientTypes.GuardrailContentFilterType? = nil
         ) {
             self.action = action
             self.confidence = confidence
+            self.detected = detected
             self.filterStrength = filterStrength
             self.type = type
         }
@@ -1047,6 +1089,8 @@ extension BedrockRuntimeClientTypes {
         /// The action performed by the guardrails contextual grounding filter.
         /// This member is required.
         public var action: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAction?
+        /// Indicates whether content that fails the contextual grounding evaluation (grounding or relevance score less than the corresponding threshold) was detected.
+        public var detected: Swift.Bool?
         /// The score generated by contextual grounding filter.
         /// This member is required.
         public var score: Swift.Double?
@@ -1059,11 +1103,13 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             action: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAction? = nil,
+            detected: Swift.Bool? = nil,
             score: Swift.Double? = nil,
             threshold: Swift.Double? = nil,
             type: BedrockRuntimeClientTypes.GuardrailContextualGroundingFilterType? = nil
         ) {
             self.action = action
+            self.detected = detected
             self.score = score
             self.threshold = threshold
             self.type = type
@@ -1216,12 +1262,14 @@ extension BedrockRuntimeClientTypes {
     public enum GuardrailSensitiveInformationPolicyAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case anonymized
         case blocked
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GuardrailSensitiveInformationPolicyAction] {
             return [
                 .anonymized,
-                .blocked
+                .blocked,
+                .none
             ]
         }
 
@@ -1234,6 +1282,7 @@ extension BedrockRuntimeClientTypes {
             switch self {
             case .anonymized: return "ANONYMIZED"
             case .blocked: return "BLOCKED"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1363,6 +1412,8 @@ extension BedrockRuntimeClientTypes {
         /// The PII entity filter action.
         /// This member is required.
         public var action: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction?
+        /// Indicates whether personally identifiable information (PII) that breaches the guardrail configuration is detected.
+        public var detected: Swift.Bool?
         /// The PII entity filter match.
         /// This member is required.
         public var match: Swift.String?
@@ -1372,10 +1423,12 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             action: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction? = nil,
+            detected: Swift.Bool? = nil,
             match: Swift.String? = nil,
             type: BedrockRuntimeClientTypes.GuardrailPiiEntityType? = nil
         ) {
             self.action = action
+            self.detected = detected
             self.match = match
             self.type = type
         }
@@ -1389,6 +1442,8 @@ extension BedrockRuntimeClientTypes {
         /// The region filter action.
         /// This member is required.
         public var action: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction?
+        /// Indicates whether custom regex entities that breach the guardrail configuration are detected.
+        public var detected: Swift.Bool?
         /// The regesx filter match.
         public var match: Swift.String?
         /// The regex filter name.
@@ -1398,11 +1453,13 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             action: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAction? = nil,
+            detected: Swift.Bool? = nil,
             match: Swift.String? = nil,
             name: Swift.String? = nil,
             regex: Swift.String? = nil
         ) {
             self.action = action
+            self.detected = detected
             self.match = match
             self.name = name
             self.regex = regex
@@ -1435,11 +1492,13 @@ extension BedrockRuntimeClientTypes {
 
     public enum GuardrailTopicPolicyAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case blocked
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GuardrailTopicPolicyAction] {
             return [
-                .blocked
+                .blocked,
+                .none
             ]
         }
 
@@ -1451,6 +1510,7 @@ extension BedrockRuntimeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .blocked: return "BLOCKED"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1490,6 +1550,8 @@ extension BedrockRuntimeClientTypes {
         /// The action the guardrail should take when it intervenes on a topic.
         /// This member is required.
         public var action: BedrockRuntimeClientTypes.GuardrailTopicPolicyAction?
+        /// Indicates whether topic content that breaches the guardrail configuration is detected.
+        public var detected: Swift.Bool?
         /// The name for the guardrail.
         /// This member is required.
         public var name: Swift.String?
@@ -1499,10 +1561,12 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             action: BedrockRuntimeClientTypes.GuardrailTopicPolicyAction? = nil,
+            detected: Swift.Bool? = nil,
             name: Swift.String? = nil,
             type: BedrockRuntimeClientTypes.GuardrailTopicType? = nil
         ) {
             self.action = action
+            self.detected = detected
             self.name = name
             self.type = type
         }
@@ -1529,11 +1593,13 @@ extension BedrockRuntimeClientTypes {
 
     public enum GuardrailWordPolicyAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case blocked
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GuardrailWordPolicyAction] {
             return [
-                .blocked
+                .blocked,
+                .none
             ]
         }
 
@@ -1545,6 +1611,7 @@ extension BedrockRuntimeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .blocked: return "BLOCKED"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1558,15 +1625,19 @@ extension BedrockRuntimeClientTypes {
         /// The action for the custom word.
         /// This member is required.
         public var action: BedrockRuntimeClientTypes.GuardrailWordPolicyAction?
+        /// Indicates whether custom word content that breaches the guardrail configuration is detected.
+        public var detected: Swift.Bool?
         /// The match for the custom word.
         /// This member is required.
         public var match: Swift.String?
 
         public init(
             action: BedrockRuntimeClientTypes.GuardrailWordPolicyAction? = nil,
+            detected: Swift.Bool? = nil,
             match: Swift.String? = nil
         ) {
             self.action = action
+            self.detected = detected
             self.match = match
         }
     }
@@ -1605,6 +1676,8 @@ extension BedrockRuntimeClientTypes {
         /// The action for the managed word.
         /// This member is required.
         public var action: BedrockRuntimeClientTypes.GuardrailWordPolicyAction?
+        /// Indicates whether managed word content that breaches the guardrail configuration is detected.
+        public var detected: Swift.Bool?
         /// The match for the managed word.
         /// This member is required.
         public var match: Swift.String?
@@ -1614,10 +1687,12 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             action: BedrockRuntimeClientTypes.GuardrailWordPolicyAction? = nil,
+            detected: Swift.Bool? = nil,
             match: Swift.String? = nil,
             type: BedrockRuntimeClientTypes.GuardrailManagedWordType? = nil
         ) {
             self.action = action
+            self.detected = detected
             self.match = match
             self.type = type
         }
@@ -1699,6 +1774,8 @@ public struct ApplyGuardrailOutput: Swift.Sendable {
     /// The action taken in the response from the guardrail.
     /// This member is required.
     public var action: BedrockRuntimeClientTypes.GuardrailAction?
+    /// The reason for the action taken when harmful content is detected.
+    public var actionReason: Swift.String?
     /// The assessment details in the response from the guardrail.
     /// This member is required.
     public var assessments: [BedrockRuntimeClientTypes.GuardrailAssessment]?
@@ -1713,12 +1790,14 @@ public struct ApplyGuardrailOutput: Swift.Sendable {
 
     public init(
         action: BedrockRuntimeClientTypes.GuardrailAction? = nil,
+        actionReason: Swift.String? = nil,
         assessments: [BedrockRuntimeClientTypes.GuardrailAssessment]? = nil,
         guardrailCoverage: BedrockRuntimeClientTypes.GuardrailCoverage? = nil,
         outputs: [BedrockRuntimeClientTypes.GuardrailOutputContent]? = nil,
         usage: BedrockRuntimeClientTypes.GuardrailUsage? = nil
     ) {
         self.action = action
+        self.actionReason = actionReason
         self.assessments = assessments
         self.guardrailCoverage = guardrailCoverage
         self.outputs = outputs
@@ -1808,12 +1887,14 @@ extension BedrockRuntimeClientTypes {
     public enum GuardrailTrace: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
+        case enabledFull
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GuardrailTrace] {
             return [
                 .disabled,
-                .enabled
+                .enabled,
+                .enabledFull
             ]
         }
 
@@ -1826,6 +1907,7 @@ extension BedrockRuntimeClientTypes {
             switch self {
             case .disabled: return "disabled"
             case .enabled: return "enabled"
+            case .enabledFull: return "enabled_full"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2868,6 +2950,8 @@ extension BedrockRuntimeClientTypes {
 
     /// A Top level guardrail trace object. For more information, see [ConverseTrace].
     public struct GuardrailTraceAssessment: Swift.Sendable {
+        /// Provides the reason for the action taken when harmful content is detected.
+        public var actionReason: Swift.String?
         /// The input assessment.
         public var inputAssessment: [Swift.String: BedrockRuntimeClientTypes.GuardrailAssessment]?
         /// The output from the model.
@@ -2876,10 +2960,12 @@ extension BedrockRuntimeClientTypes {
         public var outputAssessments: [Swift.String: [BedrockRuntimeClientTypes.GuardrailAssessment]]?
 
         public init(
+            actionReason: Swift.String? = nil,
             inputAssessment: [Swift.String: BedrockRuntimeClientTypes.GuardrailAssessment]? = nil,
             modelOutput: [Swift.String]? = nil,
             outputAssessments: [Swift.String: [BedrockRuntimeClientTypes.GuardrailAssessment]]? = nil
         ) {
+            self.actionReason = actionReason
             self.inputAssessment = inputAssessment
             self.modelOutput = modelOutput
             self.outputAssessments = outputAssessments
@@ -3422,12 +3508,14 @@ extension BedrockRuntimeClientTypes {
     public enum Trace: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
+        case enabledFull
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Trace] {
             return [
                 .disabled,
-                .enabled
+                .enabled,
+                .enabledFull
             ]
         }
 
@@ -3440,6 +3528,7 @@ extension BedrockRuntimeClientTypes {
             switch self {
             case .disabled: return "DISABLED"
             case .enabled: return "ENABLED"
+            case .enabledFull: return "ENABLED_FULL"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3531,6 +3620,97 @@ public struct InvokeModelOutput: Swift.Sendable {
 extension InvokeModelOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "InvokeModelOutput(contentType: \(Swift.String(describing: contentType)), performanceConfigLatency: \(Swift.String(describing: performanceConfigLatency)), body: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Payload content for the bidirectional input. The input is an audio stream.
+    public struct BidirectionalInputPayloadPart: Swift.Sendable {
+        /// The audio content for the bidirectional input.
+        public var bytes: Foundation.Data?
+
+        public init(
+            bytes: Foundation.Data? = nil
+        ) {
+            self.bytes = bytes
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.BidirectionalInputPayloadPart: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Payload content, the speech chunk, for the bidirectional input of the invocation step.
+    public enum InvokeModelWithBidirectionalStreamInput: Swift.Sendable {
+        /// The audio chunk that is used as input for the invocation step.
+        case chunk(BedrockRuntimeClientTypes.BidirectionalInputPayloadPart)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct InvokeModelWithBidirectionalStreamInput: Swift.Sendable {
+    /// The prompt and inference parameters in the format specified in the BidirectionalInputPayloadPart in the header. You must provide the body in JSON format. To see the format and content of the request and response bodies for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html) in the Bedrock User Guide.
+    /// This member is required.
+    public var body: AsyncThrowingStream<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput, Swift.Error>?
+    /// The model ID or ARN of the model ID to use. Currently, only amazon.nova-sonic-v1:0 is supported.
+    /// This member is required.
+    public var modelId: Swift.String?
+
+    public init(
+        body: AsyncThrowingStream<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput, Swift.Error>? = nil,
+        modelId: Swift.String? = nil
+    ) {
+        self.body = body
+        self.modelId = modelId
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Output from the bidirectional stream. The output is speech and a text transcription.
+    public struct BidirectionalOutputPayloadPart: Swift.Sendable {
+        /// The speech output of the bidirectional stream.
+        public var bytes: Foundation.Data?
+
+        public init(
+            bytes: Foundation.Data? = nil
+        ) {
+            self.bytes = bytes
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.BidirectionalOutputPayloadPart: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Output from the bidirectional stream that was used for model invocation.
+    public enum InvokeModelWithBidirectionalStreamOutput: Swift.Sendable {
+        /// The speech chunk that was provided as output from the invocation step.
+        case chunk(BedrockRuntimeClientTypes.BidirectionalOutputPayloadPart)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct InvokeModelWithBidirectionalStreamOutput: Swift.Sendable {
+    /// Streaming response from the model in the format specified by the BidirectionalOutputPayloadPart header.
+    /// This member is required.
+    public var body: AsyncThrowingStream<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamOutput, Swift.Error>?
+
+    public init(
+        body: AsyncThrowingStream<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamOutput, Swift.Error>? = nil
+    ) {
+        self.body = body
+    }
 }
 
 public struct InvokeModelWithResponseStreamInput: Swift.Sendable {
@@ -3725,6 +3905,16 @@ extension InvokeModelInput {
     }
 }
 
+extension InvokeModelWithBidirectionalStreamInput {
+
+    static func urlPathProvider(_ value: InvokeModelWithBidirectionalStreamInput) -> Swift.String? {
+        guard let modelId = value.modelId else {
+            return nil
+        }
+        return "/model/\(modelId.urlPercentEncoding())/invoke-with-bidirectional-stream"
+    }
+}
+
 extension InvokeModelWithResponseStreamInput {
 
     static func urlPathProvider(_ value: InvokeModelWithResponseStreamInput) -> Swift.String? {
@@ -3816,6 +4006,7 @@ extension ApplyGuardrailInput {
     static func write(value: ApplyGuardrailInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["content"].writeList(value.content, memberWritingClosure: BedrockRuntimeClientTypes.GuardrailContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["outputScope"].write(value.outputScope)
         try writer["source"].write(value.source)
     }
 }
@@ -3890,6 +4081,7 @@ extension ApplyGuardrailOutput {
         let reader = responseReader
         var value = ApplyGuardrailOutput()
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.actionReason = try reader["actionReason"].readIfPresent()
         value.assessments = try reader["assessments"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.guardrailCoverage = try reader["guardrailCoverage"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailCoverage.read(from:))
         value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailOutputContent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -3966,6 +4158,19 @@ extension InvokeModelOutput {
             value.body = try stream.readToEnd()
         case .noStream:
             value.body = nil
+        }
+        return value
+    }
+}
+
+extension InvokeModelWithBidirectionalStreamOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InvokeModelWithBidirectionalStreamOutput {
+        var value = InvokeModelWithBidirectionalStreamOutput()
+        if case .stream(let stream) = httpResponse.body {
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamOutput.unmarshal)
+            value.body = decoderStream.toAsyncStream()
         }
         return value
     }
@@ -4107,6 +4312,30 @@ enum InvokeModelOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ModelErrorException": return try ModelErrorException.makeError(baseError: baseError)
             case "ModelNotReadyException": return try ModelNotReadyException.makeError(baseError: baseError)
+            case "ModelTimeoutException": return try ModelTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum InvokeModelWithBidirectionalStreamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ModelErrorException": return try ModelErrorException.makeError(baseError: baseError)
+            case "ModelNotReadyException": return try ModelNotReadyException.makeError(baseError: baseError)
+            case "ModelStreamErrorException": return try ModelStreamErrorException.makeError(baseError: baseError)
             case "ModelTimeoutException": return try ModelTimeoutException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -4340,6 +4569,26 @@ extension ConflictException {
     }
 }
 
+extension BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput {
+    static var marshal: SmithyEventStreamsAPI.MarshalClosure<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput> {
+        { (self) in
+            var headers: [SmithyEventStreamsAPI.Header] = [.init(name: ":message-type", value: .string("event"))]
+            var payload: Foundation.Data? = nil
+            switch self {
+            case .chunk(let value):
+                headers.append(.init(name: ":event-type", value: .string("chunk")))
+                headers.append(.init(name: ":content-type", value: .string("application/json")))
+                let writer = SmithyJSON.Writer(nodeInfo: "")
+                try writer["bytes"].write(value.bytes, with: SmithyReadWrite.WritingClosures.writeData(value:to:))
+                payload = try writer.data()
+            case .sdkUnknown(_):
+                throw Smithy.ClientError.unknownError("cannot serialize the unknown event type!")
+            }
+            return SmithyEventStreamsAPI.Message(headers: headers, payload: payload ?? .init())
+        }
+    }
+}
+
 extension BedrockRuntimeClientTypes.ConverseStreamOutput {
     static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<BedrockRuntimeClientTypes.ConverseStreamOutput> {
         { message in
@@ -4381,6 +4630,56 @@ extension BedrockRuntimeClientTypes.ConverseStreamOutput {
                         return value
                     case "throttlingException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: ThrottlingException.read(from:))
+                        return value
+                    case "serviceUnavailableException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ServiceUnavailableException.read(from:))
+                        return value
+                    default:
+                        let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
+                        return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
+                    }
+                }
+                let error = try makeError(message, params)
+                throw error
+            case .error(let params):
+                let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
+                throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
+            case .unknown(messageType: let messageType):
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamOutput {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamOutput> {
+        { message in
+            switch try message.type() {
+            case .event(let params):
+                switch params.eventType {
+                case "chunk":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockRuntimeClientTypes.BidirectionalOutputPayloadPart.read(from:))
+                    return .chunk(value)
+                default:
+                    return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+                }
+            case .exception(let params):
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                    switch params.exceptionType {
+                    case "internalServerException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: InternalServerException.read(from:))
+                        return value
+                    case "modelStreamErrorException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ModelStreamErrorException.read(from:))
+                        return value
+                    case "validationException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ValidationException.read(from:))
+                        return value
+                    case "throttlingException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ThrottlingException.read(from:))
+                        return value
+                    case "modelTimeoutException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ModelTimeoutException.read(from:))
                         return value
                     case "serviceUnavailableException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: ServiceUnavailableException.read(from:))
@@ -4557,6 +4856,7 @@ extension BedrockRuntimeClientTypes.GuardrailContextualGroundingFilter {
         value.threshold = try reader["threshold"].readIfPresent() ?? 0.0
         value.score = try reader["score"].readIfPresent() ?? 0.0
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -4581,6 +4881,7 @@ extension BedrockRuntimeClientTypes.GuardrailRegexFilter {
         value.match = try reader["match"].readIfPresent()
         value.regex = try reader["regex"].readIfPresent()
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -4593,6 +4894,7 @@ extension BedrockRuntimeClientTypes.GuardrailPiiEntityFilter {
         value.match = try reader["match"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -4616,6 +4918,7 @@ extension BedrockRuntimeClientTypes.GuardrailManagedWord {
         value.match = try reader["match"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -4627,6 +4930,7 @@ extension BedrockRuntimeClientTypes.GuardrailCustomWord {
         var value = BedrockRuntimeClientTypes.GuardrailCustomWord()
         value.match = try reader["match"].readIfPresent() ?? ""
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -4650,6 +4954,7 @@ extension BedrockRuntimeClientTypes.GuardrailContentFilter {
         value.confidence = try reader["confidence"].readIfPresent() ?? .sdkUnknown("")
         value.filterStrength = try reader["filterStrength"].readIfPresent()
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -4672,6 +4977,7 @@ extension BedrockRuntimeClientTypes.GuardrailTopic {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.detected = try reader["detected"].readIfPresent()
         return value
     }
 }
@@ -5186,6 +5492,7 @@ extension BedrockRuntimeClientTypes.GuardrailTraceAssessment {
         value.modelOutput = try reader["modelOutput"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputAssessment = try reader["inputAssessment"].readMapIfPresent(valueReadingClosure: BedrockRuntimeClientTypes.GuardrailAssessment.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.outputAssessments = try reader["outputAssessments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.actionReason = try reader["actionReason"].readIfPresent()
         return value
     }
 }
@@ -5468,6 +5775,16 @@ extension ModelTimeoutException {
     }
 }
 
+extension BedrockRuntimeClientTypes.BidirectionalOutputPayloadPart {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.BidirectionalOutputPayloadPart {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.BidirectionalOutputPayloadPart()
+        value.bytes = try reader["bytes"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockRuntimeClientTypes.PayloadPart {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.PayloadPart {
@@ -5689,6 +6006,14 @@ extension BedrockRuntimeClientTypes.GuardrailStreamConfiguration {
         try writer["guardrailVersion"].write(value.guardrailVersion)
         try writer["streamProcessingMode"].write(value.streamProcessingMode)
         try writer["trace"].write(value.trace)
+    }
+}
+
+extension BedrockRuntimeClientTypes.BidirectionalInputPayloadPart {
+
+    static func write(value: BedrockRuntimeClientTypes.BidirectionalInputPayloadPart?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bytes"].write(value.bytes)
     }
 }
 

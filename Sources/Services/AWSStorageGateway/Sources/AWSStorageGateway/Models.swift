@@ -406,6 +406,7 @@ extension StorageGatewayClientTypes {
     public enum ActiveDirectoryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
         case detached
+        case insufficientPermissions
         case joined
         case joining
         case networkError
@@ -417,6 +418,7 @@ extension StorageGatewayClientTypes {
             return [
                 .accessDenied,
                 .detached,
+                .insufficientPermissions,
                 .joined,
                 .joining,
                 .networkError,
@@ -434,6 +436,7 @@ extension StorageGatewayClientTypes {
             switch self {
             case .accessDenied: return "ACCESS_DENIED"
             case .detached: return "DETACHED"
+            case .insufficientPermissions: return "INSUFFICIENT_PERMISSIONS"
             case .joined: return "JOINED"
             case .joining: return "JOINING"
             case .networkError: return "NETWORK_ERROR"
@@ -4403,6 +4406,8 @@ public struct JoinDomainOutput: Swift.Sendable {
     ///
     /// * JOINING: Indicates that a JoinDomain operation is in progress.
     ///
+    /// * INSUFFICIENT_PERMISSIONS: Indicates that the JoinDomain operation failed because the specified user lacks the necessary permissions to join the domain.
+    ///
     /// * NETWORK_ERROR: Indicates that JoinDomain operation failed due to a network or connectivity error.
     ///
     /// * TIMEOUT: Indicates that the JoinDomain operation failed because the operation didn't complete within the allotted time.
@@ -5300,7 +5305,7 @@ public struct StartAvailabilityMonitorTestOutput: Swift.Sendable {
 }
 
 public struct StartCacheReportInput: Swift.Sendable {
-    /// The Amazon Web Services Region of the Amazon S3 bucket associated with the file share for which you want to generate the cache report.
+    /// The Amazon Web Services Region of the Amazon S3 bucket where you want to save the cache report.
     /// This member is required.
     public var bucketRegion: Swift.String?
     /// A unique identifier that you use to ensure idempotent report generation if you need to retry an unsuccessful StartCacheReport request. If you retry a request, use the same ClientToken you specified in the initial request.
@@ -5313,7 +5318,7 @@ public struct StartCacheReportInput: Swift.Sendable {
     public var fileShareARN: Swift.String?
     /// The list of filters and parameters that determine which files are included in the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request.
     public var inclusionFilters: [StorageGatewayClientTypes.CacheReportFilter]?
-    /// The ARN of the Amazon S3 bucket where the cache report will be saved. We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs.
+    /// The ARN of the Amazon S3 bucket where you want to save the cache report. We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs.
     /// This member is required.
     public var locationARN: Swift.String?
     /// The ARN of the IAM role used when saving the cache report to Amazon S3.
