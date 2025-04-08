@@ -32,12 +32,14 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.Document
 import struct Smithy.URIQueryItem
 import struct SmithyEventStreams.DefaultMessageDecoderStream
+import struct SmithyEventStreamsAPI.Header
 import struct SmithyEventStreamsAPI.Message
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
+import typealias SmithyEventStreamsAPI.MarshalClosure
 import typealias SmithyEventStreamsAPI.UnmarshalClosure
 
 /// The request is denied because you do not have sufficient permissions to perform the requested action. For troubleshooting this error, see [AccessDeniedException](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-access-denied) in the Amazon Bedrock User Guide
@@ -3620,6 +3622,97 @@ extension InvokeModelOutput: Swift.CustomDebugStringConvertible {
         "InvokeModelOutput(contentType: \(Swift.String(describing: contentType)), performanceConfigLatency: \(Swift.String(describing: performanceConfigLatency)), body: \"CONTENT_REDACTED\")"}
 }
 
+extension BedrockRuntimeClientTypes {
+
+    /// Payload content for the bidirectional input. The input is an audio stream.
+    public struct BidirectionalInputPayloadPart: Swift.Sendable {
+        /// The audio content for the bidirectional input.
+        public var bytes: Foundation.Data?
+
+        public init(
+            bytes: Foundation.Data? = nil
+        ) {
+            self.bytes = bytes
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.BidirectionalInputPayloadPart: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Payload content, the speech chunk, for the bidirectional input of the invocation step.
+    public enum InvokeModelWithBidirectionalStreamInput: Swift.Sendable {
+        /// The audio chunk that is used as input for the invocation step.
+        case chunk(BedrockRuntimeClientTypes.BidirectionalInputPayloadPart)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct InvokeModelWithBidirectionalStreamInput: Swift.Sendable {
+    /// The prompt and inference parameters in the format specified in the BidirectionalInputPayloadPart in the header. You must provide the body in JSON format. To see the format and content of the request and response bodies for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html) in the Bedrock User Guide.
+    /// This member is required.
+    public var body: AsyncThrowingStream<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput, Swift.Error>?
+    /// The model ID or ARN of the model ID to use. Currently, only amazon.nova-sonic-v1:0 is supported.
+    /// This member is required.
+    public var modelId: Swift.String?
+
+    public init(
+        body: AsyncThrowingStream<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput, Swift.Error>? = nil,
+        modelId: Swift.String? = nil
+    ) {
+        self.body = body
+        self.modelId = modelId
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Output from the bidirectional stream. The output is speech and a text transcription.
+    public struct BidirectionalOutputPayloadPart: Swift.Sendable {
+        /// The speech output of the bidirectional stream.
+        public var bytes: Foundation.Data?
+
+        public init(
+            bytes: Foundation.Data? = nil
+        ) {
+            self.bytes = bytes
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.BidirectionalOutputPayloadPart: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Output from the bidirectional stream that was used for model invocation.
+    public enum InvokeModelWithBidirectionalStreamOutput: Swift.Sendable {
+        /// The speech chunk that was provided as output from the invocation step.
+        case chunk(BedrockRuntimeClientTypes.BidirectionalOutputPayloadPart)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct InvokeModelWithBidirectionalStreamOutput: Swift.Sendable {
+    /// Streaming response from the model in the format specified by the BidirectionalOutputPayloadPart header.
+    /// This member is required.
+    public var body: AsyncThrowingStream<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamOutput, Swift.Error>?
+
+    public init(
+        body: AsyncThrowingStream<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamOutput, Swift.Error>? = nil
+    ) {
+        self.body = body
+    }
+}
+
 public struct InvokeModelWithResponseStreamInput: Swift.Sendable {
     /// The desired MIME type of the inference body in the response. The default value is application/json.
     public var accept: Swift.String?
@@ -3809,6 +3902,16 @@ extension InvokeModelInput {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-Trace", value: Swift.String(trace.rawValue)))
         }
         return items
+    }
+}
+
+extension InvokeModelWithBidirectionalStreamInput {
+
+    static func urlPathProvider(_ value: InvokeModelWithBidirectionalStreamInput) -> Swift.String? {
+        guard let modelId = value.modelId else {
+            return nil
+        }
+        return "/model/\(modelId.urlPercentEncoding())/invoke-with-bidirectional-stream"
     }
 }
 
@@ -4060,6 +4163,19 @@ extension InvokeModelOutput {
     }
 }
 
+extension InvokeModelWithBidirectionalStreamOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InvokeModelWithBidirectionalStreamOutput {
+        var value = InvokeModelWithBidirectionalStreamOutput()
+        if case .stream(let stream) = httpResponse.body {
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamOutput.unmarshal)
+            value.body = decoderStream.toAsyncStream()
+        }
+        return value
+    }
+}
+
 extension InvokeModelWithResponseStreamOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InvokeModelWithResponseStreamOutput {
@@ -4196,6 +4312,30 @@ enum InvokeModelOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ModelErrorException": return try ModelErrorException.makeError(baseError: baseError)
             case "ModelNotReadyException": return try ModelNotReadyException.makeError(baseError: baseError)
+            case "ModelTimeoutException": return try ModelTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum InvokeModelWithBidirectionalStreamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ModelErrorException": return try ModelErrorException.makeError(baseError: baseError)
+            case "ModelNotReadyException": return try ModelNotReadyException.makeError(baseError: baseError)
+            case "ModelStreamErrorException": return try ModelStreamErrorException.makeError(baseError: baseError)
             case "ModelTimeoutException": return try ModelTimeoutException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -4429,6 +4569,26 @@ extension ConflictException {
     }
 }
 
+extension BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput {
+    static var marshal: SmithyEventStreamsAPI.MarshalClosure<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput> {
+        { (self) in
+            var headers: [SmithyEventStreamsAPI.Header] = [.init(name: ":message-type", value: .string("event"))]
+            var payload: Foundation.Data? = nil
+            switch self {
+            case .chunk(let value):
+                headers.append(.init(name: ":event-type", value: .string("chunk")))
+                headers.append(.init(name: ":content-type", value: .string("application/json")))
+                let writer = SmithyJSON.Writer(nodeInfo: "")
+                try writer["bytes"].write(value.bytes, with: SmithyReadWrite.WritingClosures.writeData(value:to:))
+                payload = try writer.data()
+            case .sdkUnknown(_):
+                throw Smithy.ClientError.unknownError("cannot serialize the unknown event type!")
+            }
+            return SmithyEventStreamsAPI.Message(headers: headers, payload: payload ?? .init())
+        }
+    }
+}
+
 extension BedrockRuntimeClientTypes.ConverseStreamOutput {
     static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<BedrockRuntimeClientTypes.ConverseStreamOutput> {
         { message in
@@ -4470,6 +4630,56 @@ extension BedrockRuntimeClientTypes.ConverseStreamOutput {
                         return value
                     case "throttlingException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: ThrottlingException.read(from:))
+                        return value
+                    case "serviceUnavailableException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ServiceUnavailableException.read(from:))
+                        return value
+                    default:
+                        let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
+                        return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
+                    }
+                }
+                let error = try makeError(message, params)
+                throw error
+            case .error(let params):
+                let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
+                throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
+            case .unknown(messageType: let messageType):
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamOutput {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamOutput> {
+        { message in
+            switch try message.type() {
+            case .event(let params):
+                switch params.eventType {
+                case "chunk":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockRuntimeClientTypes.BidirectionalOutputPayloadPart.read(from:))
+                    return .chunk(value)
+                default:
+                    return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+                }
+            case .exception(let params):
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                    switch params.exceptionType {
+                    case "internalServerException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: InternalServerException.read(from:))
+                        return value
+                    case "modelStreamErrorException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ModelStreamErrorException.read(from:))
+                        return value
+                    case "validationException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ValidationException.read(from:))
+                        return value
+                    case "throttlingException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ThrottlingException.read(from:))
+                        return value
+                    case "modelTimeoutException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ModelTimeoutException.read(from:))
                         return value
                     case "serviceUnavailableException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: ServiceUnavailableException.read(from:))
@@ -5565,6 +5775,16 @@ extension ModelTimeoutException {
     }
 }
 
+extension BedrockRuntimeClientTypes.BidirectionalOutputPayloadPart {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.BidirectionalOutputPayloadPart {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.BidirectionalOutputPayloadPart()
+        value.bytes = try reader["bytes"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockRuntimeClientTypes.PayloadPart {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.PayloadPart {
@@ -5786,6 +6006,14 @@ extension BedrockRuntimeClientTypes.GuardrailStreamConfiguration {
         try writer["guardrailVersion"].write(value.guardrailVersion)
         try writer["streamProcessingMode"].write(value.streamProcessingMode)
         try writer["trace"].write(value.trace)
+    }
+}
+
+extension BedrockRuntimeClientTypes.BidirectionalInputPayloadPart {
+
+    static func write(value: BedrockRuntimeClientTypes.BidirectionalInputPayloadPart?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bytes"].write(value.bytes)
     }
 }
 

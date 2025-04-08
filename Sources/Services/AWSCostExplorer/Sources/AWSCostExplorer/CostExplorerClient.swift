@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CostExplorerClient: ClientRuntime.Client {
     public static let clientName = "CostExplorerClient"
-    public static let version = "1.2.54"
+    public static let version = "1.2.55"
     let client: ClientRuntime.SdkHttpClient
     let config: CostExplorerClient.CostExplorerClientConfiguration
     let serviceName = "Cost Explorer"
@@ -3166,7 +3166,7 @@ extension CostExplorerClient {
 
     /// Performs the `StartCostAllocationTagBackfill` operation on the `CostExplorer` service.
     ///
-    /// Request a cost allocation tag backfill. This will backfill the activation status (either active or inactive) for all tag keys from para:BackfillFrom up to the when this request is made. You can request a backfill once every 24 hours.
+    /// Request a cost allocation tag backfill. This will backfill the activation status (either active or inactive) for all tag keys from para:BackfillFrom up to the time this request is made. You can request a backfill once every 24 hours.
     ///
     /// - Parameter StartCostAllocationTagBackfillInput : [no documentation found]
     ///
