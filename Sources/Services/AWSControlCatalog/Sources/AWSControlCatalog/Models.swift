@@ -348,13 +348,17 @@ extension ControlCatalogClientTypes {
     ///
     /// For example, AWS::Organizations::Policy::SERVICE_CONTROL_POLICY or AWS::CloudFormation::Type::HOOK have the format with four segments. Although the format is similar, the values for the Type field do not match any Amazon Web Services CloudFormation values.
     public struct ImplementationDetails: Swift.Sendable {
+        /// A service-specific identifier for the control, assigned by the service that implemented the control. For example, this identifier could be an Amazon Web Services Config Rule ID or a Security Hub Control ID.
+        public var identifier: Swift.String?
         /// A string that describes a control's implementation type.
         /// This member is required.
         public var type: Swift.String?
 
         public init(
+            identifier: Swift.String? = nil,
             type: Swift.String? = nil
         ) {
+            self.identifier = identifier
             self.type = type
         }
     }
@@ -435,6 +439,41 @@ extension ControlCatalogClientTypes {
     }
 }
 
+extension ControlCatalogClientTypes {
+
+    public enum ControlSeverity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ControlSeverity] {
+            return [
+                .critical,
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetControlOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the control.
     /// This member is required.
@@ -442,6 +481,8 @@ public struct GetControlOutput: Swift.Sendable {
     /// A term that identifies the control's functional behavior. One of Preventive, Detective, Proactive
     /// This member is required.
     public var behavior: ControlCatalogClientTypes.ControlBehavior?
+    /// A timestamp that notes the time when the control was released (start of its life) as a governance capability in Amazon Web Services.
+    public var createTime: Foundation.Date?
     /// A description of what the control does.
     /// This member is required.
     public var description: Swift.String?
@@ -455,23 +496,29 @@ public struct GetControlOutput: Swift.Sendable {
     /// Returns information about the control, including the scope of the control, if enabled, and the Regions in which the control currently is available for deployment. For more information about scope, see [Global services](https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/global-services.html). If you are applying controls through an Amazon Web Services Control Tower landing zone environment, remember that the values returned in the RegionConfiguration API operation are not related to the governed Regions in your landing zone. For example, if you are governing Regions A,B,and C while the control is available in Regions A, B, C, and D, you'd see a response with DeployableRegions of A, B, C, and D for a control with REGIONAL scope, even though you may not intend to deploy the control in Region D, because you do not govern it through your landing zone.
     /// This member is required.
     public var regionConfiguration: ControlCatalogClientTypes.RegionConfiguration?
+    /// An enumerated type, with the following possible values:
+    public var severity: ControlCatalogClientTypes.ControlSeverity?
 
     public init(
         arn: Swift.String? = nil,
         behavior: ControlCatalogClientTypes.ControlBehavior? = nil,
+        createTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         implementation: ControlCatalogClientTypes.ImplementationDetails? = nil,
         name: Swift.String? = nil,
         parameters: [ControlCatalogClientTypes.ControlParameter]? = nil,
-        regionConfiguration: ControlCatalogClientTypes.RegionConfiguration? = nil
+        regionConfiguration: ControlCatalogClientTypes.RegionConfiguration? = nil,
+        severity: ControlCatalogClientTypes.ControlSeverity? = nil
     ) {
         self.arn = arn
         self.behavior = behavior
+        self.createTime = createTime
         self.description = description
         self.implementation = implementation
         self.name = name
         self.parameters = parameters
         self.regionConfiguration = regionConfiguration
+        self.severity = severity
     }
 }
 
@@ -492,26 +539,62 @@ public struct ListControlsInput: Swift.Sendable {
 
 extension ControlCatalogClientTypes {
 
+    /// A summary of how the control is implemented, including the Amazon Web Services service that enforces the control and its service-specific identifier. For example, the value of this field could indicate that the control is implemented as an Amazon Web Services Config Rule or an Amazon Web Services Security Hub control.
+    public struct ImplementationSummary: Swift.Sendable {
+        /// The identifier originally assigned by the Amazon Web Services service that implements the control. For example, CODEPIPELINE_DEPLOYMENT_COUNT_CHECK.
+        public var identifier: Swift.String?
+        /// A string that represents the Amazon Web Services service that implements this control. For example, a value of AWS::Config::ConfigRule indicates that the control is implemented by Amazon Web Services Config, and AWS::SecurityHub::SecurityControl indicates implementation by Amazon Web Services Security Hub.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            identifier: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.identifier = identifier
+            self.type = type
+        }
+    }
+}
+
+extension ControlCatalogClientTypes {
+
     /// Overview of information about a control.
     public struct ControlSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the control.
         /// This member is required.
         public var arn: Swift.String?
+        /// An enumerated type, with the following possible values:
+        public var behavior: ControlCatalogClientTypes.ControlBehavior?
+        /// A timestamp that notes the time when the control was released (start of its life) as a governance capability in Amazon Web Services.
+        public var createTime: Foundation.Date?
         /// A description of the control, as it may appear in the console. Describes the functionality of the control.
         /// This member is required.
         public var description: Swift.String?
+        /// An object of type ImplementationSummary that describes how the control is implemented.
+        public var implementation: ControlCatalogClientTypes.ImplementationSummary?
         /// The display name of the control.
         /// This member is required.
         public var name: Swift.String?
+        /// An enumerated type, with the following possible values:
+        public var severity: ControlCatalogClientTypes.ControlSeverity?
 
         public init(
             arn: Swift.String? = nil,
+            behavior: ControlCatalogClientTypes.ControlBehavior? = nil,
+            createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            name: Swift.String? = nil
+            implementation: ControlCatalogClientTypes.ImplementationSummary? = nil,
+            name: Swift.String? = nil,
+            severity: ControlCatalogClientTypes.ControlSeverity? = nil
         ) {
             self.arn = arn
+            self.behavior = behavior
+            self.createTime = createTime
             self.description = description
+            self.implementation = implementation
             self.name = name
+            self.severity = severity
         }
     }
 }
@@ -837,11 +920,13 @@ extension GetControlOutput {
         var value = GetControlOutput()
         value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.behavior = try reader["Behavior"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent() ?? ""
         value.implementation = try reader["Implementation"].readIfPresent(with: ControlCatalogClientTypes.ImplementationDetails.read(from:))
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.ControlParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.regionConfiguration = try reader["RegionConfiguration"].readIfPresent(with: ControlCatalogClientTypes.RegionConfiguration.read(from:))
+        value.severity = try reader["Severity"].readIfPresent()
         return value
     }
 }
@@ -1066,6 +1151,7 @@ extension ControlCatalogClientTypes.ImplementationDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlCatalogClientTypes.ImplementationDetails()
         value.type = try reader["Type"].readIfPresent() ?? ""
+        value.identifier = try reader["Identifier"].readIfPresent()
         return value
     }
 }
@@ -1126,6 +1212,21 @@ extension ControlCatalogClientTypes.ControlSummary {
         value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent() ?? ""
+        value.behavior = try reader["Behavior"].readIfPresent()
+        value.severity = try reader["Severity"].readIfPresent()
+        value.implementation = try reader["Implementation"].readIfPresent(with: ControlCatalogClientTypes.ImplementationSummary.read(from:))
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ControlCatalogClientTypes.ImplementationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ImplementationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlCatalogClientTypes.ImplementationSummary()
+        value.type = try reader["Type"].readIfPresent() ?? ""
+        value.identifier = try reader["Identifier"].readIfPresent()
         return value
     }
 }

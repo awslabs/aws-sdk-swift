@@ -8063,21 +8063,25 @@ extension GlueClientTypes {
 
     /// Compaction metrics for Iceberg for the optimizer run.
     public struct IcebergCompactionMetrics: Swift.Sendable {
+        /// The number of DPU hours consumed by the job.
+        public var dpuHours: Swift.Double
         /// The duration of the job in hours.
         public var jobDurationInHour: Swift.Double
         /// The number of bytes removed by the compaction job run.
         public var numberOfBytesCompacted: Swift.Int
-        /// The number of DPU hours consumed by the job.
+        /// The number of DPUs consumed by the job, rounded up to the nearest whole number.
         public var numberOfDpus: Swift.Int
         /// The number of files removed by the compaction job run.
         public var numberOfFilesCompacted: Swift.Int
 
         public init(
+            dpuHours: Swift.Double = 0.0,
             jobDurationInHour: Swift.Double = 0.0,
             numberOfBytesCompacted: Swift.Int = 0,
             numberOfDpus: Swift.Int = 0,
             numberOfFilesCompacted: Swift.Int = 0
         ) {
+            self.dpuHours = dpuHours
             self.jobDurationInHour = jobDurationInHour
             self.numberOfBytesCompacted = numberOfBytesCompacted
             self.numberOfDpus = numberOfDpus
@@ -8144,7 +8148,7 @@ extension GlueClientTypes {
         public var jobDurationInHour: Swift.String?
         /// The number of bytes removed by the compaction job run.
         public var numberOfBytesCompacted: Swift.String?
-        /// The number of DPU hours consumed by the job.
+        /// The number of DPUs consumed by the job, rounded up to the nearest whole number.
         public var numberOfDpus: Swift.String?
         /// The number of files removed by the compaction job run.
         public var numberOfFilesCompacted: Swift.String?
@@ -8167,18 +8171,22 @@ extension GlueClientTypes {
 
     /// Orphan file deletion metrics for Iceberg for the optimizer run.
     public struct IcebergOrphanFileDeletionMetrics: Swift.Sendable {
+        /// The number of DPU hours consumed by the job.
+        public var dpuHours: Swift.Double
         /// The duration of the job in hours.
         public var jobDurationInHour: Swift.Double
-        /// The number of DPU hours consumed by the job.
+        /// The number of DPUs consumed by the job, rounded up to the nearest whole number.
         public var numberOfDpus: Swift.Int
         /// The number of orphan files deleted by the orphan file deletion job run.
         public var numberOfOrphanFilesDeleted: Swift.Int
 
         public init(
+            dpuHours: Swift.Double = 0.0,
             jobDurationInHour: Swift.Double = 0.0,
             numberOfDpus: Swift.Int = 0,
             numberOfOrphanFilesDeleted: Swift.Int = 0
         ) {
+            self.dpuHours = dpuHours
             self.jobDurationInHour = jobDurationInHour
             self.numberOfDpus = numberOfDpus
             self.numberOfOrphanFilesDeleted = numberOfOrphanFilesDeleted
@@ -8205,11 +8213,13 @@ extension GlueClientTypes {
 
     /// Snapshot retention metrics for Iceberg for the optimizer run.
     public struct IcebergRetentionMetrics: Swift.Sendable {
+        /// The number of DPU hours consumed by the job.
+        public var dpuHours: Swift.Double
         /// The duration of the job in hours.
         public var jobDurationInHour: Swift.Double
         /// The number of data files deleted by the retention job run.
         public var numberOfDataFilesDeleted: Swift.Int
-        /// The number of DPU hours consumed by the job.
+        /// The number of DPUs consumed by the job, rounded up to the nearest whole number.
         public var numberOfDpus: Swift.Int
         /// The number of manifest files deleted by the retention job run.
         public var numberOfManifestFilesDeleted: Swift.Int
@@ -8217,12 +8227,14 @@ extension GlueClientTypes {
         public var numberOfManifestListsDeleted: Swift.Int
 
         public init(
+            dpuHours: Swift.Double = 0.0,
             jobDurationInHour: Swift.Double = 0.0,
             numberOfDataFilesDeleted: Swift.Int = 0,
             numberOfDpus: Swift.Int = 0,
             numberOfManifestFilesDeleted: Swift.Int = 0,
             numberOfManifestListsDeleted: Swift.Int = 0
         ) {
+            self.dpuHours = dpuHours
             self.jobDurationInHour = jobDurationInHour
             self.numberOfDataFilesDeleted = numberOfDataFilesDeleted
             self.numberOfDpus = numberOfDpus
@@ -44003,6 +44015,7 @@ extension GlueClientTypes.IcebergOrphanFileDeletionMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.IcebergOrphanFileDeletionMetrics()
         value.numberOfOrphanFilesDeleted = try reader["NumberOfOrphanFilesDeleted"].readIfPresent() ?? 0
+        value.dpuHours = try reader["DpuHours"].readIfPresent() ?? 0
         value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
         value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
         return value
@@ -44027,6 +44040,7 @@ extension GlueClientTypes.IcebergRetentionMetrics {
         value.numberOfDataFilesDeleted = try reader["NumberOfDataFilesDeleted"].readIfPresent() ?? 0
         value.numberOfManifestFilesDeleted = try reader["NumberOfManifestFilesDeleted"].readIfPresent() ?? 0
         value.numberOfManifestListsDeleted = try reader["NumberOfManifestListsDeleted"].readIfPresent() ?? 0
+        value.dpuHours = try reader["DpuHours"].readIfPresent() ?? 0
         value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
         value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
         return value
@@ -44050,6 +44064,7 @@ extension GlueClientTypes.IcebergCompactionMetrics {
         var value = GlueClientTypes.IcebergCompactionMetrics()
         value.numberOfBytesCompacted = try reader["NumberOfBytesCompacted"].readIfPresent() ?? 0
         value.numberOfFilesCompacted = try reader["NumberOfFilesCompacted"].readIfPresent() ?? 0
+        value.dpuHours = try reader["DpuHours"].readIfPresent() ?? 0
         value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
         value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
         return value
