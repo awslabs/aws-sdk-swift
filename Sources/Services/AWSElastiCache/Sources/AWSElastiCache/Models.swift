@@ -2854,6 +2854,25 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes {
 
+    /// Configuration settings for horizontal or vertical scaling operations on Memcached clusters.
+    public struct ScaleConfig: Swift.Sendable {
+        /// The time interval in seconds between scaling operations when performing gradual scaling for a Memcached cluster.
+        public var scaleIntervalMinutes: Swift.Int?
+        /// The percentage by which to scale the Memcached cluster, either horizontally by adding nodes or vertically by increasing resources.
+        public var scalePercentage: Swift.Int?
+
+        public init(
+            scaleIntervalMinutes: Swift.Int? = nil,
+            scalePercentage: Swift.Int? = nil
+        ) {
+            self.scaleIntervalMinutes = scaleIntervalMinutes
+            self.scalePercentage = scalePercentage
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
     /// A group of settings that are applied to the cluster in the future, or that are currently being applied.
     public struct PendingModifiedValues: Swift.Sendable {
         /// The auth token status
@@ -2868,6 +2887,8 @@ extension ElastiCacheClientTypes {
         public var logDeliveryConfigurations: [ElastiCacheClientTypes.PendingLogDeliveryConfiguration]?
         /// The new number of cache nodes for the cluster. For clusters running Valkey or Redis OSS, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.
         public var numCacheNodes: Swift.Int?
+        /// The scaling configuration changes that are pending for the Memcached cluster.
+        public var scaleConfig: ElastiCacheClientTypes.ScaleConfig?
         /// A flag that enables in-transit encryption when set to true.
         public var transitEncryptionEnabled: Swift.Bool?
         /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime.
@@ -2880,6 +2901,7 @@ extension ElastiCacheClientTypes {
             engineVersion: Swift.String? = nil,
             logDeliveryConfigurations: [ElastiCacheClientTypes.PendingLogDeliveryConfiguration]? = nil,
             numCacheNodes: Swift.Int? = nil,
+            scaleConfig: ElastiCacheClientTypes.ScaleConfig? = nil,
             transitEncryptionEnabled: Swift.Bool? = nil,
             transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil
         ) {
@@ -2889,6 +2911,7 @@ extension ElastiCacheClientTypes {
             self.engineVersion = engineVersion
             self.logDeliveryConfigurations = logDeliveryConfigurations
             self.numCacheNodes = numCacheNodes
+            self.scaleConfig = scaleConfig
             self.transitEncryptionEnabled = transitEncryptionEnabled
             self.transitEncryptionMode = transitEncryptionMode
         }
@@ -7875,7 +7898,7 @@ public struct ModifyCacheClusterInput: Swift.Sendable {
     public var cacheParameterGroupName: Swift.String?
     /// A list of cache security group names to authorize on this cluster. This change is asynchronously applied as soon as possible. You can use this parameter only with clusters that are created outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".
     public var cacheSecurityGroupNames: [Swift.String]?
-    /// Modifies the engine listed in a cluster message. The options are redis, memcached or valkey.
+    /// The engine type used by the cache cluster. The options are valkey, memcached or redis.
     public var engine: Swift.String?
     /// The upgraded version of the cache engine to be run on the cache nodes. Important: You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement)), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
     public var engineVersion: Swift.String?
@@ -7960,6 +7983,8 @@ public struct ModifyCacheClusterInput: Swift.Sendable {
     ///
     /// Example: sun:23:00-mon:01:30
     public var preferredMaintenanceWindow: Swift.String?
+    /// Configures horizontal or vertical scaling for Memcached clusters, specifying the scaling percentage and interval.
+    public var scaleConfig: ElastiCacheClientTypes.ScaleConfig?
     /// Specifies the VPC Security Groups associated with the cluster. This parameter can be used only with clusters that are created in an Amazon Virtual Private Cloud (Amazon VPC).
     public var securityGroupIds: [Swift.String]?
     /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted. If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
@@ -7987,6 +8012,7 @@ public struct ModifyCacheClusterInput: Swift.Sendable {
         notificationTopicStatus: Swift.String? = nil,
         numCacheNodes: Swift.Int? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
+        scaleConfig: ElastiCacheClientTypes.ScaleConfig? = nil,
         securityGroupIds: [Swift.String]? = nil,
         snapshotRetentionLimit: Swift.Int? = nil,
         snapshotWindow: Swift.String? = nil
@@ -8010,6 +8036,7 @@ public struct ModifyCacheClusterInput: Swift.Sendable {
         self.notificationTopicStatus = notificationTopicStatus
         self.numCacheNodes = numCacheNodes
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
+        self.scaleConfig = scaleConfig
         self.securityGroupIds = securityGroupIds
         self.snapshotRetentionLimit = snapshotRetentionLimit
         self.snapshotWindow = snapshotWindow
@@ -10447,6 +10474,7 @@ extension ModifyCacheClusterInput {
         try writer["NotificationTopicStatus"].write(value.notificationTopicStatus)
         try writer["NumCacheNodes"].write(value.numCacheNodes)
         try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
+        try writer["ScaleConfig"].write(value.scaleConfig, with: ElastiCacheClientTypes.ScaleConfig.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "SecurityGroupId", isFlattened: false)
         try writer["SnapshotRetentionLimit"].write(value.snapshotRetentionLimit)
         try writer["SnapshotWindow"].write(value.snapshotWindow)
@@ -14563,6 +14591,24 @@ extension ElastiCacheClientTypes.PendingModifiedValues {
         value.logDeliveryConfigurations = try reader["LogDeliveryConfigurations"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.PendingLogDeliveryConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.transitEncryptionEnabled = try reader["TransitEncryptionEnabled"].readIfPresent()
         value.transitEncryptionMode = try reader["TransitEncryptionMode"].readIfPresent()
+        value.scaleConfig = try reader["ScaleConfig"].readIfPresent(with: ElastiCacheClientTypes.ScaleConfig.read(from:))
+        return value
+    }
+}
+
+extension ElastiCacheClientTypes.ScaleConfig {
+
+    static func write(value: ElastiCacheClientTypes.ScaleConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ScaleIntervalMinutes"].write(value.scaleIntervalMinutes)
+        try writer["ScalePercentage"].write(value.scalePercentage)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.ScaleConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.ScaleConfig()
+        value.scalePercentage = try reader["ScalePercentage"].readIfPresent()
+        value.scaleIntervalMinutes = try reader["ScaleIntervalMinutes"].readIfPresent()
         return value
     }
 }

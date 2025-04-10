@@ -218,6 +218,9 @@ public let partitions = #"""
     },
     "regionRegex" : "^eu\\-isoe\\-\\w+\\-\\d+$",
     "regions" : {
+      "aws-iso-e-global" : {
+        "description" : "AWS ISOE (Europe) global region"
+      },
       "eu-isoe-west-1" : {
         "description" : "EU ISOE West"
       }

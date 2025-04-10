@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SimSpaceWeaverClient: ClientRuntime.Client {
     public static let clientName = "SimSpaceWeaverClient"
-    public static let version = "1.2.56"
+    public static let version = "1.2.57"
     let client: ClientRuntime.SdkHttpClient
     let config: SimSpaceWeaverClient.SimSpaceWeaverClientConfiguration
     let serviceName = "SimSpaceWeaver"
