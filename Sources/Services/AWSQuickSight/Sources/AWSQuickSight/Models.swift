@@ -4748,6 +4748,69 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum VisualHighlightTrigger: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dataPointClick
+        case dataPointHover
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VisualHighlightTrigger] {
+            return [
+                .dataPointClick,
+                .dataPointHover,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataPointClick: return "DATA_POINT_CLICK"
+            case .dataPointHover: return "DATA_POINT_HOVER"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Defines what initiates a highlight operation on a visual, such as a click or hover.
+    public struct VisualHighlightOperation: Swift.Sendable {
+        /// Specifies whether a highlight operation is initiated by a click or hover, or whether it's disabled.
+        /// This member is required.
+        public var trigger: QuickSightClientTypes.VisualHighlightTrigger?
+
+        public init(
+            trigger: QuickSightClientTypes.VisualHighlightTrigger? = nil
+        ) {
+            self.trigger = trigger
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A list of custom actions applied to visuals in an analysis or sheet.
+    public struct VisualCustomActionDefaults: Swift.Sendable {
+        /// A list of highlight operations available for visuals in an analysis or sheet.
+        public var highlightOperation: QuickSightClientTypes.VisualHighlightOperation?
+
+        public init(
+            highlightOperation: QuickSightClientTypes.VisualHighlightOperation? = nil
+        ) {
+            self.highlightOperation = highlightOperation
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum QBusinessInsightsStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -4823,6 +4886,8 @@ extension QuickSightClientTypes {
 
     /// An array of analysis level configurations.
     public struct AssetOptions: Swift.Sendable {
+        /// A list of visual custom actions for the analysis.
+        public var customActionDefaults: QuickSightClientTypes.VisualCustomActionDefaults?
         /// A list of dataset ARNS to exclude from Dashboard Q&A.
         public var excludedDataSetArns: [Swift.String]?
         /// Determines whether insight summaries from Amazon Q Business are allowed in Dashboard Q&A.
@@ -4833,11 +4898,13 @@ extension QuickSightClientTypes {
         public var weekStart: QuickSightClientTypes.DayOfTheWeek?
 
         public init(
+            customActionDefaults: QuickSightClientTypes.VisualCustomActionDefaults? = nil,
             excludedDataSetArns: [Swift.String]? = nil,
             qBusinessInsightsStatus: QuickSightClientTypes.QBusinessInsightsStatus? = nil,
             timezone: Swift.String? = nil,
             weekStart: QuickSightClientTypes.DayOfTheWeek? = nil
         ) {
+            self.customActionDefaults = customActionDefaults
             self.excludedDataSetArns = excludedDataSetArns
             self.qBusinessInsightsStatus = qBusinessInsightsStatus
             self.timezone = timezone
@@ -18695,6 +18762,8 @@ extension QuickSightClientTypes {
         ///
         /// * INTERACTIVE: Creates a sheet for an interactive dashboard.
         public var contentType: QuickSightClientTypes.SheetContentType?
+        /// A list of visual custom actions for the sheet.
+        public var customActionDefaults: QuickSightClientTypes.VisualCustomActionDefaults?
         /// A description of the sheet.
         public var description: Swift.String?
         /// The list of filter controls that are on a sheet. For more information, see [Adding filter controls to analysis sheets](https://docs.aws.amazon.com/quicksight/latest/user/filter-controls.html) in the Amazon QuickSight User Guide.
@@ -18721,6 +18790,7 @@ extension QuickSightClientTypes {
 
         public init(
             contentType: QuickSightClientTypes.SheetContentType? = nil,
+            customActionDefaults: QuickSightClientTypes.VisualCustomActionDefaults? = nil,
             description: Swift.String? = nil,
             filterControls: [QuickSightClientTypes.FilterControl]? = nil,
             images: [QuickSightClientTypes.SheetImage]? = nil,
@@ -18734,6 +18804,7 @@ extension QuickSightClientTypes {
             visuals: [QuickSightClientTypes.Visual]? = nil
         ) {
             self.contentType = contentType
+            self.customActionDefaults = customActionDefaults
             self.description = description
             self.filterControls = filterControls
             self.images = images
@@ -56328,6 +56399,7 @@ extension QuickSightClientTypes.AssetOptions {
 
     static func write(value: QuickSightClientTypes.AssetOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CustomActionDefaults"].write(value.customActionDefaults, with: QuickSightClientTypes.VisualCustomActionDefaults.write(value:to:))
         try writer["ExcludedDataSetArns"].writeList(value.excludedDataSetArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["QBusinessInsightsStatus"].write(value.qBusinessInsightsStatus)
         try writer["Timezone"].write(value.timezone)
@@ -56341,6 +56413,37 @@ extension QuickSightClientTypes.AssetOptions {
         value.weekStart = try reader["WeekStart"].readIfPresent()
         value.qBusinessInsightsStatus = try reader["QBusinessInsightsStatus"].readIfPresent()
         value.excludedDataSetArns = try reader["ExcludedDataSetArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customActionDefaults = try reader["CustomActionDefaults"].readIfPresent(with: QuickSightClientTypes.VisualCustomActionDefaults.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.VisualCustomActionDefaults {
+
+    static func write(value: QuickSightClientTypes.VisualCustomActionDefaults?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["highlightOperation"].write(value.highlightOperation, with: QuickSightClientTypes.VisualHighlightOperation.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualCustomActionDefaults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.VisualCustomActionDefaults()
+        value.highlightOperation = try reader["highlightOperation"].readIfPresent(with: QuickSightClientTypes.VisualHighlightOperation.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.VisualHighlightOperation {
+
+    static func write(value: QuickSightClientTypes.VisualHighlightOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Trigger"].write(value.trigger)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualHighlightOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.VisualHighlightOperation()
+        value.trigger = try reader["Trigger"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -58295,6 +58398,7 @@ extension QuickSightClientTypes.SheetDefinition {
     static func write(value: QuickSightClientTypes.SheetDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ContentType"].write(value.contentType)
+        try writer["CustomActionDefaults"].write(value.customActionDefaults, with: QuickSightClientTypes.VisualCustomActionDefaults.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["FilterControls"].writeList(value.filterControls, memberWritingClosure: QuickSightClientTypes.FilterControl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Images"].writeList(value.images, memberWritingClosure: QuickSightClientTypes.SheetImage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -58323,6 +58427,7 @@ extension QuickSightClientTypes.SheetDefinition {
         value.layouts = try reader["Layouts"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Layout.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sheetControlLayouts = try reader["SheetControlLayouts"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetControlLayout.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.contentType = try reader["ContentType"].readIfPresent()
+        value.customActionDefaults = try reader["CustomActionDefaults"].readIfPresent(with: QuickSightClientTypes.VisualCustomActionDefaults.read(from:))
         return value
     }
 }

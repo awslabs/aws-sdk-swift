@@ -1610,9 +1610,11 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
-    /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server. Because the SftpConnectorConfig data type is used for both creating and updating SFTP connectors, its parameters, TrustedHostKeys and UserSecretId are marked as not required. This is a bit misleading, as they are not required when you are updating an existing SFTP connector, but are required when you are creating a new SFTP connector.
+    /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server.
     public struct SftpConnectorConfig: Swift.Sendable {
-        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
+        /// Specify the number of concurrent connections that your connector creates to the remote server. The default value is 5 (this is also the maximum value allowed). This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel operations.
+        public var maxConcurrentConnections: Swift.Int?
+        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. TrustedHostKeys is optional for CreateConnector. If not provided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
         ///
         /// * For RSA keys, the <key type> string is ssh-rsa.
         ///
@@ -1622,12 +1624,18 @@ extension TransferClientTypes {
         /// Run this command to retrieve the SFTP server host key, where your SFTP server name is ftp.host.com. ssh-keyscan ftp.host.com This prints the public host key to standard output. ftp.host.com ssh-rsa AAAAB3Nza...<long-string-for-public-key Copy and paste this string into the TrustedHostKeys field for the create-connector command or into the Trusted host keys field in the console.
         public var trustedHostKeys: [Swift.String]?
         /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier must be the Amazon Resource Name (ARN) of the secret.
+        ///
+        /// * Required when creating an SFTP connector
+        ///
+        /// * Optional when updating an existing SFTP connector
         public var userSecretId: Swift.String?
 
         public init(
+            maxConcurrentConnections: Swift.Int? = 1,
             trustedHostKeys: [Swift.String]? = nil,
             userSecretId: Swift.String? = nil
         ) {
+            self.maxConcurrentConnections = maxConcurrentConnections
             self.trustedHostKeys = trustedHostKeys
             self.userSecretId = userSecretId
         }
@@ -5637,6 +5645,21 @@ public struct UpdateServerOutput: Swift.Sendable {
     }
 }
 
+extension TransferClientTypes {
+
+    /// Contains the details for an SFTP connector connection.
+    public struct SftpConnectorConnectionDetails: Swift.Sendable {
+        /// The SSH public key of the remote SFTP server. This is returned during the initial connection attempt when you call TestConnection. It allows you to retrieve the valid server host key to update the connector when you are unable to obtain it in advance.
+        public var hostKey: Swift.String?
+
+        public init(
+            hostKey: Swift.String? = nil
+        ) {
+            self.hostKey = hostKey
+        }
+    }
+}
+
 public struct StartDirectoryListingInput: Swift.Sendable {
     /// The unique identifier for the connector.
     /// This member is required.
@@ -5839,6 +5862,8 @@ public struct TestConnectionInput: Swift.Sendable {
 public struct TestConnectionOutput: Swift.Sendable {
     /// Returns the identifier of the connector object that you are testing.
     public var connectorId: Swift.String?
+    /// Structure that contains the SFTP connector host key.
+    public var sftpConnectionDetails: TransferClientTypes.SftpConnectorConnectionDetails?
     /// Returns OK for successful test, or ERROR if the test fails.
     public var status: Swift.String?
     /// Returns Connection succeeded if the test is successful. Or, returns a descriptive error message if the test fails. The following list provides troubleshooting details, depending on the error message that you receive.
@@ -5854,10 +5879,12 @@ public struct TestConnectionOutput: Swift.Sendable {
 
     public init(
         connectorId: Swift.String? = nil,
+        sftpConnectionDetails: TransferClientTypes.SftpConnectorConnectionDetails? = nil,
         status: Swift.String? = nil,
         statusMessage: Swift.String? = nil
     ) {
         self.connectorId = connectorId
+        self.sftpConnectionDetails = sftpConnectionDetails
         self.status = status
         self.statusMessage = statusMessage
     }
@@ -8101,6 +8128,7 @@ extension TestConnectionOutput {
         let reader = responseReader
         var value = TestConnectionOutput()
         value.connectorId = try reader["ConnectorId"].readIfPresent()
+        value.sftpConnectionDetails = try reader["SftpConnectionDetails"].readIfPresent(with: TransferClientTypes.SftpConnectorConnectionDetails.read(from:))
         value.status = try reader["Status"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
@@ -9804,6 +9832,7 @@ extension TransferClientTypes.SftpConnectorConfig {
 
     static func write(value: TransferClientTypes.SftpConnectorConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["MaxConcurrentConnections"].write(value.maxConcurrentConnections)
         try writer["TrustedHostKeys"].writeList(value.trustedHostKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["UserSecretId"].write(value.userSecretId)
     }
@@ -9813,6 +9842,7 @@ extension TransferClientTypes.SftpConnectorConfig {
         var value = TransferClientTypes.SftpConnectorConfig()
         value.userSecretId = try reader["UserSecretId"].readIfPresent()
         value.trustedHostKeys = try reader["TrustedHostKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maxConcurrentConnections = try reader["MaxConcurrentConnections"].readIfPresent() ?? 1
         return value
     }
 }
@@ -10640,6 +10670,16 @@ extension TransferClientTypes.ListedWorkflow {
         value.workflowId = try reader["WorkflowId"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.SftpConnectorConnectionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.SftpConnectorConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.SftpConnectorConnectionDetails()
+        value.hostKey = try reader["HostKey"].readIfPresent()
         return value
     }
 }

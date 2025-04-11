@@ -5560,6 +5560,27 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Add an array item for each language. Follow the order of the caption descriptions. For example, if the first caption description is for German, then the first array item must be for German, and its caption channel must be set to 1. The second array item must be 2, and so on.
+    public struct CmafIngestCaptionLanguageMapping: Swift.Sendable {
+        /// A number for the channel for this caption, 1 to 4.
+        /// This member is required.
+        public var captionChannel: Swift.Int?
+        /// Language code for the language of the caption in this channel. For example, ger/deu. See http://www.loc.gov/standards/iso639-2
+        /// This member is required.
+        public var languageCode: Swift.String?
+
+        public init(
+            captionChannel: Swift.Int? = nil,
+            languageCode: Swift.String? = nil
+        ) {
+            self.captionChannel = captionChannel
+            self.languageCode = languageCode
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Property of colorCorrections. When you are using 3D LUT files to perform color conversion on video, these are the supported color spaces.
     public enum ColorSpace: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hdr10
@@ -7729,6 +7750,8 @@ extension MediaLiveClientTypes {
         public var framerate: Swift.Double?
         /// The height of the video source, in pixels.
         public var height: Swift.Int?
+        /// The resolution of the Link device's source (HD or UHD). This value determines MediaLive resource allocation and billing for this input.
+        public var inputResolution: Swift.String?
         /// The Link device's buffer size (latency) in milliseconds (ms). You can specify this value.
         public var latencyMs: Swift.Int?
         /// The current maximum bitrate for ingesting this source, in bits per second. You can specify this maximum.
@@ -7748,6 +7771,7 @@ extension MediaLiveClientTypes {
             deviceState: MediaLiveClientTypes.InputDeviceState? = nil,
             framerate: Swift.Double? = nil,
             height: Swift.Int? = nil,
+            inputResolution: Swift.String? = nil,
             latencyMs: Swift.Int? = nil,
             maxBitrate: Swift.Int? = nil,
             mediaconnectSettings: MediaLiveClientTypes.InputDeviceMediaConnectSettings? = nil,
@@ -7761,6 +7785,7 @@ extension MediaLiveClientTypes {
             self.deviceState = deviceState
             self.framerate = framerate
             self.height = height
+            self.inputResolution = inputResolution
             self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
             self.mediaconnectSettings = mediaconnectSettings
@@ -10932,8 +10957,73 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Cmaf Timed Metadata Id3 Frame
+    public enum CmafTimedMetadataId3Frame: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case priv
+        case tdrl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmafTimedMetadataId3Frame] {
+            return [
+                .none,
+                .priv,
+                .tdrl
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .priv: return "PRIV"
+            case .tdrl: return "TDRL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Cmaf Timed Metadata Passthrough
+    public enum CmafTimedMetadataPassthrough: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmafTimedMetadataPassthrough] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Cmaf Ingest Group Settings
     public struct CmafIngestGroupSettings: Swift.Sendable {
+        /// An array that identifies the languages in the four caption channels in the embedded captions.
+        public var captionLanguageMappings: [MediaLiveClientTypes.CmafIngestCaptionLanguageMapping]?
         /// A HTTP destination for the tracks
         /// This member is required.
         public var destination: MediaLiveClientTypes.OutputLocationRef?
@@ -10959,8 +11049,15 @@ extension MediaLiveClientTypes {
         public var segmentLengthUnits: MediaLiveClientTypes.CmafIngestSegmentLengthUnits?
         /// Number of milliseconds to delay the output from the second pipeline.
         public var sendDelayMs: Swift.Int?
+        /// Set to none if you don't want to insert a timecode in the output. Otherwise choose the frame type for the timecode.
+        public var timedMetadataId3Frame: MediaLiveClientTypes.CmafTimedMetadataId3Frame?
+        /// If you set up to insert a timecode in the output, specify the frequency for the frame, in seconds.
+        public var timedMetadataId3Period: Swift.Int?
+        /// Set to enabled to pass through ID3 metadata from the input sources.
+        public var timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough?
 
         public init(
+            captionLanguageMappings: [MediaLiveClientTypes.CmafIngestCaptionLanguageMapping]? = nil,
             destination: MediaLiveClientTypes.OutputLocationRef? = nil,
             id3Behavior: MediaLiveClientTypes.CmafId3Behavior? = nil,
             id3NameModifier: Swift.String? = nil,
@@ -10972,8 +11069,12 @@ extension MediaLiveClientTypes {
             scte35Type: MediaLiveClientTypes.Scte35Type? = nil,
             segmentLength: Swift.Int? = nil,
             segmentLengthUnits: MediaLiveClientTypes.CmafIngestSegmentLengthUnits? = nil,
-            sendDelayMs: Swift.Int? = nil
+            sendDelayMs: Swift.Int? = nil,
+            timedMetadataId3Frame: MediaLiveClientTypes.CmafTimedMetadataId3Frame? = nil,
+            timedMetadataId3Period: Swift.Int? = nil,
+            timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough? = nil
         ) {
+            self.captionLanguageMappings = captionLanguageMappings
             self.destination = destination
             self.id3Behavior = id3Behavior
             self.id3NameModifier = id3NameModifier
@@ -10986,6 +11087,9 @@ extension MediaLiveClientTypes {
             self.segmentLength = segmentLength
             self.segmentLengthUnits = segmentLengthUnits
             self.sendDelayMs = sendDelayMs
+            self.timedMetadataId3Frame = timedMetadataId3Frame
+            self.timedMetadataId3Period = timedMetadataId3Period
+            self.timedMetadataPassthrough = timedMetadataPassthrough
         }
     }
 }
@@ -23430,6 +23534,8 @@ extension MediaLiveClientTypes {
         public var codec: MediaLiveClientTypes.InputDeviceCodec?
         /// The input source that you want to use. If the device has a source connected to only one of its input ports, or if you don't care which source the device sends, specify Auto. If the device has sources connected to both its input ports, and you want to use a specific source, specify the source.
         public var configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput?
+        /// Choose the resolution of the Link device's source (HD or UHD). Make sure the resolution matches the current source from the device. This value determines MediaLive resource allocation and billing for this input. Only UHD devices can specify this parameter.
+        public var inputResolution: Swift.String?
         /// The Link device's buffer size (latency) in milliseconds (ms).
         public var latencyMs: Swift.Int?
         /// The maximum bitrate in bits per second. Set a value here to throttle the bitrate of the source video.
@@ -23441,6 +23547,7 @@ extension MediaLiveClientTypes {
             audioChannelPairs: [MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairConfig]? = nil,
             codec: MediaLiveClientTypes.InputDeviceCodec? = nil,
             configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput? = nil,
+            inputResolution: Swift.String? = nil,
             latencyMs: Swift.Int? = nil,
             maxBitrate: Swift.Int? = nil,
             mediaconnectSettings: MediaLiveClientTypes.InputDeviceMediaConnectConfigurableSettings? = nil
@@ -23448,6 +23555,7 @@ extension MediaLiveClientTypes {
             self.audioChannelPairs = audioChannelPairs
             self.codec = codec
             self.configuredInput = configuredInput
+            self.inputResolution = inputResolution
             self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
             self.mediaconnectSettings = mediaconnectSettings
@@ -35855,6 +35963,7 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
 
     static func write(value: MediaLiveClientTypes.CmafIngestGroupSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["captionLanguageMappings"].writeList(value.captionLanguageMappings, memberWritingClosure: MediaLiveClientTypes.CmafIngestCaptionLanguageMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["destination"].write(value.destination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
         try writer["id3Behavior"].write(value.id3Behavior)
         try writer["id3NameModifier"].write(value.id3NameModifier)
@@ -35867,6 +35976,9 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
         try writer["segmentLength"].write(value.segmentLength)
         try writer["segmentLengthUnits"].write(value.segmentLengthUnits)
         try writer["sendDelayMs"].write(value.sendDelayMs)
+        try writer["timedMetadataId3Frame"].write(value.timedMetadataId3Frame)
+        try writer["timedMetadataId3Period"].write(value.timedMetadataId3Period)
+        try writer["timedMetadataPassthrough"].write(value.timedMetadataPassthrough)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CmafIngestGroupSettings {
@@ -35884,6 +35996,27 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
         value.scte35NameModifier = try reader["scte35NameModifier"].readIfPresent()
         value.id3Behavior = try reader["id3Behavior"].readIfPresent()
         value.id3NameModifier = try reader["id3NameModifier"].readIfPresent()
+        value.captionLanguageMappings = try reader["captionLanguageMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.CmafIngestCaptionLanguageMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timedMetadataId3Frame = try reader["timedMetadataId3Frame"].readIfPresent()
+        value.timedMetadataId3Period = try reader["timedMetadataId3Period"].readIfPresent()
+        value.timedMetadataPassthrough = try reader["timedMetadataPassthrough"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.CmafIngestCaptionLanguageMapping {
+
+    static func write(value: MediaLiveClientTypes.CmafIngestCaptionLanguageMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["captionChannel"].write(value.captionChannel)
+        try writer["languageCode"].write(value.languageCode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CmafIngestCaptionLanguageMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.CmafIngestCaptionLanguageMapping()
+        value.captionChannel = try reader["captionChannel"].readIfPresent() ?? 0
+        value.languageCode = try reader["languageCode"].readIfPresent() ?? ""
         return value
     }
 }
@@ -38260,6 +38393,7 @@ extension MediaLiveClientTypes.InputDeviceUhdSettings {
         value.codec = try reader["codec"].readIfPresent()
         value.mediaconnectSettings = try reader["mediaconnectSettings"].readIfPresent(with: MediaLiveClientTypes.InputDeviceMediaConnectSettings.read(from:))
         value.audioChannelPairs = try reader["audioChannelPairs"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputDeviceUhdAudioChannelPairConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputResolution = try reader["inputResolution"].readIfPresent()
         return value
     }
 }
@@ -38917,6 +39051,7 @@ extension MediaLiveClientTypes.InputDeviceConfigurableSettings {
         try writer["audioChannelPairs"].writeList(value.audioChannelPairs, memberWritingClosure: MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["codec"].write(value.codec)
         try writer["configuredInput"].write(value.configuredInput)
+        try writer["inputResolution"].write(value.inputResolution)
         try writer["latencyMs"].write(value.latencyMs)
         try writer["maxBitrate"].write(value.maxBitrate)
         try writer["mediaconnectSettings"].write(value.mediaconnectSettings, with: MediaLiveClientTypes.InputDeviceMediaConnectConfigurableSettings.write(value:to:))

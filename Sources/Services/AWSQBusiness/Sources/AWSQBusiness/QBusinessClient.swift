@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QBusinessClient: ClientRuntime.Client {
     public static let clientName = "QBusinessClient"
-    public static let version = "1.2.55"
+    public static let version = "1.2.57"
     let client: ClientRuntime.SdkHttpClient
     let config: QBusinessClient.QBusinessClientConfiguration
     let serviceName = "QBusiness"
@@ -6042,6 +6042,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The application or plugin resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
