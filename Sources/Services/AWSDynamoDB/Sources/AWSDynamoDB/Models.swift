@@ -564,7 +564,7 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
-    /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
+    /// Represents the provisioned throughput settings for the specified global secondary index. You must use ProvisionedThroughput or OnDemandThroughput based on your table’s capacity mode. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
     public struct ProvisionedThroughput: Swift.Sendable {
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see [Specifying Read and Write Requirements](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html) in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
         /// This member is required.
@@ -1999,7 +1999,7 @@ extension DynamoDBClientTypes {
         /// The key schema for the global secondary index.
         /// This member is required.
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
-        /// The maximum number of read and write units for the global secondary index being created. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        /// The maximum number of read and write units for the global secondary index being created. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both. You must use either OnDemand Throughput or ProvisionedThroughput based on your table's capacity mode.
         public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         /// This member is required.
@@ -2370,11 +2370,11 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
-    /// Represents the warm throughput value (in read units per second and write units per second) of the base table.
+    /// Represents the warm throughput value (in read units per second and write units per second) of the table. Warm throughput is applicable for DynamoDB Standard-IA tables and specifies the minimum provisioned capacity maintained for immediate data access.
     public struct TableWarmThroughputDescription: Swift.Sendable {
         /// Represents the base table's warm throughput value in read units per second.
         public var readUnitsPerSecond: Swift.Int?
-        /// Represents warm throughput value of the base table..
+        /// Represents warm throughput value of the base table.
         public var status: DynamoDBClientTypes.TableStatus?
         /// Represents the base table's warm throughput value in write units per second.
         public var writeUnitsPerSecond: Swift.Int?
@@ -4421,7 +4421,7 @@ extension DynamoDBClientTypes {
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
         /// Sets the maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
         public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
-        /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
+        /// Represents the provisioned throughput settings for the specified global secondary index. You must use ProvisionedThroughput or OnDemandThroughput based on your table’s capacity mode. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
         /// Represents the settings used to enable server-side encryption.
         public var sseSpecification: DynamoDBClientTypes.SSESpecification?

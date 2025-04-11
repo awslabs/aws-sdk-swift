@@ -2930,8 +2930,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2963,8 +2963,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2997,8 +2997,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3031,8 +3031,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3065,8 +3065,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3099,8 +3099,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3133,8 +3133,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3163,8 +3163,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3256,8 +3256,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3286,8 +3286,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3316,8 +3316,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3346,8 +3346,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3447,8 +3447,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3480,8 +3480,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3509,8 +3509,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3602,8 +3602,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3635,8 +3635,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3669,8 +3669,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3703,8 +3703,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3737,8 +3737,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3771,8 +3771,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3805,8 +3805,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3835,8 +3835,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3928,8 +3928,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3958,8 +3958,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3988,8 +3988,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4018,8 +4018,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4119,8 +4119,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4152,8 +4152,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4181,8 +4181,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4274,8 +4274,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4307,8 +4307,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4341,8 +4341,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4375,8 +4375,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4409,8 +4409,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4443,8 +4443,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4477,8 +4477,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4507,8 +4507,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4600,8 +4600,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4630,8 +4630,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4660,8 +4660,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4690,8 +4690,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4791,8 +4791,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4824,8 +4824,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -4853,8 +4853,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "name": "sigv4",
-                        "signingName": "dynamodb"
+                        "signingName": "dynamodb",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
