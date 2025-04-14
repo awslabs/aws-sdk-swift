@@ -475,3 +475,5 @@ func XCTAssertThrowsErrorAsync(
         block(error)
     }
 }
+
+extension SigningConfig: @retroactive @unchecked Sendable {}

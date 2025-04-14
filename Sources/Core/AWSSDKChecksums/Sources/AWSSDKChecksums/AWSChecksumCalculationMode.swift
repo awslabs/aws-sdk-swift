@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-public enum AWSChecksumCalculationMode: String {
+public enum AWSChecksumCalculationMode: String, Sendable {
     case whenRequired = "when_required"
     case whenSupported = "when_supported"
 

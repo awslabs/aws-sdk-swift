@@ -15,7 +15,7 @@ import struct Smithy.Attributes
 import struct Smithy.AttributeKey
 
 /// Signs a `Message` using the AWS SigV4 signing algorithm
-public class AWSMessageSigner: MessageSigner {
+public class AWSMessageSigner: MessageSigner, @unchecked Sendable {
     let encoder: MessageEncoder
     let signer: () async throws -> MessageDataSigner
     let signingConfig: () async throws -> AWSSigningConfig

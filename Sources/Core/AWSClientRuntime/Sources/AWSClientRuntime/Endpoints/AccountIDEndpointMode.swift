@@ -6,7 +6,7 @@
 //
 
 /// Determines how & whether an account ID-based endpoint will be used for requests.
-public enum AccountIDEndpointMode: String, Equatable {
+public enum AccountIDEndpointMode: String, Equatable, Sendable {
     // Note : these case names match string values for the accountIdEndpointMode endpoint param.
     // Do not rename them
 
