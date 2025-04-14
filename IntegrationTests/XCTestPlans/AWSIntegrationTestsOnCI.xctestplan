@@ -111,6 +111,13 @@
         "identifier" : "AWSEventBridgeIntegrationTests",
         "name" : "AWSEventBridgeIntegrationTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "AWSBedrockRuntimeIntegrationTests",
+        "name" : "AWSBedrockRuntimeIntegrationTests"
+      }
     }
   ],
   "version" : 1
