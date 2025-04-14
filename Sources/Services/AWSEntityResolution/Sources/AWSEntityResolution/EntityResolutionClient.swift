@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EntityResolutionClient: ClientRuntime.Client {
     public static let clientName = "EntityResolutionClient"
-    public static let version = "1.2.58"
+    public static let version = "1.2.59"
     let client: ClientRuntime.SdkHttpClient
     let config: EntityResolutionClient.EntityResolutionClientConfiguration
     let serviceName = "EntityResolution"
@@ -1432,7 +1432,7 @@ extension EntityResolutionClient {
 
     /// Performs the `GetMatchId` operation on the `EntityResolution` service.
     ///
-    /// Returns the corresponding Match ID of a customer record if the record has been processed.
+    /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow or ML matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow.
     ///
     /// - Parameter GetMatchIdInput : [no documentation found]
     ///
