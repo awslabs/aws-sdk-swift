@@ -5560,6 +5560,27 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Add an array item for each language. Follow the order of the caption descriptions. For example, if the first caption description is for German, then the first array item must be for German, and its caption channel must be set to 1. The second array item must be 2, and so on.
+    public struct CmafIngestCaptionLanguageMapping: Swift.Sendable {
+        /// A number for the channel for this caption, 1 to 4.
+        /// This member is required.
+        public var captionChannel: Swift.Int?
+        /// Language code for the language of the caption in this channel. For example, ger/deu. See http://www.loc.gov/standards/iso639-2
+        /// This member is required.
+        public var languageCode: Swift.String?
+
+        public init(
+            captionChannel: Swift.Int? = nil,
+            languageCode: Swift.String? = nil
+        ) {
+            self.captionChannel = captionChannel
+            self.languageCode = languageCode
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Property of colorCorrections. When you are using 3D LUT files to perform color conversion on video, these are the supported color spaces.
     public enum ColorSpace: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hdr10
@@ -6093,6 +6114,29 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Used in DescribeNodeSummary, DescribeNodeResult.
+    public struct SdiSourceMapping: Swift.Sendable {
+        /// A number that uniquely identifies the SDI card on the node hardware.
+        public var cardNumber: Swift.Int?
+        /// A number that uniquely identifies a port on the SDI card.
+        public var channelNumber: Swift.Int?
+        /// The ID of the SdiSource to associate with this port on this card. You can use the ListSdiSources operation to discover all the IDs.
+        public var sdiSource: Swift.String?
+
+        public init(
+            cardNumber: Swift.Int? = nil,
+            channelNumber: Swift.Int? = nil,
+            sdiSource: Swift.String? = nil
+        ) {
+            self.cardNumber = cardNumber
+            self.channelNumber = channelNumber
+            self.sdiSource = sdiSource
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Used in DescribeNodeSummary.
     public enum NodeState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activationFailed
@@ -6175,6 +6219,8 @@ extension MediaLiveClientTypes {
         public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]?
         /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
         public var role: MediaLiveClientTypes.NodeRole?
+        /// An array of SDI source mappings. Each mapping connects one logical SdiSource to the physical SDI card and port that the physical SDI source uses.
+        public var sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMapping]?
         /// The current state of the Node.
         public var state: MediaLiveClientTypes.NodeState?
 
@@ -6189,6 +6235,7 @@ extension MediaLiveClientTypes {
             name: Swift.String? = nil,
             nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]? = nil,
             role: MediaLiveClientTypes.NodeRole? = nil,
+            sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMapping]? = nil,
             state: MediaLiveClientTypes.NodeState? = nil
         ) {
             self.arn = arn
@@ -6201,6 +6248,7 @@ extension MediaLiveClientTypes {
             self.name = name
             self.nodeInterfaceMappings = nodeInterfaceMappings
             self.role = role
+            self.sdiSourceMappings = sdiSourceMappings
             self.state = state
         }
     }
@@ -6896,6 +6944,7 @@ extension MediaLiveClientTypes {
         case rtmpPull
         case rtmpPush
         case rtpPush
+        case sdi
         case smpte2110ReceiverGroup
         case srtCaller
         case tsFile
@@ -6913,6 +6962,7 @@ extension MediaLiveClientTypes {
                 .rtmpPull,
                 .rtmpPush,
                 .rtpPush,
+                .sdi,
                 .smpte2110ReceiverGroup,
                 .srtCaller,
                 .tsFile,
@@ -6936,6 +6986,7 @@ extension MediaLiveClientTypes {
             case .rtmpPull: return "RTMP_PULL"
             case .rtmpPush: return "RTMP_PUSH"
             case .rtpPush: return "RTP_PUSH"
+            case .sdi: return "SDI"
             case .smpte2110ReceiverGroup: return "SMPTE_2110_RECEIVER_GROUP"
             case .srtCaller: return "SRT_CALLER"
             case .tsFile: return "TS_FILE"
@@ -6977,6 +7028,8 @@ extension MediaLiveClientTypes {
         public var name: Swift.String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
         public var roleArn: Swift.String?
+        /// SDI Sources for this Input.
+        public var sdiSources: [Swift.String]?
         /// A list of IDs for all the Input Security Groups attached to the input.
         public var securityGroups: [Swift.String]?
         /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
@@ -7006,6 +7059,7 @@ extension MediaLiveClientTypes {
             multicastSettings: MediaLiveClientTypes.MulticastSettings? = nil,
             name: Swift.String? = nil,
             roleArn: Swift.String? = nil,
+            sdiSources: [Swift.String]? = nil,
             securityGroups: [Swift.String]? = nil,
             smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
             sources: [MediaLiveClientTypes.InputSource]? = nil,
@@ -7027,6 +7081,7 @@ extension MediaLiveClientTypes {
             self.multicastSettings = multicastSettings
             self.name = name
             self.roleArn = roleArn
+            self.sdiSources = sdiSources
             self.securityGroups = securityGroups
             self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
             self.sources = sources
@@ -7695,6 +7750,8 @@ extension MediaLiveClientTypes {
         public var framerate: Swift.Double?
         /// The height of the video source, in pixels.
         public var height: Swift.Int?
+        /// The resolution of the Link device's source (HD or UHD). This value determines MediaLive resource allocation and billing for this input.
+        public var inputResolution: Swift.String?
         /// The Link device's buffer size (latency) in milliseconds (ms). You can specify this value.
         public var latencyMs: Swift.Int?
         /// The current maximum bitrate for ingesting this source, in bits per second. You can specify this maximum.
@@ -7714,6 +7771,7 @@ extension MediaLiveClientTypes {
             deviceState: MediaLiveClientTypes.InputDeviceState? = nil,
             framerate: Swift.Double? = nil,
             height: Swift.Int? = nil,
+            inputResolution: Swift.String? = nil,
             latencyMs: Swift.Int? = nil,
             maxBitrate: Swift.Int? = nil,
             mediaconnectSettings: MediaLiveClientTypes.InputDeviceMediaConnectSettings? = nil,
@@ -7727,6 +7785,7 @@ extension MediaLiveClientTypes {
             self.deviceState = deviceState
             self.framerate = framerate
             self.height = height
+            self.inputResolution = inputResolution
             self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
             self.mediaconnectSettings = mediaconnectSettings
@@ -10898,8 +10957,73 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Cmaf Timed Metadata Id3 Frame
+    public enum CmafTimedMetadataId3Frame: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case priv
+        case tdrl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmafTimedMetadataId3Frame] {
+            return [
+                .none,
+                .priv,
+                .tdrl
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .priv: return "PRIV"
+            case .tdrl: return "TDRL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Cmaf Timed Metadata Passthrough
+    public enum CmafTimedMetadataPassthrough: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmafTimedMetadataPassthrough] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Cmaf Ingest Group Settings
     public struct CmafIngestGroupSettings: Swift.Sendable {
+        /// An array that identifies the languages in the four caption channels in the embedded captions.
+        public var captionLanguageMappings: [MediaLiveClientTypes.CmafIngestCaptionLanguageMapping]?
         /// A HTTP destination for the tracks
         /// This member is required.
         public var destination: MediaLiveClientTypes.OutputLocationRef?
@@ -10925,8 +11049,15 @@ extension MediaLiveClientTypes {
         public var segmentLengthUnits: MediaLiveClientTypes.CmafIngestSegmentLengthUnits?
         /// Number of milliseconds to delay the output from the second pipeline.
         public var sendDelayMs: Swift.Int?
+        /// Set to none if you don't want to insert a timecode in the output. Otherwise choose the frame type for the timecode.
+        public var timedMetadataId3Frame: MediaLiveClientTypes.CmafTimedMetadataId3Frame?
+        /// If you set up to insert a timecode in the output, specify the frequency for the frame, in seconds.
+        public var timedMetadataId3Period: Swift.Int?
+        /// Set to enabled to pass through ID3 metadata from the input sources.
+        public var timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough?
 
         public init(
+            captionLanguageMappings: [MediaLiveClientTypes.CmafIngestCaptionLanguageMapping]? = nil,
             destination: MediaLiveClientTypes.OutputLocationRef? = nil,
             id3Behavior: MediaLiveClientTypes.CmafId3Behavior? = nil,
             id3NameModifier: Swift.String? = nil,
@@ -10938,8 +11069,12 @@ extension MediaLiveClientTypes {
             scte35Type: MediaLiveClientTypes.Scte35Type? = nil,
             segmentLength: Swift.Int? = nil,
             segmentLengthUnits: MediaLiveClientTypes.CmafIngestSegmentLengthUnits? = nil,
-            sendDelayMs: Swift.Int? = nil
+            sendDelayMs: Swift.Int? = nil,
+            timedMetadataId3Frame: MediaLiveClientTypes.CmafTimedMetadataId3Frame? = nil,
+            timedMetadataId3Period: Swift.Int? = nil,
+            timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough? = nil
         ) {
+            self.captionLanguageMappings = captionLanguageMappings
             self.destination = destination
             self.id3Behavior = id3Behavior
             self.id3NameModifier = id3NameModifier
@@ -10952,6 +11087,9 @@ extension MediaLiveClientTypes {
             self.segmentLength = segmentLength
             self.segmentLengthUnits = segmentLengthUnits
             self.sendDelayMs = sendDelayMs
+            self.timedMetadataId3Frame = timedMetadataId3Frame
+            self.timedMetadataId3Period = timedMetadataId3Period
+            self.timedMetadataPassthrough = timedMetadataPassthrough
         }
     }
 }
@@ -14310,6 +14448,138 @@ extension MediaLiveClientTypes {
             self.actionName = actionName
             self.scheduleActionSettings = scheduleActionSettings
             self.scheduleActionStartSettings = scheduleActionStartSettings
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Used in SdiSource, CreateSdiSourceRequest, UpdateSdiSourceRequest.
+    public enum SdiSourceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case interleave
+        case quadrant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SdiSourceMode] {
+            return [
+                .interleave,
+                .quadrant
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .interleave: return "INTERLEAVE"
+            case .quadrant: return "QUADRANT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Used in SdiSource, DescribeNodeRequest, DescribeNodeResult
+    public enum SdiSourceState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleted
+        case idle
+        case inUse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SdiSourceState] {
+            return [
+                .deleted,
+                .idle,
+                .inUse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleted: return "DELETED"
+            case .idle: return "IDLE"
+            case .inUse: return "IN_USE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Used in SdiSource, CreateSdiSourceRequest, UpdateSdiSourceRequest.
+    public enum SdiSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case quad
+        case single
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SdiSourceType] {
+            return [
+                .quad,
+                .single
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .quad: return "QUAD"
+            case .single: return "SINGLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Used in CreateSdiSourceResponse, DeleteSdiSourceResponse, DescribeSdiSourceResponse, ListSdiSourcesResponse, UpdateSdiSourceResponse
+    public struct SdiSourceSummary: Swift.Sendable {
+        /// The ARN of this SdiSource. It is automatically assigned when the SdiSource is created.
+        public var arn: Swift.String?
+        /// The ID of the SdiSource. Unique in the AWS account.The ID is the resource-id portion of the ARN.
+        public var id: Swift.String?
+        /// The list of inputs that are currently using this SDI source. This list will be empty if the SdiSource has just been deleted.
+        public var inputs: [Swift.String]?
+        /// Applies only if the type is QUAD. The mode for handling the quad-link signal QUADRANT or INTERLEAVE.
+        public var mode: MediaLiveClientTypes.SdiSourceMode?
+        /// The name of the SdiSource.
+        public var name: Swift.String?
+        /// Specifies whether the SDI source is attached to an SDI input (IN_USE) or not (IDLE).
+        public var state: MediaLiveClientTypes.SdiSourceState?
+        /// Used in SdiSource, CreateSdiSourceRequest, UpdateSdiSourceRequest.
+        public var type: MediaLiveClientTypes.SdiSourceType?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            inputs: [Swift.String]? = nil,
+            mode: MediaLiveClientTypes.SdiSourceMode? = nil,
+            name: Swift.String? = nil,
+            state: MediaLiveClientTypes.SdiSourceState? = nil,
+            type: MediaLiveClientTypes.SdiSourceType? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+            self.inputs = inputs
+            self.mode = mode
+            self.name = name
+            self.state = state
+            self.type = type
         }
     }
 }
@@ -20199,6 +20469,8 @@ public struct CreateInputInput: Swift.Sendable {
     public var requestId: Swift.String?
     /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
     public var roleArn: Swift.String?
+    /// SDI Sources for this Input.
+    public var sdiSources: [Swift.String]?
     /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
     public var smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings?
     /// The source URLs for a PULL-type input. Every PULL type input needs exactly two source URLs for redundancy. Only specify sources for PULL type Inputs. Leave Destinations empty.
@@ -20222,6 +20494,7 @@ public struct CreateInputInput: Swift.Sendable {
         name: Swift.String? = nil,
         requestId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
+        sdiSources: [Swift.String]? = nil,
         smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
         sources: [MediaLiveClientTypes.InputSourceRequest]? = nil,
         srtSettings: MediaLiveClientTypes.SrtSettingsRequest? = nil,
@@ -20238,6 +20511,7 @@ public struct CreateInputInput: Swift.Sendable {
         self.name = name
         self.requestId = requestId
         self.roleArn = roleArn
+        self.sdiSources = sdiSources
         self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
         self.sources = sources
         self.srtSettings = srtSettings
@@ -20802,6 +21076,8 @@ public struct CreateNodeOutput: Swift.Sendable {
     public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]?
     /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
     public var role: MediaLiveClientTypes.NodeRole?
+    /// An array of SDI source mappings. Each mapping connects one logical SdiSource to the physical SDI card and port that the physical SDI source uses.
+    public var sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMapping]?
     /// The current state of the Node.
     public var state: MediaLiveClientTypes.NodeState?
 
@@ -20815,6 +21091,7 @@ public struct CreateNodeOutput: Swift.Sendable {
         name: Swift.String? = nil,
         nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]? = nil,
         role: MediaLiveClientTypes.NodeRole? = nil,
+        sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMapping]? = nil,
         state: MediaLiveClientTypes.NodeState? = nil
     ) {
         self.arn = arn
@@ -20826,6 +21103,7 @@ public struct CreateNodeOutput: Swift.Sendable {
         self.name = name
         self.nodeInterfaceMappings = nodeInterfaceMappings
         self.role = role
+        self.sdiSourceMappings = sdiSourceMappings
         self.state = state
     }
 }
@@ -20905,6 +21183,85 @@ public struct CreatePartnerInputOutput: Swift.Sendable {
         input: MediaLiveClientTypes.Input? = nil
     ) {
         self.input = input
+    }
+}
+
+/// A request to create a SdiSource.
+public struct CreateSdiSourceInput: Swift.Sendable {
+    /// Applies only if the type is QUAD. Specify the mode for handling the quad-link signal: QUADRANT or INTERLEAVE.
+    public var mode: MediaLiveClientTypes.SdiSourceMode?
+    /// Specify a name that is unique in the AWS account. We recommend you assign a name that describes the source, for example curling-cameraA. Names are case-sensitive.
+    public var name: Swift.String?
+    /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+    public var requestId: Swift.String?
+    /// A collection of key-value pairs.
+    public var tags: [Swift.String: Swift.String]?
+    /// Specify the type of the SDI source: SINGLE: The source is a single-link source. QUAD: The source is one part of a quad-link source.
+    public var type: MediaLiveClientTypes.SdiSourceType?
+
+    public init(
+        mode: MediaLiveClientTypes.SdiSourceMode? = nil,
+        name: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        type: MediaLiveClientTypes.SdiSourceType? = nil
+    ) {
+        self.mode = mode
+        self.name = name
+        self.requestId = requestId
+        self.tags = tags
+        self.type = type
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Used in CreateSdiSourceResponse, DeleteSdiSourceResponse, DescribeSdiSourceResponse, ListSdiSourcesResponse, UpdateSdiSourceResponse
+    public struct SdiSource: Swift.Sendable {
+        /// The ARN of this SdiSource. It is automatically assigned when the SdiSource is created.
+        public var arn: Swift.String?
+        /// The ID of the SdiSource. Unique in the AWS account.The ID is the resource-id portion of the ARN.
+        public var id: Swift.String?
+        /// The list of inputs that are currently using this SDI source. This list will be empty if the SdiSource has just been deleted.
+        public var inputs: [Swift.String]?
+        /// Applies only if the type is QUAD. The mode for handling the quad-link signal QUADRANT or INTERLEAVE.
+        public var mode: MediaLiveClientTypes.SdiSourceMode?
+        /// The name of the SdiSource.
+        public var name: Swift.String?
+        /// Specifies whether the SDI source is attached to an SDI input (IN_USE) or not (IDLE).
+        public var state: MediaLiveClientTypes.SdiSourceState?
+        /// Used in SdiSource, CreateSdiSourceRequest, UpdateSdiSourceRequest.
+        public var type: MediaLiveClientTypes.SdiSourceType?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            inputs: [Swift.String]? = nil,
+            mode: MediaLiveClientTypes.SdiSourceMode? = nil,
+            name: Swift.String? = nil,
+            state: MediaLiveClientTypes.SdiSourceState? = nil,
+            type: MediaLiveClientTypes.SdiSourceType? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+            self.inputs = inputs
+            self.mode = mode
+            self.name = name
+            self.state = state
+            self.type = type
+        }
+    }
+}
+
+/// Placeholder documentation for CreateSdiSourceResponse
+public struct CreateSdiSourceOutput: Swift.Sendable {
+    /// Settings for the SDI source.
+    public var sdiSource: MediaLiveClientTypes.SdiSource?
+
+    public init(
+        sdiSource: MediaLiveClientTypes.SdiSource? = nil
+    ) {
+        self.sdiSource = sdiSource
     }
 }
 
@@ -21603,6 +21960,8 @@ public struct DeleteNodeOutput: Swift.Sendable {
     public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]?
     /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
     public var role: MediaLiveClientTypes.NodeRole?
+    /// An array of SDI source mappings. Each mapping connects one logical SdiSource to the physical SDI card and port that the physical SDI source uses.
+    public var sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMapping]?
     /// The current state of the Node.
     public var state: MediaLiveClientTypes.NodeState?
 
@@ -21616,6 +21975,7 @@ public struct DeleteNodeOutput: Swift.Sendable {
         name: Swift.String? = nil,
         nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]? = nil,
         role: MediaLiveClientTypes.NodeRole? = nil,
+        sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMapping]? = nil,
         state: MediaLiveClientTypes.NodeState? = nil
     ) {
         self.arn = arn
@@ -21627,6 +21987,7 @@ public struct DeleteNodeOutput: Swift.Sendable {
         self.name = name
         self.nodeInterfaceMappings = nodeInterfaceMappings
         self.role = role
+        self.sdiSourceMappings = sdiSourceMappings
         self.state = state
     }
 }
@@ -21745,6 +22106,31 @@ public struct DeleteScheduleInput: Swift.Sendable {
 public struct DeleteScheduleOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// Placeholder documentation for DeleteSdiSourceRequest
+public struct DeleteSdiSourceInput: Swift.Sendable {
+    /// The ID of the SdiSource.
+    /// This member is required.
+    public var sdiSourceId: Swift.String?
+
+    public init(
+        sdiSourceId: Swift.String? = nil
+    ) {
+        self.sdiSourceId = sdiSourceId
+    }
+}
+
+/// Placeholder documentation for DeleteSdiSourceResponse
+public struct DeleteSdiSourceOutput: Swift.Sendable {
+    /// Settings for the SDI source.
+    public var sdiSource: MediaLiveClientTypes.SdiSource?
+
+    public init(
+        sdiSource: MediaLiveClientTypes.SdiSource? = nil
+    ) {
+        self.sdiSource = sdiSource
+    }
 }
 
 /// Placeholder documentation for DeleteSignalMapRequest
@@ -22045,6 +22431,8 @@ public struct DescribeInputOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
     public var roleArn: Swift.String?
+    /// SDI Sources for this Input.
+    public var sdiSources: [Swift.String]?
     /// A list of IDs for all the Input Security Groups attached to the input.
     public var securityGroups: [Swift.String]?
     /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
@@ -22074,6 +22462,7 @@ public struct DescribeInputOutput: Swift.Sendable {
         multicastSettings: MediaLiveClientTypes.MulticastSettings? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
+        sdiSources: [Swift.String]? = nil,
         securityGroups: [Swift.String]? = nil,
         smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
         sources: [MediaLiveClientTypes.InputSource]? = nil,
@@ -22095,6 +22484,7 @@ public struct DescribeInputOutput: Swift.Sendable {
         self.multicastSettings = multicastSettings
         self.name = name
         self.roleArn = roleArn
+        self.sdiSources = sdiSources
         self.securityGroups = securityGroups
         self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
         self.sources = sources
@@ -22475,6 +22865,8 @@ public struct DescribeNodeOutput: Swift.Sendable {
     public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]?
     /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
     public var role: MediaLiveClientTypes.NodeRole?
+    /// An array of SDI source mappings. Each mapping connects one logical SdiSource to the physical SDI card and port that the physical SDI source uses.
+    public var sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMapping]?
     /// The current state of the Node.
     public var state: MediaLiveClientTypes.NodeState?
 
@@ -22488,6 +22880,7 @@ public struct DescribeNodeOutput: Swift.Sendable {
         name: Swift.String? = nil,
         nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]? = nil,
         role: MediaLiveClientTypes.NodeRole? = nil,
+        sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMapping]? = nil,
         state: MediaLiveClientTypes.NodeState? = nil
     ) {
         self.arn = arn
@@ -22499,6 +22892,7 @@ public struct DescribeNodeOutput: Swift.Sendable {
         self.name = name
         self.nodeInterfaceMappings = nodeInterfaceMappings
         self.role = role
+        self.sdiSourceMappings = sdiSourceMappings
         self.state = state
     }
 }
@@ -22699,6 +23093,31 @@ public struct DescribeScheduleOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.scheduleActions = scheduleActions
+    }
+}
+
+/// Placeholder documentation for DescribeSdiSourceRequest
+public struct DescribeSdiSourceInput: Swift.Sendable {
+    /// Get details about an SdiSource.
+    /// This member is required.
+    public var sdiSourceId: Swift.String?
+
+    public init(
+        sdiSourceId: Swift.String? = nil
+    ) {
+        self.sdiSourceId = sdiSourceId
+    }
+}
+
+/// Placeholder documentation for DescribeSdiSourceResponse
+public struct DescribeSdiSourceOutput: Swift.Sendable {
+    /// Settings for the SDI source.
+    public var sdiSource: MediaLiveClientTypes.SdiSource?
+
+    public init(
+        sdiSource: MediaLiveClientTypes.SdiSource? = nil
+    ) {
+        self.sdiSource = sdiSource
     }
 }
 
@@ -23115,6 +23534,8 @@ extension MediaLiveClientTypes {
         public var codec: MediaLiveClientTypes.InputDeviceCodec?
         /// The input source that you want to use. If the device has a source connected to only one of its input ports, or if you don't care which source the device sends, specify Auto. If the device has sources connected to both its input ports, and you want to use a specific source, specify the source.
         public var configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput?
+        /// Choose the resolution of the Link device's source (HD or UHD). Make sure the resolution matches the current source from the device. This value determines MediaLive resource allocation and billing for this input. Only UHD devices can specify this parameter.
+        public var inputResolution: Swift.String?
         /// The Link device's buffer size (latency) in milliseconds (ms).
         public var latencyMs: Swift.Int?
         /// The maximum bitrate in bits per second. Set a value here to throttle the bitrate of the source video.
@@ -23126,6 +23547,7 @@ extension MediaLiveClientTypes {
             audioChannelPairs: [MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairConfig]? = nil,
             codec: MediaLiveClientTypes.InputDeviceCodec? = nil,
             configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput? = nil,
+            inputResolution: Swift.String? = nil,
             latencyMs: Swift.Int? = nil,
             maxBitrate: Swift.Int? = nil,
             mediaconnectSettings: MediaLiveClientTypes.InputDeviceMediaConnectConfigurableSettings? = nil
@@ -23133,6 +23555,7 @@ extension MediaLiveClientTypes {
             self.audioChannelPairs = audioChannelPairs
             self.codec = codec
             self.configuredInput = configuredInput
+            self.inputResolution = inputResolution
             self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
             self.mediaconnectSettings = mediaconnectSettings
@@ -23805,6 +24228,38 @@ public struct ListReservationsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.reservations = reservations
+    }
+}
+
+/// Placeholder documentation for ListSdiSourcesRequest
+public struct ListSdiSourcesInput: Swift.Sendable {
+    /// The maximum number of items to return.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+/// Placeholder documentation for ListSdiSourcesResponse
+public struct ListSdiSourcesOutput: Swift.Sendable {
+    /// Placeholder documentation for __string
+    public var nextToken: Swift.String?
+    /// Placeholder documentation for __listOfSdiSourceSummary
+    public var sdiSources: [MediaLiveClientTypes.SdiSourceSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sdiSources: [MediaLiveClientTypes.SdiSourceSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sdiSources = sdiSources
     }
 }
 
@@ -25468,6 +25923,8 @@ public struct UpdateInputInput: Swift.Sendable {
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
     public var roleArn: Swift.String?
+    /// SDI Sources for this Input.
+    public var sdiSources: [Swift.String]?
     /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
     public var smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings?
     /// The source URLs for a PULL-type input. Every PULL type input needs exactly two source URLs for redundancy. Only specify sources for PULL type Inputs. Leave Destinations empty.
@@ -25484,6 +25941,7 @@ public struct UpdateInputInput: Swift.Sendable {
         multicastSettings: MediaLiveClientTypes.MulticastSettingsUpdateRequest? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
+        sdiSources: [Swift.String]? = nil,
         smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
         sources: [MediaLiveClientTypes.InputSourceRequest]? = nil,
         srtSettings: MediaLiveClientTypes.SrtSettingsRequest? = nil
@@ -25496,6 +25954,7 @@ public struct UpdateInputInput: Swift.Sendable {
         self.multicastSettings = multicastSettings
         self.name = name
         self.roleArn = roleArn
+        self.sdiSources = sdiSources
         self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
         self.sources = sources
         self.srtSettings = srtSettings
@@ -25781,6 +26240,29 @@ public struct UpdateNetworkOutput: Swift.Sendable {
     }
 }
 
+extension MediaLiveClientTypes {
+
+    /// Used in SdiSourceMappingsUpdateRequest. One SDI source mapping. It connects one logical SdiSource to the physical SDI card and port that the physical SDI source uses. You must specify all three parameters in this object.
+    public struct SdiSourceMappingUpdateRequest: Swift.Sendable {
+        /// A number that uniquely identifies the SDI card on the node hardware. For information about how physical cards are identified on your node hardware, see the documentation for your node hardware. The numbering always starts at 1.
+        public var cardNumber: Swift.Int?
+        /// A number that uniquely identifies a port on the card. This must be an SDI port (not a timecode port, for example). For information about how ports are identified on physical cards, see the documentation for your node hardware.
+        public var channelNumber: Swift.Int?
+        /// The ID of a SDI source streaming on the given SDI capture card port.
+        public var sdiSource: Swift.String?
+
+        public init(
+            cardNumber: Swift.Int? = nil,
+            channelNumber: Swift.Int? = nil,
+            sdiSource: Swift.String? = nil
+        ) {
+            self.cardNumber = cardNumber
+            self.channelNumber = channelNumber
+            self.sdiSource = sdiSource
+        }
+    }
+}
+
 /// A request to update the node.
 public struct UpdateNodeInput: Swift.Sendable {
     /// The ID of the cluster
@@ -25793,17 +26275,21 @@ public struct UpdateNodeInput: Swift.Sendable {
     public var nodeId: Swift.String?
     /// The initial role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
     public var role: MediaLiveClientTypes.NodeRole?
+    /// The mappings of a SDI capture card port to a logical SDI data stream
+    public var sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMappingUpdateRequest]?
 
     public init(
         clusterId: Swift.String? = nil,
         name: Swift.String? = nil,
         nodeId: Swift.String? = nil,
-        role: MediaLiveClientTypes.NodeRole? = nil
+        role: MediaLiveClientTypes.NodeRole? = nil,
+        sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMappingUpdateRequest]? = nil
     ) {
         self.clusterId = clusterId
         self.name = name
         self.nodeId = nodeId
         self.role = role
+        self.sdiSourceMappings = sdiSourceMappings
     }
 }
 
@@ -25827,6 +26313,8 @@ public struct UpdateNodeOutput: Swift.Sendable {
     public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]?
     /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
     public var role: MediaLiveClientTypes.NodeRole?
+    /// An array of SDI source mappings. Each mapping connects one logical SdiSource to the physical SDI card and port that the physical SDI source uses.
+    public var sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMapping]?
     /// The current state of the Node.
     public var state: MediaLiveClientTypes.NodeState?
 
@@ -25840,6 +26328,7 @@ public struct UpdateNodeOutput: Swift.Sendable {
         name: Swift.String? = nil,
         nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]? = nil,
         role: MediaLiveClientTypes.NodeRole? = nil,
+        sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMapping]? = nil,
         state: MediaLiveClientTypes.NodeState? = nil
     ) {
         self.arn = arn
@@ -25851,6 +26340,7 @@ public struct UpdateNodeOutput: Swift.Sendable {
         self.name = name
         self.nodeInterfaceMappings = nodeInterfaceMappings
         self.role = role
+        self.sdiSourceMappings = sdiSourceMappings
         self.state = state
     }
 }
@@ -25927,6 +26417,8 @@ public struct UpdateNodeStateOutput: Swift.Sendable {
     public var nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]?
     /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
     public var role: MediaLiveClientTypes.NodeRole?
+    /// An array of SDI source mappings. Each mapping connects one logical SdiSource to the physical SDI card and port that the physical SDI source uses.
+    public var sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMapping]?
     /// The current state of the Node.
     public var state: MediaLiveClientTypes.NodeState?
 
@@ -25940,6 +26432,7 @@ public struct UpdateNodeStateOutput: Swift.Sendable {
         name: Swift.String? = nil,
         nodeInterfaceMappings: [MediaLiveClientTypes.NodeInterfaceMapping]? = nil,
         role: MediaLiveClientTypes.NodeRole? = nil,
+        sdiSourceMappings: [MediaLiveClientTypes.SdiSourceMapping]? = nil,
         state: MediaLiveClientTypes.NodeState? = nil
     ) {
         self.arn = arn
@@ -25951,6 +26444,7 @@ public struct UpdateNodeStateOutput: Swift.Sendable {
         self.name = name
         self.nodeInterfaceMappings = nodeInterfaceMappings
         self.role = role
+        self.sdiSourceMappings = sdiSourceMappings
         self.state = state
     }
 }
@@ -25985,6 +26479,43 @@ public struct UpdateReservationOutput: Swift.Sendable {
         reservation: MediaLiveClientTypes.Reservation? = nil
     ) {
         self.reservation = reservation
+    }
+}
+
+/// A request to update the SdiSource.
+public struct UpdateSdiSourceInput: Swift.Sendable {
+    /// Include this parameter only if you want to change the name of the SdiSource. Specify a name that is unique in the AWS account. We recommend you assign a name that describes the source, for example curling-cameraA. Names are case-sensitive.
+    public var mode: MediaLiveClientTypes.SdiSourceMode?
+    /// Include this parameter only if you want to change the name of the SdiSource. Specify a name that is unique in the AWS account. We recommend you assign a name that describes the source, for example curling-cameraA. Names are case-sensitive.
+    public var name: Swift.String?
+    /// The ID of the SdiSource
+    /// This member is required.
+    public var sdiSourceId: Swift.String?
+    /// Include this parameter only if you want to change the mode. Specify the type of the SDI source: SINGLE: The source is a single-link source. QUAD: The source is one part of a quad-link source.
+    public var type: MediaLiveClientTypes.SdiSourceType?
+
+    public init(
+        mode: MediaLiveClientTypes.SdiSourceMode? = nil,
+        name: Swift.String? = nil,
+        sdiSourceId: Swift.String? = nil,
+        type: MediaLiveClientTypes.SdiSourceType? = nil
+    ) {
+        self.mode = mode
+        self.name = name
+        self.sdiSourceId = sdiSourceId
+        self.type = type
+    }
+}
+
+/// Placeholder documentation for UpdateSdiSourceResponse
+public struct UpdateSdiSourceOutput: Swift.Sendable {
+    /// Settings for the SDI source.
+    public var sdiSource: MediaLiveClientTypes.SdiSource?
+
+    public init(
+        sdiSource: MediaLiveClientTypes.SdiSource? = nil
+    ) {
+        self.sdiSource = sdiSource
     }
 }
 
@@ -26166,6 +26697,13 @@ extension CreatePartnerInputInput {
     }
 }
 
+extension CreateSdiSourceInput {
+
+    static func urlPathProvider(_ value: CreateSdiSourceInput) -> Swift.String? {
+        return "/prod/sdiSources"
+    }
+}
+
 extension CreateSignalMapInput {
 
     static func urlPathProvider(_ value: CreateSignalMapInput) -> Swift.String? {
@@ -26339,6 +26877,16 @@ extension DeleteScheduleInput {
             return nil
         }
         return "/prod/channels/\(channelId.urlPercentEncoding())/schedule"
+    }
+}
+
+extension DeleteSdiSourceInput {
+
+    static func urlPathProvider(_ value: DeleteSdiSourceInput) -> Swift.String? {
+        guard let sdiSourceId = value.sdiSourceId else {
+            return nil
+        }
+        return "/prod/sdiSources/\(sdiSourceId.urlPercentEncoding())"
     }
 }
 
@@ -26558,6 +27106,16 @@ extension DescribeScheduleInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension DescribeSdiSourceInput {
+
+    static func urlPathProvider(_ value: DescribeSdiSourceInput) -> Swift.String? {
+        guard let sdiSourceId = value.sdiSourceId else {
+            return nil
+        }
+        return "/prod/sdiSources/\(sdiSourceId.urlPercentEncoding())"
     }
 }
 
@@ -27151,6 +27709,29 @@ extension ListReservationsInput {
     }
 }
 
+extension ListSdiSourcesInput {
+
+    static func urlPathProvider(_ value: ListSdiSourcesInput) -> Swift.String? {
+        return "/prod/sdiSources"
+    }
+}
+
+extension ListSdiSourcesInput {
+
+    static func queryItemProvider(_ value: ListSdiSourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListSignalMapsInput {
 
     static func urlPathProvider(_ value: ListSignalMapsInput) -> Swift.String? {
@@ -27538,6 +28119,16 @@ extension UpdateReservationInput {
     }
 }
 
+extension UpdateSdiSourceInput {
+
+    static func urlPathProvider(_ value: UpdateSdiSourceInput) -> Swift.String? {
+        guard let sdiSourceId = value.sdiSourceId else {
+            return nil
+        }
+        return "/prod/sdiSources/\(sdiSourceId.urlPercentEncoding())"
+    }
+}
+
 extension BatchDeleteInput {
 
     static func write(value: BatchDeleteInput?, to writer: SmithyJSON.Writer) throws {
@@ -27702,6 +28293,7 @@ extension CreateInputInput {
         try writer["name"].write(value.name)
         try writer["requestId"].write(value.requestId)
         try writer["roleArn"].write(value.roleArn)
+        try writer["sdiSources"].writeList(value.sdiSources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["smpte2110ReceiverGroupSettings"].write(value.smpte2110ReceiverGroupSettings, with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.write(value:to:))
         try writer["sources"].writeList(value.sources, memberWritingClosure: MediaLiveClientTypes.InputSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["srtSettings"].write(value.srtSettings, with: MediaLiveClientTypes.SrtSettingsRequest.write(value:to:))
@@ -27784,6 +28376,18 @@ extension CreatePartnerInputInput {
         guard let value else { return }
         try writer["requestId"].write(value.requestId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateSdiSourceInput {
+
+    static func write(value: CreateSdiSourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
+        try writer["name"].write(value.name)
+        try writer["requestId"].write(value.requestId)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -27980,6 +28584,7 @@ extension UpdateInputInput {
         try writer["multicastSettings"].write(value.multicastSettings, with: MediaLiveClientTypes.MulticastSettingsUpdateRequest.write(value:to:))
         try writer["name"].write(value.name)
         try writer["roleArn"].write(value.roleArn)
+        try writer["sdiSources"].writeList(value.sdiSources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["smpte2110ReceiverGroupSettings"].write(value.smpte2110ReceiverGroupSettings, with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.write(value:to:))
         try writer["sources"].writeList(value.sources, memberWritingClosure: MediaLiveClientTypes.InputSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["srtSettings"].write(value.srtSettings, with: MediaLiveClientTypes.SrtSettingsRequest.write(value:to:))
@@ -28040,6 +28645,7 @@ extension UpdateNodeInput {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["role"].write(value.role)
+        try writer["sdiSourceMappings"].writeList(value.sdiSourceMappings, memberWritingClosure: MediaLiveClientTypes.SdiSourceMappingUpdateRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -28057,6 +28663,16 @@ extension UpdateReservationInput {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["renewalSettings"].write(value.renewalSettings, with: MediaLiveClientTypes.RenewalSettings.write(value:to:))
+    }
+}
+
+extension UpdateSdiSourceInput {
+
+    static func write(value: UpdateSdiSourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -28349,6 +28965,7 @@ extension CreateNodeOutput {
         value.name = try reader["name"].readIfPresent()
         value.nodeInterfaceMappings = try reader["nodeInterfaceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.NodeInterfaceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.role = try reader["role"].readIfPresent()
+        value.sdiSourceMappings = try reader["sdiSourceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.SdiSourceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.state = try reader["state"].readIfPresent()
         return value
     }
@@ -28374,6 +28991,18 @@ extension CreatePartnerInputOutput {
         let reader = responseReader
         var value = CreatePartnerInputOutput()
         value.input = try reader["input"].readIfPresent(with: MediaLiveClientTypes.Input.read(from:))
+        return value
+    }
+}
+
+extension CreateSdiSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSdiSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateSdiSourceOutput()
+        value.sdiSource = try reader["sdiSource"].readIfPresent(with: MediaLiveClientTypes.SdiSource.read(from:))
         return value
     }
 }
@@ -28595,6 +29224,7 @@ extension DeleteNodeOutput {
         value.name = try reader["name"].readIfPresent()
         value.nodeInterfaceMappings = try reader["nodeInterfaceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.NodeInterfaceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.role = try reader["role"].readIfPresent()
+        value.sdiSourceMappings = try reader["sdiSourceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.SdiSourceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.state = try reader["state"].readIfPresent()
         return value
     }
@@ -28634,6 +29264,18 @@ extension DeleteScheduleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteScheduleOutput {
         return DeleteScheduleOutput()
+    }
+}
+
+extension DeleteSdiSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSdiSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteSdiSourceOutput()
+        value.sdiSource = try reader["sdiSource"].readIfPresent(with: MediaLiveClientTypes.SdiSource.read(from:))
+        return value
     }
 }
 
@@ -28751,6 +29393,7 @@ extension DescribeInputOutput {
         value.multicastSettings = try reader["multicastSettings"].readIfPresent(with: MediaLiveClientTypes.MulticastSettings.read(from:))
         value.name = try reader["name"].readIfPresent()
         value.roleArn = try reader["roleArn"].readIfPresent()
+        value.sdiSources = try reader["sdiSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.smpte2110ReceiverGroupSettings = try reader["smpte2110ReceiverGroupSettings"].readIfPresent(with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.read(from:))
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -28905,6 +29548,7 @@ extension DescribeNodeOutput {
         value.name = try reader["name"].readIfPresent()
         value.nodeInterfaceMappings = try reader["nodeInterfaceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.NodeInterfaceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.role = try reader["role"].readIfPresent()
+        value.sdiSourceMappings = try reader["sdiSourceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.SdiSourceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.state = try reader["state"].readIfPresent()
         return value
     }
@@ -28971,6 +29615,18 @@ extension DescribeScheduleOutput {
         var value = DescribeScheduleOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.scheduleActions = try reader["scheduleActions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ScheduleAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeSdiSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSdiSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeSdiSourceOutput()
+        value.sdiSource = try reader["sdiSource"].readIfPresent(with: MediaLiveClientTypes.SdiSource.read(from:))
         return value
     }
 }
@@ -29318,6 +29974,19 @@ extension ListReservationsOutput {
         var value = ListReservationsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.reservations = try reader["reservations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.Reservation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListSdiSourcesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSdiSourcesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSdiSourcesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.sdiSources = try reader["sdiSources"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.SdiSourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -29902,6 +30571,7 @@ extension UpdateNodeOutput {
         value.name = try reader["name"].readIfPresent()
         value.nodeInterfaceMappings = try reader["nodeInterfaceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.NodeInterfaceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.role = try reader["role"].readIfPresent()
+        value.sdiSourceMappings = try reader["sdiSourceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.SdiSourceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.state = try reader["state"].readIfPresent()
         return value
     }
@@ -29923,6 +30593,7 @@ extension UpdateNodeStateOutput {
         value.name = try reader["name"].readIfPresent()
         value.nodeInterfaceMappings = try reader["nodeInterfaceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.NodeInterfaceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.role = try reader["role"].readIfPresent()
+        value.sdiSourceMappings = try reader["sdiSourceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.SdiSourceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.state = try reader["state"].readIfPresent()
         return value
     }
@@ -29936,6 +30607,18 @@ extension UpdateReservationOutput {
         let reader = responseReader
         var value = UpdateReservationOutput()
         value.reservation = try reader["reservation"].readIfPresent(with: MediaLiveClientTypes.Reservation.read(from:))
+        return value
+    }
+}
+
+extension UpdateSdiSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSdiSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSdiSourceOutput()
+        value.sdiSource = try reader["sdiSource"].readIfPresent(with: MediaLiveClientTypes.SdiSource.read(from:))
         return value
     }
 }
@@ -30385,6 +31068,26 @@ enum CreatePartnerInputOutputError {
     }
 }
 
+enum CreateSdiSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateSignalMapOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -30726,6 +31429,27 @@ enum DeleteScheduleOutputError {
     }
 }
 
+enum DeleteSdiSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteSignalMapOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -31042,6 +31766,26 @@ enum DescribeReservationOutputError {
 }
 
 enum DescribeScheduleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeSdiSourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -31475,6 +32219,25 @@ enum ListOfferingsOutputError {
 }
 
 enum ListReservationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSdiSourcesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -32218,6 +32981,26 @@ enum UpdateReservationOutputError {
             case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateSdiSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -35180,6 +35963,7 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
 
     static func write(value: MediaLiveClientTypes.CmafIngestGroupSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["captionLanguageMappings"].writeList(value.captionLanguageMappings, memberWritingClosure: MediaLiveClientTypes.CmafIngestCaptionLanguageMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["destination"].write(value.destination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
         try writer["id3Behavior"].write(value.id3Behavior)
         try writer["id3NameModifier"].write(value.id3NameModifier)
@@ -35192,6 +35976,9 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
         try writer["segmentLength"].write(value.segmentLength)
         try writer["segmentLengthUnits"].write(value.segmentLengthUnits)
         try writer["sendDelayMs"].write(value.sendDelayMs)
+        try writer["timedMetadataId3Frame"].write(value.timedMetadataId3Frame)
+        try writer["timedMetadataId3Period"].write(value.timedMetadataId3Period)
+        try writer["timedMetadataPassthrough"].write(value.timedMetadataPassthrough)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CmafIngestGroupSettings {
@@ -35209,6 +35996,27 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
         value.scte35NameModifier = try reader["scte35NameModifier"].readIfPresent()
         value.id3Behavior = try reader["id3Behavior"].readIfPresent()
         value.id3NameModifier = try reader["id3NameModifier"].readIfPresent()
+        value.captionLanguageMappings = try reader["captionLanguageMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.CmafIngestCaptionLanguageMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timedMetadataId3Frame = try reader["timedMetadataId3Frame"].readIfPresent()
+        value.timedMetadataId3Period = try reader["timedMetadataId3Period"].readIfPresent()
+        value.timedMetadataPassthrough = try reader["timedMetadataPassthrough"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.CmafIngestCaptionLanguageMapping {
+
+    static func write(value: MediaLiveClientTypes.CmafIngestCaptionLanguageMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["captionChannel"].write(value.captionChannel)
+        try writer["languageCode"].write(value.languageCode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CmafIngestCaptionLanguageMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.CmafIngestCaptionLanguageMapping()
+        value.captionChannel = try reader["captionChannel"].readIfPresent() ?? 0
+        value.languageCode = try reader["languageCode"].readIfPresent() ?? ""
         return value
     }
 }
@@ -36941,6 +37749,7 @@ extension MediaLiveClientTypes.Input {
         value.inputNetworkLocation = try reader["inputNetworkLocation"].readIfPresent()
         value.multicastSettings = try reader["multicastSettings"].readIfPresent(with: MediaLiveClientTypes.MulticastSettings.read(from:))
         value.smpte2110ReceiverGroupSettings = try reader["smpte2110ReceiverGroupSettings"].readIfPresent(with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.read(from:))
+        value.sdiSources = try reader["sdiSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -37412,6 +38221,34 @@ extension MediaLiveClientTypes.NodeInterfaceMapping {
     }
 }
 
+extension MediaLiveClientTypes.SdiSourceMapping {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SdiSourceMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.SdiSourceMapping()
+        value.cardNumber = try reader["cardNumber"].readIfPresent()
+        value.channelNumber = try reader["channelNumber"].readIfPresent()
+        value.sdiSource = try reader["sdiSource"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.SdiSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SdiSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.SdiSource()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.inputs = try reader["inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mode = try reader["mode"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.MediaResource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaResource {
@@ -37556,6 +38393,7 @@ extension MediaLiveClientTypes.InputDeviceUhdSettings {
         value.codec = try reader["codec"].readIfPresent()
         value.mediaconnectSettings = try reader["mediaconnectSettings"].readIfPresent(with: MediaLiveClientTypes.InputDeviceMediaConnectSettings.read(from:))
         value.audioChannelPairs = try reader["audioChannelPairs"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputDeviceUhdAudioChannelPairConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputResolution = try reader["inputResolution"].readIfPresent()
         return value
     }
 }
@@ -37857,6 +38695,7 @@ extension MediaLiveClientTypes.DescribeNodeSummary {
         value.nodeInterfaceMappings = try reader["nodeInterfaceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.NodeInterfaceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.role = try reader["role"].readIfPresent()
         value.state = try reader["state"].readIfPresent()
+        value.sdiSourceMappings = try reader["sdiSourceMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.SdiSourceMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -37905,6 +38744,22 @@ extension MediaLiveClientTypes.Reservation {
         value.state = try reader["state"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.usagePrice = try reader["usagePrice"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.SdiSourceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SdiSourceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.SdiSourceSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.inputs = try reader["inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mode = try reader["mode"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -38196,6 +39051,7 @@ extension MediaLiveClientTypes.InputDeviceConfigurableSettings {
         try writer["audioChannelPairs"].writeList(value.audioChannelPairs, memberWritingClosure: MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["codec"].write(value.codec)
         try writer["configuredInput"].write(value.configuredInput)
+        try writer["inputResolution"].write(value.inputResolution)
         try writer["latencyMs"].write(value.latencyMs)
         try writer["maxBitrate"].write(value.maxBitrate)
         try writer["mediaconnectSettings"].write(value.mediaconnectSettings, with: MediaLiveClientTypes.InputDeviceMediaConnectConfigurableSettings.write(value:to:))
@@ -38236,6 +39092,16 @@ extension MediaLiveClientTypes.RouteUpdateRequest {
         guard let value else { return }
         try writer["cidr"].write(value.cidr)
         try writer["gateway"].write(value.gateway)
+    }
+}
+
+extension MediaLiveClientTypes.SdiSourceMappingUpdateRequest {
+
+    static func write(value: MediaLiveClientTypes.SdiSourceMappingUpdateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cardNumber"].write(value.cardNumber)
+        try writer["channelNumber"].write(value.channelNumber)
+        try writer["sdiSource"].write(value.sdiSource)
     }
 }
 

@@ -504,6 +504,11 @@ extension PersonalizeClientTypes {
     }
 }
 
+extension PersonalizeClientTypes.Tag: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Tag(tagKey: \"CONTENT_REDACTED\", tagValue: \"CONTENT_REDACTED\")"}
+}
+
 extension PersonalizeClientTypes {
 
     /// A string to string map of the configuration details for theme generation.
@@ -1424,6 +1429,44 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes {
 
+    /// Describes the parameters of events, which are used in solution creation.
+    public struct EventParameters: Swift.Sendable {
+        /// The name of the event type to be considered for solution creation.
+        public var eventType: Swift.String?
+        /// The threshold of the event type. Only events with a value greater or equal to this threshold will be considered for solution creation.
+        public var eventValueThreshold: Swift.Double?
+        /// The weight of the event type. A higher weight means higher importance of the event type for the created solution.
+        public var weight: Swift.Double?
+
+        public init(
+            eventType: Swift.String? = nil,
+            eventValueThreshold: Swift.Double? = nil,
+            weight: Swift.Double? = nil
+        ) {
+            self.eventType = eventType
+            self.eventValueThreshold = eventValueThreshold
+            self.weight = weight
+        }
+    }
+}
+
+extension PersonalizeClientTypes {
+
+    /// Describes the configuration of events, which are used in solution creation.
+    public struct EventsConfig: Swift.Sendable {
+        /// A list of event parameters, which includes event types and their event value thresholds and weights.
+        public var eventParametersList: [PersonalizeClientTypes.EventParameters]?
+
+        public init(
+            eventParametersList: [PersonalizeClientTypes.EventParameters]? = nil
+        ) {
+            self.eventParametersList = eventParametersList
+        }
+    }
+}
+
+extension PersonalizeClientTypes {
+
     /// Provides the name and range of a categorical hyperparameter.
     public struct CategoricalHyperParameterRange: Swift.Sendable {
         /// The name of the hyperparameter.
@@ -1641,6 +1684,8 @@ extension PersonalizeClientTypes {
         public var autoTrainingConfig: PersonalizeClientTypes.AutoTrainingConfig?
         /// Only events with a value greater than or equal to this threshold are used for training a model.
         public var eventValueThreshold: Swift.String?
+        /// Describes the configuration of an event, which includes a list of event parameters. You can specify up to 10 event parameters. Events are used in solution creation.
+        public var eventsConfig: PersonalizeClientTypes.EventsConfig?
         /// Lists the feature transformation parameters.
         public var featureTransformationParameters: [Swift.String: Swift.String]?
         /// Describes the properties for hyperparameter optimization (HPO).
@@ -1655,6 +1700,7 @@ extension PersonalizeClientTypes {
             autoMLConfig: PersonalizeClientTypes.AutoMLConfig? = nil,
             autoTrainingConfig: PersonalizeClientTypes.AutoTrainingConfig? = nil,
             eventValueThreshold: Swift.String? = nil,
+            eventsConfig: PersonalizeClientTypes.EventsConfig? = nil,
             featureTransformationParameters: [Swift.String: Swift.String]? = nil,
             hpoConfig: PersonalizeClientTypes.HPOConfig? = nil,
             optimizationObjective: PersonalizeClientTypes.OptimizationObjective? = nil,
@@ -1664,6 +1710,7 @@ extension PersonalizeClientTypes {
             self.autoMLConfig = autoMLConfig
             self.autoTrainingConfig = autoTrainingConfig
             self.eventValueThreshold = eventValueThreshold
+            self.eventsConfig = eventsConfig
             self.featureTransformationParameters = featureTransformationParameters
             self.hpoConfig = hpoConfig
             self.optimizationObjective = optimizationObjective
@@ -3241,11 +3288,15 @@ extension PersonalizeClientTypes {
     public struct SolutionUpdateConfig: Swift.Sendable {
         /// The automatic training configuration to use when performAutoTraining is true.
         public var autoTrainingConfig: PersonalizeClientTypes.AutoTrainingConfig?
+        /// Describes the configuration of an event, which includes a list of event parameters. You can specify up to 10 event parameters. Events are used in solution creation.
+        public var eventsConfig: PersonalizeClientTypes.EventsConfig?
 
         public init(
-            autoTrainingConfig: PersonalizeClientTypes.AutoTrainingConfig? = nil
+            autoTrainingConfig: PersonalizeClientTypes.AutoTrainingConfig? = nil,
+            eventsConfig: PersonalizeClientTypes.EventsConfig? = nil
         ) {
             self.autoTrainingConfig = autoTrainingConfig
+            self.eventsConfig = eventsConfig
         }
     }
 }
@@ -4970,6 +5021,11 @@ public struct UntagResourceInput: Swift.Sendable {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
+}
+
+extension UntagResourceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UntagResourceInput(resourceArn: \(Swift.String(describing: resourceArn)), tagKeys: \"CONTENT_REDACTED\")"}
 }
 
 public struct UntagResourceOutput: Swift.Sendable {
@@ -9041,12 +9097,48 @@ extension PersonalizeClientTypes.SolutionUpdateConfig {
     static func write(value: PersonalizeClientTypes.SolutionUpdateConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["autoTrainingConfig"].write(value.autoTrainingConfig, with: PersonalizeClientTypes.AutoTrainingConfig.write(value:to:))
+        try writer["eventsConfig"].write(value.eventsConfig, with: PersonalizeClientTypes.EventsConfig.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionUpdateConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PersonalizeClientTypes.SolutionUpdateConfig()
         value.autoTrainingConfig = try reader["autoTrainingConfig"].readIfPresent(with: PersonalizeClientTypes.AutoTrainingConfig.read(from:))
+        value.eventsConfig = try reader["eventsConfig"].readIfPresent(with: PersonalizeClientTypes.EventsConfig.read(from:))
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.EventsConfig {
+
+    static func write(value: PersonalizeClientTypes.EventsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventParametersList"].writeList(value.eventParametersList, memberWritingClosure: PersonalizeClientTypes.EventParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.EventsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.EventsConfig()
+        value.eventParametersList = try reader["eventParametersList"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.EventParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.EventParameters {
+
+    static func write(value: PersonalizeClientTypes.EventParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventType"].write(value.eventType)
+        try writer["eventValueThreshold"].write(value.eventValueThreshold)
+        try writer["weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.EventParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.EventParameters()
+        value.eventType = try reader["eventType"].readIfPresent()
+        value.eventValueThreshold = try reader["eventValueThreshold"].readIfPresent()
+        value.weight = try reader["weight"].readIfPresent()
         return value
     }
 }
@@ -9100,6 +9192,7 @@ extension PersonalizeClientTypes.SolutionConfig {
         try writer["autoMLConfig"].write(value.autoMLConfig, with: PersonalizeClientTypes.AutoMLConfig.write(value:to:))
         try writer["autoTrainingConfig"].write(value.autoTrainingConfig, with: PersonalizeClientTypes.AutoTrainingConfig.write(value:to:))
         try writer["eventValueThreshold"].write(value.eventValueThreshold)
+        try writer["eventsConfig"].write(value.eventsConfig, with: PersonalizeClientTypes.EventsConfig.write(value:to:))
         try writer["featureTransformationParameters"].writeMap(value.featureTransformationParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["hpoConfig"].write(value.hpoConfig, with: PersonalizeClientTypes.HPOConfig.write(value:to:))
         try writer["optimizationObjective"].write(value.optimizationObjective, with: PersonalizeClientTypes.OptimizationObjective.write(value:to:))
@@ -9114,6 +9207,7 @@ extension PersonalizeClientTypes.SolutionConfig {
         value.algorithmHyperParameters = try reader["algorithmHyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.featureTransformationParameters = try reader["featureTransformationParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.autoMLConfig = try reader["autoMLConfig"].readIfPresent(with: PersonalizeClientTypes.AutoMLConfig.read(from:))
+        value.eventsConfig = try reader["eventsConfig"].readIfPresent(with: PersonalizeClientTypes.EventsConfig.read(from:))
         value.optimizationObjective = try reader["optimizationObjective"].readIfPresent(with: PersonalizeClientTypes.OptimizationObjective.read(from:))
         value.trainingDataConfig = try reader["trainingDataConfig"].readIfPresent(with: PersonalizeClientTypes.TrainingDataConfig.read(from:))
         value.autoTrainingConfig = try reader["autoTrainingConfig"].readIfPresent(with: PersonalizeClientTypes.AutoTrainingConfig.read(from:))

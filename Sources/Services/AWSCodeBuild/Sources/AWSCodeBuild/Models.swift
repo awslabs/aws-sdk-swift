@@ -52,6 +52,29 @@ public struct AccountLimitExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
+/// The CodeBuild access has been suspended for the calling Amazon Web Services account.
+public struct AccountSuspendedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccountSuspendedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension CodeBuildClientTypes {
 
     public enum ArtifactNamespace: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2263,6 +2286,132 @@ public struct BatchGetBuildsOutput: Swift.Sendable {
     }
 }
 
+public struct BatchGetCommandExecutionsInput: Swift.Sendable {
+    /// A comma separated list of commandExecutionIds.
+    /// This member is required.
+    public var commandExecutionIds: [Swift.String]?
+    /// A sandboxId or sandboxArn.
+    /// This member is required.
+    public var sandboxId: Swift.String?
+
+    public init(
+        commandExecutionIds: [Swift.String]? = nil,
+        sandboxId: Swift.String? = nil
+    ) {
+        self.commandExecutionIds = commandExecutionIds
+        self.sandboxId = sandboxId
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    public enum CommandType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case shell
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommandType] {
+            return [
+                .shell
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .shell: return "SHELL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    /// Contains command execution information.
+    public struct CommandExecution: Swift.Sendable {
+        /// The command that needs to be executed.
+        public var command: Swift.String?
+        /// When the command execution process ended, expressed in Unix time format.
+        public var endTime: Foundation.Date?
+        /// The exit code to return upon completion.
+        public var exitCode: Swift.String?
+        /// The ID of the command execution.
+        public var id: Swift.String?
+        /// Information about build logs in CloudWatch Logs.
+        public var logs: CodeBuildClientTypes.LogsLocation?
+        /// A sandboxArn.
+        public var sandboxArn: Swift.String?
+        /// A sandboxId.
+        public var sandboxId: Swift.String?
+        /// The text written by the command to stderr.
+        public var standardErrContent: Swift.String?
+        /// The text written by the command to stdout.
+        public var standardOutputContent: Swift.String?
+        /// When the command execution process started, expressed in Unix time format.
+        public var startTime: Foundation.Date?
+        /// The status of the command execution.
+        public var status: Swift.String?
+        /// When the command execution process was initially submitted, expressed in Unix time format.
+        public var submitTime: Foundation.Date?
+        /// The command type.
+        public var type: CodeBuildClientTypes.CommandType?
+
+        public init(
+            command: Swift.String? = nil,
+            endTime: Foundation.Date? = nil,
+            exitCode: Swift.String? = nil,
+            id: Swift.String? = nil,
+            logs: CodeBuildClientTypes.LogsLocation? = nil,
+            sandboxArn: Swift.String? = nil,
+            sandboxId: Swift.String? = nil,
+            standardErrContent: Swift.String? = nil,
+            standardOutputContent: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: Swift.String? = nil,
+            submitTime: Foundation.Date? = nil,
+            type: CodeBuildClientTypes.CommandType? = nil
+        ) {
+            self.command = command
+            self.endTime = endTime
+            self.exitCode = exitCode
+            self.id = id
+            self.logs = logs
+            self.sandboxArn = sandboxArn
+            self.sandboxId = sandboxId
+            self.standardErrContent = standardErrContent
+            self.standardOutputContent = standardOutputContent
+            self.startTime = startTime
+            self.status = status
+            self.submitTime = submitTime
+            self.type = type
+        }
+    }
+}
+
+extension CodeBuildClientTypes.CommandExecution: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CommandExecution(endTime: \(Swift.String(describing: endTime)), exitCode: \(Swift.String(describing: exitCode)), id: \(Swift.String(describing: id)), logs: \(Swift.String(describing: logs)), sandboxArn: \(Swift.String(describing: sandboxArn)), sandboxId: \(Swift.String(describing: sandboxId)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), submitTime: \(Swift.String(describing: submitTime)), type: \(Swift.String(describing: type)), command: \"CONTENT_REDACTED\", standardErrContent: \"CONTENT_REDACTED\", standardOutputContent: \"CONTENT_REDACTED\")"}
+}
+
+public struct BatchGetCommandExecutionsOutput: Swift.Sendable {
+    /// Information about the requested command executions.
+    public var commandExecutions: [CodeBuildClientTypes.CommandExecution]?
+    /// The IDs of command executions for which information could not be found.
+    public var commandExecutionsNotFound: [Swift.String]?
+
+    public init(
+        commandExecutions: [CodeBuildClientTypes.CommandExecution]? = nil,
+        commandExecutionsNotFound: [Swift.String]? = nil
+    ) {
+        self.commandExecutions = commandExecutions
+        self.commandExecutionsNotFound = commandExecutionsNotFound
+    }
+}
+
 public struct BatchGetFleetsInput: Swift.Sendable {
     /// The names or ARNs of the compute fleets.
     /// This member is required.
@@ -3957,6 +4106,206 @@ public struct BatchGetReportsOutput: Swift.Sendable {
     }
 }
 
+public struct BatchGetSandboxesInput: Swift.Sendable {
+    /// A comma separated list of sandboxIds or sandboxArns.
+    /// This member is required.
+    public var ids: [Swift.String]?
+
+    public init(
+        ids: [Swift.String]? = nil
+    ) {
+        self.ids = ids
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    /// Contains information about the sandbox phase.
+    public struct SandboxSessionPhase: Swift.Sendable {
+        /// An array of PhaseContext objects.
+        public var contexts: [CodeBuildClientTypes.PhaseContext]?
+        /// How long, in seconds, between the starting and ending times of the sandbox's phase.
+        public var durationInSeconds: Swift.Int?
+        /// When the sandbox phase ended, expressed in Unix time format.
+        public var endTime: Foundation.Date?
+        /// The current status of the sandbox phase. Valid values include: FAILED The sandbox phase failed. FAULT The sandbox phase faulted. IN_PROGRESS The sandbox phase is still in progress. STOPPED The sandbox phase stopped. SUCCEEDED The sandbox phase succeeded. TIMED_OUT The sandbox phase timed out.
+        public var phaseStatus: CodeBuildClientTypes.StatusType?
+        /// The name of the sandbox phase.
+        public var phaseType: Swift.String?
+        /// When the sandbox phase started, expressed in Unix time format.
+        public var startTime: Foundation.Date?
+
+        public init(
+            contexts: [CodeBuildClientTypes.PhaseContext]? = nil,
+            durationInSeconds: Swift.Int? = nil,
+            endTime: Foundation.Date? = nil,
+            phaseStatus: CodeBuildClientTypes.StatusType? = nil,
+            phaseType: Swift.String? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.contexts = contexts
+            self.durationInSeconds = durationInSeconds
+            self.endTime = endTime
+            self.phaseStatus = phaseStatus
+            self.phaseType = phaseType
+            self.startTime = startTime
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    /// Contains information about the sandbox session.
+    public struct SandboxSession: Swift.Sendable {
+        /// The current phase for the sandbox.
+        public var currentPhase: Swift.String?
+        /// When the sandbox session ended, expressed in Unix time format.
+        public var endTime: Foundation.Date?
+        /// The ID of the sandbox session.
+        public var id: Swift.String?
+        /// Information about build logs in CloudWatch Logs.
+        public var logs: CodeBuildClientTypes.LogsLocation?
+        /// Describes a network interface.
+        public var networkInterface: CodeBuildClientTypes.NetworkInterface?
+        /// An array of SandboxSessionPhase objects.
+        public var phases: [CodeBuildClientTypes.SandboxSessionPhase]?
+        /// An identifier for the version of this sandbox's source code.
+        public var resolvedSourceVersion: Swift.String?
+        /// When the sandbox session started, expressed in Unix time format.
+        public var startTime: Foundation.Date?
+        /// The status of the sandbox session.
+        public var status: Swift.String?
+
+        public init(
+            currentPhase: Swift.String? = nil,
+            endTime: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            logs: CodeBuildClientTypes.LogsLocation? = nil,
+            networkInterface: CodeBuildClientTypes.NetworkInterface? = nil,
+            phases: [CodeBuildClientTypes.SandboxSessionPhase]? = nil,
+            resolvedSourceVersion: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.currentPhase = currentPhase
+            self.endTime = endTime
+            self.id = id
+            self.logs = logs
+            self.networkInterface = networkInterface
+            self.phases = phases
+            self.resolvedSourceVersion = resolvedSourceVersion
+            self.startTime = startTime
+            self.status = status
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    /// Contains sandbox information.
+    public struct Sandbox: Swift.Sendable {
+        /// The ARN of the sandbox.
+        public var arn: Swift.String?
+        /// The current session for the sandbox.
+        public var currentSession: CodeBuildClientTypes.SandboxSession?
+        /// The Key Management Service customer master key (CMK) to be used for encrypting the sandbox output artifacts.
+        public var encryptionKey: Swift.String?
+        /// When the sandbox process ended, expressed in Unix time format.
+        public var endTime: Foundation.Date?
+        /// Information about the build environment of the build project.
+        public var environment: CodeBuildClientTypes.ProjectEnvironment?
+        /// An array of ProjectFileSystemLocation objects for a CodeBuild build project. A ProjectFileSystemLocation object specifies the identifier, location, mountOptions, mountPoint, and type of a file system created using Amazon Elastic File System.
+        public var fileSystemLocations: [CodeBuildClientTypes.ProjectFileSystemLocation]?
+        /// The ID of the sandbox.
+        public var id: Swift.String?
+        /// Information about logs for a build project. These can be logs in CloudWatch Logs, built in a specified S3 bucket, or both.
+        public var logConfig: CodeBuildClientTypes.LogsConfig?
+        /// The CodeBuild project name.
+        public var projectName: Swift.String?
+        /// The number of minutes a sandbox is allowed to be queued before it times out.
+        public var queuedTimeoutInMinutes: Swift.Int?
+        /// When the sandbox process was initially requested, expressed in Unix time format.
+        public var requestTime: Foundation.Date?
+        /// An array of ProjectSourceVersion objects.
+        public var secondarySourceVersions: [CodeBuildClientTypes.ProjectSourceVersion]?
+        /// An array of ProjectSource objects.
+        public var secondarySources: [CodeBuildClientTypes.ProjectSource]?
+        /// The name of a service role used for this sandbox.
+        public var serviceRole: Swift.String?
+        /// Information about the build input source code for the build project.
+        public var source: CodeBuildClientTypes.ProjectSource?
+        /// Any version identifier for the version of the sandbox to be built.
+        public var sourceVersion: Swift.String?
+        /// When the sandbox process started, expressed in Unix time format.
+        public var startTime: Foundation.Date?
+        /// The status of the sandbox.
+        public var status: Swift.String?
+        /// How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait before timing out this sandbox if it does not get marked as completed.
+        public var timeoutInMinutes: Swift.Int?
+        /// Information about the VPC configuration that CodeBuild accesses.
+        public var vpcConfig: CodeBuildClientTypes.VpcConfig?
+
+        public init(
+            arn: Swift.String? = nil,
+            currentSession: CodeBuildClientTypes.SandboxSession? = nil,
+            encryptionKey: Swift.String? = nil,
+            endTime: Foundation.Date? = nil,
+            environment: CodeBuildClientTypes.ProjectEnvironment? = nil,
+            fileSystemLocations: [CodeBuildClientTypes.ProjectFileSystemLocation]? = nil,
+            id: Swift.String? = nil,
+            logConfig: CodeBuildClientTypes.LogsConfig? = nil,
+            projectName: Swift.String? = nil,
+            queuedTimeoutInMinutes: Swift.Int? = nil,
+            requestTime: Foundation.Date? = nil,
+            secondarySourceVersions: [CodeBuildClientTypes.ProjectSourceVersion]? = nil,
+            secondarySources: [CodeBuildClientTypes.ProjectSource]? = nil,
+            serviceRole: Swift.String? = nil,
+            source: CodeBuildClientTypes.ProjectSource? = nil,
+            sourceVersion: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: Swift.String? = nil,
+            timeoutInMinutes: Swift.Int? = nil,
+            vpcConfig: CodeBuildClientTypes.VpcConfig? = nil
+        ) {
+            self.arn = arn
+            self.currentSession = currentSession
+            self.encryptionKey = encryptionKey
+            self.endTime = endTime
+            self.environment = environment
+            self.fileSystemLocations = fileSystemLocations
+            self.id = id
+            self.logConfig = logConfig
+            self.projectName = projectName
+            self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
+            self.requestTime = requestTime
+            self.secondarySourceVersions = secondarySourceVersions
+            self.secondarySources = secondarySources
+            self.serviceRole = serviceRole
+            self.source = source
+            self.sourceVersion = sourceVersion
+            self.startTime = startTime
+            self.status = status
+            self.timeoutInMinutes = timeoutInMinutes
+            self.vpcConfig = vpcConfig
+        }
+    }
+}
+
+public struct BatchGetSandboxesOutput: Swift.Sendable {
+    /// Information about the requested sandboxes.
+    public var sandboxes: [CodeBuildClientTypes.Sandbox]?
+    /// The IDs of sandboxes for which information could not be found.
+    public var sandboxesNotFound: [Swift.String]?
+
+    public init(
+        sandboxes: [CodeBuildClientTypes.Sandbox]? = nil,
+        sandboxesNotFound: [Swift.String]? = nil
+    ) {
+        self.sandboxes = sandboxes
+        self.sandboxesNotFound = sandboxesNotFound
+    }
+}
+
 extension CodeBuildClientTypes {
 
     /// Specifies filters when retrieving batch builds.
@@ -5259,6 +5608,50 @@ public struct ListBuildsForProjectOutput: Swift.Sendable {
     }
 }
 
+public struct ListCommandExecutionsForSandboxInput: Swift.Sendable {
+    /// The maximum number of sandbox records to be retrieved.
+    public var maxResults: Swift.Int?
+    /// The next token, if any, to get paginated results. You will get this value from previous execution of list sandboxes.
+    public var nextToken: Swift.String?
+    /// A sandboxId or sandboxArn.
+    /// This member is required.
+    public var sandboxId: Swift.String?
+    /// The order in which sandbox records should be retrieved.
+    public var sortOrder: CodeBuildClientTypes.SortOrderType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sandboxId: Swift.String? = nil,
+        sortOrder: CodeBuildClientTypes.SortOrderType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sandboxId = sandboxId
+        self.sortOrder = sortOrder
+    }
+}
+
+extension ListCommandExecutionsForSandboxInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListCommandExecutionsForSandboxInput(maxResults: \(Swift.String(describing: maxResults)), sandboxId: \(Swift.String(describing: sandboxId)), sortOrder: \(Swift.String(describing: sortOrder)), nextToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListCommandExecutionsForSandboxOutput: Swift.Sendable {
+    /// Information about the requested command executions.
+    public var commandExecutions: [CodeBuildClientTypes.CommandExecution]?
+    /// Information about the next token to get paginated results.
+    public var nextToken: Swift.String?
+
+    public init(
+        commandExecutions: [CodeBuildClientTypes.CommandExecution]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.commandExecutions = commandExecutions
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListCuratedEnvironmentImagesInput: Swift.Sendable {
 
     public init() { }
@@ -5770,6 +6163,84 @@ public struct ListReportsForReportGroupOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.reports = reports
+    }
+}
+
+public struct ListSandboxesInput: Swift.Sendable {
+    /// The maximum number of sandbox records to be retrieved.
+    public var maxResults: Swift.Int?
+    /// The next token, if any, to get paginated results. You will get this value from previous execution of list sandboxes.
+    public var nextToken: Swift.String?
+    /// The order in which sandbox records should be retrieved.
+    public var sortOrder: CodeBuildClientTypes.SortOrderType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortOrder: CodeBuildClientTypes.SortOrderType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortOrder = sortOrder
+    }
+}
+
+public struct ListSandboxesOutput: Swift.Sendable {
+    /// Information about the requested sandbox IDs.
+    public var ids: [Swift.String]?
+    /// Information about the next token to get paginated results.
+    public var nextToken: Swift.String?
+
+    public init(
+        ids: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.ids = ids
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListSandboxesForProjectInput: Swift.Sendable {
+    /// The maximum number of sandbox records to be retrieved.
+    public var maxResults: Swift.Int?
+    /// The next token, if any, to get paginated results. You will get this value from previous execution of list sandboxes.
+    public var nextToken: Swift.String?
+    /// The CodeBuild project name.
+    /// This member is required.
+    public var projectName: Swift.String?
+    /// The order in which sandbox records should be retrieved.
+    public var sortOrder: CodeBuildClientTypes.SortOrderType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        projectName: Swift.String? = nil,
+        sortOrder: CodeBuildClientTypes.SortOrderType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.projectName = projectName
+        self.sortOrder = sortOrder
+    }
+}
+
+extension ListSandboxesForProjectInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListSandboxesForProjectInput(maxResults: \(Swift.String(describing: maxResults)), projectName: \(Swift.String(describing: projectName)), sortOrder: \(Swift.String(describing: sortOrder)), nextToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListSandboxesForProjectOutput: Swift.Sendable {
+    /// Information about the requested sandbox IDs.
+    public var ids: [Swift.String]?
+    /// Information about the next token to get paginated results.
+    public var nextToken: Swift.String?
+
+    public init(
+        ids: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.ids = ids
+        self.nextToken = nextToken
     }
 }
 
@@ -6344,6 +6815,120 @@ public struct StartBuildBatchOutput: Swift.Sendable {
     }
 }
 
+public struct StartCommandExecutionInput: Swift.Sendable {
+    /// The command that needs to be executed.
+    /// This member is required.
+    public var command: Swift.String?
+    /// A sandboxId or sandboxArn.
+    /// This member is required.
+    public var sandboxId: Swift.String?
+    /// The command type.
+    public var type: CodeBuildClientTypes.CommandType?
+
+    public init(
+        command: Swift.String? = nil,
+        sandboxId: Swift.String? = nil,
+        type: CodeBuildClientTypes.CommandType? = nil
+    ) {
+        self.command = command
+        self.sandboxId = sandboxId
+        self.type = type
+    }
+}
+
+extension StartCommandExecutionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartCommandExecutionInput(sandboxId: \(Swift.String(describing: sandboxId)), type: \(Swift.String(describing: type)), command: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartCommandExecutionOutput: Swift.Sendable {
+    /// Information about the requested command executions.
+    public var commandExecution: CodeBuildClientTypes.CommandExecution?
+
+    public init(
+        commandExecution: CodeBuildClientTypes.CommandExecution? = nil
+    ) {
+        self.commandExecution = commandExecution
+    }
+}
+
+public struct StartSandboxInput: Swift.Sendable {
+    /// A unique client token.
+    public var idempotencyToken: Swift.String?
+    /// The CodeBuild project name.
+    public var projectName: Swift.String?
+
+    public init(
+        idempotencyToken: Swift.String? = nil,
+        projectName: Swift.String? = nil
+    ) {
+        self.idempotencyToken = idempotencyToken
+        self.projectName = projectName
+    }
+}
+
+extension StartSandboxInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartSandboxInput(projectName: \(Swift.String(describing: projectName)), idempotencyToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartSandboxOutput: Swift.Sendable {
+    /// Information about the requested sandbox.
+    public var sandbox: CodeBuildClientTypes.Sandbox?
+
+    public init(
+        sandbox: CodeBuildClientTypes.Sandbox? = nil
+    ) {
+        self.sandbox = sandbox
+    }
+}
+
+public struct StartSandboxConnectionInput: Swift.Sendable {
+    /// A sandboxId or sandboxArn.
+    /// This member is required.
+    public var sandboxId: Swift.String?
+
+    public init(
+        sandboxId: Swift.String? = nil
+    ) {
+        self.sandboxId = sandboxId
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    /// Contains information about the Session Manager session.
+    public struct SSMSession: Swift.Sendable {
+        /// The ID of the session.
+        public var sessionId: Swift.String?
+        /// A URL back to SSM Agent on the managed node that the Session Manager client uses to send commands and receive output from the node.
+        public var streamUrl: Swift.String?
+        /// An encrypted token value containing session and caller information.
+        public var tokenValue: Swift.String?
+
+        public init(
+            sessionId: Swift.String? = nil,
+            streamUrl: Swift.String? = nil,
+            tokenValue: Swift.String? = nil
+        ) {
+            self.sessionId = sessionId
+            self.streamUrl = streamUrl
+            self.tokenValue = tokenValue
+        }
+    }
+}
+
+public struct StartSandboxConnectionOutput: Swift.Sendable {
+    /// Information about the Session Manager session.
+    public var ssmSession: CodeBuildClientTypes.SSMSession?
+
+    public init(
+        ssmSession: CodeBuildClientTypes.SSMSession? = nil
+    ) {
+        self.ssmSession = ssmSession
+    }
+}
+
 public struct StopBuildInput: Swift.Sendable {
     /// The ID of the build.
     /// This member is required.
@@ -6387,6 +6972,29 @@ public struct StopBuildBatchOutput: Swift.Sendable {
         buildBatch: CodeBuildClientTypes.BuildBatch? = nil
     ) {
         self.buildBatch = buildBatch
+    }
+}
+
+public struct StopSandboxInput: Swift.Sendable {
+    /// Information about the requested sandbox ID.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct StopSandboxOutput: Swift.Sendable {
+    /// Information about the requested sandbox.
+    public var sandbox: CodeBuildClientTypes.Sandbox?
+
+    public init(
+        sandbox: CodeBuildClientTypes.Sandbox? = nil
+    ) {
+        self.sandbox = sandbox
     }
 }
 
@@ -6782,6 +7390,13 @@ extension BatchGetBuildsInput {
     }
 }
 
+extension BatchGetCommandExecutionsInput {
+
+    static func urlPathProvider(_ value: BatchGetCommandExecutionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension BatchGetFleetsInput {
 
     static func urlPathProvider(_ value: BatchGetFleetsInput) -> Swift.String? {
@@ -6806,6 +7421,13 @@ extension BatchGetReportGroupsInput {
 extension BatchGetReportsInput {
 
     static func urlPathProvider(_ value: BatchGetReportsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension BatchGetSandboxesInput {
+
+    static func urlPathProvider(_ value: BatchGetSandboxesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6964,6 +7586,13 @@ extension ListBuildsForProjectInput {
     }
 }
 
+extension ListCommandExecutionsForSandboxInput {
+
+    static func urlPathProvider(_ value: ListCommandExecutionsForSandboxInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListCuratedEnvironmentImagesInput {
 
     static func urlPathProvider(_ value: ListCuratedEnvironmentImagesInput) -> Swift.String? {
@@ -7002,6 +7631,20 @@ extension ListReportsInput {
 extension ListReportsForReportGroupInput {
 
     static func urlPathProvider(_ value: ListReportsForReportGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListSandboxesInput {
+
+    static func urlPathProvider(_ value: ListSandboxesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListSandboxesForProjectInput {
+
+    static func urlPathProvider(_ value: ListSandboxesForProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7062,6 +7705,27 @@ extension StartBuildBatchInput {
     }
 }
 
+extension StartCommandExecutionInput {
+
+    static func urlPathProvider(_ value: StartCommandExecutionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartSandboxInput {
+
+    static func urlPathProvider(_ value: StartSandboxInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartSandboxConnectionInput {
+
+    static func urlPathProvider(_ value: StartSandboxConnectionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StopBuildInput {
 
     static func urlPathProvider(_ value: StopBuildInput) -> Swift.String? {
@@ -7072,6 +7736,13 @@ extension StopBuildInput {
 extension StopBuildBatchInput {
 
     static func urlPathProvider(_ value: StopBuildBatchInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StopSandboxInput {
+
+    static func urlPathProvider(_ value: StopSandboxInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7135,6 +7806,15 @@ extension BatchGetBuildsInput {
     }
 }
 
+extension BatchGetCommandExecutionsInput {
+
+    static func write(value: BatchGetCommandExecutionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["commandExecutionIds"].writeList(value.commandExecutionIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sandboxId"].write(value.sandboxId)
+    }
+}
+
 extension BatchGetFleetsInput {
 
     static func write(value: BatchGetFleetsInput?, to writer: SmithyJSON.Writer) throws {
@@ -7164,6 +7844,14 @@ extension BatchGetReportsInput {
     static func write(value: BatchGetReportsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["reportArns"].writeList(value.reportArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetSandboxesInput {
+
+    static func write(value: BatchGetSandboxesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ids"].writeList(value.ids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -7409,6 +8097,17 @@ extension ListBuildsForProjectInput {
     }
 }
 
+extension ListCommandExecutionsForSandboxInput {
+
+    static func write(value: ListCommandExecutionsForSandboxInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["sandboxId"].write(value.sandboxId)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
 extension ListCuratedEnvironmentImagesInput {
 
     static func write(value: ListCuratedEnvironmentImagesInput?, to writer: SmithyJSON.Writer) throws {
@@ -7468,6 +8167,27 @@ extension ListReportsForReportGroupInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["reportGroupArn"].write(value.reportGroupArn)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension ListSandboxesInput {
+
+    static func write(value: ListSandboxesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension ListSandboxesForProjectInput {
+
+    static func write(value: ListSandboxesForProjectInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["projectName"].write(value.projectName)
         try writer["sortOrder"].write(value.sortOrder)
     }
 }
@@ -7608,6 +8328,33 @@ extension StartBuildBatchInput {
     }
 }
 
+extension StartCommandExecutionInput {
+
+    static func write(value: StartCommandExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["command"].write(value.command)
+        try writer["sandboxId"].write(value.sandboxId)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension StartSandboxInput {
+
+    static func write(value: StartSandboxInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["idempotencyToken"].write(value.idempotencyToken)
+        try writer["projectName"].write(value.projectName)
+    }
+}
+
+extension StartSandboxConnectionInput {
+
+    static func write(value: StartSandboxConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sandboxId"].write(value.sandboxId)
+    }
+}
+
 extension StopBuildInput {
 
     static func write(value: StopBuildInput?, to writer: SmithyJSON.Writer) throws {
@@ -7619,6 +8366,14 @@ extension StopBuildInput {
 extension StopBuildBatchInput {
 
     static func write(value: StopBuildBatchInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+    }
+}
+
+extension StopSandboxInput {
+
+    static func write(value: StopSandboxInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["id"].write(value.id)
     }
@@ -7743,6 +8498,19 @@ extension BatchGetBuildsOutput {
     }
 }
 
+extension BatchGetCommandExecutionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetCommandExecutionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetCommandExecutionsOutput()
+        value.commandExecutions = try reader["commandExecutions"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.CommandExecution.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.commandExecutionsNotFound = try reader["commandExecutionsNotFound"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension BatchGetFleetsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetFleetsOutput {
@@ -7791,6 +8559,19 @@ extension BatchGetReportsOutput {
         var value = BatchGetReportsOutput()
         value.reports = try reader["reports"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.Report.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.reportsNotFound = try reader["reportsNotFound"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchGetSandboxesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetSandboxesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetSandboxesOutput()
+        value.sandboxes = try reader["sandboxes"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.Sandbox.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sandboxesNotFound = try reader["sandboxesNotFound"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8033,6 +8814,19 @@ extension ListBuildsForProjectOutput {
     }
 }
 
+extension ListCommandExecutionsForSandboxOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCommandExecutionsForSandboxOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCommandExecutionsForSandboxOutput()
+        value.commandExecutions = try reader["commandExecutions"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.CommandExecution.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListCuratedEnvironmentImagesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCuratedEnvironmentImagesOutput {
@@ -8106,6 +8900,32 @@ extension ListReportsForReportGroupOutput {
         var value = ListReportsForReportGroupOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.reports = try reader["reports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListSandboxesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSandboxesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSandboxesOutput()
+        value.ids = try reader["ids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListSandboxesForProjectOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSandboxesForProjectOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSandboxesForProjectOutput()
+        value.ids = try reader["ids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -8208,6 +9028,42 @@ extension StartBuildBatchOutput {
     }
 }
 
+extension StartCommandExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartCommandExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartCommandExecutionOutput()
+        value.commandExecution = try reader["commandExecution"].readIfPresent(with: CodeBuildClientTypes.CommandExecution.read(from:))
+        return value
+    }
+}
+
+extension StartSandboxOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartSandboxOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartSandboxOutput()
+        value.sandbox = try reader["sandbox"].readIfPresent(with: CodeBuildClientTypes.Sandbox.read(from:))
+        return value
+    }
+}
+
+extension StartSandboxConnectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartSandboxConnectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartSandboxConnectionOutput()
+        value.ssmSession = try reader["ssmSession"].readIfPresent(with: CodeBuildClientTypes.SSMSession.read(from:))
+        return value
+    }
+}
+
 extension StopBuildOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopBuildOutput {
@@ -8228,6 +9084,18 @@ extension StopBuildBatchOutput {
         let reader = responseReader
         var value = StopBuildBatchOutput()
         value.buildBatch = try reader["buildBatch"].readIfPresent(with: CodeBuildClientTypes.BuildBatch.read(from:))
+        return value
+    }
+}
+
+extension StopSandboxOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopSandboxOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopSandboxOutput()
+        value.sandbox = try reader["sandbox"].readIfPresent(with: CodeBuildClientTypes.Sandbox.read(from:))
         return value
     }
 }
@@ -8336,6 +9204,20 @@ enum BatchGetBuildsOutputError {
     }
 }
 
+enum BatchGetCommandExecutionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchGetFleetsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8379,6 +9261,20 @@ enum BatchGetReportGroupsOutputError {
 }
 
 enum BatchGetReportsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetSandboxesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8720,6 +9616,21 @@ enum ListBuildsForProjectOutputError {
     }
 }
 
+enum ListCommandExecutionsForSandboxOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCuratedEnvironmentImagesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8790,6 +9701,35 @@ enum ListReportsOutputError {
 }
 
 enum ListReportsForReportGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSandboxesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSandboxesForProjectOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8923,6 +9863,52 @@ enum StartBuildBatchOutputError {
     }
 }
 
+enum StartCommandExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartSandboxOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccountSuspendedException": return try AccountSuspendedException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartSandboxConnectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopBuildOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8939,6 +9925,21 @@ enum StopBuildOutputError {
 }
 
 enum StopBuildBatchOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopSandboxOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9087,6 +10088,19 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AccountSuspendedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountSuspendedException {
+        let reader = baseError.errorBodyReader
+        var value = AccountSuspendedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9714,6 +10728,28 @@ extension CodeBuildClientTypes.BuildPhase {
     }
 }
 
+extension CodeBuildClientTypes.CommandExecution {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.CommandExecution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeBuildClientTypes.CommandExecution()
+        value.id = try reader["id"].readIfPresent()
+        value.sandboxId = try reader["sandboxId"].readIfPresent()
+        value.submitTime = try reader["submitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.command = try reader["command"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.exitCode = try reader["exitCode"].readIfPresent()
+        value.standardOutputContent = try reader["standardOutputContent"].readIfPresent()
+        value.standardErrContent = try reader["standardErrContent"].readIfPresent()
+        value.logs = try reader["logs"].readIfPresent(with: CodeBuildClientTypes.LogsLocation.read(from:))
+        value.sandboxArn = try reader["sandboxArn"].readIfPresent()
+        return value
+    }
+}
+
 extension CodeBuildClientTypes.Fleet {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.Fleet {
@@ -10082,6 +11118,68 @@ extension CodeBuildClientTypes.TestReportSummary {
     }
 }
 
+extension CodeBuildClientTypes.Sandbox {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.Sandbox {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeBuildClientTypes.Sandbox()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.projectName = try reader["projectName"].readIfPresent()
+        value.requestTime = try reader["requestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.source = try reader["source"].readIfPresent(with: CodeBuildClientTypes.ProjectSource.read(from:))
+        value.sourceVersion = try reader["sourceVersion"].readIfPresent()
+        value.secondarySources = try reader["secondarySources"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.ProjectSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.secondarySourceVersions = try reader["secondarySourceVersions"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.ProjectSourceVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environment = try reader["environment"].readIfPresent(with: CodeBuildClientTypes.ProjectEnvironment.read(from:))
+        value.fileSystemLocations = try reader["fileSystemLocations"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.ProjectFileSystemLocation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timeoutInMinutes = try reader["timeoutInMinutes"].readIfPresent()
+        value.queuedTimeoutInMinutes = try reader["queuedTimeoutInMinutes"].readIfPresent()
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: CodeBuildClientTypes.VpcConfig.read(from:))
+        value.logConfig = try reader["logConfig"].readIfPresent(with: CodeBuildClientTypes.LogsConfig.read(from:))
+        value.encryptionKey = try reader["encryptionKey"].readIfPresent()
+        value.serviceRole = try reader["serviceRole"].readIfPresent()
+        value.currentSession = try reader["currentSession"].readIfPresent(with: CodeBuildClientTypes.SandboxSession.read(from:))
+        return value
+    }
+}
+
+extension CodeBuildClientTypes.SandboxSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.SandboxSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeBuildClientTypes.SandboxSession()
+        value.id = try reader["id"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.currentPhase = try reader["currentPhase"].readIfPresent()
+        value.phases = try reader["phases"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.SandboxSessionPhase.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resolvedSourceVersion = try reader["resolvedSourceVersion"].readIfPresent()
+        value.logs = try reader["logs"].readIfPresent(with: CodeBuildClientTypes.LogsLocation.read(from:))
+        value.networkInterface = try reader["networkInterface"].readIfPresent(with: CodeBuildClientTypes.NetworkInterface.read(from:))
+        return value
+    }
+}
+
+extension CodeBuildClientTypes.SandboxSessionPhase {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.SandboxSessionPhase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeBuildClientTypes.SandboxSessionPhase()
+        value.phaseType = try reader["phaseType"].readIfPresent()
+        value.phaseStatus = try reader["phaseStatus"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.durationInSeconds = try reader["durationInSeconds"].readIfPresent()
+        value.contexts = try reader["contexts"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.PhaseContext.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension CodeBuildClientTypes.CodeCoverage {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.CodeCoverage {
@@ -10185,6 +11283,18 @@ extension CodeBuildClientTypes.SourceCredentialsInfo {
         value.serverType = try reader["serverType"].readIfPresent()
         value.authType = try reader["authType"].readIfPresent()
         value.resource = try reader["resource"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeBuildClientTypes.SSMSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.SSMSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeBuildClientTypes.SSMSession()
+        value.sessionId = try reader["sessionId"].readIfPresent()
+        value.tokenValue = try reader["tokenValue"].readIfPresent()
+        value.streamUrl = try reader["streamUrl"].readIfPresent()
         return value
     }
 }

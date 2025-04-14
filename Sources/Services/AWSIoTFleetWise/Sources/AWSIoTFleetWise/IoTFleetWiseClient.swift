@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTFleetWiseClient: ClientRuntime.Client {
     public static let clientName = "IoTFleetWiseClient"
-    public static let version = "1.2.52"
+    public static let version = "1.2.58"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTFleetWiseClient.IoTFleetWiseClientConfiguration
     let serviceName = "IoTFleetWise"
@@ -4843,7 +4843,7 @@ extension IoTFleetWiseClient {
 
     /// Performs the `UpdateVehicle` operation on the `IoTFleetWise` service.
     ///
-    /// Updates a vehicle.
+    /// Updates a vehicle. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// - Parameter UpdateVehicleInput : [no documentation found]
     ///

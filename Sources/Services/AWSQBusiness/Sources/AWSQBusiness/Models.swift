@@ -5750,6 +5750,35 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
+    public enum SystemMessageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case groundedResponse
+        case response
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SystemMessageType] {
+            return [
+                .groundedResponse,
+                .response
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .groundedResponse: return "GROUNDED_RESPONSE"
+            case .response: return "RESPONSE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
     /// An output event for an AI-generated response in an Amazon Q Business web experience.
     public struct TextOutputEvent: Swift.Sendable {
         /// The identifier of the conversation with which the text output event is associated.
@@ -5758,6 +5787,12 @@ extension QBusinessClientTypes {
         public var systemMessage: Swift.String?
         /// The identifier of an AI-generated message in a TextOutputEvent.
         public var systemMessageId: Swift.String?
+        /// The type of AI-generated message in a TextOutputEvent. Amazon Q Business currently supports two types of messages:
+        ///
+        /// * RESPONSE - The Amazon Q Business system response.
+        ///
+        /// * GROUNDED_RESPONSE - The corrected, hallucination-reduced, response returned by Amazon Q Business. Available only if hallucination reduction is supported and configured for the application and detected in the end user chat query by Amazon Q Business.
+        public var systemMessageType: QBusinessClientTypes.SystemMessageType?
         /// The identifier of an end user message in a TextOutputEvent.
         public var userMessageId: Swift.String?
 
@@ -5765,11 +5800,13 @@ extension QBusinessClientTypes {
             conversationId: Swift.String? = nil,
             systemMessage: Swift.String? = nil,
             systemMessageId: Swift.String? = nil,
+            systemMessageType: QBusinessClientTypes.SystemMessageType? = nil,
             userMessageId: Swift.String? = nil
         ) {
             self.conversationId = conversationId
             self.systemMessage = systemMessage
             self.systemMessageId = systemMessageId
+            self.systemMessageType = systemMessageType
             self.userMessageId = userMessageId
         }
     }
@@ -6435,6 +6472,50 @@ public struct GetChatControlsConfigurationInput: Swift.Sendable {
 
 extension QBusinessClientTypes {
 
+    public enum HallucinationReductionControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HallucinationReductionControl] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Configuration information required to setup hallucination reduction. For more information, see [hallucination reduction]. The hallucination reduction feature won't work if chat orchestration controls are enabled for your application.
+    public struct HallucinationReductionConfiguration: Swift.Sendable {
+        /// Controls whether hallucination reduction has been enabled or disabled for your application. The default status is DISABLED.
+        public var hallucinationReductionControl: QBusinessClientTypes.HallucinationReductionControl?
+
+        public init(
+            hallucinationReductionControl: QBusinessClientTypes.HallucinationReductionControl? = nil
+        ) {
+            self.hallucinationReductionControl = hallucinationReductionControl
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
     public enum ResponseScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case enterpriseContentOnly
         case extendedKnowledgeEnabled
@@ -6584,6 +6665,8 @@ public struct GetChatControlsConfigurationOutput: Swift.Sendable {
     public var blockedPhrases: QBusinessClientTypes.BlockedPhrasesConfiguration?
     /// The configuration details for CREATOR_MODE.
     public var creatorModeConfiguration: QBusinessClientTypes.AppliedCreatorModeConfiguration?
+    /// The hallucination reduction settings for your application.
+    public var hallucinationReductionConfiguration: QBusinessClientTypes.HallucinationReductionConfiguration?
     /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Q Business chat controls configured.
     public var nextToken: Swift.String?
     /// The chat response orchestration settings for your application. Chat orchestration is optimized to work for English language content. For more details on language support in Amazon Q Business, see [Supported languages](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/supported-languages.html).
@@ -6596,6 +6679,7 @@ public struct GetChatControlsConfigurationOutput: Swift.Sendable {
     public init(
         blockedPhrases: QBusinessClientTypes.BlockedPhrasesConfiguration? = nil,
         creatorModeConfiguration: QBusinessClientTypes.AppliedCreatorModeConfiguration? = nil,
+        hallucinationReductionConfiguration: QBusinessClientTypes.HallucinationReductionConfiguration? = nil,
         nextToken: Swift.String? = nil,
         orchestrationConfiguration: QBusinessClientTypes.AppliedOrchestrationConfiguration? = nil,
         responseScope: QBusinessClientTypes.ResponseScope? = nil,
@@ -6603,6 +6687,7 @@ public struct GetChatControlsConfigurationOutput: Swift.Sendable {
     ) {
         self.blockedPhrases = blockedPhrases
         self.creatorModeConfiguration = creatorModeConfiguration
+        self.hallucinationReductionConfiguration = hallucinationReductionConfiguration
         self.nextToken = nextToken
         self.orchestrationConfiguration = orchestrationConfiguration
         self.responseScope = responseScope
@@ -7939,6 +8024,8 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The configuration details for CREATOR_MODE.
     public var creatorModeConfiguration: QBusinessClientTypes.CreatorModeConfiguration?
+    /// The hallucination reduction settings for your application.
+    public var hallucinationReductionConfiguration: QBusinessClientTypes.HallucinationReductionConfiguration?
     /// The chat response orchestration settings for your application.
     public var orchestrationConfiguration: QBusinessClientTypes.OrchestrationConfiguration?
     /// The response scope configured for your application. This determines whether your application uses its retrieval augmented generation (RAG) system to generate answers only from your enterprise data, or also uses the large language models (LLM) knowledge to respons to end user questions in chat.
@@ -7953,6 +8040,7 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
         blockedPhrasesConfigurationUpdate: QBusinessClientTypes.BlockedPhrasesConfigurationUpdate? = nil,
         clientToken: Swift.String? = nil,
         creatorModeConfiguration: QBusinessClientTypes.CreatorModeConfiguration? = nil,
+        hallucinationReductionConfiguration: QBusinessClientTypes.HallucinationReductionConfiguration? = nil,
         orchestrationConfiguration: QBusinessClientTypes.OrchestrationConfiguration? = nil,
         responseScope: QBusinessClientTypes.ResponseScope? = nil,
         topicConfigurationsToCreateOrUpdate: [QBusinessClientTypes.TopicConfiguration]? = nil,
@@ -7962,6 +8050,7 @@ public struct UpdateChatControlsConfigurationInput: Swift.Sendable {
         self.blockedPhrasesConfigurationUpdate = blockedPhrasesConfigurationUpdate
         self.clientToken = clientToken
         self.creatorModeConfiguration = creatorModeConfiguration
+        self.hallucinationReductionConfiguration = hallucinationReductionConfiguration
         self.orchestrationConfiguration = orchestrationConfiguration
         self.responseScope = responseScope
         self.topicConfigurationsToCreateOrUpdate = topicConfigurationsToCreateOrUpdate
@@ -10053,6 +10142,7 @@ extension UpdateChatControlsConfigurationInput {
         try writer["blockedPhrasesConfigurationUpdate"].write(value.blockedPhrasesConfigurationUpdate, with: QBusinessClientTypes.BlockedPhrasesConfigurationUpdate.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["creatorModeConfiguration"].write(value.creatorModeConfiguration, with: QBusinessClientTypes.CreatorModeConfiguration.write(value:to:))
+        try writer["hallucinationReductionConfiguration"].write(value.hallucinationReductionConfiguration, with: QBusinessClientTypes.HallucinationReductionConfiguration.write(value:to:))
         try writer["orchestrationConfiguration"].write(value.orchestrationConfiguration, with: QBusinessClientTypes.OrchestrationConfiguration.write(value:to:))
         try writer["responseScope"].write(value.responseScope)
         try writer["topicConfigurationsToCreateOrUpdate"].writeList(value.topicConfigurationsToCreateOrUpdate, memberWritingClosure: QBusinessClientTypes.TopicConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10478,6 +10568,7 @@ extension GetChatControlsConfigurationOutput {
         var value = GetChatControlsConfigurationOutput()
         value.blockedPhrases = try reader["blockedPhrases"].readIfPresent(with: QBusinessClientTypes.BlockedPhrasesConfiguration.read(from:))
         value.creatorModeConfiguration = try reader["creatorModeConfiguration"].readIfPresent(with: QBusinessClientTypes.AppliedCreatorModeConfiguration.read(from:))
+        value.hallucinationReductionConfiguration = try reader["hallucinationReductionConfiguration"].readIfPresent(with: QBusinessClientTypes.HallucinationReductionConfiguration.read(from:))
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.orchestrationConfiguration = try reader["orchestrationConfiguration"].readIfPresent(with: QBusinessClientTypes.AppliedOrchestrationConfiguration.read(from:))
         value.responseScope = try reader["responseScope"].readIfPresent()
@@ -12447,6 +12538,7 @@ enum UpdateUserOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -12939,6 +13031,7 @@ extension QBusinessClientTypes.TextOutputEvent {
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.TextOutputEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.TextOutputEvent()
+        value.systemMessageType = try reader["systemMessageType"].readIfPresent()
         value.conversationId = try reader["conversationId"].readIfPresent()
         value.userMessageId = try reader["userMessageId"].readIfPresent()
         value.systemMessageId = try reader["systemMessageId"].readIfPresent()
@@ -13218,6 +13311,21 @@ extension QBusinessClientTypes.AppliedCreatorModeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.AppliedCreatorModeConfiguration()
         value.creatorModeControl = try reader["creatorModeControl"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QBusinessClientTypes.HallucinationReductionConfiguration {
+
+    static func write(value: QBusinessClientTypes.HallucinationReductionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["hallucinationReductionControl"].write(value.hallucinationReductionControl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.HallucinationReductionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.HallucinationReductionConfiguration()
+        value.hallucinationReductionControl = try reader["hallucinationReductionControl"].readIfPresent()
         return value
     }
 }

@@ -582,6 +582,36 @@ extension PaginatorSequence where OperationStackInput == ListReservationsInput, 
     }
 }
 extension MediaLiveClient {
+    /// Paginate over `[ListSdiSourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSdiSourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSdiSourcesOutput`
+    public func listSdiSourcesPaginated(input: ListSdiSourcesInput) -> ClientRuntime.PaginatorSequence<ListSdiSourcesInput, ListSdiSourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSdiSourcesInput, ListSdiSourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSdiSources(input:))
+    }
+}
+
+extension ListSdiSourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSdiSourcesInput {
+        return ListSdiSourcesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSdiSourcesInput, OperationStackOutput == ListSdiSourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSdiSourcesPaginated`
+    /// to access the nested member `[MediaLiveClientTypes.SdiSourceSummary]`
+    /// - Returns: `[MediaLiveClientTypes.SdiSourceSummary]`
+    public func sdiSources() async throws -> [MediaLiveClientTypes.SdiSourceSummary] {
+        return try await self.asyncCompactMap { item in item.sdiSources }
+    }
+}
+extension MediaLiveClient {
     /// Paginate over `[ListSignalMapsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

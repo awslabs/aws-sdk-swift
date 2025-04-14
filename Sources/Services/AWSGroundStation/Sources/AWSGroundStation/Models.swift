@@ -228,13 +228,17 @@ public struct RegisterAgentInput: Swift.Sendable {
     /// Data for associating an agent with the capabilities it is managing.
     /// This member is required.
     public var discoveryData: GroundStationClientTypes.DiscoveryData?
+    /// Tags assigned to an Agent.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         agentDetails: GroundStationClientTypes.AgentDetails? = nil,
-        discoveryData: GroundStationClientTypes.DiscoveryData? = nil
+        discoveryData: GroundStationClientTypes.DiscoveryData? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.agentDetails = agentDetails
         self.discoveryData = discoveryData
+        self.tags = tags
     }
 }
 
@@ -2068,7 +2072,7 @@ public struct CreateDataflowEndpointGroupInput: Swift.Sendable {
     public var contactPostPassDurationSeconds: Swift.Int?
     /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
     public var contactPrePassDurationSeconds: Swift.Int?
-    /// Endpoint details of each endpoint in the dataflow endpoint group.
+    /// Endpoint details of each endpoint in the dataflow endpoint group. All dataflow endpoints within a single dataflow endpoint group must be of the same type. You cannot mix [ AWS Ground Station Agent endpoints](https://docs.aws.amazon.com/ground-station/latest/APIReference/API_AwsGroundStationAgentEndpoint.html) with [Dataflow endpoints](https://docs.aws.amazon.com/ground-station/latest/APIReference/API_DataflowEndpoint.html) in the same group. If your use case requires both types of endpoints, you must create separate dataflow endpoint groups for each type.
     /// This member is required.
     public var endpointDetails: [GroundStationClientTypes.EndpointDetails]?
     /// Tags of a dataflow endpoint group.
@@ -2273,7 +2277,7 @@ public struct CreateEphemerisOutput: Swift.Sendable {
 
 extension GroundStationClientTypes {
 
-    /// AWS Key Management Service (KMS) Key.
+    /// KMS key info.
     public enum KmsKey: Swift.Sendable {
         /// KMS Key Arn.
         case kmskeyarn(Swift.String)
@@ -3842,6 +3846,7 @@ extension RegisterAgentInput {
         guard let value else { return }
         try writer["agentDetails"].write(value.agentDetails, with: GroundStationClientTypes.AgentDetails.write(value:to:))
         try writer["discoveryData"].write(value.discoveryData, with: GroundStationClientTypes.DiscoveryData.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -5469,7 +5474,7 @@ extension GroundStationClientTypes.SpectrumConfig {
         var value = GroundStationClientTypes.SpectrumConfig()
         value.centerFrequency = try reader["centerFrequency"].readIfPresent(with: GroundStationClientTypes.Frequency.read(from:))
         value.bandwidth = try reader["bandwidth"].readIfPresent(with: GroundStationClientTypes.FrequencyBandwidth.read(from:))
-        value.polarization = try reader["polarization"].readIfPresent()
+        value.polarization = try reader["polarization"].readIfPresent() ?? .`none`
         return value
     }
 }

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class VerifiedPermissionsClient: ClientRuntime.Client {
     public static let clientName = "VerifiedPermissionsClient"
-    public static let version = "1.2.52"
+    public static let version = "1.2.58"
     let client: ClientRuntime.SdkHttpClient
     let config: VerifiedPermissionsClient.VerifiedPermissionsClientConfiguration
     let serviceName = "VerifiedPermissions"
@@ -1290,6 +1290,7 @@ extension VerifiedPermissionsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
     /// - `InternalServerException` : The request failed because of an internal error. Try your request again later
+    /// - `InvalidStateException` : The policy store can't be deleted because deletion protection is enabled. To delete this policy store, disable deletion protection.
     /// - `ThrottlingException` : The request failed because it exceeded a throttling quota.
     /// - `ValidationException` : The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:
     ///

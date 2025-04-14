@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TrustedAdvisorClient: ClientRuntime.Client {
     public static let clientName = "TrustedAdvisorClient"
-    public static let version = "1.2.52"
+    public static let version = "1.2.58"
     let client: ClientRuntime.SdkHttpClient
     let config: TrustedAdvisorClient.TrustedAdvisorClientConfiguration
     let serviceName = "TrustedAdvisor"

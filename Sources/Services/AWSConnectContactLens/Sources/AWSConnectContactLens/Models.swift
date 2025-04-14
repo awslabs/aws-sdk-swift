@@ -417,7 +417,6 @@ extension ConnectContactLensClientTypes {
         /// This member is required.
         public var participantRole: Swift.String?
         /// The sentiment detected for this piece of transcript.
-        /// This member is required.
         public var sentiment: ConnectContactLensClientTypes.SentimentValue?
 
         public init(
@@ -669,7 +668,7 @@ extension ConnectContactLensClientTypes.Transcript {
         value.content = try reader["Content"].readIfPresent() ?? ""
         value.beginOffsetMillis = try reader["BeginOffsetMillis"].readIfPresent() ?? 0
         value.endOffsetMillis = try reader["EndOffsetMillis"].readIfPresent() ?? 0
-        value.sentiment = try reader["Sentiment"].readIfPresent() ?? .sdkUnknown("")
+        value.sentiment = try reader["Sentiment"].readIfPresent()
         value.issuesDetected = try reader["IssuesDetected"].readListIfPresent(memberReadingClosure: ConnectContactLensClientTypes.IssueDetected.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
