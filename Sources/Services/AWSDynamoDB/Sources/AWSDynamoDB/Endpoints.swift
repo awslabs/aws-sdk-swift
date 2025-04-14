@@ -14,7 +14,7 @@ import struct ClientRuntime.DefaultEndpointResolver
 import struct ClientRuntime.StaticEndpointResolver
 import struct SmithyHTTPAPI.Endpoint
 
-public struct EndpointParams {
+public struct EndpointParams: Sendable {
     /// The AWS AccountId used for the request.
     public let accountId: Swift.String?
     /// The AccountId Endpoint Mode.
