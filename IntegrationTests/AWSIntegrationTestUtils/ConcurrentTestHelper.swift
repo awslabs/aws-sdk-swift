@@ -13,7 +13,7 @@
 ///   - count: The number of test runs
 ///   - test: The function pointer for the test to run
 /// - Throws: Any error thrown by one of the test runs.
-public func repeatConcurrently(count: Int, test: @escaping () async throws -> Void) async throws {
+public func repeatConcurrently(count: Int, test: @escaping @Sendable () async throws -> Void) async throws {
     try await withThrowingTaskGroup(of: Void.self) { taskGroup in
         for _ in 0..<count {
             taskGroup.addTask {
@@ -33,15 +33,15 @@ public func repeatConcurrently(count: Int, test: @escaping () async throws -> Vo
 ///   - test: The function pointer for the test to run
 ///   - args: Any values to pass along to test function
 /// - Throws: Any error thrown by one of the test runs.
-public func repeatConcurrentlyWithArgs(
+public func repeatConcurrentlyWithArgs<Arg: Sendable>(
     count: Int,
-    test: @escaping (Any...) async throws -> Void,
-    args: Any...
+    test: @escaping @Sendable (Arg) async throws -> Void,
+    arg: Arg
 ) async throws {
     try await withThrowingTaskGroup(of: Void.self) { taskGroup in
         for _ in 0..<count {
             taskGroup.addTask {
-                try await test(args)
+                try await test(arg)
             }
         }
         try await taskGroup.waitForAll()
