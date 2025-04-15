@@ -1924,6 +1924,35 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension BedrockClientTypes {
 
+    public enum GuardrailContentFilterAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case block
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContentFilterAction] {
+            return [
+                .block,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .block: return "BLOCK"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     public enum GuardrailModality: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case image
         case text
@@ -2042,11 +2071,27 @@ extension BedrockClientTypes {
     ///
     /// Content filtering depends on the confidence classification of user inputs and FM responses across each of the four harmful categories. All input and output statements are classified into one of four confidence levels (NONE, LOW, MEDIUM, HIGH) for each harmful category. For example, if a statement is classified as Hate with HIGH confidence, the likelihood of the statement representing hateful content is high. A single statement can be classified across multiple categories with varying confidence levels. For example, a single statement can be classified as Hate with HIGH confidence, Insults with LOW confidence, Sexual with NONE confidence, and Violence with MEDIUM confidence. For more information, see [Guardrails content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters.html).
     public struct GuardrailContentFilterConfig: Swift.Sendable {
+        /// Specifies the action to take when harmful content is detected. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailContentFilterAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
         /// The input modalities selected for the guardrail content filter configuration.
         public var inputModalities: [BedrockClientTypes.GuardrailModality]?
         /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
         /// This member is required.
         public var inputStrength: BedrockClientTypes.GuardrailFilterStrength?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailContentFilterAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// The output modalities selected for the guardrail content filter configuration.
         public var outputModalities: [BedrockClientTypes.GuardrailModality]?
         /// The strength of the content filter to apply to model responses. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
@@ -2057,14 +2102,22 @@ extension BedrockClientTypes {
         public var type: BedrockClientTypes.GuardrailContentFilterType?
 
         public init(
+            inputAction: BedrockClientTypes.GuardrailContentFilterAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
             inputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             inputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
+            outputAction: BedrockClientTypes.GuardrailContentFilterAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             outputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             outputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
             type: BedrockClientTypes.GuardrailContentFilterType? = nil
         ) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.inputModalities = inputModalities
             self.inputStrength = inputStrength
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.outputModalities = outputModalities
             self.outputStrength = outputStrength
             self.type = type
@@ -2074,7 +2127,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailContentFilterConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GuardrailContentFilterConfig(inputStrength: \(Swift.String(describing: inputStrength)), outputStrength: \(Swift.String(describing: outputStrength)), type: \(Swift.String(describing: type)), inputModalities: \"CONTENT_REDACTED\", outputModalities: \"CONTENT_REDACTED\")"}
+        "GuardrailContentFilterConfig(inputEnabled: \(Swift.String(describing: inputEnabled)), inputStrength: \(Swift.String(describing: inputStrength)), outputEnabled: \(Swift.String(describing: outputEnabled)), outputStrength: \(Swift.String(describing: outputStrength)), type: \(Swift.String(describing: type)), inputAction: \"CONTENT_REDACTED\", inputModalities: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\", outputModalities: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -2089,6 +2142,35 @@ extension BedrockClientTypes {
             filtersConfig: [BedrockClientTypes.GuardrailContentFilterConfig]? = nil
         ) {
             self.filtersConfig = filtersConfig
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum GuardrailContextualGroundingAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case block
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContextualGroundingAction] {
+            return [
+                .block,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .block: return "BLOCK"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2126,6 +2208,14 @@ extension BedrockClientTypes {
 
     /// The filter configuration details for the guardrails contextual grounding filter.
     public struct GuardrailContextualGroundingFilterConfig: Swift.Sendable {
+        /// Specifies the action to take when content fails the contextual grounding evaluation. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var action: BedrockClientTypes.GuardrailContextualGroundingAction?
+        /// Specifies whether to enable contextual grounding evaluation. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var enabled: Swift.Bool?
         /// The threshold details for the guardrails contextual grounding filter.
         /// This member is required.
         public var threshold: Swift.Double?
@@ -2134,13 +2224,22 @@ extension BedrockClientTypes {
         public var type: BedrockClientTypes.GuardrailContextualGroundingFilterType?
 
         public init(
+            action: BedrockClientTypes.GuardrailContextualGroundingAction? = nil,
+            enabled: Swift.Bool? = nil,
             threshold: Swift.Double? = nil,
             type: BedrockClientTypes.GuardrailContextualGroundingFilterType? = nil
         ) {
+            self.action = action
+            self.enabled = enabled
             self.threshold = threshold
             self.type = type
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailContextualGroundingFilterConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailContextualGroundingFilterConfig(enabled: \(Swift.String(describing: enabled)), threshold: \(Swift.String(describing: threshold)), type: \(Swift.String(describing: type)), action: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -2164,12 +2263,14 @@ extension BedrockClientTypes {
     public enum GuardrailSensitiveInformationAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case anonymize
         case block
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GuardrailSensitiveInformationAction] {
             return [
                 .anonymize,
-                .block
+                .block,
+                .none
             ]
         }
 
@@ -2182,6 +2283,7 @@ extension BedrockClientTypes {
             switch self {
             case .anonymize: return "ANONYMIZE"
             case .block: return "BLOCK"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2311,6 +2413,26 @@ extension BedrockClientTypes {
         /// Configure guardrail action when the PII entity is detected.
         /// This member is required.
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * ANONYMIZE – Mask the content and replace it with identifier tags.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * ANONYMIZE – Mask the content and replace it with identifier tags.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// Configure guardrail type when the PII entity is detected. The following PIIs are used to block or mask sensitive information:
         ///
         /// * General
@@ -2413,9 +2535,17 @@ extension BedrockClientTypes {
 
         public init(
             action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
+            outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             type: BedrockClientTypes.GuardrailPiiEntityType? = nil
         ) {
             self.action = action
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
     }
@@ -2430,9 +2560,25 @@ extension BedrockClientTypes {
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
         /// The description of the regular expression to configure for the guardrail.
         public var description: Swift.String?
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
         /// The name of the regular expression to configure for the guardrail.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// The regular expression pattern to configure for the guardrail.
         /// This member is required.
         public var pattern: Swift.String?
@@ -2440,12 +2586,20 @@ extension BedrockClientTypes {
         public init(
             action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
             description: Swift.String? = nil,
+            inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
+            outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             pattern: Swift.String? = nil
         ) {
             self.action = action
             self.description = description
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.name = name
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.pattern = pattern
         }
     }
@@ -2466,6 +2620,35 @@ extension BedrockClientTypes {
         ) {
             self.piiEntitiesConfig = piiEntitiesConfig
             self.regexesConfig = regexesConfig
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum GuardrailTopicAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case block
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailTopicAction] {
+            return [
+                .block,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .block: return "BLOCK"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2505,9 +2688,25 @@ extension BedrockClientTypes {
         public var definition: Swift.String?
         /// A list of prompts, each of which is an example of a prompt that can be categorized as belonging to the topic.
         public var examples: [Swift.String]?
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailTopicAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
         /// The name of the topic to deny.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailTopicAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// Specifies to deny the topic.
         /// This member is required.
         public var type: BedrockClientTypes.GuardrailTopicType?
@@ -2515,12 +2714,20 @@ extension BedrockClientTypes {
         public init(
             definition: Swift.String? = nil,
             examples: [Swift.String]? = nil,
+            inputAction: BedrockClientTypes.GuardrailTopicAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
+            outputAction: BedrockClientTypes.GuardrailTopicAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             type: BedrockClientTypes.GuardrailTopicType? = nil
         ) {
             self.definition = definition
             self.examples = examples
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.name = name
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
     }
@@ -2528,7 +2735,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailTopicConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GuardrailTopicConfig(type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", examples: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GuardrailTopicConfig(inputEnabled: \(Swift.String(describing: inputEnabled)), outputEnabled: \(Swift.String(describing: outputEnabled)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", examples: \"CONTENT_REDACTED\", inputAction: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -2543,6 +2750,35 @@ extension BedrockClientTypes {
             topicsConfig: [BedrockClientTypes.GuardrailTopicConfig]? = nil
         ) {
             self.topicsConfig = topicsConfig
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum GuardrailWordAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case block
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailWordAction] {
+            return [
+                .block,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .block: return "BLOCK"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2577,32 +2813,90 @@ extension BedrockClientTypes {
 
     /// The managed word list to configure for the guardrail.
     public struct GuardrailManagedWordsConfig: Swift.Sendable {
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// The managed word type to configure for the guardrail.
         /// This member is required.
         public var type: BedrockClientTypes.GuardrailManagedWordsType?
 
         public init(
+            inputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
+            outputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             type: BedrockClientTypes.GuardrailManagedWordsType? = nil
         ) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailManagedWordsConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailManagedWordsConfig(inputEnabled: \(Swift.String(describing: inputEnabled)), outputEnabled: \(Swift.String(describing: outputEnabled)), type: \(Swift.String(describing: type)), inputAction: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
 
     /// A word to configure for the guardrail.
     public struct GuardrailWordConfig: Swift.Sendable {
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Specifies whether to enable guardrail evaluation on the intput. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// Text of the word configured for the guardrail to block.
         /// This member is required.
         public var text: Swift.String?
 
         public init(
+            inputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
+            outputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             text: Swift.String? = nil
         ) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.text = text
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailWordConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailWordConfig(inputEnabled: \(Swift.String(describing: inputEnabled)), outputEnabled: \(Swift.String(describing: outputEnabled)), text: \(Swift.String(describing: text)), inputAction: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -2810,11 +3104,27 @@ extension BedrockClientTypes {
     ///
     /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
     public struct GuardrailContentFilter: Swift.Sendable {
+        /// The action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailContentFilterAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
         /// The input modalities selected for the guardrail content filter.
         public var inputModalities: [BedrockClientTypes.GuardrailModality]?
         /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
         /// This member is required.
         public var inputStrength: BedrockClientTypes.GuardrailFilterStrength?
+        /// The action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailContentFilterAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// The output modalities selected for the guardrail content filter.
         public var outputModalities: [BedrockClientTypes.GuardrailModality]?
         /// The strength of the content filter to apply to model responses. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
@@ -2825,14 +3135,22 @@ extension BedrockClientTypes {
         public var type: BedrockClientTypes.GuardrailContentFilterType?
 
         public init(
+            inputAction: BedrockClientTypes.GuardrailContentFilterAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
             inputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             inputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
+            outputAction: BedrockClientTypes.GuardrailContentFilterAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             outputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             outputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
             type: BedrockClientTypes.GuardrailContentFilterType? = nil
         ) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.inputModalities = inputModalities
             self.inputStrength = inputStrength
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.outputModalities = outputModalities
             self.outputStrength = outputStrength
             self.type = type
@@ -2842,7 +3160,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailContentFilter: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GuardrailContentFilter(inputStrength: \(Swift.String(describing: inputStrength)), outputStrength: \(Swift.String(describing: outputStrength)), type: \(Swift.String(describing: type)), inputModalities: \"CONTENT_REDACTED\", outputModalities: \"CONTENT_REDACTED\")"}
+        "GuardrailContentFilter(inputEnabled: \(Swift.String(describing: inputEnabled)), inputStrength: \(Swift.String(describing: inputStrength)), outputEnabled: \(Swift.String(describing: outputEnabled)), outputStrength: \(Swift.String(describing: outputStrength)), type: \(Swift.String(describing: type)), inputAction: \"CONTENT_REDACTED\", inputModalities: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\", outputModalities: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -2866,6 +3184,14 @@ extension BedrockClientTypes {
 
     /// The details for the guardrails contextual grounding filter.
     public struct GuardrailContextualGroundingFilter: Swift.Sendable {
+        /// The action to take when content fails the contextual grounding evaluation. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var action: BedrockClientTypes.GuardrailContextualGroundingAction?
+        /// Indicates whether contextual grounding is enabled for evaluation. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var enabled: Swift.Bool?
         /// The threshold details for the guardrails contextual grounding filter.
         /// This member is required.
         public var threshold: Swift.Double?
@@ -2874,13 +3200,22 @@ extension BedrockClientTypes {
         public var type: BedrockClientTypes.GuardrailContextualGroundingFilterType?
 
         public init(
+            action: BedrockClientTypes.GuardrailContextualGroundingAction? = nil,
+            enabled: Swift.Bool? = nil,
             threshold: Swift.Double? = nil,
             type: BedrockClientTypes.GuardrailContextualGroundingFilterType? = nil
         ) {
+            self.action = action
+            self.enabled = enabled
             self.threshold = threshold
             self.type = type
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailContextualGroundingFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailContextualGroundingFilter(enabled: \(Swift.String(describing: enabled)), threshold: \(Swift.String(describing: threshold)), type: \(Swift.String(describing: type)), action: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -2906,15 +3241,43 @@ extension BedrockClientTypes {
         /// The configured guardrail action when PII entity is detected.
         /// This member is required.
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// The action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * ANONYMIZE – Mask the content and replace it with identifier tags.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
+        /// The action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * ANONYMIZE – Mask the content and replace it with identifier tags.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// The type of PII entity. For example, Social Security Number.
         /// This member is required.
         public var type: BedrockClientTypes.GuardrailPiiEntityType?
 
         public init(
             action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
+            outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             type: BedrockClientTypes.GuardrailPiiEntityType? = nil
         ) {
             self.action = action
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
     }
@@ -2929,9 +3292,25 @@ extension BedrockClientTypes {
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
         /// The description of the regular expression for the guardrail.
         public var description: Swift.String?
+        /// The action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
         /// The name of the regular expression for the guardrail.
         /// This member is required.
         public var name: Swift.String?
+        /// The action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// The pattern of the regular expression configured for the guardrail.
         /// This member is required.
         public var pattern: Swift.String?
@@ -2939,12 +3318,20 @@ extension BedrockClientTypes {
         public init(
             action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
             description: Swift.String? = nil,
+            inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
+            outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             pattern: Swift.String? = nil
         ) {
             self.action = action
             self.description = description
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.name = name
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.pattern = pattern
         }
     }
@@ -3021,21 +3408,45 @@ extension BedrockClientTypes {
         public var definition: Swift.String?
         /// A list of prompts, each of which is an example of a prompt that can be categorized as belonging to the topic.
         public var examples: [Swift.String]?
+        /// The action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailTopicAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
         /// The name of the topic to deny.
         /// This member is required.
         public var name: Swift.String?
+        /// The action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailTopicAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// Specifies to deny the topic.
         public var type: BedrockClientTypes.GuardrailTopicType?
 
         public init(
             definition: Swift.String? = nil,
             examples: [Swift.String]? = nil,
+            inputAction: BedrockClientTypes.GuardrailTopicAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
+            outputAction: BedrockClientTypes.GuardrailTopicAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             type: BedrockClientTypes.GuardrailTopicType? = nil
         ) {
             self.definition = definition
             self.examples = examples
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.name = name
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
     }
@@ -3043,7 +3454,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailTopic: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GuardrailTopic(type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", examples: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GuardrailTopic(inputEnabled: \(Swift.String(describing: inputEnabled)), outputEnabled: \(Swift.String(describing: outputEnabled)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", examples: \"CONTENT_REDACTED\", inputAction: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -3068,32 +3479,90 @@ extension BedrockClientTypes {
 
     /// The managed word list that was configured for the guardrail. (This is a list of words that are pre-defined and managed by guardrails only.)
     public struct GuardrailManagedWords: Swift.Sendable {
+        /// The action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
+        /// The action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// ManagedWords$type The managed word type that was configured for the guardrail. (For now, we only offer profanity word list)
         /// This member is required.
         public var type: BedrockClientTypes.GuardrailManagedWordsType?
 
         public init(
+            inputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
+            outputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             type: BedrockClientTypes.GuardrailManagedWordsType? = nil
         ) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailManagedWords: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailManagedWords(inputEnabled: \(Swift.String(describing: inputEnabled)), outputEnabled: \(Swift.String(describing: outputEnabled)), type: \(Swift.String(describing: type)), inputAction: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
 
     /// A word configured for the guardrail.
     public struct GuardrailWord: Swift.Sendable {
+        /// The action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
+        /// The action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// Text of the word configured for the guardrail to block.
         /// This member is required.
         public var text: Swift.String?
 
         public init(
+            inputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
+            outputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             text: Swift.String? = nil
         ) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.text = text
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailWord: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailWord(inputEnabled: \(Swift.String(describing: inputEnabled)), outputEnabled: \(Swift.String(describing: outputEnabled)), text: \(Swift.String(describing: text)), inputAction: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -11824,6 +12293,10 @@ extension BedrockClientTypes.GuardrailTopic {
         value.definition = try reader["definition"].readIfPresent() ?? ""
         value.examples = try reader["examples"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
+        value.inputAction = try reader["inputAction"].readIfPresent()
+        value.outputAction = try reader["outputAction"].readIfPresent()
+        value.inputEnabled = try reader["inputEnabled"].readIfPresent()
+        value.outputEnabled = try reader["outputEnabled"].readIfPresent()
         return value
     }
 }
@@ -11848,6 +12321,10 @@ extension BedrockClientTypes.GuardrailContentFilter {
         value.outputStrength = try reader["outputStrength"].readIfPresent() ?? .sdkUnknown("")
         value.inputModalities = try reader["inputModalities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockClientTypes.GuardrailModality>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.outputModalities = try reader["outputModalities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockClientTypes.GuardrailModality>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputAction = try reader["inputAction"].readIfPresent()
+        value.outputAction = try reader["outputAction"].readIfPresent()
+        value.inputEnabled = try reader["inputEnabled"].readIfPresent()
+        value.outputEnabled = try reader["outputEnabled"].readIfPresent()
         return value
     }
 }
@@ -11869,6 +12346,10 @@ extension BedrockClientTypes.GuardrailManagedWords {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailManagedWords()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.inputAction = try reader["inputAction"].readIfPresent()
+        value.outputAction = try reader["outputAction"].readIfPresent()
+        value.inputEnabled = try reader["inputEnabled"].readIfPresent()
+        value.outputEnabled = try reader["outputEnabled"].readIfPresent()
         return value
     }
 }
@@ -11879,6 +12360,10 @@ extension BedrockClientTypes.GuardrailWord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailWord()
         value.text = try reader["text"].readIfPresent() ?? ""
+        value.inputAction = try reader["inputAction"].readIfPresent()
+        value.outputAction = try reader["outputAction"].readIfPresent()
+        value.inputEnabled = try reader["inputEnabled"].readIfPresent()
+        value.outputEnabled = try reader["outputEnabled"].readIfPresent()
         return value
     }
 }
@@ -11903,6 +12388,10 @@ extension BedrockClientTypes.GuardrailRegex {
         value.description = try reader["description"].readIfPresent()
         value.pattern = try reader["pattern"].readIfPresent() ?? ""
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.inputAction = try reader["inputAction"].readIfPresent()
+        value.outputAction = try reader["outputAction"].readIfPresent()
+        value.inputEnabled = try reader["inputEnabled"].readIfPresent()
+        value.outputEnabled = try reader["outputEnabled"].readIfPresent()
         return value
     }
 }
@@ -11914,6 +12403,10 @@ extension BedrockClientTypes.GuardrailPiiEntity {
         var value = BedrockClientTypes.GuardrailPiiEntity()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.inputAction = try reader["inputAction"].readIfPresent()
+        value.outputAction = try reader["outputAction"].readIfPresent()
+        value.inputEnabled = try reader["inputEnabled"].readIfPresent()
+        value.outputEnabled = try reader["outputEnabled"].readIfPresent()
         return value
     }
 }
@@ -11935,6 +12428,8 @@ extension BedrockClientTypes.GuardrailContextualGroundingFilter {
         var value = BedrockClientTypes.GuardrailContextualGroundingFilter()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.threshold = try reader["threshold"].readIfPresent() ?? 0.0
+        value.action = try reader["action"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }
@@ -12479,7 +12974,11 @@ extension BedrockClientTypes.GuardrailTopicConfig {
         guard let value else { return }
         try writer["definition"].write(value.definition)
         try writer["examples"].writeList(value.examples, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inputAction"].write(value.inputAction)
+        try writer["inputEnabled"].write(value.inputEnabled)
         try writer["name"].write(value.name)
+        try writer["outputAction"].write(value.outputAction)
+        try writer["outputEnabled"].write(value.outputEnabled)
         try writer["type"].write(value.type)
     }
 }
@@ -12496,8 +12995,12 @@ extension BedrockClientTypes.GuardrailContentFilterConfig {
 
     static func write(value: BedrockClientTypes.GuardrailContentFilterConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["inputAction"].write(value.inputAction)
+        try writer["inputEnabled"].write(value.inputEnabled)
         try writer["inputModalities"].writeList(value.inputModalities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockClientTypes.GuardrailModality>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputStrength"].write(value.inputStrength)
+        try writer["outputAction"].write(value.outputAction)
+        try writer["outputEnabled"].write(value.outputEnabled)
         try writer["outputModalities"].writeList(value.outputModalities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockClientTypes.GuardrailModality>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["outputStrength"].write(value.outputStrength)
         try writer["type"].write(value.type)
@@ -12517,6 +13020,10 @@ extension BedrockClientTypes.GuardrailManagedWordsConfig {
 
     static func write(value: BedrockClientTypes.GuardrailManagedWordsConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["inputAction"].write(value.inputAction)
+        try writer["inputEnabled"].write(value.inputEnabled)
+        try writer["outputAction"].write(value.outputAction)
+        try writer["outputEnabled"].write(value.outputEnabled)
         try writer["type"].write(value.type)
     }
 }
@@ -12525,6 +13032,10 @@ extension BedrockClientTypes.GuardrailWordConfig {
 
     static func write(value: BedrockClientTypes.GuardrailWordConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["inputAction"].write(value.inputAction)
+        try writer["inputEnabled"].write(value.inputEnabled)
+        try writer["outputAction"].write(value.outputAction)
+        try writer["outputEnabled"].write(value.outputEnabled)
         try writer["text"].write(value.text)
     }
 }
@@ -12544,7 +13055,11 @@ extension BedrockClientTypes.GuardrailRegexConfig {
         guard let value else { return }
         try writer["action"].write(value.action)
         try writer["description"].write(value.description)
+        try writer["inputAction"].write(value.inputAction)
+        try writer["inputEnabled"].write(value.inputEnabled)
         try writer["name"].write(value.name)
+        try writer["outputAction"].write(value.outputAction)
+        try writer["outputEnabled"].write(value.outputEnabled)
         try writer["pattern"].write(value.pattern)
     }
 }
@@ -12554,6 +13069,10 @@ extension BedrockClientTypes.GuardrailPiiEntityConfig {
     static func write(value: BedrockClientTypes.GuardrailPiiEntityConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["action"].write(value.action)
+        try writer["inputAction"].write(value.inputAction)
+        try writer["inputEnabled"].write(value.inputEnabled)
+        try writer["outputAction"].write(value.outputAction)
+        try writer["outputEnabled"].write(value.outputEnabled)
         try writer["type"].write(value.type)
     }
 }
@@ -12570,6 +13089,8 @@ extension BedrockClientTypes.GuardrailContextualGroundingFilterConfig {
 
     static func write(value: BedrockClientTypes.GuardrailContextualGroundingFilterConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["enabled"].write(value.enabled)
         try writer["threshold"].write(value.threshold)
         try writer["type"].write(value.type)
     }

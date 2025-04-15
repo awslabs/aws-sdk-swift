@@ -564,7 +564,7 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
-    /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
+    /// Represents the provisioned throughput settings for the specified global secondary index. You must use ProvisionedThroughput or OnDemandThroughput based on your table’s capacity mode. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
     public struct ProvisionedThroughput: Swift.Sendable {
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see [Specifying Read and Write Requirements](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html) in the Amazon DynamoDB Developer Guide. If read/write capacity mode is PAY_PER_REQUEST the value is set to 0.
         /// This member is required.
@@ -679,7 +679,7 @@ extension DynamoDBClientTypes {
 
     /// Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
     public struct Projection: Swift.Sendable {
-        /// Represents the non-key attribute names which will be projected into the index. For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
+        /// Represents the non-key attribute names which will be projected into the index. For global and local secondary indexes, the total count of NonKeyAttributes summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.
         public var nonKeyAttributes: [Swift.String]?
         /// The set of attributes that are projected into the index:
         ///
@@ -1204,7 +1204,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// Throughput exceeds the current throughput quota for your account. Please contact [Amazon Web Services Support](https://aws.amazon.com/support) to request a quota increase.
+/// Throughput exceeds the current throughput quota for your account. Please contact [Amazon Web ServicesSupport](https://aws.amazon.com/support) to request a quota increase.
 public struct RequestLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1722,7 +1722,7 @@ extension DynamoDBClientTypes {
         ///
         /// * DISABLED - Point in time recovery is disabled.
         public var pointInTimeRecoveryStatus: DynamoDBClientTypes.PointInTimeRecoveryStatus?
-        /// The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional. If no value is provided, the value will default to 35.
+        /// The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional.
         public var recoveryPeriodInDays: Swift.Int?
 
         public init(
@@ -1999,7 +1999,7 @@ extension DynamoDBClientTypes {
         /// The key schema for the global secondary index.
         /// This member is required.
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
-        /// The maximum number of read and write units for the global secondary index being created. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        /// The maximum number of read and write units for the global secondary index being created. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both. You must use either OnDemand Throughput or ProvisionedThroughput based on your table's capacity mode.
         public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         /// This member is required.
@@ -2370,11 +2370,11 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
-    /// Represents the warm throughput value (in read units per second and write units per second) of the base table.
+    /// Represents the warm throughput value (in read units per second and write units per second) of the table. Warm throughput is applicable for DynamoDB Standard-IA tables and specifies the minimum provisioned capacity maintained for immediate data access.
     public struct TableWarmThroughputDescription: Swift.Sendable {
         /// Represents the base table's warm throughput value in read units per second.
         public var readUnitsPerSecond: Swift.Int?
-        /// Represents warm throughput value of the base table..
+        /// Represents warm throughput value of the base table.
         public var status: DynamoDBClientTypes.TableStatus?
         /// Represents the base table's warm throughput value in write units per second.
         public var writeUnitsPerSecond: Swift.Int?
@@ -2748,9 +2748,9 @@ public struct CreateTableInput: Swift.Sendable {
     public var attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]?
     /// Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.
     ///
-    /// * PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
+    /// * PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for most DynamoDB workloads. PAY_PER_REQUEST sets the billing mode to [On-demand capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
     ///
-    /// * PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to [On-demand capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
+    /// * PROVISIONED - We recommend using PROVISIONED for steady workloads with predictable growth where capacity requirements can be reliably forecasted. PROVISIONED sets the billing mode to [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
     public var billingMode: DynamoDBClientTypes.BillingMode?
     /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
     public var deletionProtectionEnabled: Swift.Bool?
@@ -2773,7 +2773,7 @@ public struct CreateTableInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
+    /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.
     ///
     ///
     ///
@@ -2816,7 +2816,7 @@ public struct CreateTableInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
+    /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.
     public var localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndex]?
     /// Sets the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
     public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
@@ -3142,7 +3142,7 @@ extension DynamoDBClientTypes {
         ///
         ///
         ///
-        /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
+        /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.
         ///
         ///
         ///
@@ -3201,7 +3201,7 @@ extension DynamoDBClientTypes {
         ///
         ///
         ///
-        /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
+        /// * NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.
         ///
         ///
         ///
@@ -4421,7 +4421,7 @@ extension DynamoDBClientTypes {
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
         /// Sets the maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
         public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
-        /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
+        /// Represents the provisioned throughput settings for the specified global secondary index. You must use ProvisionedThroughput or OnDemandThroughput based on your table’s capacity mode. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
         /// Represents the settings used to enable server-side encryption.
         public var sseSpecification: DynamoDBClientTypes.SSESpecification?
@@ -6431,9 +6431,9 @@ public struct UpdateTableInput: Swift.Sendable {
     public var attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]?
     /// Controls how you are charged for read and write throughput and how you manage capacity. When switching from pay-per-request to provisioned capacity, initial provisioned capacity values must be set. The initial provisioned capacity values are estimated based on the consumed read and write capacity of your table and global secondary indexes over the past 30 minutes.
     ///
-    /// * PROVISIONED - We recommend using PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
+    /// * PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for most DynamoDB workloads. PAY_PER_REQUEST sets the billing mode to [On-demand capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
     ///
-    /// * PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to [On-demand capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
+    /// * PROVISIONED - We recommend using PROVISIONED for steady workloads with predictable growth where capacity requirements can be reliably forecasted. PROVISIONED sets the billing mode to [Provisioned capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
     public var billingMode: DynamoDBClientTypes.BillingMode?
     /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
     public var deletionProtectionEnabled: Swift.Bool?
@@ -6448,7 +6448,7 @@ public struct UpdateTableInput: Swift.Sendable {
     ///
     /// You can create or delete only one global secondary index per UpdateTable operation. For more information, see [Managing Global Secondary Indexes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html) in the Amazon DynamoDB Developer Guide.
     public var globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]?
-    /// Specifies the consistency mode for a new global table. This parameter is only valid when you create a global table by specifying one or more [Create](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ReplicationGroupUpdate.html#DDB-Type-ReplicationGroupUpdate-Create) actions in the [ReplicaUpdates](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html#DDB-UpdateTable-request-ReplicaUpdates) action list. You can specify one of the following consistency modes:
+    /// Specifies the consistency mode for a new global table. This parameter is only valid when you create a global table by specifying one or more [Create](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ReplicationGroupUpdate.html#DDB-Type-ReplicationGroupUpdate-Create) actions in the [ReplicaUpdates](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html#DDB-UpdateTable-request-ReplicaUpdates) action list. You can specify one of the following consistency modes:
     ///
     /// * EVENTUAL: Configures a new global table for multi-Region eventual consistency. This is the default consistency mode for global tables.
     ///
@@ -6861,7 +6861,7 @@ extension DynamoDBClientTypes {
     }
 }
 
-/// A condition specified in the operation could not be evaluated.
+/// A condition specified in the operation failed to be evaluated.
 public struct ConditionalCheckFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {

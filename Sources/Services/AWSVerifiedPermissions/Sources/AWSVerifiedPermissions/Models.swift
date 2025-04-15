@@ -1351,6 +1351,35 @@ public struct CreatePolicyOutput: Swift.Sendable {
 
 extension VerifiedPermissionsClientTypes {
 
+    public enum DeletionProtection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletionProtection] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
     public enum ValidationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case off
         case strict
@@ -1404,6 +1433,8 @@ extension VerifiedPermissionsClientTypes {
 public struct CreatePolicyStoreInput: Swift.Sendable {
     /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     public var clientToken: Swift.String?
+    /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. The default state is DISABLED.
+    public var deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection?
     /// Descriptive text that you can provide to help with identification of the current policy store.
     public var description: Swift.String?
     /// Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode. We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore). Then, when you have a schema defined, use [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore) again to turn validation back on.
@@ -1412,10 +1443,12 @@ public struct CreatePolicyStoreInput: Swift.Sendable {
 
     public init(
         clientToken: Swift.String? = nil,
+        deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection? = nil,
         description: Swift.String? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
     ) {
         self.clientToken = clientToken
+        self.deletionProtection = deletionProtection
         self.description = description
         self.validationSettings = validationSettings
     }
@@ -1423,7 +1456,7 @@ public struct CreatePolicyStoreInput: Swift.Sendable {
 
 extension CreatePolicyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePolicyStoreInput(clientToken: \(Swift.String(describing: clientToken)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+        "CreatePolicyStoreInput(clientToken: \(Swift.String(describing: clientToken)), deletionProtection: \(Swift.String(describing: deletionProtection)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreatePolicyStoreOutput: Swift.Sendable {
@@ -1552,6 +1585,30 @@ public struct DeletePolicyInput: Swift.Sendable {
 public struct DeletePolicyOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// The policy store can't be deleted because deletion protection is enabled. To delete this policy store, disable deletion protection.
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidStateException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
 }
 
 public struct DeletePolicyStoreInput: Swift.Sendable {
@@ -1820,6 +1877,8 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
     /// The date and time that the policy store was originally created.
     /// This member is required.
     public var createdDate: Foundation.Date?
+    /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. The default state is DISABLED.
+    public var deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection?
     /// Descriptive text that you can provide to help with identification of the current policy store.
     public var description: Swift.String?
     /// The date and time that the policy store was last updated.
@@ -1835,6 +1894,7 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
+        deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection? = nil,
         description: Swift.String? = nil,
         lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil,
@@ -1842,6 +1902,7 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.createdDate = createdDate
+        self.deletionProtection = deletionProtection
         self.description = description
         self.lastUpdatedDate = lastUpdatedDate
         self.policyStoreId = policyStoreId
@@ -1851,7 +1912,7 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
 
 extension GetPolicyStoreOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetPolicyStoreOutput(arn: \(Swift.String(describing: arn)), createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+        "GetPolicyStoreOutput(arn: \(Swift.String(describing: arn)), createdDate: \(Swift.String(describing: createdDate)), deletionProtection: \(Swift.String(describing: deletionProtection)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPolicyTemplateInput: Swift.Sendable {
@@ -3025,6 +3086,8 @@ extension PutSchemaOutput: Swift.CustomDebugStringConvertible {
 }
 
 public struct UpdatePolicyStoreInput: Swift.Sendable {
+    /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. When you call UpdatePolicyStore, this parameter is unchanged unless explicitly included in the call.
+    public var deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection?
     /// Descriptive text that you can provide to help with identification of the current policy store.
     public var description: Swift.String?
     /// Specifies the ID of the policy store that you want to update
@@ -3035,10 +3098,12 @@ public struct UpdatePolicyStoreInput: Swift.Sendable {
     public var validationSettings: VerifiedPermissionsClientTypes.ValidationSettings?
 
     public init(
+        deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection? = nil,
         description: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
     ) {
+        self.deletionProtection = deletionProtection
         self.description = description
         self.policyStoreId = policyStoreId
         self.validationSettings = validationSettings
@@ -3047,7 +3112,7 @@ public struct UpdatePolicyStoreInput: Swift.Sendable {
 
 extension UpdatePolicyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePolicyStoreInput(policyStoreId: \(Swift.String(describing: policyStoreId)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+        "UpdatePolicyStoreInput(deletionProtection: \(Swift.String(describing: deletionProtection)), policyStoreId: \(Swift.String(describing: policyStoreId)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdatePolicyStoreOutput: Swift.Sendable {
@@ -3781,6 +3846,7 @@ extension CreatePolicyStoreInput {
     static func write(value: CreatePolicyStoreInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["deletionProtection"].write(value.deletionProtection)
         try writer["description"].write(value.description)
         try writer["validationSettings"].write(value.validationSettings, with: VerifiedPermissionsClientTypes.ValidationSettings.write(value:to:))
     }
@@ -3977,6 +4043,7 @@ extension UpdatePolicyStoreInput {
 
     static func write(value: UpdatePolicyStoreInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["deletionProtection"].write(value.deletionProtection)
         try writer["description"].write(value.description)
         try writer["policyStoreId"].write(value.policyStoreId)
         try writer["validationSettings"].write(value.validationSettings, with: VerifiedPermissionsClientTypes.ValidationSettings.write(value:to:))
@@ -4173,6 +4240,7 @@ extension GetPolicyStoreOutput {
         var value = GetPolicyStoreOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
@@ -4537,6 +4605,7 @@ enum DeletePolicyStoreOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -4843,6 +4912,19 @@ extension ConflictException {
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resources = try reader["resources"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.ResourceConflict.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidStateException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidStateException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

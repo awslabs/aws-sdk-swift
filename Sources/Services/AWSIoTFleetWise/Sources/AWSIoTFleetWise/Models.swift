@@ -829,7 +829,7 @@ extension IoTFleetWiseClientTypes {
 
 extension IoTFleetWiseClientTypes {
 
-    /// Information about the vehicle to update.
+    /// Information about the vehicle to update. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     public struct UpdateVehicleRequestItem: Swift.Sendable {
         /// The method the specified attributes will update the existing attributes on the vehicle. UseOverwite to replace the vehicle attributes with the specified attributes. Or use Merge to combine all attributes. This is required if attributes are present in the input.
         public var attributeUpdateMode: IoTFleetWiseClientTypes.UpdateMode?
@@ -843,6 +843,8 @@ extension IoTFleetWiseClientTypes {
         public var stateTemplatesToAdd: [IoTFleetWiseClientTypes.StateTemplateAssociation]?
         /// Remove existing state template associations from the vehicle.
         public var stateTemplatesToRemove: [Swift.String]?
+        /// Change the stateTemplateUpdateStrategy of state templates already associated with the vehicle.
+        public var stateTemplatesToUpdate: [IoTFleetWiseClientTypes.StateTemplateAssociation]?
         /// The unique ID of the vehicle to update.
         /// This member is required.
         public var vehicleName: Swift.String?
@@ -854,6 +856,7 @@ extension IoTFleetWiseClientTypes {
             modelManifestArn: Swift.String? = nil,
             stateTemplatesToAdd: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
             stateTemplatesToRemove: [Swift.String]? = nil,
+            stateTemplatesToUpdate: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
             vehicleName: Swift.String? = nil
         ) {
             self.attributeUpdateMode = attributeUpdateMode
@@ -862,6 +865,7 @@ extension IoTFleetWiseClientTypes {
             self.modelManifestArn = modelManifestArn
             self.stateTemplatesToAdd = stateTemplatesToAdd
             self.stateTemplatesToRemove = stateTemplatesToRemove
+            self.stateTemplatesToUpdate = stateTemplatesToUpdate
             self.vehicleName = vehicleName
         }
     }
@@ -5600,6 +5604,8 @@ public struct UpdateVehicleInput: Swift.Sendable {
     public var stateTemplatesToAdd: [IoTFleetWiseClientTypes.StateTemplateAssociation]?
     /// Remove state templates from the vehicle.
     public var stateTemplatesToRemove: [Swift.String]?
+    /// Change the stateTemplateUpdateStrategy of state templates already associated with the vehicle.
+    public var stateTemplatesToUpdate: [IoTFleetWiseClientTypes.StateTemplateAssociation]?
     /// The unique ID of the vehicle to update.
     /// This member is required.
     public var vehicleName: Swift.String?
@@ -5611,6 +5617,7 @@ public struct UpdateVehicleInput: Swift.Sendable {
         modelManifestArn: Swift.String? = nil,
         stateTemplatesToAdd: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
         stateTemplatesToRemove: [Swift.String]? = nil,
+        stateTemplatesToUpdate: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
         vehicleName: Swift.String? = nil
     ) {
         self.attributeUpdateMode = attributeUpdateMode
@@ -5619,6 +5626,7 @@ public struct UpdateVehicleInput: Swift.Sendable {
         self.modelManifestArn = modelManifestArn
         self.stateTemplatesToAdd = stateTemplatesToAdd
         self.stateTemplatesToRemove = stateTemplatesToRemove
+        self.stateTemplatesToUpdate = stateTemplatesToUpdate
         self.vehicleName = vehicleName
     }
 }
@@ -6957,6 +6965,7 @@ extension UpdateVehicleInput {
         try writer["modelManifestArn"].write(value.modelManifestArn)
         try writer["stateTemplatesToAdd"].writeList(value.stateTemplatesToAdd, memberWritingClosure: IoTFleetWiseClientTypes.StateTemplateAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["stateTemplatesToRemove"].writeList(value.stateTemplatesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["stateTemplatesToUpdate"].writeList(value.stateTemplatesToUpdate, memberWritingClosure: IoTFleetWiseClientTypes.StateTemplateAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vehicleName"].write(value.vehicleName)
     }
 }
@@ -10338,6 +10347,7 @@ extension IoTFleetWiseClientTypes.UpdateVehicleRequestItem {
         try writer["modelManifestArn"].write(value.modelManifestArn)
         try writer["stateTemplatesToAdd"].writeList(value.stateTemplatesToAdd, memberWritingClosure: IoTFleetWiseClientTypes.StateTemplateAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["stateTemplatesToRemove"].writeList(value.stateTemplatesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["stateTemplatesToUpdate"].writeList(value.stateTemplatesToUpdate, memberWritingClosure: IoTFleetWiseClientTypes.StateTemplateAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vehicleName"].write(value.vehicleName)
     }
 }
