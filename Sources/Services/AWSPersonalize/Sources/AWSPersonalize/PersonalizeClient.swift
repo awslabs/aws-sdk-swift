@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PersonalizeClient: ClientRuntime.Client {
     public static let clientName = "PersonalizeClient"
-    public static let version = "1.2.53"
+    public static let version = "1.2.59"
     let client: ClientRuntime.SdkHttpClient
     let config: PersonalizeClient.PersonalizeClientConfiguration
     let serviceName = "Personalize"
@@ -1825,7 +1825,7 @@ extension PersonalizeClient {
 
     /// Performs the `DeleteDataset` operation on the `Personalize` service.
     ///
-    /// Deletes a dataset. You can't delete a dataset if an associated DatasetImportJob or SolutionVersion is in the CREATE PENDING or IN PROGRESS state. For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
+    /// Deletes a dataset. You can't delete a dataset if an associated DatasetImportJob or SolutionVersion is in the CREATE PENDING or IN PROGRESS state. For more information about deleting datasets, see [Deleting a dataset](https://docs.aws.amazon.com/personalize/latest/dg/delete-dataset.html).
     ///
     /// - Parameter DeleteDatasetInput : [no documentation found]
     ///
