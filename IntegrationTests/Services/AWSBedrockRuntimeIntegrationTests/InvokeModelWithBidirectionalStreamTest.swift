@@ -186,6 +186,10 @@ class InvokeModelWithBidirectionalStreamTest: XCTestCase {
         }
     }
 
+    // Temporarily disabled for Linux which uses CRT HTTP client.
+    // Enabling in Linux is pending either service side fix or SDK side workaround for allowing
+    //  END_STREAM HTTP2 frame with empty contents.
+    #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
     func testInvokeModelWithBidirectionalStream() async throws {
         // Initialize input stream & continuation for the API input.
         let inputStream: AsyncThrowingStream<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput, Swift.Error>
@@ -230,4 +234,5 @@ class InvokeModelWithBidirectionalStreamTest: XCTestCase {
             }
         }
     }
+    #endif
 }
