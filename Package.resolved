@@ -7,7 +7,7 @@
       "location" : "https://github.com/awslabs/aws-crt-swift",
       "state" : {
         "branch" : "swift6-support",
-        "revision" : "9b16f05a202fa1f4d75ce20fdf8ebbbff5ce7e04"
+        "revision" : "f7ea06a571f64c12b501d3a3ad772eee94f547a5"
       }
     },
     {
