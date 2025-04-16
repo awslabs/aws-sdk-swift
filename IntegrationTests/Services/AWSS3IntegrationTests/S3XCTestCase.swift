@@ -14,9 +14,8 @@ import AWSS3
 /// Provides a basic set of functions that can be used to perform S3 integration tests.
 /// Creates a bucket for testing before every test, then deletes the bucket after the test completes.
 class S3XCTestCase: XCTestCase {
-    static var client: S3Client!
     static let region = "us-west-2"
-    var client: S3Client { Self.client }
+    var client: S3Client!
     var region: String { Self.region }
     var bucketName: String!
 
@@ -39,14 +38,14 @@ class S3XCTestCase: XCTestCase {
 
     override func setUp() async throws{
         self.bucketName = "aws-sdk-s3-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
-        Self.client = try S3Client(region: region)
-        try await Self.createBucket(bucketName: bucketName)
+        self.client = try S3Client(region: region)
+        try await createBucket(bucketName: bucketName)
     }
 
     /// Empty & delete the test bucket before each test.
     override func tearDown() async throws {
         try await emptyBucket()
-        try await Self.deleteBucket(bucketName: bucketName)
+        try await deleteBucket(bucketName: bucketName)
     }
 
     // MARK: Helpers
@@ -73,9 +72,9 @@ class S3XCTestCase: XCTestCase {
         }
     }
 
-    static func createBucket(bucketName: String) async throws {
+    func createBucket(bucketName: String) async throws {
         let input = CreateBucketInput(bucket: bucketName, createBucketConfiguration: S3ClientTypes.CreateBucketConfiguration(locationConstraint: S3ClientTypes.BucketLocationConstraint.usWest2))
-        _ = try await Self.client.createBucket(input: input)
+        _ = try await self.client.createBucket(input: input)
     }
 
     func putObject(body: String, key: String) async throws {
@@ -112,7 +111,7 @@ class S3XCTestCase: XCTestCase {
         }
     }
 
-    static func deleteBucket(bucketName: String) async throws {
+    func deleteBucket(bucketName: String) async throws {
         let input = DeleteBucketInput(bucket: bucketName)
         _ = try await client.deleteBucket(input: input)
     }
