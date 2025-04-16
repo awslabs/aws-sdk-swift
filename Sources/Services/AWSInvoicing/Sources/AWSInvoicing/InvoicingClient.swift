@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class InvoicingClient: ClientRuntime.Client {
     public static let clientName = "InvoicingClient"
-    public static let version = "1.2.59"
+    public static let version = "1.2.60"
     let client: ClientRuntime.SdkHttpClient
     let config: InvoicingClient.InvoicingClientConfiguration
     let serviceName = "Invoicing"
