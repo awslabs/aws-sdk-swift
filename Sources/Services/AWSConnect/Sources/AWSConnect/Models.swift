@@ -408,6 +408,7 @@ extension ConnectClientTypes {
 
     public enum ActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case assignContactCategory
+        case assignSla
         case createCase
         case createTask
         case endAssociatedTasks
@@ -420,6 +421,7 @@ extension ConnectClientTypes {
         public static var allCases: [ActionType] {
             return [
                 .assignContactCategory,
+                .assignSla,
                 .createCase,
                 .createTask,
                 .endAssociatedTasks,
@@ -438,6 +440,7 @@ extension ConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .assignContactCategory: return "ASSIGN_CONTACT_CATEGORY"
+            case .assignSla: return "ASSIGN_SLA"
             case .createCase: return "CREATE_CASE"
             case .createTask: return "CREATE_TASK"
             case .endAssociatedTasks: return "END_ASSOCIATED_TASKS"
@@ -5854,6 +5857,112 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum SlaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case caseField
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SlaType] {
+            return [
+                .caseField
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .caseField: return "CaseField"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The SLA configuration for Case SlaAssignmentType.
+    public struct CaseSlaConfiguration: Swift.Sendable {
+        /// Unique identifier of a Case field.
+        public var fieldId: Swift.String?
+        /// Name of an SLA.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Represents a list of target field values for the fieldId specified in CaseSlaConfiguration. The SLA is considered met if any one of these target field values matches the actual field value.
+        public var targetFieldValues: [ConnectClientTypes.FieldValueUnion]?
+        /// Target duration in minutes within which an SLA should be completed.
+        /// This member is required.
+        public var targetSlaMinutes: Swift.Int?
+        /// Type of SLA for Case SlaAssignmentType.
+        /// This member is required.
+        public var type: ConnectClientTypes.SlaType?
+
+        public init(
+            fieldId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            targetFieldValues: [ConnectClientTypes.FieldValueUnion]? = nil,
+            targetSlaMinutes: Swift.Int? = nil,
+            type: ConnectClientTypes.SlaType? = nil
+        ) {
+            self.fieldId = fieldId
+            self.name = name
+            self.targetFieldValues = targetFieldValues
+            self.targetSlaMinutes = targetSlaMinutes
+            self.type = type
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum SlaAssignmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cases
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SlaAssignmentType] {
+            return [
+                .cases
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cases: return "CASES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The AssignSla action definition.
+    public struct AssignSlaActionDefinition: Swift.Sendable {
+        /// The SLA configuration for Case SLA Assignment.
+        public var caseSlaConfiguration: ConnectClientTypes.CaseSlaConfiguration?
+        /// Type of SLA assignment.
+        /// This member is required.
+        public var slaAssignmentType: ConnectClientTypes.SlaAssignmentType?
+
+        public init(
+            caseSlaConfiguration: ConnectClientTypes.CaseSlaConfiguration? = nil,
+            slaAssignmentType: ConnectClientTypes.SlaAssignmentType? = nil
+        ) {
+            self.caseSlaConfiguration = caseSlaConfiguration
+            self.slaAssignmentType = slaAssignmentType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Object for case field values.
     public struct FieldValue: Swift.Sendable {
         /// Unique identifier of a field.
@@ -6095,6 +6204,8 @@ extension ConnectClientTypes {
         public var actionType: ConnectClientTypes.ActionType?
         /// Information about the contact category action. Supported only for TriggerEventSource values: OnPostCallAnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnRealTimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | OnSalesforceCaseCreate
         public var assignContactCategoryAction: ConnectClientTypes.AssignContactCategoryActionDefinition?
+        /// Information about the assign SLA action.
+        public var assignSlaAction: ConnectClientTypes.AssignSlaActionDefinition?
         /// Information about the create case action. Supported only for TriggerEventSource values: OnPostCallAnalysisAvailable | OnPostChatAnalysisAvailable.
         public var createCaseAction: ConnectClientTypes.CreateCaseActionDefinition?
         /// Information about the end associated tasks action. Supported only for TriggerEventSource values: OnCaseUpdate.
@@ -6113,6 +6224,7 @@ extension ConnectClientTypes {
         public init(
             actionType: ConnectClientTypes.ActionType? = nil,
             assignContactCategoryAction: ConnectClientTypes.AssignContactCategoryActionDefinition? = nil,
+            assignSlaAction: ConnectClientTypes.AssignSlaActionDefinition? = nil,
             createCaseAction: ConnectClientTypes.CreateCaseActionDefinition? = nil,
             endAssociatedTasksAction: ConnectClientTypes.EndAssociatedTasksActionDefinition? = nil,
             eventBridgeAction: ConnectClientTypes.EventBridgeActionDefinition? = nil,
@@ -6123,6 +6235,7 @@ extension ConnectClientTypes {
         ) {
             self.actionType = actionType
             self.assignContactCategoryAction = assignContactCategoryAction
+            self.assignSlaAction = assignSlaAction
             self.createCaseAction = createCaseAction
             self.endAssociatedTasksAction = endAssociatedTasksAction
             self.eventBridgeAction = eventBridgeAction
@@ -6175,6 +6288,7 @@ extension ConnectClientTypes {
         case onrealtimecallanalysisavailable
         case onrealtimechatanalysisavailable
         case onsalesforcecasecreate
+        case onslabreach
         case onzendeskticketcreate
         case onzendeskticketstatusupdate
         case sdkUnknown(Swift.String)
@@ -6190,6 +6304,7 @@ extension ConnectClientTypes {
                 .onrealtimecallanalysisavailable,
                 .onrealtimechatanalysisavailable,
                 .onsalesforcecasecreate,
+                .onslabreach,
                 .onzendeskticketcreate,
                 .onzendeskticketstatusupdate
             ]
@@ -6211,6 +6326,7 @@ extension ConnectClientTypes {
             case .onrealtimecallanalysisavailable: return "OnRealTimeCallAnalysisAvailable"
             case .onrealtimechatanalysisavailable: return "OnRealTimeChatAnalysisAvailable"
             case .onsalesforcecasecreate: return "OnSalesforceCaseCreate"
+            case .onslabreach: return "OnSlaBreach"
             case .onzendeskticketcreate: return "OnZendeskTicketCreate"
             case .onzendeskticketstatusupdate: return "OnZendeskTicketStatusUpdate"
             case let .sdkUnknown(s): return s
@@ -14232,7 +14348,7 @@ extension ConnectClientTypes {
         public var contactArn: Swift.String?
         /// The identifier of the contact in this instance of Amazon Connect.
         public var contactId: Swift.String?
-        /// The timestamp when the customer endpoint disconnected from Amazon Connect.
+        /// The date and time that the customer endpoint disconnected from the current contact, in UTC time. In transfer scenarios, the DisconnectTimestamp of the previous contact indicates the date and time when that contact ended.
         public var disconnectTimestamp: Foundation.Date?
         /// If this contact is related to other contacts, this is the ID of the initial contact.
         public var initialContactId: Swift.String?
@@ -20481,7 +20597,7 @@ public struct SendOutboundEmailInput: Swift.Sendable {
     public var instanceId: Swift.String?
     /// A Campaign object need for Campaign traffic type.
     public var sourceCampaign: ConnectClientTypes.SourceCampaign?
-    /// Denotes the class of traffic.
+    /// Denotes the class of traffic. Only the CAMPAIGN traffic type is supported.
     /// This member is required.
     public var trafficType: ConnectClientTypes.TrafficType?
 
@@ -21191,7 +21307,7 @@ public struct StartOutboundVoiceContactInput: Swift.Sendable {
     /// The identifier of the flow for the outbound call. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     /// This member is required.
     public var contactFlowId: Swift.String?
-    /// A description of the voice contact that is shown to an agent in the Contact Control Panel (CCP).
+    /// A description of the voice contact that appears in the agent's snapshot in the CCP logs. For more information about CCP logs, see [Download and review CCP logs](https://docs.aws.amazon.com/connect/latest/adminguide/download-ccp-logs.html) in the Amazon Connect Administrator Guide.
     public var description: Swift.String?
     /// The phone number of the customer, in E.164 format.
     /// This member is required.
@@ -24192,7 +24308,7 @@ extension ConnectClientTypes {
 public struct CreateContactInput: Swift.Sendable {
     /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String: Swift.String]?
-    /// The channel for the contact CreateContact only supports the EMAIL channel. The following information that states other channels are supported is incorrect. We are working to update this topic.
+    /// The channel for the contact CreateContact only supports the EMAIL and VOICE channels. The following information that states other channels are supported is incorrect. We are working to update this topic.
     /// This member is required.
     public var channel: ConnectClientTypes.Channel?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -24203,7 +24319,14 @@ public struct CreateContactInput: Swift.Sendable {
     public var expiryDurationInMinutes: Swift.Int?
     /// Initial state of the contact when it's created
     public var initiateAs: ConnectClientTypes.InitiateAs?
-    /// Indicates how the contact was initiated. CreateContact only supports the following initiation methods: OUTBOUND, AGENT_REPLY, and FLOW. The following information that states other initiation methods are supported is incorrect. We are working to update this topic.
+    /// Indicates how the contact was initiated. CreateContact only supports the following initiation methods:
+    ///
+    /// * For EMAIL: OUTBOUND, AGENT_REPLY, and FLOW.
+    ///
+    /// * For VOICE: TRANSFER and the subtype connect:ExternalAudio.
+    ///
+    ///
+    /// The following information that states other initiation methods are supported is incorrect. We are working to update this topic.
     /// This member is required.
     public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -24215,7 +24338,7 @@ public struct CreateContactInput: Swift.Sendable {
     public var previousContactId: Swift.String?
     /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL | ATTACHMENT.
     public var references: [Swift.String: ConnectClientTypes.Reference]?
-    /// The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
+    /// The identifier of the contact in this instance of Amazon Connect.
     public var relatedContactId: Swift.String?
     /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes. To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.
     public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
@@ -41704,6 +41827,7 @@ extension ConnectClientTypes.RuleAction {
         guard let value else { return }
         try writer["ActionType"].write(value.actionType)
         try writer["AssignContactCategoryAction"].write(value.assignContactCategoryAction, with: ConnectClientTypes.AssignContactCategoryActionDefinition.write(value:to:))
+        try writer["AssignSlaAction"].write(value.assignSlaAction, with: ConnectClientTypes.AssignSlaActionDefinition.write(value:to:))
         try writer["CreateCaseAction"].write(value.createCaseAction, with: ConnectClientTypes.CreateCaseActionDefinition.write(value:to:))
         try writer["EndAssociatedTasksAction"].write(value.endAssociatedTasksAction, with: ConnectClientTypes.EndAssociatedTasksActionDefinition.write(value:to:))
         try writer["EventBridgeAction"].write(value.eventBridgeAction, with: ConnectClientTypes.EventBridgeActionDefinition.write(value:to:))
@@ -41723,6 +41847,7 @@ extension ConnectClientTypes.RuleAction {
         value.sendNotificationAction = try reader["SendNotificationAction"].readIfPresent(with: ConnectClientTypes.SendNotificationActionDefinition.read(from:))
         value.createCaseAction = try reader["CreateCaseAction"].readIfPresent(with: ConnectClientTypes.CreateCaseActionDefinition.read(from:))
         value.updateCaseAction = try reader["UpdateCaseAction"].readIfPresent(with: ConnectClientTypes.UpdateCaseActionDefinition.read(from:))
+        value.assignSlaAction = try reader["AssignSlaAction"].readIfPresent(with: ConnectClientTypes.AssignSlaActionDefinition.read(from:))
         value.endAssociatedTasksAction = try reader["EndAssociatedTasksAction"].readIfPresent(with: ConnectClientTypes.EndAssociatedTasksActionDefinition.read(from:))
         value.submitAutoEvaluationAction = try reader["SubmitAutoEvaluationAction"].readIfPresent(with: ConnectClientTypes.SubmitAutoEvaluationActionDefinition.read(from:))
         return value
@@ -41757,34 +41882,42 @@ extension ConnectClientTypes.EndAssociatedTasksActionDefinition {
     }
 }
 
-extension ConnectClientTypes.UpdateCaseActionDefinition {
+extension ConnectClientTypes.AssignSlaActionDefinition {
 
-    static func write(value: ConnectClientTypes.UpdateCaseActionDefinition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectClientTypes.AssignSlaActionDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Fields"].writeList(value.fields, memberWritingClosure: ConnectClientTypes.FieldValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CaseSlaConfiguration"].write(value.caseSlaConfiguration, with: ConnectClientTypes.CaseSlaConfiguration.write(value:to:))
+        try writer["SlaAssignmentType"].write(value.slaAssignmentType)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.UpdateCaseActionDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AssignSlaActionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectClientTypes.UpdateCaseActionDefinition()
-        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: ConnectClientTypes.FieldValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = ConnectClientTypes.AssignSlaActionDefinition()
+        value.slaAssignmentType = try reader["SlaAssignmentType"].readIfPresent() ?? .sdkUnknown("")
+        value.caseSlaConfiguration = try reader["CaseSlaConfiguration"].readIfPresent(with: ConnectClientTypes.CaseSlaConfiguration.read(from:))
         return value
     }
 }
 
-extension ConnectClientTypes.FieldValue {
+extension ConnectClientTypes.CaseSlaConfiguration {
 
-    static func write(value: ConnectClientTypes.FieldValue?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectClientTypes.CaseSlaConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Value"].write(value.value, with: ConnectClientTypes.FieldValueUnion.write(value:to:))
+        try writer["FieldId"].write(value.fieldId)
+        try writer["Name"].write(value.name)
+        try writer["TargetFieldValues"].writeList(value.targetFieldValues, memberWritingClosure: ConnectClientTypes.FieldValueUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetSlaMinutes"].write(value.targetSlaMinutes)
+        try writer["Type"].write(value.type)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.FieldValue {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.CaseSlaConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectClientTypes.FieldValue()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent(with: ConnectClientTypes.FieldValueUnion.read(from:))
+        var value = ConnectClientTypes.CaseSlaConfiguration()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.fieldId = try reader["FieldId"].readIfPresent()
+        value.targetFieldValues = try reader["TargetFieldValues"].readListIfPresent(memberReadingClosure: ConnectClientTypes.FieldValueUnion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetSlaMinutes = try reader["TargetSlaMinutes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -41820,6 +41953,38 @@ extension ConnectClientTypes.EmptyFieldValue {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EmptyFieldValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return ConnectClientTypes.EmptyFieldValue()
+    }
+}
+
+extension ConnectClientTypes.UpdateCaseActionDefinition {
+
+    static func write(value: ConnectClientTypes.UpdateCaseActionDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Fields"].writeList(value.fields, memberWritingClosure: ConnectClientTypes.FieldValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.UpdateCaseActionDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.UpdateCaseActionDefinition()
+        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: ConnectClientTypes.FieldValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectClientTypes.FieldValue {
+
+    static func write(value: ConnectClientTypes.FieldValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Value"].write(value.value, with: ConnectClientTypes.FieldValueUnion.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.FieldValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.FieldValue()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent(with: ConnectClientTypes.FieldValueUnion.read(from:))
+        return value
     }
 }
 
