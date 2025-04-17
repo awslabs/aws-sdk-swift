@@ -118,8 +118,7 @@ jobs:
             -scheme AWSIntegrationTestsOnCI \
             -testPlan AWSIntegrationTestsOnCI \
             -destination '${{ matrix.destination }}' \
-            test 2>&1 \
-            | xcbeautify
+            test 2>&1
 
   linux:
     # Details on why AL2 isn't included: https://github.com/awslabs/aws-sdk-swift/pull/1833
