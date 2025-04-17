@@ -1275,6 +1275,11 @@ public struct CheckNoNewAccessOutput: Swift.Sendable {
 extension AccessAnalyzerClientTypes {
 
     public enum AccessCheckResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiGatewayRestApi
+        case backupVault
+        case cloudtrailDashboard
+        case cloudtrailEventDataStore
+        case codeArtifactDomain
         case dynamodbStream
         case dynamodbTable
         case efsFilesystem
@@ -1287,9 +1292,12 @@ extension AccessAnalyzerClientTypes {
         case s3expressDirectorybucket
         case s3AccessPoint
         case s3Bucket
+        case s3ExpressAccessPoint
         case s3Glacier
         case s3OutpostsAccessPoint
         case s3OutpostsBucket
+        case s3Table
+        case s3TableBucket
         case secretsmanagerSecret
         case snsTopic
         case sqsQueue
@@ -1297,6 +1305,11 @@ extension AccessAnalyzerClientTypes {
 
         public static var allCases: [AccessCheckResourceType] {
             return [
+                .apiGatewayRestApi,
+                .backupVault,
+                .cloudtrailDashboard,
+                .cloudtrailEventDataStore,
+                .codeArtifactDomain,
                 .dynamodbStream,
                 .dynamodbTable,
                 .efsFilesystem,
@@ -1309,9 +1322,12 @@ extension AccessAnalyzerClientTypes {
                 .s3expressDirectorybucket,
                 .s3AccessPoint,
                 .s3Bucket,
+                .s3ExpressAccessPoint,
                 .s3Glacier,
                 .s3OutpostsAccessPoint,
                 .s3OutpostsBucket,
+                .s3Table,
+                .s3TableBucket,
                 .secretsmanagerSecret,
                 .snsTopic,
                 .sqsQueue
@@ -1325,6 +1341,11 @@ extension AccessAnalyzerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .apiGatewayRestApi: return "AWS::ApiGateway::RestApi"
+            case .backupVault: return "AWS::Backup::BackupVault"
+            case .cloudtrailDashboard: return "AWS::CloudTrail::Dashboard"
+            case .cloudtrailEventDataStore: return "AWS::CloudTrail::EventDataStore"
+            case .codeArtifactDomain: return "AWS::CodeArtifact::Domain"
             case .dynamodbStream: return "AWS::DynamoDB::Stream"
             case .dynamodbTable: return "AWS::DynamoDB::Table"
             case .efsFilesystem: return "AWS::EFS::FileSystem"
@@ -1337,9 +1358,12 @@ extension AccessAnalyzerClientTypes {
             case .s3expressDirectorybucket: return "AWS::S3Express::DirectoryBucket"
             case .s3AccessPoint: return "AWS::S3::AccessPoint"
             case .s3Bucket: return "AWS::S3::Bucket"
+            case .s3ExpressAccessPoint: return "AWS::S3Express::AccessPoint"
             case .s3Glacier: return "AWS::S3::Glacier"
             case .s3OutpostsAccessPoint: return "AWS::S3Outposts::AccessPoint"
             case .s3OutpostsBucket: return "AWS::S3Outposts::Bucket"
+            case .s3Table: return "AWS::S3Tables::Table"
+            case .s3TableBucket: return "AWS::S3Tables::TableBucket"
             case .secretsmanagerSecret: return "AWS::SecretsManager::Secret"
             case .snsTopic: return "AWS::SNS::Topic"
             case .sqsQueue: return "AWS::SQS::Queue"
@@ -1799,7 +1823,7 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes {
 
-    /// The proposed InternetConfiguration or VpcConfiguration to apply to the Amazon S3 access point. VpcConfiguration does not apply to multi-region access points. You can make the access point accessible from the internet, or you can specify that all requests made through that access point must originate from a specific virtual private cloud (VPC). You can specify only one type of network configuration. For more information, see [Creating access points](https://docs.aws.amazon.com/AmazonS3/latest/dev/creating-access-points.html).
+    /// The proposed InternetConfiguration or VpcConfiguration to apply to the Amazon S3 access point. You can make the access point accessible from the internet, or you can specify that all requests made through that access point must originate from a specific virtual private cloud (VPC). You can specify only one type of network configuration. For more information, see [Creating access points](https://docs.aws.amazon.com/AmazonS3/latest/dev/creating-access-points.html).
     public enum NetworkOriginConfiguration: Swift.Sendable {
         /// The proposed virtual private cloud (VPC) configuration for the Amazon S3 access point. VPC configuration does not apply to multi-region access points. For more information, see [VpcConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_VpcConfiguration.html).
         case vpcconfiguration(AccessAnalyzerClientTypes.VpcConfiguration)
@@ -1836,7 +1860,7 @@ extension AccessAnalyzerClientTypes {
     public struct S3AccessPointConfiguration: Swift.Sendable {
         /// The access point or multi-region access point policy.
         public var accessPointPolicy: Swift.String?
-        /// The proposed Internet and VpcConfiguration to apply to this Amazon S3 access point. VpcConfiguration does not apply to multi-region access points. If the access preview is for a new resource and neither is specified, the access preview uses Internet for the network origin. If the access preview is for an existing resource and neither is specified, the access preview uses the exiting network origin.
+        /// The proposed Internet and VpcConfiguration to apply to this Amazon S3 access point. VpcConfiguration does not apply to multi-region access points. If the access preview is for a new resource and neither is specified, the access preview uses Internet for the network origin. If the access preview is for an existing resource and neither is specified, the access preview uses the existing network origin.
         public var networkOrigin: AccessAnalyzerClientTypes.NetworkOriginConfiguration?
         /// The proposed S3PublicAccessBlock configuration to apply to this Amazon S3 access point or multi-region access point.
         public var publicAccessBlock: AccessAnalyzerClientTypes.S3PublicAccessBlockConfiguration?
@@ -1953,14 +1977,37 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes {
 
-    /// Proposed access control configuration for an Amazon S3 directory bucket. You can propose a configuration for a new Amazon S3 directory bucket or an existing Amazon S3 directory bucket that you own by specifying the Amazon S3 bucket policy. If the configuration is for an existing Amazon S3 directory bucket and you do not specify the Amazon S3 bucket policy, the access preview uses the existing policy attached to the directory bucket. If the access preview is for a new resource and you do not specify the Amazon S3 bucket policy, the access preview assumes an directory bucket without a policy. To propose deletion of an existing bucket policy, you can specify an empty string. For more information about Amazon S3 directory bucket policies, see [Example directory bucket policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html).
+    /// Proposed configuration for an access point attached to an Amazon S3 directory bucket. You can propose up to 10 access points per bucket. If the proposed access point configuration is for an existing Amazon S3 directory bucket, the access preview uses the proposed access point configuration in place of the existing access points. To propose an access point without a policy, you can provide an empty string as the access point policy. For more information about access points for Amazon S3 directory buckets, see [Managing access to directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the Amazon Simple Storage Service User Guide.
+    public struct S3ExpressDirectoryAccessPointConfiguration: Swift.Sendable {
+        /// The proposed access point policy for an Amazon S3 directory bucket access point.
+        public var accessPointPolicy: Swift.String?
+        /// The proposed InternetConfiguration or VpcConfiguration to apply to the Amazon S3 access point. You can make the access point accessible from the internet, or you can specify that all requests made through that access point must originate from a specific virtual private cloud (VPC). You can specify only one type of network configuration. For more information, see [Creating access points](https://docs.aws.amazon.com/AmazonS3/latest/dev/creating-access-points.html).
+        public var networkOrigin: AccessAnalyzerClientTypes.NetworkOriginConfiguration?
+
+        public init(
+            accessPointPolicy: Swift.String? = nil,
+            networkOrigin: AccessAnalyzerClientTypes.NetworkOriginConfiguration? = nil
+        ) {
+            self.accessPointPolicy = accessPointPolicy
+            self.networkOrigin = networkOrigin
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Proposed access control configuration for an Amazon S3 directory bucket. You can propose a configuration for a new Amazon S3 directory bucket or an existing Amazon S3 directory bucket that you own by specifying the Amazon S3 bucket policy. If the configuration is for an existing Amazon S3 directory bucket and you do not specify the Amazon S3 bucket policy, the access preview uses the existing policy attached to the directory bucket. If the access preview is for a new resource and you do not specify the Amazon S3 bucket policy, the access preview assumes an directory bucket without a policy. To propose deletion of an existing bucket policy, you can specify an empty string. For more information about Amazon S3 directory bucket policies, see [Example bucket policies for directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html) in the Amazon Simple Storage Service User Guide.
     public struct S3ExpressDirectoryBucketConfiguration: Swift.Sendable {
+        /// The proposed access points for the Amazon S3 directory bucket.
+        public var accessPoints: [Swift.String: AccessAnalyzerClientTypes.S3ExpressDirectoryAccessPointConfiguration]?
         /// The proposed bucket policy for the Amazon S3 directory bucket.
         public var bucketPolicy: Swift.String?
 
         public init(
+            accessPoints: [Swift.String: AccessAnalyzerClientTypes.S3ExpressDirectoryAccessPointConfiguration]? = nil,
             bucketPolicy: Swift.String? = nil
         ) {
+            self.accessPoints = accessPoints
             self.bucketPolicy = bucketPolicy
         }
     }
@@ -7000,6 +7047,7 @@ extension AccessAnalyzerClientTypes.S3ExpressDirectoryBucketConfiguration {
 
     static func write(value: AccessAnalyzerClientTypes.S3ExpressDirectoryBucketConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["accessPoints"].writeMap(value.accessPoints, valueWritingClosure: AccessAnalyzerClientTypes.S3ExpressDirectoryAccessPointConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["bucketPolicy"].write(value.bucketPolicy)
     }
 
@@ -7007,6 +7055,80 @@ extension AccessAnalyzerClientTypes.S3ExpressDirectoryBucketConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.S3ExpressDirectoryBucketConfiguration()
         value.bucketPolicy = try reader["bucketPolicy"].readIfPresent()
+        value.accessPoints = try reader["accessPoints"].readMapIfPresent(valueReadingClosure: AccessAnalyzerClientTypes.S3ExpressDirectoryAccessPointConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.S3ExpressDirectoryAccessPointConfiguration {
+
+    static func write(value: AccessAnalyzerClientTypes.S3ExpressDirectoryAccessPointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessPointPolicy"].write(value.accessPointPolicy)
+        try writer["networkOrigin"].write(value.networkOrigin, with: AccessAnalyzerClientTypes.NetworkOriginConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.S3ExpressDirectoryAccessPointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.S3ExpressDirectoryAccessPointConfiguration()
+        value.accessPointPolicy = try reader["accessPointPolicy"].readIfPresent()
+        value.networkOrigin = try reader["networkOrigin"].readIfPresent(with: AccessAnalyzerClientTypes.NetworkOriginConfiguration.read(from:))
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.NetworkOriginConfiguration {
+
+    static func write(value: AccessAnalyzerClientTypes.NetworkOriginConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .internetconfiguration(internetconfiguration):
+                try writer["internetConfiguration"].write(internetconfiguration, with: AccessAnalyzerClientTypes.InternetConfiguration.write(value:to:))
+            case let .vpcconfiguration(vpcconfiguration):
+                try writer["vpcConfiguration"].write(vpcconfiguration, with: AccessAnalyzerClientTypes.VpcConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.NetworkOriginConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "vpcConfiguration":
+                return .vpcconfiguration(try reader["vpcConfiguration"].read(with: AccessAnalyzerClientTypes.VpcConfiguration.read(from:)))
+            case "internetConfiguration":
+                return .internetconfiguration(try reader["internetConfiguration"].read(with: AccessAnalyzerClientTypes.InternetConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes.InternetConfiguration {
+
+    static func write(value: AccessAnalyzerClientTypes.InternetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.InternetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return AccessAnalyzerClientTypes.InternetConfiguration()
+    }
+}
+
+extension AccessAnalyzerClientTypes.VpcConfiguration {
+
+    static func write(value: AccessAnalyzerClientTypes.VpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["vpcId"].write(value.vpcId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.VpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.VpcConfiguration()
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7077,62 +7199,6 @@ extension AccessAnalyzerClientTypes.S3AccessPointConfiguration {
         value.accessPointPolicy = try reader["accessPointPolicy"].readIfPresent()
         value.publicAccessBlock = try reader["publicAccessBlock"].readIfPresent(with: AccessAnalyzerClientTypes.S3PublicAccessBlockConfiguration.read(from:))
         value.networkOrigin = try reader["networkOrigin"].readIfPresent(with: AccessAnalyzerClientTypes.NetworkOriginConfiguration.read(from:))
-        return value
-    }
-}
-
-extension AccessAnalyzerClientTypes.NetworkOriginConfiguration {
-
-    static func write(value: AccessAnalyzerClientTypes.NetworkOriginConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .internetconfiguration(internetconfiguration):
-                try writer["internetConfiguration"].write(internetconfiguration, with: AccessAnalyzerClientTypes.InternetConfiguration.write(value:to:))
-            case let .vpcconfiguration(vpcconfiguration):
-                try writer["vpcConfiguration"].write(vpcconfiguration, with: AccessAnalyzerClientTypes.VpcConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.NetworkOriginConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "vpcConfiguration":
-                return .vpcconfiguration(try reader["vpcConfiguration"].read(with: AccessAnalyzerClientTypes.VpcConfiguration.read(from:)))
-            case "internetConfiguration":
-                return .internetconfiguration(try reader["internetConfiguration"].read(with: AccessAnalyzerClientTypes.InternetConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AccessAnalyzerClientTypes.InternetConfiguration {
-
-    static func write(value: AccessAnalyzerClientTypes.InternetConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.InternetConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return AccessAnalyzerClientTypes.InternetConfiguration()
-    }
-}
-
-extension AccessAnalyzerClientTypes.VpcConfiguration {
-
-    static func write(value: AccessAnalyzerClientTypes.VpcConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["vpcId"].write(value.vpcId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.VpcConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AccessAnalyzerClientTypes.VpcConfiguration()
-        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
         return value
     }
 }
