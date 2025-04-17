@@ -62,6 +62,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: aws-sdk-swift
+          ref: ${{ github.event.pull_request.head.sha || github.ref }}
+          fetch-depth: 0
       - name: Checkout smithy-swift with composite action
         uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
         with:
@@ -147,6 +149,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: aws-sdk-swift
+          ref: ${{ github.event.pull_request.head.sha || github.ref }}
+          fetch-depth: 0
       - name: Checkout smithy-swift with composite action
         uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
         with:
