@@ -53,4 +53,4 @@ extension Swift.String: Swift.Error {
     var localizedString: String? { self }
 }
 
-var anInput = GetWidgetInput()
+let anInput = GetWidgetInput()
