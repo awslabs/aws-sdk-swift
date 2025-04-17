@@ -15,7 +15,7 @@
 /// - Throws: Any error thrown by one of the test runs.
 public func repeatConcurrently(
     count: Int,
-    test: @escaping @Sendable () async throws -> Void,
+    test: @escaping @Sendable () async throws -> Void
 ) async throws {
     try await withThrowingTaskGroup(of: Void.self) { taskGroup in
         for _ in 0..<count {
