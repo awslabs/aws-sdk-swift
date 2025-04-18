@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QConnectClient: ClientRuntime.Client {
     public static let clientName = "QConnectClient"
-    public static let version = "1.2.61"
+    public static let version = "1.2.62"
     let client: ClientRuntime.SdkHttpClient
     let config: QConnectClient.QConnectClientConfiguration
     let serviceName = "QConnect"
@@ -2406,6 +2406,7 @@ extension QConnectClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteContent(input: DeleteContentInput) async throws -> DeleteContentOutput {

@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecurityLakeClient: ClientRuntime.Client {
     public static let clientName = "SecurityLakeClient"
-    public static let version = "1.2.61"
+    public static let version = "1.2.62"
     let client: ClientRuntime.SdkHttpClient
     let config: SecurityLakeClient.SecurityLakeClientConfiguration
     let serviceName = "SecurityLake"
