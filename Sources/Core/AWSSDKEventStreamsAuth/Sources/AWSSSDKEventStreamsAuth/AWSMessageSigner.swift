@@ -15,11 +15,11 @@ import struct Smithy.Attributes
 import struct Smithy.AttributeKey
 
 /// Signs a `Message` using the AWS SigV4 signing algorithm
-public class AWSMessageSigner: MessageSigner, @unchecked Sendable {
+public actor AWSMessageSigner: MessageSigner {
     let encoder: MessageEncoder
-    let signer: () async throws -> MessageDataSigner
-    let signingConfig: () async throws -> AWSSigningConfig
-    let requestSignature: () -> String
+    let signer: @Sendable () async throws -> MessageDataSigner
+    let signingConfig: @Sendable () async throws -> AWSSigningConfig
+    let requestSignature: @Sendable () -> String
     // Attribute key used to save AWSSigningConfig into signingProperties argument
     //  for AWSSigV4Signer::signEvent call that conforms to Signer::signEvent.
     static let signingConfigKey = AttributeKey<AWSSigningConfig>(name: "EventStreamSigningConfig")
@@ -45,9 +45,9 @@ public class AWSMessageSigner: MessageSigner, @unchecked Sendable {
     }
 
     public init(encoder: MessageEncoder,
-                signer: @escaping () async throws -> MessageDataSigner,
-                signingConfig: @escaping () async throws -> AWSSigningConfig,
-                requestSignature: @escaping () -> String) {
+                signer: @escaping @Sendable () async throws -> MessageDataSigner,
+                signingConfig: @escaping @Sendable () async throws -> AWSSigningConfig,
+                requestSignature: @escaping @Sendable () -> String) {
         self.encoder = encoder
         self.signer = signer
         self.signingConfig = signingConfig
