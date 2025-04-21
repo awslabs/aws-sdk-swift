@@ -1535,7 +1535,7 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
-    /// A complex type that contains settings that determine how and when that MediaTailor places prefetched ads into upcoming ad breaks.
+    /// For single prefetch, describes how and when that MediaTailor places prefetched ads into upcoming ad breaks.
     public struct PrefetchConsumption: Swift.Sendable {
         /// If you only want MediaTailor to insert prefetched ads into avails (ad breaks) that match specific dynamic variables, such as scte.event_id, set the avail matching criteria.
         public var availMatchingCriteria: [MediaTailorClientTypes.AvailMatchingCriteria]?
@@ -1559,6 +1559,123 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    /// The settings that determine how and when MediaTailor places prefetched ads into upcoming ad breaks for recurring prefetch scedules.
+    public struct RecurringConsumption: Swift.Sendable {
+        /// The configuration for the dynamic variables that determine which ad breaks that MediaTailor inserts prefetched ads in.
+        public var availMatchingCriteria: [MediaTailorClientTypes.AvailMatchingCriteria]?
+        /// The number of seconds that an ad is available for insertion after it was prefetched.
+        public var retrievedAdExpirationSeconds: Swift.Int?
+
+        public init(
+            availMatchingCriteria: [MediaTailorClientTypes.AvailMatchingCriteria]? = nil,
+            retrievedAdExpirationSeconds: Swift.Int? = nil
+        ) {
+            self.availMatchingCriteria = availMatchingCriteria
+            self.retrievedAdExpirationSeconds = retrievedAdExpirationSeconds
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The configuration that tells Elemental MediaTailor how to spread out requests to the ad decision server (ADS). Instead of sending ADS requests for all sessions at the same time, MediaTailor spreads the requests across the amount of time specified in the retrieval window.
+    public struct TrafficShapingRetrievalWindow: Swift.Sendable {
+        /// The amount of time, in seconds, that MediaTailor spreads prefetch requests to the ADS.
+        public var retrievalWindowDurationSeconds: Swift.Int?
+
+        public init(
+            retrievalWindowDurationSeconds: Swift.Int? = nil
+        ) {
+            self.retrievalWindowDurationSeconds = retrievalWindowDurationSeconds
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum TrafficShapingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case retrievalWindow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrafficShapingType] {
+            return [
+                .retrievalWindow
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .retrievalWindow: return "RETRIEVAL_WINDOW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// With recurring prefetch, MediaTailor automatically prefetches ads for every avail that occurs during the retrieval window. The following configurations describe the MediaTailor behavior when prefetching ads for a live event.
+    public struct RecurringRetrieval: Swift.Sendable {
+        /// The number of seconds that MediaTailor waits after an ad avail before prefetching ads for the next avail. If not set, the default is 0 (no delay).
+        public var delayAfterAvailEndSeconds: Swift.Int?
+        /// The dynamic variables to use for substitution during prefetch requests to the ADS.
+        public var dynamicVariables: [Swift.String: Swift.String]?
+        /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
+        public var trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow?
+        /// Indicates if this configuration uses a retrieval window for traffic shaping and limiting the number of requests to the ADS at one time.
+        public var trafficShapingType: MediaTailorClientTypes.TrafficShapingType?
+
+        public init(
+            delayAfterAvailEndSeconds: Swift.Int? = nil,
+            dynamicVariables: [Swift.String: Swift.String]? = nil,
+            trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow? = nil,
+            trafficShapingType: MediaTailorClientTypes.TrafficShapingType? = nil
+        ) {
+            self.delayAfterAvailEndSeconds = delayAfterAvailEndSeconds
+            self.dynamicVariables = dynamicVariables
+            self.trafficShapingRetrievalWindow = trafficShapingRetrievalWindow
+            self.trafficShapingType = trafficShapingType
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The configuration that defines how MediaTailor performs recurring prefetch.
+    public struct RecurringPrefetchConfiguration: Swift.Sendable {
+        /// The end time for the window that MediaTailor prefetches and inserts ads in a live event.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The settings that determine how and when MediaTailor places prefetched ads into upcoming ad breaks for recurring prefetch scedules.
+        /// This member is required.
+        public var recurringConsumption: MediaTailorClientTypes.RecurringConsumption?
+        /// The configuration for prefetch ad retrieval from the ADS.
+        /// This member is required.
+        public var recurringRetrieval: MediaTailorClientTypes.RecurringRetrieval?
+        /// The start time for the window that MediaTailor prefetches and inserts ads in a live event.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            recurringConsumption: MediaTailorClientTypes.RecurringConsumption? = nil,
+            recurringRetrieval: MediaTailorClientTypes.RecurringRetrieval? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.recurringConsumption = recurringConsumption
+            self.recurringRetrieval = recurringRetrieval
+            self.startTime = startTime
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// A complex type that contains settings governing when MediaTailor prefetches ads, and which dynamic variables that MediaTailor includes in the request to the ad decision server.
     public struct PrefetchRetrieval: Swift.Sendable {
         /// The dynamic variables to use for substitution during prefetch requests to the ad decision server (ADS). You initially configure [dynamic variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables.html) for the ADS URL when you set up your playback configuration. When you specify DynamicVariables for prefetch retrieval, MediaTailor includes the dynamic variables in the request to the ADS.
@@ -1568,15 +1685,52 @@ extension MediaTailorClientTypes {
         public var endTime: Foundation.Date?
         /// The time when prefetch retrievals can start for this break. Ad prefetching will be attempted for manifest requests that occur at or after this time. Defaults to the current time. If not specified, the prefetch retrieval starts as soon as possible.
         public var startTime: Foundation.Date?
+        /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
+        public var trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow?
+        /// Indicates if this configuration uses a retrieval window for traffic shaping and limiting the number of requests to the ADS at one time.
+        public var trafficShapingType: MediaTailorClientTypes.TrafficShapingType?
 
         public init(
             dynamicVariables: [Swift.String: Swift.String]? = nil,
             endTime: Foundation.Date? = nil,
-            startTime: Foundation.Date? = nil
+            startTime: Foundation.Date? = nil,
+            trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow? = nil,
+            trafficShapingType: MediaTailorClientTypes.TrafficShapingType? = nil
         ) {
             self.dynamicVariables = dynamicVariables
             self.endTime = endTime
             self.startTime = startTime
+            self.trafficShapingRetrievalWindow = trafficShapingRetrievalWindow
+            self.trafficShapingType = trafficShapingType
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum PrefetchScheduleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case recurring
+        case single
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PrefetchScheduleType] {
+            return [
+                .recurring,
+                .single
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .recurring: return "RECURRING"
+            case .single: return "SINGLE"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -1588,8 +1742,7 @@ extension MediaTailorClientTypes {
         /// The Amazon Resource Name (ARN) of the prefetch schedule.
         /// This member is required.
         public var arn: Swift.String?
-        /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
-        /// This member is required.
+        /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks for single prefetch schedules. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
         public var consumption: MediaTailorClientTypes.PrefetchConsumption?
         /// The name of the prefetch schedule. The name must be unique among all prefetch schedules that are associated with the specified playback configuration.
         /// This member is required.
@@ -1597,9 +1750,12 @@ extension MediaTailorClientTypes {
         /// The name of the playback configuration to create the prefetch schedule for.
         /// This member is required.
         public var playbackConfigurationName: Swift.String?
+        /// The settings that determine how and when MediaTailor prefetches ads and inserts them into ad breaks.
+        public var recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration?
         /// A complex type that contains settings for prefetch retrieval from the ad decision server (ADS).
-        /// This member is required.
         public var retrieval: MediaTailorClientTypes.PrefetchRetrieval?
+        /// The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event. For more information about the prefetch types and when you might use each, see [Prefetching ads in Elemental MediaTailor.](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html)
+        public var scheduleType: MediaTailorClientTypes.PrefetchScheduleType?
         /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
         public var streamId: Swift.String?
 
@@ -1608,14 +1764,18 @@ extension MediaTailorClientTypes {
             consumption: MediaTailorClientTypes.PrefetchConsumption? = nil,
             name: Swift.String? = nil,
             playbackConfigurationName: Swift.String? = nil,
+            recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration? = nil,
             retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
+            scheduleType: MediaTailorClientTypes.PrefetchScheduleType? = nil,
             streamId: Swift.String? = nil
         ) {
             self.arn = arn
             self.consumption = consumption
             self.name = name
             self.playbackConfigurationName = playbackConfigurationName
+            self.recurringPrefetchConfiguration = recurringPrefetchConfiguration
             self.retrieval = retrieval
+            self.scheduleType = scheduleType
             self.streamId = streamId
         }
     }
@@ -3115,8 +3275,7 @@ public struct CreateLiveSourceOutput: Swift.Sendable {
 }
 
 public struct CreatePrefetchScheduleInput: Swift.Sendable {
-    /// The configuration settings for MediaTailor's consumption of the prefetched ads from the ad decision server. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
-    /// This member is required.
+    /// The configuration settings for how and when MediaTailor consumes prefetched ads from the ad decision server for single prefetch schedules. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
     public var consumption: MediaTailorClientTypes.PrefetchConsumption?
     /// The name to assign to the schedule request.
     /// This member is required.
@@ -3124,9 +3283,12 @@ public struct CreatePrefetchScheduleInput: Swift.Sendable {
     /// The name to assign to the playback configuration.
     /// This member is required.
     public var playbackConfigurationName: Swift.String?
+    /// The configuration that defines how and when MediaTailor performs ad prefetching in a live event.
+    public var recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration?
     /// The configuration settings for retrieval of prefetched ads from the ad decision server. Only one set of prefetched ads will be retrieved and subsequently consumed for each ad break.
-    /// This member is required.
     public var retrieval: MediaTailorClientTypes.PrefetchRetrieval?
+    /// The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event. For more information about the prefetch types and when you might use each, see [Prefetching ads in Elemental MediaTailor.](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html)
+    public var scheduleType: MediaTailorClientTypes.PrefetchScheduleType?
     /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
     public var streamId: Swift.String?
 
@@ -3134,13 +3296,17 @@ public struct CreatePrefetchScheduleInput: Swift.Sendable {
         consumption: MediaTailorClientTypes.PrefetchConsumption? = nil,
         name: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil,
+        recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
+        scheduleType: MediaTailorClientTypes.PrefetchScheduleType? = nil,
         streamId: Swift.String? = nil
     ) {
         self.consumption = consumption
         self.name = name
         self.playbackConfigurationName = playbackConfigurationName
+        self.recurringPrefetchConfiguration = recurringPrefetchConfiguration
         self.retrieval = retrieval
+        self.scheduleType = scheduleType
         self.streamId = streamId
     }
 }
@@ -3148,14 +3314,18 @@ public struct CreatePrefetchScheduleInput: Swift.Sendable {
 public struct CreatePrefetchScheduleOutput: Swift.Sendable {
     /// The ARN to assign to the prefetch schedule.
     public var arn: Swift.String?
-    /// The configuration settings for MediaTailor's consumption of the prefetched ads from the ad decision server. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
+    /// The configuration settings for how and when MediaTailor consumes prefetched ads from the ad decision server for single prefetch schedules. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
     public var consumption: MediaTailorClientTypes.PrefetchConsumption?
     /// The name to assign to the prefetch schedule.
     public var name: Swift.String?
     /// The name to assign to the playback configuration.
     public var playbackConfigurationName: Swift.String?
+    /// The configuration that defines how MediaTailor performs recurring prefetch.
+    public var recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration?
     /// The configuration settings for retrieval of prefetched ads from the ad decision server. Only one set of prefetched ads will be retrieved and subsequently consumed for each ad break.
     public var retrieval: MediaTailorClientTypes.PrefetchRetrieval?
+    /// The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event.
+    public var scheduleType: MediaTailorClientTypes.PrefetchScheduleType?
     /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
     public var streamId: Swift.String?
 
@@ -3164,14 +3334,18 @@ public struct CreatePrefetchScheduleOutput: Swift.Sendable {
         consumption: MediaTailorClientTypes.PrefetchConsumption? = nil,
         name: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil,
+        recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
+        scheduleType: MediaTailorClientTypes.PrefetchScheduleType? = nil,
         streamId: Swift.String? = nil
     ) {
         self.arn = arn
         self.consumption = consumption
         self.name = name
         self.playbackConfigurationName = playbackConfigurationName
+        self.recurringPrefetchConfiguration = recurringPrefetchConfiguration
         self.retrieval = retrieval
+        self.scheduleType = scheduleType
         self.streamId = streamId
     }
 }
@@ -3718,14 +3892,18 @@ public struct GetPrefetchScheduleInput: Swift.Sendable {
 public struct GetPrefetchScheduleOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the prefetch schedule.
     public var arn: Swift.String?
-    /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
+    /// The configuration settings for how and when MediaTailor consumes prefetched ads from the ad decision server for single prefetch schedules. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
     public var consumption: MediaTailorClientTypes.PrefetchConsumption?
     /// The name of the prefetch schedule. The name must be unique among all prefetch schedules that are associated with the specified playback configuration.
     public var name: Swift.String?
     /// The name of the playback configuration to create the prefetch schedule for.
     public var playbackConfigurationName: Swift.String?
+    /// The configuration that defines how and when MediaTailor performs ad prefetching in a live event.
+    public var recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration?
     /// A complex type that contains settings for prefetch retrieval from the ad decision server (ADS).
     public var retrieval: MediaTailorClientTypes.PrefetchRetrieval?
+    /// The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event.
+    public var scheduleType: MediaTailorClientTypes.PrefetchScheduleType?
     /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
     public var streamId: Swift.String?
 
@@ -3734,14 +3912,18 @@ public struct GetPrefetchScheduleOutput: Swift.Sendable {
         consumption: MediaTailorClientTypes.PrefetchConsumption? = nil,
         name: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil,
+        recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
+        scheduleType: MediaTailorClientTypes.PrefetchScheduleType? = nil,
         streamId: Swift.String? = nil
     ) {
         self.arn = arn
         self.consumption = consumption
         self.name = name
         self.playbackConfigurationName = playbackConfigurationName
+        self.recurringPrefetchConfiguration = recurringPrefetchConfiguration
         self.retrieval = retrieval
+        self.scheduleType = scheduleType
         self.streamId = streamId
     }
 }
@@ -3846,6 +4028,38 @@ public struct ListPlaybackConfigurationsOutput: Swift.Sendable {
     }
 }
 
+extension MediaTailorClientTypes {
+
+    public enum ListPrefetchScheduleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case recurring
+        case single
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListPrefetchScheduleType] {
+            return [
+                .all,
+                .recurring,
+                .single
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .recurring: return "RECURRING"
+            case .single: return "SINGLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListPrefetchSchedulesInput: Swift.Sendable {
     /// The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
     public var maxResults: Swift.Int?
@@ -3854,6 +4068,8 @@ public struct ListPrefetchSchedulesInput: Swift.Sendable {
     /// Retrieves the prefetch schedule(s) for a specific playback configuration.
     /// This member is required.
     public var playbackConfigurationName: Swift.String?
+    /// The type of prefetch schedules that you want to list. SINGLE indicates that you want to list the configured single prefetch schedules. RECURRING indicates that you want to list the configured recurring prefetch schedules. ALL indicates that you want to list all configured prefetch schedules.
+    public var scheduleType: MediaTailorClientTypes.ListPrefetchScheduleType?
     /// An optional filtering parameter whereby MediaTailor filters the prefetch schedules to include only specific streams.
     public var streamId: Swift.String?
 
@@ -3861,11 +4077,13 @@ public struct ListPrefetchSchedulesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil,
+        scheduleType: MediaTailorClientTypes.ListPrefetchScheduleType? = nil,
         streamId: Swift.String? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.playbackConfigurationName = playbackConfigurationName
+        self.scheduleType = scheduleType
         self.streamId = streamId
     }
 }
@@ -5011,7 +5229,9 @@ extension CreatePrefetchScheduleInput {
     static func write(value: CreatePrefetchScheduleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Consumption"].write(value.consumption, with: MediaTailorClientTypes.PrefetchConsumption.write(value:to:))
+        try writer["RecurringPrefetchConfiguration"].write(value.recurringPrefetchConfiguration, with: MediaTailorClientTypes.RecurringPrefetchConfiguration.write(value:to:))
         try writer["Retrieval"].write(value.retrieval, with: MediaTailorClientTypes.PrefetchRetrieval.write(value:to:))
+        try writer["ScheduleType"].write(value.scheduleType)
         try writer["StreamId"].write(value.streamId)
     }
 }
@@ -5056,6 +5276,7 @@ extension ListPrefetchSchedulesInput {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["ScheduleType"].write(value.scheduleType)
         try writer["StreamId"].write(value.streamId)
     }
 }
@@ -5228,7 +5449,9 @@ extension CreatePrefetchScheduleOutput {
         value.consumption = try reader["Consumption"].readIfPresent(with: MediaTailorClientTypes.PrefetchConsumption.read(from:))
         value.name = try reader["Name"].readIfPresent()
         value.playbackConfigurationName = try reader["PlaybackConfigurationName"].readIfPresent()
+        value.recurringPrefetchConfiguration = try reader["RecurringPrefetchConfiguration"].readIfPresent(with: MediaTailorClientTypes.RecurringPrefetchConfiguration.read(from:))
         value.retrieval = try reader["Retrieval"].readIfPresent(with: MediaTailorClientTypes.PrefetchRetrieval.read(from:))
+        value.scheduleType = try reader["ScheduleType"].readIfPresent()
         value.streamId = try reader["StreamId"].readIfPresent()
         return value
     }
@@ -5523,7 +5746,9 @@ extension GetPrefetchScheduleOutput {
         value.consumption = try reader["Consumption"].readIfPresent(with: MediaTailorClientTypes.PrefetchConsumption.read(from:))
         value.name = try reader["Name"].readIfPresent()
         value.playbackConfigurationName = try reader["PlaybackConfigurationName"].readIfPresent()
+        value.recurringPrefetchConfiguration = try reader["RecurringPrefetchConfiguration"].readIfPresent(with: MediaTailorClientTypes.RecurringPrefetchConfiguration.read(from:))
         value.retrieval = try reader["Retrieval"].readIfPresent(with: MediaTailorClientTypes.PrefetchRetrieval.read(from:))
+        value.scheduleType = try reader["ScheduleType"].readIfPresent()
         value.streamId = try reader["StreamId"].readIfPresent()
         return value
     }
@@ -6567,6 +6792,8 @@ extension MediaTailorClientTypes.PrefetchRetrieval {
         try writer["DynamicVariables"].writeMap(value.dynamicVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["TrafficShapingRetrievalWindow"].write(value.trafficShapingRetrievalWindow, with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.write(value:to:))
+        try writer["TrafficShapingType"].write(value.trafficShapingType)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.PrefetchRetrieval {
@@ -6575,6 +6802,82 @@ extension MediaTailorClientTypes.PrefetchRetrieval {
         value.dynamicVariables = try reader["DynamicVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.trafficShapingType = try reader["TrafficShapingType"].readIfPresent()
+        value.trafficShapingRetrievalWindow = try reader["TrafficShapingRetrievalWindow"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.TrafficShapingRetrievalWindow {
+
+    static func write(value: MediaTailorClientTypes.TrafficShapingRetrievalWindow?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RetrievalWindowDurationSeconds"].write(value.retrievalWindowDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.TrafficShapingRetrievalWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.TrafficShapingRetrievalWindow()
+        value.retrievalWindowDurationSeconds = try reader["RetrievalWindowDurationSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.RecurringPrefetchConfiguration {
+
+    static func write(value: MediaTailorClientTypes.RecurringPrefetchConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["RecurringConsumption"].write(value.recurringConsumption, with: MediaTailorClientTypes.RecurringConsumption.write(value:to:))
+        try writer["RecurringRetrieval"].write(value.recurringRetrieval, with: MediaTailorClientTypes.RecurringRetrieval.write(value:to:))
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.RecurringPrefetchConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.RecurringPrefetchConfiguration()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.recurringConsumption = try reader["RecurringConsumption"].readIfPresent(with: MediaTailorClientTypes.RecurringConsumption.read(from:))
+        value.recurringRetrieval = try reader["RecurringRetrieval"].readIfPresent(with: MediaTailorClientTypes.RecurringRetrieval.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.RecurringRetrieval {
+
+    static func write(value: MediaTailorClientTypes.RecurringRetrieval?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DelayAfterAvailEndSeconds"].write(value.delayAfterAvailEndSeconds)
+        try writer["DynamicVariables"].writeMap(value.dynamicVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TrafficShapingRetrievalWindow"].write(value.trafficShapingRetrievalWindow, with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.write(value:to:))
+        try writer["TrafficShapingType"].write(value.trafficShapingType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.RecurringRetrieval {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.RecurringRetrieval()
+        value.dynamicVariables = try reader["DynamicVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.delayAfterAvailEndSeconds = try reader["DelayAfterAvailEndSeconds"].readIfPresent()
+        value.trafficShapingType = try reader["TrafficShapingType"].readIfPresent()
+        value.trafficShapingRetrievalWindow = try reader["TrafficShapingRetrievalWindow"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.RecurringConsumption {
+
+    static func write(value: MediaTailorClientTypes.RecurringConsumption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailMatchingCriteria"].writeList(value.availMatchingCriteria, memberWritingClosure: MediaTailorClientTypes.AvailMatchingCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RetrievedAdExpirationSeconds"].write(value.retrievedAdExpirationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.RecurringConsumption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.RecurringConsumption()
+        value.retrievedAdExpirationSeconds = try reader["RetrievedAdExpirationSeconds"].readIfPresent()
+        value.availMatchingCriteria = try reader["AvailMatchingCriteria"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.AvailMatchingCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7125,6 +7428,8 @@ extension MediaTailorClientTypes.PrefetchSchedule {
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.playbackConfigurationName = try reader["PlaybackConfigurationName"].readIfPresent() ?? ""
         value.retrieval = try reader["Retrieval"].readIfPresent(with: MediaTailorClientTypes.PrefetchRetrieval.read(from:))
+        value.scheduleType = try reader["ScheduleType"].readIfPresent()
+        value.recurringPrefetchConfiguration = try reader["RecurringPrefetchConfiguration"].readIfPresent(with: MediaTailorClientTypes.RecurringPrefetchConfiguration.read(from:))
         value.streamId = try reader["StreamId"].readIfPresent()
         return value
     }

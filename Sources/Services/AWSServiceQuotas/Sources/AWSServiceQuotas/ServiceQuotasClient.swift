@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServiceQuotasClient: ClientRuntime.Client {
     public static let clientName = "ServiceQuotasClient"
-    public static let version = "1.2.61"
+    public static let version = "1.2.63"
     let client: ClientRuntime.SdkHttpClient
     let config: ServiceQuotasClient.ServiceQuotasClientConfiguration
     let serviceName = "Service Quotas"
@@ -847,7 +847,7 @@ extension ServiceQuotasClient {
 
     /// Performs the `GetServiceQuota` operation on the `ServiceQuotas` service.
     ///
-    /// Retrieves the applied quota value for the specified quota. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
+    /// Retrieves the applied quota value for the specified account-level or resource-level quota. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     ///
     /// - Parameter GetServiceQuotaInput : [no documentation found]
     ///
@@ -1009,7 +1009,7 @@ extension ServiceQuotasClient {
 
     /// Performs the `ListAWSDefaultServiceQuotas` operation on the `ServiceQuotas` service.
     ///
-    /// Lists the default values for the quotas for the specified Amazon Web Service. A default value does not reflect any quota increases.
+    /// Lists the default values for the quotas for the specified Amazon Web Services service. A default value does not reflect any quota increases.
     ///
     /// - Parameter ListAWSDefaultServiceQuotasInput : [no documentation found]
     ///
@@ -1089,7 +1089,7 @@ extension ServiceQuotasClient {
 
     /// Performs the `ListRequestedServiceQuotaChangeHistory` operation on the `ServiceQuotas` service.
     ///
-    /// Retrieves the quota increase requests for the specified Amazon Web Service.
+    /// Retrieves the quota increase requests for the specified Amazon Web Services service. Filter responses to return quota requests at either the account level, resource level, or all levels. Responses include any open or closed requests within 90 days.
     ///
     /// - Parameter ListRequestedServiceQuotaChangeHistoryInput : [no documentation found]
     ///
@@ -1169,7 +1169,7 @@ extension ServiceQuotasClient {
 
     /// Performs the `ListRequestedServiceQuotaChangeHistoryByQuota` operation on the `ServiceQuotas` service.
     ///
-    /// Retrieves the quota increase requests for the specified quota.
+    /// Retrieves the quota increase requests for the specified quota. Filter responses to return quota requests at either the account level, resource level, or all levels.
     ///
     /// - Parameter ListRequestedServiceQuotaChangeHistoryByQuotaInput : [no documentation found]
     ///
@@ -1331,7 +1331,7 @@ extension ServiceQuotasClient {
 
     /// Performs the `ListServiceQuotas` operation on the `ServiceQuotas` service.
     ///
-    /// Lists the applied quota values for the specified Amazon Web Service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
+    /// Lists the applied quota values for the specified Amazon Web Services service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved. Filter responses to return applied quota values at either the account level, resource level, or all levels.
     ///
     /// - Parameter ListServiceQuotasInput : [no documentation found]
     ///
@@ -1411,7 +1411,7 @@ extension ServiceQuotasClient {
 
     /// Performs the `ListServices` operation on the `ServiceQuotas` service.
     ///
-    /// Lists the names and codes for the Amazon Web Services integrated with Service Quotas.
+    /// Lists the names and codes for the Amazon Web Services services integrated with Service Quotas.
     ///
     /// - Parameter ListServicesInput : [no documentation found]
     ///
@@ -1653,7 +1653,7 @@ extension ServiceQuotasClient {
 
     /// Performs the `RequestServiceQuotaIncrease` operation on the `ServiceQuotas` service.
     ///
-    /// Submits a quota increase request for the specified quota.
+    /// Submits a quota increase request for the specified quota at the account or resource level.
     ///
     /// - Parameter RequestServiceQuotaIncreaseInput : [no documentation found]
     ///
