@@ -138,11 +138,14 @@ jobs:
   linux:
     # Details on why AL2 isn't included: https://github.com/awslabs/aws-sdk-swift/pull/1833
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     container: swift:${{ matrix.version }}-${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
+        runner:
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
         os:
           - jammy
         version:
