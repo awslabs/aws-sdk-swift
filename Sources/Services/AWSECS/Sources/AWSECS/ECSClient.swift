@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ECSClient: ClientRuntime.Client {
     public static let clientName = "ECSClient"
-    public static let version = "1.2.58"
+    public static let version = "1.2.63"
     let client: ClientRuntime.SdkHttpClient
     let config: ECSClient.ECSClientConfiguration
     let serviceName = "ECS"
@@ -1664,7 +1664,7 @@ extension ECSClient {
 
     /// Performs the `DescribeServiceDeployments` operation on the `ECS` service.
     ///
-    /// Describes one or more of your service deployments. A service deployment happens when you release a software update for the service. For more information, see [Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-deployments.html).
+    /// Describes one or more of your service deployments. A service deployment happens when you release a software update for the service. For more information, see [View service history using Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-deployment.html).
     ///
     /// - Parameter DescribeServiceDeploymentsInput : [no documentation found]
     ///

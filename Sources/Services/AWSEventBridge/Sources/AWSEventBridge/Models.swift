@@ -1128,6 +1128,8 @@ public struct CreateConnectionInput: Swift.Sendable {
     public var description: Swift.String?
     /// For connections to private APIs, the parameters to use for invoking the API. For more information, see [Connecting to private APIs](https://docs.aws.amazon.com/eventbridge/latest/userguide/connection-private.html) in the Amazon EventBridge User Guide .
     public var invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters?
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this connection. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the connection. For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html) in the Key Management Service Developer Guide.
+    public var kmsKeyIdentifier: Swift.String?
     /// The name for the connection to create.
     /// This member is required.
     public var name: Swift.String?
@@ -1137,12 +1139,14 @@ public struct CreateConnectionInput: Swift.Sendable {
         authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType? = nil,
         description: Swift.String? = nil,
         invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
         self.authParameters = authParameters
         self.authorizationType = authorizationType
         self.description = description
         self.invocationConnectivityParameters = invocationConnectivityParameters
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.name = name
     }
 }
@@ -1505,7 +1509,14 @@ public struct CreateEventBusInput: Swift.Sendable {
     public var description: Swift.String?
     /// If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
     public var eventSourceName: Swift.String?
-    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html) in the Key Management Service Developer Guide. Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if you call [CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer) on an event bus set to use a customer managed key for encryption. To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Encrypting events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption-event-bus-cmkey.html) in the Amazon EventBridge User Guide. If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html) in the Amazon EventBridge User Guide.
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html) in the Key Management Service Developer Guide. Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:
+    ///
+    /// * You call [CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer) on an event bus set to use a customer managed key for encryption.
+    ///
+    /// * You call [UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html) to set a customer managed key on an event bus with schema discovery enabled.
+    ///
+    ///
+    /// To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Encrypting events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption-event-bus-cmkey.html) in the Amazon EventBridge User Guide. If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
     /// The name of the new event bus. Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus.
     /// This member is required.
@@ -2087,6 +2098,8 @@ public struct DescribeConnectionOutput: Swift.Sendable {
     public var description: Swift.String?
     /// For connections to private APIs The parameters EventBridge uses to invoke the resource endpoint. For more information, see [Connecting to private APIs](https://docs.aws.amazon.com/eventbridge/latest/userguide/connection-private.html) in the Amazon EventBridge User Guide .
     public var invocationConnectivityParameters: EventBridgeClientTypes.DescribeConnectionConnectivityParameters?
+    /// The identifier of the KMS customer managed key for EventBridge to use to encrypt the connection, if one has been specified. For more information, see [Encrypting connections](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-connections.html) in the Amazon EventBridge User Guide.
+    public var kmsKeyIdentifier: Swift.String?
     /// A time stamp for the time that the connection was last authorized.
     public var lastAuthorizedTime: Foundation.Date?
     /// A time stamp for the time that the connection was last modified.
@@ -2106,6 +2119,7 @@ public struct DescribeConnectionOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         invocationConnectivityParameters: EventBridgeClientTypes.DescribeConnectionConnectivityParameters? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         lastAuthorizedTime: Foundation.Date? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
@@ -2119,6 +2133,7 @@ public struct DescribeConnectionOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.description = description
         self.invocationConnectivityParameters = invocationConnectivityParameters
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.lastAuthorizedTime = lastAuthorizedTime
         self.lastModifiedTime = lastModifiedTime
         self.name = name
@@ -4900,6 +4915,8 @@ public struct UpdateConnectionInput: Swift.Sendable {
     public var description: Swift.String?
     /// For connections to private APIs, the parameters to use for invoking the API. For more information, see [Connecting to private APIs](https://docs.aws.amazon.com/eventbridge/latest/userguide/connection-private.html) in the Amazon EventBridge User Guide .
     public var invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters?
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this connection. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the connection. For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html) in the Key Management Service Developer Guide.
+    public var kmsKeyIdentifier: Swift.String?
     /// The name of the connection to update.
     /// This member is required.
     public var name: Swift.String?
@@ -4909,12 +4926,14 @@ public struct UpdateConnectionInput: Swift.Sendable {
         authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType? = nil,
         description: Swift.String? = nil,
         invocationConnectivityParameters: EventBridgeClientTypes.ConnectivityResourceParameters? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
         self.authParameters = authParameters
         self.authorizationType = authorizationType
         self.description = description
         self.invocationConnectivityParameters = invocationConnectivityParameters
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.name = name
     }
 }
@@ -5026,7 +5045,14 @@ public struct UpdateEventBusInput: Swift.Sendable {
     public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
     /// The event bus description.
     public var description: Swift.String?
-    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html) in the Key Management Service Developer Guide. Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if you call [CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer) on an event bus set to use a customer managed key for encryption. To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Encrypting events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption-event-bus-cmkey.html) in the Amazon EventBridge User Guide. If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html) in the Amazon EventBridge User Guide.
+    /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see [Identify and view keys](https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html) in the Key Management Service Developer Guide. Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:
+    ///
+    /// * You call [CreateDiscoverer](https://docs.aws.amazon.com/eventbridge/latest/schema-reference/v1-discoverers.html#CreateDiscoverer) on an event bus set to use a customer managed key for encryption.
+    ///
+    /// * You call [UpdatedEventBus](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UpdatedEventBus.html) to set a customer managed key on an event bus with schema discovery enabled.
+    ///
+    ///
+    /// To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Encrypting events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption-event-bus-cmkey.html) in the Amazon EventBridge User Guide. If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
     /// The name of the event bus.
     public var name: Swift.String?
@@ -5520,6 +5546,7 @@ extension CreateConnectionInput {
         try writer["AuthorizationType"].write(value.authorizationType)
         try writer["Description"].write(value.description)
         try writer["InvocationConnectivityParameters"].write(value.invocationConnectivityParameters, with: EventBridgeClientTypes.ConnectivityResourceParameters.write(value:to:))
+        try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
         try writer["Name"].write(value.name)
     }
 }
@@ -6013,6 +6040,7 @@ extension UpdateConnectionInput {
         try writer["AuthorizationType"].write(value.authorizationType)
         try writer["Description"].write(value.description)
         try writer["InvocationConnectivityParameters"].write(value.invocationConnectivityParameters, with: EventBridgeClientTypes.ConnectivityResourceParameters.write(value:to:))
+        try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
         try writer["Name"].write(value.name)
     }
 }
@@ -6291,6 +6319,7 @@ extension DescribeConnectionOutput {
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
         value.invocationConnectivityParameters = try reader["InvocationConnectivityParameters"].readIfPresent(with: EventBridgeClientTypes.DescribeConnectionConnectivityParameters.read(from:))
+        value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
         value.lastAuthorizedTime = try reader["LastAuthorizedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["Name"].readIfPresent()

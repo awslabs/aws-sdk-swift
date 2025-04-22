@@ -783,6 +783,133 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// Defines the value for one rating in a custom metric rating scale.
+    public enum RatingScaleItemValue: Swift.Sendable {
+        /// A string representing the value for a rating in a custom metric rating scale.
+        case stringvalue(Swift.String)
+        /// A floating point number representing the value for a rating in a custom metric rating scale.
+        case floatvalue(Swift.Float)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Defines the value and corresponding definition for one rating in a custom metric rating scale.
+    public struct RatingScaleItem: Swift.Sendable {
+        /// Defines the definition for one rating in a custom metric rating scale.
+        /// This member is required.
+        public var definition: Swift.String?
+        /// Defines the value for one rating in a custom metric rating scale.
+        /// This member is required.
+        public var value: BedrockClientTypes.RatingScaleItemValue?
+
+        public init(
+            definition: Swift.String? = nil,
+            value: BedrockClientTypes.RatingScaleItemValue? = nil
+        ) {
+            self.definition = definition
+            self.value = value
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// The definition of a custom metric for use in an Amazon Bedrock evaluation job. A custom metric definition includes a metric name, prompt (instructions) and optionally, a rating scale. Your prompt must include a task description and input variables. The required input variables are different for model-as-a-judge and RAG evaluations. For more information about how to define a custom metric in Amazon Bedrock, see [Create a prompt for a custom metrics (LLM-as-a-judge model evaluations)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-custom-metrics-prompt-formats.html) and [Create a prompt for a custom metrics (RAG evaluations)](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-evaluation-custom-metrics-prompt-formats.html).
+    public struct CustomMetricDefinition: Swift.Sendable {
+        /// The prompt for a custom metric that instructs the evaluator model how to rate the model or RAG source under evaluation.
+        /// This member is required.
+        public var instructions: Swift.String?
+        /// The name for a custom metric. Names must be unique in your Amazon Web Services region.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Defines the rating scale to be used for a custom metric. We recommend that you always define a ratings scale when creating a custom metric. If you don't define a scale, Amazon Bedrock won't be able to visually display the results of the evaluation in the console or calculate average values of numerical scores. For more information on specifying a rating scale, see [Specifying an output schema (rating scale)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-custom-metrics-prompt-formats.html#model-evaluation-custom-metrics-prompt-formats-schema).
+        public var ratingScale: [BedrockClientTypes.RatingScaleItem]?
+
+        public init(
+            instructions: Swift.String? = nil,
+            name: Swift.String? = nil,
+            ratingScale: [BedrockClientTypes.RatingScaleItem]? = nil
+        ) {
+            self.instructions = instructions
+            self.name = name
+            self.ratingScale = ratingScale
+        }
+    }
+}
+
+extension BedrockClientTypes.CustomMetricDefinition: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// An array item definining a single custom metric for use in an Amazon Bedrock evaluation job.
+    public enum AutomatedEvaluationCustomMetricSource: Swift.Sendable {
+        /// The definition of a custom metric for use in an Amazon Bedrock evaluation job.
+        case custommetricdefinition(BedrockClientTypes.CustomMetricDefinition)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Defines the model you want to evaluate custom metrics in an Amazon Bedrock evaluation job.
+    public struct CustomMetricBedrockEvaluatorModel: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the evaluator model for custom metrics. For a list of supported evaluator models, see [Evaluate model performance using another LLM as a judge](https://docs.aws.amazon.com/bedrock/latest/userguide/evaluation-judge.html) and [Evaluate the performance of RAG sources using Amazon Bedrock evaluations](https://docs.aws.amazon.com/bedrock/latest/userguide/evaluation-kb.html).
+        /// This member is required.
+        public var modelIdentifier: Swift.String?
+
+        public init(
+            modelIdentifier: Swift.String? = nil
+        ) {
+            self.modelIdentifier = modelIdentifier
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Configuration of the evaluator model you want to use to evaluate custom metrics in an Amazon Bedrock evaluation job.
+    public struct CustomMetricEvaluatorModelConfig: Swift.Sendable {
+        /// Defines the model you want to evaluate custom metrics in an Amazon Bedrock evaluation job.
+        /// This member is required.
+        public var bedrockEvaluatorModels: [BedrockClientTypes.CustomMetricBedrockEvaluatorModel]?
+
+        public init(
+            bedrockEvaluatorModels: [BedrockClientTypes.CustomMetricBedrockEvaluatorModel]? = nil
+        ) {
+            self.bedrockEvaluatorModels = bedrockEvaluatorModels
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Defines the configuration of custom metrics to be used in an evaluation job. To learn more about using custom metrics in Amazon Bedrock evaluation jobs, see [Create a prompt for a custom metrics (LLM-as-a-judge model evaluations)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-custom-metrics-prompt-formats.html) and [Create a prompt for a custom metrics (RAG evaluations)](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-evaluation-custom-metrics-prompt-formats.html).
+    public struct AutomatedEvaluationCustomMetricConfig: Swift.Sendable {
+        /// Defines a list of custom metrics to be used in an Amazon Bedrock evaluation job.
+        /// This member is required.
+        public var customMetrics: [BedrockClientTypes.AutomatedEvaluationCustomMetricSource]?
+        /// Configuration of the evaluator model you want to use to evaluate custom metrics in an Amazon Bedrock evaluation job.
+        /// This member is required.
+        public var evaluatorModelConfig: BedrockClientTypes.CustomMetricEvaluatorModelConfig?
+
+        public init(
+            customMetrics: [BedrockClientTypes.AutomatedEvaluationCustomMetricSource]? = nil,
+            evaluatorModelConfig: BedrockClientTypes.CustomMetricEvaluatorModelConfig? = nil
+        ) {
+            self.customMetrics = customMetrics
+            self.evaluatorModelConfig = evaluatorModelConfig
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// The location in Amazon S3 where your prompt dataset is stored.
     public enum EvaluationDatasetLocation: Swift.Sendable {
         /// The S3 URI of the S3 bucket specified in the job.
@@ -861,7 +988,7 @@ extension BedrockClientTypes {
         /// Specifies the prompt dataset.
         /// This member is required.
         public var dataset: BedrockClientTypes.EvaluationDataset?
-        /// The names of the metrics you want to use for your evaluation job. For knowledge base evaluation jobs that evaluate retrieval only, valid values are "Builtin.ContextRelevance", "Builtin.ContextConverage". For knowledge base evaluation jobs that evaluate retrieval with response generation, valid values are "Builtin.Correctness", "Builtin.Completeness", "Builtin.Helpfulness", "Builtin.LogicalCoherence", "Builtin.Faithfulness", "Builtin.Harmfulness", "Builtin.Stereotyping", "Builtin.Refusal". For automated model evaluation jobs, valid values are "Builtin.Accuracy", "Builtin.Robustness", and "Builtin.Toxicity". In model evaluation jobs that use a LLM as judge you can specify "Builtin.Correctness", "Builtin.Completeness", "Builtin.Faithfulness", "Builtin.Helpfulness", "Builtin.Coherence", "Builtin.Relevance", "Builtin.FollowingInstructions", "Builtin.ProfessionalStyleAndTone", You can also specify the following responsible AI related metrics only for model evaluation job that use a LLM as judge "Builtin.Harmfulness", "Builtin.Stereotyping", and "Builtin.Refusal". For human-based model evaluation jobs, the list of strings must match the name parameter specified in HumanEvaluationCustomMetric.
+        /// The names of the metrics you want to use for your evaluation job. For knowledge base evaluation jobs that evaluate retrieval only, valid values are "Builtin.ContextRelevance", "Builtin.ContextCoverage". For knowledge base evaluation jobs that evaluate retrieval with response generation, valid values are "Builtin.Correctness", "Builtin.Completeness", "Builtin.Helpfulness", "Builtin.LogicalCoherence", "Builtin.Faithfulness", "Builtin.Harmfulness", "Builtin.Stereotyping", "Builtin.Refusal". For automated model evaluation jobs, valid values are "Builtin.Accuracy", "Builtin.Robustness", and "Builtin.Toxicity". In model evaluation jobs that use a LLM as judge you can specify "Builtin.Correctness", "Builtin.Completeness", "Builtin.Faithfulness", "Builtin.Helpfulness", "Builtin.Coherence", "Builtin.Relevance", "Builtin.FollowingInstructions", "Builtin.ProfessionalStyleAndTone", You can also specify the following responsible AI related metrics only for model evaluation job that use a LLM as judge "Builtin.Harmfulness", "Builtin.Stereotyping", and "Builtin.Refusal". For human-based model evaluation jobs, the list of strings must match the name parameter specified in HumanEvaluationCustomMetric.
         /// This member is required.
         public var metricNames: [Swift.String]?
         /// The the type of task you want to evaluate for your evaluation job. This applies only to model evaluation jobs and is ignored for knowledge base evaluation jobs.
@@ -915,6 +1042,8 @@ extension BedrockClientTypes {
 
     /// The configuration details of an automated evaluation job. The EvaluationDatasetMetricConfig object is used to specify the prompt datasets, task type, and metric names.
     public struct AutomatedEvaluationConfig: Swift.Sendable {
+        /// Defines the configuration of custom metrics to be used in an evaluation job.
+        public var customMetricConfig: BedrockClientTypes.AutomatedEvaluationCustomMetricConfig?
         /// Configuration details of the prompt datasets and metrics you want to use for your evaluation job.
         /// This member is required.
         public var datasetMetricConfigs: [BedrockClientTypes.EvaluationDatasetMetricConfig]?
@@ -922,9 +1051,11 @@ extension BedrockClientTypes {
         public var evaluatorModelConfig: BedrockClientTypes.EvaluatorModelConfig?
 
         public init(
+            customMetricConfig: BedrockClientTypes.AutomatedEvaluationCustomMetricConfig? = nil,
             datasetMetricConfigs: [BedrockClientTypes.EvaluationDatasetMetricConfig]? = nil,
             evaluatorModelConfig: BedrockClientTypes.EvaluatorModelConfig? = nil
         ) {
+            self.customMetricConfig = customMetricConfig
             self.datasetMetricConfigs = datasetMetricConfigs
             self.evaluatorModelConfig = evaluatorModelConfig
         }
@@ -1804,6 +1935,8 @@ extension BedrockClientTypes {
         /// The time the evaluation job was created.
         /// This member is required.
         public var creationTime: Foundation.Date?
+        /// The Amazon Resource Names (ARNs) of the models used to compute custom metrics in an Amazon Bedrock evaluation job.
+        public var customMetricsEvaluatorModelIdentifiers: [Swift.String]?
         /// The type of task for model evaluation.
         /// This member is required.
         public var evaluationTaskTypes: [BedrockClientTypes.EvaluationTaskType]?
@@ -1833,6 +1966,7 @@ extension BedrockClientTypes {
         public init(
             applicationType: BedrockClientTypes.ApplicationType? = nil,
             creationTime: Foundation.Date? = nil,
+            customMetricsEvaluatorModelIdentifiers: [Swift.String]? = nil,
             evaluationTaskTypes: [BedrockClientTypes.EvaluationTaskType]? = nil,
             evaluatorModelIdentifiers: [Swift.String]? = nil,
             inferenceConfigSummary: BedrockClientTypes.EvaluationInferenceConfigSummary? = nil,
@@ -1845,6 +1979,7 @@ extension BedrockClientTypes {
         ) {
             self.applicationType = applicationType
             self.creationTime = creationTime
+            self.customMetricsEvaluatorModelIdentifiers = customMetricsEvaluatorModelIdentifiers
             self.evaluationTaskTypes = evaluationTaskTypes
             self.evaluatorModelIdentifiers = evaluatorModelIdentifiers
             self.inferenceConfigSummary = inferenceConfigSummary
@@ -5329,7 +5464,7 @@ public struct GetModelInvocationJobOutput: Swift.Sendable {
     ///
     /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
     ///
-    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
+    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web ServicesSupport Center](https://console.aws.amazon.com/support/home/).
     ///
     /// * Stopped – This job was stopped by a user.
     ///
@@ -5419,7 +5554,7 @@ public struct ListModelInvocationJobsInput: Swift.Sendable {
     ///
     /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
     ///
-    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
+    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web ServicesSupport Center](https://console.aws.amazon.com/support/home/).
     ///
     /// * Stopped – This job was stopped by a user.
     ///
@@ -5508,7 +5643,7 @@ extension BedrockClientTypes {
         ///
         /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
         ///
-        /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
+        /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web ServicesSupport Center](https://console.aws.amazon.com/support/home/).
         ///
         /// * Stopped – This job was stopped by a user.
         ///
@@ -11565,6 +11700,7 @@ extension BedrockClientTypes.AutomatedEvaluationConfig {
 
     static func write(value: BedrockClientTypes.AutomatedEvaluationConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["customMetricConfig"].write(value.customMetricConfig, with: BedrockClientTypes.AutomatedEvaluationCustomMetricConfig.write(value:to:))
         try writer["datasetMetricConfigs"].writeList(value.datasetMetricConfigs, memberWritingClosure: BedrockClientTypes.EvaluationDatasetMetricConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["evaluatorModelConfig"].write(value.evaluatorModelConfig, with: BedrockClientTypes.EvaluatorModelConfig.write(value:to:))
     }
@@ -11574,7 +11710,143 @@ extension BedrockClientTypes.AutomatedEvaluationConfig {
         var value = BedrockClientTypes.AutomatedEvaluationConfig()
         value.datasetMetricConfigs = try reader["datasetMetricConfigs"].readListIfPresent(memberReadingClosure: BedrockClientTypes.EvaluationDatasetMetricConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.evaluatorModelConfig = try reader["evaluatorModelConfig"].readIfPresent(with: BedrockClientTypes.EvaluatorModelConfig.read(from:))
+        value.customMetricConfig = try reader["customMetricConfig"].readIfPresent(with: BedrockClientTypes.AutomatedEvaluationCustomMetricConfig.read(from:))
         return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedEvaluationCustomMetricConfig {
+
+    static func write(value: BedrockClientTypes.AutomatedEvaluationCustomMetricConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customMetrics"].writeList(value.customMetrics, memberWritingClosure: BedrockClientTypes.AutomatedEvaluationCustomMetricSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["evaluatorModelConfig"].write(value.evaluatorModelConfig, with: BedrockClientTypes.CustomMetricEvaluatorModelConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedEvaluationCustomMetricConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedEvaluationCustomMetricConfig()
+        value.customMetrics = try reader["customMetrics"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AutomatedEvaluationCustomMetricSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.evaluatorModelConfig = try reader["evaluatorModelConfig"].readIfPresent(with: BedrockClientTypes.CustomMetricEvaluatorModelConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.CustomMetricEvaluatorModelConfig {
+
+    static func write(value: BedrockClientTypes.CustomMetricEvaluatorModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bedrockEvaluatorModels"].writeList(value.bedrockEvaluatorModels, memberWritingClosure: BedrockClientTypes.CustomMetricBedrockEvaluatorModel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomMetricEvaluatorModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.CustomMetricEvaluatorModelConfig()
+        value.bedrockEvaluatorModels = try reader["bedrockEvaluatorModels"].readListIfPresent(memberReadingClosure: BedrockClientTypes.CustomMetricBedrockEvaluatorModel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockClientTypes.CustomMetricBedrockEvaluatorModel {
+
+    static func write(value: BedrockClientTypes.CustomMetricBedrockEvaluatorModel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelIdentifier"].write(value.modelIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomMetricBedrockEvaluatorModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.CustomMetricBedrockEvaluatorModel()
+        value.modelIdentifier = try reader["modelIdentifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedEvaluationCustomMetricSource {
+
+    static func write(value: BedrockClientTypes.AutomatedEvaluationCustomMetricSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .custommetricdefinition(custommetricdefinition):
+                try writer["customMetricDefinition"].write(custommetricdefinition, with: BedrockClientTypes.CustomMetricDefinition.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedEvaluationCustomMetricSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "customMetricDefinition":
+                return .custommetricdefinition(try reader["customMetricDefinition"].read(with: BedrockClientTypes.CustomMetricDefinition.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.CustomMetricDefinition {
+
+    static func write(value: BedrockClientTypes.CustomMetricDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["instructions"].write(value.instructions)
+        try writer["name"].write(value.name)
+        try writer["ratingScale"].writeList(value.ratingScale, memberWritingClosure: BedrockClientTypes.RatingScaleItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomMetricDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.CustomMetricDefinition()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.instructions = try reader["instructions"].readIfPresent() ?? ""
+        value.ratingScale = try reader["ratingScale"].readListIfPresent(memberReadingClosure: BedrockClientTypes.RatingScaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockClientTypes.RatingScaleItem {
+
+    static func write(value: BedrockClientTypes.RatingScaleItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["definition"].write(value.definition)
+        try writer["value"].write(value.value, with: BedrockClientTypes.RatingScaleItemValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RatingScaleItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.RatingScaleItem()
+        value.definition = try reader["definition"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent(with: BedrockClientTypes.RatingScaleItemValue.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.RatingScaleItemValue {
+
+    static func write(value: BedrockClientTypes.RatingScaleItemValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .floatvalue(floatvalue):
+                try writer["floatValue"].write(floatvalue)
+            case let .stringvalue(stringvalue):
+                try writer["stringValue"].write(stringvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RatingScaleItemValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "stringValue":
+                return .stringvalue(try reader["stringValue"].read())
+            case "floatValue":
+                return .floatvalue(try reader["floatValue"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -12718,6 +12990,7 @@ extension BedrockClientTypes.EvaluationSummary {
         value.modelIdentifiers = try reader["modelIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.ragIdentifiers = try reader["ragIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.evaluatorModelIdentifiers = try reader["evaluatorModelIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customMetricsEvaluatorModelIdentifiers = try reader["customMetricsEvaluatorModelIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.inferenceConfigSummary = try reader["inferenceConfigSummary"].readIfPresent(with: BedrockClientTypes.EvaluationInferenceConfigSummary.read(from:))
         value.applicationType = try reader["applicationType"].readIfPresent()
         return value

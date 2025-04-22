@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EMRcontainersClient: ClientRuntime.Client {
     public static let clientName = "EMRcontainersClient"
-    public static let version = "1.2.58"
+    public static let version = "1.2.63"
     let client: ClientRuntime.SdkHttpClient
     let config: EMRcontainersClient.EMRcontainersClientConfiguration
     let serviceName = "EMR containers"

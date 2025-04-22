@@ -3016,7 +3016,7 @@ extension AutoScalingClientTypes {
         public var minSize: Swift.Int?
         /// The mixed instances policy for the group.
         public var mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy?
-        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in.
+        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide.
         public var newInstancesProtectedFromScaleIn: Swift.Bool?
         /// The name of the placement group into which to launch your instances, if any.
         public var placementGroup: Swift.String?
@@ -6428,7 +6428,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
     /// One or more Availability Zones for the group.
     public var availabilityZones: [Swift.String]?
-    /// Enables or disables Capacity Rebalancing. For more information, see [Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Enables or disables Capacity Rebalancing. If Capacity Rebalancing is disabled, proactive replacement of at-risk Spot Instances does not occur. For more information, see [Capacity Rebalancing in Auto Scaling to replace at-risk Spot Instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html) in the Amazon EC2 Auto Scaling User Guide. To suspend rebalancing across Availability Zones, use the [SuspendProcesses](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_SuspendedProcess.html) API.
     public var capacityRebalance: Swift.Bool?
     /// The capacity reservation specification for the Auto Scaling group.
     public var capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification?
