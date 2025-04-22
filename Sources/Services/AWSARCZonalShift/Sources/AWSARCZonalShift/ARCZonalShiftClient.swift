@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ARCZonalShiftClient: ClientRuntime.Client {
     public static let clientName = "ARCZonalShiftClient"
-    public static let version = "1.2.62"
+    public static let version = "1.2.63"
     let client: ClientRuntime.SdkHttpClient
     let config: ARCZonalShiftClient.ARCZonalShiftClientConfiguration
     let serviceName = "ARC Zonal Shift"
@@ -890,7 +890,7 @@ extension ARCZonalShiftClient {
 
     /// Performs the `ListZonalShifts` operation on the `ARCZonalShift` service.
     ///
-    /// Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region. ListZonalShifts returns customer-initiated zonal shifts, as well as practice run zonal shifts that ARC started on your behalf for zonal autoshift. For more information about listing autoshifts, see [">ListAutoshifts](https://docs.aws.amazon.com/arc-zonal-shift/latest/api/API_ListAutoshifts.html).
+    /// Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region.
     ///
     /// - Parameter ListZonalShiftsInput : [no documentation found]
     ///

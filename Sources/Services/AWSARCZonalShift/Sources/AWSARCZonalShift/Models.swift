@@ -128,6 +128,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 extension ARCZonalShiftClientTypes {
 
     public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoshiftUpdateNotAllowed
         case fisExperimentUpdateNotAllowed
         case invalidAlarmCondition
         case invalidAz
@@ -143,6 +144,7 @@ extension ARCZonalShiftClientTypes {
 
         public static var allCases: [ValidationExceptionReason] {
             return [
+                .autoshiftUpdateNotAllowed,
                 .fisExperimentUpdateNotAllowed,
                 .invalidAlarmCondition,
                 .invalidAz,
@@ -164,6 +166,7 @@ extension ARCZonalShiftClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .autoshiftUpdateNotAllowed: return "AutoshiftUpdateNotAllowed"
             case .fisExperimentUpdateNotAllowed: return "FISExperimentUpdateNotAllowed"
             case .invalidAlarmCondition: return "InvalidAlarmCondition"
             case .invalidAz: return "InvalidAz"
@@ -260,7 +263,7 @@ public struct ListAutoshiftsInput: Swift.Sendable {
 
 extension ARCZonalShiftClientTypes {
 
-    /// Information about an autoshift. Amazon Web Services starts an autoshift to temporarily move traffic for a resource away from an Availability Zone in an Amazon Web Services Region when Amazon Web Services determines that there's an issue in the Availability Zone that could potentially affect customers. You can configure zonal autoshift in ARC for managed resources in your Amazon Web Services account in a Region. Supported Amazon Web Services resources are automatically registered with ARC. Autoshifts are temporary. When the Availability Zone recovers, Amazon Web Services ends the autoshift, and traffic for the resource is no longer directed to the other Availability Zones in the Region. You can stop an autoshift for a resource by disabling zonal autoshift.
+    /// Information about an autoshift. Amazon Web Services starts an autoshift to temporarily move traffic for a resource away from an Availability Zone in an Amazon Web Services Region when Amazon Web Services determines that there's an issue in the Availability Zone that could potentially affect customers. You can configure zonal autoshift in ARC for managed resources in your Amazon Web Services account in a Region. Supported Amazon Web Services resources are automatically registered with ARC. Autoshifts are temporary. When the Availability Zone recovers, Amazon Web Services ends the autoshift, and traffic for the resource is no longer directed to the other Availability Zones in the Region.
     public struct AutoshiftSummary: Swift.Sendable {
         /// The Availability Zone (for example, use1-az1) that traffic is shifted away from for a resource when Amazon Web Services starts an autoshift. Until the autoshift ends, traffic for the resource is instead directed to other Availability Zones in the Amazon Web Services Region. An autoshift can end for a resource, for example, when Amazon Web Services ends the autoshift for the Availability Zone or when you disable zonal autoshift for the resource.
         /// This member is required.
