@@ -1322,6 +1322,9 @@ extension EntityResolutionClientTypes {
         case addressStreet3
         case date
         case emailAddress
+        case ipv4
+        case ipv6
+        case maid
         case name
         case nameFirst
         case nameLast
@@ -1346,6 +1349,9 @@ extension EntityResolutionClientTypes {
                 .addressStreet3,
                 .date,
                 .emailAddress,
+                .ipv4,
+                .ipv6,
+                .maid,
                 .name,
                 .nameFirst,
                 .nameLast,
@@ -1376,6 +1382,9 @@ extension EntityResolutionClientTypes {
             case .addressStreet3: return "ADDRESS_STREET3"
             case .date: return "DATE"
             case .emailAddress: return "EMAIL_ADDRESS"
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case .maid: return "MAID"
             case .name: return "NAME"
             case .nameFirst: return "NAME_FIRST"
             case .nameLast: return "NAME_LAST"
@@ -1407,7 +1416,7 @@ extension EntityResolutionClientTypes {
         public var matchKey: Swift.String?
         /// The subtype of the attribute, selected from a list of values.
         public var subType: Swift.String?
-        /// The type of the attribute, selected from a list of values. Normalization is only supported for NAME, ADDRESS, PHONE, and EMAIL_ADDRESS. If you want to normalize NAME_FIRST, NAME_MIDDLE, and NAME_LAST, you must group them by assigning them to the NAMEgroupName. If you want to normalize ADDRESS_STREET1, ADDRESS_STREET2, ADDRESS_STREET3, ADDRESS_CITY, ADDRESS_STATE, ADDRESS_COUNTRY, and ADDRESS_POSTALCODE, you must group them by assigning them to the ADDRESSgroupName. If you want to normalize PHONE_NUMBER and PHONE_COUNTRYCODE, you must group them by assigning them to the PHONEgroupName.
+        /// The type of the attribute, selected from a list of values. LiveRamp supports: NAME | NAME_FIRST | NAME_MIDDLE | NAME_LAST | ADDRESS | ADDRESS_STREET1 | ADDRESS_STREET2 | ADDRESS_STREET3 | ADDRESS_CITY | ADDRESS_STATE | ADDRESS_COUNTRY | ADDRESS_POSTALCODE | PHONE | PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID | PROVIDER_ID TransUnion supports: NAME | NAME_FIRST | NAME_LAST | ADDRESS | ADDRESS_CITY | ADDRESS_STATE | ADDRESS_COUNTRY | ADDRESS_POSTALCODE | PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID | IPV4 | IPV6 | MAID Unified ID 2.0 supports: PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID Normalization is only supported for NAME, ADDRESS, PHONE, and EMAIL_ADDRESS. If you want to normalize NAME_FIRST, NAME_MIDDLE, and NAME_LAST, you must group them by assigning them to the NAMEgroupName. If you want to normalize ADDRESS_STREET1, ADDRESS_STREET2, ADDRESS_STREET3, ADDRESS_CITY, ADDRESS_STATE, ADDRESS_COUNTRY, and ADDRESS_POSTALCODE, you must group them by assigning them to the ADDRESSgroupName. If you want to normalize PHONE_NUMBER and PHONE_COUNTRYCODE, you must group them by assigning them to the PHONEgroupName.
         /// This member is required.
         public var type: EntityResolutionClientTypes.SchemaAttributeType?
 
@@ -2193,7 +2202,7 @@ extension EntityResolutionClientTypes {
         public var hashing: Swift.Bool?
         /// The sub type of the provider schema attribute.
         public var subType: Swift.String?
-        /// The type of the provider schema attribute.
+        /// The type of the provider schema attribute. LiveRamp supports: NAME | NAME_FIRST | NAME_MIDDLE | NAME_LAST | ADDRESS | ADDRESS_STREET1 | ADDRESS_STREET2 | ADDRESS_STREET3 | ADDRESS_CITY | ADDRESS_STATE | ADDRESS_COUNTRY | ADDRESS_POSTALCODE | PHONE | PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID | PROVIDER_ID TransUnion supports: NAME | NAME_FIRST | NAME_LAST | ADDRESS | ADDRESS_CITY | ADDRESS_STATE | ADDRESS_COUNTRY | ADDRESS_POSTALCODE | PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID | DATE | IPV4 | IPV6 | MAID Unified ID 2.0 supports: PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID
         /// This member is required.
         public var type: EntityResolutionClientTypes.SchemaAttributeType?
 

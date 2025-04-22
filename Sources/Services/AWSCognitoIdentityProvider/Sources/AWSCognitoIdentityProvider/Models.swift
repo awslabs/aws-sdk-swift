@@ -1780,6 +1780,29 @@ public struct PasswordResetRequiredException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
+/// Exception that is thrown when you attempt to perform an operation that isn't enabled for the user pool client.
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedOperationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// This exception is thrown when a user isn't confirmed successfully.
 public struct UserNotConfirmedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -6117,6 +6140,55 @@ extension CognitoIdentityProviderClientTypes {
 
 extension CognitoIdentityProviderClientTypes {
 
+    public enum FeatureType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureType] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The configuration of your app client for refresh token rotation. When enabled, your app client issues new ID, access, and refresh tokens when users renew their sessions with refresh tokens. When disabled, token refresh issues only ID and access tokens.
+    public struct RefreshTokenRotationType: Swift.Sendable {
+        /// The state of refresh token rotation for the current app client.
+        /// This member is required.
+        public var feature: CognitoIdentityProviderClientTypes.FeatureType?
+        /// When you request a token refresh with GetTokensFromRefreshToken, the original refresh token that you're rotating out can remain valid for a period of time of up to 60 seconds. This allows for client-side retries. When RetryGracePeriodSeconds is 0, the grace period is disabled and a successful request immediately invalidates the submitted refresh token.
+        public var retryGracePeriodSeconds: Swift.Int?
+
+        public init(
+            feature: CognitoIdentityProviderClientTypes.FeatureType? = nil,
+            retryGracePeriodSeconds: Swift.Int? = nil
+        ) {
+            self.feature = feature
+            self.retryGracePeriodSeconds = retryGracePeriodSeconds
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
     public enum TimeUnitsType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case days
         case hours
@@ -6245,6 +6317,8 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
     public var preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes?
     /// The list of user attributes that you want your app client to have read access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the standard attributes of your user pool. When your user pool app client has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
     public var readAttributes: [Swift.String]?
+    /// The configuration of your app client for refresh token rotation. When enabled, your app client issues new ID, access, and refresh tokens when users renew their sessions with refresh tokens. When disabled, token refresh issues only ID and access tokens.
+    public var refreshTokenRotation: CognitoIdentityProviderClientTypes.RefreshTokenRotationType?
     /// The refresh token time limit. After this limit expires, your user can't use their refresh token. To specify the time unit for RefreshTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days. You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
     public var refreshTokenValidity: Swift.Int?
     /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This parameter sets the IdPs that [managed login](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html) will display on the login page for your app client. The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent SDK-based authentication is to block access with a [WAF rule](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-waf.html).
@@ -6275,6 +6349,7 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
         logoutURLs: [Swift.String]? = nil,
         preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes? = nil,
         readAttributes: [Swift.String]? = nil,
+        refreshTokenRotation: CognitoIdentityProviderClientTypes.RefreshTokenRotationType? = nil,
         refreshTokenValidity: Swift.Int? = 0,
         supportedIdentityProviders: [Swift.String]? = nil,
         tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType? = nil,
@@ -6298,6 +6373,7 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
         self.logoutURLs = logoutURLs
         self.preventUserExistenceErrors = preventUserExistenceErrors
         self.readAttributes = readAttributes
+        self.refreshTokenRotation = refreshTokenRotation
         self.refreshTokenValidity = refreshTokenValidity
         self.supportedIdentityProviders = supportedIdentityProviders
         self.tokenValidityUnits = tokenValidityUnits
@@ -6394,6 +6470,8 @@ extension CognitoIdentityProviderClientTypes {
         public var preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes?
         /// The list of user attributes that you want your app client to have read access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the standard attributes of your user pool. When your user pool app client has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
         public var readAttributes: [Swift.String]?
+        /// The configuration of your app client for refresh token rotation. When enabled, your app client issues new ID, access, and refresh tokens when users renew their sessions with refresh tokens. When disabled, token refresh issues only ID and access tokens.
+        public var refreshTokenRotation: CognitoIdentityProviderClientTypes.RefreshTokenRotationType?
         /// The refresh token time limit. After this limit expires, your user can't use their refresh token. To specify the time unit for RefreshTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days. You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
         public var refreshTokenValidity: Swift.Int
         /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This parameter sets the IdPs that [managed login](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html) will display on the login page for your app client. The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent SDK-based authentication is to block access with a [WAF rule](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-waf.html).
@@ -6426,6 +6504,7 @@ extension CognitoIdentityProviderClientTypes {
             logoutURLs: [Swift.String]? = nil,
             preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes? = nil,
             readAttributes: [Swift.String]? = nil,
+            refreshTokenRotation: CognitoIdentityProviderClientTypes.RefreshTokenRotationType? = nil,
             refreshTokenValidity: Swift.Int = 0,
             supportedIdentityProviders: [Swift.String]? = nil,
             tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType? = nil,
@@ -6452,6 +6531,7 @@ extension CognitoIdentityProviderClientTypes {
             self.logoutURLs = logoutURLs
             self.preventUserExistenceErrors = preventUserExistenceErrors
             self.readAttributes = readAttributes
+            self.refreshTokenRotation = refreshTokenRotation
             self.refreshTokenValidity = refreshTokenValidity
             self.supportedIdentityProviders = supportedIdentityProviders
             self.tokenValidityUnits = tokenValidityUnits
@@ -6463,7 +6543,7 @@ extension CognitoIdentityProviderClientTypes {
 
 extension CognitoIdentityProviderClientTypes.UserPoolClientType: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UserPoolClientType(accessTokenValidity: \(Swift.String(describing: accessTokenValidity)), allowedOAuthFlows: \(Swift.String(describing: allowedOAuthFlows)), allowedOAuthFlowsUserPoolClient: \(Swift.String(describing: allowedOAuthFlowsUserPoolClient)), allowedOAuthScopes: \(Swift.String(describing: allowedOAuthScopes)), analyticsConfiguration: \(Swift.String(describing: analyticsConfiguration)), authSessionValidity: \(Swift.String(describing: authSessionValidity)), callbackURLs: \(Swift.String(describing: callbackURLs)), clientName: \(Swift.String(describing: clientName)), creationDate: \(Swift.String(describing: creationDate)), defaultRedirectURI: \(Swift.String(describing: defaultRedirectURI)), enablePropagateAdditionalUserContextData: \(Swift.String(describing: enablePropagateAdditionalUserContextData)), enableTokenRevocation: \(Swift.String(describing: enableTokenRevocation)), explicitAuthFlows: \(Swift.String(describing: explicitAuthFlows)), idTokenValidity: \(Swift.String(describing: idTokenValidity)), lastModifiedDate: \(Swift.String(describing: lastModifiedDate)), logoutURLs: \(Swift.String(describing: logoutURLs)), preventUserExistenceErrors: \(Swift.String(describing: preventUserExistenceErrors)), readAttributes: \(Swift.String(describing: readAttributes)), refreshTokenValidity: \(Swift.String(describing: refreshTokenValidity)), supportedIdentityProviders: \(Swift.String(describing: supportedIdentityProviders)), tokenValidityUnits: \(Swift.String(describing: tokenValidityUnits)), userPoolId: \(Swift.String(describing: userPoolId)), writeAttributes: \(Swift.String(describing: writeAttributes)), clientId: \"CONTENT_REDACTED\", clientSecret: \"CONTENT_REDACTED\")"}
+        "UserPoolClientType(accessTokenValidity: \(Swift.String(describing: accessTokenValidity)), allowedOAuthFlows: \(Swift.String(describing: allowedOAuthFlows)), allowedOAuthFlowsUserPoolClient: \(Swift.String(describing: allowedOAuthFlowsUserPoolClient)), allowedOAuthScopes: \(Swift.String(describing: allowedOAuthScopes)), analyticsConfiguration: \(Swift.String(describing: analyticsConfiguration)), authSessionValidity: \(Swift.String(describing: authSessionValidity)), callbackURLs: \(Swift.String(describing: callbackURLs)), clientName: \(Swift.String(describing: clientName)), creationDate: \(Swift.String(describing: creationDate)), defaultRedirectURI: \(Swift.String(describing: defaultRedirectURI)), enablePropagateAdditionalUserContextData: \(Swift.String(describing: enablePropagateAdditionalUserContextData)), enableTokenRevocation: \(Swift.String(describing: enableTokenRevocation)), explicitAuthFlows: \(Swift.String(describing: explicitAuthFlows)), idTokenValidity: \(Swift.String(describing: idTokenValidity)), lastModifiedDate: \(Swift.String(describing: lastModifiedDate)), logoutURLs: \(Swift.String(describing: logoutURLs)), preventUserExistenceErrors: \(Swift.String(describing: preventUserExistenceErrors)), readAttributes: \(Swift.String(describing: readAttributes)), refreshTokenRotation: \(Swift.String(describing: refreshTokenRotation)), refreshTokenValidity: \(Swift.String(describing: refreshTokenValidity)), supportedIdentityProviders: \(Swift.String(describing: supportedIdentityProviders)), tokenValidityUnits: \(Swift.String(describing: tokenValidityUnits)), userPoolId: \(Swift.String(describing: userPoolId)), writeAttributes: \(Swift.String(describing: writeAttributes)), clientId: \"CONTENT_REDACTED\", clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 /// Represents the response from the server to create a user pool client.
@@ -7696,6 +7776,80 @@ public struct GetSigningCertificateOutput: Swift.Sendable {
         certificate: Swift.String? = nil
     ) {
         self.certificate = certificate
+    }
+}
+
+/// This exception is throw when your application requests token refresh with a refresh token that has been invalidated by refresh-token rotation.
+public struct RefreshTokenReuseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RefreshTokenReuseException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetTokensFromRefreshTokenInput: Swift.Sendable {
+    /// The app client that issued the refresh token to the user who wants to request new tokens.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// A map of custom key-value pairs that you can provide as input for certain custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When you use the GetTokensFromRefreshToken API action, Amazon Cognito invokes the Lambda function the pre token generation trigger. For more information, see [ Using Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:
+    ///
+    /// * Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.
+    ///
+    /// * Validate the ClientMetadata value.
+    ///
+    /// * Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
+    public var clientMetadata: [Swift.String: Swift.String]?
+    /// The client secret of the requested app client, if the client has a secret.
+    public var clientSecret: Swift.String?
+    /// When you enable device remembering, Amazon Cognito issues a device key that you can use for device authentication that bypasses multi-factor authentication (MFA). To implement GetTokensFromRefreshToken in a user pool with device remembering, you must capture the device key from the initial authentication request. If your application doesn't provide the key of a registered device, Amazon Cognito issues a new one. You must provide the confirmed device key in this request if device remembering is enabled in your user pool. For more information about device remembering, see [Working with devices](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html).
+    public var deviceKey: Swift.String?
+    /// A valid refresh token that can authorize the request for new tokens. When refresh token rotation is active in the requested app client, this token is invalidated after the request is complete.
+    /// This member is required.
+    public var refreshToken: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        clientMetadata: [Swift.String: Swift.String]? = nil,
+        clientSecret: Swift.String? = nil,
+        deviceKey: Swift.String? = nil,
+        refreshToken: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.clientMetadata = clientMetadata
+        self.clientSecret = clientSecret
+        self.deviceKey = deviceKey
+        self.refreshToken = refreshToken
+    }
+}
+
+extension GetTokensFromRefreshTokenInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetTokensFromRefreshTokenInput(clientMetadata: \(Swift.String(describing: clientMetadata)), deviceKey: \(Swift.String(describing: deviceKey)), clientId: \"CONTENT_REDACTED\", clientSecret: \"CONTENT_REDACTED\", refreshToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetTokensFromRefreshTokenOutput: Swift.Sendable {
+    /// The object that your application receives after authentication. Contains tokens and information for device authentication.
+    public var authenticationResult: CognitoIdentityProviderClientTypes.AuthenticationResultType?
+
+    public init(
+        authenticationResult: CognitoIdentityProviderClientTypes.AuthenticationResultType? = nil
+    ) {
+        self.authenticationResult = authenticationResult
     }
 }
 
@@ -9032,29 +9186,6 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// Exception that is thrown when you attempt to perform an operation that isn't enabled for the user pool client.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "UnsupportedOperationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// Exception that is thrown when an unsupported token is passed to an operation.
 public struct UnsupportedTokenTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -10037,6 +10168,8 @@ public struct UpdateUserPoolClientInput: Swift.Sendable {
     public var preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes?
     /// The list of user attributes that you want your app client to have read access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the standard attributes of your user pool. When your user pool app client has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
     public var readAttributes: [Swift.String]?
+    /// The configuration of your app client for refresh token rotation. When enabled, your app client issues new ID, access, and refresh tokens when users renew their sessions with refresh tokens. When disabled, token refresh issues only ID and access tokens.
+    public var refreshTokenRotation: CognitoIdentityProviderClientTypes.RefreshTokenRotationType?
     /// The refresh token time limit. After this limit expires, your user can't use their refresh token. To specify the time unit for RefreshTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days. You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
     public var refreshTokenValidity: Swift.Int?
     /// A list of provider names for the identity providers (IdPs) that are supported on this client. The following are supported: COGNITO, Facebook, Google, SignInWithApple, and LoginWithAmazon. You can also specify the names that you configured for the SAML and OIDC IdPs in your user pool, for example MySAMLIdP or MyOIDCIdP. This parameter sets the IdPs that [managed login](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html) will display on the login page for your app client. The removal of COGNITO from this list doesn't prevent authentication operations for local users with the user pools API in an Amazon Web Services SDK. The only way to prevent SDK-based authentication is to block access with a [WAF rule](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-waf.html).
@@ -10067,6 +10200,7 @@ public struct UpdateUserPoolClientInput: Swift.Sendable {
         logoutURLs: [Swift.String]? = nil,
         preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes? = nil,
         readAttributes: [Swift.String]? = nil,
+        refreshTokenRotation: CognitoIdentityProviderClientTypes.RefreshTokenRotationType? = nil,
         refreshTokenValidity: Swift.Int? = 0,
         supportedIdentityProviders: [Swift.String]? = nil,
         tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType? = nil,
@@ -10090,6 +10224,7 @@ public struct UpdateUserPoolClientInput: Swift.Sendable {
         self.logoutURLs = logoutURLs
         self.preventUserExistenceErrors = preventUserExistenceErrors
         self.readAttributes = readAttributes
+        self.refreshTokenRotation = refreshTokenRotation
         self.refreshTokenValidity = refreshTokenValidity
         self.supportedIdentityProviders = supportedIdentityProviders
         self.tokenValidityUnits = tokenValidityUnits
@@ -10100,7 +10235,7 @@ public struct UpdateUserPoolClientInput: Swift.Sendable {
 
 extension UpdateUserPoolClientInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateUserPoolClientInput(accessTokenValidity: \(Swift.String(describing: accessTokenValidity)), allowedOAuthFlows: \(Swift.String(describing: allowedOAuthFlows)), allowedOAuthFlowsUserPoolClient: \(Swift.String(describing: allowedOAuthFlowsUserPoolClient)), allowedOAuthScopes: \(Swift.String(describing: allowedOAuthScopes)), analyticsConfiguration: \(Swift.String(describing: analyticsConfiguration)), authSessionValidity: \(Swift.String(describing: authSessionValidity)), callbackURLs: \(Swift.String(describing: callbackURLs)), clientName: \(Swift.String(describing: clientName)), defaultRedirectURI: \(Swift.String(describing: defaultRedirectURI)), enablePropagateAdditionalUserContextData: \(Swift.String(describing: enablePropagateAdditionalUserContextData)), enableTokenRevocation: \(Swift.String(describing: enableTokenRevocation)), explicitAuthFlows: \(Swift.String(describing: explicitAuthFlows)), idTokenValidity: \(Swift.String(describing: idTokenValidity)), logoutURLs: \(Swift.String(describing: logoutURLs)), preventUserExistenceErrors: \(Swift.String(describing: preventUserExistenceErrors)), readAttributes: \(Swift.String(describing: readAttributes)), refreshTokenValidity: \(Swift.String(describing: refreshTokenValidity)), supportedIdentityProviders: \(Swift.String(describing: supportedIdentityProviders)), tokenValidityUnits: \(Swift.String(describing: tokenValidityUnits)), userPoolId: \(Swift.String(describing: userPoolId)), writeAttributes: \(Swift.String(describing: writeAttributes)), clientId: \"CONTENT_REDACTED\")"}
+        "UpdateUserPoolClientInput(accessTokenValidity: \(Swift.String(describing: accessTokenValidity)), allowedOAuthFlows: \(Swift.String(describing: allowedOAuthFlows)), allowedOAuthFlowsUserPoolClient: \(Swift.String(describing: allowedOAuthFlowsUserPoolClient)), allowedOAuthScopes: \(Swift.String(describing: allowedOAuthScopes)), analyticsConfiguration: \(Swift.String(describing: analyticsConfiguration)), authSessionValidity: \(Swift.String(describing: authSessionValidity)), callbackURLs: \(Swift.String(describing: callbackURLs)), clientName: \(Swift.String(describing: clientName)), defaultRedirectURI: \(Swift.String(describing: defaultRedirectURI)), enablePropagateAdditionalUserContextData: \(Swift.String(describing: enablePropagateAdditionalUserContextData)), enableTokenRevocation: \(Swift.String(describing: enableTokenRevocation)), explicitAuthFlows: \(Swift.String(describing: explicitAuthFlows)), idTokenValidity: \(Swift.String(describing: idTokenValidity)), logoutURLs: \(Swift.String(describing: logoutURLs)), preventUserExistenceErrors: \(Swift.String(describing: preventUserExistenceErrors)), readAttributes: \(Swift.String(describing: readAttributes)), refreshTokenRotation: \(Swift.String(describing: refreshTokenRotation)), refreshTokenValidity: \(Swift.String(describing: refreshTokenValidity)), supportedIdentityProviders: \(Swift.String(describing: supportedIdentityProviders)), tokenValidityUnits: \(Swift.String(describing: tokenValidityUnits)), userPoolId: \(Swift.String(describing: userPoolId)), writeAttributes: \(Swift.String(describing: writeAttributes)), clientId: \"CONTENT_REDACTED\")"}
 }
 
 /// Represents the response from the server to the request to update the user pool client.
@@ -10764,6 +10899,13 @@ extension GetLogDeliveryConfigurationInput {
 extension GetSigningCertificateInput {
 
     static func urlPathProvider(_ value: GetSigningCertificateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetTokensFromRefreshTokenInput {
+
+    static func urlPathProvider(_ value: GetTokensFromRefreshTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11551,6 +11693,7 @@ extension CreateUserPoolClientInput {
         try writer["LogoutURLs"].writeList(value.logoutURLs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PreventUserExistenceErrors"].write(value.preventUserExistenceErrors)
         try writer["ReadAttributes"].writeList(value.readAttributes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RefreshTokenRotation"].write(value.refreshTokenRotation, with: CognitoIdentityProviderClientTypes.RefreshTokenRotationType.write(value:to:))
         try writer["RefreshTokenValidity"].write(value.refreshTokenValidity)
         try writer["SupportedIdentityProviders"].writeList(value.supportedIdentityProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TokenValidityUnits"].write(value.tokenValidityUnits, with: CognitoIdentityProviderClientTypes.TokenValidityUnitsType.write(value:to:))
@@ -11809,6 +11952,18 @@ extension GetSigningCertificateInput {
     static func write(value: GetSigningCertificateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["UserPoolId"].write(value.userPoolId)
+    }
+}
+
+extension GetTokensFromRefreshTokenInput {
+
+    static func write(value: GetTokensFromRefreshTokenInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientId"].write(value.clientId)
+        try writer["ClientMetadata"].writeMap(value.clientMetadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ClientSecret"].write(value.clientSecret)
+        try writer["DeviceKey"].write(value.deviceKey)
+        try writer["RefreshToken"].write(value.refreshToken)
     }
 }
 
@@ -12277,6 +12432,7 @@ extension UpdateUserPoolClientInput {
         try writer["LogoutURLs"].writeList(value.logoutURLs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PreventUserExistenceErrors"].write(value.preventUserExistenceErrors)
         try writer["ReadAttributes"].writeList(value.readAttributes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RefreshTokenRotation"].write(value.refreshTokenRotation, with: CognitoIdentityProviderClientTypes.RefreshTokenRotationType.write(value:to:))
         try writer["RefreshTokenValidity"].write(value.refreshTokenValidity)
         try writer["SupportedIdentityProviders"].writeList(value.supportedIdentityProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TokenValidityUnits"].write(value.tokenValidityUnits, with: CognitoIdentityProviderClientTypes.TokenValidityUnitsType.write(value:to:))
@@ -12985,6 +13141,18 @@ extension GetSigningCertificateOutput {
         let reader = responseReader
         var value = GetSigningCertificateOutput()
         value.certificate = try reader["Certificate"].readIfPresent()
+        return value
+    }
+}
+
+extension GetTokensFromRefreshTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTokensFromRefreshTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTokensFromRefreshTokenOutput()
+        value.authenticationResult = try reader["AuthenticationResult"].readIfPresent(with: CognitoIdentityProviderClientTypes.AuthenticationResultType.read(from:))
         return value
     }
 }
@@ -13782,6 +13950,7 @@ enum AdminInitiateAuthOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "UnexpectedLambdaException": return try UnexpectedLambdaException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
             case "UserLambdaValidationException": return try UserLambdaValidationException.makeError(baseError: baseError)
             case "UserNotConfirmedException": return try UserNotConfirmedException.makeError(baseError: baseError)
             case "UserNotFoundException": return try UserNotFoundException.makeError(baseError: baseError)
@@ -14380,6 +14549,7 @@ enum CreateUserPoolClientOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "FeatureUnavailableInTierException": return try FeatureUnavailableInTierException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidOAuthFlowException": return try InvalidOAuthFlowException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -14401,6 +14571,7 @@ enum CreateUserPoolDomainOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "FeatureUnavailableInTierException": return try FeatureUnavailableInTierException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -14577,6 +14748,7 @@ enum DeleteUserPoolDomainOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
@@ -14929,6 +15101,30 @@ enum GetSigningCertificateOutputError {
     }
 }
 
+enum GetTokensFromRefreshTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
+            case "InvalidLambdaResponseException": return try InvalidLambdaResponseException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "RefreshTokenReuseException": return try RefreshTokenReuseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnexpectedLambdaException": return try UnexpectedLambdaException.makeError(baseError: baseError)
+            case "UserLambdaValidationException": return try UserLambdaValidationException.makeError(baseError: baseError)
+            case "UserNotFoundException": return try UserNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetUICustomizationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15081,6 +15277,7 @@ enum InitiateAuthOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "UnexpectedLambdaException": return try UnexpectedLambdaException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
             case "UserLambdaValidationException": return try UserLambdaValidationException.makeError(baseError: baseError)
             case "UserNotConfirmedException": return try UserNotConfirmedException.makeError(baseError: baseError)
             case "UserNotFoundException": return try UserNotFoundException.makeError(baseError: baseError)
@@ -15805,6 +16002,7 @@ enum UpdateUserPoolClientOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "FeatureUnavailableInTierException": return try FeatureUnavailableInTierException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidOAuthFlowException": return try InvalidOAuthFlowException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -15825,6 +16023,7 @@ enum UpdateUserPoolDomainOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "FeatureUnavailableInTierException": return try FeatureUnavailableInTierException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -16214,6 +16413,19 @@ extension PasswordResetRequiredException {
     }
 }
 
+extension UnsupportedOperationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedOperationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension UserPoolAddOnNotEnabledException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserPoolAddOnNotEnabledException {
@@ -16513,6 +16725,19 @@ extension UnsupportedIdentityProviderException {
     }
 }
 
+extension RefreshTokenReuseException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RefreshTokenReuseException {
+        let reader = baseError.errorBodyReader
+        var value = RefreshTokenReuseException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension UnsupportedTokenTypeException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedTokenTypeException {
@@ -16531,19 +16756,6 @@ extension UnauthorizedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnsupportedOperationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
-        let reader = baseError.errorBodyReader
-        var value = UnsupportedOperationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -17359,6 +17571,24 @@ extension CognitoIdentityProviderClientTypes.UserPoolClientType {
         value.enableTokenRevocation = try reader["EnableTokenRevocation"].readIfPresent()
         value.enablePropagateAdditionalUserContextData = try reader["EnablePropagateAdditionalUserContextData"].readIfPresent()
         value.authSessionValidity = try reader["AuthSessionValidity"].readIfPresent()
+        value.refreshTokenRotation = try reader["RefreshTokenRotation"].readIfPresent(with: CognitoIdentityProviderClientTypes.RefreshTokenRotationType.read(from:))
+        return value
+    }
+}
+
+extension CognitoIdentityProviderClientTypes.RefreshTokenRotationType {
+
+    static func write(value: CognitoIdentityProviderClientTypes.RefreshTokenRotationType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Feature"].write(value.feature)
+        try writer["RetryGracePeriodSeconds"].write(value.retryGracePeriodSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.RefreshTokenRotationType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CognitoIdentityProviderClientTypes.RefreshTokenRotationType()
+        value.feature = try reader["Feature"].readIfPresent() ?? .sdkUnknown("")
+        value.retryGracePeriodSeconds = try reader["RetryGracePeriodSeconds"].readIfPresent()
         return value
     }
 }

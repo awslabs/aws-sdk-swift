@@ -2719,7 +2719,7 @@ class EndpointResolverTest: XCTestCase {
     /// ListRegionalBuckets + OutpostId with fips in CN.
     func testResolve94() throws {
         let endpointParams = EndpointParams(
-            accountId: "0123456789012",
+            accountId: "012345678912",
             outpostId: "op-123",
             region: "cn-north-1",
             requiresAccountId: true,
@@ -2741,7 +2741,7 @@ class EndpointResolverTest: XCTestCase {
     /// ListRegionalBuckets + invalid OutpostId.
     func testResolve95() throws {
         let endpointParams = EndpointParams(
-            accountId: "0123456789012",
+            accountId: "012345678912",
             outpostId: "?outpost/invalid+",
             region: "us-west-1",
             requiresAccountId: true,
@@ -2763,7 +2763,7 @@ class EndpointResolverTest: XCTestCase {
     /// bucket ARN with mismatched accountId
     func testResolve96() throws {
         let endpointParams = EndpointParams(
-            accountId: "0123456789012",
+            accountId: "012345678912",
             bucket: "arn:aws:s3-outposts:us-west-2:999999:outpost:op-01234567890123456:bucket:mybucket",
             region: "us-west-2",
             requiresAccountId: true,
@@ -2775,7 +2775,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid ARN: the accountId specified in the ARN (`999999`) does not match the parameter (`0123456789012`)", message)
+                XCTAssertEqual("Invalid ARN: the accountId specified in the ARN (`999999`) does not match the parameter (`012345678912`)", message)
             default:
                 XCTFail()
             }
