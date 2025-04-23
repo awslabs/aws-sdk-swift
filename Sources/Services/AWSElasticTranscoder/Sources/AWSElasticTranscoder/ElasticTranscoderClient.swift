@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElasticTranscoderClient: ClientRuntime.Client {
     public static let clientName = "ElasticTranscoderClient"
-    public static let version = "1.3.0"
+    public static let version = "1.3.1"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticTranscoderClient.ElasticTranscoderClientConfiguration
     let serviceName = "Elastic Transcoder"

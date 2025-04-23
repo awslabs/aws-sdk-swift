@@ -5977,6 +5977,7 @@ extension ECSClientTypes {
         case pending
         case rollbackFailed
         case rollbackInProgress
+        case rollbackRequested
         case rollbackSuccessful
         case stopped
         case stopRequested
@@ -5989,6 +5990,7 @@ extension ECSClientTypes {
                 .pending,
                 .rollbackFailed,
                 .rollbackInProgress,
+                .rollbackRequested,
                 .rollbackSuccessful,
                 .stopped,
                 .stopRequested,
@@ -6007,6 +6009,7 @@ extension ECSClientTypes {
             case .pending: return "PENDING"
             case .rollbackFailed: return "ROLLBACK_FAILED"
             case .rollbackInProgress: return "ROLLBACK_IN_PROGRESS"
+            case .rollbackRequested: return "ROLLBACK_REQUESTED"
             case .rollbackSuccessful: return "ROLLBACK_SUCCESSFUL"
             case .stopped: return "STOPPED"
             case .stopRequested: return "STOP_REQUESTED"
@@ -8721,7 +8724,7 @@ public struct RunTaskInput: Swift.Sendable {
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
     /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 64 characters are allowed. The valid characters are characters in the range of 33-126, inclusive. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/ECS_Idempotency.html).
     public var clientToken: Swift.String?
-    /// The short name or full Amazon Resource Name (ARN) of the cluster to run your task on. If you do not specify a cluster, the default cluster is assumed.
+    /// The short name or full Amazon Resource Name (ARN) of the cluster to run your task on. If you do not specify a cluster, the default cluster is assumed. Each account receives a default cluster the first time you use the service, but you may also create other clusters.
     public var cluster: Swift.String?
     /// The number of instantiations of the specified task to place on your cluster. You can specify up to 10 tasks for each call.
     public var count: Swift.Int?
@@ -8916,6 +8919,86 @@ public struct StartTaskOutput: Swift.Sendable {
     ) {
         self.failures = failures
         self.tasks = tasks
+    }
+}
+
+/// The service deploy ARN that you specified in the StopServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
+public struct ServiceDeploymentNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceDeploymentNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum StopServiceDeploymentStopType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case abort
+        case rollback
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StopServiceDeploymentStopType] {
+            return [
+                .abort,
+                .rollback
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .abort: return "ABORT"
+            case .rollback: return "ROLLBACK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct StopServiceDeploymentInput: Swift.Sendable {
+    /// The ARN of the service deployment that you want to stop.
+    /// This member is required.
+    public var serviceDeploymentArn: Swift.String?
+    /// How you want Amazon ECS to stop the task. The valid values are ROLLBACK.
+    public var stopType: ECSClientTypes.StopServiceDeploymentStopType?
+
+    public init(
+        serviceDeploymentArn: Swift.String? = nil,
+        stopType: ECSClientTypes.StopServiceDeploymentStopType? = nil
+    ) {
+        self.serviceDeploymentArn = serviceDeploymentArn
+        self.stopType = stopType
+    }
+}
+
+public struct StopServiceDeploymentOutput: Swift.Sendable {
+    /// The ARN of the stopped service deployment.
+    public var serviceDeploymentArn: Swift.String?
+
+    public init(
+        serviceDeploymentArn: Swift.String? = nil
+    ) {
+        self.serviceDeploymentArn = serviceDeploymentArn
     }
 }
 
@@ -9987,6 +10070,13 @@ extension StartTaskInput {
     }
 }
 
+extension StopServiceDeploymentInput {
+
+    static func urlPathProvider(_ value: StopServiceDeploymentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StopTaskInput {
 
     static func urlPathProvider(_ value: StopTaskInput) -> Swift.String? {
@@ -10617,6 +10707,15 @@ extension StartTaskInput {
         try writer["tags"].writeList(value.tags, memberWritingClosure: ECSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["taskDefinition"].write(value.taskDefinition)
         try writer["volumeConfigurations"].writeList(value.volumeConfigurations, memberWritingClosure: ECSClientTypes.TaskVolumeConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension StopServiceDeploymentInput {
+
+    static func write(value: StopServiceDeploymentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["serviceDeploymentArn"].write(value.serviceDeploymentArn)
+        try writer["stopType"].write(value.stopType)
     }
 }
 
@@ -11353,6 +11452,18 @@ extension StartTaskOutput {
         var value = StartTaskOutput()
         value.failures = try reader["failures"].readListIfPresent(memberReadingClosure: ECSClientTypes.Failure.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tasks = try reader["tasks"].readListIfPresent(memberReadingClosure: ECSClientTypes.Task.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension StopServiceDeploymentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopServiceDeploymentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopServiceDeploymentOutput()
+        value.serviceDeploymentArn = try reader["serviceDeploymentArn"].readIfPresent()
         return value
     }
 }
@@ -12308,6 +12419,26 @@ enum StartTaskOutputError {
     }
 }
 
+enum StopServiceDeploymentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ServiceDeploymentNotFoundException": return try ServiceDeploymentNotFoundException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopTaskOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12893,6 +13024,19 @@ extension ConflictException {
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceDeploymentNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceDeploymentNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceDeploymentNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FraudDetectorClient: ClientRuntime.Client {
     public static let clientName = "FraudDetectorClient"
-    public static let version = "1.3.0"
+    public static let version = "1.3.1"
     let client: ClientRuntime.SdkHttpClient
     let config: FraudDetectorClient.FraudDetectorClientConfiguration
     let serviceName = "FraudDetector"

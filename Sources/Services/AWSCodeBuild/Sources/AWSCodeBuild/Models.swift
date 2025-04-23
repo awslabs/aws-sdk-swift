@@ -754,10 +754,12 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes {
 
-    /// Contains compute attributes. These attributes only need be specified when your project's or fleet's computeType is set to ATTRIBUTE_BASED_COMPUTE.
+    /// Contains compute attributes. These attributes only need be specified when your project's or fleet's computeType is set to ATTRIBUTE_BASED_COMPUTE or CUSTOM_INSTANCE_TYPE.
     public struct ComputeConfiguration: Swift.Sendable {
         /// The amount of disk space of the instance type included in your fleet.
         public var disk: Swift.Int?
+        /// The EC2 instance type to be launched in your fleet.
+        public var instanceType: Swift.String?
         /// The machine type of the instance type included in your fleet.
         public var machineType: CodeBuildClientTypes.MachineType?
         /// The amount of memory of the instance type included in your fleet.
@@ -767,11 +769,13 @@ extension CodeBuildClientTypes {
 
         public init(
             disk: Swift.Int? = nil,
+            instanceType: Swift.String? = nil,
             machineType: CodeBuildClientTypes.MachineType? = nil,
             memory: Swift.Int? = nil,
             vCpu: Swift.Int? = nil
         ) {
             self.disk = disk
+            self.instanceType = instanceType
             self.machineType = machineType
             self.memory = memory
             self.vCpu = vCpu
@@ -793,6 +797,7 @@ extension CodeBuildClientTypes {
         case buildLambda2gb
         case buildLambda4gb
         case buildLambda8gb
+        case customInstanceType
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ComputeType] {
@@ -807,7 +812,8 @@ extension CodeBuildClientTypes {
                 .buildLambda1gb,
                 .buildLambda2gb,
                 .buildLambda4gb,
-                .buildLambda8gb
+                .buildLambda8gb,
+                .customInstanceType
             ]
         }
 
@@ -829,6 +835,7 @@ extension CodeBuildClientTypes {
             case .buildLambda2gb: return "BUILD_LAMBDA_2GB"
             case .buildLambda4gb: return "BUILD_LAMBDA_4GB"
             case .buildLambda8gb: return "BUILD_LAMBDA_8GB"
+            case .customInstanceType: return "CUSTOM_INSTANCE_TYPE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3404,7 +3411,7 @@ extension CodeBuildClientTypes {
         /// The name of either the group, enterprise, or organization that will send webhook events to CodeBuild, depending on the type of webhook.
         /// This member is required.
         public var name: Swift.String?
-        /// The type of scope for a GitHub or GitLab webhook.
+        /// The type of scope for a GitHub or GitLab webhook. The scope default is GITHUB_ORGANIZATION.
         /// This member is required.
         public var scope: CodeBuildClientTypes.WebhookScopeType?
 
@@ -10430,6 +10437,7 @@ extension CodeBuildClientTypes.ComputeConfiguration {
     static func write(value: CodeBuildClientTypes.ComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["disk"].write(value.disk)
+        try writer["instanceType"].write(value.instanceType)
         try writer["machineType"].write(value.machineType)
         try writer["memory"].write(value.memory)
         try writer["vCpu"].write(value.vCpu)
@@ -10442,6 +10450,7 @@ extension CodeBuildClientTypes.ComputeConfiguration {
         value.memory = try reader["memory"].readIfPresent()
         value.disk = try reader["disk"].readIfPresent()
         value.machineType = try reader["machineType"].readIfPresent()
+        value.instanceType = try reader["instanceType"].readIfPresent()
         return value
     }
 }

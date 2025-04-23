@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubStrategyClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubStrategyClient"
-    public static let version = "1.3.0"
+    public static let version = "1.3.1"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubStrategyClient.MigrationHubStrategyClientConfiguration
     let serviceName = "MigrationHubStrategy"
