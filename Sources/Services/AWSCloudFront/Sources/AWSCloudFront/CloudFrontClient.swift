@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudFrontClient: ClientRuntime.Client {
     public static let clientName = "CloudFrontClient"
-    public static let version = "1.3.1"
+    public static let version = "1.3.2"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFrontClient.CloudFrontClientConfiguration
     let serviceName = "CloudFront"

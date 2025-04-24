@@ -8568,11 +8568,7 @@ public struct BlockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-/// The RunTask request could not be processed due to conflicts. The provided clientToken is already in use with a different RunTask request. The resourceIds are the existing task ARNs which are already associated with the clientToken. To fix this issue:
-///
-/// * Run RunTask with a unique clientToken.
-///
-/// * Run RunTask with the clientToken and the original set of parameters
+/// The request could not be processed because of conflict in the current state of the resource.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -8979,7 +8975,7 @@ public struct StopServiceDeploymentInput: Swift.Sendable {
     /// The ARN of the service deployment that you want to stop.
     /// This member is required.
     public var serviceDeploymentArn: Swift.String?
-    /// How you want Amazon ECS to stop the task. The valid values are ROLLBACK.
+    /// How you want Amazon ECS to stop the service. The ROLLBACK and ABORT stopType aren't supported.
     public var stopType: ECSClientTypes.StopServiceDeploymentStopType?
 
     public init(

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ECSClient: ClientRuntime.Client {
     public static let clientName = "ECSClient"
-    public static let version = "1.3.1"
+    public static let version = "1.3.2"
     let client: ClientRuntime.SdkHttpClient
     let config: ECSClient.ECSClientConfiguration
     let serviceName = "ECS"
@@ -3762,6 +3762,13 @@ extension ECSClient {
     ///
     /// * Add wait time between subsequent commands, even if the DescribeTasks command returns an accurate response. Apply an exponential backoff algorithm starting with a couple of seconds of wait time, and increase gradually up to about five minutes of wait time.
     ///
+    ///
+    /// If you get a ConflictException error, the RunTask request could not be processed due to conflicts. The provided clientToken is already in use with a different RunTask request. The resourceIds are the existing task ARNs which are already associated with the clientToken. To fix this issue:
+    ///
+    /// * Run RunTask with a unique clientToken.
+    ///
+    /// * Run RunTask with the clientToken and the original set of parameters
+    ///
     /// - Parameter RunTaskInput : [no documentation found]
     ///
     /// - Returns: `RunTaskOutput` : [no documentation found]
@@ -3775,11 +3782,7 @@ extension ECSClient {
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
-    /// - `ConflictException` : The RunTask request could not be processed due to conflicts. The provided clientToken is already in use with a different RunTask request. The resourceIds are the existing task ARNs which are already associated with the clientToken. To fix this issue:
-    ///
-    /// * Run RunTask with a unique clientToken.
-    ///
-    /// * Run RunTask with the clientToken and the original set of parameters
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `PlatformTaskDefinitionIncompatibilityException` : The specified platform version doesn't satisfy the required capabilities of the task definition.
     /// - `PlatformUnknownException` : The specified platform version doesn't exist.
@@ -3932,12 +3935,7 @@ extension ECSClient {
 
     /// Performs the `StopServiceDeployment` operation on the `ECS` service.
     ///
-    /// Stops an ongoing service deployment. The following stop types are avaiable:
-    ///
-    /// * ROLLBACK - This option rolls back the service deployment to the previous service revision. You can use this option even if you didn't configure the service deployment for the rollback option.
-    ///
-    ///
-    /// For more information, see [Stopping Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/stop-service-deployment.html) in the Amazon Elastic Container Service Developer Guide.
+    /// Stops an ongoing service deployment. StopServiceDeployment isn't currently supported.
     ///
     /// - Parameter StopServiceDeploymentInput : [no documentation found]
     ///
@@ -3950,11 +3948,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    /// - `ConflictException` : The RunTask request could not be processed due to conflicts. The provided clientToken is already in use with a different RunTask request. The resourceIds are the existing task ARNs which are already associated with the clientToken. To fix this issue:
-    ///
-    /// * Run RunTask with a unique clientToken.
-    ///
-    /// * Run RunTask with the clientToken and the original set of parameters
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `ServiceDeploymentNotFoundException` : The service deploy ARN that you specified in the StopServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.

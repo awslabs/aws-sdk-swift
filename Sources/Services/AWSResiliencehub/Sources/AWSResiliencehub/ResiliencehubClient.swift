@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ResiliencehubClient: ClientRuntime.Client {
     public static let clientName = "ResiliencehubClient"
-    public static let version = "1.3.1"
+    public static let version = "1.3.2"
     let client: ClientRuntime.SdkHttpClient
     let config: ResiliencehubClient.ResiliencehubClientConfiguration
     let serviceName = "resiliencehub"

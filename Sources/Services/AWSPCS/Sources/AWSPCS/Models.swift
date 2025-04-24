@@ -1076,7 +1076,7 @@ extension PCSClientTypes {
         /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in Amazon Web Services PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05
         /// This member is required.
         public var version: Swift.String?
 
@@ -1301,7 +1301,7 @@ extension PCSClientTypes {
         /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in Amazon Web Services PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05
         /// This member is required.
         public var version: Swift.String?
 
