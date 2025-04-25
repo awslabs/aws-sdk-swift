@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MedicalImagingClient: ClientRuntime.Client {
     public static let clientName = "MedicalImagingClient"
-    public static let version = "1.3.2"
+    public static let version = "1.3.3"
     let client: ClientRuntime.SdkHttpClient
     let config: MedicalImagingClient.MedicalImagingClientConfiguration
     let serviceName = "Medical Imaging"

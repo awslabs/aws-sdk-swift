@@ -2060,10 +2060,32 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// A storage location in an Amazon S3 bucket.
+    public struct S3Location: Swift.Sendable {
+        /// If the bucket belongs to another AWS account, specify that account's ID.
+        public var bucketOwner: Swift.String?
+        /// An object URI starting with s3://.
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            bucketOwner: Swift.String? = nil,
+            uri: Swift.String? = nil
+        ) {
+            self.bucketOwner = bucketOwner
+            self.uri = uri
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     /// Contains the content of a document.
     public enum DocumentSource: Swift.Sendable {
         /// The raw bytes for the document. If you use an Amazon Web Services SDK, you don't need to encode the bytes in base64.
         case bytes(Foundation.Data)
+        /// The location of a document object in an Amazon S3 bucket. To see which models support S3 uploads, see [Supported models and features for Converse](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-supported-models-features.html).
+        case s3location(BedrockRuntimeClientTypes.S3Location)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2278,6 +2300,8 @@ extension BedrockRuntimeClientTypes {
     public enum ImageSource: Swift.Sendable {
         /// The raw image bytes for the image. If you use an AWS SDK, you don't need to encode the image bytes in base64.
         case bytes(Foundation.Data)
+        /// The location of an image object in an Amazon S3 bucket. To see which models support S3 uploads, see [Supported models and features for Converse](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-supported-models-features.html).
+        case s3location(BedrockRuntimeClientTypes.S3Location)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2393,31 +2417,11 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// A storage location in an S3 bucket.
-    public struct S3Location: Swift.Sendable {
-        /// If the bucket belongs to another AWS account, specify that account's ID.
-        public var bucketOwner: Swift.String?
-        /// An object URI starting with s3://.
-        /// This member is required.
-        public var uri: Swift.String?
-
-        public init(
-            bucketOwner: Swift.String? = nil,
-            uri: Swift.String? = nil
-        ) {
-            self.bucketOwner = bucketOwner
-            self.uri = uri
-        }
-    }
-}
-
-extension BedrockRuntimeClientTypes {
-
     /// A video source. You can upload a smaller video as a base64-encoded string as long as the encoded file is less than 25MB. You can also transfer videos up to 1GB in size from an S3 bucket.
     public enum VideoSource: Swift.Sendable {
         /// Video content encoded in base64.
         case bytes(Foundation.Data)
-        /// The location of a video object in an S3 bucket.
+        /// The location of a video object in an Amazon S3 bucket. To see which models support S3 uploads, see [Supported models and features for Converse](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-supported-models-features.html).
         case s3location(BedrockRuntimeClientTypes.S3Location)
         case sdkUnknown(Swift.String)
     }
@@ -5362,6 +5366,8 @@ extension BedrockRuntimeClientTypes.DocumentSource {
         switch value {
             case let .bytes(bytes):
                 try writer["bytes"].write(bytes)
+            case let .s3location(s3location):
+                try writer["s3Location"].write(s3location, with: BedrockRuntimeClientTypes.S3Location.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -5373,6 +5379,8 @@ extension BedrockRuntimeClientTypes.DocumentSource {
         switch name {
             case "bytes":
                 return .bytes(try reader["bytes"].read())
+            case "s3Location":
+                return .s3location(try reader["s3Location"].read(with: BedrockRuntimeClientTypes.S3Location.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -5403,6 +5411,8 @@ extension BedrockRuntimeClientTypes.ImageSource {
         switch value {
             case let .bytes(bytes):
                 try writer["bytes"].write(bytes)
+            case let .s3location(s3location):
+                try writer["s3Location"].write(s3location, with: BedrockRuntimeClientTypes.S3Location.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -5414,6 +5424,8 @@ extension BedrockRuntimeClientTypes.ImageSource {
         switch name {
             case "bytes":
                 return .bytes(try reader["bytes"].read())
+            case "s3Location":
+                return .s3location(try reader["s3Location"].read(with: BedrockRuntimeClientTypes.S3Location.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
