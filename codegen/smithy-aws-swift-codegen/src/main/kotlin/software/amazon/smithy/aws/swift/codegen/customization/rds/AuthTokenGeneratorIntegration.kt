@@ -66,7 +66,7 @@ class AuthTokenGeneratorIntegration : SwiftIntegration {
                     ///   - expiration: The expiration for the token in seconds. Default is 900 seconds (15 minutes).
                     public func generateAuthToken(
                         endpoint: String,
-                        port: Int16,
+                        port: UInt16,
                         region: String,
                         username: String,
                         expiration: TimeInterval = 900

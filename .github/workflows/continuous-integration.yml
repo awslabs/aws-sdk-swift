@@ -89,9 +89,6 @@ jobs:
         run: |
           cd aws-sdk-swift/AWSSDKSwiftCLI
           swift test
-          cd ../SPRCLI
-          unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
-          swift build
       - name: Prepare Protocol & Unit Tests
         run: |
           cd aws-sdk-swift
@@ -172,9 +169,6 @@ jobs:
         run: |
           cd aws-sdk-swift/AWSSDKSwiftCLI
           swift test
-          cd ../SPRCLI
-          unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
-          swift build
       - name: Prepare Protocol & Unit Tests
         run: |
           cd aws-sdk-swift
