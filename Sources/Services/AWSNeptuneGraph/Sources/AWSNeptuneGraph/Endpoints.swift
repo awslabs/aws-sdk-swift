@@ -14,7 +14,7 @@ import struct ClientRuntime.DefaultEndpointResolver
 import struct ClientRuntime.StaticEndpointResolver
 import struct SmithyHTTPAPI.Endpoint
 
-public struct EndpointParams: Sendable {
+public struct EndpointParams {
     /// Parameter to determine whether current API is a control plane or dataplane API
     public let apiType: Swift.String
     /// Override the endpoint used to send this request

@@ -6312,7 +6312,7 @@ public struct SearchProvisionedProductsInput: Swift.Sendable {
     ///
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
-    /// The access level to use to obtain results. The default is User.
+    /// The access level to use to obtain results. The default is Account.
     public var accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter?
     /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifactId, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId, productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"]
     public var filters: [Swift.String: [Swift.String]]?

@@ -1671,7 +1671,7 @@ extension ECSClientTypes {
         /// The log driver to use for the container. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, syslog, splunk, and awsfirelens. For more information about using the awslogs log driver, see [Send Amazon ECS logs to CloudWatch](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html) in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see [Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html). If you have a custom driver that isn't listed, you can fork the Amazon ECS container agent project that's [available on GitHub](https://github.com/aws/amazon-ecs-agent) and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, we don't currently provide support for running modified copies of this software.
         /// This member is required.
         public var logDriver: ECSClientTypes.LogDriver?
-        /// The configuration options to send to the log driver. The options you can specify depend on the log driver. Some of the options you can specify when you use the awslogs log driver to route logs to Amazon CloudWatch include the following: awslogs-create-group Required: No Specify whether you want the log group to be created automatically. If this option isn't specified, it defaults to false. Your IAM policy must include the logs:CreateLogGroup permission before you attempt to use awslogs-create-group. awslogs-region Required: Yes Specify the Amazon Web Services Region that the awslogs log driver is to send your Docker logs to. You can choose to send all of your logs from clusters in different Regions to a single region in CloudWatch Logs. This is so that they're all visible in one location. Otherwise, you can separate them by Region for more granularity. Make sure that the specified log group exists in the Region that you specify with this option. awslogs-group Required: Yes Make sure to specify a log group that the awslogs log driver sends its log streams to. awslogs-stream-prefix Required: Yes, when using the Fargate launch type.Optional for the EC2 launch type, required for the Fargate launch type. Use the awslogs-stream-prefix option to associate a log stream with the specified prefix, the container name, and the ID of the Amazon ECS task that the container belongs to. If you specify a prefix with this option, then the log stream takes the format prefix-name/container-name/ecs-task-id. If you don't specify a prefix with this option, then the log stream is named after the container ID that's assigned by the Docker daemon on the container instance. Because it's difficult to trace logs back to the container that sent them with just the Docker container ID (which is only available on the container instance), we recommend that you specify a prefix with this option. For Amazon ECS services, you can use the service name as the prefix. Doing so, you can trace log streams to the service that the container belongs to, the name of the container that sent them, and the ID of the task that the container belongs to. You must specify a stream-prefix for your logs to have your logs appear in the Log pane when using the Amazon ECS console. awslogs-datetime-format Required: No This option defines a multiline start pattern in Python strftime format. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. One example of a use case for using this format is for parsing output such as a stack dump, which might otherwise be logged in multiple entries. The correct pattern allows it to be captured in a single entry. For more information, see [awslogs-datetime-format](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-datetime-format). You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. awslogs-multiline-pattern Required: No This option defines a multiline start pattern that uses a regular expression. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. For more information, see [awslogs-multiline-pattern](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-multiline-pattern). This option is ignored if awslogs-datetime-format is also configured. You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. mode Required: No Valid values: non-blocking | blocking This option defines the delivery mode of log messages from the container to CloudWatch Logs. The delivery mode you choose affects application availability when the flow of logs from container to CloudWatch is interrupted. If you use the blocking mode and the flow of logs to CloudWatch is interrupted, calls from container code to write to the stdout and stderr streams will block. The logging thread of the application will block as a result. This may cause the application to become unresponsive and lead to container healthcheck failure. If you use the non-blocking mode, the container's logs are instead stored in an in-memory intermediate buffer configured with the max-buffer-size option. This prevents the application from becoming unresponsive when logs cannot be sent to CloudWatch. We recommend using this mode if you want to ensure service availability and are okay with some log loss. For more information, see [Preventing log loss with non-blocking mode in the ]awslogs container log driver(http://aws.amazon.com/blogs/containers/preventing-log-loss-with-non-blocking-mode-in-the-awslogs-container-log-driver/). max-buffer-size Required: No Default value: 1m When non-blocking mode is used, the max-buffer-size log option controls the size of the buffer that's used for intermediate message storage. Make sure to specify an adequate buffer size based on your application. When the buffer fills up, further logs cannot be stored. Logs that cannot be stored are lost. To route logs using the splunk log router, you need to specify a splunk-token and a splunk-url. When you use the awsfirelens log router to route logs to an Amazon Web Services Service or Amazon Web Services Partner Network destination for log storage and analytics, you can set the log-driver-buffer-limit option to limit the number of events that are buffered in memory, before being sent to the log router container. It can help to resolve potential log loss issue because high throughput might result in memory running out for the buffer inside of Docker. Other options you can specify when using awsfirelens to route logs depend on the destination. When you export logs to Amazon Data Firehose, you can specify the Amazon Web Services Region with region and a name for the log stream with delivery_stream. When you export logs to Amazon Kinesis Data Streams, you can specify an Amazon Web Services Region with region and a data stream name with stream. When you export logs to Amazon OpenSearch Service, you can specify options like Name, Host (OpenSearch Service endpoint without protocol), Port, Index, Type, Aws_auth, Aws_region, Suppress_Type_Name, and tls. For more information, see [Under the hood: FireLens for Amazon ECS Tasks](http://aws.amazon.com/blogs/containers/under-the-hood-firelens-for-amazon-ecs-tasks/). When you export logs to Amazon S3, you can specify the bucket using the bucket option. You can also specify region, total_file_size, upload_timeout, and use_put_object as options. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
+        /// The configuration options to send to the log driver. The options you can specify depend on the log driver. Some of the options you can specify when you use the awslogs log driver to route logs to Amazon CloudWatch include the following: awslogs-create-group Required: No Specify whether you want the log group to be created automatically. If this option isn't specified, it defaults to false. Your IAM policy must include the logs:CreateLogGroup permission before you attempt to use awslogs-create-group. awslogs-region Required: Yes Specify the Amazon Web Services Region that the awslogs log driver is to send your Docker logs to. You can choose to send all of your logs from clusters in different Regions to a single region in CloudWatch Logs. This is so that they're all visible in one location. Otherwise, you can separate them by Region for more granularity. Make sure that the specified log group exists in the Region that you specify with this option. awslogs-group Required: Yes Make sure to specify a log group that the awslogs log driver sends its log streams to. awslogs-stream-prefix Required: Yes, when using Fargate.Optional when using EC2. Use the awslogs-stream-prefix option to associate a log stream with the specified prefix, the container name, and the ID of the Amazon ECS task that the container belongs to. If you specify a prefix with this option, then the log stream takes the format prefix-name/container-name/ecs-task-id. If you don't specify a prefix with this option, then the log stream is named after the container ID that's assigned by the Docker daemon on the container instance. Because it's difficult to trace logs back to the container that sent them with just the Docker container ID (which is only available on the container instance), we recommend that you specify a prefix with this option. For Amazon ECS services, you can use the service name as the prefix. Doing so, you can trace log streams to the service that the container belongs to, the name of the container that sent them, and the ID of the task that the container belongs to. You must specify a stream-prefix for your logs to have your logs appear in the Log pane when using the Amazon ECS console. awslogs-datetime-format Required: No This option defines a multiline start pattern in Python strftime format. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. One example of a use case for using this format is for parsing output such as a stack dump, which might otherwise be logged in multiple entries. The correct pattern allows it to be captured in a single entry. For more information, see [awslogs-datetime-format](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-datetime-format). You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. awslogs-multiline-pattern Required: No This option defines a multiline start pattern that uses a regular expression. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. For more information, see [awslogs-multiline-pattern](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-multiline-pattern). This option is ignored if awslogs-datetime-format is also configured. You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. The following options apply to all supported log drivers. mode Required: No Valid values: non-blocking | blocking This option defines the delivery mode of log messages from the container to the log driver specified using logDriver. The delivery mode you choose affects application availability when the flow of logs from container is interrupted. If you use the blocking mode and the flow of logs is interrupted, calls from container code to write to the stdout and stderr streams will block. The logging thread of the application will block as a result. This may cause the application to become unresponsive and lead to container healthcheck failure. If you use the non-blocking mode, the container's logs are instead stored in an in-memory intermediate buffer configured with the max-buffer-size option. This prevents the application from becoming unresponsive when logs cannot be sent. We recommend using this mode if you want to ensure service availability and are okay with some log loss. For more information, see [Preventing log loss with non-blocking mode in the ]awslogs container log driver(http://aws.amazon.com/blogs/containers/preventing-log-loss-with-non-blocking-mode-in-the-awslogs-container-log-driver/). You can set a default mode for all containers in a specific Amazon Web Services Region by using the defaultLogDriverMode account setting. If you don't specify the mode option or configure the account setting, Amazon ECS will default to the blocking mode. For more information about the account setting, see [Default log driver mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#default-log-driver-mode) in the Amazon Elastic Container Service Developer Guide. max-buffer-size Required: No Default value: 1m When non-blocking mode is used, the max-buffer-size log option controls the size of the buffer that's used for intermediate message storage. Make sure to specify an adequate buffer size based on your application. When the buffer fills up, further logs cannot be stored. Logs that cannot be stored are lost. To route logs using the splunk log router, you need to specify a splunk-token and a splunk-url. When you use the awsfirelens log router to route logs to an Amazon Web Services Service or Amazon Web Services Partner Network destination for log storage and analytics, you can set the log-driver-buffer-limit option to limit the number of events that are buffered in memory, before being sent to the log router container. It can help to resolve potential log loss issue because high throughput might result in memory running out for the buffer inside of Docker. Other options you can specify when using awsfirelens to route logs depend on the destination. When you export logs to Amazon Data Firehose, you can specify the Amazon Web Services Region with region and a name for the log stream with delivery_stream. When you export logs to Amazon Kinesis Data Streams, you can specify an Amazon Web Services Region with region and a data stream name with stream. When you export logs to Amazon OpenSearch Service, you can specify options like Name, Host (OpenSearch Service endpoint without protocol), Port, Index, Type, Aws_auth, Aws_region, Suppress_Type_Name, and tls. For more information, see [Under the hood: FireLens for Amazon ECS Tasks](http://aws.amazon.com/blogs/containers/under-the-hood-firelens-for-amazon-ecs-tasks/). When you export logs to Amazon S3, you can specify the bucket using the bucket option. You can also specify region, total_file_size, upload_timeout, and use_put_object as options. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
         public var options: [Swift.String: Swift.String]?
         /// The secrets to pass to the log configuration. For more information, see [Specifying sensitive data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
         public var secretOptions: [ECSClientTypes.Secret]?
@@ -2908,6 +2908,7 @@ extension ECSClientTypes {
         case awsvpcTrunking
         case containerInsights
         case containerInstanceLongArnFormat
+        case defaultLogDriverMode
         case fargateFipsMode
         case fargateTaskRetirementWaitPeriod
         case guardDutyActivate
@@ -2921,6 +2922,7 @@ extension ECSClientTypes {
                 .awsvpcTrunking,
                 .containerInsights,
                 .containerInstanceLongArnFormat,
+                .defaultLogDriverMode,
                 .fargateFipsMode,
                 .fargateTaskRetirementWaitPeriod,
                 .guardDutyActivate,
@@ -2940,6 +2942,7 @@ extension ECSClientTypes {
             case .awsvpcTrunking: return "awsvpcTrunking"
             case .containerInsights: return "containerInsights"
             case .containerInstanceLongArnFormat: return "containerInstanceLongArnFormat"
+            case .defaultLogDriverMode: return "defaultLogDriverMode"
             case .fargateFipsMode: return "fargateFIPSMode"
             case .fargateTaskRetirementWaitPeriod: return "fargateTaskRetirementWaitPeriod"
             case .guardDutyActivate: return "guardDutyActivate"
@@ -5974,6 +5977,7 @@ extension ECSClientTypes {
         case pending
         case rollbackFailed
         case rollbackInProgress
+        case rollbackRequested
         case rollbackSuccessful
         case stopped
         case stopRequested
@@ -5986,6 +5990,7 @@ extension ECSClientTypes {
                 .pending,
                 .rollbackFailed,
                 .rollbackInProgress,
+                .rollbackRequested,
                 .rollbackSuccessful,
                 .stopped,
                 .stopRequested,
@@ -6004,6 +6009,7 @@ extension ECSClientTypes {
             case .pending: return "PENDING"
             case .rollbackFailed: return "ROLLBACK_FAILED"
             case .rollbackInProgress: return "ROLLBACK_IN_PROGRESS"
+            case .rollbackRequested: return "ROLLBACK_REQUESTED"
             case .rollbackSuccessful: return "ROLLBACK_SUCCESSFUL"
             case .stopped: return "STOPPED"
             case .stopRequested: return "STOP_REQUESTED"
@@ -8071,6 +8077,8 @@ public struct PutAccountSettingInput: Swift.Sendable {
     ///
     /// * tagResourceAuthorization - Amazon ECS is introducing tagging authorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more information, see [Grant permission to tag resources on creation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html) in the Amazon ECS Developer Guide.
     ///
+    /// * defaultLogDriverMode - Amazon ECS supports setting a default delivery mode of log messages from a container to the logDriver that you specify in the container's logConfiguration. The delivery mode affects application stability when the flow of logs from the container to the log driver is interrupted. The defaultLogDriverMode setting supports two values: blocking and non-blocking. If you don't specify a delivery mode in your container definition's logConfiguration, the mode you specify using this account setting will be used as the default. For more information about log delivery modes, see [LogConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html).
+    ///
     /// * guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
@@ -8128,6 +8136,8 @@ public struct PutAccountSettingDefaultInput: Swift.Sendable {
     /// * fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide.
     ///
     /// * tagResourceAuthorization - Amazon ECS is introducing tagging authorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more information, see [Grant permission to tag resources on creation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html) in the Amazon ECS Developer Guide.
+    ///
+    /// * defaultLogDriverMode -Amazon ECS supports setting a default delivery mode of log messages from a container to the logDriver that you specify in the container's logConfiguration. The delivery mode affects application stability when the flow of logs from the container to the log driver is interrupted. The defaultLogDriverMode setting supports two values: blocking and non-blocking. If you don't specify a delivery mode in your container definition's logConfiguration, the mode you specify using this account setting will be used as the default. For more information about log delivery modes, see [LogConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html).
     ///
     /// * guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
     /// This member is required.
@@ -8558,11 +8568,7 @@ public struct BlockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-/// The RunTask request could not be processed due to conflicts. The provided clientToken is already in use with a different RunTask request. The resourceIds are the existing task ARNs which are already associated with the clientToken. To fix this issue:
-///
-/// * Run RunTask with a unique clientToken.
-///
-/// * Run RunTask with the clientToken and the original set of parameters
+/// The request could not be processed because of conflict in the current state of the resource.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -8714,7 +8720,7 @@ public struct RunTaskInput: Swift.Sendable {
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
     /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 64 characters are allowed. The valid characters are characters in the range of 33-126, inclusive. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/ECS_Idempotency.html).
     public var clientToken: Swift.String?
-    /// The short name or full Amazon Resource Name (ARN) of the cluster to run your task on. If you do not specify a cluster, the default cluster is assumed.
+    /// The short name or full Amazon Resource Name (ARN) of the cluster to run your task on. If you do not specify a cluster, the default cluster is assumed. Each account receives a default cluster the first time you use the service, but you may also create other clusters.
     public var cluster: Swift.String?
     /// The number of instantiations of the specified task to place on your cluster. You can specify up to 10 tasks for each call.
     public var count: Swift.Int?
@@ -8909,6 +8915,86 @@ public struct StartTaskOutput: Swift.Sendable {
     ) {
         self.failures = failures
         self.tasks = tasks
+    }
+}
+
+/// The service deploy ARN that you specified in the StopServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
+public struct ServiceDeploymentNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceDeploymentNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum StopServiceDeploymentStopType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case abort
+        case rollback
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StopServiceDeploymentStopType] {
+            return [
+                .abort,
+                .rollback
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .abort: return "ABORT"
+            case .rollback: return "ROLLBACK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct StopServiceDeploymentInput: Swift.Sendable {
+    /// The ARN of the service deployment that you want to stop.
+    /// This member is required.
+    public var serviceDeploymentArn: Swift.String?
+    /// How you want Amazon ECS to stop the service. The ROLLBACK and ABORT stopType aren't supported.
+    public var stopType: ECSClientTypes.StopServiceDeploymentStopType?
+
+    public init(
+        serviceDeploymentArn: Swift.String? = nil,
+        stopType: ECSClientTypes.StopServiceDeploymentStopType? = nil
+    ) {
+        self.serviceDeploymentArn = serviceDeploymentArn
+        self.stopType = stopType
+    }
+}
+
+public struct StopServiceDeploymentOutput: Swift.Sendable {
+    /// The ARN of the stopped service deployment.
+    public var serviceDeploymentArn: Swift.String?
+
+    public init(
+        serviceDeploymentArn: Swift.String? = nil
+    ) {
+        self.serviceDeploymentArn = serviceDeploymentArn
     }
 }
 
@@ -9980,6 +10066,13 @@ extension StartTaskInput {
     }
 }
 
+extension StopServiceDeploymentInput {
+
+    static func urlPathProvider(_ value: StopServiceDeploymentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StopTaskInput {
 
     static func urlPathProvider(_ value: StopTaskInput) -> Swift.String? {
@@ -10610,6 +10703,15 @@ extension StartTaskInput {
         try writer["tags"].writeList(value.tags, memberWritingClosure: ECSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["taskDefinition"].write(value.taskDefinition)
         try writer["volumeConfigurations"].writeList(value.volumeConfigurations, memberWritingClosure: ECSClientTypes.TaskVolumeConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension StopServiceDeploymentInput {
+
+    static func write(value: StopServiceDeploymentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["serviceDeploymentArn"].write(value.serviceDeploymentArn)
+        try writer["stopType"].write(value.stopType)
     }
 }
 
@@ -11346,6 +11448,18 @@ extension StartTaskOutput {
         var value = StartTaskOutput()
         value.failures = try reader["failures"].readListIfPresent(memberReadingClosure: ECSClientTypes.Failure.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tasks = try reader["tasks"].readListIfPresent(memberReadingClosure: ECSClientTypes.Task.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension StopServiceDeploymentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopServiceDeploymentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopServiceDeploymentOutput()
+        value.serviceDeploymentArn = try reader["serviceDeploymentArn"].readIfPresent()
         return value
     }
 }
@@ -12301,6 +12415,26 @@ enum StartTaskOutputError {
     }
 }
 
+enum StopServiceDeploymentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ServiceDeploymentNotFoundException": return try ServiceDeploymentNotFoundException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopTaskOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12886,6 +13020,19 @@ extension ConflictException {
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceDeploymentNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceDeploymentNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceDeploymentNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

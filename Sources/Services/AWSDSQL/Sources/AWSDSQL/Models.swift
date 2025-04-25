@@ -447,6 +447,188 @@ public struct GetClusterOutput: Swift.Sendable {
     }
 }
 
+/// The request processing has failed because of an unknown error, exception or failure.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// Retry after seconds.
+        public internal(set) var retryAfterSeconds: Swift.Int? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        retryAfterSeconds: Swift.Int? = nil
+    ) {
+        self.properties.message = message
+        self.properties.retryAfterSeconds = retryAfterSeconds
+    }
+}
+
+/// The request was denied due to request throttling.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Description of the error
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// Service Quotas requirement to identify originating quota
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// Advice to clients on when the call can be safely retried
+        public internal(set) var retryAfterSeconds: Swift.Int? = nil
+        /// Service Quotas requirement to identify originating service
+        public internal(set) var serviceCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { true }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        retryAfterSeconds: Swift.Int? = nil,
+        serviceCode: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.retryAfterSeconds = retryAfterSeconds
+        self.properties.serviceCode = serviceCode
+    }
+}
+
+extension DSQLClientTypes {
+
+    /// Stores information about a field passed inside a request that resulted in an validation error.
+    public struct ValidationExceptionField: Swift.Sendable {
+        /// A message describing why this field failed validation.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The name of the field.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            message: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.message = message
+            self.name = name
+        }
+    }
+}
+
+extension DSQLClientTypes {
+
+    /// Reason the request failed validation
+    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cannotParse
+        case deletionProtectionEnabled
+        case fieldValidationFailed
+        case other
+        case unknownOperation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationExceptionReason] {
+            return [
+                .cannotParse,
+                .deletionProtectionEnabled,
+                .fieldValidationFailed,
+                .other,
+                .unknownOperation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cannotParse: return "cannotParse"
+            case .deletionProtectionEnabled: return "deletionProtectionEnabled"
+            case .fieldValidationFailed: return "fieldValidationFailed"
+            case .other: return "other"
+            case .unknownOperation: return "unknownOperation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The input failed to satisfy the constraints specified by an Amazon Web Services service.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// List of fields that caused the error
+        public internal(set) var fieldList: [DSQLClientTypes.ValidationExceptionField]? = nil
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// Reason the request failed validation
+        /// This member is required.
+        public internal(set) var reason: DSQLClientTypes.ValidationExceptionReason? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        fieldList: [DSQLClientTypes.ValidationExceptionField]? = nil,
+        message: Swift.String? = nil,
+        reason: DSQLClientTypes.ValidationExceptionReason? = nil
+    ) {
+        self.properties.fieldList = fieldList
+        self.properties.message = message
+        self.properties.reason = reason
+    }
+}
+
+public struct GetVpcEndpointServiceNameInput: Swift.Sendable {
+    /// The ID of the cluster to retrieve.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetVpcEndpointServiceNameOutput: Swift.Sendable {
+    /// The VPC endpoint service name.
+    /// This member is required.
+    public var serviceName: Swift.String?
+
+    public init(
+        serviceName: Swift.String? = nil
+    ) {
+        self.serviceName = serviceName
+    }
+}
+
 public struct ListClustersInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     public var maxResults: Swift.Int?
@@ -560,34 +742,6 @@ public struct UpdateClusterOutput: Swift.Sendable {
     }
 }
 
-/// The request processing has failed because of an unknown error, exception or failure.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// Retry after seconds.
-        public internal(set) var retryAfterSeconds: Swift.Int? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServerException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { true }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        retryAfterSeconds: Swift.Int? = nil
-    ) {
-        self.properties.message = message
-        self.properties.retryAfterSeconds = retryAfterSeconds
-    }
-}
-
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The ARN of the resource for which you want to list the tags.
     /// This member is required.
@@ -628,43 +782,6 @@ public struct TagResourceInput: Swift.Sendable {
     }
 }
 
-/// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Description of the error
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// Service Quotas requirement to identify originating quota
-        public internal(set) var quotaCode: Swift.String? = nil
-        /// Advice to clients on when the call can be safely retried
-        public internal(set) var retryAfterSeconds: Swift.Int? = nil
-        /// Service Quotas requirement to identify originating service
-        public internal(set) var serviceCode: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { true }
-    public static var isThrottling: Swift.Bool { true }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        quotaCode: Swift.String? = nil,
-        retryAfterSeconds: Swift.Int? = nil,
-        serviceCode: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.quotaCode = quotaCode
-        self.properties.retryAfterSeconds = retryAfterSeconds
-        self.properties.serviceCode = serviceCode
-    }
-}
-
 public struct UntagResourceInput: Swift.Sendable {
     /// The ARN of the resource from which to remove tags.
     /// This member is required.
@@ -679,99 +796,6 @@ public struct UntagResourceInput: Swift.Sendable {
     ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
-    }
-}
-
-extension DSQLClientTypes {
-
-    /// Stores information about a field passed inside a request that resulted in an validation error.
-    public struct ValidationExceptionField: Swift.Sendable {
-        /// A message describing why this field failed validation.
-        /// This member is required.
-        public var message: Swift.String?
-        /// The name of the field.
-        /// This member is required.
-        public var name: Swift.String?
-
-        public init(
-            message: Swift.String? = nil,
-            name: Swift.String? = nil
-        ) {
-            self.message = message
-            self.name = name
-        }
-    }
-}
-
-extension DSQLClientTypes {
-
-    /// Reason the request failed validation
-    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case cannotParse
-        case deletionProtectionEnabled
-        case fieldValidationFailed
-        case other
-        case unknownOperation
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ValidationExceptionReason] {
-            return [
-                .cannotParse,
-                .deletionProtectionEnabled,
-                .fieldValidationFailed,
-                .other,
-                .unknownOperation
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .cannotParse: return "cannotParse"
-            case .deletionProtectionEnabled: return "deletionProtectionEnabled"
-            case .fieldValidationFailed: return "fieldValidationFailed"
-            case .other: return "other"
-            case .unknownOperation: return "unknownOperation"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// The input failed to satisfy the constraints specified by an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// List of fields that caused the error
-        public internal(set) var fieldList: [DSQLClientTypes.ValidationExceptionField]? = nil
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// Reason the request failed validation
-        /// This member is required.
-        public internal(set) var reason: DSQLClientTypes.ValidationExceptionReason? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        fieldList: [DSQLClientTypes.ValidationExceptionField]? = nil,
-        message: Swift.String? = nil,
-        reason: DSQLClientTypes.ValidationExceptionReason? = nil
-    ) {
-        self.properties.fieldList = fieldList
-        self.properties.message = message
-        self.properties.reason = reason
     }
 }
 
@@ -845,6 +869,16 @@ extension GetClusterInput {
             return nil
         }
         return "/cluster/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetVpcEndpointServiceNameInput {
+
+    static func urlPathProvider(_ value: GetVpcEndpointServiceNameInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/clusters/\(identifier.urlPercentEncoding())/vpc-endpoint-service-name"
     }
 }
 
@@ -1034,6 +1068,18 @@ extension GetClusterOutput {
     }
 }
 
+extension GetVpcEndpointServiceNameOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetVpcEndpointServiceNameOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetVpcEndpointServiceNameOutput()
+        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ListClustersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListClustersOutput {
@@ -1180,6 +1226,24 @@ enum GetClusterOutputError {
     }
 }
 
+enum GetVpcEndpointServiceNameOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListClustersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1304,12 +1368,18 @@ extension ResourceNotFoundException {
     }
 }
 
-extension AccessDeniedException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        let httpResponse = baseError.httpResponse
+        var value = ThrottlingException()
+        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
+            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
+        }
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1334,25 +1404,6 @@ extension InternalServerException {
     }
 }
 
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = ThrottlingException()
-        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
-        }
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
@@ -1361,6 +1412,19 @@ extension ValidationException {
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: DSQLClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

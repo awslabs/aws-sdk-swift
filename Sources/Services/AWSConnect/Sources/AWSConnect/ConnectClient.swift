@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.2.59"
+    public static let version = "1.3.2"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -2182,7 +2182,7 @@ extension ConnectClient {
 
     /// Performs the `CreateContact` operation on the `Connect` service.
     ///
-    /// Only the EMAIL channel is supported. The supported initiation methods are: OUTBOUND, AGENT_REPLY, and FLOW. Creates a new EMAIL contact.
+    /// Only the EMAIL and VOICE channels are supported. The supported initiation methods for EMAIL are: OUTBOUND, AGENT_REPLY, and FLOW. For VOICE the supported initiation methods are TRANSFER and the subtype connect:ExternalAudio. Creates a new EMAIL or VOICE contact.
     ///
     /// - Parameter CreateContactInput : [no documentation found]
     ///
@@ -17873,7 +17873,7 @@ extension ConnectClient {
 
     /// Performs the `SuspendContactRecording` operation on the `Connect` service.
     ///
-    /// When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration: call, screen, or both. If only call recording or only screen recording is enabled, then it would be suspended. For example, you might suspend the screen recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording the screen. The period of time that the recording is suspended is filled with silence in the final recording. Voice and screen recordings are supported.
+    /// When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration: call (IVR or agent), screen, or both. If only call recording or only screen recording is enabled, then it would be suspended. For example, you might suspend the screen recording while collecting sensitive information, such as a credit card number. Then use [ResumeContactRecording](https://docs.aws.amazon.com/connect/latest/APIReference/API_ResumeContactRecording.html) to restart recording the screen. The period of time that the recording is suspended is filled with silence in the final recording. Voice (IVR, agent) and screen recordings are supported.
     ///
     /// - Parameter SuspendContactRecordingInput : [no documentation found]
     ///
@@ -18107,7 +18107,7 @@ extension ConnectClient {
     ///
     /// Transfers TASK or EMAIL contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements:
     ///
-    /// * Transfer is supported for only TASK and EMAIL contacts.
+    /// * Transfer is only supported for TASK and EMAIL contacts.
     ///
     /// * Do not use both QueueId and UserId in the same call.
     ///

@@ -14,7 +14,7 @@ import struct ClientRuntime.DefaultEndpointResolver
 import struct ClientRuntime.StaticEndpointResolver
 import struct SmithyHTTPAPI.Endpoint
 
-public struct EndpointParams: Sendable {
+public struct EndpointParams {
     /// The ARN of the Kinesis consumer
     public let consumerARN: Swift.String?
     /// Override the endpoint used to send this request

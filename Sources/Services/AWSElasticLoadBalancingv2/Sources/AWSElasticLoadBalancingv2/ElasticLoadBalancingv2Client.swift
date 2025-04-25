@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElasticLoadBalancingv2Client: ClientRuntime.Client {
     public static let clientName = "ElasticLoadBalancingv2Client"
-    public static let version = "1.2.59"
+    public static let version = "1.3.2"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticLoadBalancingv2Client.ElasticLoadBalancingv2ClientConfiguration
     let serviceName = "Elastic Load Balancing v2"

@@ -2004,7 +2004,7 @@ extension QBusinessClientTypes {
     public struct HookConfiguration: Swift.Sendable {
         /// The condition used for when a Lambda function should be invoked. For example, you can specify a condition that if there are empty date-time values, then Amazon Q Business should invoke a function that inserts the current date-time.
         public var invocationCondition: QBusinessClientTypes.DocumentAttributeCondition?
-        /// The Amazon Resource Name (ARN) of a role with permission to run a Lambda function during ingestion. For more information, see [IAM roles for Custom Document Enrichment (CDE)](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/iam-roles.html#cde-iam-role).
+        /// The Amazon Resource Name (ARN) of the Lambda function sduring ingestion. For more information, see [Using Lambda functions for Amazon Q Business document enrichment](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cde-lambda-operations.html).
         public var lambdaArn: Swift.String?
         /// The Amazon Resource Name (ARN) of a role with permission to run PreExtractionHookConfiguration and PostExtractionHookConfiguration for altering document metadata and content during the document ingestion process.
         public var roleArn: Swift.String?
@@ -4712,6 +4712,44 @@ extension QBusinessClientTypes {
     }
 }
 
+extension QBusinessClientTypes {
+
+    /// Represents a group associated with a given user in the access control system.
+    public struct AssociatedGroup: Swift.Sendable {
+        /// The name of the group associated with the user. This is used to identify the group in access control decisions.
+        public var name: Swift.String?
+        /// The type of the associated group. This indicates the scope of the group's applicability.
+        public var type: QBusinessClientTypes.MembershipType?
+
+        public init(
+            name: Swift.String? = nil,
+            type: QBusinessClientTypes.MembershipType? = nil
+        ) {
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Represents an associated user in the access control system.
+    public struct AssociatedUser: Swift.Sendable {
+        /// The unique identifier of the associated user. This is used to identify the user in access control decisions.
+        public var id: Swift.String?
+        /// The type of the associated user. This indicates the scope of the user's association.
+        public var type: QBusinessClientTypes.MembershipType?
+
+        public init(
+            id: Swift.String? = nil,
+            type: QBusinessClientTypes.MembershipType? = nil
+        ) {
+            self.id = id
+            self.type = type
+        }
+    }
+}
+
 public struct AssociatePermissionInput: Swift.Sendable {
     /// The list of Amazon Q Business actions that the ISV is allowed to perform.
     /// This member is required.
@@ -5877,6 +5915,159 @@ public struct ChatSyncOutput: Swift.Sendable {
         self.systemMessage = systemMessage
         self.systemMessageId = systemMessageId
         self.userMessageId = userMessageId
+    }
+}
+
+public struct CheckDocumentAccessInput: Swift.Sendable {
+    /// The unique identifier of the application. This is required to identify the specific Amazon Q Business application context for the document access check.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier of the data source. Identifies the specific data source from which the document originates. Should not be used when a document is uploaded directly with BatchPutDocument, as no dataSourceId is available or necessary.
+    public var dataSourceId: Swift.String?
+    /// The unique identifier of the document. Specifies which document's access permissions are being checked.
+    /// This member is required.
+    public var documentId: Swift.String?
+    /// The unique identifier of the index. Used to locate the correct index within the application where the document is stored.
+    /// This member is required.
+    public var indexId: Swift.String?
+    /// The unique identifier of the user. Used to check the access permissions for this specific user against the document's ACL.
+    /// This member is required.
+    public var userId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        dataSourceId: Swift.String? = nil,
+        documentId: Swift.String? = nil,
+        indexId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.dataSourceId = dataSourceId
+        self.documentId = documentId
+        self.indexId = indexId
+        self.userId = userId
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Represents a group in the document's ACL, used to define access permissions for multiple users collectively.
+    public struct DocumentAclGroup: Swift.Sendable {
+        /// The name of the group in the document's ACL. This is used to identify the group when applying access rules.
+        public var name: Swift.String?
+        /// The type of the group. This indicates the scope of the group's applicability in access control.
+        public var type: QBusinessClientTypes.MembershipType?
+
+        public init(
+            name: Swift.String? = nil,
+            type: QBusinessClientTypes.MembershipType? = nil
+        ) {
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Represents a user in the document's ACL, used to define access permissions for individual users.
+    public struct DocumentAclUser: Swift.Sendable {
+        /// The unique identifier of the user in the document's ACL. This is used to identify the user when applying access rules.
+        public var id: Swift.String?
+        /// The type of the user. This indicates the scope of the user's applicability in access control.
+        public var type: QBusinessClientTypes.MembershipType?
+
+        public init(
+            id: Swift.String? = nil,
+            type: QBusinessClientTypes.MembershipType? = nil
+        ) {
+            self.id = id
+            self.type = type
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Represents a condition in the document's ACL, specifying access rules for users and groups.
+    public struct DocumentAclCondition: Swift.Sendable {
+        /// An array of group identifiers that this condition applies to. Groups listed here are subject to the access rule defined by this condition.
+        public var groups: [QBusinessClientTypes.DocumentAclGroup]?
+        /// The logical relation between members in the condition, determining how multiple user or group conditions are combined.
+        public var memberRelation: QBusinessClientTypes.MemberRelation?
+        /// An array of user identifiers that this condition applies to. Users listed here are subject to the access rule defined by this condition.
+        public var users: [QBusinessClientTypes.DocumentAclUser]?
+
+        public init(
+            groups: [QBusinessClientTypes.DocumentAclGroup]? = nil,
+            memberRelation: QBusinessClientTypes.MemberRelation? = nil,
+            users: [QBusinessClientTypes.DocumentAclUser]? = nil
+        ) {
+            self.groups = groups
+            self.memberRelation = memberRelation
+            self.users = users
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Represents membership rules in the document's ACL, defining how users or groups are associated with access permissions.
+    public struct DocumentAclMembership: Swift.Sendable {
+        /// An array of conditions that define the membership rules. Each condition specifies criteria for users or groups to be included in this membership.
+        public var conditions: [QBusinessClientTypes.DocumentAclCondition]?
+        /// The logical relation between members in the membership rule, determining how multiple conditions are combined.
+        public var memberRelation: QBusinessClientTypes.MemberRelation?
+
+        public init(
+            conditions: [QBusinessClientTypes.DocumentAclCondition]? = nil,
+            memberRelation: QBusinessClientTypes.MemberRelation? = nil
+        ) {
+            self.conditions = conditions
+            self.memberRelation = memberRelation
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Represents the Access Control List (ACL) for a document, containing both allowlist and denylist conditions.
+    public struct DocumentAcl: Swift.Sendable {
+        /// The allowlist conditions for the document. Users or groups matching these conditions are granted access to the document.
+        public var allowlist: QBusinessClientTypes.DocumentAclMembership?
+        /// The denylist conditions for the document. Users or groups matching these conditions are denied access to the document, overriding allowlist permissions.
+        public var denyList: QBusinessClientTypes.DocumentAclMembership?
+
+        public init(
+            allowlist: QBusinessClientTypes.DocumentAclMembership? = nil,
+            denyList: QBusinessClientTypes.DocumentAclMembership? = nil
+        ) {
+            self.allowlist = allowlist
+            self.denyList = denyList
+        }
+    }
+}
+
+public struct CheckDocumentAccessOutput: Swift.Sendable {
+    /// The Access Control List (ACL) associated with the document. Includes allowlist and denylist conditions that determine user access.
+    public var documentAcl: QBusinessClientTypes.DocumentAcl?
+    /// A boolean value indicating whether the specified user has access to the document, either direct access or transitive access via groups and aliases attached to the document.
+    public var hasAccess: Swift.Bool?
+    /// An array of aliases associated with the user. This includes both global and local aliases, each with a name and type.
+    public var userAliases: [QBusinessClientTypes.AssociatedUser]?
+    /// An array of groups the user is part of for the specified data source. Each group has a name and type.
+    public var userGroups: [QBusinessClientTypes.AssociatedGroup]?
+
+    public init(
+        documentAcl: QBusinessClientTypes.DocumentAcl? = nil,
+        hasAccess: Swift.Bool? = nil,
+        userAliases: [QBusinessClientTypes.AssociatedUser]? = nil,
+        userGroups: [QBusinessClientTypes.AssociatedGroup]? = nil
+    ) {
+        self.documentAcl = documentAcl
+        self.hasAccess = hasAccess
+        self.userAliases = userAliases
+        self.userGroups = userGroups
     }
 }
 
@@ -8663,6 +8854,37 @@ extension ChatSyncInput {
     }
 }
 
+extension CheckDocumentAccessInput {
+
+    static func urlPathProvider(_ value: CheckDocumentAccessInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let indexId = value.indexId else {
+            return nil
+        }
+        guard let userId = value.userId else {
+            return nil
+        }
+        guard let documentId = value.documentId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/index/\(indexId.urlPercentEncoding())/users/\(userId.urlPercentEncoding())/documents/\(documentId.urlPercentEncoding())/check-document-access"
+    }
+}
+
+extension CheckDocumentAccessInput {
+
+    static func queryItemProvider(_ value: CheckDocumentAccessInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let dataSourceId = value.dataSourceId {
+            let dataSourceIdQueryItem = Smithy.URIQueryItem(name: "dataSourceId".urlPercentEncoding(), value: Swift.String(dataSourceId).urlPercentEncoding())
+            items.append(dataSourceIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension CreateApplicationInput {
 
     static func urlPathProvider(_ value: CreateApplicationInput) -> Swift.String? {
@@ -10323,6 +10545,21 @@ extension ChatSyncOutput {
     }
 }
 
+extension CheckDocumentAccessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CheckDocumentAccessOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CheckDocumentAccessOutput()
+        value.documentAcl = try reader["documentAcl"].readIfPresent(with: QBusinessClientTypes.DocumentAcl.read(from:))
+        value.hasAccess = try reader["hasAccess"].readIfPresent()
+        value.userAliases = try reader["userAliases"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.AssociatedUser.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userGroups = try reader["userGroups"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.AssociatedGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension CreateApplicationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateApplicationOutput {
@@ -11260,6 +11497,24 @@ enum ChatSyncOutputError {
             case "ExternalResourceException": return try ExternalResourceException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "LicenseNotFoundException": return try LicenseNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CheckDocumentAccessOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -13059,6 +13314,84 @@ extension QBusinessClientTypes.AuthChallengeRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.AuthChallengeRequest()
         value.authorizationUrl = try reader["authorizationUrl"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QBusinessClientTypes.AssociatedGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AssociatedGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.AssociatedGroup()
+        value.name = try reader["name"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.AssociatedUser {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.AssociatedUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.AssociatedUser()
+        value.id = try reader["id"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.DocumentAcl {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DocumentAcl {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DocumentAcl()
+        value.allowlist = try reader["allowlist"].readIfPresent(with: QBusinessClientTypes.DocumentAclMembership.read(from:))
+        value.denyList = try reader["denyList"].readIfPresent(with: QBusinessClientTypes.DocumentAclMembership.read(from:))
+        return value
+    }
+}
+
+extension QBusinessClientTypes.DocumentAclMembership {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DocumentAclMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DocumentAclMembership()
+        value.memberRelation = try reader["memberRelation"].readIfPresent()
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.DocumentAclCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QBusinessClientTypes.DocumentAclCondition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DocumentAclCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DocumentAclCondition()
+        value.memberRelation = try reader["memberRelation"].readIfPresent()
+        value.users = try reader["users"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.DocumentAclUser.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.DocumentAclGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QBusinessClientTypes.DocumentAclGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DocumentAclGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DocumentAclGroup()
+        value.name = try reader["name"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.DocumentAclUser {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DocumentAclUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DocumentAclUser()
+        value.id = try reader["id"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }

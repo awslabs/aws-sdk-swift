@@ -601,6 +601,7 @@ extension EKSClientTypes {
 extension EKSClientTypes {
 
     public enum AMITypes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case al2023Arm64Nvidia
         case al2023Arm64Standard
         case al2023X8664Neuron
         case al2023X8664Nvidia
@@ -623,6 +624,7 @@ extension EKSClientTypes {
 
         public static var allCases: [AMITypes] {
             return [
+                .al2023Arm64Nvidia,
                 .al2023Arm64Standard,
                 .al2023X8664Neuron,
                 .al2023X8664Nvidia,
@@ -651,6 +653,7 @@ extension EKSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .al2023Arm64Nvidia: return "AL2023_ARM_64_NVIDIA"
             case .al2023Arm64Standard: return "AL2023_ARM_64_STANDARD"
             case .al2023X8664Neuron: return "AL2023_x86_64_NEURON"
             case .al2023X8664Nvidia: return "AL2023_x86_64_NVIDIA"

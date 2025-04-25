@@ -465,13 +465,15 @@ extension ConnectCasesClientTypes {
         case comment
         case contact
         case file
+        case sla
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RelatedItemType] {
             return [
                 .comment,
                 .contact,
-                .file
+                .file,
+                .sla
             ]
         }
 
@@ -485,6 +487,7 @@ extension ConnectCasesClientTypes {
             case .comment: return "Comment"
             case .contact: return "Contact"
             case .file: return "File"
+            case .sla: return "Sla"
             case let .sdkUnknown(s): return s
             }
         }
@@ -745,6 +748,81 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
+    public enum SlaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case caseField
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SlaType] {
+            return [
+                .caseField
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .caseField: return "CaseField"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents the input configuration of an SLA being created.
+    public struct SlaInputConfiguration: Swift.Sendable {
+        /// Unique identifier of a field.
+        public var fieldId: Swift.String?
+        /// Name of an SLA.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Represents a list of target field values for the fieldId specified in SlaInputConfiguration. The SLA is considered met if any one of these target field values matches the actual field value.
+        public var targetFieldValues: [ConnectCasesClientTypes.FieldValueUnion]?
+        /// Target duration in minutes within which an SLA should be completed.
+        /// This member is required.
+        public var targetSlaMinutes: Swift.Int?
+        /// Type of SLA.
+        /// This member is required.
+        public var type: ConnectCasesClientTypes.SlaType?
+
+        public init(
+            fieldId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            targetFieldValues: [ConnectCasesClientTypes.FieldValueUnion]? = nil,
+            targetSlaMinutes: Swift.Int? = nil,
+            type: ConnectCasesClientTypes.SlaType? = nil
+        ) {
+            self.fieldId = fieldId
+            self.name = name
+            self.targetFieldValues = targetFieldValues
+            self.targetSlaMinutes = targetSlaMinutes
+            self.type = type
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.SlaInputConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SlaInputConfiguration(fieldId: \(Swift.String(describing: fieldId)), targetFieldValues: \(Swift.String(describing: targetFieldValues)), targetSlaMinutes: \(Swift.String(describing: targetSlaMinutes)), type: \(Swift.String(describing: type)), name: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents the content of an SLA.
+    public enum SlaInputContent: Swift.Sendable {
+        /// Represents an input SLA configuration.
+        case slainputconfiguration(ConnectCasesClientTypes.SlaInputConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCasesClientTypes {
+
     /// Represents the content of a related item to be created.
     public enum RelatedItemInputContent: Swift.Sendable {
         /// Object representing a contact in Amazon Connect as an API request field.
@@ -753,6 +831,8 @@ extension ConnectCasesClientTypes {
         case comment(ConnectCasesClientTypes.CommentContent)
         /// A file of related items.
         case file(ConnectCasesClientTypes.FileContent)
+        /// Represents the content of an SLA to be created.
+        case sla(ConnectCasesClientTypes.SlaInputContent)
         case sdkUnknown(Swift.String)
     }
 }
@@ -850,6 +930,65 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
+    public enum SlaStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case met
+        case notMet
+        case overdue
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SlaStatus] {
+            return [
+                .active,
+                .met,
+                .notMet,
+                .overdue
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .met: return "Met"
+            case .notMet: return "NotMet"
+            case .overdue: return "Overdue"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// A filter for related items of type SLA.
+    public struct SlaFilter: Swift.Sendable {
+        /// Name of an SLA.
+        public var name: Swift.String?
+        /// Status of an SLA.
+        public var status: ConnectCasesClientTypes.SlaStatus?
+
+        public init(
+            name: Swift.String? = nil,
+            status: ConnectCasesClientTypes.SlaStatus? = nil
+        ) {
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.SlaFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SlaFilter(status: \(Swift.String(describing: status)), name: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectCasesClientTypes {
+
     /// The list of types of related items and their parameters to use for filtering.
     public enum RelatedItemTypeFilter: Swift.Sendable {
         /// A filter for related items of type Contact.
@@ -858,6 +997,8 @@ extension ConnectCasesClientTypes {
         case comment(ConnectCasesClientTypes.CommentFilter)
         /// A filter for related items of this type of File.
         case file(ConnectCasesClientTypes.FileFilter)
+        /// Filter for related items of type SLA.
+        case sla(ConnectCasesClientTypes.SlaFilter)
         case sdkUnknown(Swift.String)
     }
 }
@@ -919,6 +1060,70 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
+    /// Represents an SLA configuration.
+    public struct SlaConfiguration: Swift.Sendable {
+        /// Time at which an SLA was completed.
+        public var completionTime: Foundation.Date?
+        /// Unique identifier of a field.
+        public var fieldId: Swift.String?
+        /// Name of an SLA.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Status of an SLA.
+        /// This member is required.
+        public var status: ConnectCasesClientTypes.SlaStatus?
+        /// Represents a list of target field values for the fieldId specified in SlaConfiguration.
+        public var targetFieldValues: [ConnectCasesClientTypes.FieldValueUnion]?
+        /// Target time by which an SLA should be completed.
+        /// This member is required.
+        public var targetTime: Foundation.Date?
+        /// Type of SLA.
+        /// This member is required.
+        public var type: ConnectCasesClientTypes.SlaType?
+
+        public init(
+            completionTime: Foundation.Date? = nil,
+            fieldId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: ConnectCasesClientTypes.SlaStatus? = nil,
+            targetFieldValues: [ConnectCasesClientTypes.FieldValueUnion]? = nil,
+            targetTime: Foundation.Date? = nil,
+            type: ConnectCasesClientTypes.SlaType? = nil
+        ) {
+            self.completionTime = completionTime
+            self.fieldId = fieldId
+            self.name = name
+            self.status = status
+            self.targetFieldValues = targetFieldValues
+            self.targetTime = targetTime
+            self.type = type
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.SlaConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SlaConfiguration(completionTime: \(Swift.String(describing: completionTime)), fieldId: \(Swift.String(describing: fieldId)), status: \(Swift.String(describing: status)), targetFieldValues: \(Swift.String(describing: targetFieldValues)), targetTime: \(Swift.String(describing: targetTime)), type: \(Swift.String(describing: type)), name: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents the content of an SLA to be returned to agents.
+    public struct SlaContent: Swift.Sendable {
+        /// Represents an SLA configuration.
+        /// This member is required.
+        public var slaConfiguration: ConnectCasesClientTypes.SlaConfiguration?
+
+        public init(
+            slaConfiguration: ConnectCasesClientTypes.SlaConfiguration? = nil
+        ) {
+            self.slaConfiguration = slaConfiguration
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
     /// Represents the content of a particular type of related item.
     public enum RelatedItemContent: Swift.Sendable {
         /// Represents the content of a contact to be returned to agents.
@@ -927,6 +1132,8 @@ extension ConnectCasesClientTypes {
         case comment(ConnectCasesClientTypes.CommentContent)
         /// Represents the content of a File to be returned to agents.
         case file(ConnectCasesClientTypes.FileContent)
+        /// Represents the content of an SLA to be returned to agents.
+        case sla(ConnectCasesClientTypes.SlaContent)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4878,6 +5085,7 @@ enum PutCaseEventConfigurationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -5912,9 +6120,37 @@ extension ConnectCasesClientTypes.RelatedItemContent {
                 return .comment(try reader["comment"].read(with: ConnectCasesClientTypes.CommentContent.read(from:)))
             case "file":
                 return .file(try reader["file"].read(with: ConnectCasesClientTypes.FileContent.read(from:)))
+            case "sla":
+                return .sla(try reader["sla"].read(with: ConnectCasesClientTypes.SlaContent.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension ConnectCasesClientTypes.SlaContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.SlaContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.SlaContent()
+        value.slaConfiguration = try reader["slaConfiguration"].readIfPresent(with: ConnectCasesClientTypes.SlaConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.SlaConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.SlaConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.SlaConfiguration()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.fieldId = try reader["fieldId"].readIfPresent()
+        value.targetFieldValues = try reader["targetFieldValues"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.FieldValueUnion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetTime = try reader["targetTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
     }
 }
 
@@ -5981,9 +6217,36 @@ extension ConnectCasesClientTypes.RelatedItemInputContent {
                 try writer["contact"].write(contact, with: ConnectCasesClientTypes.Contact.write(value:to:))
             case let .file(file):
                 try writer["file"].write(file, with: ConnectCasesClientTypes.FileContent.write(value:to:))
+            case let .sla(sla):
+                try writer["sla"].write(sla, with: ConnectCasesClientTypes.SlaInputContent.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension ConnectCasesClientTypes.SlaInputContent {
+
+    static func write(value: ConnectCasesClientTypes.SlaInputContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .slainputconfiguration(slainputconfiguration):
+                try writer["slaInputConfiguration"].write(slainputconfiguration, with: ConnectCasesClientTypes.SlaInputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.SlaInputConfiguration {
+
+    static func write(value: ConnectCasesClientTypes.SlaInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldId"].write(value.fieldId)
+        try writer["name"].write(value.name)
+        try writer["targetFieldValues"].writeList(value.targetFieldValues, memberWritingClosure: ConnectCasesClientTypes.FieldValueUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetSlaMinutes"].write(value.targetSlaMinutes)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -6057,9 +6320,20 @@ extension ConnectCasesClientTypes.RelatedItemTypeFilter {
                 try writer["contact"].write(contact, with: ConnectCasesClientTypes.ContactFilter.write(value:to:))
             case let .file(file):
                 try writer["file"].write(file, with: ConnectCasesClientTypes.FileFilter.write(value:to:))
+            case let .sla(sla):
+                try writer["sla"].write(sla, with: ConnectCasesClientTypes.SlaFilter.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension ConnectCasesClientTypes.SlaFilter {
+
+    static func write(value: ConnectCasesClientTypes.SlaFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["status"].write(value.status)
     }
 }
 

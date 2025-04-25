@@ -14,7 +14,7 @@ import struct ClientRuntime.DefaultEndpointResolver
 import struct ClientRuntime.StaticEndpointResolver
 import struct SmithyHTTPAPI.Endpoint
 
-public struct EndpointParams: Sendable {
+public struct EndpointParams {
     /// Override the endpoint used to send this request
     public let endpoint: Swift.String?
     /// The ARN of the Key Value Store

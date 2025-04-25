@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ECSClient: ClientRuntime.Client {
     public static let clientName = "ECSClient"
-    public static let version = "1.2.59"
+    public static let version = "1.3.2"
     let client: ClientRuntime.SdkHttpClient
     let config: ECSClient.ECSClientConfiguration
     let serviceName = "ECS"
@@ -1664,7 +1664,7 @@ extension ECSClient {
 
     /// Performs the `DescribeServiceDeployments` operation on the `ECS` service.
     ///
-    /// Describes one or more of your service deployments. A service deployment happens when you release a software update for the service. For more information, see [Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-deployments.html).
+    /// Describes one or more of your service deployments. A service deployment happens when you release a software update for the service. For more information, see [View service history using Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-deployment.html).
     ///
     /// - Parameter DescribeServiceDeploymentsInput : [no documentation found]
     ///
@@ -3762,6 +3762,13 @@ extension ECSClient {
     ///
     /// * Add wait time between subsequent commands, even if the DescribeTasks command returns an accurate response. Apply an exponential backoff algorithm starting with a couple of seconds of wait time, and increase gradually up to about five minutes of wait time.
     ///
+    ///
+    /// If you get a ConflictException error, the RunTask request could not be processed due to conflicts. The provided clientToken is already in use with a different RunTask request. The resourceIds are the existing task ARNs which are already associated with the clientToken. To fix this issue:
+    ///
+    /// * Run RunTask with a unique clientToken.
+    ///
+    /// * Run RunTask with the clientToken and the original set of parameters
+    ///
     /// - Parameter RunTaskInput : [no documentation found]
     ///
     /// - Returns: `RunTaskOutput` : [no documentation found]
@@ -3775,11 +3782,7 @@ extension ECSClient {
     ///
     /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
-    /// - `ConflictException` : The RunTask request could not be processed due to conflicts. The provided clientToken is already in use with a different RunTask request. The resourceIds are the existing task ARNs which are already associated with the clientToken. To fix this issue:
-    ///
-    /// * Run RunTask with a unique clientToken.
-    ///
-    /// * Run RunTask with the clientToken and the original set of parameters
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `PlatformTaskDefinitionIncompatibilityException` : The specified platform version doesn't satisfy the required capabilities of the task definition.
     /// - `PlatformUnknownException` : The specified platform version doesn't exist.
@@ -3918,6 +3921,89 @@ extension ECSClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StopServiceDeployment` operation on the `ECS` service.
+    ///
+    /// Stops an ongoing service deployment. StopServiceDeployment isn't currently supported.
+    ///
+    /// - Parameter StopServiceDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `StopServiceDeploymentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
+    /// - `ServerException` : These errors are usually caused by a server issue.
+    /// - `ServiceDeploymentNotFoundException` : The service deploy ARN that you specified in the StopServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
+    /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
+    public func stopServiceDeployment(input: StopServiceDeploymentInput) async throws -> StopServiceDeploymentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopServiceDeployment")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ecs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopServiceDeploymentInput, StopServiceDeploymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>(StopServiceDeploymentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopServiceDeploymentOutput>(StopServiceDeploymentOutput.httpOutput(from:), StopServiceDeploymentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopServiceDeploymentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopServiceDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>(xAmzTarget: "AmazonEC2ContainerServiceV20141113.StopServiceDeployment"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopServiceDeploymentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopServiceDeploymentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopServiceDeploymentInput, StopServiceDeploymentOutput>(serviceID: serviceName, version: ECSClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopServiceDeployment")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

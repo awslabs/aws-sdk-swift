@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceCommerceAnalyticsClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceCommerceAnalyticsClient"
-    public static let version = "1.2.59"
+    public static let version = "1.3.2"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceCommerceAnalyticsClient.MarketplaceCommerceAnalyticsClientConfiguration
     let serviceName = "Marketplace Commerce Analytics"

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CognitoIdentityProviderClient: ClientRuntime.Client {
     public static let clientName = "CognitoIdentityProviderClient"
-    public static let version = "1.2.59"
+    public static let version = "1.3.2"
     let client: ClientRuntime.SdkHttpClient
     let config: CognitoIdentityProviderClient.CognitoIdentityProviderClientConfiguration
     let serviceName = "Cognito Identity Provider"
@@ -1416,6 +1416,7 @@ extension CognitoIdentityProviderClient {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
+    /// - `UnsupportedOperationException` : Exception that is thrown when you attempt to perform an operation that isn't enabled for the user pool client.
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -3745,6 +3746,7 @@ extension CognitoIdentityProviderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidOAuthFlowException` : This exception is thrown when the specified OAuth flow is not valid.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
@@ -3831,6 +3833,7 @@ extension CognitoIdentityProviderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : This exception is thrown if two or more modifications are happening concurrently.
     /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
@@ -4568,6 +4571,7 @@ extension CognitoIdentityProviderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : This exception is thrown if two or more modifications are happening concurrently.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
@@ -6096,6 +6100,91 @@ extension CognitoIdentityProviderClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetTokensFromRefreshToken` operation on the `CognitoIdentityProvider` service.
+    ///
+    /// Given a refresh token, issues new ID, access, and optionally refresh tokens for the user who owns the submitted token. This operation issues a new refresh token and invalidates the original refresh token after an optional grace period when refresh token rotation is enabled. If refresh token rotation is disabled, issues new ID and access tokens only.
+    ///
+    /// - Parameter GetTokensFromRefreshTokenInput : [no documentation found]
+    ///
+    /// - Returns: `GetTokensFromRefreshTokenOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : This exception is thrown when WAF doesn't allow your request based on a web ACL that's associated with your user pool.
+    /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
+    /// - `InvalidLambdaResponseException` : This exception is thrown when Amazon Cognito encounters an invalid Lambda response.
+    /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+    /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `RefreshTokenReuseException` : This exception is throw when your application requests token refresh with a refresh token that has been invalidated by refresh-token rotation.
+    /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
+    /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
+    /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
+    /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
+    /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
+    public func getTokensFromRefreshToken(input: GetTokensFromRefreshTokenInput) async throws -> GetTokensFromRefreshTokenOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTokensFromRefreshToken")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cognito-idp")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>(GetTokensFromRefreshTokenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTokensFromRefreshTokenOutput>(GetTokensFromRefreshTokenOutput.httpOutput(from:), GetTokensFromRefreshTokenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTokensFromRefreshTokenOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTokensFromRefreshTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>(xAmzTarget: "AWSCognitoIdentityProviderService.GetTokensFromRefreshToken"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTokensFromRefreshTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTokensFromRefreshTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTokensFromRefreshToken")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetUICustomization` operation on the `CognitoIdentityProvider` service.
     ///
     /// Given a user pool ID or app client, returns information about classic hosted UI branding that you applied, if any. Returns user-pool level branding information if no app client branding is applied, or if you don't specify an app client ID. Returns an empty object if you haven't applied hosted UI branding to either the client or the user pool. For more information, see [Hosted UI (classic) branding](https://docs.aws.amazon.com/cognito/latest/developerguide/hosted-ui-classic-branding.html).
@@ -6640,6 +6729,7 @@ extension CognitoIdentityProviderClient {
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
+    /// - `UnsupportedOperationException` : Exception that is thrown when you attempt to perform an operation that isn't enabled for the user pool client.
     /// - `UserLambdaValidationException` : This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -9544,6 +9634,7 @@ extension CognitoIdentityProviderClient {
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : This exception is thrown if two or more modifications are happening concurrently.
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidOAuthFlowException` : This exception is thrown when the specified OAuth flow is not valid.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
@@ -9629,6 +9720,7 @@ extension CognitoIdentityProviderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : This exception is thrown if two or more modifications are happening concurrently.
     /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.

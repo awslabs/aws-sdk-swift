@@ -14,7 +14,7 @@ import struct ClientRuntime.DefaultEndpointResolver
 import struct ClientRuntime.StaticEndpointResolver
 import struct SmithyHTTPAPI.Endpoint
 
-public struct EndpointParams: Sendable {
+public struct EndpointParams {
     /// The S3 AccessPointName used to send the request. This is an optional parameter that will be set automatically for operations that are scoped to an S3 AccessPoint.
     public let accessPointName: Swift.String?
     /// The Account ID used to send the request. This is an optional parameter that will be set automatically for operations that require it.

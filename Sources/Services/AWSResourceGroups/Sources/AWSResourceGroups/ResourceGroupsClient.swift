@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ResourceGroupsClient: ClientRuntime.Client {
     public static let clientName = "ResourceGroupsClient"
-    public static let version = "1.2.59"
+    public static let version = "1.3.2"
     let client: ClientRuntime.SdkHttpClient
     let config: ResourceGroupsClient.ResourceGroupsClientConfiguration
     let serviceName = "Resource Groups"
@@ -1669,7 +1669,7 @@ extension ResourceGroupsClient {
 
     /// Performs the `StartTagSyncTask` operation on the `ResourceGroups` service.
     ///
-    /// Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an application. Minimum permissions To run this command, you must have the following permissions:
+    /// Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an application. To start a tag-sync task, you need a [resource tagging role](https://docs.aws.amazon.com/servicecatalog/latest/arguide/app-tag-sync.html#tag-sync-role). The resource tagging role grants permissions to tag and untag applications resources and must include a trust policy that allows Resource Groups to assume the role and perform resource tagging tasks on your behalf. For instructions on creating a tag-sync task, see [Create a tag-sync using the Resource Groups API](https://docs.aws.amazon.com/servicecatalog/latest/arguide/app-tag-sync.html#create-tag-sync) in the Amazon Web Services Service Catalog AppRegistry Administrator Guide. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:StartTagSyncTask on the application group
     ///
