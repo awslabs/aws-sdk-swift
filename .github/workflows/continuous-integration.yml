@@ -188,3 +188,8 @@ jobs:
           cd aws-sdk-swift/codegen/
           swift test
           cd ..
+      - name: Build Swift6 Compatibility Project
+        run: |
+          cd Swift6Compatibility
+          swift build
+          cd ..
