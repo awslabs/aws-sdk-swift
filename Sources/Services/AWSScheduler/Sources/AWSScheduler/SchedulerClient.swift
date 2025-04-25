@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SchedulerClient: ClientRuntime.Client {
     public static let clientName = "SchedulerClient"
-    public static let version = "1.3.2"
+    public static let version = "1.3.3"
     let client: ClientRuntime.SdkHttpClient
     let config: SchedulerClient.SchedulerClientConfiguration
     let serviceName = "Scheduler"
