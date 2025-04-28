@@ -4,10 +4,10 @@ import PackageDescription
 let package = Package(
     name: "Swift6Compatibility",
     platforms: [
-        .macOS(.v10_15),
+        .macOS(.v12),
         .iOS(.v13),
         .tvOS(.v13),
-        .watchOS(.v6)
+        .watchOS(.v6),
     ],
     dependencies: [
         .package(path: "../../smithy-swift"),

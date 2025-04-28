@@ -112,6 +112,11 @@ jobs:
             test 2>&1 \
             | xcbeautify
           cd ..
+      - name: Build Swift6 Compatibility Project
+        run: |
+          cd aws-sdk-swift/Swift6Compatibility
+          swift build
+          cd ..
 
   linux:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
@@ -184,6 +189,6 @@ jobs:
           cd ..
       - name: Build Swift6 Compatibility Project
         run: |
-          cd Swift6Compatibility
+          cd aws-sdk-swift/Swift6Compatibility
           swift build
           cd ..
