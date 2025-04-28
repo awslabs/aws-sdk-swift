@@ -26,6 +26,7 @@ jobs:
           - macos-14
           - macos-15
         xcode:
+          - Xcode_15.2
           - Xcode_16.1
         destination:
           - 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
@@ -36,6 +37,12 @@ jobs:
           - 'platform=visionOS Simulator,OS=2.1,name=Apple Vision Pro'
           - 'platform=macOS'
         exclude:
+          # Don't run old macOS with new Xcode
+          - runner: macos-14
+            xcode: Xcode_16.1
+          # Don't run new macOS with old Xcode
+          - runner: macos-15
+            xcode: Xcode_15.2
           # Don't run old simulators with new Xcode
           - destination: 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
             xcode: Xcode_16.1
@@ -43,6 +50,13 @@ jobs:
             xcode: Xcode_16.1
           - destination: 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
             xcode: Xcode_16.1
+          # Don't run new simulators with old Xcode
+          - destination: 'platform=tvOS Simulator,OS=18.1,name=Apple TV 4K (3rd generation) (at 1080p)'
+            xcode: Xcode_15.2
+          - destination: 'platform=iOS Simulator,OS=18.1,name=iPhone 16'
+            xcode: Xcode_15.2
+          - destination: 'platform=visionOS Simulator,OS=2.1,name=Apple Vision Pro'
+            xcode: Xcode_15.2
     steps:
       - name: Configure Xcode
         run: sudo xcode-select -s /Applications/${{ matrix.xcode }}.app
@@ -62,8 +76,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: aws-sdk-swift
-          ref: ${{ github.event.pull_request.head.sha || github.ref }}
-          fetch-depth: 0
       - name: Checkout smithy-swift with composite action
         uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
         with:
@@ -120,7 +132,8 @@ jobs:
             -scheme AWSIntegrationTestsOnCI \
             -testPlan AWSIntegrationTestsOnCI \
             -destination '${{ matrix.destination }}' \
-            test 2>&1
+            test 2>&1 \
+            | xcbeautify
 
   linux:
     # Details on why AL2 isn't included: https://github.com/awslabs/aws-sdk-swift/pull/1833
@@ -136,6 +149,7 @@ jobs:
         os:
           - jammy
         version:
+          - "5.9"
           - "6.0"
     env:
       ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
@@ -151,8 +165,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: aws-sdk-swift
-          ref: ${{ github.event.pull_request.head.sha || github.ref }}
-          fetch-depth: 0
       - name: Checkout smithy-swift with composite action
         uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
         with:
