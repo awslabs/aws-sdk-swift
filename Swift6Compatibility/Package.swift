@@ -11,7 +11,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "smithy-swift", path: "../../smithy-swift"),
-        .package(name: "aws-sdk-swift", path: "../"),
+        .package(name: "aws-sdk-swift", path: "../../aws-sdk-swift"),
     ],
     targets: [
         .target(
