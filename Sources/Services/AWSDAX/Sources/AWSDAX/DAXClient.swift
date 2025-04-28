@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DAXClient: ClientRuntime.Client {
     public static let clientName = "DAXClient"
-    public static let version = "1.3.3"
+    public static let version = "1.3.4"
     let client: ClientRuntime.SdkHttpClient
     let config: DAXClient.DAXClientConfiguration
     let serviceName = "DAX"
