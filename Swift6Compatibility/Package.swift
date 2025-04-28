@@ -20,7 +20,7 @@ let package = Package(
                 .product(name: "AWSClientRuntime", package: "aws-sdk-swift"),
                 .product(name: "AWSS3", package: "aws-sdk-swift"),
                 .product(name: "ClientRuntime", package: "smithy-swift"),
-            ],
+            ]
         )
     ]
 )
