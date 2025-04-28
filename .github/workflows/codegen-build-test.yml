@@ -66,3 +66,7 @@ jobs:
         run: |
           cd aws-sdk-swift
           swift test --skip-build
+      - name: Build Swift6 Compatibility Project
+        run: |
+          cd aws-sdk-swift/Swift6Compatibility/
+          swift build
