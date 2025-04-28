@@ -5,9 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import AWSClientRuntime
 import AWSS3
 import ClientRuntime
-import AWSClientRuntime
 
 struct Swift6CompatibilityValidator {
     private let s3Client: S3Client
