@@ -10,8 +10,8 @@ let package = Package(
         .watchOS(.v6),
     ],
     dependencies: [
-        .package(path: "../../smithy-swift"),
-        .package(path: ".."),
+        .package(name: "smithy-swift", path: "../../smithy-swift"),
+        .package(name: "aws-sdk-swift", path: "../"),
     ],
     targets: [
         .target(
