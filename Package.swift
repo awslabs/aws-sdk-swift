@@ -362,6 +362,7 @@ let serviceTargets: [String] = [
     "AWSSQS",
     "AWSSSM",
     "AWSSSMContacts",
+    "AWSSSMGuiConnect",
     "AWSSSMIncidents",
     "AWSSSMQuickSetup",
     "AWSSSO",
