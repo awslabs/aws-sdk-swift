@@ -77,6 +77,37 @@ extension CloudFrontClient {
         return try await waiter.waitUntil(options: options, input: input)
     }
 
+    static func invalidationForDistributionTenantCompletedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<GetInvalidationForDistributionTenantInput, GetInvalidationForDistributionTenantOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<GetInvalidationForDistributionTenantInput, GetInvalidationForDistributionTenantOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetInvalidationForDistributionTenantInput, result: Swift.Result<GetInvalidationForDistributionTenantOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "Invalidation.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "Completed"
+                guard case .success(let output) = result else { return false }
+                let invalidation = output.invalidation
+                let status = invalidation?.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "Completed")
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<GetInvalidationForDistributionTenantInput, GetInvalidationForDistributionTenantOutput>(acceptors: acceptors, minDelay: 20.0, maxDelay: 600.0)
+    }
+
+    /// Initiates waiting for the InvalidationForDistributionTenantCompleted event on the getInvalidationForDistributionTenant operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `GetInvalidationForDistributionTenantInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilInvalidationForDistributionTenantCompleted(options: SmithyWaitersAPI.WaiterOptions, input: GetInvalidationForDistributionTenantInput) async throws -> SmithyWaitersAPI.WaiterOutcome<GetInvalidationForDistributionTenantOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.invalidationForDistributionTenantCompletedWaiterConfig(), operation: self.getInvalidationForDistributionTenant(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
     static func streamingDistributionDeployedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<GetStreamingDistributionInput, GetStreamingDistributionOutput> {
         let acceptors: [SmithyWaitersAPI.WaiterConfiguration<GetStreamingDistributionInput, GetStreamingDistributionOutput>.Acceptor] = [
             .init(state: .success, matcher: { (input: GetStreamingDistributionInput, result: Swift.Result<GetStreamingDistributionOutput, Swift.Error>) -> Bool in

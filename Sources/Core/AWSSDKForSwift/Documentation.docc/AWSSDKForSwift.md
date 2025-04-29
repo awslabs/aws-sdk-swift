@@ -755,6 +755,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSSMContacts](../../../../../swift/api/awsssmcontacts/latest)
 
+[AWSSSMGuiConnect](../../../../../swift/api/awsssmguiconnect/latest)
+
 [AWSSSMIncidents](../../../../../swift/api/awsssmincidents/latest)
 
 [AWSSSMQuickSetup](../../../../../swift/api/awsssmquicksetup/latest)

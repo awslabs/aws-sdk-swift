@@ -698,6 +698,7 @@ extension QBusinessClientTypes {
 extension QBusinessClientTypes {
 
     public enum IdentityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case anonymous
         case awsIamIdc
         case awsIamIdpOidc
         case awsIamIdpSaml
@@ -706,6 +707,7 @@ extension QBusinessClientTypes {
 
         public static var allCases: [IdentityType] {
             return [
+                .anonymous,
                 .awsIamIdc,
                 .awsIamIdpOidc,
                 .awsIamIdpSaml,
@@ -720,6 +722,7 @@ extension QBusinessClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .anonymous: return "ANONYMOUS"
             case .awsIamIdc: return "AWS_IAM_IDC"
             case .awsIamIdpOidc: return "AWS_IAM_IDP_OIDC"
             case .awsIamIdpSaml: return "AWS_IAM_IDP_SAML"
@@ -6169,6 +6172,38 @@ extension QBusinessClientTypes {
     }
 }
 
+public struct CreateAnonymousWebExperienceUrlInput: Swift.Sendable {
+    /// The identifier of the Amazon Q Business application environment attached to the web experience.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The duration of the session associated with the unique URL for the web experience.
+    public var sessionDurationInMinutes: Swift.Int?
+    /// The identifier of the web experience.
+    /// This member is required.
+    public var webExperienceId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        sessionDurationInMinutes: Swift.Int? = nil,
+        webExperienceId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.sessionDurationInMinutes = sessionDurationInMinutes
+        self.webExperienceId = webExperienceId
+    }
+}
+
+public struct CreateAnonymousWebExperienceUrlOutput: Swift.Sendable {
+    /// The unique URL for accessing the web experience. This URL can only be used once and must be used within 5 minutes after it's generated.
+    public var anonymousUrl: Swift.String?
+
+    public init(
+        anonymousUrl: Swift.String? = nil
+    ) {
+        self.anonymousUrl = anonymousUrl
+    }
+}
+
 extension QBusinessClientTypes {
 
     /// A user or group in the IAM Identity Center instance connected to the Amazon Q Business application.
@@ -6692,7 +6727,7 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
-    /// Configuration information required to setup hallucination reduction. For more information, see [hallucination reduction]. The hallucination reduction feature won't work if chat orchestration controls are enabled for your application.
+    /// Configuration information required to setup hallucination reduction. For more information, see [ hallucination reduction](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/hallucination-reduction.html). The hallucination reduction feature won't work if chat orchestration controls are enabled for your application.
     public struct HallucinationReductionConfiguration: Swift.Sendable {
         /// Controls whether hallucination reduction has been enabled or disabled for your application. The default status is DISABLED.
         public var hallucinationReductionControl: QBusinessClientTypes.HallucinationReductionControl?
@@ -8885,6 +8920,19 @@ extension CheckDocumentAccessInput {
     }
 }
 
+extension CreateAnonymousWebExperienceUrlInput {
+
+    static func urlPathProvider(_ value: CreateAnonymousWebExperienceUrlInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let webExperienceId = value.webExperienceId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/experiences/\(webExperienceId.urlPercentEncoding())/anonymous-url"
+    }
+}
+
 extension CreateApplicationInput {
 
     static func urlPathProvider(_ value: CreateApplicationInput) -> Swift.String? {
@@ -10173,6 +10221,14 @@ extension ChatSyncInput {
     }
 }
 
+extension CreateAnonymousWebExperienceUrlInput {
+
+    static func write(value: CreateAnonymousWebExperienceUrlInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sessionDurationInMinutes"].write(value.sessionDurationInMinutes)
+    }
+}
+
 extension CreateApplicationInput {
 
     static func write(value: CreateApplicationInput?, to writer: SmithyJSON.Writer) throws {
@@ -10556,6 +10612,18 @@ extension CheckDocumentAccessOutput {
         value.hasAccess = try reader["hasAccess"].readIfPresent()
         value.userAliases = try reader["userAliases"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.AssociatedUser.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.userGroups = try reader["userGroups"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.AssociatedGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateAnonymousWebExperienceUrlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAnonymousWebExperienceUrlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAnonymousWebExperienceUrlOutput()
+        value.anonymousUrl = try reader["anonymousUrl"].readIfPresent()
         return value
     }
 }
@@ -11516,6 +11584,25 @@ enum CheckDocumentAccessOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAnonymousWebExperienceUrlOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

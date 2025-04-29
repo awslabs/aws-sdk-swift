@@ -32,6 +32,68 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
+/// The requester doesn't have permissions to perform the requested operation.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum AccessRequestStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case expired
+        case pending
+        case rejected
+        case revoked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessRequestStatus] {
+            return [
+                .approved,
+                .expired,
+                .pending,
+                .rejected,
+                .revoked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "Approved"
+            case .expired: return "Expired"
+            case .pending: return "Pending"
+            case .rejected: return "Rejected"
+            case .revoked: return "Revoked"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 extension SSMClientTypes {
 
     /// Information includes the Amazon Web Services account ID where the current document is shared and the version shared with that account.
@@ -1952,6 +2014,7 @@ extension SSMClientTypes {
     public enum DocumentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case applicationconfiguration
         case applicationconfigurationschema
+        case autoapprovalpolicy
         case automation
         case changecalendar
         case changetemplate
@@ -1959,6 +2022,7 @@ extension SSMClientTypes {
         case command
         case conformancepacktemplate
         case deploymentstrategy
+        case manualapprovalpolicy
         case package
         case policy
         case problemanalysis
@@ -1971,6 +2035,7 @@ extension SSMClientTypes {
             return [
                 .applicationconfiguration,
                 .applicationconfigurationschema,
+                .autoapprovalpolicy,
                 .automation,
                 .changecalendar,
                 .changetemplate,
@@ -1978,6 +2043,7 @@ extension SSMClientTypes {
                 .command,
                 .conformancepacktemplate,
                 .deploymentstrategy,
+                .manualapprovalpolicy,
                 .package,
                 .policy,
                 .problemanalysis,
@@ -1996,6 +2062,7 @@ extension SSMClientTypes {
             switch self {
             case .applicationconfiguration: return "ApplicationConfiguration"
             case .applicationconfigurationschema: return "ApplicationConfigurationSchema"
+            case .autoapprovalpolicy: return "AutoApprovalPolicy"
             case .automation: return "Automation"
             case .changecalendar: return "ChangeCalendar"
             case .changetemplate: return "Automation.ChangeTemplate"
@@ -2003,6 +2070,7 @@ extension SSMClientTypes {
             case .command: return "Command"
             case .conformancepacktemplate: return "ConformancePackTemplate"
             case .deploymentstrategy: return "DeploymentStrategy"
+            case .manualapprovalpolicy: return "ManualApprovalPolicy"
             case .package: return "Package"
             case .policy: return "Policy"
             case .problemanalysis: return "ProblemAnalysis"
@@ -5365,11 +5433,13 @@ extension SSMClientTypes {
 extension SSMClientTypes {
 
     public enum AutomationSubtype: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessrequest
         case changerequest
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AutomationSubtype] {
             return [
+                .accessrequest,
                 .changerequest
             ]
         }
@@ -5381,6 +5451,7 @@ extension SSMClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .accessrequest: return "AccessRequest"
             case .changerequest: return "ChangeRequest"
             case let .sdkUnknown(s): return s
             }
@@ -8837,6 +8908,15 @@ public struct DescribeMaintenanceWindowTasksOutput: Swift.Sendable {
 extension SSMClientTypes {
 
     public enum OpsItemFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessRequestApproverArn
+        case accessRequestApproverId
+        case accessRequestIsReplica
+        case accessRequestRequesterArn
+        case accessRequestRequesterId
+        case accessRequestSourceAccountId
+        case accessRequestSourceOpsItemId
+        case accessRequestSourceRegion
+        case accessRequestTargetResourceId
         case accountId
         case actualEndTime
         case actualStartTime
@@ -8869,6 +8949,15 @@ extension SSMClientTypes {
 
         public static var allCases: [OpsItemFilterKey] {
             return [
+                .accessRequestApproverArn,
+                .accessRequestApproverId,
+                .accessRequestIsReplica,
+                .accessRequestRequesterArn,
+                .accessRequestRequesterId,
+                .accessRequestSourceAccountId,
+                .accessRequestSourceOpsItemId,
+                .accessRequestSourceRegion,
+                .accessRequestTargetResourceId,
                 .accountId,
                 .actualEndTime,
                 .actualStartTime,
@@ -8907,6 +8996,15 @@ extension SSMClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .accessRequestApproverArn: return "AccessRequestByApproverArn"
+            case .accessRequestApproverId: return "AccessRequestByApproverId"
+            case .accessRequestIsReplica: return "AccessRequestByIsReplica"
+            case .accessRequestRequesterArn: return "AccessRequestByRequesterArn"
+            case .accessRequestRequesterId: return "AccessRequestByRequesterId"
+            case .accessRequestSourceAccountId: return "AccessRequestBySourceAccountId"
+            case .accessRequestSourceOpsItemId: return "AccessRequestBySourceOpsItemId"
+            case .accessRequestSourceRegion: return "AccessRequestBySourceRegion"
+            case .accessRequestTargetResourceId: return "AccessRequestByTargetResourceId"
             case .accountId: return "AccountId"
             case .actualEndTime: return "ActualEndTime"
             case .actualStartTime: return "ActualStartTime"
@@ -9071,6 +9169,7 @@ extension SSMClientTypes {
         case pendingChangeCalendarOverride
         case rejected
         case resolved
+        case revoked
         case runbookInProgress
         case scheduled
         case timedOut
@@ -9094,6 +9193,7 @@ extension SSMClientTypes {
                 .pendingChangeCalendarOverride,
                 .rejected,
                 .resolved,
+                .revoked,
                 .runbookInProgress,
                 .scheduled,
                 .timedOut
@@ -9123,6 +9223,7 @@ extension SSMClientTypes {
             case .pendingChangeCalendarOverride: return "PendingChangeCalendarOverride"
             case .rejected: return "Rejected"
             case .resolved: return "Resolved"
+            case .revoked: return "Revoked"
             case .runbookInProgress: return "RunbookInProgress"
             case .scheduled: return "Scheduled"
             case .timedOut: return "TimedOut"
@@ -10153,6 +10254,128 @@ public struct DisassociateOpsItemRelatedItemInput: Swift.Sendable {
 public struct DisassociateOpsItemRelatedItemOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// The request or operation couldn't be performed because the service is throttling requests.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The quota code recognized by the Amazon Web Services Service Quotas service.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// The code for the Amazon Web Services service that owns the quota.
+        public internal(set) var serviceCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.serviceCode = serviceCode
+    }
+}
+
+/// The request isn't valid. Verify that you entered valid contents for the command and try again.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The reason code for the invalid request.
+        public internal(set) var reasonCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        reasonCode: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.reasonCode = reasonCode
+    }
+}
+
+public struct GetAccessTokenInput: Swift.Sendable {
+    /// The ID of a just-in-time node access request.
+    /// This member is required.
+    public var accessRequestId: Swift.String?
+
+    public init(
+        accessRequestId: Swift.String? = nil
+    ) {
+        self.accessRequestId = accessRequestId
+    }
+}
+
+extension SSMClientTypes {
+
+    /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.
+    public struct Credentials: Swift.Sendable {
+        /// The access key ID that identifies the temporary security credentials.
+        /// This member is required.
+        public var accessKeyId: Swift.String?
+        /// The datetime on which the current credentials expire.
+        /// This member is required.
+        public var expirationTime: Foundation.Date?
+        /// The secret access key that can be used to sign requests.
+        /// This member is required.
+        public var secretAccessKey: Swift.String?
+        /// The token that users must pass to the service API to use the temporary credentials.
+        /// This member is required.
+        public var sessionToken: Swift.String?
+
+        public init(
+            accessKeyId: Swift.String? = nil,
+            expirationTime: Foundation.Date? = nil,
+            secretAccessKey: Swift.String? = nil,
+            sessionToken: Swift.String? = nil
+        ) {
+            self.accessKeyId = accessKeyId
+            self.expirationTime = expirationTime
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+    }
+}
+
+extension SSMClientTypes.Credentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Credentials(accessKeyId: \(Swift.String(describing: accessKeyId)), expirationTime: \(Swift.String(describing: expirationTime)), secretAccessKey: \"CONTENT_REDACTED\", sessionToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetAccessTokenOutput: Swift.Sendable {
+    /// The status of the access request.
+    public var accessRequestStatus: SSMClientTypes.AccessRequestStatus?
+    /// The temporary security credentials which can be used to start just-in-time node access sessions.
+    public var credentials: SSMClientTypes.Credentials?
+
+    public init(
+        accessRequestStatus: SSMClientTypes.AccessRequestStatus? = nil,
+        credentials: SSMClientTypes.Credentials? = nil
+    ) {
+        self.accessRequestStatus = accessRequestStatus
+        self.credentials = credentials
+    }
 }
 
 public struct GetAutomationExecutionInput: Swift.Sendable {
@@ -17444,6 +17667,7 @@ extension SSMClientTypes {
         case approve
         case reject
         case resume
+        case revoke
         case startStep
         case stopStep
         case sdkUnknown(Swift.String)
@@ -17453,6 +17677,7 @@ extension SSMClientTypes {
                 .approve,
                 .reject,
                 .resume,
+                .revoke,
                 .startStep,
                 .stopStep
             ]
@@ -17468,6 +17693,7 @@ extension SSMClientTypes {
             case .approve: return "Approve"
             case .reject: return "Reject"
             case .resume: return "Resume"
+            case .revoke: return "Revoke"
             case .startStep: return "StartStep"
             case .stopStep: return "StopStep"
             case let .sdkUnknown(s): return s
@@ -17654,6 +17880,80 @@ public struct SendCommandOutput: Swift.Sendable {
         command: SSMClientTypes.Command? = nil
     ) {
         self.command = command
+    }
+}
+
+/// The request exceeds the service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The quota code recognized by the Amazon Web Services Service Quotas service.
+        /// This member is required.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// The unique ID of the resource referenced in the failed request.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The resource type of the resource referenced in the failed request.
+        public internal(set) var resourceType: Swift.String? = nil
+        /// The code for the Amazon Web Services service that owns the quota.
+        /// This member is required.
+        public internal(set) var serviceCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+        self.properties.serviceCode = serviceCode
+    }
+}
+
+public struct StartAccessRequestInput: Swift.Sendable {
+    /// A brief description explaining why you are requesting access to the node.
+    /// This member is required.
+    public var reason: Swift.String?
+    /// Key-value pairs of metadata you want to assign to the access request.
+    public var tags: [SSMClientTypes.Tag]?
+    /// The node you are requesting access to.
+    /// This member is required.
+    public var targets: [SSMClientTypes.Target]?
+
+    public init(
+        reason: Swift.String? = nil,
+        tags: [SSMClientTypes.Tag]? = nil,
+        targets: [SSMClientTypes.Target]? = nil
+    ) {
+        self.reason = reason
+        self.tags = tags
+        self.targets = targets
+    }
+}
+
+public struct StartAccessRequestOutput: Swift.Sendable {
+    /// The ID of the access request.
+    public var accessRequestId: Swift.String?
+
+    public init(
+        accessRequestId: Swift.String? = nil
+    ) {
+        self.accessRequestId = accessRequestId
     }
 }
 
@@ -17962,33 +18262,6 @@ public struct StartChangeRequestExecutionOutput: Swift.Sendable {
         automationExecutionId: Swift.String? = nil
     ) {
         self.automationExecutionId = automationExecutionId
-    }
-}
-
-/// The request isn't valid. Verify that you entered valid contents for the command and try again.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The reason code for the invalid request.
-        public internal(set) var reasonCode: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        reasonCode: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.reasonCode = reasonCode
     }
 }
 
@@ -20098,6 +20371,13 @@ extension DisassociateOpsItemRelatedItemInput {
     }
 }
 
+extension GetAccessTokenInput {
+
+    static func urlPathProvider(_ value: GetAccessTokenInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetAutomationExecutionInput {
 
     static func urlPathProvider(_ value: GetAutomationExecutionInput) -> Swift.String? {
@@ -20507,6 +20787,13 @@ extension SendAutomationSignalInput {
 extension SendCommandInput {
 
     static func urlPathProvider(_ value: SendCommandInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartAccessRequestInput {
+
+    static func urlPathProvider(_ value: StartAccessRequestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21360,6 +21647,14 @@ extension DisassociateOpsItemRelatedItemInput {
     }
 }
 
+extension GetAccessTokenInput {
+
+    static func write(value: GetAccessTokenInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessRequestId"].write(value.accessRequestId)
+    }
+}
+
 extension GetAutomationExecutionInput {
 
     static func write(value: GetAutomationExecutionInput?, to writer: SmithyJSON.Writer) throws {
@@ -21990,6 +22285,16 @@ extension SendCommandInput {
         try writer["ServiceRoleArn"].write(value.serviceRoleArn)
         try writer["Targets"].writeList(value.targets, memberWritingClosure: SSMClientTypes.Target.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TimeoutSeconds"].write(value.timeoutSeconds)
+    }
+}
+
+extension StartAccessRequestInput {
+
+    static func write(value: StartAccessRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Reason"].write(value.reason)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SSMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Targets"].writeList(value.targets, memberWritingClosure: SSMClientTypes.Target.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -23041,6 +23346,19 @@ extension DisassociateOpsItemRelatedItemOutput {
     }
 }
 
+extension GetAccessTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccessTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessTokenOutput()
+        value.accessRequestStatus = try reader["AccessRequestStatus"].readIfPresent()
+        value.credentials = try reader["Credentials"].readIfPresent(with: SSMClientTypes.Credentials.read(from:))
+        return value
+    }
+}
+
 extension GetAutomationExecutionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAutomationExecutionOutput {
@@ -23879,6 +24197,18 @@ extension SendCommandOutput {
         let reader = responseReader
         var value = SendCommandOutput()
         value.command = try reader["Command"].readIfPresent(with: SSMClientTypes.Command.read(from:))
+        return value
+    }
+}
+
+extension StartAccessRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAccessRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartAccessRequestOutput()
+        value.accessRequestId = try reader["AccessRequestId"].readIfPresent()
         return value
     }
 }
@@ -25194,6 +25524,24 @@ enum DisassociateOpsItemRelatedItemOutputError {
     }
 }
 
+enum GetAccessTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAutomationExecutionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -26192,6 +26540,25 @@ enum SendCommandOutputError {
             case "InvalidRole": return try InvalidRole.makeError(baseError: baseError)
             case "MaxDocumentSizeExceeded": return try MaxDocumentSizeExceeded.makeError(baseError: baseError)
             case "UnsupportedPlatformType": return try UnsupportedPlatformType.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartAccessRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -27530,6 +27897,48 @@ extension OpsItemRelatedItemAssociationNotFoundException {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reasonCode = try reader["ReasonCode"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["QuotaCode"].readIfPresent()
+        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidDocumentType {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDocumentType {
@@ -28102,6 +28511,23 @@ extension InvalidOutputFolder {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["QuotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidAssociation {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAssociation {
@@ -28173,20 +28599,6 @@ extension AutomationDefinitionNotApprovedException {
         let reader = baseError.errorBodyReader
         var value = AutomationDefinitionNotApprovedException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.reasonCode = try reader["ReasonCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -29492,6 +29904,19 @@ extension SSMClientTypes.SessionManagerOutputUrl {
         var value = SSMClientTypes.SessionManagerOutputUrl()
         value.s3OutputUrl = try reader["S3OutputUrl"].readIfPresent()
         value.cloudWatchOutputUrl = try reader["CloudWatchOutputUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension SSMClientTypes.Credentials {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.Credentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMClientTypes.Credentials()
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent() ?? ""
+        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent() ?? ""
+        value.sessionToken = try reader["SessionToken"].readIfPresent() ?? ""
+        value.expirationTime = try reader["ExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

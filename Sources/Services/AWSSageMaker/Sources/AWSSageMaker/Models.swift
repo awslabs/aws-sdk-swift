@@ -4550,6 +4550,7 @@ extension SageMakerClientTypes {
         case mlP38xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5en48xlarge
         case mlP548xlarge
         case mlR512xlarge
         case mlR516xlarge
@@ -4715,6 +4716,7 @@ extension SageMakerClientTypes {
                 .mlP38xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5en48xlarge,
                 .mlP548xlarge,
                 .mlR512xlarge,
                 .mlR516xlarge,
@@ -4886,6 +4888,7 @@ extension SageMakerClientTypes {
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlR512xlarge: return "ml.r5.12xlarge"
             case .mlR516xlarge: return "ml.r5.16xlarge"
@@ -24192,7 +24195,6 @@ public struct CreateProjectInput: Swift.Sendable {
     /// This member is required.
     public var projectName: Swift.String?
     /// The product ID and provisioning artifact ID to provision a service catalog. The provisioning artifact ID will default to the latest provisioning artifact ID of the product, if you don't provide the provisioning artifact ID. For more information, see [What is Amazon Web Services Service Catalog](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html).
-    /// This member is required.
     public var serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails?
     /// An array of key-value pairs that you want to use to organize and track your Amazon Web Services resource costs. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference Guide.
     public var tags: [SageMakerClientTypes.Tag]?
@@ -34359,7 +34361,6 @@ public struct DescribeProjectOutput: Swift.Sendable {
     /// Information about a provisioned service catalog product.
     public var serviceCatalogProvisionedProductDetails: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails?
     /// Information used to provision a service catalog product. For information, see [What is Amazon Web Services Service Catalog](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html).
-    /// This member is required.
     public var serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails?
 
     public init(
