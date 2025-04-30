@@ -7948,12 +7948,33 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// Contains the output information for a protected query with a distribute output configuration. This output type allows query results to be distributed to multiple receivers, including S3 and collaboration members. It is only available for queries using the Spark analytics engine.
+    public struct ProtectedQueryDistributeOutput: Swift.Sendable {
+        /// Contains the output results for each member location specified in the distribute output configuration. Each entry provides details about the result distribution to a specific collaboration member.
+        public var memberList: [CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput]?
+        /// Contains output information for protected queries with an S3 output type.
+        public var s3: CleanRoomsClientTypes.ProtectedQueryS3Output?
+
+        public init(
+            memberList: [CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput]? = nil,
+            s3: CleanRoomsClientTypes.ProtectedQueryS3Output? = nil
+        ) {
+            self.memberList = memberList
+            self.s3 = s3
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// Contains details about the protected query output.
     public enum ProtectedQueryOutput: Swift.Sendable {
-        /// If present, the output for a protected query with an `S3` output type.
+        /// If present, the output for a protected query with an S3 output type.
         case s3(CleanRoomsClientTypes.ProtectedQueryS3Output)
         /// The list of member Amazon Web Services account(s) that received the results of the query.
         case memberlist([CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput])
+        /// Contains output information for protected queries that use a distribute output type. This output type lets you send query results to multiple locations - either to S3 or to collaboration members. You can only use the distribute output type with the Spark analytics engine.
+        case distribute(CleanRoomsClientTypes.ProtectedQueryDistributeOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7992,12 +8013,42 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// Specifies where you'll distribute the results of your protected query. You must configure either an S3 destination or a collaboration member destination.
+    public enum ProtectedQueryDistributeOutputConfigurationLocation: Swift.Sendable {
+        /// Contains the configuration to write the query results to S3.
+        case s3(CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration)
+        /// Contains configuration details for the protected query member output.
+        case member(CleanRoomsClientTypes.ProtectedQueryMemberOutputConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Specifies the configuration for distributing protected query results to multiple receivers, including S3 and collaboration members.
+    public struct ProtectedQueryDistributeOutputConfiguration: Swift.Sendable {
+        /// A list of locations where you want to distribute the protected query results. Each location must specify either an S3 destination or a collaboration member destination. You can't specify more than one S3 location. You can't specify the query runner's account as a member location. You must include either an S3 or member output configuration for each location, but not both.
+        /// This member is required.
+        public var locations: [CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation]?
+
+        public init(
+            locations: [CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation]? = nil
+        ) {
+            self.locations = locations
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// Contains configuration details for protected query output.
     public enum ProtectedQueryOutputConfiguration: Swift.Sendable {
         /// Required configuration for a protected query with an s3 output type.
         case s3(CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration)
         /// Required configuration for a protected query with a member output type.
         case member(CleanRoomsClientTypes.ProtectedQueryMemberOutputConfiguration)
+        /// Required configuration for a protected query with a distribute output type.
+        case distribute(CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -15597,9 +15648,22 @@ extension CleanRoomsClientTypes.ProtectedQueryOutput {
                 return .s3(try reader["s3"].read(with: CleanRoomsClientTypes.ProtectedQueryS3Output.read(from:)))
             case "memberList":
                 return .memberlist(try reader["memberList"].readList(memberReadingClosure: CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "distribute":
+                return .distribute(try reader["distribute"].read(with: CleanRoomsClientTypes.ProtectedQueryDistributeOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedQueryDistributeOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQueryDistributeOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedQueryDistributeOutput()
+        value.s3 = try reader["s3"].readIfPresent(with: CleanRoomsClientTypes.ProtectedQueryS3Output.read(from:))
+        value.memberList = try reader["memberList"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -15664,6 +15728,8 @@ extension CleanRoomsClientTypes.ProtectedQueryOutputConfiguration {
     static func write(value: CleanRoomsClientTypes.ProtectedQueryOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .distribute(distribute):
+                try writer["distribute"].write(distribute, with: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration.write(value:to:))
             case let .member(member):
                 try writer["member"].write(member, with: CleanRoomsClientTypes.ProtectedQueryMemberOutputConfiguration.write(value:to:))
             case let .s3(s3):
@@ -15674,6 +15740,51 @@ extension CleanRoomsClientTypes.ProtectedQueryOutputConfiguration {
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQueryOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration.read(from:)))
+            case "member":
+                return .member(try reader["member"].read(with: CleanRoomsClientTypes.ProtectedQueryMemberOutputConfiguration.read(from:)))
+            case "distribute":
+                return .distribute(try reader["distribute"].read(with: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["locations"].writeList(value.locations, memberWritingClosure: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration()
+        value.locations = try reader["locations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation {
+
+    static func write(value: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .member(member):
+                try writer["member"].write(member, with: CleanRoomsClientTypes.ProtectedQueryMemberOutputConfiguration.write(value:to:))
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
