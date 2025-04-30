@@ -249,10 +249,12 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
-    /// Represents the identity of the person who performed the action.
+    /// Represents the entity that performed the action.
     public enum UserUnion: Swift.Sendable {
         /// Represents the Amazon Connect ARN of the user.
         case userarn(Swift.String)
+        /// Any provided entity.
+        case customentity(Swift.String)
         case sdkUnknown(Swift.String)
     }
 }
@@ -266,7 +268,7 @@ public struct CreateCaseInput: Swift.Sendable {
     /// An array of objects with field ID (matching ListFields/DescribeField) and value union data.
     /// This member is required.
     public var fields: [ConnectCasesClientTypes.FieldValue]?
-    /// Represents the identity of the person who performed the action.
+    /// Represents the entity that performed the action.
     public var performedBy: ConnectCasesClientTypes.UserUnion?
     /// A unique identifier of a template.
     /// This member is required.
@@ -446,7 +448,7 @@ extension ConnectCasesClientTypes {
         /// Unique identifier of an IAM role.
         /// This member is required.
         public var iamPrincipalArn: Swift.String?
-        /// Represents the identity of the person who performed the action.
+        /// Represents the entity that performed the action.
         public var user: ConnectCasesClientTypes.UserUnion?
 
         public init(
@@ -1319,7 +1321,7 @@ public struct UpdateCaseInput: Swift.Sendable {
     /// An array of objects with fieldId (matching ListFields/DescribeField) and value union data, structured identical to CreateCase.
     /// This member is required.
     public var fields: [ConnectCasesClientTypes.FieldValue]?
-    /// Represents the identity of the person who performed the action.
+    /// Represents the entity that performed the action.
     public var performedBy: ConnectCasesClientTypes.UserUnion?
 
     public init(
@@ -5694,6 +5696,8 @@ extension ConnectCasesClientTypes.UserUnion {
     static func write(value: ConnectCasesClientTypes.UserUnion?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .customentity(customentity):
+                try writer["customEntity"].write(customentity)
             case let .userarn(userarn):
                 try writer["userArn"].write(userarn)
             case let .sdkUnknown(sdkUnknown):
@@ -5707,6 +5711,8 @@ extension ConnectCasesClientTypes.UserUnion {
         switch name {
             case "userArn":
                 return .userarn(try reader["userArn"].read())
+            case "customEntity":
+                return .customentity(try reader["customEntity"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }

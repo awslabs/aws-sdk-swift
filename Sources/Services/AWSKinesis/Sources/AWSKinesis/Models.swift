@@ -100,6 +100,16 @@ public struct StopStreamEncryptionOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateStreamModeOutput: Swift.Sendable {
 
     public init() { }
@@ -230,7 +240,7 @@ public struct AddTagsToStreamInput: Swift.Sendable {
     public var streamARN: Swift.String?
     /// The name of the stream.
     public var streamName: Swift.String?
-    /// A set of up to 10 key-value pairs to use to create the tags.
+    /// A set of up to 50 key-value pairs to use to create the tags. A tag consists of a required key and an optional value. You can add up to 50 tags per resource.
     /// This member is required.
     public var tags: [Swift.String: Swift.String]?
 
@@ -445,7 +455,7 @@ public struct CreateStreamInput: Swift.Sendable {
     /// A name to identify the stream. The stream name is scoped to the Amazon Web Services account used by the application that creates the stream. It is also scoped by Amazon Web Services Region. That is, two streams in two different Amazon Web Services accounts can have the same name. Two streams in the same Amazon Web Services account but in two different Regions can also have the same name.
     /// This member is required.
     public var streamName: Swift.String?
-    /// A set of up to 10 key-value pairs to use to create the tags.
+    /// A set of up to 50 key-value pairs to use to create the tags. A tag consists of a required key and an optional value.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -1203,6 +1213,29 @@ public struct ExpiredNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+/// The processing of the request failed because of an unknown error, exception, or failure.
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalFailureException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The ciphertext references a key that doesn't exist or that you don't have access to.
 public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1594,29 +1627,6 @@ public struct IncreaseStreamRetentionPeriodInput: Swift.Sendable {
     }
 }
 
-/// The processing of the request failed because of an unknown error, exception, or failure.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalFailureException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 extension KinesisClientTypes {
 
     public enum ShardFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -1863,6 +1873,48 @@ public struct ListStreamsOutput: Swift.Sendable {
     }
 }
 
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Kinesis resource for which to list tags.
+    public var resourceARN: Swift.String?
+
+    public init(
+        resourceARN: Swift.String? = nil
+    ) {
+        self.resourceARN = resourceARN
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Metadata assigned to the stream or consumer, consisting of a key-value pair.
+    public struct Tag: Swift.Sendable {
+        /// A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
+        /// This member is required.
+        public var key: Swift.String?
+        /// An optional string, typically used to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// An array of tags associated with the specified Kinesis resource.
+    public var tags: [KinesisClientTypes.Tag]?
+
+    public init(
+        tags: [KinesisClientTypes.Tag]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
 /// Represents the input for ListTagsForStream.
 public struct ListTagsForStreamInput: Swift.Sendable {
     /// The key to use as the starting point for the list of tags. If this parameter is set, ListTagsForStream gets all tags that occur after ExclusiveStartTagKey.
@@ -1884,26 +1936,6 @@ public struct ListTagsForStreamInput: Swift.Sendable {
         self.limit = limit
         self.streamARN = streamARN
         self.streamName = streamName
-    }
-}
-
-extension KinesisClientTypes {
-
-    /// Metadata assigned to the stream, consisting of a key-value pair.
-    public struct Tag: Swift.Sendable {
-        /// A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
-        /// This member is required.
-        public var key: Swift.String?
-        /// An optional string, typically used to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
-        }
     }
 }
 
@@ -2156,13 +2188,17 @@ public struct RegisterStreamConsumerInput: Swift.Sendable {
     /// The ARN of the Kinesis data stream that you want to register the consumer with. For more info, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
     /// This member is required.
     public var streamARN: Swift.String?
+    /// A set of up to 50 key-value pairs. A tag consists of a required key and an optional value.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         consumerName: Swift.String? = nil,
-        streamARN: Swift.String? = nil
+        streamARN: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.consumerName = consumerName
         self.streamARN = streamARN
+        self.tags = tags
     }
 }
 
@@ -2390,6 +2426,38 @@ public struct SubscribeToShardOutput: Swift.Sendable {
         eventStream: AsyncThrowingStream<KinesisClientTypes.SubscribeToShardEventStream, Swift.Error>? = nil
     ) {
         self.eventStream = eventStream
+    }
+}
+
+public struct TagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Kinesis resource to which to add tags.
+    public var resourceARN: Swift.String?
+    /// An array of tags to be added to the Kinesis resource. A tag consists of a required key and an optional value. You can add up to 50 tags per resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        resourceARN: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.resourceARN = resourceARN
+        self.tags = tags
+    }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Kinesis resource from which to remove tags.
+    public var resourceARN: Swift.String?
+    /// A list of tag key-value pairs. Existing tags of the resource whose keys are members of this list will be removed from the Kinesis resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceARN: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resourceARN = resourceARN
+        self.tagKeys = tagKeys
     }
 }
 
@@ -2625,6 +2693,13 @@ extension ListStreamsInput {
     }
 }
 
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListTagsForStreamInput {
 
     static func urlPathProvider(_ value: ListTagsForStreamInput) -> Swift.String? {
@@ -2698,6 +2773,20 @@ extension StopStreamEncryptionInput {
 extension SubscribeToShardInput {
 
     static func urlPathProvider(_ value: SubscribeToShardInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2909,6 +2998,14 @@ extension ListStreamsInput {
     }
 }
 
+extension ListTagsForResourceInput {
+
+    static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+    }
+}
+
 extension ListTagsForStreamInput {
 
     static func write(value: ListTagsForStreamInput?, to writer: SmithyJSON.Writer) throws {
@@ -2969,6 +3066,7 @@ extension RegisterStreamConsumerInput {
         guard let value else { return }
         try writer["ConsumerName"].write(value.consumerName)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -3022,6 +3120,24 @@ extension SubscribeToShardInput {
         try writer["ConsumerARN"].write(value.consumerARN)
         try writer["ShardId"].write(value.shardId)
         try writer["StartingPosition"].write(value.startingPosition, with: KinesisClientTypes.StartingPosition.write(value:to:))
+    }
+}
+
+extension TagResourceInput {
+
+    static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UntagResourceInput {
+
+    static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+        try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -3255,6 +3371,18 @@ extension ListStreamsOutput {
     }
 }
 
+extension ListTagsForResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: KinesisClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListTagsForStreamOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForStreamOutput {
@@ -3360,6 +3488,20 @@ extension SubscribeToShardOutput {
             value.eventStream = decoderStream.toAsyncStream()
         }
         return value
+    }
+}
+
+extension TagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
+        return TagResourceOutput()
+    }
+}
+
+extension UntagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
+        return UntagResourceOutput()
     }
 }
 
@@ -3599,6 +3741,7 @@ enum GetRecordsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ExpiredIteratorException": return try ExpiredIteratorException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
             case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
             case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
@@ -3640,6 +3783,7 @@ enum GetShardIteratorOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -3719,6 +3863,24 @@ enum ListStreamsOutputError {
     }
 }
 
+enum ListTagsForResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsForStreamOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3764,6 +3926,7 @@ enum PutRecordOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
             case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
             case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
@@ -3787,6 +3950,7 @@ enum PutRecordsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
             case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
             case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
@@ -3933,6 +4097,42 @@ enum SubscribeToShardOutputError {
     }
 }
 
+enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateShardCountOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4034,32 +4234,6 @@ extension ResourceNotFoundException {
     }
 }
 
-extension KMSAccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSAccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = KMSAccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension KMSDisabledException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSDisabledException {
-        let reader = baseError.errorBodyReader
-        var value = KMSDisabledException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension KMSNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSNotFoundException {
@@ -4099,11 +4273,11 @@ extension KMSOptInRequired {
     }
 }
 
-extension KMSThrottlingException {
+extension ProvisionedThroughputExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
         let reader = baseError.errorBodyReader
-        var value = KMSThrottlingException()
+        var value = ProvisionedThroughputExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4112,11 +4286,50 @@ extension KMSThrottlingException {
     }
 }
 
-extension ProvisionedThroughputExceededException {
+extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
-        var value = ProvisionedThroughputExceededException()
+        var value = InternalFailureException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSAccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSAccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = KMSAccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSDisabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSDisabledException {
+        let reader = baseError.errorBodyReader
+        var value = KMSDisabledException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = KMSThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

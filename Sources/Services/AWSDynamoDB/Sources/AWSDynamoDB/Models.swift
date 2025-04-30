@@ -2634,12 +2634,12 @@ extension DynamoDBClientTypes {
         /// The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
         /// This member is required.
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
-        /// The maximum number of read and write units for the specified global secondary index. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
+        /// The maximum number of read and write units for the specified global secondary index. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both. You must use either OnDemandThroughput or ProvisionedThroughput based on your table's capacity mode.
         public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         /// This member is required.
         public var projection: DynamoDBClientTypes.Projection?
-        /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
+        /// Represents the provisioned throughput settings for the specified global secondary index. You must use either OnDemandThroughput or ProvisionedThroughput based on your table's capacity mode. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
         /// Represents the warm throughput value (in read units per second and write units per second) for the specified secondary index. If you use this parameter, you must specify ReadUnitsPerSecond, WriteUnitsPerSecond, or both.
         public var warmThroughput: DynamoDBClientTypes.WarmThroughput?

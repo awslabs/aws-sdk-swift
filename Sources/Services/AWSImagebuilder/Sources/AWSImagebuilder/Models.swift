@@ -1271,7 +1271,7 @@ extension ImagebuilderClientTypes {
     public struct InstanceConfiguration: Swift.Sendable {
         /// Defines the block devices to attach for building an instance from this Image Builder AMI.
         public var blockDeviceMappings: [ImagebuilderClientTypes.InstanceBlockDeviceMapping]?
-        /// The AMI ID to use as the base image for a container build and test instance. If not specified, Image Builder will use the appropriate ECS-optimized AMI as a base image.
+        /// The base image for a container build and test instance. This can contain an AMI ID or it can specify an Amazon Web Services Systems Manager (SSM) Parameter Store Parameter, prefixed by ssm:, followed by the parameter name or ARN. If not specified, Image Builder uses the appropriate ECS-optimized AMI as a base image.
         public var image: Swift.String?
 
         public init(
@@ -1316,7 +1316,7 @@ extension ImagebuilderClientTypes {
         public var name: Swift.String?
         /// The owner of the container recipe.
         public var owner: Swift.String?
-        /// The base image for the container recipe.
+        /// The base image for customizations specified in the container recipe. This can contain an Image Builder image resource ARN or a container image URI, for example amazonlinux:latest.
         public var parentImage: Swift.String?
         /// The system platform for the container, such as Windows or Linux.
         public var platform: ImagebuilderClientTypes.Platform?
@@ -1839,6 +1839,59 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes {
 
+    public enum SsmParameterDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsEc2Image
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SsmParameterDataType] {
+            return [
+                .awsEc2Image,
+                .text
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsEc2Image: return "aws:ec2:image"
+            case .text: return "text"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+
+    /// Configuration for a single Parameter in the Amazon Web Services Systems Manager (SSM) Parameter Store in a given Region.
+    public struct SsmParameterConfiguration: Swift.Sendable {
+        /// Specify the account that will own the Parameter in a given Region. During distribution, this account must be specified in distribution settings as a target account for the Region.
+        public var amiAccountId: Swift.String?
+        /// The data type specifies what type of value the Parameter contains. We recommend that you use data type aws:ec2:image.
+        public var dataType: ImagebuilderClientTypes.SsmParameterDataType?
+        /// This is the name of the Parameter in the target Region or account. The image distribution creates the Parameter if it doesn't already exist. Otherwise, it updates the parameter.
+        /// This member is required.
+        public var parameterName: Swift.String?
+
+        public init(
+            amiAccountId: Swift.String? = nil,
+            dataType: ImagebuilderClientTypes.SsmParameterDataType? = nil,
+            parameterName: Swift.String? = nil
+        ) {
+            self.amiAccountId = amiAccountId
+            self.dataType = dataType
+            self.parameterName = parameterName
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+
     /// Defines the settings for a specific Region.
     public struct Distribution: Swift.Sendable {
         /// The specific AMI settings; for example, launch permissions or AMI tags.
@@ -1856,6 +1909,8 @@ extension ImagebuilderClientTypes {
         public var region: Swift.String?
         /// Configure export settings to deliver disk images created from your image build, using a file format that is compatible with your VMs in that Region.
         public var s3ExportConfiguration: ImagebuilderClientTypes.S3ExportConfiguration?
+        /// Contains settings to update Amazon Web Services Systems Manager (SSM) Parameter Store Parameters with output AMI IDs from the build by target Region.
+        public var ssmParameterConfigurations: [ImagebuilderClientTypes.SsmParameterConfiguration]?
 
         public init(
             amiDistributionConfiguration: ImagebuilderClientTypes.AmiDistributionConfiguration? = nil,
@@ -1864,7 +1919,8 @@ extension ImagebuilderClientTypes {
             launchTemplateConfigurations: [ImagebuilderClientTypes.LaunchTemplateConfiguration]? = nil,
             licenseConfigurationArns: [Swift.String]? = nil,
             region: Swift.String? = nil,
-            s3ExportConfiguration: ImagebuilderClientTypes.S3ExportConfiguration? = nil
+            s3ExportConfiguration: ImagebuilderClientTypes.S3ExportConfiguration? = nil,
+            ssmParameterConfigurations: [ImagebuilderClientTypes.SsmParameterConfiguration]? = nil
         ) {
             self.amiDistributionConfiguration = amiDistributionConfiguration
             self.containerDistributionConfiguration = containerDistributionConfiguration
@@ -1873,6 +1929,7 @@ extension ImagebuilderClientTypes {
             self.licenseConfigurationArns = licenseConfigurationArns
             self.region = region
             self.s3ExportConfiguration = s3ExportConfiguration
+            self.ssmParameterConfigurations = ssmParameterConfigurations
         }
     }
 }
@@ -3770,7 +3827,15 @@ extension ImagebuilderClientTypes {
         public var name: Swift.String?
         /// The owner of the image recipe.
         public var owner: Swift.String?
-        /// The base image of the image recipe.
+        /// The base image for customizations specified in the image recipe. You can specify the parent image using one of the following options:
+        ///
+        /// * AMI ID
+        ///
+        /// * Image Builder image Amazon Resource Name (ARN)
+        ///
+        /// * Amazon Web Services Systems Manager (SSM) Parameter Store Parameter, prefixed by ssm:, followed by the parameter name or ARN.
+        ///
+        /// * Amazon Web Services Marketplace product ID
         public var parentImage: Swift.String?
         /// The platform of the image recipe.
         public var platform: ImagebuilderClientTypes.Platform?
@@ -12658,6 +12723,7 @@ extension ImagebuilderClientTypes.Distribution {
         try writer["licenseConfigurationArns"].writeList(value.licenseConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["region"].write(value.region)
         try writer["s3ExportConfiguration"].write(value.s3ExportConfiguration, with: ImagebuilderClientTypes.S3ExportConfiguration.write(value:to:))
+        try writer["ssmParameterConfigurations"].writeList(value.ssmParameterConfigurations, memberWritingClosure: ImagebuilderClientTypes.SsmParameterConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.Distribution {
@@ -12670,6 +12736,26 @@ extension ImagebuilderClientTypes.Distribution {
         value.launchTemplateConfigurations = try reader["launchTemplateConfigurations"].readListIfPresent(memberReadingClosure: ImagebuilderClientTypes.LaunchTemplateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.s3ExportConfiguration = try reader["s3ExportConfiguration"].readIfPresent(with: ImagebuilderClientTypes.S3ExportConfiguration.read(from:))
         value.fastLaunchConfigurations = try reader["fastLaunchConfigurations"].readListIfPresent(memberReadingClosure: ImagebuilderClientTypes.FastLaunchConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ssmParameterConfigurations = try reader["ssmParameterConfigurations"].readListIfPresent(memberReadingClosure: ImagebuilderClientTypes.SsmParameterConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ImagebuilderClientTypes.SsmParameterConfiguration {
+
+    static func write(value: ImagebuilderClientTypes.SsmParameterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["amiAccountId"].write(value.amiAccountId)
+        try writer["dataType"].write(value.dataType)
+        try writer["parameterName"].write(value.parameterName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.SsmParameterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ImagebuilderClientTypes.SsmParameterConfiguration()
+        value.amiAccountId = try reader["amiAccountId"].readIfPresent()
+        value.parameterName = try reader["parameterName"].readIfPresent() ?? ""
+        value.dataType = try reader["dataType"].readIfPresent()
         return value
     }
 }

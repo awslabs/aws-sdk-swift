@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeartifactClient: ClientRuntime.Client {
     public static let clientName = "CodeartifactClient"
-    public static let version = "1.3.1"
+    public static let version = "1.3.5"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeartifactClient.CodeartifactClientConfiguration
     let serviceName = "codeartifact"

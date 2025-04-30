@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PinpointSMSVoiceV2Client: ClientRuntime.Client {
     public static let clientName = "PinpointSMSVoiceV2Client"
-    public static let version = "1.3.1"
+    public static let version = "1.3.5"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointSMSVoiceV2Client.PinpointSMSVoiceV2ClientConfiguration
     let serviceName = "Pinpoint SMS Voice V2"
@@ -605,7 +605,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `CreateEventDestination` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Creates a new event destination in a configuration set. An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic. Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Firehose destination.
+    /// Creates a new event destination in a configuration set. An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic. You can only create one event destination at a time. You must provide a value for a single event destination using either CloudWatchLogsDestination, KinesisFirehoseDestination or SnsDestination. If an event destination isn't provided then an exception is returned. Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Firehose destination.
     ///
     /// - Parameter CreateEventDestinationInput : [no documentation found]
     ///
@@ -860,6 +860,7 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `ConflictException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time or it could be that the requested action isn't valid for the current state or configuration of the resource.
     /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
@@ -5291,7 +5292,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `PutProtectConfigurationRuleSetNumberOverride` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Create or update a RuleSetNumberOverride and associate it with a protect configuration.
+    /// Create or update a phone number rule override and associate it with a protect configuration.
     ///
     /// - Parameter PutProtectConfigurationRuleSetNumberOverrideInput : [no documentation found]
     ///
@@ -6808,7 +6809,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `TagResource` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see [Tags ](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html) in the AWS End User Messaging SMS User Guide.
+    /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see [Tags ](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html) in the AWS End User Messaging SMS User Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -7286,7 +7287,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `UpdateProtectConfigurationCountryRuleSet` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Update a country rule set to ALLOW or BLOCK messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type.
+    /// Update a country rule set to ALLOW, BLOCK, MONITOR, or FILTER messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type.
     ///
     /// - Parameter UpdateProtectConfigurationCountryRuleSetInput : [no documentation found]
     ///
