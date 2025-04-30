@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RDSClient: ClientRuntime.Client {
     public static let clientName = "RDSClient"
-    public static let version = "1.2.63"
+    public static let version = "1.3.5"
     let client: ClientRuntime.SdkHttpClient
     let config: RDSClient.RDSClientConfiguration
     let serviceName = "RDS"
@@ -2922,6 +2922,7 @@ extension RDSClient {
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     /// - `TenantDatabaseAlreadyExistsFault` : You attempted to either create a tenant database that already exists or
     ///
     ///
@@ -10169,6 +10170,7 @@ extension RDSClient {
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `KMSKeyNotAccessibleFault` : An error occurred accessing an Amazon Web Services KMS key.
     /// - `TenantDatabaseAlreadyExistsFault` : You attempted to either create a tenant database that already exists or
     ///
     ///

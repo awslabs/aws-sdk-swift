@@ -3881,7 +3881,7 @@ extension RDSClientTypes {
 public struct CreateDBClusterInput: Swift.Sendable {
     /// The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Valid for Cluster Type: Multi-AZ DB clusters only This setting is required to create a Multi-AZ DB cluster.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster
+    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For information on AZs, see [Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html#Concepts.RegionsAndAvailabilityZones.AvailabilityZones) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:
     ///
@@ -4746,7 +4746,7 @@ extension RDSClientTypes {
         public var allocatedStorage: Swift.Int?
         /// A list of the Amazon Web Services Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other Amazon Web Services on your behalf.
         public var associatedRoles: [RDSClientTypes.DBClusterRole]?
-        /// Indicates whether minor version patches are applied automatically. This setting is for Aurora DB clusters and Multi-AZ DB clusters.
+        /// Indicates whether minor version patches are applied automatically. This setting is for Aurora DB clusters and Multi-AZ DB clusters. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
         public var autoMinorVersionUpgrade: Swift.Bool?
         /// The time when a stopped DB cluster is restarted automatically.
         public var automaticRestartTime: Foundation.Date?
@@ -5588,7 +5588,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// * Web and Express editions: Must be an integer from 20 to 1024.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether minor engine upgrades are applied automatically to the DB instance during the maintenance window. By default, minor engine upgrades are applied automatically. If you create an RDS Custom DB instance, you must set AutoMinorVersionUpgrade to false.
+    /// Specifies whether minor engine upgrades are applied automatically to the DB instance during the maintenance window. By default, minor engine upgrades are applied automatically. If you create an RDS Custom DB instance, you must set AutoMinorVersionUpgrade to false. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the database will be created. For information on Amazon Web Services Regions and Availability Zones, see [Regions and Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html). For Amazon Aurora, each Aurora DB cluster hosts copies of its storage in three separate Availability Zones. Specify one of these Availability Zones. Aurora automatically chooses an appropriate Availability Zone if you don't specify one. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Constraints:
     ///
@@ -6590,7 +6590,7 @@ extension RDSClientTypes {
         public var allocatedStorage: Swift.Int?
         /// The Amazon Web Services Identity and Access Management (IAM) roles associated with the DB instance.
         public var associatedRoles: [RDSClientTypes.DBInstanceRole]?
-        /// Indicates whether minor version patches are applied automatically.
+        /// Indicates whether minor version patches are applied automatically. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
         public var autoMinorVersionUpgrade: Swift.Bool?
         /// The time when a stopped DB instance is restarted automatically.
         public var automaticRestartTime: Foundation.Date?
@@ -6984,7 +6984,7 @@ public struct DBSubnetGroupNotAllowedFault: ClientRuntime.ModeledError, AWSClien
 public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance.
+    /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the read replica will be created. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
     public var availabilityZone: Swift.String?
@@ -7502,7 +7502,13 @@ extension RDSClientTypes {
     public struct UserAuthConfig: Swift.Sendable {
         /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
         public var authScheme: RDSClientTypes.AuthScheme?
-        /// The type of authentication the proxy uses for connections from clients.
+        /// The type of authentication the proxy uses for connections from clients. The following values are defaults for the corresponding engines:
+        ///
+        /// * RDS for MySQL: MYSQL_CACHING_SHA2_PASSWORD
+        ///
+        /// * RDS for SQL Server: SQL_SERVER_AUTHENTICATION
+        ///
+        /// * RDS for PostgreSQL: POSTGRES_SCRAM_SHA2_256
         public var clientPasswordAuthType: RDSClientTypes.ClientPasswordAuthType?
         /// A user-specified description about the authentication used by a proxy to log in as a specific database user.
         public var description: Swift.String?
@@ -9329,13 +9335,20 @@ public struct CreateTenantDatabaseInput: Swift.Sendable {
     /// The user-supplied DB instance identifier. RDS creates your tenant database in this DB instance. This parameter isn't case-sensitive.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+    public var manageMasterUserPassword: Swift.Bool?
     /// The password for the master user in your tenant database. Constraints:
     ///
     /// * Must be 8 to 30 characters.
     ///
     /// * Can include any printable ASCII character except forward slash (/), double quote ("), at symbol (@), ampersand (&), or single quote (').
-    /// This member is required.
+    ///
+    /// * Can't be specified when ManageMasterUserPassword is enabled.
     public var masterUserPassword: Swift.String?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The name for the master user account in your tenant database. RDS creates this user account in the tenant database and grants privileges to the master user. This parameter is case-sensitive. Constraints:
     ///
     /// * Must be 1 to 16 letters, numbers, or underscores.
@@ -9356,7 +9369,9 @@ public struct CreateTenantDatabaseInput: Swift.Sendable {
     public init(
         characterSetName: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
         masterUserPassword: Swift.String? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
         ncharCharacterSetName: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
@@ -9364,7 +9379,9 @@ public struct CreateTenantDatabaseInput: Swift.Sendable {
     ) {
         self.characterSetName = characterSetName
         self.dbInstanceIdentifier = dbInstanceIdentifier
+        self.manageMasterUserPassword = manageMasterUserPassword
         self.masterUserPassword = masterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
         self.ncharCharacterSetName = ncharCharacterSetName
         self.tags = tags
@@ -9374,7 +9391,7 @@ public struct CreateTenantDatabaseInput: Swift.Sendable {
 
 extension CreateTenantDatabaseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateTenantDatabaseInput(characterSetName: \(Swift.String(describing: characterSetName)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), masterUsername: \(Swift.String(describing: masterUsername)), ncharCharacterSetName: \(Swift.String(describing: ncharCharacterSetName)), tags: \(Swift.String(describing: tags)), tenantDBName: \(Swift.String(describing: tenantDBName)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "CreateTenantDatabaseInput(characterSetName: \(Swift.String(describing: characterSetName)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), ncharCharacterSetName: \(Swift.String(describing: ncharCharacterSetName)), tags: \(Swift.String(describing: tags)), tenantDBName: \(Swift.String(describing: tenantDBName)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -9413,6 +9430,8 @@ extension RDSClientTypes {
         public var dbiResourceId: Swift.String?
         /// Specifies whether deletion protection is enabled for the DB instance.
         public var deletionProtection: Swift.Bool?
+        /// Contains the secret managed by RDS in Amazon Web Services Secrets Manager for the master user password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide and [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html) in the Amazon Aurora User Guide.
+        public var masterUserSecret: RDSClientTypes.MasterUserSecret?
         /// The master username of the tenant database.
         public var masterUsername: Swift.String?
         /// The NCHAR character set name of the tenant database.
@@ -9437,6 +9456,7 @@ extension RDSClientTypes {
             dbInstanceIdentifier: Swift.String? = nil,
             dbiResourceId: Swift.String? = nil,
             deletionProtection: Swift.Bool? = nil,
+            masterUserSecret: RDSClientTypes.MasterUserSecret? = nil,
             masterUsername: Swift.String? = nil,
             ncharCharacterSetName: Swift.String? = nil,
             pendingModifiedValues: RDSClientTypes.TenantDatabasePendingModifiedValues? = nil,
@@ -9451,6 +9471,7 @@ extension RDSClientTypes {
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbiResourceId = dbiResourceId
             self.deletionProtection = deletionProtection
+            self.masterUserSecret = masterUserSecret
             self.masterUsername = masterUsername
             self.ncharCharacterSetName = ncharCharacterSetName
             self.pendingModifiedValues = pendingModifiedValues
@@ -16646,7 +16667,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var allowMajorVersionUpgrade: Swift.Bool?
     /// Specifies whether the modifications in this request are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var applyImmediately: Swift.Bool?
-    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
     public var awsBackupRecoveryPointArn: Swift.String?
@@ -17149,7 +17170,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     /// * RDS has enabled automatic patching for the engine version.
     ///
     ///
-    /// If any of the preceding conditions isn't met, Amazon RDS applies the change as soon as possible and doesn't cause an outage. For an RDS Custom DB instance, don't enable this setting. Otherwise, the operation returns an error.
+    /// If any of the preceding conditions isn't met, Amazon RDS applies the change as soon as possible and doesn't cause an outage. For an RDS Custom DB instance, don't enable this setting. Otherwise, the operation returns an error. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The automation mode of the RDS Custom DB instance. If full, the DB instance automates monitoring and instance recovery. If all paused, the instance pauses automation for the duration set by ResumeFullAutomationModeMinutes.
     public var automationMode: RDSClientTypes.AutomationMode?
@@ -17324,12 +17345,18 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB instance doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the DB instance already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, Amazon RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
     ///
     /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+    ///
+    /// * Can't specify for RDS for Oracle CDB instances in the multi-tenant configuration. Use ModifyTenantDatabase instead.
+    ///
+    /// * Can't specify the parameters ManageMasterUserPassword and MultiTenant in the same operation.
     public var manageMasterUserPassword: Swift.Bool?
     /// The new password for the master user. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. Amazon RDS API operations never return the password, so this operation provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked. This setting doesn't apply to the following DB instances:
     ///
-    /// * Amazon Aurora (The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.)
+    /// * Amazon Aurora The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.
     ///
     /// * RDS Custom
+    ///
+    /// * RDS for Oracle CDBs in the multi-tenant configuration Specify the master password in ModifyTenantDatabase instead.
     ///
     ///
     /// Default: Uses existing setting Constraints:
@@ -17436,7 +17463,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     ///
     /// * Must be no more than 1,440.
     public var resumeFullAutomationModeMinutes: Swift.Int?
-    /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB cluster. The secret value contains the updated password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The secret value contains the updated password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
     ///
     /// * You must apply the change immediately when rotating the master user password.
     public var rotateMasterUserPassword: Swift.Bool?
@@ -18323,6 +18350,10 @@ public struct ModifyTenantDatabaseInput: Swift.Sendable {
     /// * Must match the identifier of an existing DB instance.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the tenant database doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the tenant database already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, Amazon RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+    public var manageMasterUserPassword: Swift.Bool?
     /// The new password for the master user of the specified tenant database in your DB instance. Amazon RDS operations never return the password, so this action provides a way to regain access to a tenant database user if the password is lost. This includes restoring privileges that might have been accidentally revoked. Constraints:
     ///
     /// * Can include any printable ASCII character except /, " (double quote), @, & (ampersand), and ' (single quote).
@@ -18332,12 +18363,36 @@ public struct ModifyTenantDatabaseInput: Swift.Sendable {
     ///
     /// * Must contain between 8 and 30 characters.
     public var masterUserPassword: Swift.String?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:
+    ///
+    /// * The tenant database doesn't manage the master user password in Amazon Web Services Secrets Manager. If the tenant database already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key used to encrypt the secret.
+    ///
+    /// * You're turning on ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager. If you're turning on ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a self-managed KMS key.
+    ///
+    ///
+    /// The Amazon Web Services KMS key identifier is any of the following:
+    ///
+    /// * Key ARN
+    ///
+    /// * Key ID
+    ///
+    /// * Alias ARN
+    ///
+    /// * Alias name for the KMS key
+    ///
+    ///
+    /// To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. A default KMS key exists for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The new name of the tenant database when renaming a tenant database. This parameter isn’t case-sensitive. Constraints:
     ///
     /// * Can't be the string null or any other reserved word.
     ///
     /// * Can't be longer than 8 characters.
     public var newTenantDBName: Swift.String?
+    /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The secret value contains the updated password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * You must apply the change immediately when rotating the master user password.
+    public var rotateMasterUserPassword: Swift.Bool?
     /// The user-supplied name of the tenant database that you want to modify. This parameter isn’t case-sensitive. Constraints:
     ///
     /// * Must match the identifier of an existing tenant database.
@@ -18346,20 +18401,26 @@ public struct ModifyTenantDatabaseInput: Swift.Sendable {
 
     public init(
         dbInstanceIdentifier: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
         masterUserPassword: Swift.String? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         newTenantDBName: Swift.String? = nil,
+        rotateMasterUserPassword: Swift.Bool? = nil,
         tenantDBName: Swift.String? = nil
     ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
+        self.manageMasterUserPassword = manageMasterUserPassword
         self.masterUserPassword = masterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.newTenantDBName = newTenantDBName
+        self.rotateMasterUserPassword = rotateMasterUserPassword
         self.tenantDBName = tenantDBName
     }
 }
 
 extension ModifyTenantDatabaseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModifyTenantDatabaseInput(dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), newTenantDBName: \(Swift.String(describing: newTenantDBName)), tenantDBName: \(Swift.String(describing: tenantDBName)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "ModifyTenantDatabaseInput(dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), newTenantDBName: \(Swift.String(describing: newTenantDBName)), rotateMasterUserPassword: \(Swift.String(describing: rotateMasterUserPassword)), tenantDBName: \(Swift.String(describing: tenantDBName)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct ModifyTenantDatabaseOutput: Swift.Sendable {
@@ -19761,7 +19822,7 @@ public struct RestoreDBClusterToPointInTimeOutput: Swift.Sendable {
 public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether to automatically apply minor version upgrades to the DB instance during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter.
+    /// Specifies whether to automatically apply minor version upgrades to the DB instance during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
     public var availabilityZone: Swift.String?
@@ -19930,6 +19991,12 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     ///
     /// Default: Same as the source.
     public var licenseModel: Swift.String?
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager in the restored DB instance. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Applies to RDS for Oracle only.
+    public var manageMasterUserPassword: Swift.Bool?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// Specifies whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
     public var multiAZ: Swift.Bool?
     /// The network type of the DB instance. Valid Values:
@@ -19994,6 +20061,8 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         engineLifecycleSupport: Swift.String? = nil,
         iops: Swift.Int? = nil,
         licenseModel: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         multiAZ: Swift.Bool? = nil,
         networkType: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
@@ -20037,6 +20106,8 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         self.engineLifecycleSupport = engineLifecycleSupport
         self.iops = iops
         self.licenseModel = licenseModel
+        self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.multiAZ = multiAZ
         self.networkType = networkType
         self.optionGroupName = optionGroupName
@@ -20067,7 +20138,7 @@ public struct RestoreDBInstanceFromDBSnapshotOutput: Swift.Sendable {
 public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether to automatically apply minor engine upgrades to the DB instance during the maintenance window. By default, minor engine upgrades are not applied automatically.
+    /// Specifies whether to automatically apply minor engine upgrades to the DB instance during the maintenance window. By default, minor engine upgrades are not applied automatically. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone that the DB instance is created in. For information about Amazon Web Services Regions and Availability Zones, see [Regions and Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) in the Amazon RDS User Guide. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d Constraint: The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment. The specified Availability Zone must be in the same Amazon Web Services Region as the current endpoint.
     public var availabilityZone: Swift.String?
@@ -20405,7 +20476,7 @@ public struct PointInTimeRestoreNotEnabledFault: ClientRuntime.ModeledError, AWS
 public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether minor version upgrades are applied automatically to the DB instance during the maintenance window. This setting doesn't apply to RDS Custom.
+    /// Specifies whether minor version upgrades are applied automatically to the DB instance during the maintenance window. This setting doesn't apply to RDS Custom. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraints:
     ///
@@ -20567,6 +20638,12 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// Default: Same as the source.
     public var licenseModel: Swift.String?
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager in the restored DB instance. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Applies to RDS for Oracle only.
+    public var manageMasterUserPassword: Swift.Bool?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see [ Managing capacity automatically with Amazon RDS storage autoscaling](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.Autoscaling) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var maxAllocatedStorage: Swift.Int?
     /// Secifies whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraints:
@@ -20665,6 +20742,8 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         engineLifecycleSupport: Swift.String? = nil,
         iops: Swift.Int? = nil,
         licenseModel: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         maxAllocatedStorage: Swift.Int? = nil,
         multiAZ: Swift.Bool? = nil,
         networkType: Swift.String? = nil,
@@ -20712,6 +20791,8 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         self.engineLifecycleSupport = engineLifecycleSupport
         self.iops = iops
         self.licenseModel = licenseModel
+        self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.maxAllocatedStorage = maxAllocatedStorage
         self.multiAZ = multiAZ
         self.networkType = networkType
@@ -23156,7 +23237,9 @@ extension CreateTenantDatabaseInput {
         guard let value else { return }
         try writer["CharacterSetName"].write(value.characterSetName)
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
+        try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
+        try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MasterUsername"].write(value.masterUsername)
         try writer["NcharCharacterSetName"].write(value.ncharCharacterSetName)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
@@ -24488,8 +24571,11 @@ extension ModifyTenantDatabaseInput {
     static func write(value: ModifyTenantDatabaseInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
+        try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
+        try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["NewTenantDBName"].write(value.newTenantDBName)
+        try writer["RotateMasterUserPassword"].write(value.rotateMasterUserPassword)
         try writer["TenantDBName"].write(value.tenantDBName)
         try writer["Action"].write("ModifyTenantDatabase")
         try writer["Version"].write("2014-10-31")
@@ -24823,6 +24909,8 @@ extension RestoreDBInstanceFromDBSnapshotInput {
         try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["Iops"].write(value.iops)
         try writer["LicenseModel"].write(value.licenseModel)
+        try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MultiAZ"].write(value.multiAZ)
         try writer["NetworkType"].write(value.networkType)
         try writer["OptionGroupName"].write(value.optionGroupName)
@@ -24932,6 +25020,8 @@ extension RestoreDBInstanceToPointInTimeInput {
         try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["Iops"].write(value.iops)
         try writer["LicenseModel"].write(value.licenseModel)
+        try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
         try writer["MultiAZ"].write(value.multiAZ)
         try writer["NetworkType"].write(value.networkType)
@@ -27909,6 +27999,7 @@ enum CreateTenantDatabaseOutputError {
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
+            case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
             case "TenantDatabaseAlreadyExists": return try TenantDatabaseAlreadyExistsFault.makeError(baseError: baseError)
             case "TenantDatabaseQuotaExceeded": return try TenantDatabaseQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -29383,6 +29474,7 @@ enum ModifyTenantDatabaseOutputError {
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
+            case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
             case "TenantDatabaseAlreadyExists": return try TenantDatabaseAlreadyExistsFault.makeError(baseError: baseError)
             case "TenantDatabaseNotFound": return try TenantDatabaseNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -33007,6 +33099,7 @@ extension RDSClientTypes.TenantDatabase {
         value.ncharCharacterSetName = try reader["NcharCharacterSetName"].readIfPresent()
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.TenantDatabasePendingModifiedValues.read(from:))
+        value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: RDSClientTypes.MasterUserSecret.read(from:))
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }

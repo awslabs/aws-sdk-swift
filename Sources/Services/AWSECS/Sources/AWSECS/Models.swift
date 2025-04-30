@@ -5097,21 +5097,7 @@ extension ECSClientTypes {
         public var compatibilities: [ECSClientTypes.Compatibility]?
         /// A list of container definitions in JSON format that describe the different containers that make up your task. For more information about container definition parameters and defaults, see [Amazon ECS Task Definitions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html) in the Amazon Elastic Container Service Developer Guide.
         public var containerDefinitions: [ECSClientTypes.ContainerDefinition]?
-        /// The number of cpu units used by the task. If you use the EC2 launch type, this field is optional. Any value can be used. If you use the Fargate launch type, this field is required. You must use one of the following values. The value that you choose determines your range of valid values for the memory parameter. If you're using the EC2 launch type or the external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). The CPU units cannot be less than 1 vCPU when you use Windows containers on Fargate.
-        ///
-        /// * 256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)
-        ///
-        /// * 512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)
-        ///
-        /// * 1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)
-        ///
-        /// * 2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)
-        ///
-        /// * 4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)
-        ///
-        /// * 8192 (8 vCPU) - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.
-        ///
-        /// * 16384 (16vCPU) - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
+        /// The number of cpu units used by the task. If you use the EC2 launch type, this field is optional. Any value can be used. If you use the Fargate launch type, this field is required. You must use one of the following values. The value that you choose determines your range of valid values for the memory parameter. If you're using the EC2 launch type or the external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). This field is required for Fargate. For information about the valid values, see [Task size](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size) in the Amazon Elastic Container Service Developer Guide.
         public var cpu: Swift.String?
         /// The Unix timestamp for the time when the task definition was deregistered.
         public var deregisteredAt: Foundation.Date?
@@ -5977,6 +5963,7 @@ extension ECSClientTypes {
         case pending
         case rollbackFailed
         case rollbackInProgress
+        case rollbackRequested
         case rollbackSuccessful
         case stopped
         case stopRequested
@@ -5989,6 +5976,7 @@ extension ECSClientTypes {
                 .pending,
                 .rollbackFailed,
                 .rollbackInProgress,
+                .rollbackRequested,
                 .rollbackSuccessful,
                 .stopped,
                 .stopRequested,
@@ -6007,6 +5995,7 @@ extension ECSClientTypes {
             case .pending: return "PENDING"
             case .rollbackFailed: return "ROLLBACK_FAILED"
             case .rollbackInProgress: return "ROLLBACK_IN_PROGRESS"
+            case .rollbackRequested: return "ROLLBACK_REQUESTED"
             case .rollbackSuccessful: return "ROLLBACK_SUCCESSFUL"
             case .stopped: return "STOPPED"
             case .stopRequested: return "STOP_REQUESTED"
@@ -6892,21 +6881,7 @@ extension ECSClientTypes {
         public var containerInstanceArn: Swift.String?
         /// The containers that's associated with the task.
         public var containers: [ECSClientTypes.Container]?
-        /// The number of CPU units used by the task as expressed in a task definition. It can be expressed as an integer using CPU units (for example, 1024). It can also be expressed as a string using vCPUs (for example, 1 vCPU or 1 vcpu). String values are converted to an integer that indicates the CPU units when the task definition is registered. If you're using the EC2 launch type or the external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify a value, the parameter is ignored. If you're using the Fargate launch type, this field is required. You must use one of the following values. These values determine the range of supported values for the memory parameter: The CPU units cannot be less than 1 vCPU when you use Windows containers on Fargate.
-        ///
-        /// * 256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)
-        ///
-        /// * 512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)
-        ///
-        /// * 1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)
-        ///
-        /// * 2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)
-        ///
-        /// * 4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)
-        ///
-        /// * 8192 (8 vCPU) - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.
-        ///
-        /// * 16384 (16vCPU) - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
+        /// The number of CPU units used by the task as expressed in a task definition. It can be expressed as an integer using CPU units (for example, 1024). It can also be expressed as a string using vCPUs (for example, 1 vCPU or 1 vcpu). String values are converted to an integer that indicates the CPU units when the task definition is registered. If you're using the EC2 launch type or the external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify a value, the parameter is ignored. This field is required for Fargate. For information about the valid values, see [Task size](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size) in the Amazon Elastic Container Service Developer Guide.
         public var cpu: Swift.String?
         /// The Unix timestamp for the time when the task was created. More specifically, it's for the time when the task entered the PENDING state.
         public var createdAt: Foundation.Date?
@@ -8396,21 +8371,7 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     /// A list of container definitions in JSON format that describe the different containers that make up your task.
     /// This member is required.
     public var containerDefinitions: [ECSClientTypes.ContainerDefinition]?
-    /// The number of CPU units used by the task. It can be expressed as an integer using CPU units (for example, 1024) or as a string using vCPUs (for example, 1 vCPU or 1 vcpu) in a task definition. String values are converted to an integer indicating the CPU units when the task definition is registered. Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers. If you're using the EC2 launch type or external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify a value, the parameter is ignored. If you're using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of supported values for the memory parameter: The CPU units cannot be less than 1 vCPU when you use Windows containers on Fargate.
-    ///
-    /// * 256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)
-    ///
-    /// * 512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)
-    ///
-    /// * 1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)
-    ///
-    /// * 2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)
-    ///
-    /// * 4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)
-    ///
-    /// * 8192 (8 vCPU) - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.
-    ///
-    /// * 16384 (16vCPU) - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
+    /// The number of CPU units used by the task. It can be expressed as an integer using CPU units (for example, 1024) or as a string using vCPUs (for example, 1 vCPU or 1 vcpu) in a task definition. String values are converted to an integer indicating the CPU units when the task definition is registered. Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers. If you're using the EC2 launch type or external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify a value, the parameter is ignored. This field is required for Fargate. For information about the valid values, see [Task size](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size) in the Amazon Elastic Container Service Developer Guide.
     public var cpu: Swift.String?
     /// Enables fault injection when you register your task definition and allows for fault injection requests to be accepted from the task's containers. The default value is false.
     public var enableFaultInjection: Swift.Bool?
@@ -8565,11 +8526,7 @@ public struct BlockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-/// The RunTask request could not be processed due to conflicts. The provided clientToken is already in use with a different RunTask request. The resourceIds are the existing task ARNs which are already associated with the clientToken. To fix this issue:
-///
-/// * Run RunTask with a unique clientToken.
-///
-/// * Run RunTask with the clientToken and the original set of parameters
+/// The request could not be processed because of conflict in the current state of the resource.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -8721,7 +8678,7 @@ public struct RunTaskInput: Swift.Sendable {
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
     /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 64 characters are allowed. The valid characters are characters in the range of 33-126, inclusive. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/ECS_Idempotency.html).
     public var clientToken: Swift.String?
-    /// The short name or full Amazon Resource Name (ARN) of the cluster to run your task on. If you do not specify a cluster, the default cluster is assumed.
+    /// The short name or full Amazon Resource Name (ARN) of the cluster to run your task on. If you do not specify a cluster, the default cluster is assumed. Each account receives a default cluster the first time you use the service, but you may also create other clusters.
     public var cluster: Swift.String?
     /// The number of instantiations of the specified task to place on your cluster. You can specify up to 10 tasks for each call.
     public var count: Swift.Int?
@@ -8916,6 +8873,86 @@ public struct StartTaskOutput: Swift.Sendable {
     ) {
         self.failures = failures
         self.tasks = tasks
+    }
+}
+
+/// The service deploy ARN that you specified in the StopServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
+public struct ServiceDeploymentNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceDeploymentNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum StopServiceDeploymentStopType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case abort
+        case rollback
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StopServiceDeploymentStopType] {
+            return [
+                .abort,
+                .rollback
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .abort: return "ABORT"
+            case .rollback: return "ROLLBACK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct StopServiceDeploymentInput: Swift.Sendable {
+    /// The ARN of the service deployment that you want to stop.
+    /// This member is required.
+    public var serviceDeploymentArn: Swift.String?
+    /// How you want Amazon ECS to stop the service. The ROLLBACK and ABORT stopType aren't supported.
+    public var stopType: ECSClientTypes.StopServiceDeploymentStopType?
+
+    public init(
+        serviceDeploymentArn: Swift.String? = nil,
+        stopType: ECSClientTypes.StopServiceDeploymentStopType? = nil
+    ) {
+        self.serviceDeploymentArn = serviceDeploymentArn
+        self.stopType = stopType
+    }
+}
+
+public struct StopServiceDeploymentOutput: Swift.Sendable {
+    /// The ARN of the stopped service deployment.
+    public var serviceDeploymentArn: Swift.String?
+
+    public init(
+        serviceDeploymentArn: Swift.String? = nil
+    ) {
+        self.serviceDeploymentArn = serviceDeploymentArn
     }
 }
 
@@ -9987,6 +10024,13 @@ extension StartTaskInput {
     }
 }
 
+extension StopServiceDeploymentInput {
+
+    static func urlPathProvider(_ value: StopServiceDeploymentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StopTaskInput {
 
     static func urlPathProvider(_ value: StopTaskInput) -> Swift.String? {
@@ -10617,6 +10661,15 @@ extension StartTaskInput {
         try writer["tags"].writeList(value.tags, memberWritingClosure: ECSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["taskDefinition"].write(value.taskDefinition)
         try writer["volumeConfigurations"].writeList(value.volumeConfigurations, memberWritingClosure: ECSClientTypes.TaskVolumeConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension StopServiceDeploymentInput {
+
+    static func write(value: StopServiceDeploymentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["serviceDeploymentArn"].write(value.serviceDeploymentArn)
+        try writer["stopType"].write(value.stopType)
     }
 }
 
@@ -11353,6 +11406,18 @@ extension StartTaskOutput {
         var value = StartTaskOutput()
         value.failures = try reader["failures"].readListIfPresent(memberReadingClosure: ECSClientTypes.Failure.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tasks = try reader["tasks"].readListIfPresent(memberReadingClosure: ECSClientTypes.Task.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension StopServiceDeploymentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopServiceDeploymentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopServiceDeploymentOutput()
+        value.serviceDeploymentArn = try reader["serviceDeploymentArn"].readIfPresent()
         return value
     }
 }
@@ -12308,6 +12373,26 @@ enum StartTaskOutputError {
     }
 }
 
+enum StopServiceDeploymentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ServiceDeploymentNotFoundException": return try ServiceDeploymentNotFoundException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopTaskOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12893,6 +12978,19 @@ extension ConflictException {
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceDeploymentNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceDeploymentNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceDeploymentNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

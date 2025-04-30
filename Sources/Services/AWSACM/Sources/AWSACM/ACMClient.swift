@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ACMClient: ClientRuntime.Client {
     public static let clientName = "ACMClient"
-    public static let version = "1.2.63"
+    public static let version = "1.3.5"
     let client: ClientRuntime.SdkHttpClient
     let config: ACMClient.ACMClientConfiguration
     let serviceName = "ACM"
@@ -934,7 +934,7 @@ extension ACMClient {
 
     /// Performs the `ListCertificates` operation on the `ACM` service.
     ///
-    /// Retrieves a list of certificate ARNs and domain names. By default, the API returns RSA_2048 certificates. To return all certificates in the account, include the keyType filter with the values [RSA_1024, RSA_2048, RSA_3072, RSA_4096, EC_prime256v1, EC_secp384r1, EC_secp521r1]. In addition to keyType, you can also filter by the CertificateStatuses, keyUsage, and extendedKeyUsage attributes on the certificate. For more information, see [Filters].
+    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see [Filters].
     ///
     /// - Parameter ListCertificatesInput : [no documentation found]
     ///
@@ -1254,6 +1254,7 @@ extension ACMClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArnException` : The requested Amazon Resource Name (ARN) does not refer to an existing resource.
+    /// - `RequestInProgressException` : The certificate request is in process and the certificate in your account has not yet been issued.
     /// - `ResourceNotFoundException` : The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     public func renewCertificate(input: RenewCertificateInput) async throws -> RenewCertificateOutput {
         let context = Smithy.ContextBuilder()

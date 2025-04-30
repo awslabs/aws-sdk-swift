@@ -848,6 +848,36 @@ extension BedrockDataAutomationClientTypes {
 
 extension BedrockDataAutomationClientTypes {
 
+    /// Configuration to enable/disable processing of modality
+    public struct ModalityProcessingConfiguration: Swift.Sendable {
+        /// State
+        public var state: BedrockDataAutomationClientTypes.State?
+
+        public init(
+            state: BedrockDataAutomationClientTypes.State? = nil
+        ) {
+            self.state = state
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Override Configuration of Audio
+    public struct AudioOverrideConfiguration: Swift.Sendable {
+        /// Configuration to enable/disable processing of modality
+        public var modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration?
+
+        public init(
+            modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration? = nil
+        ) {
+            self.modalityProcessing = modalityProcessing
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
     /// Configuration of Splitter
     public struct SplitterConfiguration: Swift.Sendable {
         /// State
@@ -865,13 +895,110 @@ extension BedrockDataAutomationClientTypes {
 
     /// Override Configuration of Document
     public struct DocumentOverrideConfiguration: Swift.Sendable {
+        /// Configuration to enable/disable processing of modality
+        public var modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration?
         /// Configuration of Splitter
         public var splitter: BedrockDataAutomationClientTypes.SplitterConfiguration?
 
         public init(
+            modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration? = nil,
             splitter: BedrockDataAutomationClientTypes.SplitterConfiguration? = nil
         ) {
+            self.modalityProcessing = modalityProcessing
             self.splitter = splitter
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Override Configuration of Image
+    public struct ImageOverrideConfiguration: Swift.Sendable {
+        /// Configuration to enable/disable processing of modality
+        public var modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration?
+
+        public init(
+            modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration? = nil
+        ) {
+            self.modalityProcessing = modalityProcessing
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Desired Modality types
+    public enum DesiredModality: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audio
+        case document
+        case image
+        case video
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DesiredModality] {
+            return [
+                .audio,
+                .document,
+                .image,
+                .video
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audio: return "AUDIO"
+            case .document: return "DOCUMENT"
+            case .image: return "IMAGE"
+            case .video: return "VIDEO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Configuration for routing file type to desired modality
+    public struct ModalityRoutingConfiguration: Swift.Sendable {
+        /// Desired Modality types
+        public var jpeg: BedrockDataAutomationClientTypes.DesiredModality?
+        /// Desired Modality types
+        public var mov: BedrockDataAutomationClientTypes.DesiredModality?
+        /// Desired Modality types
+        public var mp4: BedrockDataAutomationClientTypes.DesiredModality?
+        /// Desired Modality types
+        public var png: BedrockDataAutomationClientTypes.DesiredModality?
+
+        public init(
+            jpeg: BedrockDataAutomationClientTypes.DesiredModality? = nil,
+            mov: BedrockDataAutomationClientTypes.DesiredModality? = nil,
+            mp4: BedrockDataAutomationClientTypes.DesiredModality? = nil,
+            png: BedrockDataAutomationClientTypes.DesiredModality? = nil
+        ) {
+            self.jpeg = jpeg
+            self.mov = mov
+            self.mp4 = mp4
+            self.png = png
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Override Configuration of Video
+    public struct VideoOverrideConfiguration: Swift.Sendable {
+        /// Configuration to enable/disable processing of modality
+        public var modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration?
+
+        public init(
+            modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration? = nil
+        ) {
+            self.modalityProcessing = modalityProcessing
         }
     }
 }
@@ -880,13 +1007,29 @@ extension BedrockDataAutomationClientTypes {
 
     /// Override configuration
     public struct OverrideConfiguration: Swift.Sendable {
+        /// Override Configuration of Audio
+        public var audio: BedrockDataAutomationClientTypes.AudioOverrideConfiguration?
         /// Override Configuration of Document
         public var document: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration?
+        /// Override Configuration of Image
+        public var image: BedrockDataAutomationClientTypes.ImageOverrideConfiguration?
+        /// Configuration for routing file type to desired modality
+        public var modalityRouting: BedrockDataAutomationClientTypes.ModalityRoutingConfiguration?
+        /// Override Configuration of Video
+        public var video: BedrockDataAutomationClientTypes.VideoOverrideConfiguration?
 
         public init(
-            document: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration? = nil
+            audio: BedrockDataAutomationClientTypes.AudioOverrideConfiguration? = nil,
+            document: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration? = nil,
+            image: BedrockDataAutomationClientTypes.ImageOverrideConfiguration? = nil,
+            modalityRouting: BedrockDataAutomationClientTypes.ModalityRoutingConfiguration? = nil,
+            video: BedrockDataAutomationClientTypes.VideoOverrideConfiguration? = nil
         ) {
+            self.audio = audio
             self.document = document
+            self.image = image
+            self.modalityRouting = modalityRouting
+            self.video = video
         }
     }
 }
@@ -2909,13 +3052,102 @@ extension BedrockDataAutomationClientTypes.OverrideConfiguration {
 
     static func write(value: BedrockDataAutomationClientTypes.OverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audio"].write(value.audio, with: BedrockDataAutomationClientTypes.AudioOverrideConfiguration.write(value:to:))
         try writer["document"].write(value.document, with: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration.write(value:to:))
+        try writer["image"].write(value.image, with: BedrockDataAutomationClientTypes.ImageOverrideConfiguration.write(value:to:))
+        try writer["modalityRouting"].write(value.modalityRouting, with: BedrockDataAutomationClientTypes.ModalityRoutingConfiguration.write(value:to:))
+        try writer["video"].write(value.video, with: BedrockDataAutomationClientTypes.VideoOverrideConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.OverrideConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockDataAutomationClientTypes.OverrideConfiguration()
         value.document = try reader["document"].readIfPresent(with: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration.read(from:))
+        value.image = try reader["image"].readIfPresent(with: BedrockDataAutomationClientTypes.ImageOverrideConfiguration.read(from:))
+        value.video = try reader["video"].readIfPresent(with: BedrockDataAutomationClientTypes.VideoOverrideConfiguration.read(from:))
+        value.audio = try reader["audio"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioOverrideConfiguration.read(from:))
+        value.modalityRouting = try reader["modalityRouting"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityRoutingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.ModalityRoutingConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.ModalityRoutingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jpeg"].write(value.jpeg)
+        try writer["mov"].write(value.mov)
+        try writer["mp4"].write(value.mp4)
+        try writer["png"].write(value.png)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ModalityRoutingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.ModalityRoutingConfiguration()
+        value.jpeg = try reader["jpeg"].readIfPresent()
+        value.png = try reader["png"].readIfPresent()
+        value.mp4 = try reader["mp4"].readIfPresent()
+        value.mov = try reader["mov"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.AudioOverrideConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.AudioOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioOverrideConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.AudioOverrideConfiguration()
+        value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.ModalityProcessingConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ModalityProcessingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.ModalityProcessingConfiguration()
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.VideoOverrideConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.VideoOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.VideoOverrideConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.VideoOverrideConfiguration()
+        value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.ImageOverrideConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.ImageOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.ImageOverrideConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.ImageOverrideConfiguration()
+        value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
         return value
     }
 }
@@ -2924,6 +3156,7 @@ extension BedrockDataAutomationClientTypes.DocumentOverrideConfiguration {
 
     static func write(value: BedrockDataAutomationClientTypes.DocumentOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
         try writer["splitter"].write(value.splitter, with: BedrockDataAutomationClientTypes.SplitterConfiguration.write(value:to:))
     }
 
@@ -2931,6 +3164,7 @@ extension BedrockDataAutomationClientTypes.DocumentOverrideConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockDataAutomationClientTypes.DocumentOverrideConfiguration()
         value.splitter = try reader["splitter"].readIfPresent(with: BedrockDataAutomationClientTypes.SplitterConfiguration.read(from:))
+        value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
         return value
     }
 }

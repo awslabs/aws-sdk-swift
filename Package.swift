@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.126.0"
+let clientRuntimeVersion: Version = "0.127.0"
 let crtVersion: Version = "0.48.0"
 
 let excludeRuntimeUnitTests = false
@@ -362,6 +362,7 @@ let serviceTargets: [String] = [
     "AWSSQS",
     "AWSSSM",
     "AWSSSMContacts",
+    "AWSSSMGuiConnect",
     "AWSSSMIncidents",
     "AWSSSMQuickSetup",
     "AWSSSO",

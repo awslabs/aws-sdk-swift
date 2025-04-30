@@ -888,6 +888,149 @@ public struct CreateNamespaceOutput: Swift.Sendable {
     }
 }
 
+public struct CreateReservationInput: Swift.Sendable {
+    /// The number of Redshift Processing Units (RPUs) to reserve.
+    /// This member is required.
+    public var capacity: Swift.Int?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. This token must be a valid UUIDv4 value. For more information about idempotency, see [ Making retries safe with idempotent APIs ](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The ID of the offering associated with the reservation. The offering determines the payment schedule for the reservation.
+    /// This member is required.
+    public var offeringId: Swift.String?
+
+    public init(
+        capacity: Swift.Int? = 0,
+        clientToken: Swift.String? = nil,
+        offeringId: Swift.String? = nil
+    ) {
+        self.capacity = capacity
+        self.clientToken = clientToken
+        self.offeringId = offeringId
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+
+    public enum OfferingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allUpfront
+        case noUpfront
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OfferingType] {
+            return [
+                .allUpfront,
+                .noUpfront
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allUpfront: return "ALL_UPFRONT"
+            case .noUpfront: return "NO_UPFRONT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+
+    /// The class of offering for the reservation. The offering class determines the payment schedule for the reservation.
+    public struct ReservationOffering: Swift.Sendable {
+        /// The currency code for the offering.
+        public var currencyCode: Swift.String?
+        /// The duration, in seconds, for which the reservation reserves the RPUs.
+        public var duration: Swift.Int
+        /// The rate you are charged for each hour the reservation is active.
+        public var hourlyCharge: Swift.Double
+        /// The offering identifier.
+        public var offeringId: Swift.String?
+        /// Determines the payment schedule for the reservation.
+        public var offeringType: RedshiftServerlessClientTypes.OfferingType?
+        /// The up-front price you are charged for the reservation.
+        public var upfrontCharge: Swift.Double
+
+        public init(
+            currencyCode: Swift.String? = nil,
+            duration: Swift.Int = 0,
+            hourlyCharge: Swift.Double = 0.0,
+            offeringId: Swift.String? = nil,
+            offeringType: RedshiftServerlessClientTypes.OfferingType? = nil,
+            upfrontCharge: Swift.Double = 0.0
+        ) {
+            self.currencyCode = currencyCode
+            self.duration = duration
+            self.hourlyCharge = hourlyCharge
+            self.offeringId = offeringId
+            self.offeringType = offeringType
+            self.upfrontCharge = upfrontCharge
+        }
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+
+    /// Represents an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
+    public struct Reservation: Swift.Sendable {
+        /// The number of Redshift Processing Units (RPUs) to reserve.
+        public var capacity: Swift.Int
+        /// The end date for the serverless reservation. This date is one year after the start date that you specify.
+        public var endDate: Foundation.Date?
+        /// The type of offering for the reservation. The offering class determines the payment schedule for the reservation.
+        public var offering: RedshiftServerlessClientTypes.ReservationOffering?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the serverless reservation.
+        public var reservationArn: Swift.String?
+        /// The identifier that uniquely identifies the serverless reservation.
+        public var reservationId: Swift.String?
+        /// The start date for the serverless reservation. This is the date you specified for the reservation to start when you created the reservation.
+        public var startDate: Foundation.Date?
+        /// The status of the reservation. Possible values include the following:
+        ///
+        /// * payment-pending
+        ///
+        /// * active
+        ///
+        /// * payment-failed
+        ///
+        /// * retired
+        public var status: Swift.String?
+
+        public init(
+            capacity: Swift.Int = 0,
+            endDate: Foundation.Date? = nil,
+            offering: RedshiftServerlessClientTypes.ReservationOffering? = nil,
+            reservationArn: Swift.String? = nil,
+            reservationId: Swift.String? = nil,
+            startDate: Foundation.Date? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.capacity = capacity
+            self.endDate = endDate
+            self.offering = offering
+            self.reservationArn = reservationArn
+            self.reservationId = reservationId
+            self.startDate = startDate
+            self.status = status
+        }
+    }
+}
+
+public struct CreateReservationOutput: Swift.Sendable {
+    /// The reservation object that the CreateReservation action created.
+    public var reservation: RedshiftServerlessClientTypes.Reservation?
+
+    public init(
+        reservation: RedshiftServerlessClientTypes.Reservation? = nil
+    ) {
+        self.reservation = reservation
+    }
+}
+
 extension RedshiftServerlessClientTypes {
 
     /// The schedule of when Amazon Redshift Serverless should run the scheduled action.
@@ -2199,6 +2342,54 @@ public struct GetRecoveryPointOutput: Swift.Sendable {
     }
 }
 
+public struct GetReservationInput: Swift.Sendable {
+    /// The ID of the reservation to retrieve.
+    /// This member is required.
+    public var reservationId: Swift.String?
+
+    public init(
+        reservationId: Swift.String? = nil
+    ) {
+        self.reservationId = reservationId
+    }
+}
+
+public struct GetReservationOutput: Swift.Sendable {
+    /// The returned reservation object.
+    /// This member is required.
+    public var reservation: RedshiftServerlessClientTypes.Reservation?
+
+    public init(
+        reservation: RedshiftServerlessClientTypes.Reservation? = nil
+    ) {
+        self.reservation = reservation
+    }
+}
+
+public struct GetReservationOfferingInput: Swift.Sendable {
+    /// The identifier for the offering..
+    /// This member is required.
+    public var offeringId: Swift.String?
+
+    public init(
+        offeringId: Swift.String? = nil
+    ) {
+        self.offeringId = offeringId
+    }
+}
+
+public struct GetReservationOfferingOutput: Swift.Sendable {
+    /// The returned reservation offering. The offering determines the payment schedule for the reservation.
+    /// This member is required.
+    public var reservationOffering: RedshiftServerlessClientTypes.ReservationOffering?
+
+    public init(
+        reservationOffering: RedshiftServerlessClientTypes.ReservationOffering? = nil
+    ) {
+        self.reservationOffering = reservationOffering
+    }
+}
+
 public struct GetResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to return.
     /// This member is required.
@@ -2743,6 +2934,68 @@ public struct ListRecoveryPointsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.recoveryPoints = recoveryPoints
+    }
+}
+
+public struct ListReservationOfferingsInput: Swift.Sendable {
+    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of items to return. (You received this token from a previous call.)
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListReservationOfferingsOutput: Swift.Sendable {
+    /// The token to use when requesting the next set of items.
+    public var nextToken: Swift.String?
+    /// The returned list of reservation offerings.
+    /// This member is required.
+    public var reservationOfferingsList: [RedshiftServerlessClientTypes.ReservationOffering]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        reservationOfferingsList: [RedshiftServerlessClientTypes.ReservationOffering]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.reservationOfferingsList = reservationOfferingsList
+    }
+}
+
+public struct ListReservationsInput: Swift.Sendable {
+    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of items to return. (You received this token from a previous call.)
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListReservationsOutput: Swift.Sendable {
+    /// The token to use when requesting the next set of items.
+    public var nextToken: Swift.String?
+    /// The serverless reservations returned by the request.
+    /// This member is required.
+    public var reservationsList: [RedshiftServerlessClientTypes.Reservation]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        reservationsList: [RedshiftServerlessClientTypes.Reservation]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.reservationsList = reservationsList
     }
 }
 
@@ -3303,7 +3556,7 @@ public struct RestoreFromSnapshotInput: Swift.Sendable {
     public var namespaceName: Swift.String?
     /// The Amazon Web Services account that owns the snapshot.
     public var ownerAccount: Swift.String?
-    /// The Amazon Resource Name (ARN) of the snapshot to restore from. Required if restoring from Amazon Redshift Serverless to a provisioned cluster. Must not be specified at the same time as snapshotName. The format of the ARN is arn:aws:redshift:<region>:<account_id>:snapshot:<cluster_identifier>/<snapshot_identifier>.
+    /// The Amazon Resource Name (ARN) of the snapshot to restore from. Required if restoring from a provisioned cluster to Amazon Redshift Serverless. Must not be specified at the same time as snapshotName. The format of the ARN is arn:aws:redshift:<region>:<account_id>:snapshot:<cluster_identifier>/<snapshot_identifier>.
     public var snapshotArn: Swift.String?
     /// The name of the snapshot to restore from. Must not be specified at the same time as snapshotArn.
     public var snapshotName: Swift.String?
@@ -3684,6 +3937,13 @@ extension CreateNamespaceInput {
     }
 }
 
+extension CreateReservationInput {
+
+    static func urlPathProvider(_ value: CreateReservationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateScheduledActionInput {
 
     static func urlPathProvider(_ value: CreateScheduledActionInput) -> Swift.String? {
@@ -3817,6 +4077,20 @@ extension GetRecoveryPointInput {
     }
 }
 
+extension GetReservationInput {
+
+    static func urlPathProvider(_ value: GetReservationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetReservationOfferingInput {
+
+    static func urlPathProvider(_ value: GetReservationOfferingInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetResourcePolicyInput {
 
     static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
@@ -3897,6 +4171,20 @@ extension ListNamespacesInput {
 extension ListRecoveryPointsInput {
 
     static func urlPathProvider(_ value: ListRecoveryPointsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListReservationOfferingsInput {
+
+    static func urlPathProvider(_ value: ListReservationOfferingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListReservationsInput {
+
+    static func urlPathProvider(_ value: ListReservationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4114,6 +4402,16 @@ extension CreateNamespaceInput {
     }
 }
 
+extension CreateReservationInput {
+
+    static func write(value: CreateReservationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacity"].write(value.capacity)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["offeringId"].write(value.offeringId)
+    }
+}
+
 extension CreateScheduledActionInput {
 
     static func write(value: CreateScheduledActionInput?, to writer: SmithyJSON.Writer) throws {
@@ -4304,6 +4602,22 @@ extension GetRecoveryPointInput {
     }
 }
 
+extension GetReservationInput {
+
+    static func write(value: GetReservationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["reservationId"].write(value.reservationId)
+    }
+}
+
+extension GetReservationOfferingInput {
+
+    static func write(value: GetReservationOfferingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["offeringId"].write(value.offeringId)
+    }
+}
+
 extension GetResourcePolicyInput {
 
     static func write(value: GetResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -4414,6 +4728,24 @@ extension ListRecoveryPointsInput {
         try writer["namespaceName"].write(value.namespaceName)
         try writer["nextToken"].write(value.nextToken)
         try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension ListReservationOfferingsInput {
+
+    static func write(value: ListReservationOfferingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListReservationsInput {
+
+    static func write(value: ListReservationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -4733,6 +5065,18 @@ extension CreateNamespaceOutput {
     }
 }
 
+extension CreateReservationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateReservationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateReservationOutput()
+        value.reservation = try reader["reservation"].readIfPresent(with: RedshiftServerlessClientTypes.Reservation.read(from:))
+        return value
+    }
+}
+
 extension CreateScheduledActionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateScheduledActionOutput {
@@ -4957,6 +5301,30 @@ extension GetRecoveryPointOutput {
     }
 }
 
+extension GetReservationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetReservationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetReservationOutput()
+        value.reservation = try reader["reservation"].readIfPresent(with: RedshiftServerlessClientTypes.Reservation.read(from:))
+        return value
+    }
+}
+
+extension GetReservationOfferingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetReservationOfferingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetReservationOfferingOutput()
+        value.reservationOffering = try reader["reservationOffering"].readIfPresent(with: RedshiftServerlessClientTypes.ReservationOffering.read(from:))
+        return value
+    }
+}
+
 extension GetResourcePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcePolicyOutput {
@@ -5102,6 +5470,32 @@ extension ListRecoveryPointsOutput {
         var value = ListRecoveryPointsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.recoveryPoints = try reader["recoveryPoints"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.RecoveryPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListReservationOfferingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListReservationOfferingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListReservationOfferingsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.reservationOfferingsList = try reader["reservationOfferingsList"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.ReservationOffering.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListReservationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListReservationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListReservationsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.reservationsList = try reader["reservationsList"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.Reservation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5459,6 +5853,26 @@ enum CreateNamespaceOutputError {
     }
 }
 
+enum CreateReservationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateScheduledActionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5791,6 +6205,40 @@ enum GetRecoveryPointOutputError {
     }
 }
 
+enum GetReservationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetReservationOfferingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetResourcePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5980,6 +6428,38 @@ enum ListRecoveryPointsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListReservationOfferingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListReservationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -6637,6 +7117,37 @@ extension RedshiftServerlessClientTypes.Namespace {
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.adminPasswordSecretArn = try reader["adminPasswordSecretArn"].readIfPresent()
         value.adminPasswordSecretKmsKeyId = try reader["adminPasswordSecretKmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.Reservation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Reservation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.Reservation()
+        value.reservationId = try reader["reservationId"].readIfPresent()
+        value.reservationArn = try reader["reservationArn"].readIfPresent()
+        value.startDate = try reader["startDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endDate = try reader["endDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.capacity = try reader["capacity"].readIfPresent() ?? 0
+        value.offering = try reader["offering"].readIfPresent(with: RedshiftServerlessClientTypes.ReservationOffering.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.ReservationOffering {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ReservationOffering {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.ReservationOffering()
+        value.offeringId = try reader["offeringId"].readIfPresent()
+        value.duration = try reader["duration"].readIfPresent() ?? 0
+        value.upfrontCharge = try reader["upfrontCharge"].readIfPresent() ?? 0
+        value.hourlyCharge = try reader["hourlyCharge"].readIfPresent() ?? 0
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
+        value.offeringType = try reader["offeringType"].readIfPresent()
         return value
     }
 }

@@ -1659,12 +1659,147 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
+extension AppSyncClientTypes {
+
+    public enum HandlerBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case code
+        case direct
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HandlerBehavior] {
+            return [
+                .code,
+                .direct
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .code: return "CODE"
+            case .direct: return "DIRECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    public enum InvokeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case event
+        case requestResponse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvokeType] {
+            return [
+                .event,
+                .requestResponse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .event: return "EVENT"
+            case .requestResponse: return "REQUEST_RESPONSE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// The configuration for a Lambda data source.
+    public struct LambdaConfig: Swift.Sendable {
+        /// The invocation type for a Lambda data source.
+        public var invokeType: AppSyncClientTypes.InvokeType?
+
+        public init(
+            invokeType: AppSyncClientTypes.InvokeType? = nil
+        ) {
+            self.invokeType = invokeType
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// The integration data source configuration for the handler.
+    public struct Integration: Swift.Sendable {
+        /// The unique name of the data source that has been configured on the API.
+        /// This member is required.
+        public var dataSourceName: Swift.String?
+        /// The configuration for a Lambda data source.
+        public var lambdaConfig: AppSyncClientTypes.LambdaConfig?
+
+        public init(
+            dataSourceName: Swift.String? = nil,
+            lambdaConfig: AppSyncClientTypes.LambdaConfig? = nil
+        ) {
+            self.dataSourceName = dataSourceName
+            self.lambdaConfig = lambdaConfig
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// The configuration for a handler.
+    public struct HandlerConfig: Swift.Sendable {
+        /// The behavior for the handler.
+        /// This member is required.
+        public var behavior: AppSyncClientTypes.HandlerBehavior?
+        /// The integration data source configuration for the handler.
+        /// This member is required.
+        public var integration: AppSyncClientTypes.Integration?
+
+        public init(
+            behavior: AppSyncClientTypes.HandlerBehavior? = nil,
+            integration: AppSyncClientTypes.Integration? = nil
+        ) {
+            self.behavior = behavior
+            self.integration = integration
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// The configuration for the OnPublish and OnSubscribe handlers.
+    public struct HandlerConfigs: Swift.Sendable {
+        /// The configuration for the OnPublish handler.
+        public var onPublish: AppSyncClientTypes.HandlerConfig?
+        /// The configuration for the OnSubscribe handler.
+        public var onSubscribe: AppSyncClientTypes.HandlerConfig?
+
+        public init(
+            onPublish: AppSyncClientTypes.HandlerConfig? = nil,
+            onSubscribe: AppSyncClientTypes.HandlerConfig? = nil
+        ) {
+            self.onPublish = onPublish
+            self.onSubscribe = onSubscribe
+        }
+    }
+}
+
 public struct CreateChannelNamespaceInput: Swift.Sendable {
     /// The Api ID.
     /// This member is required.
     public var apiId: Swift.String?
     /// The event handler functions that run custom business logic to process published events and subscribe requests.
     public var codeHandlers: Swift.String?
+    /// The configuration for the OnPublish and OnSubscribe handlers.
+    public var handlerConfigs: AppSyncClientTypes.HandlerConfigs?
     /// The name of the ChannelNamespace. This name must be unique within the Api
     /// This member is required.
     public var name: Swift.String?
@@ -1678,6 +1813,7 @@ public struct CreateChannelNamespaceInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         codeHandlers: Swift.String? = nil,
+        handlerConfigs: AppSyncClientTypes.HandlerConfigs? = nil,
         name: Swift.String? = nil,
         publishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
         subscribeAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
@@ -1685,6 +1821,7 @@ public struct CreateChannelNamespaceInput: Swift.Sendable {
     ) {
         self.apiId = apiId
         self.codeHandlers = codeHandlers
+        self.handlerConfigs = handlerConfigs
         self.name = name
         self.publishAuthModes = publishAuthModes
         self.subscribeAuthModes = subscribeAuthModes
@@ -1704,6 +1841,8 @@ extension AppSyncClientTypes {
         public var codeHandlers: Swift.String?
         /// The date and time that the ChannelNamespace was created.
         public var created: Foundation.Date?
+        /// The configuration for the OnPublish and OnSubscribe handlers.
+        public var handlerConfigs: AppSyncClientTypes.HandlerConfigs?
         /// The date and time that the ChannelNamespace was last changed.
         public var lastModified: Foundation.Date?
         /// The name of the channel namespace. This name must be unique within the Api.
@@ -1720,6 +1859,7 @@ extension AppSyncClientTypes {
             channelNamespaceArn: Swift.String? = nil,
             codeHandlers: Swift.String? = nil,
             created: Foundation.Date? = nil,
+            handlerConfigs: AppSyncClientTypes.HandlerConfigs? = nil,
             lastModified: Foundation.Date? = nil,
             name: Swift.String? = nil,
             publishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
@@ -1730,6 +1870,7 @@ extension AppSyncClientTypes {
             self.channelNamespaceArn = channelNamespaceArn
             self.codeHandlers = codeHandlers
             self.created = created
+            self.handlerConfigs = handlerConfigs
             self.lastModified = lastModified
             self.name = name
             self.publishAuthModes = publishAuthModes
@@ -5346,6 +5487,8 @@ public struct UpdateChannelNamespaceInput: Swift.Sendable {
     public var apiId: Swift.String?
     /// The event handler functions that run custom business logic to process published events and subscribe requests.
     public var codeHandlers: Swift.String?
+    /// The configuration for the OnPublish and OnSubscribe handlers.
+    public var handlerConfigs: AppSyncClientTypes.HandlerConfigs?
     /// The name of the ChannelNamespace.
     /// This member is required.
     public var name: Swift.String?
@@ -5357,12 +5500,14 @@ public struct UpdateChannelNamespaceInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         codeHandlers: Swift.String? = nil,
+        handlerConfigs: AppSyncClientTypes.HandlerConfigs? = nil,
         name: Swift.String? = nil,
         publishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
         subscribeAuthModes: [AppSyncClientTypes.AuthMode]? = nil
     ) {
         self.apiId = apiId
         self.codeHandlers = codeHandlers
+        self.handlerConfigs = handlerConfigs
         self.name = name
         self.publishAuthModes = publishAuthModes
         self.subscribeAuthModes = subscribeAuthModes
@@ -7060,6 +7205,7 @@ extension CreateChannelNamespaceInput {
     static func write(value: CreateChannelNamespaceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["codeHandlers"].write(value.codeHandlers)
+        try writer["handlerConfigs"].write(value.handlerConfigs, with: AppSyncClientTypes.HandlerConfigs.write(value:to:))
         try writer["name"].write(value.name)
         try writer["publishAuthModes"].writeList(value.publishAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subscribeAuthModes"].writeList(value.subscribeAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -7253,6 +7399,7 @@ extension UpdateChannelNamespaceInput {
     static func write(value: UpdateChannelNamespaceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["codeHandlers"].write(value.codeHandlers)
+        try writer["handlerConfigs"].write(value.handlerConfigs, with: AppSyncClientTypes.HandlerConfigs.write(value:to:))
         try writer["publishAuthModes"].writeList(value.publishAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subscribeAuthModes"].writeList(value.subscribeAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -9939,6 +10086,73 @@ extension AppSyncClientTypes.ChannelNamespace {
         value.channelNamespaceArn = try reader["channelNamespaceArn"].readIfPresent()
         value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.handlerConfigs = try reader["handlerConfigs"].readIfPresent(with: AppSyncClientTypes.HandlerConfigs.read(from:))
+        return value
+    }
+}
+
+extension AppSyncClientTypes.HandlerConfigs {
+
+    static func write(value: AppSyncClientTypes.HandlerConfigs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["onPublish"].write(value.onPublish, with: AppSyncClientTypes.HandlerConfig.write(value:to:))
+        try writer["onSubscribe"].write(value.onSubscribe, with: AppSyncClientTypes.HandlerConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.HandlerConfigs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.HandlerConfigs()
+        value.onPublish = try reader["onPublish"].readIfPresent(with: AppSyncClientTypes.HandlerConfig.read(from:))
+        value.onSubscribe = try reader["onSubscribe"].readIfPresent(with: AppSyncClientTypes.HandlerConfig.read(from:))
+        return value
+    }
+}
+
+extension AppSyncClientTypes.HandlerConfig {
+
+    static func write(value: AppSyncClientTypes.HandlerConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["behavior"].write(value.behavior)
+        try writer["integration"].write(value.integration, with: AppSyncClientTypes.Integration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.HandlerConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.HandlerConfig()
+        value.behavior = try reader["behavior"].readIfPresent() ?? .sdkUnknown("")
+        value.integration = try reader["integration"].readIfPresent(with: AppSyncClientTypes.Integration.read(from:))
+        return value
+    }
+}
+
+extension AppSyncClientTypes.Integration {
+
+    static func write(value: AppSyncClientTypes.Integration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataSourceName"].write(value.dataSourceName)
+        try writer["lambdaConfig"].write(value.lambdaConfig, with: AppSyncClientTypes.LambdaConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.Integration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.Integration()
+        value.dataSourceName = try reader["dataSourceName"].readIfPresent() ?? ""
+        value.lambdaConfig = try reader["lambdaConfig"].readIfPresent(with: AppSyncClientTypes.LambdaConfig.read(from:))
+        return value
+    }
+}
+
+extension AppSyncClientTypes.LambdaConfig {
+
+    static func write(value: AppSyncClientTypes.LambdaConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["invokeType"].write(value.invokeType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.LambdaConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.LambdaConfig()
+        value.invokeType = try reader["invokeType"].readIfPresent()
         return value
     }
 }
