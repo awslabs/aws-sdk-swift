@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudWatchLogsClient: ClientRuntime.Client {
     public static let clientName = "CloudWatchLogsClient"
-    public static let version = "1.3.5"
+    public static let version = "1.3.6"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudWatchLogsClient.CloudWatchLogsClientConfiguration
     let serviceName = "CloudWatch Logs"
@@ -368,7 +368,7 @@ extension CloudWatchLogsClient {
     /// * Specify the resourceIdentifier parameter with a query-result resource, to use that key to encrypt the stored results of all future [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html) operations in the account. The response from a [GetQueryResults](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html) operation will still return the query results in plain text. Even if you have not associated a key with your query results, the query results are encrypted when stored, using the default CloudWatch Logs method. If you run a query from a monitoring account that queries logs in a source account, the query results key from the monitoring account, if any, is used.
     ///
     ///
-    /// If you delete the key that is used to encrypt log events or log group query results, then all the associated stored log events or query results that were encrypted with that key will be unencryptable and unusable. CloudWatch Logs supports only symmetric KMS keys. Do not use an associate an asymmetric KMS key with your log group or query results. For more information, see [Using Symmetric and Asymmetric Keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html). It can take up to 5 minutes for this operation to take effect. If you attempt to associate a KMS key with a log group but the KMS key does not exist or the KMS key is disabled, you receive an InvalidParameterException error.
+    /// If you delete the key that is used to encrypt log events or log group query results, then all the associated stored log events or query results that were encrypted with that key will be unencryptable and unusable. CloudWatch Logs supports only symmetric KMS keys. Do not associate an asymmetric KMS key with your log group or query results. For more information, see [Using Symmetric and Asymmetric Keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html). It can take up to 5 minutes for this operation to take effect. If you attempt to associate a KMS key with a log group but the KMS key does not exist or the KMS key is disabled, you receive an InvalidParameterException error.
     ///
     /// - Parameter AssociateKmsKeyInput : [no documentation found]
     ///
@@ -616,7 +616,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `CreateExportTask` operation on the `CloudWatchLogs` service.
     ///
-    /// Creates an export task so that you can efficiently export data from a log group to an Amazon S3 bucket. When you perform a CreateExportTask operation, you must use credentials that have permission to write to the S3 bucket that you specify as the destination. Exporting log data to S3 buckets that are encrypted by KMS is supported. Exporting log data to Amazon S3 buckets that have S3 Object Lock enabled with a retention period is also supported. Exporting to S3 buckets that are encrypted with AES-256 is supported. This is an asynchronous call. If all the required information is provided, this operation initiates an export task and responds with the ID of the task. After the task has started, you can use [DescribeExportTasks](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeExportTasks.html) to get the status of the export task. Each account can only have one active (RUNNING or PENDING) export task at a time. To cancel an export task, use [CancelExportTask](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CancelExportTask.html). You can export logs from multiple log groups or multiple time ranges to the same S3 bucket. To separate log data for each export task, specify a prefix to be used as the Amazon S3 key prefix for all exported objects. We recommend that you don't regularly export to Amazon S3 as a way to continuously archive your logs. For that use case, we instaed recommend that you use subscriptions. For more information about subscriptions, see [Real-time processing of log data with subscriptions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions.html). Time-based sorting on chunks of log data inside an exported file is not guaranteed. You can sort the exported log field data by using Linux utilities.
+    /// Creates an export task so that you can efficiently export data from a log group to an Amazon S3 bucket. When you perform a CreateExportTask operation, you must use credentials that have permission to write to the S3 bucket that you specify as the destination. Exporting log data to S3 buckets that are encrypted by KMS is supported. Exporting log data to Amazon S3 buckets that have S3 Object Lock enabled with a retention period is also supported. Exporting to S3 buckets that are encrypted with AES-256 is supported. This is an asynchronous call. If all the required information is provided, this operation initiates an export task and responds with the ID of the task. After the task has started, you can use [DescribeExportTasks](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeExportTasks.html) to get the status of the export task. Each account can only have one active (RUNNING or PENDING) export task at a time. To cancel an export task, use [CancelExportTask](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CancelExportTask.html). You can export logs from multiple log groups or multiple time ranges to the same S3 bucket. To separate log data for each export task, specify a prefix to be used as the Amazon S3 key prefix for all exported objects. We recommend that you don't regularly export to Amazon S3 as a way to continuously archive your logs. For that use case, we instead recommend that you use subscriptions. For more information about subscriptions, see [Real-time processing of log data with subscriptions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions.html). Time-based sorting on chunks of log data inside an exported file is not guaranteed. You can sort the exported log field data by using Linux utilities.
     ///
     /// - Parameter CreateExportTaskInput : [no documentation found]
     ///
@@ -2374,7 +2374,7 @@ extension CloudWatchLogsClient {
     ///
     /// * To see data protection policies, you must have the logs:GetDataProtectionPolicy and logs:DescribeAccountPolicies permissions.
     ///
-    /// * To see subscription filter policies, you must have the logs:DescrubeSubscriptionFilters and logs:DescribeAccountPolicies permissions.
+    /// * To see subscription filter policies, you must have the logs:DescribeSubscriptionFilters and logs:DescribeAccountPolicies permissions.
     ///
     /// * To see transformer policies, you must have the logs:GetTransformer and logs:DescribeAccountPolicies permissions.
     ///
@@ -5964,7 +5964,7 @@ extension CloudWatchLogsClient {
     ///
     /// * A batch of log events in a single request cannot span more than 24 hours. Otherwise, the operation fails.
     ///
-    /// * Each log event can be no larger than 256 KB.
+    /// * Each log event can be no larger than 1 MB.
     ///
     /// * The maximum number of log events in a batch is 10,000.
     ///
@@ -6547,7 +6547,7 @@ extension CloudWatchLogsClient {
     /// * A [SessionTimeoutException](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTailResponseStream.html#CWL-Type-StartLiveTailResponseStream-SessionTimeoutException) object is returned when the session times out, after it has been kept open for three hours.
     ///
     ///
-    /// You can end a session before it times out by closing the session stream or by closing the client that is receiving the stream. The session also ends if the established connection between the client and the server breaks. For examples of using an SDK to start a Live Tail session, see [ Start a Live Tail session using an Amazon Web Services SDK](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/example_cloudwatch-logs_StartLiveTail_section.html).
+    /// The StartLiveTail API routes requests to streaming-logs.Region.amazonaws.com using SDK host prefix injection. VPC endpoint support is not available for this API. You can end a session before it times out by closing the session stream or by closing the client that is receiving the stream. The session also ends if the established connection between the client and the server breaks. For examples of using an SDK to start a Live Tail session, see [ Start a Live Tail session using an Amazon Web Services SDK](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/example_cloudwatch-logs_StartLiveTail_section.html).
     ///
     /// - Parameter StartLiveTailInput : [no documentation found]
     ///
