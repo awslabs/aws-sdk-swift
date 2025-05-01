@@ -24,7 +24,7 @@ class EndpointParamsGeneratorTests {
         endpointParamsGenerator.render()
         val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/Endpoints.swift")
         val expected = """
-public struct EndpointParams {
+public struct EndpointParams: Sendable {
     public let boolBar: Swift.Bool?
     public let boolBaz: Swift.String?
     public let boolFoo: Swift.Bool

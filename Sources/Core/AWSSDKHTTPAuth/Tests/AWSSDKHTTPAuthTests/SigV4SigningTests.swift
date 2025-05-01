@@ -302,7 +302,7 @@ class Sigv4SigningTests: XCTestCase {
     }
 }
 
-class TestCustomAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
+class TestCustomAWSCredentialIdentityResolver: AWSCredentialIdentityResolver, @unchecked Sendable {
     let credentials: AWSCredentialIdentity
     
     init(credentials: AWSCredentialIdentity) {
