@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppflowClient: ClientRuntime.Client {
     public static let clientName = "AppflowClient"
-    public static let version = "1.3.5"
+    public static let version = "1.3.6"
     let client: ClientRuntime.SdkHttpClient
     let config: AppflowClient.AppflowClientConfiguration
     let serviceName = "Appflow"

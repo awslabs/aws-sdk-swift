@@ -1710,6 +1710,97 @@ extension MailManagerClientTypes {
 
 extension MailManagerClientTypes {
 
+    public enum SnsNotificationEncoding: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case base64
+        case utf8
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnsNotificationEncoding] {
+            return [
+                .base64,
+                .utf8
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .base64: return "BASE64"
+            case .utf8: return "UTF-8"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
+    public enum SnsNotificationPayloadType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case content
+        case headers
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnsNotificationPayloadType] {
+            return [
+                .content,
+                .headers
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .content: return "CONTENT"
+            case .headers: return "HEADERS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
+    /// The action to publish the email content to an Amazon SNS topic. When executed, this action will send the email as a notification to the specified SNS topic.
+    public struct SnsAction: Swift.Sendable {
+        /// A policy that states what to do in the case of failure. The action will fail if there are configuration errors. For example, specified SNS topic has been deleted or the role lacks necessary permissions to call the sns:Publish API.
+        public var actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy?
+        /// The encoding to use for the email within the Amazon SNS notification. The default value is UTF-8. Use BASE64 if you need to preserve all special characters, especially when the original message uses a different encoding format.
+        public var encoding: MailManagerClientTypes.SnsNotificationEncoding?
+        /// The expected payload type within the Amazon SNS notification. CONTENT attempts to publish the full email content with 20KB of headers content. HEADERS extracts up to 100KB of header content to include in the notification, email content will not be included to the notification. The default value is CONTENT.
+        public var payloadType: MailManagerClientTypes.SnsNotificationPayloadType?
+        /// The Amazon Resource Name (ARN) of the IAM Role to use while writing to Amazon SNS. This role must have access to the sns:Publish API for the given topic.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Amazon SNS Topic to which notification for the email received will be published.
+        /// This member is required.
+        public var topicArn: Swift.String?
+
+        public init(
+            actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy? = nil,
+            encoding: MailManagerClientTypes.SnsNotificationEncoding? = .utf8,
+            payloadType: MailManagerClientTypes.SnsNotificationPayloadType? = .content,
+            roleArn: Swift.String? = nil,
+            topicArn: Swift.String? = nil
+        ) {
+            self.actionFailurePolicy = actionFailurePolicy
+            self.encoding = encoding
+            self.payloadType = payloadType
+            self.roleArn = roleArn
+            self.topicArn = topicArn
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
     public enum MailFrom: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case preserve
         case replace
@@ -1856,6 +1947,8 @@ extension MailManagerClientTypes {
         case delivertomailbox(MailManagerClientTypes.DeliverToMailboxAction)
         /// This action delivers an email to an Amazon Q Business application for ingestion into its knowledge base.
         case delivertoqbusiness(MailManagerClientTypes.DeliverToQBusinessAction)
+        /// This action publishes the email content to an Amazon SNS topic.
+        case publishtosns(MailManagerClientTypes.SnsAction)
         case sdkUnknown(Swift.String)
     }
 }
@@ -8459,6 +8552,8 @@ extension MailManagerClientTypes.RuleAction {
                 try writer["DeliverToQBusiness"].write(delivertoqbusiness, with: MailManagerClientTypes.DeliverToQBusinessAction.write(value:to:))
             case let .drop(drop):
                 try writer["Drop"].write(drop, with: MailManagerClientTypes.DropAction.write(value:to:))
+            case let .publishtosns(publishtosns):
+                try writer["PublishToSns"].write(publishtosns, with: MailManagerClientTypes.SnsAction.write(value:to:))
             case let .relay(relay):
                 try writer["Relay"].write(relay, with: MailManagerClientTypes.RelayAction.write(value:to:))
             case let .replacerecipient(replacerecipient):
@@ -8494,9 +8589,34 @@ extension MailManagerClientTypes.RuleAction {
                 return .delivertomailbox(try reader["DeliverToMailbox"].read(with: MailManagerClientTypes.DeliverToMailboxAction.read(from:)))
             case "DeliverToQBusiness":
                 return .delivertoqbusiness(try reader["DeliverToQBusiness"].read(with: MailManagerClientTypes.DeliverToQBusinessAction.read(from:)))
+            case "PublishToSns":
+                return .publishtosns(try reader["PublishToSns"].read(with: MailManagerClientTypes.SnsAction.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MailManagerClientTypes.SnsAction {
+
+    static func write(value: MailManagerClientTypes.SnsAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
+        try writer["Encoding"].write(value.encoding)
+        try writer["PayloadType"].write(value.payloadType)
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["TopicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.SnsAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.SnsAction()
+        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
+        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.encoding = try reader["Encoding"].readIfPresent() ?? .utf8
+        value.payloadType = try reader["PayloadType"].readIfPresent() ?? .content
+        return value
     }
 }
 
