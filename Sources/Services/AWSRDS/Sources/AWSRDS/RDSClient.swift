@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RDSClient: ClientRuntime.Client {
     public static let clientName = "RDSClient"
-    public static let version = "1.3.6"
+    public static let version = "1.3.7"
     let client: ClientRuntime.SdkHttpClient
     let config: RDSClient.RDSClientConfiguration
     let serviceName = "RDS"
