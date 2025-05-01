@@ -6,7 +6,7 @@
 //
 
 @_spi(FileBasedConfig) import AWSSDKCommon
-import AWSSDKIdentity
+@_spi(DefaultAWSCredentialIdentityResolverChain) import AWSSDKIdentity
 import SmithyIdentity
 import SmithyIdentityAPI
 import struct ClientRuntime.DefaultSDKRuntimeConfiguration
@@ -28,10 +28,13 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
         _ awsCredentialIdentityResolver: (any AWSCredentialIdentityResolver)? = nil
     ) throws -> any AWSCredentialIdentityResolver {
         let resolvedAWSCredentialIdentityResolver: any AWSCredentialIdentityResolver
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
         if let awsCredentialIdentityResolver {
             resolvedAWSCredentialIdentityResolver = awsCredentialIdentityResolver
         } else {
-            resolvedAWSCredentialIdentityResolver = DefaultAWSCredentialIdentityResolverChain()
+            resolvedAWSCredentialIdentityResolver = try DefaultAWSCredentialIdentityResolverChain(
+                fileBasedConfig: fileBasedConfig
+            )
         }
         return resolvedAWSCredentialIdentityResolver
     }
