@@ -58,7 +58,7 @@ jobs:
           ./scripts/ci_steps/codegen_sdk.sh
       - name: Build on swift-tools-version 6.0
         run: |
-          perl -pi -e 's{^// swift-tools-version:\d+\.\d+}{// swift-tools-version:6.0}' Package.swift
           set -euo pipefail
           cd aws-sdk-swift
+          perl -pi -e 's{^// swift-tools-version:\d+\.\d+}{// swift-tools-version:6.0}' Package.swift
           swift build
