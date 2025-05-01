@@ -60,4 +60,5 @@ jobs:
         run: |
           perl -pi -e 's{^// swift-tools-version:\d+\.\d+}{// swift-tools-version:6.0}' Package.swift
           set -euo pipefail
+          cd aws-sdk-swift
           swift build
