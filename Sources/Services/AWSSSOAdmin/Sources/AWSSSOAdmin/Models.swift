@@ -7399,7 +7399,7 @@ extension SSOAdminClientTypes.PortalOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.PortalOptions()
         value.signInOptions = try reader["SignInOptions"].readIfPresent(with: SSOAdminClientTypes.SignInOptions.read(from:))
-        value.visibility = try reader["Visibility"].readIfPresent() ?? .enabled
+        value.visibility = try reader["Visibility"].readIfPresent() ?? SSOAdminClientTypes.ApplicationVisibility.enabled
         return value
     }
 }

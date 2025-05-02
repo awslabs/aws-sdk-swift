@@ -5430,6 +5430,31 @@ extension BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration: Swift.Cust
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// The structure of the executor invoking the actions in custom orchestration.
+    public enum OrchestrationExecutor: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
+        case lambda(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains details of the custom orchestration configured for the agent.
+    public struct CustomOrchestration: Swift.Sendable {
+        /// The structure of the executor invoking the actions in custom orchestration.
+        public var executor: BedrockAgentRuntimeClientTypes.OrchestrationExecutor?
+
+        public init(
+            executor: BedrockAgentRuntimeClientTypes.OrchestrationExecutor? = nil
+        ) {
+            self.executor = executor
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// Contains parameters that specify various attributes that persist across a session or prompt. You can define session state attributes as key-value pairs when writing a [Lambda function](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html) for an action group or pass them when making an InvokeInlineAgent request. Use session state attributes to control and provide conversational context for your inline agent and to help customize your agent's behavior. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html)
     public struct InlineSessionState: Swift.Sendable {
         /// Contains the conversation history that persist across sessions.
@@ -5459,6 +5484,35 @@ extension BedrockAgentRuntimeClientTypes {
             self.promptSessionAttributes = promptSessionAttributes
             self.returnControlInvocationResults = returnControlInvocationResults
             self.sessionAttributes = sessionAttributes
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum OrchestrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customOrchestration
+        case `default`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrchestrationType] {
+            return [
+                .customOrchestration,
+                .default
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customOrchestration: return "CUSTOM_ORCHESTRATION"
+            case .default: return "DEFAULT"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -5537,15 +5591,27 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// Contains information about the agent and session, alongside the agent's reasoning process and results from calling API actions and querying knowledge bases and metadata about the trace. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-enablement).
     public struct InlineAgentTracePart: Swift.Sendable {
+        /// The caller chain for the trace part.
+        public var callerChain: [BedrockAgentRuntimeClientTypes.Caller]?
+        /// The collaborator name for the trace part.
+        public var collaboratorName: Swift.String?
+        /// The time that trace occurred.
+        public var eventTime: Foundation.Date?
         /// The unique identifier of the session with the agent.
         public var sessionId: Swift.String?
         /// Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-enablement).
         public var trace: BedrockAgentRuntimeClientTypes.Trace?
 
         public init(
+            callerChain: [BedrockAgentRuntimeClientTypes.Caller]? = nil,
+            collaboratorName: Swift.String? = nil,
+            eventTime: Foundation.Date? = nil,
             sessionId: Swift.String? = nil,
             trace: BedrockAgentRuntimeClientTypes.Trace? = nil
         ) {
+            self.callerChain = callerChain
+            self.collaboratorName = collaboratorName
+            self.eventTime = eventTime
             self.sessionId = sessionId
             self.trace = trace
         }
@@ -5575,7 +5641,7 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 public struct InvokeInlineAgentOutput: Swift.Sendable {
-    ///
+    /// The inline agent's response to the user prompt.
     /// This member is required.
     public var completion: AsyncThrowingStream<BedrockAgentRuntimeClientTypes.InlineAgentResponseStream, Swift.Error>?
     /// The MIME type of the input data in the request. The default value is application/json.
@@ -8140,12 +8206,16 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
     public var actionGroups: [BedrockAgentRuntimeClientTypes.AgentActionGroup]?
     /// Defines how the inline collaborator agent handles information across multiple collaborator agents to coordinate a final response. The inline collaborator agent can also be the supervisor.
     public var agentCollaboration: BedrockAgentRuntimeClientTypes.AgentCollaboration?
+    /// The name for the agent.
+    public var agentName: Swift.String?
     /// Model settings for the request.
     public var bedrockModelConfigurations: BedrockAgentRuntimeClientTypes.InlineBedrockModelConfigurations?
     /// Settings for an inline agent collaborator called with [InvokeInlineAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeInlineAgent.html).
     public var collaboratorConfigurations: [BedrockAgentRuntimeClientTypes.CollaboratorConfiguration]?
     /// List of collaborator inline agents.
     public var collaborators: [BedrockAgentRuntimeClientTypes.Collaborator]?
+    /// Contains details of the custom orchestration configured for the agent.
+    public var customOrchestration: BedrockAgentRuntimeClientTypes.CustomOrchestration?
     /// The Amazon Resource Name (ARN) of the Amazon Web Services KMS key to use to encrypt your inline agent.
     public var customerEncryptionKeyArn: Swift.String?
     /// Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see [Using trace](https://docs.aws.amazon.com/bedrock/latest/userguide/trace-events.html).
@@ -8168,6 +8238,8 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
     public var instruction: Swift.String?
     /// Contains information of the knowledge bases to associate with.
     public var knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]?
+    /// Specifies the type of orchestration strategy for the agent. This is set to DEFAULT orchestration type, by default.
+    public var orchestrationType: BedrockAgentRuntimeClientTypes.OrchestrationType?
     /// Configurations for advanced prompts used to override the default prompts to enhance the accuracy of the inline agent.
     public var promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration?
     /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
@@ -8179,9 +8251,11 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
     public init(
         actionGroups: [BedrockAgentRuntimeClientTypes.AgentActionGroup]? = nil,
         agentCollaboration: BedrockAgentRuntimeClientTypes.AgentCollaboration? = nil,
+        agentName: Swift.String? = nil,
         bedrockModelConfigurations: BedrockAgentRuntimeClientTypes.InlineBedrockModelConfigurations? = nil,
         collaboratorConfigurations: [BedrockAgentRuntimeClientTypes.CollaboratorConfiguration]? = nil,
         collaborators: [BedrockAgentRuntimeClientTypes.Collaborator]? = nil,
+        customOrchestration: BedrockAgentRuntimeClientTypes.CustomOrchestration? = nil,
         customerEncryptionKeyArn: Swift.String? = nil,
         enableTrace: Swift.Bool? = nil,
         endSession: Swift.Bool? = nil,
@@ -8192,15 +8266,18 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
         inputText: Swift.String? = nil,
         instruction: Swift.String? = nil,
         knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]? = nil,
+        orchestrationType: BedrockAgentRuntimeClientTypes.OrchestrationType? = nil,
         promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration? = nil,
         sessionId: Swift.String? = nil,
         streamingConfigurations: BedrockAgentRuntimeClientTypes.StreamingConfigurations? = nil
     ) {
         self.actionGroups = actionGroups
         self.agentCollaboration = agentCollaboration
+        self.agentName = agentName
         self.bedrockModelConfigurations = bedrockModelConfigurations
         self.collaboratorConfigurations = collaboratorConfigurations
         self.collaborators = collaborators
+        self.customOrchestration = customOrchestration
         self.customerEncryptionKeyArn = customerEncryptionKeyArn
         self.enableTrace = enableTrace
         self.endSession = endSession
@@ -8211,6 +8288,7 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
         self.inputText = inputText
         self.instruction = instruction
         self.knowledgeBases = knowledgeBases
+        self.orchestrationType = orchestrationType
         self.promptOverrideConfiguration = promptOverrideConfiguration
         self.sessionId = sessionId
         self.streamingConfigurations = streamingConfigurations
@@ -8219,7 +8297,7 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
 
 extension InvokeInlineAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeInlineAgentInput(actionGroups: \(Swift.String(describing: actionGroups)), agentCollaboration: \(Swift.String(describing: agentCollaboration)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), collaboratorConfigurations: \(Swift.String(describing: collaboratorConfigurations)), collaborators: \(Swift.String(describing: collaborators)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), inlineSessionState: \(Swift.String(describing: inlineSessionState)), knowledgeBases: \(Swift.String(describing: knowledgeBases)), sessionId: \(Swift.String(describing: sessionId)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), inputText: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "InvokeInlineAgentInput(actionGroups: \(Swift.String(describing: actionGroups)), agentCollaboration: \(Swift.String(describing: agentCollaboration)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), collaboratorConfigurations: \(Swift.String(describing: collaboratorConfigurations)), collaborators: \(Swift.String(describing: collaborators)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), inlineSessionState: \(Swift.String(describing: inlineSessionState)), knowledgeBases: \(Swift.String(describing: knowledgeBases)), orchestrationType: \(Swift.String(describing: orchestrationType)), sessionId: \(Swift.String(describing: sessionId)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), agentName: \"CONTENT_REDACTED\", inputText: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateInvocationInput {
@@ -8655,9 +8733,11 @@ extension InvokeInlineAgentInput {
         guard let value else { return }
         try writer["actionGroups"].writeList(value.actionGroups, memberWritingClosure: BedrockAgentRuntimeClientTypes.AgentActionGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["agentCollaboration"].write(value.agentCollaboration)
+        try writer["agentName"].write(value.agentName)
         try writer["bedrockModelConfigurations"].write(value.bedrockModelConfigurations, with: BedrockAgentRuntimeClientTypes.InlineBedrockModelConfigurations.write(value:to:))
         try writer["collaboratorConfigurations"].writeList(value.collaboratorConfigurations, memberWritingClosure: BedrockAgentRuntimeClientTypes.CollaboratorConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["collaborators"].writeList(value.collaborators, memberWritingClosure: BedrockAgentRuntimeClientTypes.Collaborator.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["customOrchestration"].write(value.customOrchestration, with: BedrockAgentRuntimeClientTypes.CustomOrchestration.write(value:to:))
         try writer["customerEncryptionKeyArn"].write(value.customerEncryptionKeyArn)
         try writer["enableTrace"].write(value.enableTrace)
         try writer["endSession"].write(value.endSession)
@@ -8668,6 +8748,7 @@ extension InvokeInlineAgentInput {
         try writer["inputText"].write(value.inputText)
         try writer["instruction"].write(value.instruction)
         try writer["knowledgeBases"].writeList(value.knowledgeBases, memberWritingClosure: BedrockAgentRuntimeClientTypes.KnowledgeBase.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["orchestrationType"].write(value.orchestrationType)
         try writer["promptOverrideConfiguration"].write(value.promptOverrideConfiguration, with: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration.write(value:to:))
         try writer["streamingConfigurations"].write(value.streamingConfigurations, with: BedrockAgentRuntimeClientTypes.StreamingConfigurations.write(value:to:))
     }
@@ -10464,12 +10545,12 @@ extension BedrockAgentRuntimeClientTypes.TracePart {
         var value = BedrockAgentRuntimeClientTypes.TracePart()
         value.sessionId = try reader["sessionId"].readIfPresent()
         value.trace = try reader["trace"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Trace.read(from:))
-        value.agentId = try reader["agentId"].readIfPresent()
-        value.agentAliasId = try reader["agentAliasId"].readIfPresent()
-        value.agentVersion = try reader["agentVersion"].readIfPresent()
         value.callerChain = try reader["callerChain"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.Caller.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.eventTime = try reader["eventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.collaboratorName = try reader["collaboratorName"].readIfPresent()
+        value.agentId = try reader["agentId"].readIfPresent()
+        value.agentAliasId = try reader["agentAliasId"].readIfPresent()
+        value.agentVersion = try reader["agentVersion"].readIfPresent()
         return value
     }
 }
@@ -11706,6 +11787,9 @@ extension BedrockAgentRuntimeClientTypes.InlineAgentTracePart {
         var value = BedrockAgentRuntimeClientTypes.InlineAgentTracePart()
         value.sessionId = try reader["sessionId"].readIfPresent()
         value.trace = try reader["trace"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Trace.read(from:))
+        value.callerChain = try reader["callerChain"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.Caller.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventTime = try reader["eventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.collaboratorName = try reader["collaboratorName"].readIfPresent()
         return value
     }
 }
@@ -12414,6 +12498,27 @@ extension BedrockAgentRuntimeClientTypes.InlineBedrockModelConfigurations {
     static func write(value: BedrockAgentRuntimeClientTypes.InlineBedrockModelConfigurations?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["performanceConfig"].write(value.performanceConfig, with: BedrockAgentRuntimeClientTypes.PerformanceConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.CustomOrchestration {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.CustomOrchestration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["executor"].write(value.executor, with: BedrockAgentRuntimeClientTypes.OrchestrationExecutor.write(value:to:))
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.OrchestrationExecutor {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.OrchestrationExecutor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .lambda(lambda):
+                try writer["lambda"].write(lambda)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 

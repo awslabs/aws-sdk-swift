@@ -10,6 +10,7 @@
 @testable import AWSBCMPricingCalculator
 import XCTest
 import enum ClientRuntime.EndpointError
+import enum SmithyHTTPAPI.EndpointPropertyValue
 import enum SmithyTestUtil.TestInitializer
 import struct SmithyHTTPAPI.Endpoint
 import struct SmithyHTTPAPI.Headers
@@ -30,7 +31,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -67,14 +68,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -93,14 +94,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -119,14 +120,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "cn-northwest-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -145,14 +146,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "cn-northwest-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -171,14 +172,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "us-gov-west-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -197,14 +198,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "us-gov-west-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -223,14 +224,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "us-iso-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -249,14 +250,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "us-iso-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -275,14 +276,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "us-isob-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -301,14 +302,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "us-isob-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -327,14 +328,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "eu-isoe-west-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -353,14 +354,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "eu-isoe-west-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -379,14 +380,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "us-isof-south-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -405,14 +406,14 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingRegion": "us-isof-south-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()

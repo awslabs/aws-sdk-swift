@@ -5308,7 +5308,7 @@ extension NeptuneGraphClientTypes.ExportFilterPropertyAttributes {
         var value = NeptuneGraphClientTypes.ExportFilterPropertyAttributes()
         value.outputType = try reader["outputType"].readIfPresent()
         value.sourcePropertyName = try reader["sourcePropertyName"].readIfPresent()
-        value.multiValueHandling = try reader["multiValueHandling"].readIfPresent() ?? .pickFirst
+        value.multiValueHandling = try reader["multiValueHandling"].readIfPresent() ?? NeptuneGraphClientTypes.MultiValueHandlingType.pickFirst
         return value
     }
 }

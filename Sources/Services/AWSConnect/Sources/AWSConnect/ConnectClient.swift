@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.3.5"
+    public static let version = "1.3.8"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -6726,7 +6726,7 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact.
     ///
-    /// * CustomerEndpoint and SystemEndpoint are only populated for EMAIL contacts.
+    /// * SystemEndpoint is not populated for contacts with initiation method of MONITOR, QUEUE_TRANSFER, or CALLBACK
     ///
     /// * Contact information remains available in Amazon Connect for 24 months from the InitiationTimestamp, and then it is deleted. Only contact information that is available in Amazon Connect is returned by this API.
     ///
@@ -9837,7 +9837,7 @@ extension ConnectClient {
 
     /// Performs the `GetCurrentMetricData` operation on the `Connect` service.
     ///
-    /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see [Real-time Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html) in the Amazon Connect Administrator Guide.
+    /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter GetCurrentMetricDataInput : [no documentation found]
     ///
@@ -10221,7 +10221,7 @@ extension ConnectClient {
 
     /// Performs the `GetMetricData` operation on the `Connect` service.
     ///
-    /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see [Historical Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide. We recommend using the [GetMetricDataV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricDataV2.html) API. It provides more flexibility, features, and the ability to query longer time ranges than GetMetricData. Use it to retrieve historical agent and contact metrics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to measure historical queue and agent performance. For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how contact volume changed per day of the week.
+    /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. We recommend using the [GetMetricDataV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricDataV2.html) API. It provides more flexibility, features, and the ability to query longer time ranges than GetMetricData. Use it to retrieve historical agent and contact metrics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to measure historical queue and agent performance. For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how contact volume changed per day of the week.
     ///
     /// - Parameter GetMetricDataInput : [no documentation found]
     ///
@@ -10299,7 +10299,7 @@ extension ConnectClient {
 
     /// Performs the `GetMetricDataV2` operation on the `Connect` service.
     ///
-    /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide.
+    /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter GetMetricDataV2Input : [no documentation found]
     ///

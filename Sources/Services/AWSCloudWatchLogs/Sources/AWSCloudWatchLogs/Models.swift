@@ -1373,12 +1373,14 @@ public struct CreateLogAnomalyDetectorOutput: Swift.Sendable {
 extension CloudWatchLogsClientTypes {
 
     public enum LogGroupClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case delivery
         case infrequentAccess
         case standard
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LogGroupClass] {
             return [
+                .delivery,
                 .infrequentAccess,
                 .standard
             ]
@@ -1391,6 +1393,7 @@ extension CloudWatchLogsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .delivery: return "DELIVERY"
             case .infrequentAccess: return "INFREQUENT_ACCESS"
             case .standard: return "STANDARD"
             case let .sdkUnknown(s): return s
@@ -1402,11 +1405,13 @@ extension CloudWatchLogsClientTypes {
 public struct CreateLogGroupInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see [Amazon Resource Names](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms).
     public var kmsKeyId: Swift.String?
-    /// Use this parameter to specify the log group class for this log group. There are two classes:
+    /// Use this parameter to specify the log group class for this log group. There are three classes:
     ///
     /// * The Standard log class supports all CloudWatch Logs features.
     ///
     /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
+    ///
+    /// * Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.
     ///
     ///
     /// If you omit this parameter, the default of STANDARD is used. The value of logGroupClass can't be changed after a log group is created. For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
@@ -2529,11 +2534,13 @@ public struct DescribeLogGroupsInput: Swift.Sendable {
     public var includeLinkedAccounts: Swift.Bool?
     /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
     public var limit: Swift.Int?
-    /// Specifies the log group class for this log group. There are two classes:
+    /// Specifies the log group class for this log group. There are three classes:
     ///
     /// * The Standard log class supports all CloudWatch Logs features.
     ///
     /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
+    ///
+    /// * Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.
     ///
     ///
     /// For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
@@ -2612,14 +2619,16 @@ extension CloudWatchLogsClientTypes {
         ///
         /// * In IAM policies, when specifying permissions for [TagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html).
         public var logGroupArn: Swift.String?
-        /// This specifies the log group class for this log group. There are two classes:
+        /// This specifies the log group class for this log group. There are three classes:
         ///
         /// * The Standard log class supports all CloudWatch Logs features.
         ///
         /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
         ///
+        /// * Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.
         ///
-        /// For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+        ///
+        /// For details about the features supported by the Standard and Infrequent Access classes, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
         public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
         /// The name of the log group.
         public var logGroupName: Swift.String?
@@ -5063,7 +5072,7 @@ extension CloudWatchLogsClientTypes {
 
     /// Represents a log event, which is a record of activity that was recorded by the application or resource being monitored.
     public struct InputLogEvent: Swift.Sendable {
-        /// The raw event message. Each log event can be no larger than 256 KB.
+        /// The raw event message. Each log event can be no larger than 1 MB.
         /// This member is required.
         public var message: Swift.String?
         /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.

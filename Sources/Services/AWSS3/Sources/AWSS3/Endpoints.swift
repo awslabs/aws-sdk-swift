@@ -14,7 +14,7 @@ import struct ClientRuntime.DefaultEndpointResolver
 import struct ClientRuntime.StaticEndpointResolver
 import struct SmithyHTTPAPI.Endpoint
 
-public struct EndpointParams {
+public struct EndpointParams: Sendable {
     /// When true, use S3 Accelerate. NOTE: Not all regions support S3 accelerate.
     public let accelerate: Swift.Bool
     /// The S3 bucket used to send the request. This is an optional parameter that will be set automatically for operations that are scoped to an S3 bucket.

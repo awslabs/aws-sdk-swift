@@ -11,7 +11,7 @@ import Foundation
 import AWSTranscribeStreaming
 import protocol AWSClientRuntime.AWSServiceError
 
-final class TranscribeStreamingTests: XCTestCase {
+final class TranscribeStreamingTests: XCTestCase, @unchecked Sendable {
 
     // MARK: - Test transcription
 

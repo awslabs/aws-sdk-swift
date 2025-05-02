@@ -1875,6 +1875,7 @@ public struct ListStreamsOutput: Swift.Sendable {
 
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Kinesis resource for which to list tags.
+    /// This member is required.
     public var resourceARN: Swift.String?
 
     public init(
@@ -2431,6 +2432,7 @@ public struct SubscribeToShardOutput: Swift.Sendable {
 
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Kinesis resource to which to add tags.
+    /// This member is required.
     public var resourceARN: Swift.String?
     /// An array of tags to be added to the Kinesis resource. A tag consists of a required key and an optional value. You can add up to 50 tags per resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
     /// This member is required.
@@ -2447,6 +2449,7 @@ public struct TagResourceInput: Swift.Sendable {
 
 public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Kinesis resource from which to remove tags.
+    /// This member is required.
     public var resourceARN: Swift.String?
     /// A list of tag key-value pairs. Existing tags of the resource whose keys are members of this list will be removed from the Kinesis resource.
     /// This member is required.

@@ -33,7 +33,7 @@ import struct Foundation.TimeInterval
 import struct Foundation.URL
 import AWSSDKChecksums
 
-public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
+public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
 
     public init() {}
 

@@ -8949,7 +8949,7 @@ extension CleanRoomsMLClientTypes.WorkerComputeConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.WorkerComputeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsMLClientTypes.WorkerComputeConfiguration()
-        value.type = try reader["type"].readIfPresent() ?? .cr1x
+        value.type = try reader["type"].readIfPresent() ?? CleanRoomsMLClientTypes.WorkerComputeType.cr1x
         value.number = try reader["number"].readIfPresent() ?? 16
         return value
     }

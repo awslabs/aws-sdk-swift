@@ -541,7 +541,7 @@ public struct CreateAgentActionGroupInput: Swift.Sendable {
     ///
     /// * To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.
     ///
-    /// * To allow your agent to use an Anthropic computer use tool, specify one of the following values. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    /// * To allow your agent to use an Anthropic computer use tool, specify one of the following values. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
     ///
     /// * ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.
     ///
@@ -549,7 +549,7 @@ public struct CreateAgentActionGroupInput: Swift.Sendable {
     ///
     /// * ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
     public var parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature?
-    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
     public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
 
     public init(
@@ -611,7 +611,7 @@ extension BedrockAgentClientTypes {
         public var description: Swift.String?
         /// Defines functions that each define parameters that the agent needs to invoke from the user. Each function represents an action in an action group.
         public var functionSchema: BedrockAgentClientTypes.FunctionSchema?
-        /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+        /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
         public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
         /// If this field is set as AMAZON.UserInput, the agent can request the user for additional information when trying to complete a task. The description, apiSchema, and actionGroupExecutor fields must be blank for this action group. During orchestration, if the agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
         public var parentActionSignature: BedrockAgentClientTypes.ActionGroupSignature?
@@ -835,7 +835,7 @@ public struct UpdateAgentActionGroupInput: Swift.Sendable {
     ///
     /// * To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.
     ///
-    /// * To allow your agent to use an Anthropic computer use tool, specify one of the following values. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    /// * To allow your agent to use an Anthropic computer use tool, specify one of the following values. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
     ///
     /// * ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.
     ///
@@ -849,7 +849,7 @@ public struct UpdateAgentActionGroupInput: Swift.Sendable {
     ///
     /// During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
     public var parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature?
-    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
     public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
 
     public init(
@@ -1120,7 +1120,7 @@ extension BedrockAgentClientTypes {
         public var temperature: Swift.Float?
         /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for topK is the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topK to 50, the model selects the next token from among the top 50 most likely choices.
         public var topk: Swift.Int?
-        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 80, the model only selects the next token from the top 80% of the probability distribution of next tokens.
+        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 0.8, the model only selects the next token from the top 80% of the probability distribution of next tokens.
         public var topp: Swift.Float?
 
         public init(
@@ -1253,7 +1253,7 @@ extension BedrockAgentClientTypes {
         public var promptCreationMode: BedrockAgentClientTypes.CreationMode?
         /// Specifies whether to allow the agent to carry out the step specified in the promptType. If you set this value to DISABLED, the agent skips that step. The default state for each promptType is as follows.
         ///
-        /// * PRE_PROCESSING – ENABLED
+        /// * PRE_PROCESSING – DISABLED
         ///
         /// * ORCHESTRATION – ENABLED
         ///
@@ -4678,6 +4678,58 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    public enum SupportedLanguages: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case python3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupportedLanguages] {
+            return [
+                .python3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .python3: return "Python_3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for an inline code node in your flow. Inline code nodes let you write and execute code directly within your flow, enabling data transformations, custom logic, and integrations without needing an external Lambda function.
+    public struct InlineCodeFlowNodeConfiguration: Swift.Sendable {
+        /// The code that's executed in your inline code node. The code can access input data from previous nodes in the flow, perform operations on that data, and produce output that can be used by other nodes in your flow. The code must be valid in the programming language that you specify.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The programming language used by your inline code node. The code must be valid in the programming language that you specify. Currently, only Python 3 (Python_3) is supported.
+        /// This member is required.
+        public var language: BedrockAgentClientTypes.SupportedLanguages?
+
+        public init(
+            code: Swift.String? = nil,
+            language: BedrockAgentClientTypes.SupportedLanguages? = nil
+        ) {
+            self.code = code
+            self.language = language
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InlineCodeFlowNodeConfiguration(language: \(Swift.String(describing: language)), code: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
     /// Contains configurations for the input flow node for a flow. This node takes the input from flow invocation and passes it to the next node in the data type that you specify.
     public struct InputFlowNodeConfiguration: Swift.Sendable {
 
@@ -5338,7 +5390,7 @@ extension BedrockAgentClientTypes {
         case output(BedrockAgentClientTypes.OutputFlowNodeConfiguration)
         /// Contains configurations for a knowledge base node in your flow. Queries a knowledge base and returns the retrieved results or generated response.
         case knowledgebase(BedrockAgentClientTypes.KnowledgeBaseFlowNodeConfiguration)
-        /// Contains configurations for a Condition node in your flow. Defines conditions that lead to different branches of the flow.
+        /// Contains configurations for a condition node in your flow. Defines conditions that lead to different branches of the flow.
         case condition(BedrockAgentClientTypes.ConditionFlowNodeConfiguration)
         /// Contains configurations for a Lex node in your flow. Invokes an Amazon Lex bot to identify the intent of the input and return the intent as the output.
         case lex(BedrockAgentClientTypes.LexFlowNodeConfiguration)
@@ -5346,16 +5398,18 @@ extension BedrockAgentClientTypes {
         case prompt(BedrockAgentClientTypes.PromptFlowNodeConfiguration)
         /// Contains configurations for a Lambda function node in your flow. Invokes an Lambda function.
         case lambdafunction(BedrockAgentClientTypes.LambdaFunctionFlowNodeConfiguration)
-        /// Contains configurations for a Storage node in your flow. Stores an input in an Amazon S3 location.
+        /// Contains configurations for a storage node in your flow. Stores an input in an Amazon S3 location.
         case storage(BedrockAgentClientTypes.StorageFlowNodeConfiguration)
         /// Contains configurations for an agent node in your flow. Invokes an alias of an agent and returns the response.
         case agent(BedrockAgentClientTypes.AgentFlowNodeConfiguration)
-        /// Contains configurations for a Retrieval node in your flow. Retrieves data from an Amazon S3 location and returns it as the output.
+        /// Contains configurations for a retrieval node in your flow. Retrieves data from an Amazon S3 location and returns it as the output.
         case retrieval(BedrockAgentClientTypes.RetrievalFlowNodeConfiguration)
         /// Contains configurations for an iterator node in your flow. Takes an input that is an array and iteratively sends each item of the array as an output to the following node. The size of the array is also returned in the output. The output flow node at the end of the flow iteration will return a response for each member of the array. To return only one response, you can include a collector node downstream from the iterator node.
         case iterator(BedrockAgentClientTypes.IteratorFlowNodeConfiguration)
         /// Contains configurations for a collector node in your flow. Collects an iteration of inputs and consolidates them into an array of outputs.
         case collector(BedrockAgentClientTypes.CollectorFlowNodeConfiguration)
+        /// Contains configurations for an inline code node in your flow. Inline code nodes let you write and execute code directly within your flow, enabling data transformations, custom logic, and integrations without needing an external Lambda function.
+        case inlinecode(BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5456,6 +5510,7 @@ extension BedrockAgentClientTypes {
         case agent
         case collector
         case condition
+        case inlineCode
         case input
         case iterator
         case knowledgeBase
@@ -5472,6 +5527,7 @@ extension BedrockAgentClientTypes {
                 .agent,
                 .collector,
                 .condition,
+                .inlineCode,
                 .input,
                 .iterator,
                 .knowledgeBase,
@@ -5494,6 +5550,7 @@ extension BedrockAgentClientTypes {
             case .agent: return "Agent"
             case .collector: return "Collector"
             case .condition: return "Condition"
+            case .inlineCode: return "InlineCode"
             case .input: return "Input"
             case .iterator: return "Iterator"
             case .knowledgeBase: return "KnowledgeBase"
@@ -16376,6 +16433,8 @@ extension BedrockAgentClientTypes.FlowNodeConfiguration {
                 try writer["collector"].write(collector, with: BedrockAgentClientTypes.CollectorFlowNodeConfiguration.write(value:to:))
             case let .condition(condition):
                 try writer["condition"].write(condition, with: BedrockAgentClientTypes.ConditionFlowNodeConfiguration.write(value:to:))
+            case let .inlinecode(inlinecode):
+                try writer["inlineCode"].write(inlinecode, with: BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration.write(value:to:))
             case let .input(input):
                 try writer["input"].write(input, with: BedrockAgentClientTypes.InputFlowNodeConfiguration.write(value:to:))
             case let .iterator(iterator):
@@ -16427,9 +16486,28 @@ extension BedrockAgentClientTypes.FlowNodeConfiguration {
                 return .iterator(try reader["iterator"].read(with: BedrockAgentClientTypes.IteratorFlowNodeConfiguration.read(from:)))
             case "collector":
                 return .collector(try reader["collector"].read(with: BedrockAgentClientTypes.CollectorFlowNodeConfiguration.read(from:)))
+            case "inlineCode":
+                return .inlinecode(try reader["inlineCode"].read(with: BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code)
+        try writer["language"].write(value.language)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration()
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.language = try reader["language"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 

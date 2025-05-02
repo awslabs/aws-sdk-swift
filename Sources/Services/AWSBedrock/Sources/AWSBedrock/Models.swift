@@ -5799,7 +5799,7 @@ extension BedrockClientTypes {
 
     /// A model customization configuration
     public enum CustomizationConfig: Swift.Sendable {
-        /// The distillation configuration for the custom model.
+        /// The Distillation configuration for the custom model.
         case distillationconfig(BedrockClientTypes.DistillationConfig)
         case sdkUnknown(Swift.String)
     }
@@ -7410,6 +7410,151 @@ extension BedrockClientTypes {
     }
 }
 
+extension BedrockClientTypes {
+
+    public enum JobStatusDetails: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case notStarted
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobStatusDetails] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .notStarted,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .notStarted: return "NotStarted"
+            case .stopped: return "Stopped"
+            case .stopping: return "Stopping"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// For a Distillation job, the status details for the data processing sub-task of the job.
+    public struct DataProcessingDetails: Swift.Sendable {
+        /// The start time of the data processing sub-task of the job.
+        public var creationTime: Foundation.Date?
+        /// The latest update to the data processing sub-task of the job.
+        public var lastModifiedTime: Foundation.Date?
+        /// The status of the data processing sub-task of the job.
+        public var status: BedrockClientTypes.JobStatusDetails?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            status: BedrockClientTypes.JobStatusDetails? = nil
+        ) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// For a Distillation job, the status details for the training sub-task of the job.
+    public struct TrainingDetails: Swift.Sendable {
+        /// The start time of the training sub-task of the job.
+        public var creationTime: Foundation.Date?
+        /// The latest update to the training sub-task of the job.
+        public var lastModifiedTime: Foundation.Date?
+        /// The status of the training sub-task of the job.
+        public var status: BedrockClientTypes.JobStatusDetails?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            status: BedrockClientTypes.JobStatusDetails? = nil
+        ) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// For a Distillation job, the status details for the validation sub-task of the job.
+    public struct ValidationDetails: Swift.Sendable {
+        /// The start time of the validation sub-task of the job.
+        public var creationTime: Foundation.Date?
+        /// The latest update to the validation sub-task of the job.
+        public var lastModifiedTime: Foundation.Date?
+        /// The status of the validation sub-task of the job.
+        public var status: BedrockClientTypes.JobStatusDetails?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            status: BedrockClientTypes.JobStatusDetails? = nil
+        ) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// For a Distillation job, the status details for sub-tasks of the job. Possible statuses for each sub-task include the following:
+    ///
+    /// * NotStarted
+    ///
+    /// * InProgress
+    ///
+    /// * Completed
+    ///
+    /// * Stopping
+    ///
+    /// * Stopped
+    ///
+    /// * Failed
+    public struct StatusDetails: Swift.Sendable {
+        /// The status details for the data processing sub-task of the job.
+        public var dataProcessingDetails: BedrockClientTypes.DataProcessingDetails?
+        /// The status details for the training sub-task of the job.
+        public var trainingDetails: BedrockClientTypes.TrainingDetails?
+        /// The status details for the validation sub-task of the job.
+        public var validationDetails: BedrockClientTypes.ValidationDetails?
+
+        public init(
+            dataProcessingDetails: BedrockClientTypes.DataProcessingDetails? = nil,
+            trainingDetails: BedrockClientTypes.TrainingDetails? = nil,
+            validationDetails: BedrockClientTypes.ValidationDetails? = nil
+        ) {
+            self.dataProcessingDetails = dataProcessingDetails
+            self.trainingDetails = trainingDetails
+            self.validationDetails = validationDetails
+        }
+    }
+}
+
 public struct GetModelCustomizationJobOutput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the base model.
     /// This member is required.
@@ -7452,6 +7597,8 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
     public var roleArn: Swift.String?
     /// The status of the job. A successful job transitions from in-progress to completed when the output model is ready to use. If the job failed, the failure message contains information about why the job failed.
     public var status: BedrockClientTypes.ModelCustomizationJobStatus?
+    /// For a Distillation job, the details about the statuses of the sub-tasks of the customization job.
+    public var statusDetails: BedrockClientTypes.StatusDetails?
     /// Contains information about the training dataset.
     /// This member is required.
     public var trainingDataConfig: BedrockClientTypes.TrainingDataConfig?
@@ -7483,6 +7630,7 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
         outputModelName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         status: BedrockClientTypes.ModelCustomizationJobStatus? = nil,
+        statusDetails: BedrockClientTypes.StatusDetails? = nil,
         trainingDataConfig: BedrockClientTypes.TrainingDataConfig? = nil,
         trainingMetrics: BedrockClientTypes.TrainingMetrics? = nil,
         validationDataConfig: BedrockClientTypes.ValidationDataConfig? = nil,
@@ -7506,6 +7654,7 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
         self.outputModelName = outputModelName
         self.roleArn = roleArn
         self.status = status
+        self.statusDetails = statusDetails
         self.trainingDataConfig = trainingDataConfig
         self.trainingMetrics = trainingMetrics
         self.validationDataConfig = validationDataConfig
@@ -7620,6 +7769,8 @@ extension BedrockClientTypes {
         /// Status of the customization job.
         /// This member is required.
         public var status: BedrockClientTypes.ModelCustomizationJobStatus?
+        /// Details about the status of the data processing sub-task of the job.
+        public var statusDetails: BedrockClientTypes.StatusDetails?
 
         public init(
             baseModelArn: Swift.String? = nil,
@@ -7631,7 +7782,8 @@ extension BedrockClientTypes {
             jobArn: Swift.String? = nil,
             jobName: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
-            status: BedrockClientTypes.ModelCustomizationJobStatus? = nil
+            status: BedrockClientTypes.ModelCustomizationJobStatus? = nil,
+            statusDetails: BedrockClientTypes.StatusDetails? = nil
         ) {
             self.baseModelArn = baseModelArn
             self.creationTime = creationTime
@@ -7643,6 +7795,7 @@ extension BedrockClientTypes {
             self.jobName = jobName
             self.lastModifiedTime = lastModifiedTime
             self.status = status
+            self.statusDetails = statusDetails
         }
     }
 }
@@ -9625,6 +9778,7 @@ extension GetModelCustomizationJobOutput {
         value.outputModelName = try reader["outputModelName"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
+        value.statusDetails = try reader["statusDetails"].readIfPresent(with: BedrockClientTypes.StatusDetails.read(from:))
         value.trainingDataConfig = try reader["trainingDataConfig"].readIfPresent(with: BedrockClientTypes.TrainingDataConfig.read(from:))
         value.trainingMetrics = try reader["trainingMetrics"].readIfPresent(with: BedrockClientTypes.TrainingMetrics.read(from:))
         value.validationDataConfig = try reader["validationDataConfig"].readIfPresent(with: BedrockClientTypes.ValidationDataConfig.read(from:))
@@ -12783,6 +12937,54 @@ extension BedrockClientTypes.Tag {
     }
 }
 
+extension BedrockClientTypes.StatusDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.StatusDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.StatusDetails()
+        value.validationDetails = try reader["validationDetails"].readIfPresent(with: BedrockClientTypes.ValidationDetails.read(from:))
+        value.dataProcessingDetails = try reader["dataProcessingDetails"].readIfPresent(with: BedrockClientTypes.DataProcessingDetails.read(from:))
+        value.trainingDetails = try reader["trainingDetails"].readIfPresent(with: BedrockClientTypes.TrainingDetails.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.TrainingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.TrainingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.TrainingDetails()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockClientTypes.DataProcessingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.DataProcessingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.DataProcessingDetails()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockClientTypes.ValidationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ValidationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.ValidationDetails()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension BedrockClientTypes.ModelInvocationJobInputDataConfig {
 
     static func write(value: BedrockClientTypes.ModelInvocationJobInputDataConfig?, to writer: SmithyJSON.Writer) throws {
@@ -13143,6 +13345,7 @@ extension BedrockClientTypes.ModelCustomizationJobSummary {
         value.jobName = try reader["jobName"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.statusDetails = try reader["statusDetails"].readIfPresent(with: BedrockClientTypes.StatusDetails.read(from:))
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.customModelArn = try reader["customModelArn"].readIfPresent()

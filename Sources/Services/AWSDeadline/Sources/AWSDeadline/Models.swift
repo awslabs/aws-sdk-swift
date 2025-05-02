@@ -2871,6 +2871,35 @@ public struct CreateFarmOutput: Swift.Sendable {
 
 extension DeadlineClientTypes {
 
+    public enum TagPropagationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noPropagation
+        case propagateTagsToWorkersAtLaunch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TagPropagationMode] {
+            return [
+                .noPropagation,
+                .propagateTagsToWorkersAtLaunch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noPropagation: return "NO_PROPAGATION"
+            case .propagateTagsToWorkersAtLaunch: return "PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
     /// The fleet amount and attribute capabilities.
     public struct FleetAmountCapability: Swift.Sendable {
         /// The maximum amount of the fleet worker capability.
@@ -3047,6 +3076,8 @@ extension DeadlineClientTypes {
         public var mode: DeadlineClientTypes.AutoScalingMode?
         /// The storage profile ID.
         public var storageProfileId: Swift.String?
+        /// Specifies whether tags associated with a fleet are attached to workers when the worker is launched. When the tagPropagationMode is set to PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH any tag associated with a fleet is attached to workers when they launch. If the tags for a fleet change, the tags associated with running workers do not change. If you don't specify tagPropagationMode, the default is NO_PROPAGATION.
+        public var tagPropagationMode: DeadlineClientTypes.TagPropagationMode?
         /// The worker capabilities for a customer managed fleet configuration.
         /// This member is required.
         public var workerCapabilities: DeadlineClientTypes.CustomerManagedWorkerCapabilities?
@@ -3054,10 +3085,12 @@ extension DeadlineClientTypes {
         public init(
             mode: DeadlineClientTypes.AutoScalingMode? = nil,
             storageProfileId: Swift.String? = nil,
+            tagPropagationMode: DeadlineClientTypes.TagPropagationMode? = nil,
             workerCapabilities: DeadlineClientTypes.CustomerManagedWorkerCapabilities? = nil
         ) {
             self.mode = mode
             self.storageProfileId = storageProfileId
+            self.tagPropagationMode = tagPropagationMode
             self.workerCapabilities = workerCapabilities
         }
     }
@@ -3994,17 +4027,21 @@ public struct CreateWorkerInput: Swift.Sendable {
     public var fleetId: Swift.String?
     /// The IP address and host name of the worker.
     public var hostProperties: DeadlineClientTypes.HostPropertiesRequest?
+    /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
-        hostProperties: DeadlineClientTypes.HostPropertiesRequest? = nil
+        hostProperties: DeadlineClientTypes.HostPropertiesRequest? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.farmId = farmId
         self.fleetId = fleetId
         self.hostProperties = hostProperties
+        self.tags = tags
     }
 }
 
@@ -13890,6 +13927,7 @@ extension CreateWorkerInput {
     static func write(value: CreateWorkerInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["hostProperties"].write(value.hostProperties, with: DeadlineClientTypes.HostPropertiesRequest.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -17774,7 +17812,7 @@ extension DeadlineClientTypes.Attachments {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.Attachments()
         value.manifests = try reader["manifests"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.ManifestProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.fileSystem = try reader["fileSystem"].readIfPresent() ?? .copied
+        value.fileSystem = try reader["fileSystem"].readIfPresent() ?? DeadlineClientTypes.JobAttachmentsFileSystem.copied
         return value
     }
 }
@@ -18335,6 +18373,7 @@ extension DeadlineClientTypes.CustomerManagedFleetConfiguration {
         guard let value else { return }
         try writer["mode"].write(value.mode)
         try writer["storageProfileId"].write(value.storageProfileId)
+        try writer["tagPropagationMode"].write(value.tagPropagationMode)
         try writer["workerCapabilities"].write(value.workerCapabilities, with: DeadlineClientTypes.CustomerManagedWorkerCapabilities.write(value:to:))
     }
 
@@ -18344,6 +18383,7 @@ extension DeadlineClientTypes.CustomerManagedFleetConfiguration {
         value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
         value.workerCapabilities = try reader["workerCapabilities"].readIfPresent(with: DeadlineClientTypes.CustomerManagedWorkerCapabilities.read(from:))
         value.storageProfileId = try reader["storageProfileId"].readIfPresent()
+        value.tagPropagationMode = try reader["tagPropagationMode"].readIfPresent()
         return value
     }
 }

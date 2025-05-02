@@ -73,7 +73,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockRuntimeClient"
-    public static let version = "1.3.5"
+    public static let version = "1.3.8"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockRuntimeClient.BedrockRuntimeClientConfiguration
     let serviceName = "Bedrock Runtime"
