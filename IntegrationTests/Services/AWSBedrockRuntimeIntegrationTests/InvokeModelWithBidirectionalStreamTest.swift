@@ -11,14 +11,14 @@ import ClientRuntime
 import Smithy
 import XCTest
 
-class InvokeModelWithBidirectionalStreamTest: XCTestCase {
+final class InvokeModelWithBidirectionalStreamTest: XCTestCase {
     private var client: BedrockRuntimeClient!
     private let region = "us-east-1"
     private var requestEvents: [String] = []
     private let modelID: String = "amazon.nova-sonic-v1:0"
 
     // The two end events required to close the stream successfully.
-   private let CONTENT_END_EVENT =
+    private let CONTENT_END_EVENT =
     """
      {
       "event": {
@@ -186,10 +186,6 @@ class InvokeModelWithBidirectionalStreamTest: XCTestCase {
         }
     }
 
-    // Temporarily disabled for Linux which uses CRT HTTP client.
-    // Enabling in Linux is pending either service side fix or SDK side workaround for allowing
-    //  END_STREAM HTTP2 frame with empty contents.
-    #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
     func testInvokeModelWithBidirectionalStream() async throws {
         // Initialize input stream & continuation for the API input.
         let inputStream: AsyncThrowingStream<BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput, Swift.Error>
@@ -234,5 +230,4 @@ class InvokeModelWithBidirectionalStreamTest: XCTestCase {
             }
         }
     }
-    #endif
 }
