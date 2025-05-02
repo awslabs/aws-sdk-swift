@@ -5519,7 +5519,7 @@ extension BedrockRuntimeClientTypes.PerformanceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.PerformanceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.PerformanceConfiguration()
-        value.latency = try reader["latency"].readIfPresent() ?? .standard
+        value.latency = try reader["latency"].readIfPresent() ?? BedrockRuntimeClientTypes.PerformanceConfigLatency.standard
         return value
     }
 }

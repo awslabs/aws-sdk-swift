@@ -25121,7 +25121,7 @@ extension CreateDataProductOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.revision = try reader["revision"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .created
+        value.status = try reader["status"].readIfPresent() ?? DataZoneClientTypes.DataProductStatus.created
         return value
     }
 }
@@ -25146,7 +25146,7 @@ extension CreateDataProductRevisionOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.revision = try reader["revision"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .created
+        value.status = try reader["status"].readIfPresent() ?? DataZoneClientTypes.DataProductStatus.created
         return value
     }
 }
@@ -25890,7 +25890,7 @@ extension GetDataProductOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.revision = try reader["revision"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .created
+        value.status = try reader["status"].readIfPresent() ?? DataZoneClientTypes.DataProductStatus.created
         return value
     }
 }

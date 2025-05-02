@@ -10,6 +10,7 @@
 @testable import AWSDeviceFarm
 import XCTest
 import enum ClientRuntime.EndpointError
+import enum SmithyHTTPAPI.EndpointPropertyValue
 import enum SmithyTestUtil.TestInitializer
 import struct SmithyHTTPAPI.Endpoint
 import struct SmithyHTTPAPI.Headers
@@ -31,7 +32,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -51,7 +52,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -71,7 +72,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -91,7 +92,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -111,7 +112,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -131,7 +132,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -151,7 +152,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -171,7 +172,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -191,7 +192,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -211,7 +212,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -231,7 +232,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -251,7 +252,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -271,7 +272,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -310,7 +311,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -349,7 +350,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -388,7 +389,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -427,7 +428,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -448,7 +449,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -468,7 +469,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()

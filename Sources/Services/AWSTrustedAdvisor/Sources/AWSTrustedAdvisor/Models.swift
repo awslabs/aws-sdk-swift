@@ -2595,7 +2595,7 @@ extension TrustedAdvisorClientTypes.OrganizationRecommendationResourceSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.exclusionStatus = try reader["exclusionStatus"].readIfPresent() ?? .included
+        value.exclusionStatus = try reader["exclusionStatus"].readIfPresent() ?? TrustedAdvisorClientTypes.ExclusionStatus.included
         value.accountId = try reader["accountId"].readIfPresent()
         value.recommendationArn = try reader["recommendationArn"].readIfPresent() ?? ""
         return value
@@ -2637,7 +2637,7 @@ extension TrustedAdvisorClientTypes.RecommendationResourceSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.exclusionStatus = try reader["exclusionStatus"].readIfPresent() ?? .included
+        value.exclusionStatus = try reader["exclusionStatus"].readIfPresent() ?? TrustedAdvisorClientTypes.ExclusionStatus.included
         value.recommendationArn = try reader["recommendationArn"].readIfPresent() ?? ""
         return value
     }

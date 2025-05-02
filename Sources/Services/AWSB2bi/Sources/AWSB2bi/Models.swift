@@ -4531,7 +4531,7 @@ extension CreateTransformerOutput {
         var value = CreateTransformerOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
-        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .notUsed
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? B2biClientTypes.FileFormat.notUsed
         value.inputConversion = try reader["inputConversion"].readIfPresent(with: B2biClientTypes.InputConversion.read(from:))
         value.mapping = try reader["mapping"].readIfPresent(with: B2biClientTypes.Mapping.read(from:))
         value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? "NOT_USED"
@@ -4658,7 +4658,7 @@ extension GetTransformerOutput {
         var value = GetTransformerOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
-        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .notUsed
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? B2biClientTypes.FileFormat.notUsed
         value.inputConversion = try reader["inputConversion"].readIfPresent(with: B2biClientTypes.InputConversion.read(from:))
         value.mapping = try reader["mapping"].readIfPresent(with: B2biClientTypes.Mapping.read(from:))
         value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? "NOT_USED"
@@ -4886,7 +4886,7 @@ extension UpdateTransformerOutput {
         var value = UpdateTransformerOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
-        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .notUsed
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? B2biClientTypes.FileFormat.notUsed
         value.inputConversion = try reader["inputConversion"].readIfPresent(with: B2biClientTypes.InputConversion.read(from:))
         value.mapping = try reader["mapping"].readIfPresent(with: B2biClientTypes.Mapping.read(from:))
         value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? "NOT_USED"
@@ -5984,7 +5984,7 @@ extension B2biClientTypes.TransformerSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .notUsed
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? B2biClientTypes.FileFormat.notUsed
         value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? "NOT_USED"
         value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
         value.sampleDocument = try reader["sampleDocument"].readIfPresent()
