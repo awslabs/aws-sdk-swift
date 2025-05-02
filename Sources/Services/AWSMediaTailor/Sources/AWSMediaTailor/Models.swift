@@ -5718,7 +5718,7 @@ extension GetPlaybackConfigurationOutput {
         value.configurationAliases = try reader["ConfigurationAliases"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.dashConfiguration = try reader["DashConfiguration"].readIfPresent(with: MediaTailorClientTypes.DashConfiguration.read(from:))
         value.hlsConfiguration = try reader["HlsConfiguration"].readIfPresent(with: MediaTailorClientTypes.HlsConfiguration.read(from:))
-        value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? .stitchedOnly
+        value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? MediaTailorClientTypes.InsertionMode.stitchedOnly
         value.livePreRollConfiguration = try reader["LivePreRollConfiguration"].readIfPresent(with: MediaTailorClientTypes.LivePreRollConfiguration.read(from:))
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: MediaTailorClientTypes.LogConfiguration.read(from:))
         value.manifestProcessingRules = try reader["ManifestProcessingRules"].readIfPresent(with: MediaTailorClientTypes.ManifestProcessingRules.read(from:))
@@ -5879,7 +5879,7 @@ extension PutPlaybackConfigurationOutput {
         value.configurationAliases = try reader["ConfigurationAliases"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.dashConfiguration = try reader["DashConfiguration"].readIfPresent(with: MediaTailorClientTypes.DashConfiguration.read(from:))
         value.hlsConfiguration = try reader["HlsConfiguration"].readIfPresent(with: MediaTailorClientTypes.HlsConfiguration.read(from:))
-        value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? .stitchedOnly
+        value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? MediaTailorClientTypes.InsertionMode.stitchedOnly
         value.livePreRollConfiguration = try reader["LivePreRollConfiguration"].readIfPresent(with: MediaTailorClientTypes.LivePreRollConfiguration.read(from:))
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: MediaTailorClientTypes.LogConfiguration.read(from:))
         value.manifestProcessingRules = try reader["ManifestProcessingRules"].readIfPresent(with: MediaTailorClientTypes.ManifestProcessingRules.read(from:))
@@ -7400,7 +7400,7 @@ extension MediaTailorClientTypes.PlaybackConfiguration {
         value.configurationAliases = try reader["ConfigurationAliases"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.dashConfiguration = try reader["DashConfiguration"].readIfPresent(with: MediaTailorClientTypes.DashConfiguration.read(from:))
         value.hlsConfiguration = try reader["HlsConfiguration"].readIfPresent(with: MediaTailorClientTypes.HlsConfiguration.read(from:))
-        value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? .stitchedOnly
+        value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? MediaTailorClientTypes.InsertionMode.stitchedOnly
         value.livePreRollConfiguration = try reader["LivePreRollConfiguration"].readIfPresent(with: MediaTailorClientTypes.LivePreRollConfiguration.read(from:))
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: MediaTailorClientTypes.LogConfiguration.read(from:))
         value.manifestProcessingRules = try reader["ManifestProcessingRules"].readIfPresent(with: MediaTailorClientTypes.ManifestProcessingRules.read(from:))

@@ -8470,7 +8470,7 @@ extension MailManagerClientTypes.PublicNetworkConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.PublicNetworkConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MailManagerClientTypes.PublicNetworkConfiguration()
-        value.ipType = try reader["IpType"].readIfPresent() ?? .ipv4
+        value.ipType = try reader["IpType"].readIfPresent() ?? MailManagerClientTypes.IpType.ipv4
         return value
     }
 }
@@ -8614,8 +8614,8 @@ extension MailManagerClientTypes.SnsAction {
         value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
         value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
         value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
-        value.encoding = try reader["Encoding"].readIfPresent() ?? .utf8
-        value.payloadType = try reader["PayloadType"].readIfPresent() ?? .content
+        value.encoding = try reader["Encoding"].readIfPresent() ?? MailManagerClientTypes.SnsNotificationEncoding.utf8
+        value.payloadType = try reader["PayloadType"].readIfPresent() ?? MailManagerClientTypes.SnsNotificationPayloadType.content
         return value
     }
 }
