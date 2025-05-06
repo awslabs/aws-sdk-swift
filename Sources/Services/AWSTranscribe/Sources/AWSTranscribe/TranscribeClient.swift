@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TranscribeClient: ClientRuntime.Client {
     public static let clientName = "TranscribeClient"
-    public static let version = "1.3.9"
+    public static let version = "1.3.10"
     let client: ClientRuntime.SdkHttpClient
     let config: TranscribeClient.TranscribeClientConfiguration
     let serviceName = "Transcribe"

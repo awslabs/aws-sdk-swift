@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServiceCatalogClient: ClientRuntime.Client {
     public static let clientName = "ServiceCatalogClient"
-    public static let version = "1.3.9"
+    public static let version = "1.3.10"
     let client: ClientRuntime.SdkHttpClient
     let config: ServiceCatalogClient.ServiceCatalogClientConfiguration
     let serviceName = "Service Catalog"
@@ -2152,6 +2152,7 @@ extension ServiceCatalogClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceInUseException` : A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func deleteServiceAction(input: DeleteServiceActionInput) async throws -> DeleteServiceActionOutput {
@@ -3823,6 +3824,7 @@ extension ServiceCatalogClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidParametersException` : One or more parameters provided to the operation are not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func disassociateServiceActionFromProvisioningArtifact(input: DisassociateServiceActionFromProvisioningArtifactInput) async throws -> DisassociateServiceActionFromProvisioningArtifactOutput {
         let context = Smithy.ContextBuilder()
