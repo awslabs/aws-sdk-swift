@@ -77,4 +77,6 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
     override val endpointMiddlewareSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSEndpointResolverMiddleware
 
     override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
+
+    override val queryCompatibleUtilsSymbol: Symbol = AWSClientRuntimeTypes.AWSQuery.AWSQueryCompatibleUtils
 }

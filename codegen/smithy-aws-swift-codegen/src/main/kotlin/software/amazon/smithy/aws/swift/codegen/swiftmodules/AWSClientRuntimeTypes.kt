@@ -8,6 +8,7 @@ import software.amazon.smithy.swift.codegen.swiftmodules.SwiftSymbol
 object AWSClientRuntimeTypes {
     object AWSQuery {
         val AWSQueryError = runtimeSymbol("AWSQueryError", SwiftDeclaration.STRUCT, listOf("SmithyReadWrite"))
+        val AWSQueryCompatibleUtils = runtimeSymbol("AWSQueryCompatibleUtils", SwiftDeclaration.ENUM, listOf("SmithyReadWrite"))
     }
 
     object EC2Query {
