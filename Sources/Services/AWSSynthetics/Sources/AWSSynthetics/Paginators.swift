@@ -92,9 +92,11 @@ extension SyntheticsClient {
 extension GetCanaryRunsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetCanaryRunsInput {
         return GetCanaryRunsInput(
+            dryRunId: self.dryRunId,
             maxResults: self.maxResults,
             name: self.name,
-            nextToken: token
+            nextToken: token,
+            runType: self.runType
         )}
 }
 extension SyntheticsClient {

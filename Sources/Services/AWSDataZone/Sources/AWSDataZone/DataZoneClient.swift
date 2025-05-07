@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataZoneClient: ClientRuntime.Client {
     public static let clientName = "DataZoneClient"
-    public static let version = "1.3.10"
+    public static let version = "1.3.11"
     let client: ClientRuntime.SdkHttpClient
     let config: DataZoneClient.DataZoneClientConfiguration
     let serviceName = "DataZone"

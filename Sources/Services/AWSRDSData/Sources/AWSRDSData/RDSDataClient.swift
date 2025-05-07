@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RDSDataClient: ClientRuntime.Client {
     public static let clientName = "RDSDataClient"
-    public static let version = "1.3.10"
+    public static let version = "1.3.11"
     let client: ClientRuntime.SdkHttpClient
     let config: RDSDataClient.RDSDataClientConfiguration
     let serviceName = "RDS Data"

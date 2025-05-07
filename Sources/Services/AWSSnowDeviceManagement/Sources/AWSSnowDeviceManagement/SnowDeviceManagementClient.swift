@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SnowDeviceManagementClient: ClientRuntime.Client {
     public static let clientName = "SnowDeviceManagementClient"
-    public static let version = "1.3.10"
+    public static let version = "1.3.11"
     let client: ClientRuntime.SdkHttpClient
     let config: SnowDeviceManagementClient.SnowDeviceManagementClientConfiguration
     let serviceName = "Snow Device Management"

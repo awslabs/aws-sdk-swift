@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudSearchClient: ClientRuntime.Client {
     public static let clientName = "CloudSearchClient"
-    public static let version = "1.3.10"
+    public static let version = "1.3.11"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudSearchClient.CloudSearchClientConfiguration
     let serviceName = "CloudSearch"
