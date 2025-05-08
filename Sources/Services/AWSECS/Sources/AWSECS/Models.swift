@@ -92,9 +92,7 @@ extension ECSClientTypes {
     }
 }
 
-/// These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
-///
-/// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
+/// These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
 public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2959,7 +2957,7 @@ public struct DeleteAccountSettingInput: Swift.Sendable {
     /// The resource name to disable the account setting for. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected.
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
-    /// The Amazon Resource Name (ARN) of the principal. It can be an user, role, or the root user. If you specify the root user, it disables the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user.
+    /// The Amazon Resource Name (ARN) of the principal. It can be a user, role, or the root user. If you specify the root user, it disables the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal.
     public var principalArn: Swift.String?
 
     public init(
@@ -7376,7 +7374,7 @@ public struct ListAccountSettingsInput: Swift.Sendable {
     public var name: ECSClientTypes.SettingName?
     /// The nextToken value returned from a ListAccountSettings request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
-    /// The ARN of the principal, which can be a user, role, or the root user. If this field is omitted, the account settings are listed only for the authenticated user. Federated users assume the account setting of the root user and can't have explicit account settings set for them.
+    /// The ARN of the principal, which can be a user, role, or the root user. If this field is omitted, the account settings are listed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal. Federated users assume the account setting of the root user and can't have explicit account settings set for them.
     public var principalArn: Swift.String?
     /// The value of the account settings to filter results with. You must also specify an account setting name to use this parameter.
     public var value: Swift.String?
@@ -8054,7 +8052,7 @@ public struct PutAccountSettingInput: Swift.Sendable {
     /// * guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
-    /// The ARN of the principal, which can be a user, role, or the root user. If you specify the root user, it modifies the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. You must use the root user when you set the Fargate wait time (fargateTaskRetirementWaitPeriod). Federated users assume the account setting of the root user and can't have explicit account settings set for them.
+    /// The ARN of the principal, which can be a user, role, or the root user. If you specify the root user, it modifies the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal. You must use the root user when you set the Fargate wait time (fargateTaskRetirementWaitPeriod). Federated users assume the account setting of the root user and can't have explicit account settings set for them.
     public var principalArn: Swift.String?
     /// The account setting value for the specified principal ARN. Accepted values are enabled, disabled, enhanced, on, and off. When you specify fargateTaskRetirementWaitPeriod for the name, the following are the valid values:
     ///
@@ -8933,7 +8931,7 @@ public struct StopServiceDeploymentInput: Swift.Sendable {
     /// The ARN of the service deployment that you want to stop.
     /// This member is required.
     public var serviceDeploymentArn: Swift.String?
-    /// How you want Amazon ECS to stop the service. The ROLLBACK and ABORT stopType aren't supported.
+    /// How you want Amazon ECS to stop the service. The valid values are ROLLBACK.
     public var stopType: ECSClientTypes.StopServiceDeploymentStopType?
 
     public init(

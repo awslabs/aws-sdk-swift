@@ -516,20 +516,53 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
+    public enum EnvironmentVariableType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case plaintext
+        case secretsManager
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnvironmentVariableType] {
+            return [
+                .plaintext,
+                .secretsManager
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .plaintext: return "PLAINTEXT"
+            case .secretsManager: return "SECRETS_MANAGER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodePipelineClientTypes {
+
     /// The environment variables for the action.
     public struct EnvironmentVariable: Swift.Sendable {
         /// The environment variable name in the key-value pair.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies the type of use for the environment variable value. The value can be either PLAINTEXT or SECRETS_MANAGER. If the value is SECRETS_MANAGER, provide the Secrets reference in the EnvironmentVariable value.
+        public var type: CodePipelineClientTypes.EnvironmentVariableType?
         /// The environment variable value in the key-value pair.
         /// This member is required.
         public var value: Swift.String?
 
         public init(
             name: Swift.String? = nil,
+            type: CodePipelineClientTypes.EnvironmentVariableType? = nil,
             value: Swift.String? = nil
         ) {
             self.name = name
+            self.type = type
             self.value = value
         }
     }
@@ -3327,7 +3360,7 @@ extension CodePipelineClientTypes {
         public var created: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public var pipelineArn: Swift.String?
-        /// The date and time that polling for source changes (periodic checks) was stopped for the pipeline, in timestamp format. You can migrate (update) a polling pipeline to use event-based change detection. For example, for a pipeline with a CodeCommit source, we recommend you migrate (update) your pipeline to use CloudWatch Events. To learn more, see [Migrate polling pipelines to use event-based change detection](https://docs.aws.amazon.com/codepipeline/latest/userguide/update-change-detection.html) in the CodePipeline User Guide.
+        /// The date and time that polling for source changes (periodic checks) was stopped for the pipeline, in timestamp format. Pipelines that are inactive for longer than 30 days will have polling disabled for the pipeline. For more information, see [pollingDisabledAt](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#metadata.pollingDisabledAt) in the pipeline structure reference. For the steps to migrate your pipeline from polling to event-based change detection, see [Migrate polling pipelines to use event-based change detection](https://docs.aws.amazon.com/codepipeline/latest/userguide/update-change-detection.html). You can migrate (update) a polling pipeline to use event-based change detection. For example, for a pipeline with a CodeCommit source, we recommend you migrate (update) your pipeline to use CloudWatch Events. To learn more, see [Migrate polling pipelines to use event-based change detection](https://docs.aws.amazon.com/codepipeline/latest/userguide/update-change-detection.html) in the CodePipeline User Guide.
         public var pollingDisabledAt: Foundation.Date?
         /// The date and time the pipeline was last updated, in timestamp format.
         public var updated: Foundation.Date?
@@ -9368,6 +9401,7 @@ extension CodePipelineClientTypes.EnvironmentVariable {
     static func write(value: CodePipelineClientTypes.EnvironmentVariable?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
         try writer["value"].write(value.value)
     }
 
@@ -9376,6 +9410,7 @@ extension CodePipelineClientTypes.EnvironmentVariable {
         var value = CodePipelineClientTypes.EnvironmentVariable()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }

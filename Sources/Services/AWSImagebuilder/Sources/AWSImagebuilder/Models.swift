@@ -2380,7 +2380,18 @@ public struct CreateImageRecipeInput: Swift.Sendable {
     /// The name of the image recipe.
     /// This member is required.
     public var name: Swift.String?
-    /// The base image of the image recipe. The value of the string can be the ARN of the base image or an AMI ID. The format for the ARN follows this example: arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/x.x.x. You can provide the specific version that you want to use, or you can use a wildcard in all of the fields. If you enter an AMI ID for the string value, you must have access to the AMI, and the AMI must be in the same Region in which you are using Image Builder.
+    /// The base image for customizations specified in the image recipe. You can specify the parent image using one of the following options:
+    ///
+    /// * AMI ID
+    ///
+    /// * Image Builder image Amazon Resource Name (ARN)
+    ///
+    /// * Amazon Web Services Systems Manager (SSM) Parameter Store Parameter, prefixed by ssm:, followed by the parameter name or ARN.
+    ///
+    /// * Amazon Web Services Marketplace product ID
+    ///
+    ///
+    /// If you enter an AMI ID or an SSM parameter that contains the AMI ID, you must have access to the AMI, and the AMI must be in the source Region.
     /// This member is required.
     public var parentImage: Swift.String?
     /// The semantic version of the image recipe. This version follows the semantic version syntax. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01.

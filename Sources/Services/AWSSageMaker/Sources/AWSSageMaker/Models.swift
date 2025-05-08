@@ -10622,7 +10622,7 @@ extension SageMakerClientTypes {
         public var instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]?
         /// The type of the instance.
         public var instanceType: SageMakerClientTypes.ClusterInstanceType?
-        /// The time of when the cluster was last updated.
+        /// The time when the cluster was last updated.
         public var lastSoftwareUpdateTime: Foundation.Date?
         /// The time when the instance is launched.
         public var launchTime: Foundation.Date?
@@ -10720,7 +10720,7 @@ extension SageMakerClientTypes {
         /// The type of the instance.
         /// This member is required.
         public var instanceType: SageMakerClientTypes.ClusterInstanceType?
-        /// The time of when SageMaker last updated the software of the instances in the cluster.
+        /// The time when SageMaker last updated the software of the instances in the cluster.
         public var lastSoftwareUpdateTime: Foundation.Date?
         /// The time when the instance is launched.
         /// This member is required.
@@ -15407,6 +15407,45 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The settings that apply to an Amazon SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
+    public struct UnifiedStudioSettings: Swift.Sendable {
+        /// The ID of the Amazon Web Services account that has the Amazon SageMaker Unified Studio domain. The default value, if you don't specify an ID, is the ID of the account that has the Amazon SageMaker AI domain.
+        public var domainAccountId: Swift.String?
+        /// The ID of the Amazon SageMaker Unified Studio domain associated with this domain.
+        public var domainId: Swift.String?
+        /// The Amazon Web Services Region where the domain is located in Amazon SageMaker Unified Studio. The default value, if you don't specify a Region, is the Region where the Amazon SageMaker AI domain is located.
+        public var domainRegion: Swift.String?
+        /// The ID of the environment that Amazon SageMaker Unified Studio associates with the domain.
+        public var environmentId: Swift.String?
+        /// The ID of the Amazon SageMaker Unified Studio project that corresponds to the domain.
+        public var projectId: Swift.String?
+        /// The location where Amazon S3 stores temporary execution data and other artifacts for the project that corresponds to the domain.
+        public var projectS3Path: Swift.String?
+        /// Sets whether you can access the domain in Amazon SageMaker Studio: ENABLED You can access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it in both studio interfaces. DISABLED You can't access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it only in that studio interface. To migrate a domain to Amazon SageMaker Unified Studio, you specify the UnifiedStudioSettings data type when you use the UpdateDomain action.
+        public var studioWebPortalAccess: SageMakerClientTypes.FeatureStatus?
+
+        public init(
+            domainAccountId: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            domainRegion: Swift.String? = nil,
+            environmentId: Swift.String? = nil,
+            projectId: Swift.String? = nil,
+            projectS3Path: Swift.String? = nil,
+            studioWebPortalAccess: SageMakerClientTypes.FeatureStatus? = nil
+        ) {
+            self.domainAccountId = domainAccountId
+            self.domainId = domainId
+            self.domainRegion = domainRegion
+            self.environmentId = environmentId
+            self.projectId = projectId
+            self.projectS3Path = projectS3Path
+            self.studioWebPortalAccess = studioWebPortalAccess
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// A collection of settings that apply to the SageMaker Domain. These settings are specified through the CreateDomain API call.
     public struct DomainSettings: Swift.Sendable {
         /// A collection of settings that configure the Amazon Q experience within the domain. The AuthMode that you use to create the domain must be SSO.
@@ -15419,19 +15458,23 @@ extension SageMakerClientTypes {
         public var rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings?
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public var securityGroupIds: [Swift.String]?
+        /// The settings that apply to an SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
+        public var unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings?
 
         public init(
             amazonQSettings: SageMakerClientTypes.AmazonQSettings? = nil,
             dockerSettings: SageMakerClientTypes.DockerSettings? = nil,
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings? = nil,
-            securityGroupIds: [Swift.String]? = nil
+            securityGroupIds: [Swift.String]? = nil,
+            unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings? = nil
         ) {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
             self.rStudioServerProDomainSettings = rStudioServerProDomainSettings
             self.securityGroupIds = securityGroupIds
+            self.unifiedStudioSettings = unifiedStudioSettings
         }
     }
 }
@@ -24553,6 +24596,12 @@ extension SageMakerClientTypes {
         public var jupyterServerAppSettings: SageMakerClientTypes.JupyterServerAppSettings?
         /// The KernelGateway app settings.
         public var kernelGatewayAppSettings: SageMakerClientTypes.KernelGatewayAppSettings?
+        /// If you enable this option, SageMaker AI creates the following resources on your behalf when you create the space:
+        ///
+        /// * The user profile that possesses the space.
+        ///
+        /// * The app that the space contains.
+        public var spaceManagedResources: SageMakerClientTypes.FeatureStatus?
         /// The storage settings for a space.
         public var spaceStorageSettings: SageMakerClientTypes.SpaceStorageSettings?
 
@@ -24563,6 +24612,7 @@ extension SageMakerClientTypes {
             jupyterLabAppSettings: SageMakerClientTypes.SpaceJupyterLabAppSettings? = nil,
             jupyterServerAppSettings: SageMakerClientTypes.JupyterServerAppSettings? = nil,
             kernelGatewayAppSettings: SageMakerClientTypes.KernelGatewayAppSettings? = nil,
+            spaceManagedResources: SageMakerClientTypes.FeatureStatus? = nil,
             spaceStorageSettings: SageMakerClientTypes.SpaceStorageSettings? = nil
         ) {
             self.appType = appType
@@ -24571,6 +24621,7 @@ extension SageMakerClientTypes {
             self.jupyterLabAppSettings = jupyterLabAppSettings
             self.jupyterServerAppSettings = jupyterServerAppSettings
             self.kernelGatewayAppSettings = kernelGatewayAppSettings
+            self.spaceManagedResources = spaceManagedResources
             self.spaceStorageSettings = spaceStorageSettings
         }
     }
@@ -36856,19 +36907,23 @@ extension SageMakerClientTypes {
         public var rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate?
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public var securityGroupIds: [Swift.String]?
+        /// The settings that apply to an SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
+        public var unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings?
 
         public init(
             amazonQSettings: SageMakerClientTypes.AmazonQSettings? = nil,
             dockerSettings: SageMakerClientTypes.DockerSettings? = nil,
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate? = nil,
-            securityGroupIds: [Swift.String]? = nil
+            securityGroupIds: [Swift.String]? = nil,
+            unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings? = nil
         ) {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
             self.rStudioServerProDomainSettingsForUpdate = rStudioServerProDomainSettingsForUpdate
             self.securityGroupIds = securityGroupIds
+            self.unifiedStudioSettings = unifiedStudioSettings
         }
     }
 }
@@ -49517,10 +49572,8 @@ public struct SearchTrainingPlanOfferingsInput: Swift.Sendable {
     /// A filter to search for reserved capacity offerings with an end time before a specified date.
     public var endTimeBefore: Foundation.Date?
     /// The number of instances you want to reserve in the training plan offerings. This allows you to specify the quantity of compute resources needed for your SageMaker training jobs or SageMaker HyperPod clusters, helping you find reserved capacity offerings that match your requirements.
-    /// This member is required.
     public var instanceCount: Swift.Int?
     /// The type of instance you want to search for in the available training plan offerings. This field allows you to filter the search results based on the specific compute resources you require for your SageMaker training jobs or SageMaker HyperPod clusters. When searching for training plan offerings, specifying the instance type helps you find Reserved Instances that match your computational needs.
-    /// This member is required.
     public var instanceType: SageMakerClientTypes.ReservedCapacityInstanceType?
     /// A filter to search for training plan offerings with a start time after a specified date.
     public var startTimeAfter: Foundation.Date?
@@ -71795,6 +71848,7 @@ extension SageMakerClientTypes.DomainSettings {
         try writer["ExecutionRoleIdentityConfig"].write(value.executionRoleIdentityConfig)
         try writer["RStudioServerProDomainSettings"].write(value.rStudioServerProDomainSettings, with: SageMakerClientTypes.RStudioServerProDomainSettings.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UnifiedStudioSettings"].write(value.unifiedStudioSettings, with: SageMakerClientTypes.UnifiedStudioSettings.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DomainSettings {
@@ -71805,6 +71859,34 @@ extension SageMakerClientTypes.DomainSettings {
         value.executionRoleIdentityConfig = try reader["ExecutionRoleIdentityConfig"].readIfPresent()
         value.dockerSettings = try reader["DockerSettings"].readIfPresent(with: SageMakerClientTypes.DockerSettings.read(from:))
         value.amazonQSettings = try reader["AmazonQSettings"].readIfPresent(with: SageMakerClientTypes.AmazonQSettings.read(from:))
+        value.unifiedStudioSettings = try reader["UnifiedStudioSettings"].readIfPresent(with: SageMakerClientTypes.UnifiedStudioSettings.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.UnifiedStudioSettings {
+
+    static func write(value: SageMakerClientTypes.UnifiedStudioSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DomainAccountId"].write(value.domainAccountId)
+        try writer["DomainId"].write(value.domainId)
+        try writer["DomainRegion"].write(value.domainRegion)
+        try writer["EnvironmentId"].write(value.environmentId)
+        try writer["ProjectId"].write(value.projectId)
+        try writer["ProjectS3Path"].write(value.projectS3Path)
+        try writer["StudioWebPortalAccess"].write(value.studioWebPortalAccess)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.UnifiedStudioSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.UnifiedStudioSettings()
+        value.studioWebPortalAccess = try reader["StudioWebPortalAccess"].readIfPresent()
+        value.domainAccountId = try reader["DomainAccountId"].readIfPresent()
+        value.domainRegion = try reader["DomainRegion"].readIfPresent()
+        value.domainId = try reader["DomainId"].readIfPresent()
+        value.projectId = try reader["ProjectId"].readIfPresent()
+        value.environmentId = try reader["EnvironmentId"].readIfPresent()
+        value.projectS3Path = try reader["ProjectS3Path"].readIfPresent()
         return value
     }
 }
@@ -75924,6 +76006,7 @@ extension SageMakerClientTypes.SpaceSettings {
         try writer["JupyterLabAppSettings"].write(value.jupyterLabAppSettings, with: SageMakerClientTypes.SpaceJupyterLabAppSettings.write(value:to:))
         try writer["JupyterServerAppSettings"].write(value.jupyterServerAppSettings, with: SageMakerClientTypes.JupyterServerAppSettings.write(value:to:))
         try writer["KernelGatewayAppSettings"].write(value.kernelGatewayAppSettings, with: SageMakerClientTypes.KernelGatewayAppSettings.write(value:to:))
+        try writer["SpaceManagedResources"].write(value.spaceManagedResources)
         try writer["SpaceStorageSettings"].write(value.spaceStorageSettings, with: SageMakerClientTypes.SpaceStorageSettings.write(value:to:))
     }
 
@@ -75936,6 +76019,7 @@ extension SageMakerClientTypes.SpaceSettings {
         value.jupyterLabAppSettings = try reader["JupyterLabAppSettings"].readIfPresent(with: SageMakerClientTypes.SpaceJupyterLabAppSettings.read(from:))
         value.appType = try reader["AppType"].readIfPresent()
         value.spaceStorageSettings = try reader["SpaceStorageSettings"].readIfPresent(with: SageMakerClientTypes.SpaceStorageSettings.read(from:))
+        value.spaceManagedResources = try reader["SpaceManagedResources"].readIfPresent()
         value.customFileSystems = try reader["CustomFileSystems"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CustomFileSystem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -79380,6 +79464,7 @@ extension SageMakerClientTypes.DomainSettingsForUpdate {
         try writer["ExecutionRoleIdentityConfig"].write(value.executionRoleIdentityConfig)
         try writer["RStudioServerProDomainSettingsForUpdate"].write(value.rStudioServerProDomainSettingsForUpdate, with: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UnifiedStudioSettings"].write(value.unifiedStudioSettings, with: SageMakerClientTypes.UnifiedStudioSettings.write(value:to:))
     }
 }
 
