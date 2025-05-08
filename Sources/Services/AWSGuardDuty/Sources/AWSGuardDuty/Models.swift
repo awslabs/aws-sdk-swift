@@ -616,7 +616,7 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
-    /// Contains information about the location of the remote IP address.
+    /// Contains information about the location of the remote IP address. By default, GuardDuty returns Geolocation with Lat and Lon as 0.0.
     public struct GeoLocation: Swift.Sendable {
         /// The latitude information of the remote IP address.
         public var lat: Swift.Double?
