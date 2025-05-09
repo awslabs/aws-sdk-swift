@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DirectoryClient: ClientRuntime.Client {
     public static let clientName = "DirectoryClient"
-    public static let version = "1.3.6"
+    public static let version = "1.3.12"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectoryClient.DirectoryClientConfiguration
     let serviceName = "Directory"
@@ -3224,7 +3224,7 @@ extension DirectoryClient {
 
     /// Performs the `DisableDirectoryDataAccess` operation on the `Directory` service.
     ///
-    /// Deactivates access to directory data via the Directory Service Data API for the specified directory.
+    /// Deactivates access to directory data via the Directory Service Data API for the specified directory. For more information, see [Directory Service Data API Reference](https://docs.aws.amazon.com/directoryservicedata/latest/DirectoryServiceDataAPIReference/Welcome.html).
     ///
     /// - Parameter DisableDirectoryDataAccessInput : [no documentation found]
     ///
@@ -3623,7 +3623,7 @@ extension DirectoryClient {
 
     /// Performs the `EnableDirectoryDataAccess` operation on the `Directory` service.
     ///
-    /// Enables access to directory data via the Directory Service Data API for the specified directory.
+    /// Enables access to directory data via the Directory Service Data API for the specified directory. For more information, see [Directory Service Data API Reference](https://docs.aws.amazon.com/directoryservicedata/latest/DirectoryServiceDataAPIReference/Welcome.html).
     ///
     /// - Parameter EnableDirectoryDataAccessInput : [no documentation found]
     ///

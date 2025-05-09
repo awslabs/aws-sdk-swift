@@ -25345,6 +25345,8 @@ public struct UpdateAccountConfigurationOutput: Swift.Sendable {
 
 /// A request to update a channel.
 public struct UpdateChannelInput: Swift.Sendable {
+    /// The Elemental Anywhere settings for this channel.
+    public var anywhereSettings: MediaLiveClientTypes.AnywhereSettings?
     /// Specification of CDI inputs for this channel
     public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     /// Channel engine version for this channel
@@ -25372,6 +25374,7 @@ public struct UpdateChannelInput: Swift.Sendable {
     public var roleArn: Swift.String?
 
     public init(
+        anywhereSettings: MediaLiveClientTypes.AnywhereSettings? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionRequest? = nil,
         channelId: Swift.String? = nil,
@@ -25385,6 +25388,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil
     ) {
+        self.anywhereSettings = anywhereSettings
         self.cdiInputSpecification = cdiInputSpecification
         self.channelEngineVersion = channelEngineVersion
         self.channelId = channelId
@@ -28485,6 +28489,7 @@ extension UpdateChannelInput {
 
     static func write(value: UpdateChannelInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["anywhereSettings"].write(value.anywhereSettings, with: MediaLiveClientTypes.AnywhereSettings.write(value:to:))
         try writer["cdiInputSpecification"].write(value.cdiInputSpecification, with: MediaLiveClientTypes.CdiInputSpecification.write(value:to:))
         try writer["channelEngineVersion"].write(value.channelEngineVersion, with: MediaLiveClientTypes.ChannelEngineVersionRequest.write(value:to:))
         try writer["destinations"].writeList(value.destinations, memberWritingClosure: MediaLiveClientTypes.OutputDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)

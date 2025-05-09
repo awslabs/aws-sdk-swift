@@ -10,8 +10,8 @@ import struct SmithyIdentity.AWSCredentialIdentity
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 
 struct MockAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
-    let _getIdentity: () async throws -> AWSCredentialIdentity
-    init(_ _getIdentity: @escaping () async throws -> AWSCredentialIdentity) {
+    let _getIdentity: @Sendable () async throws -> AWSCredentialIdentity
+    init(_ _getIdentity: @escaping @Sendable () async throws -> AWSCredentialIdentity) {
         self._getIdentity = _getIdentity
     }
     init() {

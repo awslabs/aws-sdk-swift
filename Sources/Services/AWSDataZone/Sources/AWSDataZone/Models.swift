@@ -1098,6 +1098,21 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// Specifies the domain unit(s) whose projects can use this asset type while creating asset or asset revisions.
+    public struct UseAssetTypePolicyGrantDetail: Swift.Sendable {
+        /// The ID of the domain unit.
+        public var domainUnitId: Swift.String?
+
+        public init(
+            domainUnitId: Swift.String? = nil
+        ) {
+            self.domainUnitId = domainUnitId
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The details of the policy grant.
     public enum PolicyGrantDetail: Swift.Sendable {
         /// Specifies that this is a create domain unit policy.
@@ -1126,6 +1141,8 @@ extension DataZoneClientTypes {
         case createenvironmentfromblueprint(DataZoneClientTypes.Unit)
         /// Specifies whether to create a project from project profile.
         case createprojectfromprojectprofile(DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail)
+        /// Specifies the domain unit(s) whose projects can use this asset type while creating asset or asset revisions.
+        case useassettype(DataZoneClientTypes.UseAssetTypePolicyGrantDetail)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1133,6 +1150,7 @@ extension DataZoneClientTypes {
 extension DataZoneClientTypes {
 
     public enum TargetEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case assetType
         case domainUnit
         case environmentBlueprintConfiguration
         case environmentProfile
@@ -1140,6 +1158,7 @@ extension DataZoneClientTypes {
 
         public static var allCases: [TargetEntityType] {
             return [
+                .assetType,
                 .domainUnit,
                 .environmentBlueprintConfiguration,
                 .environmentProfile
@@ -1153,6 +1172,7 @@ extension DataZoneClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .assetType: return "ASSET_TYPE"
             case .domainUnit: return "DOMAIN_UNIT"
             case .environmentBlueprintConfiguration: return "ENVIRONMENT_BLUEPRINT_CONFIGURATION"
             case .environmentProfile: return "ENVIRONMENT_PROFILE"
@@ -1178,6 +1198,7 @@ extension DataZoneClientTypes {
         case delegateCreateEnvironmentProfile
         case overrideDomainUnitOwners
         case overrideProjectOwners
+        case useAssetType
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ManagedPolicyType] {
@@ -1194,7 +1215,8 @@ extension DataZoneClientTypes {
                 .createProjectFromProjectProfile,
                 .delegateCreateEnvironmentProfile,
                 .overrideDomainUnitOwners,
-                .overrideProjectOwners
+                .overrideProjectOwners,
+                .useAssetType
             ]
         }
 
@@ -1218,6 +1240,7 @@ extension DataZoneClientTypes {
             case .delegateCreateEnvironmentProfile: return "DELEGATE_CREATE_ENVIRONMENT_PROFILE"
             case .overrideDomainUnitOwners: return "OVERRIDE_DOMAIN_UNIT_OWNERS"
             case .overrideProjectOwners: return "OVERRIDE_PROJECT_OWNERS"
+            case .useAssetType: return "USE_ASSET_TYPE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -20469,7 +20492,7 @@ public struct UpdateSubscriptionTargetOutput: Swift.Sendable {
     /// The applicable asset types to be updated as part of the UpdateSubscriptionTarget action.
     /// This member is required.
     public var applicableAssetTypes: [Swift.String]?
-    /// The authorized principals to be updated as part of the UpdateSubscriptionTarget action.
+    /// The authorized principals to be updated as part of the UpdateSubscriptionTarget action. Updates are supported in batches of 5 at a time.
     /// This member is required.
     public var authorizedPrincipals: [Swift.String]?
     /// The timestamp of when a subscription target was created.
@@ -25121,7 +25144,7 @@ extension CreateDataProductOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.revision = try reader["revision"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .created
+        value.status = try reader["status"].readIfPresent() ?? DataZoneClientTypes.DataProductStatus.created
         return value
     }
 }
@@ -25146,7 +25169,7 @@ extension CreateDataProductRevisionOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.revision = try reader["revision"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .created
+        value.status = try reader["status"].readIfPresent() ?? DataZoneClientTypes.DataProductStatus.created
         return value
     }
 }
@@ -25890,7 +25913,7 @@ extension GetDataProductOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.revision = try reader["revision"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .created
+        value.status = try reader["status"].readIfPresent() ?? DataZoneClientTypes.DataProductStatus.created
         return value
     }
 }
@@ -33501,6 +33524,8 @@ extension DataZoneClientTypes.PolicyGrantDetail {
                 try writer["overrideDomainUnitOwners"].write(overridedomainunitowners, with: DataZoneClientTypes.OverrideDomainUnitOwnersPolicyGrantDetail.write(value:to:))
             case let .overrideprojectowners(overrideprojectowners):
                 try writer["overrideProjectOwners"].write(overrideprojectowners, with: DataZoneClientTypes.OverrideProjectOwnersPolicyGrantDetail.write(value:to:))
+            case let .useassettype(useassettype):
+                try writer["useAssetType"].write(useassettype, with: DataZoneClientTypes.UseAssetTypePolicyGrantDetail.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -33536,9 +33561,26 @@ extension DataZoneClientTypes.PolicyGrantDetail {
                 return .createenvironmentfromblueprint(try reader["createEnvironmentFromBlueprint"].read(with: DataZoneClientTypes.Unit.read(from:)))
             case "createProjectFromProjectProfile":
                 return .createprojectfromprojectprofile(try reader["createProjectFromProjectProfile"].read(with: DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail.read(from:)))
+            case "useAssetType":
+                return .useassettype(try reader["useAssetType"].read(with: DataZoneClientTypes.UseAssetTypePolicyGrantDetail.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension DataZoneClientTypes.UseAssetTypePolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.UseAssetTypePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainUnitId"].write(value.domainUnitId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UseAssetTypePolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.UseAssetTypePolicyGrantDetail()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        return value
     }
 }
 

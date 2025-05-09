@@ -273,12 +273,14 @@ extension BedrockDataAutomationClientTypes {
 
     /// Type
     public enum ModelType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audio
         case document
         case image
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ModelType] {
             return [
+                .audio,
                 .document,
                 .image
             ]
@@ -291,6 +293,7 @@ extension BedrockDataAutomationClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .audio: return "AUDIO"
             case .document: return "DOCUMENT"
             case .image: return "IMAGE"
             case let .sdkUnknown(s): return s

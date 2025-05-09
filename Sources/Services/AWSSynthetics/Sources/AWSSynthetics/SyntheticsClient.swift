@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SyntheticsClient: ClientRuntime.Client {
     public static let clientName = "SyntheticsClient"
-    public static let version = "1.3.6"
+    public static let version = "1.3.12"
     let client: ClientRuntime.SdkHttpClient
     let config: SyntheticsClient.SyntheticsClientConfiguration
     let serviceName = "synthetics"
@@ -1094,6 +1094,7 @@ extension SyntheticsClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCanaryInput, GetCanaryOutput>(GetCanaryInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCanaryInput, GetCanaryOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetCanaryInput, GetCanaryOutput>(GetCanaryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCanaryOutput>(GetCanaryOutput.httpOutput(from:), GetCanaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCanaryInput, GetCanaryOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1650,6 +1651,84 @@ extension SyntheticsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartCanaryDryRun` operation on the `Synthetics` service.
+    ///
+    /// Use this operation to start a dry run for a canary that has already been created
+    ///
+    /// - Parameter StartCanaryDryRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartCanaryDryRunOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform this operation on this resource.
+    /// - `ConflictException` : A conflicting operation is already in progress.
+    /// - `InternalServerException` : An unknown internal error occurred.
+    /// - `ResourceNotFoundException` : One of the specified resources was not found.
+    /// - `ValidationException` : A parameter could not be validated.
+    public func startCanaryDryRun(input: StartCanaryDryRunInput) async throws -> StartCanaryDryRunOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startCanaryDryRun")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "synthetics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartCanaryDryRunInput, StartCanaryDryRunOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartCanaryDryRunInput, StartCanaryDryRunOutput>(StartCanaryDryRunInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCanaryDryRunInput, StartCanaryDryRunOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCanaryDryRunInput, StartCanaryDryRunOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartCanaryDryRunInput, StartCanaryDryRunOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCanaryDryRunInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCanaryDryRunInput, StartCanaryDryRunOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCanaryDryRunOutput>(StartCanaryDryRunOutput.httpOutput(from:), StartCanaryDryRunOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCanaryDryRunInput, StartCanaryDryRunOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartCanaryDryRunOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("synthetics", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCanaryDryRunOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCanaryDryRunOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCanaryDryRunInput, StartCanaryDryRunOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCanaryDryRunInput, StartCanaryDryRunOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCanaryDryRunInput, StartCanaryDryRunOutput>(serviceID: serviceName, version: SyntheticsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Synthetics")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartCanaryDryRun")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StopCanary` operation on the `Synthetics` service.
     ///
     /// Stops the canary to prevent all future runs. If the canary is currently running,the run that is in progress completes on its own, publishes metrics, and uploads artifacts, but it is not recorded in Synthetics as a completed run. You can use StartCanary to start it running again with the canary’s current schedule at any point in the future.
@@ -1880,7 +1959,7 @@ extension SyntheticsClient {
 
     /// Performs the `UpdateCanary` operation on the `Synthetics` service.
     ///
-    /// Updates the configuration of a canary that has already been created. You can't use this operation to update the tags of an existing canary. To change the tags of an existing canary, use [TagResource](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_TagResource.html).
+    /// Updates the configuration of a canary that has already been created. You can't use this operation to update the tags of an existing canary. To change the tags of an existing canary, use [TagResource](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_TagResource.html). When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
     ///
     /// - Parameter UpdateCanaryInput : [no documentation found]
     ///
@@ -1889,6 +1968,7 @@ extension SyntheticsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform this operation on this resource.
     /// - `ConflictException` : A conflicting operation is already in progress.
     /// - `InternalServerException` : An unknown internal error occurred.
     /// - `RequestEntityTooLargeException` : One of the input resources is larger than is allowed.

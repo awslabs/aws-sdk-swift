@@ -17812,7 +17812,7 @@ extension DeadlineClientTypes.Attachments {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.Attachments()
         value.manifests = try reader["manifests"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.ManifestProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.fileSystem = try reader["fileSystem"].readIfPresent() ?? .copied
+        value.fileSystem = try reader["fileSystem"].readIfPresent() ?? DeadlineClientTypes.JobAttachmentsFileSystem.copied
         return value
     }
 }

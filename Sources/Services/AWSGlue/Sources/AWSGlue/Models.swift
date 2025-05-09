@@ -11619,6 +11619,21 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension GlueClientTypes {
 
+    /// Properties associated with the integration.
+    public struct IntegrationConfig: Swift.Sendable {
+        /// Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flexibility to align the refresh rate with your specific data update patterns, system load considerations, and performance optimization goals. Time increment can be set from 15 minutes to 8640 minutes (six days). Currently supports creation of RefreshInterval only.
+        public var refreshInterval: Swift.String?
+
+        public init(
+            refreshInterval: Swift.String? = nil
+        ) {
+            self.refreshInterval = refreshInterval
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// The Tag object represents a label that you can assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. For more information about tags, and controlling access to resources in Glue, see [Amazon Web Services Tags in Glue](https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html) and [Specifying Glue Resource ARNs](https://docs.aws.amazon.com/glue/latest/dg/glue-specifying-resource-arns.html) in the developer guide.
     public struct Tag: Swift.Sendable {
         /// The tag key. The key is required when you create a tag on an object. The key is case-sensitive, and must not contain the prefix aws.
@@ -11643,6 +11658,8 @@ public struct CreateIntegrationInput: Swift.Sendable {
     public var dataFilter: Swift.String?
     /// A description of the integration.
     public var description: Swift.String?
+    /// The configuration settings.
+    public var integrationConfig: GlueClientTypes.IntegrationConfig?
     /// A unique name for an integration in Glue.
     /// This member is required.
     public var integrationName: Swift.String?
@@ -11661,6 +11678,7 @@ public struct CreateIntegrationInput: Swift.Sendable {
         additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
         dataFilter: Swift.String? = nil,
         description: Swift.String? = nil,
+        integrationConfig: GlueClientTypes.IntegrationConfig? = nil,
         integrationName: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         sourceArn: Swift.String? = nil,
@@ -11670,6 +11688,7 @@ public struct CreateIntegrationInput: Swift.Sendable {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.dataFilter = dataFilter
         self.description = description
+        self.integrationConfig = integrationConfig
         self.integrationName = integrationName
         self.kmsKeyId = kmsKeyId
         self.sourceArn = sourceArn
@@ -11756,6 +11775,8 @@ public struct CreateIntegrationOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for the created integration.
     /// This member is required.
     public var integrationArn: Swift.String?
+    /// The configuration settings.
+    public var integrationConfig: GlueClientTypes.IntegrationConfig?
     /// A unique name for an integration in Glue.
     /// This member is required.
     public var integrationName: Swift.String?
@@ -11794,6 +11815,7 @@ public struct CreateIntegrationOutput: Swift.Sendable {
         description: Swift.String? = nil,
         errors: [GlueClientTypes.IntegrationError]? = nil,
         integrationArn: Swift.String? = nil,
+        integrationConfig: GlueClientTypes.IntegrationConfig? = nil,
         integrationName: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         sourceArn: Swift.String? = nil,
@@ -11807,6 +11829,7 @@ public struct CreateIntegrationOutput: Swift.Sendable {
         self.description = description
         self.errors = errors
         self.integrationArn = integrationArn
+        self.integrationConfig = integrationConfig
         self.integrationName = integrationName
         self.kmsKeyId = kmsKeyId
         self.sourceArn = sourceArn
@@ -11902,13 +11925,13 @@ extension GlueClientTypes {
 
     /// Properties used by the source leg to process data from the source.
     public struct SourceTableConfig: Swift.Sendable {
-        /// A list of fields used for column-level filtering.
+        /// A list of fields used for column-level filtering. Currently unsupported.
         public var fields: [Swift.String]?
-        /// A condition clause used for row-level filtering.
+        /// A condition clause used for row-level filtering. Currently unsupported.
         public var filterPredicate: Swift.String?
-        /// Unique identifier of a record.
+        /// Provide the primary key set for this table. Currently supported specifically for SAP EntityOf entities upon request. Contact Amazon Web Services Support to make this feature available.
         public var primaryKey: [Swift.String]?
-        /// Incremental pull timestamp-based field.
+        /// Incremental pull timestamp-based field. Currently unsupported.
         public var recordUpdateField: Swift.String?
 
         public init(
@@ -11929,9 +11952,9 @@ extension GlueClientTypes {
 
     /// A structure that describes how data is partitioned on the target.
     public struct IntegrationPartition: Swift.Sendable {
-        /// The field name used to partition data on the target.
+        /// The field name used to partition data on the target. Avoid using columns that have unique values for each row (for example, `LastModifiedTimestamp`, `SystemModTimeStamp`) as the partition column. These columns are not suitable for partitioning because they create a large number of small partitions, which can lead to performance issues.
         public var fieldName: Swift.String?
-        /// Specifies a function used to partition data on the target.
+        /// Specifies the function used to partition data on the target. The only accepted value for this parameter is `'identity'` (string). The `'identity'` function ensures that the data partitioning on the target follows the same scheme as the source. In other words, the partitioning structure of the source data is preserved in the target destination.
         public var functionSpec: Swift.String?
 
         public init(
@@ -12003,7 +12026,7 @@ public struct CreateIntegrationTablePropertiesInput: Swift.Sendable {
     /// The connection ARN of the source, or the database ARN of the target.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A structure for the source table configuration.
+    /// A structure for the source table configuration. See the SourceTableConfig structure to see list of supported source properties.
     public var sourceTableConfig: GlueClientTypes.SourceTableConfig?
     /// The name of the table to be replicated.
     /// This member is required.
@@ -15430,6 +15453,8 @@ extension GlueClientTypes {
         /// The ARN of the zero-ETL integration.
         /// This member is required.
         public var integrationArn: Swift.String?
+        /// Properties associated with the integration.
+        public var integrationConfig: GlueClientTypes.IntegrationConfig?
         /// The ARN of the source resource for the integration.
         /// This member is required.
         public var sourceArn: Swift.String?
@@ -15458,6 +15483,7 @@ extension GlueClientTypes {
             createTime: Foundation.Date? = nil,
             errors: [GlueClientTypes.IntegrationError]? = nil,
             integrationArn: Swift.String? = nil,
+            integrationConfig: GlueClientTypes.IntegrationConfig? = nil,
             sourceArn: Swift.String? = nil,
             status: GlueClientTypes.IntegrationStatus? = nil,
             targetArn: Swift.String? = nil
@@ -15465,6 +15491,7 @@ extension GlueClientTypes {
             self.createTime = createTime
             self.errors = errors
             self.integrationArn = integrationArn
+            self.integrationConfig = integrationConfig
             self.sourceArn = sourceArn
             self.status = status
             self.targetArn = targetArn
@@ -15547,6 +15574,8 @@ extension GlueClientTypes {
         /// The Amazon Resource Name (ARN) for the integration.
         /// This member is required.
         public var integrationArn: Swift.String?
+        /// Properties associated with the integration.
+        public var integrationConfig: GlueClientTypes.IntegrationConfig?
         /// A unique name for the integration.
         /// This member is required.
         public var integrationName: Swift.String?
@@ -15585,6 +15614,7 @@ extension GlueClientTypes {
             description: Swift.String? = nil,
             errors: [GlueClientTypes.IntegrationError]? = nil,
             integrationArn: Swift.String? = nil,
+            integrationConfig: GlueClientTypes.IntegrationConfig? = nil,
             integrationName: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             sourceArn: Swift.String? = nil,
@@ -15598,6 +15628,7 @@ extension GlueClientTypes {
             self.description = description
             self.errors = errors
             self.integrationArn = integrationArn
+            self.integrationConfig = integrationConfig
             self.integrationName = integrationName
             self.kmsKeyId = kmsKeyId
             self.sourceArn = sourceArn
@@ -30033,6 +30064,7 @@ extension CreateIntegrationInput {
         try writer["AdditionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["DataFilter"].write(value.dataFilter)
         try writer["Description"].write(value.description)
+        try writer["IntegrationConfig"].write(value.integrationConfig, with: GlueClientTypes.IntegrationConfig.write(value:to:))
         try writer["IntegrationName"].write(value.integrationName)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["SourceArn"].write(value.sourceArn)
@@ -32744,6 +32776,7 @@ extension CreateIntegrationOutput {
         value.description = try reader["Description"].readIfPresent()
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.integrationConfig = try reader["IntegrationConfig"].readIfPresent(with: GlueClientTypes.IntegrationConfig.read(from:))
         value.integrationName = try reader["IntegrationName"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
@@ -44594,6 +44627,21 @@ extension GlueClientTypes.IntegrationError {
     }
 }
 
+extension GlueClientTypes.IntegrationConfig {
+
+    static func write(value: GlueClientTypes.IntegrationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RefreshInterval"].write(value.refreshInterval)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IntegrationConfig()
+        value.refreshInterval = try reader["RefreshInterval"].readIfPresent()
+        return value
+    }
+}
+
 extension GlueClientTypes.SourceProcessingProperties {
 
     static func write(value: GlueClientTypes.SourceProcessingProperties?, to writer: SmithyJSON.Writer) throws {
@@ -44806,6 +44854,7 @@ extension GlueClientTypes.InboundIntegration {
         value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.integrationConfig = try reader["IntegrationConfig"].readIfPresent(with: GlueClientTypes.IntegrationConfig.read(from:))
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -44826,6 +44875,7 @@ extension GlueClientTypes.Integration {
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: GlueClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.integrationConfig = try reader["IntegrationConfig"].readIfPresent(with: GlueClientTypes.IntegrationConfig.read(from:))
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dataFilter = try reader["DataFilter"].readIfPresent()
         return value

@@ -5474,7 +5474,7 @@ extension GroundStationClientTypes.SpectrumConfig {
         var value = GroundStationClientTypes.SpectrumConfig()
         value.centerFrequency = try reader["centerFrequency"].readIfPresent(with: GroundStationClientTypes.Frequency.read(from:))
         value.bandwidth = try reader["bandwidth"].readIfPresent(with: GroundStationClientTypes.FrequencyBandwidth.read(from:))
-        value.polarization = try reader["polarization"].readIfPresent() ?? .`none`
+        value.polarization = try reader["polarization"].readIfPresent() ?? GroundStationClientTypes.Polarization.`none`
         return value
     }
 }

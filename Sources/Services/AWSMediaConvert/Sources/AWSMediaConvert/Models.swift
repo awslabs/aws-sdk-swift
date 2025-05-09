@@ -4937,6 +4937,48 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+    public enum FrameMetricType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case msSsim
+        case psnr
+        case psnrHvs
+        case qvbr
+        case ssim
+        case vmaf
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FrameMetricType] {
+            return [
+                .msSsim,
+                .psnr,
+                .psnrHvs,
+                .qvbr,
+                .ssim,
+                .vmaf
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .msSsim: return "MS_SSIM"
+            case .psnr: return "PSNR"
+            case .psnrHvs: return "PSNR_HVS"
+            case .qvbr: return "QVBR"
+            case .ssim: return "SSIM"
+            case .vmaf: return "VMAF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Specify the details for each additional HLS manifest that you want the service to generate for this output group. Each manifest can reference a different subset of outputs in the group.
     public struct HlsAdditionalManifest: Swift.Sendable {
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your HLS group is film-name.m3u8. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.m3u8. For HLS output groups, specify a manifestNameModifier that is different from the nameModifier of the output. The service uses the output name modifier to create unique names for the individual variant manifests.
@@ -5276,6 +5318,7 @@ extension MediaConvertClientTypes {
 
     /// Specifies the type of the audio selector.
     public enum AudioSelectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allPcm
         case hlsRenditionGroup
         case languageCode
         case pid
@@ -5284,6 +5327,7 @@ extension MediaConvertClientTypes {
 
         public static var allCases: [AudioSelectorType] {
             return [
+                .allPcm,
                 .hlsRenditionGroup,
                 .languageCode,
                 .pid,
@@ -5298,6 +5342,7 @@ extension MediaConvertClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .allPcm: return "ALL_PCM"
             case .hlsRenditionGroup: return "HLS_RENDITION_GROUP"
             case .languageCode: return "LANGUAGE_CODE"
             case .pid: return "PID"
@@ -6094,7 +6139,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Use Dynamic audio selectors when you do not know the track layout of your source when you submit your job, but want to select multiple audio tracks. When you include an audio track in your output and specify this Dynamic audio selector as the Audio source, MediaConvert creates an output audio track for each dynamically selected track. Note that when you include a Dynamic audio selector for two or more inputs, each input must have the same number of audio tracks and audio channels.
+    /// Use Dynamic audio selectors when you do not know the track layout of your source when you submit your job, but want to select multiple audio tracks. When you include an audio track in your output and specify this Dynamic audio selector as the Audio source, MediaConvert creates an audio track within that output for each dynamically selected track. Note that when you include a Dynamic audio selector for two or more inputs, each input must have the same number of audio tracks and audio channels.
     public struct DynamicAudioSelector: Swift.Sendable {
         /// Apply audio timing corrections to help synchronize audio and video in your output. To apply timing corrections, your input must meet the following requirements: * Container: MP4, or MOV, with an accurate time-to-sample (STTS) table. * Audio track: AAC. Choose from the following audio timing correction settings: * Disabled (Default): Apply no correction. * Auto: Recommended for most inputs. MediaConvert analyzes the audio timing in your input and determines which correction setting to use, if needed. * Track: Adjust the duration of each audio frame by a constant amount to align the audio track length with STTS duration. Track-level correction does not affect pitch, and is recommended for tonal audio content such as music. * Frame: Adjust the duration of each audio frame by a variable amount to align audio frames with STTS timestamps. No corrections are made to already-aligned frames. Frame-level correction may affect the pitch of corrected frames, and is recommended for atonal audio content such as speech or percussion. * Force: Apply audio duration correction, either Track or Frame depending on your input, regardless of the accuracy of your input's STTS table. Your output audio and video may not be aligned or it may contain audio artifacts.
         public var audioDurationCorrection: MediaConvertClientTypes.AudioDurationCorrection?
@@ -7875,7 +7920,7 @@ extension MediaConvertClientTypes {
     public struct AutomatedAbrSettings: Swift.Sendable {
         /// Specify the maximum average bitrate for MediaConvert to use in your automated ABR stack. If you don't specify a value, MediaConvert uses 8,000,000 (8 mb/s) by default. The average bitrate of your highest-quality rendition will be equal to or below this value, depending on the quality, complexity, and resolution of your content. Note that the instantaneous maximum bitrate may vary above the value that you specify.
         public var maxAbrBitrate: Swift.Int?
-        /// Optional. Specify the QVBR quality level to use for all renditions in your automated ABR stack. To have MediaConvert automatically determine the quality level: Leave blank. To manually specify a quality level: Enter an integer from 1 to 10. MediaConvert will use a quality level up to the value that you specify, depending on your source. For more information about QVBR quality levels, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/qvbr-guidelines.html
+        /// Optional. Specify the QVBR quality level to use for all renditions in your automated ABR stack. To have MediaConvert automatically determine the quality level: Leave blank. To manually specify a quality level: Enter a value from 1 to 10. MediaConvert will use a quality level up to the value that you specify, depending on your source. For more information about QVBR quality levels, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/qvbr-guidelines.html
         public var maxQualityLevel: Swift.Double?
         /// Optional. The maximum number of renditions that MediaConvert will create in your automated ABR stack. The number of renditions is determined automatically, based on analysis of each job, but will never exceed this limit. When you set this to Auto in the console, which is equivalent to excluding it from your JSON job specification, MediaConvert defaults to a limit of 15.
         public var maxRenditions: Swift.Int?
@@ -10791,6 +10836,8 @@ extension MediaConvertClientTypes {
         public var hlsGroupSettings: MediaConvertClientTypes.HlsGroupSettings?
         /// Settings related to your Microsoft Smooth Streaming output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
         public var msSmoothGroupSettings: MediaConvertClientTypes.MsSmoothGroupSettings?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the video, video codec, and metric type. For example: video_h264_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Type of output group (File group, Apple HLS, DASH ISO, Microsoft Smooth Streaming, CMAF)
         public var type: MediaConvertClientTypes.OutputGroupType?
 
@@ -10800,6 +10847,7 @@ extension MediaConvertClientTypes {
             fileGroupSettings: MediaConvertClientTypes.FileGroupSettings? = nil,
             hlsGroupSettings: MediaConvertClientTypes.HlsGroupSettings? = nil,
             msSmoothGroupSettings: MediaConvertClientTypes.MsSmoothGroupSettings? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             type: MediaConvertClientTypes.OutputGroupType? = nil
         ) {
             self.cmafGroupSettings = cmafGroupSettings
@@ -10807,6 +10855,7 @@ extension MediaConvertClientTypes {
             self.fileGroupSettings = fileGroupSettings
             self.hlsGroupSettings = hlsGroupSettings
             self.msSmoothGroupSettings = msSmoothGroupSettings
+            self.perFrameMetrics = perFrameMetrics
             self.type = type
         }
     }
@@ -13762,6 +13811,8 @@ extension MediaConvertClientTypes {
         public var maxBitrate: Swift.Int?
         /// Specify from the number of B-frames, in the range of 0-15. For AV1 encoding, we recommend using 7 or 15. Choose a larger number for a lower bitrate and smaller file size; choose a smaller number for better video quality.
         public var numberBFramesBetweenReferenceFrames: Swift.Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the video, video codec, and metric type. For example: video_h264_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
         public var qvbrSettings: MediaConvertClientTypes.Av1QvbrSettings?
         /// 'With AV1 outputs, for rate control mode, MediaConvert supports only quality-defined variable bitrate (QVBR). You can''t use CBR or VBR.'
@@ -13782,6 +13833,7 @@ extension MediaConvertClientTypes {
             gopSize: Swift.Double? = nil,
             maxBitrate: Swift.Int? = nil,
             numberBFramesBetweenReferenceFrames: Swift.Int? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             qvbrSettings: MediaConvertClientTypes.Av1QvbrSettings? = nil,
             rateControlMode: MediaConvertClientTypes.Av1RateControlMode? = nil,
             slices: Swift.Int? = nil,
@@ -13797,6 +13849,7 @@ extension MediaConvertClientTypes {
             self.gopSize = gopSize
             self.maxBitrate = maxBitrate
             self.numberBFramesBetweenReferenceFrames = numberBFramesBetweenReferenceFrames
+            self.perFrameMetrics = perFrameMetrics
             self.qvbrSettings = qvbrSettings
             self.rateControlMode = rateControlMode
             self.slices = slices
@@ -14099,6 +14152,8 @@ extension MediaConvertClientTypes {
         public var framerateNumerator: Swift.Int?
         /// Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
         public var interlaceMode: MediaConvertClientTypes.AvcIntraInterlaceMode?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the video, video codec, and metric type. For example: video_h264_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public var scanTypeConversionMode: MediaConvertClientTypes.AvcIntraScanTypeConversionMode?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
@@ -14114,6 +14169,7 @@ extension MediaConvertClientTypes {
             framerateDenominator: Swift.Int? = nil,
             framerateNumerator: Swift.Int? = nil,
             interlaceMode: MediaConvertClientTypes.AvcIntraInterlaceMode? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             scanTypeConversionMode: MediaConvertClientTypes.AvcIntraScanTypeConversionMode? = nil,
             slowPal: MediaConvertClientTypes.AvcIntraSlowPal? = nil,
             telecine: MediaConvertClientTypes.AvcIntraTelecine? = nil
@@ -14125,6 +14181,7 @@ extension MediaConvertClientTypes {
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
             self.interlaceMode = interlaceMode
+            self.perFrameMetrics = perFrameMetrics
             self.scanTypeConversionMode = scanTypeConversionMode
             self.slowPal = slowPal
             self.telecine = telecine
@@ -15406,6 +15463,8 @@ extension MediaConvertClientTypes {
         public var parDenominator: Swift.Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public var parNumerator: Swift.Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the video, video codec, and metric type. For example: video_h264_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// The Quality tuning level you choose represents a trade-off between the encoding speed of your job and the output video quality. For the fastest encoding speed at the cost of video quality: Choose Single pass. For a good balance between encoding speed and video quality: Leave blank or keep the default value Single pass HQ. For the best video quality, at the cost of encoding speed: Choose Multi pass HQ. MediaConvert performs an analysis pass on your input followed by an encoding pass. Outputs that use this feature incur pro-tier pricing.
         public var qualityTuningLevel: MediaConvertClientTypes.H264QualityTuningLevel?
         /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
@@ -15469,6 +15528,7 @@ extension MediaConvertClientTypes {
             parControl: MediaConvertClientTypes.H264ParControl? = nil,
             parDenominator: Swift.Int? = nil,
             parNumerator: Swift.Int? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             qualityTuningLevel: MediaConvertClientTypes.H264QualityTuningLevel? = nil,
             qvbrSettings: MediaConvertClientTypes.H264QvbrSettings? = nil,
             rateControlMode: MediaConvertClientTypes.H264RateControlMode? = nil,
@@ -15515,6 +15575,7 @@ extension MediaConvertClientTypes {
             self.parControl = parControl
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.qualityTuningLevel = qualityTuningLevel
             self.qvbrSettings = qvbrSettings
             self.rateControlMode = rateControlMode
@@ -16532,6 +16593,8 @@ extension MediaConvertClientTypes {
         public var parDenominator: Swift.Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public var parNumerator: Swift.Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the video, video codec, and metric type. For example: video_h264_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public var qualityTuningLevel: MediaConvertClientTypes.H265QualityTuningLevel?
         /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
@@ -16593,6 +16656,7 @@ extension MediaConvertClientTypes {
             parControl: MediaConvertClientTypes.H265ParControl? = nil,
             parDenominator: Swift.Int? = nil,
             parNumerator: Swift.Int? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             qualityTuningLevel: MediaConvertClientTypes.H265QualityTuningLevel? = nil,
             qvbrSettings: MediaConvertClientTypes.H265QvbrSettings? = nil,
             rateControlMode: MediaConvertClientTypes.H265RateControlMode? = nil,
@@ -16638,6 +16702,7 @@ extension MediaConvertClientTypes {
             self.parControl = parControl
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.qualityTuningLevel = qualityTuningLevel
             self.qvbrSettings = qvbrSettings
             self.rateControlMode = rateControlMode
@@ -17319,6 +17384,8 @@ extension MediaConvertClientTypes {
         public var parDenominator: Swift.Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public var parNumerator: Swift.Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the video, video codec, and metric type. For example: video_h264_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public var qualityTuningLevel: MediaConvertClientTypes.Mpeg2QualityTuningLevel?
         /// Use Rate control mode to specify whether the bitrate is variable (vbr) or constant (cbr).
@@ -17364,6 +17431,7 @@ extension MediaConvertClientTypes {
             parControl: MediaConvertClientTypes.Mpeg2ParControl? = nil,
             parDenominator: Swift.Int? = nil,
             parNumerator: Swift.Int? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             qualityTuningLevel: MediaConvertClientTypes.Mpeg2QualityTuningLevel? = nil,
             rateControlMode: MediaConvertClientTypes.Mpeg2RateControlMode? = nil,
             scanTypeConversionMode: MediaConvertClientTypes.Mpeg2ScanTypeConversionMode? = nil,
@@ -17398,6 +17466,7 @@ extension MediaConvertClientTypes {
             self.parControl = parControl
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.qualityTuningLevel = qualityTuningLevel
             self.rateControlMode = rateControlMode
             self.scanTypeConversionMode = scanTypeConversionMode
@@ -17733,6 +17802,8 @@ extension MediaConvertClientTypes {
         public var parDenominator: Swift.Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public var parNumerator: Swift.Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the video, video codec, and metric type. For example: video_h264_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public var scanTypeConversionMode: MediaConvertClientTypes.ProresScanTypeConversionMode?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
@@ -17751,6 +17822,7 @@ extension MediaConvertClientTypes {
             parControl: MediaConvertClientTypes.ProresParControl? = nil,
             parDenominator: Swift.Int? = nil,
             parNumerator: Swift.Int? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             scanTypeConversionMode: MediaConvertClientTypes.ProresScanTypeConversionMode? = nil,
             slowPal: MediaConvertClientTypes.ProresSlowPal? = nil,
             telecine: MediaConvertClientTypes.ProresTelecine? = nil
@@ -17765,6 +17837,7 @@ extension MediaConvertClientTypes {
             self.parControl = parControl
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.scanTypeConversionMode = scanTypeConversionMode
             self.slowPal = slowPal
             self.telecine = telecine
@@ -19550,6 +19623,8 @@ extension MediaConvertClientTypes {
         public var framerateDenominator: Swift.Int?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateNumerator: Swift.Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the video, video codec, and metric type. For example: video_h264_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Specify the XAVC profile for this output. For more information, see the Sony documentation at https://www.xavc-info.org/. Note that MediaConvert doesn't support the interlaced video XAVC operating points for XAVC_HD_INTRA_CBG. To create an interlaced XAVC output, choose the profile XAVC_HD.
         public var profile: MediaConvertClientTypes.XavcProfile?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output by relabeling the video frames and resampling your audio. Note that enabling this setting will slightly reduce the duration of your video. Related settings: You must also set Frame rate to 25.
@@ -19578,6 +19653,7 @@ extension MediaConvertClientTypes {
             framerateConversionAlgorithm: MediaConvertClientTypes.XavcFramerateConversionAlgorithm? = nil,
             framerateDenominator: Swift.Int? = nil,
             framerateNumerator: Swift.Int? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             profile: MediaConvertClientTypes.XavcProfile? = nil,
             slowPal: MediaConvertClientTypes.XavcSlowPal? = nil,
             softness: Swift.Int? = nil,
@@ -19595,6 +19671,7 @@ extension MediaConvertClientTypes {
             self.framerateConversionAlgorithm = framerateConversionAlgorithm
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.profile = profile
             self.slowPal = slowPal
             self.softness = softness
@@ -22739,7 +22816,7 @@ public struct CancelJobOutput: Swift.Sendable {
 public struct CreateJobInput: Swift.Sendable {
     /// Optional. Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
     public var accelerationSettings: MediaConvertClientTypes.AccelerationSettings?
-    /// Optional. Choose a tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up. Any transcoding outputs that don't have an associated tag will appear in your billing report unsorted. If you don't choose a valid value for this field, your job outputs will appear on the billing report unsorted.
+    /// Optionally choose a Billing tags source that AWS Billing and Cost Management will use to display tags for individual output costs on any billing report that you set up. Leave blank to use the default value, Job.
     public var billingTagsSource: MediaConvertClientTypes.BillingTagsSource?
     /// Prevent duplicate jobs from being created and ensure idempotency for your requests. A client request token can be any string that includes up to 64 ASCII characters. If you reuse a client request token within one minute of a successful request, the API returns the job details of the original request instead. For more information see https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
     public var clientRequestToken: Swift.String?
@@ -26201,6 +26278,7 @@ extension MediaConvertClientTypes.XavcSettings {
         try writer["framerateConversionAlgorithm"].write(value.framerateConversionAlgorithm)
         try writer["framerateDenominator"].write(value.framerateDenominator)
         try writer["framerateNumerator"].write(value.framerateNumerator)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["profile"].write(value.profile)
         try writer["slowPal"].write(value.slowPal)
         try writer["softness"].write(value.softness)
@@ -26222,6 +26300,7 @@ extension MediaConvertClientTypes.XavcSettings {
         value.framerateConversionAlgorithm = try reader["framerateConversionAlgorithm"].readIfPresent()
         value.framerateDenominator = try reader["framerateDenominator"].readIfPresent()
         value.framerateNumerator = try reader["framerateNumerator"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.profile = try reader["profile"].readIfPresent()
         value.slowPal = try reader["slowPal"].readIfPresent()
         value.softness = try reader["softness"].readIfPresent()
@@ -26495,6 +26574,7 @@ extension MediaConvertClientTypes.ProresSettings {
         try writer["parControl"].write(value.parControl)
         try writer["parDenominator"].write(value.parDenominator)
         try writer["parNumerator"].write(value.parNumerator)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scanTypeConversionMode"].write(value.scanTypeConversionMode)
         try writer["slowPal"].write(value.slowPal)
         try writer["telecine"].write(value.telecine)
@@ -26513,6 +26593,7 @@ extension MediaConvertClientTypes.ProresSettings {
         value.parControl = try reader["parControl"].readIfPresent()
         value.parDenominator = try reader["parDenominator"].readIfPresent()
         value.parNumerator = try reader["parNumerator"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.scanTypeConversionMode = try reader["scanTypeConversionMode"].readIfPresent()
         value.slowPal = try reader["slowPal"].readIfPresent()
         value.telecine = try reader["telecine"].readIfPresent()
@@ -26547,6 +26628,7 @@ extension MediaConvertClientTypes.Mpeg2Settings {
         try writer["parControl"].write(value.parControl)
         try writer["parDenominator"].write(value.parDenominator)
         try writer["parNumerator"].write(value.parNumerator)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["qualityTuningLevel"].write(value.qualityTuningLevel)
         try writer["rateControlMode"].write(value.rateControlMode)
         try writer["scanTypeConversionMode"].write(value.scanTypeConversionMode)
@@ -26585,6 +26667,7 @@ extension MediaConvertClientTypes.Mpeg2Settings {
         value.parControl = try reader["parControl"].readIfPresent()
         value.parDenominator = try reader["parDenominator"].readIfPresent()
         value.parNumerator = try reader["parNumerator"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.qualityTuningLevel = try reader["qualityTuningLevel"].readIfPresent()
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
         value.scanTypeConversionMode = try reader["scanTypeConversionMode"].readIfPresent()
@@ -26632,6 +26715,7 @@ extension MediaConvertClientTypes.H265Settings {
         try writer["parControl"].write(value.parControl)
         try writer["parDenominator"].write(value.parDenominator)
         try writer["parNumerator"].write(value.parNumerator)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["qualityTuningLevel"].write(value.qualityTuningLevel)
         try writer["qvbrSettings"].write(value.qvbrSettings, with: MediaConvertClientTypes.H265QvbrSettings.write(value:to:))
         try writer["rateControlMode"].write(value.rateControlMode)
@@ -26681,6 +26765,7 @@ extension MediaConvertClientTypes.H265Settings {
         value.parControl = try reader["parControl"].readIfPresent()
         value.parDenominator = try reader["parDenominator"].readIfPresent()
         value.parNumerator = try reader["parNumerator"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.qualityTuningLevel = try reader["qualityTuningLevel"].readIfPresent()
         value.qvbrSettings = try reader["qvbrSettings"].readIfPresent(with: MediaConvertClientTypes.H265QvbrSettings.read(from:))
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
@@ -26769,6 +26854,7 @@ extension MediaConvertClientTypes.H264Settings {
         try writer["parControl"].write(value.parControl)
         try writer["parDenominator"].write(value.parDenominator)
         try writer["parNumerator"].write(value.parNumerator)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["qualityTuningLevel"].write(value.qualityTuningLevel)
         try writer["qvbrSettings"].write(value.qvbrSettings, with: MediaConvertClientTypes.H264QvbrSettings.write(value:to:))
         try writer["rateControlMode"].write(value.rateControlMode)
@@ -26819,6 +26905,7 @@ extension MediaConvertClientTypes.H264Settings {
         value.parControl = try reader["parControl"].readIfPresent()
         value.parDenominator = try reader["parDenominator"].readIfPresent()
         value.parNumerator = try reader["parNumerator"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.qualityTuningLevel = try reader["qualityTuningLevel"].readIfPresent()
         value.qvbrSettings = try reader["qvbrSettings"].readIfPresent(with: MediaConvertClientTypes.H264QvbrSettings.read(from:))
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
@@ -26911,6 +26998,7 @@ extension MediaConvertClientTypes.AvcIntraSettings {
         try writer["framerateDenominator"].write(value.framerateDenominator)
         try writer["framerateNumerator"].write(value.framerateNumerator)
         try writer["interlaceMode"].write(value.interlaceMode)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scanTypeConversionMode"].write(value.scanTypeConversionMode)
         try writer["slowPal"].write(value.slowPal)
         try writer["telecine"].write(value.telecine)
@@ -26926,6 +27014,7 @@ extension MediaConvertClientTypes.AvcIntraSettings {
         value.framerateDenominator = try reader["framerateDenominator"].readIfPresent()
         value.framerateNumerator = try reader["framerateNumerator"].readIfPresent()
         value.interlaceMode = try reader["interlaceMode"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.scanTypeConversionMode = try reader["scanTypeConversionMode"].readIfPresent()
         value.slowPal = try reader["slowPal"].readIfPresent()
         value.telecine = try reader["telecine"].readIfPresent()
@@ -26962,6 +27051,7 @@ extension MediaConvertClientTypes.Av1Settings {
         try writer["gopSize"].write(value.gopSize)
         try writer["maxBitrate"].write(value.maxBitrate)
         try writer["numberBFramesBetweenReferenceFrames"].write(value.numberBFramesBetweenReferenceFrames)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["qvbrSettings"].write(value.qvbrSettings, with: MediaConvertClientTypes.Av1QvbrSettings.write(value:to:))
         try writer["rateControlMode"].write(value.rateControlMode)
         try writer["slices"].write(value.slices)
@@ -26981,6 +27071,7 @@ extension MediaConvertClientTypes.Av1Settings {
         value.gopSize = try reader["gopSize"].readIfPresent()
         value.maxBitrate = try reader["maxBitrate"].readIfPresent()
         value.numberBFramesBetweenReferenceFrames = try reader["numberBFramesBetweenReferenceFrames"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.qvbrSettings = try reader["qvbrSettings"].readIfPresent(with: MediaConvertClientTypes.Av1QvbrSettings.read(from:))
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
         value.slices = try reader["slices"].readIfPresent()
@@ -28274,6 +28365,7 @@ extension MediaConvertClientTypes.OutputGroupSettings {
         try writer["fileGroupSettings"].write(value.fileGroupSettings, with: MediaConvertClientTypes.FileGroupSettings.write(value:to:))
         try writer["hlsGroupSettings"].write(value.hlsGroupSettings, with: MediaConvertClientTypes.HlsGroupSettings.write(value:to:))
         try writer["msSmoothGroupSettings"].write(value.msSmoothGroupSettings, with: MediaConvertClientTypes.MsSmoothGroupSettings.write(value:to:))
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["type"].write(value.type)
     }
 
@@ -28285,6 +28377,7 @@ extension MediaConvertClientTypes.OutputGroupSettings {
         value.fileGroupSettings = try reader["fileGroupSettings"].readIfPresent(with: MediaConvertClientTypes.FileGroupSettings.read(from:))
         value.hlsGroupSettings = try reader["hlsGroupSettings"].readIfPresent(with: MediaConvertClientTypes.HlsGroupSettings.read(from:))
         value.msSmoothGroupSettings = try reader["msSmoothGroupSettings"].readIfPresent(with: MediaConvertClientTypes.MsSmoothGroupSettings.read(from:))
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
         return value
     }

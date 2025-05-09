@@ -2761,6 +2761,7 @@
           "eu-central-1" : { },
           "eu-west-1" : { },
           "eu-west-2" : { },
+          "eu-west-3" : { },
           "fips" : {
             "credentialScope" : {
               "region" : "us-west-2"
@@ -3015,6 +3016,7 @@
               "tags" : [ "dualstack" ]
             } ]
           },
+          "ca-central-1" : { },
           "eu-central-1" : {
             "variants" : [ {
               "tags" : [ "dualstack" ]
@@ -6664,6 +6666,7 @@
           "ap-southeast-3" : { },
           "ap-southeast-4" : { },
           "ap-southeast-5" : { },
+          "ap-southeast-7" : { },
           "ca-central-1" : {
             "variants" : [ {
               "hostname" : "controltower-fips.ca-central-1.amazonaws.com",
@@ -6701,6 +6704,7 @@
           "il-central-1" : { },
           "me-central-1" : { },
           "me-south-1" : { },
+          "mx-central-1" : { },
           "sa-east-1" : { },
           "us-east-1" : {
             "variants" : [ {
@@ -12426,6 +12430,7 @@
           "il-central-1" : { },
           "me-central-1" : { },
           "me-south-1" : { },
+          "mx-central-1" : { },
           "sa-east-1" : { },
           "us-east-1" : {
             "variants" : [ {
@@ -21418,6 +21423,7 @@
           "ap-southeast-2" : { },
           "ap-southeast-3" : { },
           "ap-southeast-4" : { },
+          "ap-southeast-5" : { },
           "ap-southeast-7" : { },
           "ca-central-1" : { },
           "ca-west-1" : { },
@@ -24118,6 +24124,7 @@
               "tags" : [ "dualstack" ]
             } ]
           },
+          "mx-central-1" : { },
           "sa-east-1" : {
             "variants" : [ {
               "hostname" : "sms-voice.sa-east-1.api.aws",
@@ -28837,6 +28844,7 @@
           "eu-central-1" : { },
           "eu-west-1" : { },
           "eu-west-2" : { },
+          "eu-west-3" : { },
           "fips-us-east-1" : {
             "credentialScope" : {
               "region" : "us-east-1"
@@ -29937,6 +29945,12 @@
           "cn-northwest-1" : { }
         }
       },
+      "kafkaconnect" : {
+        "endpoints" : {
+          "cn-north-1" : { },
+          "cn-northwest-1" : { }
+        }
+      },
       "kendra-ranking" : {
         "defaults" : {
           "dnsSuffix" : "api.amazonwebservices.com.cn",
@@ -30308,6 +30322,12 @@
         },
         "isRegionalized" : false,
         "partitionEndpoint" : "aws-cn-global"
+      },
+      "route53profiles" : {
+        "endpoints" : {
+          "cn-north-1" : { },
+          "cn-northwest-1" : { }
+        }
       },
       "route53resolver" : {
         "defaults" : {
@@ -37047,6 +37067,11 @@
           "us-iso-west-1" : { }
         }
       },
+      "kinesisanalytics" : {
+        "endpoints" : {
+          "us-iso-east-1" : { }
+        }
+      },
       "kms" : {
         "endpoints" : {
           "ProdFips" : {
@@ -37428,6 +37453,12 @@
           "us-iso-west-1-fips" : {
             "deprecated" : true
           }
+        }
+      },
+      "securityhub" : {
+        "endpoints" : {
+          "us-iso-east-1" : { },
+          "us-iso-west-1" : { }
         }
       },
       "servicediscovery" : {
@@ -38045,6 +38076,11 @@
           "us-isob-east-1" : { }
         }
       },
+      "guardduty" : {
+        "endpoints" : {
+          "us-isob-east-1" : { }
+        }
+      },
       "health" : {
         "endpoints" : {
           "us-isob-east-1" : { }
@@ -38063,6 +38099,11 @@
         "partitionEndpoint" : "aws-iso-b-global"
       },
       "kinesis" : {
+        "endpoints" : {
+          "us-isob-east-1" : { }
+        }
+      },
+      "kinesisanalytics" : {
         "endpoints" : {
           "us-isob-east-1" : { }
         }
@@ -38166,6 +38207,11 @@
         "partitionEndpoint" : "aws-iso-b-global"
       },
       "outposts" : {
+        "endpoints" : {
+          "us-isob-east-1" : { }
+        }
+      },
+      "pi" : {
         "endpoints" : {
           "us-isob-east-1" : { }
         }
@@ -38882,6 +38928,11 @@
         }
       },
       "redshift" : {
+        "endpoints" : {
+          "eu-isoe-west-1" : { }
+        }
+      },
+      "redshift-serverless" : {
         "endpoints" : {
           "eu-isoe-west-1" : { }
         }

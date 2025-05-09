@@ -11,7 +11,7 @@ import Foundation
 import AWSTranscribeStreaming
 import protocol AWSClientRuntime.AWSServiceError
 
-final class TranscribeStreamingTests: XCTestCase {
+final class TranscribeStreamingTests: XCTestCase, @unchecked Sendable {
 
     // MARK: - Test transcription
 
@@ -90,8 +90,10 @@ final class TranscribeStreamingTests: XCTestCase {
                         fullMessage.append(transcript)
                     }
                 }
-            case .sdkUnknown(let data):
-                XCTFail(data)
+            default:
+                // adding default here accommodates future addition of new event types by the service
+                // the .sdkUnknown() event is ignored by this case as well
+                break
             }
         }
 
