@@ -401,19 +401,38 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes {
 
+    /// This structure contains information about the canary's retry configuration.
+    public struct RetryConfigOutput: Swift.Sendable {
+        /// The maximum number of retries. The value must be less than or equal to 2.
+        public var maxRetries: Swift.Int?
+
+        public init(
+            maxRetries: Swift.Int? = nil
+        ) {
+            self.maxRetries = maxRetries
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
     /// How long, in seconds, for the canary to continue making regular runs according to the schedule in the Expression value.
     public struct CanaryScheduleOutput: Swift.Sendable {
         /// How long, in seconds, for the canary to continue making regular runs after it was created. The runs are performed according to the schedule in the Expression value.
         public var durationInSeconds: Swift.Int?
         /// A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(number unit). unit can be minute, minutes, or hour. For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started. Use cron(expression) to specify a cron expression. For information about the syntax for cron expressions, see [ Scheduling canary runs using cron](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_cron.html).
         public var expression: Swift.String?
+        /// A structure that contains the retry configuration for a canary
+        public var retryConfig: SyntheticsClientTypes.RetryConfigOutput?
 
         public init(
             durationInSeconds: Swift.Int? = nil,
-            expression: Swift.String? = nil
+            expression: Swift.String? = nil,
+            retryConfig: SyntheticsClientTypes.RetryConfigOutput? = nil
         ) {
             self.durationInSeconds = durationInSeconds
             self.expression = expression
+            self.retryConfig = retryConfig
         }
     }
 }
@@ -533,9 +552,9 @@ extension SyntheticsClientTypes {
     public struct CanaryStatus: Swift.Sendable {
         /// The current state of the canary.
         public var state: SyntheticsClientTypes.CanaryState?
-        /// If the canary has insufficient permissions to run, this field provides more details.
+        /// If the canary creation or update failed, this field provides details on the failure.
         public var stateReason: Swift.String?
-        /// If the canary cannot run or has failed, this field displays the reason.
+        /// If the canary creation or update failed, this field displays the reason code.
         public var stateReasonCode: SyntheticsClientTypes.CanaryStateReasonCode?
 
         public init(
@@ -815,14 +834,18 @@ extension SyntheticsClientTypes {
     public struct CanaryRunTimeline: Swift.Sendable {
         /// The end time of the run.
         public var completed: Foundation.Date?
+        /// The time at which the metrics will be generated for this run or retries.
+        public var metricTimestampForRunAndRetries: Foundation.Date?
         /// The start time of the run.
         public var started: Foundation.Date?
 
         public init(
             completed: Foundation.Date? = nil,
+            metricTimestampForRunAndRetries: Foundation.Date? = nil,
             started: Foundation.Date? = nil
         ) {
             self.completed = completed
+            self.metricTimestampForRunAndRetries = metricTimestampForRunAndRetries
             self.started = started
         }
     }
@@ -840,6 +863,10 @@ extension SyntheticsClientTypes {
         public var id: Swift.String?
         /// The name of the canary.
         public var name: Swift.String?
+        /// The count in number of the retry attempt.
+        public var retryAttempt: Swift.Int?
+        /// The ID of the scheduled canary run.
+        public var scheduledRunId: Swift.String?
         /// The status of this run.
         public var status: SyntheticsClientTypes.CanaryRunStatus?
         /// A structure that contains the start and end times of this run.
@@ -850,6 +877,8 @@ extension SyntheticsClientTypes {
             dryRunConfig: SyntheticsClientTypes.CanaryDryRunConfigOutput? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
+            retryAttempt: Swift.Int? = nil,
+            scheduledRunId: Swift.String? = nil,
             status: SyntheticsClientTypes.CanaryRunStatus? = nil,
             timeline: SyntheticsClientTypes.CanaryRunTimeline? = nil
         ) {
@@ -857,6 +886,8 @@ extension SyntheticsClientTypes {
             self.dryRunConfig = dryRunConfig
             self.id = id
             self.name = name
+            self.retryAttempt = retryAttempt
+            self.scheduledRunId = scheduledRunId
             self.status = status
             self.timeline = timeline
         }
@@ -947,6 +978,22 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes {
 
+    /// This structure contains information about the canary's retry configuration. The default account level concurrent execution limit from Lambda is 1000. When you have more than 1000 canaries, it's possible there are more than 1000 Lambda invocations due to retries and the console might hang. For more information on the Lambda execution limit, see [Understanding Lambda function scaling](https://docs.aws.amazon.com/lambda/latest/dg/lambda-concurrency.html#:~:text=As%20your%20functions%20receive%20more,functions%20in%20an%20AWS%20Region). For canary with MaxRetries = 2, you need to set the CanaryRunConfigInput.TimeoutInSeconds to less than 600 seconds to avoid validation errors.
+    public struct RetryConfigInput: Swift.Sendable {
+        /// The maximum number of retries. The value must be less than or equal to 2.
+        /// This member is required.
+        public var maxRetries: Swift.Int?
+
+        public init(
+            maxRetries: Swift.Int? = nil
+        ) {
+            self.maxRetries = maxRetries
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
     /// This structure specifies how often a canary is to make runs and the date and time when it should stop making runs.
     public struct CanaryScheduleInput: Swift.Sendable {
         /// How long, in seconds, for the canary to continue making regular runs according to the schedule in the Expression value. If you specify 0, the canary continues making runs until you stop it. If you omit this field, the default of 0 is used.
@@ -954,13 +1001,17 @@ extension SyntheticsClientTypes {
         /// A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(number unit). unit can be minute, minutes, or hour. For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started. Use cron(expression) to specify a cron expression. You can't schedule a canary to wait for more than a year before running. For information about the syntax for cron expressions, see [ Scheduling canary runs using cron](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_cron.html).
         /// This member is required.
         public var expression: Swift.String?
+        /// A structure that contains the retry configuration for a canary
+        public var retryConfig: SyntheticsClientTypes.RetryConfigInput?
 
         public init(
             durationInSeconds: Swift.Int? = nil,
-            expression: Swift.String? = nil
+            expression: Swift.String? = nil,
+            retryConfig: SyntheticsClientTypes.RetryConfigInput? = nil
         ) {
             self.durationInSeconds = durationInSeconds
             self.expression = expression
+            self.retryConfig = retryConfig
         }
     }
 }
@@ -1442,7 +1493,7 @@ public struct GetCanaryRunsInput: Swift.Sendable {
     /// The name of the canary that you want to see runs for.
     /// This member is required.
     public var name: Swift.String?
-    /// A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next set of results.
+    /// A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next set of results. When auto retry is enabled for the canary, the first subsequent retry is suffixed with *1 indicating its the first retry and the next subsequent try is suffixed with *2.
     public var nextToken: Swift.String?
     /// * When you provide RunType=CANARY_RUN and dryRunId, you will get an exception
     ///
@@ -3262,6 +3313,17 @@ extension SyntheticsClientTypes.CanaryScheduleOutput {
         var value = SyntheticsClientTypes.CanaryScheduleOutput()
         value.expression = try reader["Expression"].readIfPresent()
         value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        value.retryConfig = try reader["RetryConfig"].readIfPresent(with: SyntheticsClientTypes.RetryConfigOutput.read(from:))
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.RetryConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.RetryConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.RetryConfigOutput()
+        value.maxRetries = try reader["MaxRetries"].readIfPresent()
         return value
     }
 }
@@ -3309,6 +3371,8 @@ extension SyntheticsClientTypes.CanaryRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SyntheticsClientTypes.CanaryRun()
         value.id = try reader["Id"].readIfPresent()
+        value.scheduledRunId = try reader["ScheduledRunId"].readIfPresent()
+        value.retryAttempt = try reader["RetryAttempt"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.status = try reader["Status"].readIfPresent(with: SyntheticsClientTypes.CanaryRunStatus.read(from:))
         value.timeline = try reader["Timeline"].readIfPresent(with: SyntheticsClientTypes.CanaryRunTimeline.read(from:))
@@ -3335,6 +3399,7 @@ extension SyntheticsClientTypes.CanaryRunTimeline {
         var value = SyntheticsClientTypes.CanaryRunTimeline()
         value.started = try reader["Started"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.completed = try reader["Completed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.metricTimestampForRunAndRetries = try reader["MetricTimestampForRunAndRetries"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -3394,6 +3459,15 @@ extension SyntheticsClientTypes.CanaryScheduleInput {
         guard let value else { return }
         try writer["DurationInSeconds"].write(value.durationInSeconds)
         try writer["Expression"].write(value.expression)
+        try writer["RetryConfig"].write(value.retryConfig, with: SyntheticsClientTypes.RetryConfigInput.write(value:to:))
+    }
+}
+
+extension SyntheticsClientTypes.RetryConfigInput {
+
+    static func write(value: SyntheticsClientTypes.RetryConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxRetries"].write(value.maxRetries)
     }
 }
 

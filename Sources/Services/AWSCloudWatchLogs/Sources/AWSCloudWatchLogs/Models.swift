@@ -4479,7 +4479,7 @@ extension CloudWatchLogsClientTypes {
 
     /// This processor uses pattern matching to parse and structure unstructured data. This processor can also extract fields from log messages. For more information about this processor including examples, see [ grok](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-Grok) in the CloudWatch Logs User Guide.
     public struct Grok: Swift.Sendable {
-        /// The grok pattern to match against the log event. For a list of supported grok patterns, see [Supported grok patterns](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#Grok-Patterns).
+        /// The grok pattern to match against the log event. For a list of supported grok patterns, see [Supported grok patterns](https://docs.aws.amazon.com/mazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Processors.html#Grok-Patterns).
         /// This member is required.
         public var match: Swift.String?
         /// The path to the field in the log event that you want to parse. If you omit this value, the whole log message is parsed.
@@ -4497,7 +4497,7 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes {
 
-    /// This processor takes a list of objects that contain key fields, and converts them into a map of target keys. For more information about this processor including examples, see [ listToMap](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-listToMap) in the CloudWatch Logs User Guide.
+    /// This processor takes a list of objects that contain key fields, and converts them into a map of target keys. For more information about this processor including examples, see [ listToMap](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Processors.html#CloudWatch-Logs-Transformation-listToMap) in the CloudWatch Logs User Guide.
     public struct ListToMap: Swift.Sendable {
         /// A Boolean value to indicate whether the list will be flattened into single items. Specify true to flatten the list. The default is false
         public var flatten: Swift.Bool
