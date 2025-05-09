@@ -4488,7 +4488,7 @@ extension CloudFrontClientTypes {
         ///
         /// * vip – The distribution accepts HTTPS connections from all viewers including those that don't support SNI. This is not recommended, and results in additional monthly charges from CloudFront.
         ///
-        /// * static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home).
+        /// * static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the [Amazon Web ServicesSupport Center](https://console.aws.amazon.com/support/home).
         ///
         ///
         /// If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don't set a value for this field.
@@ -10943,7 +10943,7 @@ public struct GetDistributionConfigOutput: Swift.Sendable {
 }
 
 public struct GetDistributionTenantInput: Swift.Sendable {
-    /// The ID of the distribution tenant. You can specify the ARN ID, or name of the distribution tenant.
+    /// The identifier of the distribution tenant. You can specify the ARN, ID, or name of the distribution tenant.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -11280,7 +11280,7 @@ public struct GetKeyGroupConfigOutput: Swift.Sendable {
 }
 
 public struct GetManagedCertificateDetailsInput: Swift.Sendable {
-    /// The identifier of the multi-tenant distribution.
+    /// The identifier of the distribution tenant. You can specify the ARN, ID, or name of the distribution tenant.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -15181,7 +15181,7 @@ public struct UpdateVpcOriginOutput: Swift.Sendable {
 public struct VerifyDnsConfigurationInput: Swift.Sendable {
     /// The domain name that you're verifying.
     public var domain: Swift.String?
-    /// The ID of the distribution tenant.
+    /// The identifier of the distribution tenant. You can specify the ARN, ID, or name of the distribution tenant.
     /// This member is required.
     public var identifier: Swift.String?
 

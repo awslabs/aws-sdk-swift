@@ -76,8 +76,10 @@ class KinesisTests: XCTestCase {
                         let recordString = String(data: record.data ?? Data(), encoding: .utf8)
                         recordStrings.removeAll { recordString == $0 }
                     }
-                case .sdkUnknown(let message):
-                    print("Unknown event: \(message)")
+                default:
+                    // adding default here accommodates future addition of new event types by the service
+                    // the .sdkUnknown() event is ignored by this case as well
+                    break
                 }
 
                 // Once all the events have been received, stop streaming
