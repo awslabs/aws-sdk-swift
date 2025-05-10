@@ -21,6 +21,7 @@ extension GetFooInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getFoo")
@@ -95,6 +96,7 @@ extension PostFooInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "postFoo")
@@ -172,6 +174,7 @@ extension PutFooInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putFoo")
@@ -249,6 +252,7 @@ extension PutObjectInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObject")
@@ -264,6 +268,7 @@ extension PutObjectInput {
                       .withExpiration(value: expiration)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
