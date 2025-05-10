@@ -37,6 +37,8 @@ extension Target.Dependency {
     static var smithyWaitersAPI: Self { .product(name: "SmithyWaitersAPI", package: "smithy-swift") }
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
     static var smithyStreams: Self { .product(name: "SmithyStreams", package: "smithy-swift") }
+    static var smithyReadWrite: Self { .product(name: "SmithyReadWrite", package: "smithy-swift") }
+    static var smithyJSON: Self { .product(name: "SmithyJSON", package: "smithy-swift") }
 }
 
 // MARK: - Base Package
@@ -94,7 +96,8 @@ private var protocolTestTargets: [Target] {
         .init(name: "RPCEventStream", sourcePath: "\(baseDirLocal)/RPCEventStream", buildOnly: true),
         .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "../codegen/protocol-test-codegen-local/Tests"),
         .init(name: "StringArrayEndpointParam", sourcePath: "\(baseDirLocal)/StringArrayEndpointParam"),
-        .init(name: "RPCV2CBORTestSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor")
+        .init(name: "RPCV2CBORTestSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor"),
+        .init(name: "Performance", sourcePath: "\(baseDirLocal)/Performance", testPath: "../codegen/protocol-test-codegen-local/Tests"),
     ]
     return protocolTests.flatMap { protocolTest in
         let target = Target.target(
@@ -115,11 +118,14 @@ private var protocolTestTargets: [Target] {
                 .smithyChecksumsAPI,
                 .smithyChecksums,
                 .smithyWaitersAPI,
+                .smithyReadWrite,
+                .smithyJSON,
                 .awsSDKCommon,
                 .awsSDKIdentity,
                 .awsSDKHTTPAuth,
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
+
             ],
             path: "\(protocolTest.sourcePath)/swift-codegen/Sources/\(protocolTest.name)"
         )
