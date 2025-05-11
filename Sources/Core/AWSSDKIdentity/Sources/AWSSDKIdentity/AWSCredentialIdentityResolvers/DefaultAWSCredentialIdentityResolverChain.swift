@@ -26,9 +26,9 @@ import struct Smithy.Attributes
 /// 5. EC2 Instance Metadata (IMDSv2)
 ///
 /// The credentials retrieved from the chain are cached for 15 minutes.
-public class DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityResolver {
+public final class DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityResolver {
     /// Creates a credential identity resolver that uses the default AWS credential identity resolver chain used by most AWS SDKs.
-    typealias ResolverFactory = () throws -> (any AWSCredentialIdentityResolver)
+    typealias ResolverFactory = @Sendable () throws -> (any AWSCredentialIdentityResolver)
 
     private let resolverFactories: [ResolverFactory]
     private var cachedCredentials: AWSCredentialIdentity? = nil
