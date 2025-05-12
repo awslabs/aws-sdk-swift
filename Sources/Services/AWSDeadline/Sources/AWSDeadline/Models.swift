@@ -501,12 +501,14 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 extension DeadlineClientTypes {
 
     public enum ServiceQuotaExceededExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dependencyLimitExceeded
         case kmsKeyLimitExceeded
         case serviceQuotaExceededException
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServiceQuotaExceededExceptionReason] {
             return [
+                .dependencyLimitExceeded,
                 .kmsKeyLimitExceeded,
                 .serviceQuotaExceededException
             ]
@@ -519,6 +521,7 @@ extension DeadlineClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .dependencyLimitExceeded: return "DEPENDENCY_LIMIT_EXCEEDED"
             case .kmsKeyLimitExceeded: return "KMS_KEY_LIMIT_EXCEEDED"
             case .serviceQuotaExceededException: return "SERVICE_QUOTA_EXCEEDED_EXCEPTION"
             case let .sdkUnknown(s): return s
@@ -3281,6 +3284,31 @@ extension DeadlineClientTypes {
     }
 }
 
+extension DeadlineClientTypes {
+
+    /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet. To remove a script from a fleet, use the [UpdateFleet](https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_UpdateFleet.html) operation with the hostConfigurationscriptBody parameter set to an empty string ("").
+    public struct HostConfiguration: Swift.Sendable {
+        /// The text of the script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet. The script runs after a worker enters the STARTING state and before the worker processes tasks. For more information about using the script, see [Run scripts as an administrator to configure workers](https://docs.aws.amazon.com/deadline-cloud/latest/developerguide/smf-admin.html) in the Deadline Cloud Developer Guide. The script runs as an administrative user (sudo root on Linux, as an Administrator on Windows).
+        /// This member is required.
+        public var scriptBody: Swift.String?
+        /// The maximum time that the host configuration can run. If the timeout expires, the worker enters the NOT RESPONDING state and shuts down. You are charged for the time that the worker is running the host configuration script. You should configure your fleet for a maximum of one worker while testing your host configuration script to avoid starting additional workers. The default is 300 seconds (5 minutes).
+        public var scriptTimeoutSeconds: Swift.Int?
+
+        public init(
+            scriptBody: Swift.String? = nil,
+            scriptTimeoutSeconds: Swift.Int? = 300
+        ) {
+            self.scriptBody = scriptBody
+            self.scriptTimeoutSeconds = scriptTimeoutSeconds
+        }
+    }
+}
+
+extension DeadlineClientTypes.HostConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HostConfiguration(scriptTimeoutSeconds: \(Swift.String(describing: scriptTimeoutSeconds)), scriptBody: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateFleetInput: Swift.Sendable {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
@@ -3295,7 +3323,9 @@ public struct CreateFleetInput: Swift.Sendable {
     /// The farm ID of the farm to connect to the fleet.
     /// This member is required.
     public var farmId: Swift.String?
-    /// The maximum number of workers for the fleet.
+    /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
+    /// The maximum number of workers for the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
     /// This member is required.
     public var maxWorkerCount: Swift.Int?
     /// The minimum number of workers for the fleet.
@@ -3312,6 +3342,7 @@ public struct CreateFleetInput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         farmId: Swift.String? = nil,
+        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
         maxWorkerCount: Swift.Int? = nil,
         minWorkerCount: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
@@ -3322,6 +3353,7 @@ public struct CreateFleetInput: Swift.Sendable {
         self.description = description
         self.displayName = displayName
         self.farmId = farmId
+        self.hostConfiguration = hostConfiguration
         self.maxWorkerCount = maxWorkerCount
         self.minWorkerCount = minWorkerCount
         self.roleArn = roleArn
@@ -3331,7 +3363,7 @@ public struct CreateFleetInput: Swift.Sendable {
 
 extension CreateFleetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateFleetOutput: Swift.Sendable {
@@ -4372,6 +4404,8 @@ public struct GetFleetOutput: Swift.Sendable {
     /// The fleet ID.
     /// This member is required.
     public var fleetId: Swift.String?
+    /// The script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
     /// The maximum number of workers specified in the fleet.
     /// This member is required.
     public var maxWorkerCount: Swift.Int?
@@ -4404,6 +4438,7 @@ public struct GetFleetOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
+        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
         maxWorkerCount: Swift.Int? = nil,
         minWorkerCount: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
@@ -4422,6 +4457,7 @@ public struct GetFleetOutput: Swift.Sendable {
         self.displayName = displayName
         self.farmId = farmId
         self.fleetId = fleetId
+        self.hostConfiguration = hostConfiguration
         self.maxWorkerCount = maxWorkerCount
         self.minWorkerCount = minWorkerCount
         self.roleArn = roleArn
@@ -4435,7 +4471,7 @@ public struct GetFleetOutput: Swift.Sendable {
 
 extension GetFleetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetFleetOutput(autoScalingStatus: \(Swift.String(describing: autoScalingStatus)), capabilities: \(Swift.String(describing: capabilities)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), targetWorkerCount: \(Swift.String(describing: targetWorkerCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), workerCount: \(Swift.String(describing: workerCount)), description: \"CONTENT_REDACTED\")"}
+        "GetFleetOutput(autoScalingStatus: \(Swift.String(describing: autoScalingStatus)), capabilities: \(Swift.String(describing: capabilities)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), targetWorkerCount: \(Swift.String(describing: targetWorkerCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), workerCount: \(Swift.String(describing: workerCount)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListFleetMembersInput: Swift.Sendable {
@@ -4660,7 +4696,9 @@ public struct UpdateFleetInput: Swift.Sendable {
     /// The fleet ID to update.
     /// This member is required.
     public var fleetId: Swift.String?
-    /// The maximum number of workers in the fleet.
+    /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
+    /// The maximum number of workers in the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
     public var maxWorkerCount: Swift.Int?
     /// The minimum number of workers in the fleet.
     public var minWorkerCount: Swift.Int?
@@ -4674,6 +4712,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
+        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
         maxWorkerCount: Swift.Int? = nil,
         minWorkerCount: Swift.Int? = nil,
         roleArn: Swift.String? = nil
@@ -4684,6 +4723,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         self.displayName = displayName
         self.farmId = farmId
         self.fleetId = fleetId
+        self.hostConfiguration = hostConfiguration
         self.maxWorkerCount = maxWorkerCount
         self.minWorkerCount = minWorkerCount
         self.roleArn = roleArn
@@ -4692,7 +4732,7 @@ public struct UpdateFleetInput: Swift.Sendable {
 
 extension UpdateFleetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\")"}
+        "UpdateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateFleetOutput: Swift.Sendable {
@@ -5258,12 +5298,16 @@ public struct UpdateWorkerInput: Swift.Sendable {
 }
 
 public struct UpdateWorkerOutput: Swift.Sendable {
+    /// The script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
     /// The worker log to update.
     public var log: DeadlineClientTypes.LogConfiguration?
 
     public init(
+        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
         log: DeadlineClientTypes.LogConfiguration? = nil
     ) {
+        self.hostConfiguration = hostConfiguration
         self.log = log
     }
 }
@@ -13810,6 +13854,7 @@ extension CreateFleetInput {
         try writer["configuration"].write(value.configuration, with: DeadlineClientTypes.FleetConfiguration.write(value:to:))
         try writer["description"].write(value.description)
         try writer["displayName"].write(value.displayName)
+        try writer["hostConfiguration"].write(value.hostConfiguration, with: DeadlineClientTypes.HostConfiguration.write(value:to:))
         try writer["maxWorkerCount"].write(value.maxWorkerCount)
         try writer["minWorkerCount"].write(value.minWorkerCount)
         try writer["roleArn"].write(value.roleArn)
@@ -14033,6 +14078,7 @@ extension UpdateFleetInput {
         try writer["configuration"].write(value.configuration, with: DeadlineClientTypes.FleetConfiguration.write(value:to:))
         try writer["description"].write(value.description)
         try writer["displayName"].write(value.displayName)
+        try writer["hostConfiguration"].write(value.hostConfiguration, with: DeadlineClientTypes.HostConfiguration.write(value:to:))
         try writer["maxWorkerCount"].write(value.maxWorkerCount)
         try writer["minWorkerCount"].write(value.minWorkerCount)
         try writer["roleArn"].write(value.roleArn)
@@ -14607,6 +14653,7 @@ extension GetFleetOutput {
         value.displayName = try reader["displayName"].readIfPresent() ?? ""
         value.farmId = try reader["farmId"].readIfPresent() ?? ""
         value.fleetId = try reader["fleetId"].readIfPresent() ?? ""
+        value.hostConfiguration = try reader["hostConfiguration"].readIfPresent(with: DeadlineClientTypes.HostConfiguration.read(from:))
         value.maxWorkerCount = try reader["maxWorkerCount"].readIfPresent() ?? 0
         value.minWorkerCount = try reader["minWorkerCount"].readIfPresent() ?? 0
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
@@ -15533,6 +15580,7 @@ extension UpdateWorkerOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateWorkerOutput()
+        value.hostConfiguration = try reader["hostConfiguration"].readIfPresent(with: DeadlineClientTypes.HostConfiguration.read(from:))
         value.log = try reader["log"].readIfPresent(with: DeadlineClientTypes.LogConfiguration.read(from:))
         return value
     }
@@ -18432,6 +18480,23 @@ extension DeadlineClientTypes.AcceleratorTotalMemoryMiBRange {
         var value = DeadlineClientTypes.AcceleratorTotalMemoryMiBRange()
         value.min = try reader["min"].readIfPresent() ?? 0
         value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.HostConfiguration {
+
+    static func write(value: DeadlineClientTypes.HostConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scriptBody"].write(value.scriptBody)
+        try writer["scriptTimeoutSeconds"].write(value.scriptTimeoutSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.HostConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.HostConfiguration()
+        value.scriptBody = try reader["scriptBody"].readIfPresent() ?? ""
+        value.scriptTimeoutSeconds = try reader["scriptTimeoutSeconds"].readIfPresent() ?? 300
         return value
     }
 }

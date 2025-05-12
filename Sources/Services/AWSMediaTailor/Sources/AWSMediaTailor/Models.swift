@@ -1387,6 +1387,7 @@ extension MediaTailorClientTypes {
         /// Settings for customizing what events are included in logs for interactions with the ad decision server (ADS).
         public var adsInteractionLog: MediaTailorClientTypes.AdsInteractionLog?
         /// The method used for collecting logs from AWS Elemental MediaTailor. LEGACY_CLOUDWATCH indicates that MediaTailor is sending logs directly to Amazon CloudWatch Logs. VENDED_LOGS indicates that MediaTailor is sending logs to CloudWatch, which then vends the logs to your destination of choice. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream.
+        /// This member is required.
         public var enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]?
         /// Settings for customizing what events are included in logs for interactions with the origin server.
         public var manifestServiceInteractionLog: MediaTailorClientTypes.ManifestServiceInteractionLog?
@@ -7284,7 +7285,7 @@ extension MediaTailorClientTypes.LogConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.LogConfiguration()
         value.percentEnabled = try reader["PercentEnabled"].readIfPresent() ?? 0
-        value.enabledLoggingStrategies = try reader["EnabledLoggingStrategies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LoggingStrategy>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enabledLoggingStrategies = try reader["EnabledLoggingStrategies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LoggingStrategy>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.adsInteractionLog = try reader["AdsInteractionLog"].readIfPresent(with: MediaTailorClientTypes.AdsInteractionLog.read(from:))
         value.manifestServiceInteractionLog = try reader["ManifestServiceInteractionLog"].readIfPresent(with: MediaTailorClientTypes.ManifestServiceInteractionLog.read(from:))
         return value

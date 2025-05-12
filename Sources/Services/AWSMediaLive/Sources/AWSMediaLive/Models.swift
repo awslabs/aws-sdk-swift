@@ -4120,6 +4120,8 @@ extension MediaLiveClientTypes {
     public struct OutputDestination: Swift.Sendable {
         /// User-specified id. This is used in an output group or an output.
         public var id: Swift.String?
+        /// Optional assignment of an output to a logical interface on the Node. Only applies to on premises channels.
+        public var logicalInterfaceNames: [Swift.String]?
         /// Destination settings for a MediaPackage output; one destination for both encoders.
         public var mediaPackageSettings: [MediaLiveClientTypes.MediaPackageOutputDestinationSettings]?
         /// Destination settings for a Multiplex output; one destination for both encoders.
@@ -4131,12 +4133,14 @@ extension MediaLiveClientTypes {
 
         public init(
             id: Swift.String? = nil,
+            logicalInterfaceNames: [Swift.String]? = nil,
             mediaPackageSettings: [MediaLiveClientTypes.MediaPackageOutputDestinationSettings]? = nil,
             multiplexSettings: MediaLiveClientTypes.MultiplexProgramChannelDestinationSettings? = nil,
             settings: [MediaLiveClientTypes.OutputDestinationSettings]? = nil,
             srtSettings: [MediaLiveClientTypes.SrtOutputDestinationSettings]? = nil
         ) {
             self.id = id
+            self.logicalInterfaceNames = logicalInterfaceNames
             self.mediaPackageSettings = mediaPackageSettings
             self.multiplexSettings = multiplexSettings
             self.settings = settings
@@ -15222,6 +15226,36 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Av1 Rate Control Mode
+    public enum Av1RateControlMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cbr
+        case qvbr
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1RateControlMode] {
+            return [
+                .cbr,
+                .qvbr
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cbr: return "CBR"
+            case .qvbr: return "QVBR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Av1 Scene Change Detect
     public enum Av1SceneChangeDetect: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
@@ -15368,6 +15402,8 @@ extension MediaLiveClientTypes {
     public struct Av1Settings: Swift.Sendable {
         /// Configures whether MediaLive will write AFD values into the video. AUTO: MediaLive will try to preserve the input AFD value (in cases where multiple AFD values are valid). FIXED: the AFD value will be the value configured in the fixedAfd parameter. NONE: MediaLive won't write AFD into the video
         public var afdSignaling: MediaLiveClientTypes.AfdSignaling?
+        /// Average bitrate in bits/second. Required when the rate control mode is CBR. Not used for QVBR.
+        public var bitrate: Swift.Int?
         /// The size of the buffer (HRD buffer model) in bits.
         public var bufSize: Swift.Int?
         /// Color Space settings
@@ -15398,6 +15434,8 @@ extension MediaLiveClientTypes {
         public var parNumerator: Swift.Int?
         /// Controls the target quality for the video encode. With QVBR rate control mode, the final quality is the target quality, constrained by the maxBitrate. Set values for the qvbrQualityLevel property and maxBitrate property that suit your most important viewing devices. To let MediaLive set the quality level (AUTO mode), leave the qvbrQualityLevel field empty. In this case, MediaLive uses the maximum bitrate, and the quality follows from that: more complex content might have a lower quality. Or set a target quality level and a maximum bitrate. With more complex content, MediaLive will try to achieve the target quality, but it won't exceed the maximum bitrate. With less complex content, This option will use only the bitrate needed to reach the target quality. Recommended values are: Primary screen: qvbrQualityLevel: Leave empty. maxBitrate: 4,000,000 PC or tablet: qvbrQualityLevel: Leave empty. maxBitrate: 1,500,000 to 3,000,000 Smartphone: qvbrQualityLevel: Leave empty. maxBitrate: 1,000,000 to 1,500,000
         public var qvbrQualityLevel: Swift.Int?
+        /// Rate control mode. QVBR: Quality will match the specified quality level except when it is constrained by the maximum bitrate. Recommended if you or your viewers pay for bandwidth. CBR: Quality varies, depending on the video complexity. Recommended only if you distribute your assets to devices that cannot handle variable bitrates.
+        public var rateControlMode: MediaLiveClientTypes.Av1RateControlMode?
         /// Controls whether MediaLive inserts I-frames when it detects a scene change. ENABLED or DISABLED.
         public var sceneChangeDetect: MediaLiveClientTypes.Av1SceneChangeDetect?
         /// Configures the timecode burn-in feature. If you enable this feature, the timecode will become part of the video.
@@ -15405,6 +15443,7 @@ extension MediaLiveClientTypes {
 
         public init(
             afdSignaling: MediaLiveClientTypes.AfdSignaling? = nil,
+            bitrate: Swift.Int? = nil,
             bufSize: Swift.Int? = nil,
             colorSpaceSettings: MediaLiveClientTypes.Av1ColorSpaceSettings? = nil,
             fixedAfd: MediaLiveClientTypes.FixedAfd? = nil,
@@ -15419,10 +15458,12 @@ extension MediaLiveClientTypes {
             parDenominator: Swift.Int? = nil,
             parNumerator: Swift.Int? = nil,
             qvbrQualityLevel: Swift.Int? = nil,
+            rateControlMode: MediaLiveClientTypes.Av1RateControlMode? = nil,
             sceneChangeDetect: MediaLiveClientTypes.Av1SceneChangeDetect? = nil,
             timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil
         ) {
             self.afdSignaling = afdSignaling
+            self.bitrate = bitrate
             self.bufSize = bufSize
             self.colorSpaceSettings = colorSpaceSettings
             self.fixedAfd = fixedAfd
@@ -15437,6 +15478,7 @@ extension MediaLiveClientTypes {
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
             self.qvbrQualityLevel = qvbrQualityLevel
+            self.rateControlMode = rateControlMode
             self.sceneChangeDetect = sceneChangeDetect
             self.timecodeBurninSettings = timecodeBurninSettings
         }
@@ -34688,6 +34730,7 @@ extension MediaLiveClientTypes.Av1Settings {
     static func write(value: MediaLiveClientTypes.Av1Settings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["afdSignaling"].write(value.afdSignaling)
+        try writer["bitrate"].write(value.bitrate)
         try writer["bufSize"].write(value.bufSize)
         try writer["colorSpaceSettings"].write(value.colorSpaceSettings, with: MediaLiveClientTypes.Av1ColorSpaceSettings.write(value:to:))
         try writer["fixedAfd"].write(value.fixedAfd)
@@ -34702,6 +34745,7 @@ extension MediaLiveClientTypes.Av1Settings {
         try writer["parDenominator"].write(value.parDenominator)
         try writer["parNumerator"].write(value.parNumerator)
         try writer["qvbrQualityLevel"].write(value.qvbrQualityLevel)
+        try writer["rateControlMode"].write(value.rateControlMode)
         try writer["sceneChangeDetect"].write(value.sceneChangeDetect)
         try writer["timecodeBurninSettings"].write(value.timecodeBurninSettings, with: MediaLiveClientTypes.TimecodeBurninSettings.write(value:to:))
     }
@@ -34726,6 +34770,8 @@ extension MediaLiveClientTypes.Av1Settings {
         value.qvbrQualityLevel = try reader["qvbrQualityLevel"].readIfPresent()
         value.sceneChangeDetect = try reader["sceneChangeDetect"].readIfPresent()
         value.timecodeBurninSettings = try reader["timecodeBurninSettings"].readIfPresent(with: MediaLiveClientTypes.TimecodeBurninSettings.read(from:))
+        value.bitrate = try reader["bitrate"].readIfPresent()
+        value.rateControlMode = try reader["rateControlMode"].readIfPresent()
         return value
     }
 }
@@ -37583,6 +37629,7 @@ extension MediaLiveClientTypes.OutputDestination {
     static func write(value: MediaLiveClientTypes.OutputDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["id"].write(value.id)
+        try writer["logicalInterfaceNames"].writeList(value.logicalInterfaceNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["mediaPackageSettings"].writeList(value.mediaPackageSettings, memberWritingClosure: MediaLiveClientTypes.MediaPackageOutputDestinationSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["multiplexSettings"].write(value.multiplexSettings, with: MediaLiveClientTypes.MultiplexProgramChannelDestinationSettings.write(value:to:))
         try writer["settings"].writeList(value.settings, memberWritingClosure: MediaLiveClientTypes.OutputDestinationSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -37597,6 +37644,7 @@ extension MediaLiveClientTypes.OutputDestination {
         value.multiplexSettings = try reader["multiplexSettings"].readIfPresent(with: MediaLiveClientTypes.MultiplexProgramChannelDestinationSettings.read(from:))
         value.settings = try reader["settings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputDestinationSettings.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.srtSettings = try reader["srtSettings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.SrtOutputDestinationSettings.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logicalInterfaceNames = try reader["logicalInterfaceNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

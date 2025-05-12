@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ShieldClient: ClientRuntime.Client {
     public static let clientName = "ShieldClient"
-    public static let version = "1.3.13"
+    public static let version = "1.3.14"
     let client: ClientRuntime.SdkHttpClient
     let config: ShieldClient.ShieldClientConfiguration
     let serviceName = "Shield"
