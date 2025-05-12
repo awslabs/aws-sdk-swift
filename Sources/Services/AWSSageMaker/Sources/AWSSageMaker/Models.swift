@@ -18438,7 +18438,7 @@ extension SageMakerClientTypes {
 public struct CreateImageVersionInput: Swift.Sendable {
     /// A list of aliases created with the image version.
     public var aliases: [Swift.String]?
-    /// The registry path of the container image to use as the starting point for this version. The path is an Amazon ECR URI in the following format: .dkr.ecr..amazonaws.com/
+    /// The registry path of the container image to use as the starting point for this version. The path is an Amazon ECR URI in the following format: <acct-id>.dkr.ecr.<region>.amazonaws.com/<repo-name[:tag] or [@digest]>
     /// This member is required.
     public var baseImage: Swift.String?
     /// A unique ID. If not specified, the Amazon Web Services CLI and Amazon Web Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
@@ -19827,11 +19827,11 @@ extension SageMakerClientTypes {
         ///
         /// * // KMS Key ID "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
-        /// * // Amazon Resource Name (ARN) of a KMS Key "arn:aws:kms:::key/"
+        /// * // Amazon Resource Name (ARN) of a KMS Key "arn:aws:kms:<region>:<account>:key/<key-id-12ab-34cd-56ef-1234567890ab>"
         ///
         /// * // KMS Key Alias "alias/ExampleAlias"
         ///
-        /// * // Amazon Resource Name (ARN) of a KMS Key Alias "arn:aws:kms:::alias/"
+        /// * // Amazon Resource Name (ARN) of a KMS Key Alias "arn:aws:kms:<region>:<account>:alias/<ExampleAlias>"
         ///
         ///
         /// For more information about key identifiers, see [Key identifiers (KeyID)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-id) in the Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
@@ -19919,11 +19919,11 @@ extension SageMakerClientTypes {
         ///
         /// * // KMS Key ID "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
-        /// * // Amazon Resource Name (ARN) of a KMS Key "arn:aws:kms:::key/"
+        /// * // Amazon Resource Name (ARN) of a KMS Key "arn:aws:kms:<region>:<account>:key/<key-id-12ab-34cd-56ef-1234567890ab>"
         ///
         /// * // KMS Key Alias "alias/ExampleAlias"
         ///
-        /// * // Amazon Resource Name (ARN) of a KMS Key Alias "arn:aws:kms:::alias/"
+        /// * // Amazon Resource Name (ARN) of a KMS Key Alias "arn:aws:kms:<region>:<account>:alias/<ExampleAlias>"
         ///
         ///
         /// For more information about key identifiers, see [Key identifiers (KeyID)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-id) in the Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
@@ -20998,13 +20998,7 @@ public struct CreateLabelingJobInput: Swift.Sendable {
     /// If you are creating an adjustment or verification labeling job, you must use a different LabelAttributeName than the one used in the original labeling job. The original labeling job is the Ground Truth labeling job that produced the labels that you want verified or adjusted. To learn more about adjustment and verification labeling jobs, see [Verify and Adjust Labels](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-verification-data.html).
     /// This member is required.
     public var labelAttributeName: Swift.String?
-    /// The S3 URI of the file, referred to as a label category configuration file, that defines the categories used to label the data objects. For 3D point cloud and video frame task types, you can add label category attributes and frame attributes to your label category configuration file. To learn how, see [Create a Labeling Category Configuration File for 3D Point Cloud Labeling Jobs](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-point-cloud-label-category-config.html). For named entity recognition jobs, in addition to "labels", you must provide worker instructions in the label category configuration file using the "instructions" parameter: "instructions": {"shortInstruction":"
-    /// Add header
-    ///
-    ///
-    ///     Add Instructions
-    ///
-    /// ", "fullInstruction":"Add additional instructions."}. For details and an example, see [Create a Named Entity Recognition Labeling Job (API) ](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-named-entity-recg.html#sms-creating-ner-api). For all other [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html) and [custom tasks](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-custom-templates.html), your label category configuration file must be a JSON file in the following format. Identify the labels you want to use by replacing label_1, label_2,...,label_n with your label categories. {
+    /// The S3 URI of the file, referred to as a label category configuration file, that defines the categories used to label the data objects. For 3D point cloud and video frame task types, you can add label category attributes and frame attributes to your label category configuration file. To learn how, see [Create a Labeling Category Configuration File for 3D Point Cloud Labeling Jobs](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-point-cloud-label-category-config.html). For named entity recognition jobs, in addition to "labels", you must provide worker instructions in the label category configuration file using the "instructions" parameter: "instructions": {"shortInstruction":"<h1>Add header</h1><p>Add Instructions</p>", "fullInstruction":"<p>Add additional instructions.</p>"}. For details and an example, see [Create a Named Entity Recognition Labeling Job (API) ](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-named-entity-recg.html#sms-creating-ner-api). For all other [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html) and [custom tasks](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-custom-templates.html), your label category configuration file must be a JSON file in the following format. Identify the labels you want to use by replacing label_1, label_2,...,label_n with your label categories. {
     ///     "document-version": "2018-11-28",
     ///
     ///
@@ -37883,7 +37877,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A conditional statement for a search expression that includes a resource property, a Boolean operator, and a value. Resources that match the statement are returned in the results from the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API. If you specify a Value, but not an Operator, SageMaker uses the equals operator. In search, there are several property types: Metrics To define a metric filter, enter a value using the form "Metrics.", where  is a metric name. For example, the following filter searches for training jobs with an "accuracy" metric greater than "0.9": {
+    /// A conditional statement for a search expression that includes a resource property, a Boolean operator, and a value. Resources that match the statement are returned in the results from the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API. If you specify a Value, but not an Operator, SageMaker uses the equals operator. In search, there are several property types: Metrics To define a metric filter, enter a value using the form "Metrics.<name>", where <name> is a metric name. For example, the following filter searches for training jobs with an "accuracy" metric greater than "0.9": {
     ///     "Name": "Metrics.accuracy",
     ///
     ///
@@ -37892,7 +37886,7 @@ extension SageMakerClientTypes {
     ///
     ///     "Value": "0.9"
     ///
-    /// } HyperParameters To define a hyperparameter filter, enter a value with the form "HyperParameters.". Decimal hyperparameter values are treated as a decimal in a comparison if the specified Value is also a decimal value. If the specified Value is an integer, the decimal hyperparameter values are treated as integers. For example, the following filter is satisfied by training jobs with a "learning_rate" hyperparameter that is less than "0.5":  {
+    /// } HyperParameters To define a hyperparameter filter, enter a value with the form "HyperParameters.<name>". Decimal hyperparameter values are treated as a decimal in a comparison if the specified Value is also a decimal value. If the specified Value is an integer, the decimal hyperparameter values are treated as integers. For example, the following filter is satisfied by training jobs with a "learning_rate" hyperparameter that is less than "0.5":  {
     ///     "Name": "HyperParameters.learning_rate",
     ///
     ///
@@ -37901,7 +37895,7 @@ extension SageMakerClientTypes {
     ///
     ///     "Value": "0.5"
     ///
-    /// } Tags To define a tag filter, enter a value with the form Tags..
+    /// } Tags To define a tag filter, enter a value with the form Tags.<key>.
     public struct Filter: Swift.Sendable {
         /// A resource property name. For example, TrainingJobName. For valid property names, see [SearchRecord](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_SearchRecord.html). You must specify a valid property for the resource.
         /// This member is required.
@@ -48997,7 +48991,7 @@ extension SageMakerClientTypes {
 
     /// The list of key-value pairs used to filter your search results. If a search result contains a key from your list, it is included in the final search response if the value associated with the key in the result matches the value you specified. If the value doesn't match, the result is excluded from the search response. Any resources that don't have a key from the list that you've provided will also be included in the search response.
     public struct VisibilityConditions: Swift.Sendable {
-        /// The key that specifies the tag that you're using to filter the search results. It must be in the following format: Tags..
+        /// The key that specifies the tag that you're using to filter the search results. It must be in the following format: Tags.<key>.
         public var key: Swift.String?
         /// The value for the tag that you're using to filter the search results.
         public var value: Swift.String?

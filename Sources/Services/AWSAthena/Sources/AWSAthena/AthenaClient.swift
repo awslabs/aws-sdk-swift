@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AthenaClient: ClientRuntime.Client {
     public static let clientName = "AthenaClient"
-    public static let version = "1.3.12"
+    public static let version = "1.3.14"
     let client: ClientRuntime.SdkHttpClient
     let config: AthenaClient.AthenaClientConfiguration
     let serviceName = "Athena"
@@ -741,7 +741,7 @@ extension AthenaClient {
 
     /// Performs the `CreateDataCatalog` operation on the `Athena` service.
     ///
-    /// Creates (registers) a data catalog with the specified name and properties. Catalogs created are visible to all users of the same Amazon Web Services account. This API operation creates the following resources.
+    /// Creates (registers) a data catalog with the specified name and properties. Catalogs created are visible to all users of the same Amazon Web Services account. For a FEDERATED catalog, this API operation creates the following resources.
     ///
     /// * CFN Stack Name with a maximum length of 128 characters and prefix athenafederatedcatalog-CATALOG_NAME_SANITIZED with length 23 characters.
     ///

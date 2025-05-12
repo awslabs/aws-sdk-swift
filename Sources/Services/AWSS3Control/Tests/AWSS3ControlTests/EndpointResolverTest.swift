@@ -3449,4 +3449,160 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
+    /// Access Point APIs on express bucket routed to custom endpoint if provided
+    func testResolve121() throws {
+        let endpointParams = EndpointParams(
+            accessPointName: "myaccesspoint--abcd-ab1--xa-s3",
+            accountId: "871317572157",
+            endpoint: "https://my-endpoint.express-control.s3.aws.dev",
+            region: "us-east-1",
+            requiresAccountId: true,
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://my-endpoint.express-control.s3.aws.dev", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Access Point APIs on express bucket routed to custom endpoint if provided for List
+    func testResolve122() throws {
+        let endpointParams = EndpointParams(
+            accountId: "871317572157",
+            endpoint: "https://my-endpoint.express-control.s3.aws.dev",
+            region: "us-east-1",
+            requiresAccountId: true,
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://my-endpoint.express-control.s3.aws.dev", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Error on Access Point APIs on express bucket for dual stack
+    func testResolve123() throws {
+        let endpointParams = EndpointParams(
+            accessPointName: "myaccesspoint--abcd-ab1--xa-s3",
+            accountId: "871317572157",
+            region: "us-east-1",
+            requiresAccountId: true,
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("S3Express does not support Dual-stack.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// Error Access Point APIs on express bucket for dual stack for List
+    func testResolve124() throws {
+        let endpointParams = EndpointParams(
+            accountId: "871317572157",
+            region: "us-east-1",
+            requiresAccountId: true,
+            useDualStack: true,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("S3Express does not support Dual-stack.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// Error on Access Point APIs on express bucket for custom endpoint and dual stack
+    func testResolve125() throws {
+        let endpointParams = EndpointParams(
+            accessPointName: "myaccesspoint--abcd-ab1--xa-s3",
+            accountId: "871317572157",
+            endpoint: "https://my-endpoint.express-control.s3.aws.dev",
+            region: "us-east-1",
+            requiresAccountId: true,
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: DualStack and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// Error Access Point APIs on express bucket for custom endpoint and dual stack for List
+    func testResolve126() throws {
+        let endpointParams = EndpointParams(
+            accountId: "871317572157",
+            endpoint: "https://my-endpoint.express-control.s3.aws.dev",
+            region: "us-east-1",
+            requiresAccountId: true,
+            useDualStack: true,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: DualStack and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
 }

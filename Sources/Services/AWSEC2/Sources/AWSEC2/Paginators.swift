@@ -2449,6 +2449,7 @@ extension DescribeReservedInstancesOfferingsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeReservedInstancesOfferingsInput {
         return DescribeReservedInstancesOfferingsInput(
             availabilityZone: self.availabilityZone,
+            availabilityZoneId: self.availabilityZoneId,
             dryRun: self.dryRun,
             filters: self.filters,
             includeMarketplace: self.includeMarketplace,

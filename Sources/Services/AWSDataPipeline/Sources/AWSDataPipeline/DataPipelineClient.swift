@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataPipelineClient: ClientRuntime.Client {
     public static let clientName = "DataPipelineClient"
-    public static let version = "1.3.12"
+    public static let version = "1.3.14"
     let client: ClientRuntime.SdkHttpClient
     let config: DataPipelineClient.DataPipelineClientConfiguration
     let serviceName = "Data Pipeline"

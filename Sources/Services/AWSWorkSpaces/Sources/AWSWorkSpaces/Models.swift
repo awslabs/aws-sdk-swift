@@ -3772,8 +3772,6 @@ extension WorkSpacesClientTypes {
         public var enableInternetAccess: Swift.Bool?
         /// Specifies whether maintenance mode is enabled for WorkSpaces. For more information, see [WorkSpace Maintenance](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspace-maintenance.html).
         public var enableMaintenanceMode: Swift.Bool?
-        /// Specifies whether the directory is enabled for Amazon WorkDocs.
-        public var enableWorkDocs: Swift.Bool?
         /// Indicates the IAM role ARN of the instance.
         public var instanceIamRoleArn: Swift.String?
         /// Specifies whether WorkSpace users are local administrators on their WorkSpaces.
@@ -3784,7 +3782,6 @@ extension WorkSpacesClientTypes {
             defaultOu: Swift.String? = nil,
             enableInternetAccess: Swift.Bool? = nil,
             enableMaintenanceMode: Swift.Bool? = nil,
-            enableWorkDocs: Swift.Bool? = nil,
             instanceIamRoleArn: Swift.String? = nil,
             userEnabledAsLocalAdministrator: Swift.Bool? = nil
         ) {
@@ -3792,7 +3789,6 @@ extension WorkSpacesClientTypes {
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
             self.enableMaintenanceMode = enableMaintenanceMode
-            self.enableWorkDocs = enableWorkDocs
             self.instanceIamRoleArn = instanceIamRoleArn
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
         }
@@ -7078,8 +7074,6 @@ extension WorkSpacesClientTypes {
         public var enableInternetAccess: Swift.Bool?
         /// Indicates whether maintenance mode is enabled for your WorkSpaces. For more information, see [WorkSpace Maintenance](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspace-maintenance.html).
         public var enableMaintenanceMode: Swift.Bool?
-        /// Indicates whether Amazon WorkDocs is enabled for your WorkSpaces. If WorkDocs is already enabled for a WorkSpaces directory and you disable it, new WorkSpaces launched in the directory will not have WorkDocs enabled. However, WorkDocs remains enabled for any existing WorkSpaces, unless you either disable users' access to WorkDocs or you delete the WorkDocs site. To disable users' access to WorkDocs, see [Disabling Users](https://docs.aws.amazon.com/workdocs/latest/adminguide/inactive-user.html) in the Amazon WorkDocs Administration Guide. To delete a WorkDocs site, see [Deleting a Site](https://docs.aws.amazon.com/workdocs/latest/adminguide/manage-sites.html) in the Amazon WorkDocs Administration Guide. If you enable WorkDocs on a directory that already has existing WorkSpaces, the existing WorkSpaces and any new WorkSpaces that are launched in the directory will have WorkDocs enabled.
-        public var enableWorkDocs: Swift.Bool?
         /// Indicates the IAM role ARN of the instance.
         public var instanceIamRoleArn: Swift.String?
         /// Indicates whether users are local administrators of their WorkSpaces.
@@ -7090,7 +7084,6 @@ extension WorkSpacesClientTypes {
             defaultOu: Swift.String? = nil,
             enableInternetAccess: Swift.Bool? = nil,
             enableMaintenanceMode: Swift.Bool? = nil,
-            enableWorkDocs: Swift.Bool? = nil,
             instanceIamRoleArn: Swift.String? = nil,
             userEnabledAsLocalAdministrator: Swift.Bool? = nil
         ) {
@@ -7098,7 +7091,6 @@ extension WorkSpacesClientTypes {
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
             self.enableMaintenanceMode = enableMaintenanceMode
-            self.enableWorkDocs = enableWorkDocs
             self.instanceIamRoleArn = instanceIamRoleArn
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
         }
@@ -7357,8 +7349,6 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
     public var directoryId: Swift.String?
     /// Indicates whether self-service capabilities are enabled or disabled.
     public var enableSelfService: Swift.Bool?
-    /// Indicates whether Amazon WorkDocs is enabled or disabled. If you have enabled this parameter and WorkDocs is not available in the Region, you will receive an OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
-    public var enableWorkDocs: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the identity center instance.
     public var idcInstanceArn: Swift.String?
     /// The details about Microsoft Entra config.
@@ -7382,7 +7372,6 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
         activeDirectoryConfig: WorkSpacesClientTypes.ActiveDirectoryConfig? = nil,
         directoryId: Swift.String? = nil,
         enableSelfService: Swift.Bool? = nil,
-        enableWorkDocs: Swift.Bool? = nil,
         idcInstanceArn: Swift.String? = nil,
         microsoftEntraConfig: WorkSpacesClientTypes.MicrosoftEntraConfig? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -7396,7 +7385,6 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
         self.activeDirectoryConfig = activeDirectoryConfig
         self.directoryId = directoryId
         self.enableSelfService = enableSelfService
-        self.enableWorkDocs = enableWorkDocs
         self.idcInstanceArn = idcInstanceArn
         self.microsoftEntraConfig = microsoftEntraConfig
         self.subnetIds = subnetIds
@@ -9167,7 +9155,6 @@ extension RegisterWorkspaceDirectoryInput {
         try writer["ActiveDirectoryConfig"].write(value.activeDirectoryConfig, with: WorkSpacesClientTypes.ActiveDirectoryConfig.write(value:to:))
         try writer["DirectoryId"].write(value.directoryId)
         try writer["EnableSelfService"].write(value.enableSelfService)
-        try writer["EnableWorkDocs"].write(value.enableWorkDocs)
         try writer["IdcInstanceArn"].write(value.idcInstanceArn)
         try writer["MicrosoftEntraConfig"].write(value.microsoftEntraConfig, with: WorkSpacesClientTypes.MicrosoftEntraConfig.write(value:to:))
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -12965,7 +12952,6 @@ extension WorkSpacesClientTypes.DefaultWorkspaceCreationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.DefaultWorkspaceCreationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.DefaultWorkspaceCreationProperties()
-        value.enableWorkDocs = try reader["EnableWorkDocs"].readIfPresent()
         value.enableInternetAccess = try reader["EnableInternetAccess"].readIfPresent()
         value.defaultOu = try reader["DefaultOu"].readIfPresent()
         value.customSecurityGroupId = try reader["CustomSecurityGroupId"].readIfPresent()
@@ -13163,7 +13149,6 @@ extension WorkSpacesClientTypes.WorkspaceCreationProperties {
         try writer["DefaultOu"].write(value.defaultOu)
         try writer["EnableInternetAccess"].write(value.enableInternetAccess)
         try writer["EnableMaintenanceMode"].write(value.enableMaintenanceMode)
-        try writer["EnableWorkDocs"].write(value.enableWorkDocs)
         try writer["InstanceIamRoleArn"].write(value.instanceIamRoleArn)
         try writer["UserEnabledAsLocalAdministrator"].write(value.userEnabledAsLocalAdministrator)
     }
