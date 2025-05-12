@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import struct AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
+import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 
 class DefaultAWSCredentialIdentityResolverChainTests: XCTestCase {
 
