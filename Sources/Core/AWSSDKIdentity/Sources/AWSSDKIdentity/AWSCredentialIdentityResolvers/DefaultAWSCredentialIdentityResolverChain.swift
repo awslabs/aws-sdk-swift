@@ -31,7 +31,7 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
     typealias ResolverFactory = @Sendable () throws -> (any AWSCredentialIdentityResolver)
 
     private let resolverFactories: [ResolverFactory]
-    private var cachedCredentials: AWSCredentialIdentity? = nil
+    private var cachedCredentials: AWSCredentialIdentity?
 
     public init() {
         resolverFactories = [
