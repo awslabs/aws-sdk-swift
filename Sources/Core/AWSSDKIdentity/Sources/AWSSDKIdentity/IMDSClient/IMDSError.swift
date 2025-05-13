@@ -21,4 +21,5 @@ public enum IMDSError: Error {
     case networkError(Error)
     case deserializationError(String)
     case reachedMaxRetries
+    case invalidRetryValue(String)
 }
