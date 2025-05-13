@@ -215,14 +215,84 @@ extension BedrockAgentRuntimeClientTypes.ActionGroupInvocationInput: Swift.Custo
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// Contains information of the usage of the foundation model.
+    public struct Usage: Swift.Sendable {
+        /// Contains information about the input tokens from the foundation model usage.
+        public var inputTokens: Swift.Int?
+        /// Contains information about the output tokens from the foundation model usage.
+        public var outputTokens: Swift.Int?
+
+        public init(
+            inputTokens: Swift.Int? = nil,
+            outputTokens: Swift.Int? = nil
+        ) {
+            self.inputTokens = inputTokens
+            self.outputTokens = outputTokens
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.Usage: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Provides information about the execution process for different types of invocations, such as model invocation, knowledge base invocation, agent collaborator invocation, guardrail invocation, and code interpreter Invocation.
+    public struct Metadata: Swift.Sendable {
+        /// A unique identifier associated with the downstream invocation. This ID can be used for tracing, debugging, and identifying specific invocations in customer logs or systems.
+        public var clientRequestId: Swift.String?
+        /// In the final response, endTime is the end time time of the agent invocation operation.
+        public var endTime: Foundation.Date?
+        /// The total time it took for the agent to complete execution. This field is only set for the final response.
+        public var operationTotalTimeMs: Swift.Int?
+        /// In the final response, startTime is the start time of the agent invocation operation.
+        public var startTime: Foundation.Date?
+        /// The total execution time for the specific invocation being processed (model, knowledge base, guardrail, agent collaborator, or code interpreter). It represents how long the individual invocation took.
+        public var totalTimeMs: Swift.Int?
+        /// Specific to model invocation and contains details about the usage of a foundation model.
+        public var usage: BedrockAgentRuntimeClientTypes.Usage?
+
+        public init(
+            clientRequestId: Swift.String? = nil,
+            endTime: Foundation.Date? = nil,
+            operationTotalTimeMs: Swift.Int? = nil,
+            startTime: Foundation.Date? = nil,
+            totalTimeMs: Swift.Int? = nil,
+            usage: BedrockAgentRuntimeClientTypes.Usage? = nil
+        ) {
+            self.clientRequestId = clientRequestId
+            self.endTime = endTime
+            self.operationTotalTimeMs = operationTotalTimeMs
+            self.startTime = startTime
+            self.totalTimeMs = totalTimeMs
+            self.usage = usage
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.Metadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// Contains the JSON-formatted string returned by the API invoked by the action group.
     public struct ActionGroupInvocationOutput: Swift.Sendable {
+        /// Contains information about the action group output.
+        public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
         /// The JSON-formatted string returned by the API invoked by the action group.
         public var text: Swift.String?
 
         public init(
+            metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
             text: Swift.String? = nil
         ) {
+            self.metadata = metadata
             self.text = text
         }
     }
@@ -230,7 +300,7 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes.ActionGroupInvocationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ActionGroupInvocationOutput(text: \"CONTENT_REDACTED\")"}
+        "ActionGroupInvocationOutput(metadata: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
@@ -1157,19 +1227,28 @@ extension BedrockAgentRuntimeClientTypes {
         public var agentCollaboratorAliasArn: Swift.String?
         /// The output's agent collaborator name.
         public var agentCollaboratorName: Swift.String?
+        /// Contains information about the output from the agent collaborator.
+        public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
         /// The output's output.
         public var output: BedrockAgentRuntimeClientTypes.AgentCollaboratorOutputPayload?
 
         public init(
             agentCollaboratorAliasArn: Swift.String? = nil,
             agentCollaboratorName: Swift.String? = nil,
+            metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
             output: BedrockAgentRuntimeClientTypes.AgentCollaboratorOutputPayload? = nil
         ) {
             self.agentCollaboratorAliasArn = agentCollaboratorAliasArn
             self.agentCollaboratorName = agentCollaboratorName
+            self.metadata = metadata
             self.output = output
         }
     }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgentCollaboratorInvocationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AgentCollaboratorInvocationOutput(agentCollaboratorAliasArn: \(Swift.String(describing: agentCollaboratorAliasArn)), agentCollaboratorName: \(Swift.String(describing: agentCollaboratorName)), output: \(Swift.String(describing: output)), metadata: \"CONTENT_REDACTED\")"}
 }
 
 /// There was an issue with a dependency due to a server issue. Retry your request.
@@ -3490,16 +3569,24 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// Contains information about the failure of the interaction.
     public struct FailureTrace: Swift.Sendable {
+        /// The failure code for the trace.
+        public var failureCode: Swift.Int?
         /// The reason the interaction failed.
         public var failureReason: Swift.String?
+        /// Information about the failure that occurred.
+        public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
         /// The unique identifier of the trace.
         public var traceId: Swift.String?
 
         public init(
+            failureCode: Swift.Int? = nil,
             failureReason: Swift.String? = nil,
+            metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
             traceId: Swift.String? = nil
         ) {
+            self.failureCode = failureCode
             self.failureReason = failureReason
+            self.metadata = metadata
             self.traceId = traceId
         }
     }
@@ -4198,6 +4285,8 @@ extension BedrockAgentRuntimeClientTypes {
         public var action: BedrockAgentRuntimeClientTypes.GuardrailAction?
         /// The details of the input assessments used in the Guardrail Trace.
         public var inputAssessments: [BedrockAgentRuntimeClientTypes.GuardrailAssessment]?
+        /// Contains information about the Guardrail output.
+        public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
         /// The details of the output assessments used in the Guardrail Trace.
         public var outputAssessments: [BedrockAgentRuntimeClientTypes.GuardrailAssessment]?
         /// The details of the trace Id used in the Guardrail Trace.
@@ -4206,11 +4295,13 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             action: BedrockAgentRuntimeClientTypes.GuardrailAction? = nil,
             inputAssessments: [BedrockAgentRuntimeClientTypes.GuardrailAssessment]? = nil,
+            metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
             outputAssessments: [BedrockAgentRuntimeClientTypes.GuardrailAssessment]? = nil,
             traceId: Swift.String? = nil
         ) {
             self.action = action
             self.inputAssessments = inputAssessments
+            self.metadata = metadata
             self.outputAssessments = outputAssessments
             self.traceId = traceId
         }
@@ -4500,52 +4591,6 @@ extension BedrockAgentRuntimeClientTypes.ModelInvocationInput: Swift.CustomDebug
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains information of the usage of the foundation model.
-    public struct Usage: Swift.Sendable {
-        /// Contains information about the input tokens from the foundation model usage.
-        public var inputTokens: Swift.Int?
-        /// Contains information about the output tokens from the foundation model usage.
-        public var outputTokens: Swift.Int?
-
-        public init(
-            inputTokens: Swift.Int? = nil,
-            outputTokens: Swift.Int? = nil
-        ) {
-            self.inputTokens = inputTokens
-            self.outputTokens = outputTokens
-        }
-    }
-}
-
-extension BedrockAgentRuntimeClientTypes.Usage: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CONTENT_REDACTED"
-    }
-}
-
-extension BedrockAgentRuntimeClientTypes {
-
-    /// Provides details of the foundation model.
-    public struct Metadata: Swift.Sendable {
-        /// Contains details of the foundation model usage.
-        public var usage: BedrockAgentRuntimeClientTypes.Usage?
-
-        public init(
-            usage: BedrockAgentRuntimeClientTypes.Usage? = nil
-        ) {
-            self.usage = usage
-        }
-    }
-}
-
-extension BedrockAgentRuntimeClientTypes.Metadata: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CONTENT_REDACTED"
-    }
-}
-
-extension BedrockAgentRuntimeClientTypes {
-
     /// Contains the raw output from the foundation model.
     public struct RawResponse: Swift.Sendable {
         /// The foundation model's raw output content.
@@ -4648,31 +4693,44 @@ extension BedrockAgentRuntimeClientTypes {
         public var executionTimeout: Swift.Bool?
         /// Contains output files, if generated by code execution.
         public var files: [Swift.String]?
+        /// Contains information about the output from the code interpreter.
+        public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
 
         public init(
             executionError: Swift.String? = nil,
             executionOutput: Swift.String? = nil,
             executionTimeout: Swift.Bool? = nil,
-            files: [Swift.String]? = nil
+            files: [Swift.String]? = nil,
+            metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil
         ) {
             self.executionError = executionError
             self.executionOutput = executionOutput
             self.executionTimeout = executionTimeout
             self.files = files
+            self.metadata = metadata
         }
     }
+}
+
+extension BedrockAgentRuntimeClientTypes.CodeInterpreterInvocationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CodeInterpreterInvocationOutput(executionError: \(Swift.String(describing: executionError)), executionOutput: \(Swift.String(describing: executionOutput)), executionTimeout: \(Swift.String(describing: executionTimeout)), files: \(Swift.String(describing: files)), metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
 
     /// Contains details about the response to the user.
     public struct FinalResponse: Swift.Sendable {
+        /// Contains information about the invoke agent operation.
+        public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
         /// The text in the response to the user.
         public var text: Swift.String?
 
         public init(
+            metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
             text: Swift.String? = nil
         ) {
+            self.metadata = metadata
             self.text = text
         }
     }
@@ -4680,22 +4738,31 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes.FinalResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "FinalResponse(text: \"CONTENT_REDACTED\")"}
+        "FinalResponse(metadata: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
 
     /// Contains details about the results from looking up the knowledge base.
     public struct KnowledgeBaseLookupOutput: Swift.Sendable {
+        /// Contains information about the knowledge base output.
+        public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
         /// Contains metadata about the sources cited for the generated response.
         public var retrievedReferences: [BedrockAgentRuntimeClientTypes.RetrievedReference]?
 
         public init(
+            metadata: BedrockAgentRuntimeClientTypes.Metadata? = nil,
             retrievedReferences: [BedrockAgentRuntimeClientTypes.RetrievedReference]? = nil
         ) {
+            self.metadata = metadata
             self.retrievedReferences = retrievedReferences
         }
     }
+}
+
+extension BedrockAgentRuntimeClientTypes.KnowledgeBaseLookupOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "KnowledgeBaseLookupOutput(retrievedReferences: \(Swift.String(describing: retrievedReferences)), metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
@@ -10623,6 +10690,34 @@ extension BedrockAgentRuntimeClientTypes.FailureTrace {
         var value = BedrockAgentRuntimeClientTypes.FailureTrace()
         value.traceId = try reader["traceId"].readIfPresent()
         value.failureReason = try reader["failureReason"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.Metadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.Metadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.Metadata()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.totalTimeMs = try reader["totalTimeMs"].readIfPresent()
+        value.operationTotalTimeMs = try reader["operationTotalTimeMs"].readIfPresent()
+        value.clientRequestId = try reader["clientRequestId"].readIfPresent()
+        value.usage = try reader["usage"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Usage.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.Usage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.Usage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.Usage()
+        value.inputTokens = try reader["inputTokens"].readIfPresent()
+        value.outputTokens = try reader["outputTokens"].readIfPresent()
         return value
     }
 }
@@ -10655,27 +10750,6 @@ extension BedrockAgentRuntimeClientTypes.RoutingClassifierModelInvocationOutput 
         value.traceId = try reader["traceId"].readIfPresent()
         value.rawResponse = try reader["rawResponse"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RawResponse.read(from:))
         value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentRuntimeClientTypes.Metadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.Metadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentRuntimeClientTypes.Metadata()
-        value.usage = try reader["usage"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Usage.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentRuntimeClientTypes.Usage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.Usage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentRuntimeClientTypes.Usage()
-        value.inputTokens = try reader["inputTokens"].readIfPresent()
-        value.outputTokens = try reader["outputTokens"].readIfPresent()
         return value
     }
 }
@@ -10756,6 +10830,7 @@ extension BedrockAgentRuntimeClientTypes.CodeInterpreterInvocationOutput {
         value.executionError = try reader["executionError"].readIfPresent()
         value.files = try reader["files"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.executionTimeout = try reader["executionTimeout"].readIfPresent()
+        value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
         return value
     }
 }
@@ -10777,6 +10852,7 @@ extension BedrockAgentRuntimeClientTypes.FinalResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.FinalResponse()
         value.text = try reader["text"].readIfPresent()
+        value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
         return value
     }
 }
@@ -10787,6 +10863,7 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseLookupOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.KnowledgeBaseLookupOutput()
         value.retrievedReferences = try reader["retrievedReferences"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.RetrievedReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
         return value
     }
 }
@@ -10934,6 +11011,7 @@ extension BedrockAgentRuntimeClientTypes.AgentCollaboratorInvocationOutput {
         value.agentCollaboratorName = try reader["agentCollaboratorName"].readIfPresent()
         value.agentCollaboratorAliasArn = try reader["agentCollaboratorAliasArn"].readIfPresent()
         value.output = try reader["output"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgentCollaboratorOutputPayload.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
         return value
     }
 }
@@ -10956,6 +11034,7 @@ extension BedrockAgentRuntimeClientTypes.ActionGroupInvocationOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.ActionGroupInvocationOutput()
         value.text = try reader["text"].readIfPresent()
+        value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
         return value
     }
 }
@@ -11362,6 +11441,7 @@ extension BedrockAgentRuntimeClientTypes.GuardrailTrace {
         value.traceId = try reader["traceId"].readIfPresent()
         value.inputAssessments = try reader["inputAssessments"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.GuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.outputAssessments = try reader["outputAssessments"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.GuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metadata = try reader["metadata"].readIfPresent(with: BedrockAgentRuntimeClientTypes.Metadata.read(from:))
         return value
     }
 }

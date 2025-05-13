@@ -2395,6 +2395,22 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// The system-defined guardrail profile that you're using with your guardrail. Guardrail profiles define the destination Amazon Web Services Regions where guardrail inference requests can be automatically routed. Using guardrail profiles helps maintain guardrail performance and reliability when demand increases. For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+    public struct GuardrailCrossRegionConfig: Swift.Sendable {
+        /// The ID or Amazon Resource Name (ARN) of the guardrail profile that your guardrail is using. Guardrail profile availability depends on your current Amazon Web Services Region. For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region-support.html).
+        /// This member is required.
+        public var guardrailProfileIdentifier: Swift.String?
+
+        public init(
+            guardrailProfileIdentifier: Swift.String? = nil
+        ) {
+            self.guardrailProfileIdentifier = guardrailProfileIdentifier
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     public enum GuardrailSensitiveInformationAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case anonymize
         case block
@@ -3066,6 +3082,8 @@ public struct CreateGuardrailInput: Swift.Sendable {
     public var contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig?
     /// The contextual grounding policy configuration used to create a guardrail.
     public var contextualGroundingPolicyConfig: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig?
+    /// The system-defined guardrail profile that you're using with your guardrail. Guardrail profiles define the destination Amazon Web Services Regions where guardrail inference requests can be automatically routed. For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+    public var crossRegionConfig: BedrockClientTypes.GuardrailCrossRegionConfig?
     /// A description of the guardrail.
     public var description: Swift.String?
     /// The ARN of the KMS key that you use to encrypt the guardrail.
@@ -3088,6 +3106,7 @@ public struct CreateGuardrailInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig? = nil,
         contextualGroundingPolicyConfig: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig? = nil,
+        crossRegionConfig: BedrockClientTypes.GuardrailCrossRegionConfig? = nil,
         description: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -3101,6 +3120,7 @@ public struct CreateGuardrailInput: Swift.Sendable {
         self.clientRequestToken = clientRequestToken
         self.contentPolicyConfig = contentPolicyConfig
         self.contextualGroundingPolicyConfig = contextualGroundingPolicyConfig
+        self.crossRegionConfig = crossRegionConfig
         self.description = description
         self.kmsKeyId = kmsKeyId
         self.name = name
@@ -3113,7 +3133,7 @@ public struct CreateGuardrailInput: Swift.Sendable {
 
 extension CreateGuardrailInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGuardrailInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), tags: \(Swift.String(describing: tags)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGuardrailInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), crossRegionConfig: \(Swift.String(describing: crossRegionConfig)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), tags: \(Swift.String(describing: tags)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGuardrailOutput: Swift.Sendable {
@@ -3365,6 +3385,25 @@ extension BedrockClientTypes {
             filters: [BedrockClientTypes.GuardrailContextualGroundingFilter]? = nil
         ) {
             self.filters = filters
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Contains details about the system-defined guardrail profile that you're using with your guardrail for cross-Region inference. For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+    public struct GuardrailCrossRegionDetails: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the guardrail profile that you're using with your guardrail.
+        public var guardrailProfileArn: Swift.String?
+        /// The ID of the guardrail profile that your guardrail is using. Profile availability depends on your current Amazon Web Services Region. For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region-support.html).
+        public var guardrailProfileId: Swift.String?
+
+        public init(
+            guardrailProfileArn: Swift.String? = nil,
+            guardrailProfileId: Swift.String? = nil
+        ) {
+            self.guardrailProfileArn = guardrailProfileArn
+            self.guardrailProfileId = guardrailProfileId
         }
     }
 }
@@ -3733,6 +3772,8 @@ public struct GetGuardrailOutput: Swift.Sendable {
     /// The date and time at which the guardrail was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
+    /// Details about the system-defined guardrail profile that you're using with your guardrail, including the guardrail profile ID and Amazon Resource Name (ARN).
+    public var crossRegionDetails: BedrockClientTypes.GuardrailCrossRegionDetails?
     /// The description of the guardrail.
     public var description: Swift.String?
     /// Appears if the status of the guardrail is FAILED. A list of recommendations to carry out before retrying the request.
@@ -3772,6 +3813,7 @@ public struct GetGuardrailOutput: Swift.Sendable {
         contentPolicy: BedrockClientTypes.GuardrailContentPolicy? = nil,
         contextualGroundingPolicy: BedrockClientTypes.GuardrailContextualGroundingPolicy? = nil,
         createdAt: Foundation.Date? = nil,
+        crossRegionDetails: BedrockClientTypes.GuardrailCrossRegionDetails? = nil,
         description: Swift.String? = nil,
         failureRecommendations: [Swift.String]? = nil,
         guardrailArn: Swift.String? = nil,
@@ -3791,6 +3833,7 @@ public struct GetGuardrailOutput: Swift.Sendable {
         self.contentPolicy = contentPolicy
         self.contextualGroundingPolicy = contextualGroundingPolicy
         self.createdAt = createdAt
+        self.crossRegionDetails = crossRegionDetails
         self.description = description
         self.failureRecommendations = failureRecommendations
         self.guardrailArn = guardrailArn
@@ -3809,7 +3852,7 @@ public struct GetGuardrailOutput: Swift.Sendable {
 
 extension GetGuardrailOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGuardrailOutput(contentPolicy: \(Swift.String(describing: contentPolicy)), contextualGroundingPolicy: \(Swift.String(describing: contextualGroundingPolicy)), createdAt: \(Swift.String(describing: createdAt)), guardrailArn: \(Swift.String(describing: guardrailArn)), guardrailId: \(Swift.String(describing: guardrailId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), sensitiveInformationPolicy: \(Swift.String(describing: sensitiveInformationPolicy)), status: \(Swift.String(describing: status)), topicPolicy: \(Swift.String(describing: topicPolicy)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), wordPolicy: \(Swift.String(describing: wordPolicy)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", failureRecommendations: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", statusReasons: \"CONTENT_REDACTED\")"}
+        "GetGuardrailOutput(contentPolicy: \(Swift.String(describing: contentPolicy)), contextualGroundingPolicy: \(Swift.String(describing: contextualGroundingPolicy)), createdAt: \(Swift.String(describing: createdAt)), crossRegionDetails: \(Swift.String(describing: crossRegionDetails)), guardrailArn: \(Swift.String(describing: guardrailArn)), guardrailId: \(Swift.String(describing: guardrailId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), sensitiveInformationPolicy: \(Swift.String(describing: sensitiveInformationPolicy)), status: \(Swift.String(describing: status)), topicPolicy: \(Swift.String(describing: topicPolicy)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), wordPolicy: \(Swift.String(describing: wordPolicy)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", failureRecommendations: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", statusReasons: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListGuardrailsInput: Swift.Sendable {
@@ -3843,6 +3886,8 @@ extension BedrockClientTypes {
         /// The date and time at which the guardrail was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
+        /// Details about the system-defined guardrail profile that you're using with your guardrail, including the guardrail profile ID and Amazon Resource Name (ARN).
+        public var crossRegionDetails: BedrockClientTypes.GuardrailCrossRegionDetails?
         /// A description of the guardrail.
         public var description: Swift.String?
         /// The unique identifier of the guardrail.
@@ -3864,6 +3909,7 @@ extension BedrockClientTypes {
         public init(
             arn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
+            crossRegionDetails: BedrockClientTypes.GuardrailCrossRegionDetails? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -3873,6 +3919,7 @@ extension BedrockClientTypes {
         ) {
             self.arn = arn
             self.createdAt = createdAt
+            self.crossRegionDetails = crossRegionDetails
             self.description = description
             self.id = id
             self.name = name
@@ -3885,7 +3932,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GuardrailSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GuardrailSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), crossRegionDetails: \(Swift.String(describing: crossRegionDetails)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListGuardrailsOutput: Swift.Sendable {
@@ -3915,6 +3962,8 @@ public struct UpdateGuardrailInput: Swift.Sendable {
     public var contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig?
     /// The contextual grounding policy configuration used to update a guardrail.
     public var contextualGroundingPolicyConfig: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig?
+    /// The system-defined guardrail profile that you're using with your guardrail. Guardrail profiles define the destination Amazon Web Services Regions where guardrail inference requests can be automatically routed. For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+    public var crossRegionConfig: BedrockClientTypes.GuardrailCrossRegionConfig?
     /// A description of the guardrail.
     public var description: Swift.String?
     /// The unique identifier of the guardrail. This can be an ID or the ARN.
@@ -3937,6 +3986,7 @@ public struct UpdateGuardrailInput: Swift.Sendable {
         blockedOutputsMessaging: Swift.String? = nil,
         contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig? = nil,
         contextualGroundingPolicyConfig: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig? = nil,
+        crossRegionConfig: BedrockClientTypes.GuardrailCrossRegionConfig? = nil,
         description: Swift.String? = nil,
         guardrailIdentifier: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -3949,6 +3999,7 @@ public struct UpdateGuardrailInput: Swift.Sendable {
         self.blockedOutputsMessaging = blockedOutputsMessaging
         self.contentPolicyConfig = contentPolicyConfig
         self.contextualGroundingPolicyConfig = contextualGroundingPolicyConfig
+        self.crossRegionConfig = crossRegionConfig
         self.description = description
         self.guardrailIdentifier = guardrailIdentifier
         self.kmsKeyId = kmsKeyId
@@ -3961,7 +4012,7 @@ public struct UpdateGuardrailInput: Swift.Sendable {
 
 extension UpdateGuardrailInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGuardrailInput(contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGuardrailInput(contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), crossRegionConfig: \(Swift.String(describing: crossRegionConfig)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGuardrailOutput: Swift.Sendable {
@@ -9160,6 +9211,7 @@ extension CreateGuardrailInput {
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["contentPolicyConfig"].write(value.contentPolicyConfig, with: BedrockClientTypes.GuardrailContentPolicyConfig.write(value:to:))
         try writer["contextualGroundingPolicyConfig"].write(value.contextualGroundingPolicyConfig, with: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig.write(value:to:))
+        try writer["crossRegionConfig"].write(value.crossRegionConfig, with: BedrockClientTypes.GuardrailCrossRegionConfig.write(value:to:))
         try writer["description"].write(value.description)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
@@ -9347,6 +9399,7 @@ extension UpdateGuardrailInput {
         try writer["blockedOutputsMessaging"].write(value.blockedOutputsMessaging)
         try writer["contentPolicyConfig"].write(value.contentPolicyConfig, with: BedrockClientTypes.GuardrailContentPolicyConfig.write(value:to:))
         try writer["contextualGroundingPolicyConfig"].write(value.contextualGroundingPolicyConfig, with: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig.write(value:to:))
+        try writer["crossRegionConfig"].write(value.crossRegionConfig, with: BedrockClientTypes.GuardrailCrossRegionConfig.write(value:to:))
         try writer["description"].write(value.description)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
@@ -9662,6 +9715,7 @@ extension GetGuardrailOutput {
         value.contentPolicy = try reader["contentPolicy"].readIfPresent(with: BedrockClientTypes.GuardrailContentPolicy.read(from:))
         value.contextualGroundingPolicy = try reader["contextualGroundingPolicy"].readIfPresent(with: BedrockClientTypes.GuardrailContextualGroundingPolicy.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.crossRegionDetails = try reader["crossRegionDetails"].readIfPresent(with: BedrockClientTypes.GuardrailCrossRegionDetails.read(from:))
         value.description = try reader["description"].readIfPresent()
         value.failureRecommendations = try reader["failureRecommendations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.guardrailArn = try reader["guardrailArn"].readIfPresent() ?? ""
@@ -12860,6 +12914,17 @@ extension BedrockClientTypes.GuardrailContextualGroundingFilter {
     }
 }
 
+extension BedrockClientTypes.GuardrailCrossRegionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailCrossRegionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.GuardrailCrossRegionDetails()
+        value.guardrailProfileId = try reader["guardrailProfileId"].readIfPresent()
+        value.guardrailProfileArn = try reader["guardrailProfileArn"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockClientTypes.ModelDataSource {
 
     static func write(value: BedrockClientTypes.ModelDataSource?, to writer: SmithyJSON.Writer) throws {
@@ -13264,6 +13329,7 @@ extension BedrockClientTypes.GuardrailSummary {
         value.version = try reader["version"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.crossRegionDetails = try reader["crossRegionDetails"].readIfPresent(with: BedrockClientTypes.GuardrailCrossRegionDetails.read(from:))
         return value
     }
 }
@@ -13569,6 +13635,14 @@ extension BedrockClientTypes.GuardrailContextualGroundingFilterConfig {
         try writer["enabled"].write(value.enabled)
         try writer["threshold"].write(value.threshold)
         try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockClientTypes.GuardrailCrossRegionConfig {
+
+    static func write(value: BedrockClientTypes.GuardrailCrossRegionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["guardrailProfileIdentifier"].write(value.guardrailProfileIdentifier)
     }
 }
 

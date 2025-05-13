@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IotDeviceAdvisorClient: ClientRuntime.Client {
     public static let clientName = "IotDeviceAdvisorClient"
-    public static let version = "1.3.14"
+    public static let version = "1.3.15"
     let client: ClientRuntime.SdkHttpClient
     let config: IotDeviceAdvisorClient.IotDeviceAdvisorClientConfiguration
     let serviceName = "IotDeviceAdvisor"

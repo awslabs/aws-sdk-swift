@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ECSClient: ClientRuntime.Client {
     public static let clientName = "ECSClient"
-    public static let version = "1.3.14"
+    public static let version = "1.3.15"
     let client: ClientRuntime.SdkHttpClient
     let config: ECSClient.ECSClientConfiguration
     let serviceName = "ECS"
@@ -371,7 +371,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `LimitExceededException` : The limit for the resource was exceeded.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -450,7 +452,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -536,7 +540,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
@@ -619,7 +625,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
@@ -703,7 +711,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func deleteAccountSetting(input: DeleteAccountSettingInput) async throws -> DeleteAccountSettingOutput {
@@ -857,7 +867,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func deleteCapacityProvider(input: DeleteCapacityProviderInput) async throws -> DeleteCapacityProviderOutput {
@@ -934,7 +946,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterContainsContainerInstancesException` : You can't delete a cluster that has registered container instances. First, deregister the container instances before you can delete the cluster. For more information, see [DeregisterContainerInstance](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeregisterContainerInstance.html).
     /// - `ClusterContainsServicesException` : You can't delete a cluster that contains services. First, update the service to reduce its desired task count to 0, and then delete the service. For more information, see [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html) and [DeleteService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteService.html).
     /// - `ClusterContainsTasksException` : You can't delete a cluster that has active tasks.
@@ -1016,7 +1030,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -1096,7 +1112,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func deleteTaskDefinitions(input: DeleteTaskDefinitionsInput) async throws -> DeleteTaskDefinitionsOutput {
@@ -1174,7 +1192,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -1256,7 +1276,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -1334,7 +1356,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func deregisterTaskDefinition(input: DeregisterTaskDefinitionInput) async throws -> DeregisterTaskDefinitionOutput {
@@ -1411,7 +1435,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeCapacityProviders(input: DescribeCapacityProvidersInput) async throws -> DescribeCapacityProvidersOutput {
@@ -1488,7 +1514,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput {
@@ -1565,7 +1593,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -1644,7 +1674,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -1725,7 +1757,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -1805,7 +1839,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -1883,7 +1919,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func describeTaskDefinition(input: DescribeTaskDefinitionInput) async throws -> DescribeTaskDefinitionOutput {
@@ -1961,7 +1999,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -2042,7 +2082,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -2120,7 +2162,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func discoverPollEndpoint(input: DiscoverPollEndpointInput) async throws -> DiscoverPollEndpointOutput {
         let context = Smithy.ContextBuilder()
@@ -2197,7 +2241,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -2286,7 +2332,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
@@ -2366,7 +2414,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listAccountSettings(input: ListAccountSettingsInput) async throws -> ListAccountSettingsOutput {
@@ -2519,7 +2569,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput {
@@ -2596,7 +2648,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -2675,7 +2729,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     /// - `ServiceNotFoundException` : The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
@@ -2754,7 +2810,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -2832,7 +2890,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -2910,7 +2970,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -2988,7 +3050,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listTaskDefinitionFamilies(input: ListTaskDefinitionFamiliesInput) async throws -> ListTaskDefinitionFamiliesOutput {
@@ -3065,7 +3129,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func listTaskDefinitions(input: ListTaskDefinitionsInput) async throws -> ListTaskDefinitionsOutput {
@@ -3142,7 +3208,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -3221,7 +3289,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func putAccountSetting(input: PutAccountSettingInput) async throws -> PutAccountSettingOutput {
@@ -3298,7 +3368,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func putAccountSettingDefault(input: PutAccountSettingDefaultInput) async throws -> PutAccountSettingDefaultOutput {
@@ -3453,7 +3525,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ResourceInUseException` : The specified resource is in-use and can't be removed.
@@ -3533,7 +3607,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func registerContainerInstance(input: RegisterContainerInstanceInput) async throws -> RegisterContainerInstanceOutput {
@@ -3610,7 +3686,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func registerTaskDefinition(input: RegisterTaskDefinitionInput) async throws -> RegisterTaskDefinitionOutput {
@@ -3691,9 +3769,6 @@ extension ECSClient {
     ///
     /// * Run RunTask with the clientToken and the original set of parameters
     ///
-    ///
-    /// If you get a ClientExceptionerror, the RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-    ///
     /// - Parameter RunTaskInput : [no documentation found]
     ///
     /// - Returns: `RunTaskOutput` : [no documentation found]
@@ -3703,7 +3778,9 @@ extension ECSClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
     /// - `BlockedException` : Your Amazon Web Services account was blocked. For more information, contact [ Amazon Web ServicesSupport](http://aws.amazon.com/contact-us/).
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
@@ -3786,7 +3863,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -3856,12 +3935,7 @@ extension ECSClient {
 
     /// Performs the `StopServiceDeployment` operation on the `ECS` service.
     ///
-    /// Stops an ongoing service deployment. The following stop types are avaiable:
-    ///
-    /// * ROLLBACK - This option rolls back the service deployment to the previous service revision. You can use this option even if you didn't configure the service deployment for the rollback option.
-    ///
-    ///
-    /// For more information, see [Stopping Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/stop-service-deployment.html) in the Amazon Elastic Container Service Developer Guide.
+    /// Stops an ongoing service deployment. StopServiceDeployment isn't currently supported.
     ///
     /// - Parameter StopServiceDeploymentInput : [no documentation found]
     ///
@@ -3871,7 +3945,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -3951,7 +4027,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -4030,7 +4108,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func submitAttachmentStateChanges(input: SubmitAttachmentStateChangesInput) async throws -> SubmitAttachmentStateChangesOutput {
@@ -4108,7 +4188,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func submitContainerStateChange(input: SubmitContainerStateChangeInput) async throws -> SubmitContainerStateChangeOutput {
         let context = Smithy.ContextBuilder()
@@ -4185,7 +4267,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func submitTaskStateChange(input: SubmitTaskStateChangeInput) async throws -> SubmitTaskStateChangeOutput {
@@ -4262,7 +4346,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
@@ -4341,7 +4427,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
@@ -4420,7 +4508,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
     public func updateCapacityProvider(input: UpdateCapacityProviderInput) async throws -> UpdateCapacityProviderOutput {
@@ -4497,7 +4587,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
@@ -4576,7 +4668,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -4654,7 +4748,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `MissingVersionException` : Amazon ECS can't determine the current version of the Amazon ECS container agent on the container instance and doesn't have enough information to proceed with an update. This could be because the agent running on the container instance is a previous or custom version that doesn't use our version information.
@@ -4742,7 +4838,9 @@ extension ECSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -4856,7 +4954,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `NamespaceNotFoundException` : The specified namespace wasn't found.
@@ -4941,7 +5041,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
@@ -5024,7 +5126,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ResourceNotFoundException` : The specified resource wasn't found.
@@ -5105,7 +5209,9 @@ extension ECSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have authorization to perform the requested action.
-    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+    /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+    ///
+    /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     /// - `ClusterNotFoundException` : The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
