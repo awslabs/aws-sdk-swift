@@ -73,10 +73,10 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
         }
 
         let now = Date()
-        let tenMinutesBeforeExpiration = expiration.addingTimeInterval(-600)
+        let fiveMinutesBeforeExpiration = expiration.addingTimeInterval(-300)
 
-        // Return true if now is after (expiration - 10 minutes).
-        return now >= tenMinutesBeforeExpiration
+        // Return true if now is after (expiration - 5 minutes).
+        return now >= fiveMinutesBeforeExpiration
     }
 }
 
