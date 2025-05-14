@@ -92,7 +92,9 @@ extension ECSClientTypes {
     }
 }
 
-/// These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
+/// These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
+///
+/// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
 public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -680,9 +682,9 @@ extension ECSClientTypes {
 
     /// The managed storage configuration for the cluster.
     public struct ManagedStorageConfiguration: Swift.Sendable {
-        /// Specify the Key Management Service key ID for the Fargate ephemeral storage. The key must be a single Region key.
+        /// Specify the Key Management Service key ID for Fargate ephemeral storage. When you specify a fargateEphemeralStorageKmsKeyId, Amazon Web Services Fargate uses the key to encrypt data at rest in ephemeral storage. For more information about Fargate ephemeral storage encryption, see [Customer managed keys for Amazon Web Services Fargate ephemeral storage for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-storage-encryption.html) in the Amazon Elastic Container Service Developer Guide. The key must be a single Region key.
         public var fargateEphemeralStorageKmsKeyId: Swift.String?
-        /// Specify a Key Management Service key ID to encrypt the managed storage. The key must be a single Region key.
+        /// Specify a Key Management Service key ID to encrypt Amazon ECS managed storage. When you specify a kmsKeyId, Amazon ECS uses the key to encrypt data volumes managed by Amazon ECS that are attached to tasks in the cluster. The following data volumes are managed by Amazon ECS: Amazon EBS. For more information about encryption of Amazon EBS volumes attached to Amazon ECS tasks, see [Encrypt data stored in Amazon EBS volumes for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-kms-encryption.html) in the Amazon Elastic Container Service Developer Guide. The key must be a single Region key.
         public var kmsKeyId: Swift.String?
 
         public init(
@@ -925,7 +927,7 @@ extension ECSClientTypes {
         public var clusterArn: Swift.String?
         /// A user-generated string that you use to identify your cluster.
         public var clusterName: Swift.String?
-        /// The execute command configuration for the cluster.
+        /// The execute command and managed storage configuration for the cluster.
         public var configuration: ECSClientTypes.ClusterConfiguration?
         /// The default capacity provider strategy for the cluster. When services or tasks are run in the cluster with no launch type or capacity provider strategy specified, the default capacity provider strategy is used.
         public var defaultCapacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
@@ -1952,9 +1954,9 @@ extension ECSClientTypes {
 
     /// The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf. These settings are used to create each Amazon EBS volume, with one volume created for each task in the service. For information about the supported launch types and operating systems, see [Supported operating systems and launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volumes-configuration) in the Amazon Elastic Container Service Developer Guide. Many of these parameters map 1:1 with the Amazon EBS CreateVolume API request parameters.
     public struct ServiceManagedEBSVolumeConfiguration: Swift.Sendable {
-        /// Indicates whether the volume should be encrypted. If no value is specified, encryption is turned on by default. This parameter maps 1:1 with the Encrypted parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        /// Indicates whether the volume should be encrypted. If you turn on Region-level Amazon EBS encryption by default but set this value as false, the setting is overridden and the volume is encrypted with the KMS key specified for Amazon EBS encryption by default. This parameter maps 1:1 with the Encrypted parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
         public var encrypted: Swift.Bool?
-        /// The filesystem type for the volume. For volumes created from a snapshot, you must specify the same filesystem type that the volume was using when the snapshot was created. If there is a filesystem type mismatch, the task will fail to start. The available Linux filesystem types are  ext3, ext4, and xfs. If no value is specified, the xfs filesystem type is used by default. The available Windows filesystem types are NTFS.
+        /// The filesystem type for the volume. For volumes created from a snapshot, you must specify the same filesystem type that the volume was using when the snapshot was created. If there is a filesystem type mismatch, the tasks will fail to start. The available Linux filesystem types are  ext3, ext4, and xfs. If no value is specified, the xfs filesystem type is used by default. The available Windows filesystem types are NTFS.
         public var filesystemType: ECSClientTypes.TaskFilesystemType?
         /// The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type.
         ///
@@ -1967,7 +1969,7 @@ extension ECSClientTypes {
         ///
         /// This parameter is required for io1 and io2 volume types. The default for gp3 volumes is 3,000 IOPS. This parameter is not supported for st1, sc1, or standard volume types. This parameter maps 1:1 with the Iops parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
         public var iops: Swift.Int?
-        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When encryption is turned on and no Amazon Web Services Key Management Service key is specified, the default Amazon Web Services managed key for Amazon EBS volumes is used. This parameter maps 1:1 with the KmsKeyId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an ID, alias, or ARN that is invalid, the action can appear to complete, but eventually fails.
+        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When a key is specified using this parameter, it overrides Amazon EBS default encryption or any KMS key that you specified for cluster-level managed storage encryption. This parameter maps 1:1 with the KmsKeyId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information about encrypting Amazon EBS volumes attached to tasks, see [Encrypt data stored in Amazon EBS volumes attached to Amazon ECS tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-kms-encryption.html). Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an ID, alias, or ARN that is invalid, the action can appear to complete, but eventually fails.
         public var kmsKeyId: Swift.String?
         /// The ARN of the IAM role to associate with this volume. This is the Amazon ECS infrastructure IAM role that is used to manage your Amazon Web Services infrastructure. We recommend using the Amazon ECS-managed AmazonECSInfrastructureRolePolicyForVolumes IAM policy with this role. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
         /// This member is required.
@@ -1982,12 +1984,14 @@ extension ECSClientTypes {
         ///
         /// * standard: 1-1,024
         public var sizeInGiB: Swift.Int?
-        /// The snapshot that Amazon ECS uses to create the volume. You must specify either a snapshot ID or a volume size. This parameter maps 1:1 with the SnapshotId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        /// The snapshot that Amazon ECS uses to create volumes for attachment to tasks maintained by the service. You must specify either snapshotId or sizeInGiB in your volume configuration. This parameter maps 1:1 with the SnapshotId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
         public var snapshotId: Swift.String?
         /// The tags to apply to the volume. Amazon ECS applies service-managed tags by default. This parameter maps 1:1 with the TagSpecifications.N parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
         public var tagSpecifications: [ECSClientTypes.EBSTagSpecification]?
         /// The throughput to provision for a volume, in MiB/s, with a maximum of 1,000 MiB/s. This parameter maps 1:1 with the Throughput parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. This parameter is only supported for the gp3 volume type.
         public var throughput: Swift.Int?
+        /// The rate, in MiB/s, at which data is fetched from a snapshot of an existing EBS volume to create new volumes for attachment to the tasks maintained by the service. This property can be specified only if you specify a snapshotId. For more information, see [Initialize Amazon EBS volumes](https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html) in the Amazon EBS User Guide.
+        public var volumeInitializationRate: Swift.Int?
         /// The volume type. This parameter maps 1:1 with the VolumeType parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information, see [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) in the Amazon EC2 User Guide. The following are the supported volume types.
         ///
         /// * General Purpose SSD: gp2|gp3
@@ -2011,6 +2015,7 @@ extension ECSClientTypes {
             snapshotId: Swift.String? = nil,
             tagSpecifications: [ECSClientTypes.EBSTagSpecification]? = nil,
             throughput: Swift.Int? = nil,
+            volumeInitializationRate: Swift.Int? = nil,
             volumeType: Swift.String? = nil
         ) {
             self.encrypted = encrypted
@@ -2022,6 +2027,7 @@ extension ECSClientTypes {
             self.snapshotId = snapshotId
             self.tagSpecifications = tagSpecifications
             self.throughput = throughput
+            self.volumeInitializationRate = volumeInitializationRate
             self.volumeType = volumeType
         }
     }
@@ -2957,7 +2963,7 @@ public struct DeleteAccountSettingInput: Swift.Sendable {
     /// The resource name to disable the account setting for. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected.
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
-    /// The Amazon Resource Name (ARN) of the principal. It can be a user, role, or the root user. If you specify the root user, it disables the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal.
+    /// The Amazon Resource Name (ARN) of the principal. It can be an user, role, or the root user. If you specify the root user, it disables the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user.
     public var principalArn: Swift.String?
 
     public init(
@@ -4062,7 +4068,7 @@ extension ECSClientTypes {
     public struct SystemControl: Swift.Sendable {
         /// The namespaced kernel parameter to set a value for.
         public var namespace: Swift.String?
-        /// The namespaced kernel parameter to set a value for. Valid IPC namespace values: "kernel.msgmax" | "kernel.msgmnb" | "kernel.msgmni" | "kernel.sem" | "kernel.shmall" | "kernel.shmmax" | "kernel.shmmni" | "kernel.shm_rmid_forced", and Sysctls that start with "fs.mqueue.*" Valid network namespace values: Sysctls that start with "net.*" All of these values are supported by Fargate.
+        /// The namespaced kernel parameter to set a value for. Valid IPC namespace values: "kernel.msgmax" | "kernel.msgmnb" | "kernel.msgmni" | "kernel.sem" | "kernel.shmall" | "kernel.shmmax" | "kernel.shmmni" | "kernel.shm_rmid_forced", and Sysctls that start with "fs.mqueue.*" Valid network namespace values: Sysctls that start with "net.*". Only namespaced Sysctls that exist within the container starting with "net.* are accepted. All of these values are supported by Fargate.
         public var value: Swift.String?
 
         public init(
@@ -5095,7 +5101,21 @@ extension ECSClientTypes {
         public var compatibilities: [ECSClientTypes.Compatibility]?
         /// A list of container definitions in JSON format that describe the different containers that make up your task. For more information about container definition parameters and defaults, see [Amazon ECS Task Definitions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html) in the Amazon Elastic Container Service Developer Guide.
         public var containerDefinitions: [ECSClientTypes.ContainerDefinition]?
-        /// The number of cpu units used by the task. If you use the EC2 launch type, this field is optional. Any value can be used. If you use the Fargate launch type, this field is required. You must use one of the following values. The value that you choose determines your range of valid values for the memory parameter. If you're using the EC2 launch type or the external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). This field is required for Fargate. For information about the valid values, see [Task size](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size) in the Amazon Elastic Container Service Developer Guide.
+        /// The number of cpu units used by the task. If you use the EC2 launch type, this field is optional. Any value can be used. If you use the Fargate launch type, this field is required. You must use one of the following values. The value that you choose determines your range of valid values for the memory parameter. If you're using the EC2 launch type or the external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). The CPU units cannot be less than 1 vCPU when you use Windows containers on Fargate.
+        ///
+        /// * 256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)
+        ///
+        /// * 512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)
+        ///
+        /// * 1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)
+        ///
+        /// * 2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)
+        ///
+        /// * 4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)
+        ///
+        /// * 8192 (8 vCPU) - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.
+        ///
+        /// * 16384 (16vCPU) - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
         public var cpu: Swift.String?
         /// The Unix timestamp for the time when the task definition was deregistered.
         public var deregisteredAt: Foundation.Date?
@@ -6879,7 +6899,21 @@ extension ECSClientTypes {
         public var containerInstanceArn: Swift.String?
         /// The containers that's associated with the task.
         public var containers: [ECSClientTypes.Container]?
-        /// The number of CPU units used by the task as expressed in a task definition. It can be expressed as an integer using CPU units (for example, 1024). It can also be expressed as a string using vCPUs (for example, 1 vCPU or 1 vcpu). String values are converted to an integer that indicates the CPU units when the task definition is registered. If you're using the EC2 launch type or the external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify a value, the parameter is ignored. This field is required for Fargate. For information about the valid values, see [Task size](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size) in the Amazon Elastic Container Service Developer Guide.
+        /// The number of CPU units used by the task as expressed in a task definition. It can be expressed as an integer using CPU units (for example, 1024). It can also be expressed as a string using vCPUs (for example, 1 vCPU or 1 vcpu). String values are converted to an integer that indicates the CPU units when the task definition is registered. If you're using the EC2 launch type or the external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify a value, the parameter is ignored. If you're using the Fargate launch type, this field is required. You must use one of the following values. These values determine the range of supported values for the memory parameter: The CPU units cannot be less than 1 vCPU when you use Windows containers on Fargate.
+        ///
+        /// * 256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)
+        ///
+        /// * 512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)
+        ///
+        /// * 1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)
+        ///
+        /// * 2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)
+        ///
+        /// * 4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)
+        ///
+        /// * 8192 (8 vCPU) - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.
+        ///
+        /// * 16384 (16vCPU) - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
         public var cpu: Swift.String?
         /// The Unix timestamp for the time when the task was created. More specifically, it's for the time when the task entered the PENDING state.
         public var createdAt: Foundation.Date?
@@ -7374,7 +7408,7 @@ public struct ListAccountSettingsInput: Swift.Sendable {
     public var name: ECSClientTypes.SettingName?
     /// The nextToken value returned from a ListAccountSettings request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
-    /// The ARN of the principal, which can be a user, role, or the root user. If this field is omitted, the account settings are listed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal. Federated users assume the account setting of the root user and can't have explicit account settings set for them.
+    /// The ARN of the principal, which can be a user, role, or the root user. If this field is omitted, the account settings are listed only for the authenticated user. Federated users assume the account setting of the root user and can't have explicit account settings set for them.
     public var principalArn: Swift.String?
     /// The value of the account settings to filter results with. You must also specify an account setting name to use this parameter.
     public var value: Swift.String?
@@ -8052,7 +8086,7 @@ public struct PutAccountSettingInput: Swift.Sendable {
     /// * guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
-    /// The ARN of the principal, which can be a user, role, or the root user. If you specify the root user, it modifies the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal. You must use the root user when you set the Fargate wait time (fargateTaskRetirementWaitPeriod). Federated users assume the account setting of the root user and can't have explicit account settings set for them.
+    /// The ARN of the principal, which can be a user, role, or the root user. If you specify the root user, it modifies the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. You must use the root user when you set the Fargate wait time (fargateTaskRetirementWaitPeriod). Federated users assume the account setting of the root user and can't have explicit account settings set for them.
     public var principalArn: Swift.String?
     /// The account setting value for the specified principal ARN. Accepted values are enabled, disabled, enhanced, on, and off. When you specify fargateTaskRetirementWaitPeriod for the name, the following are the valid values:
     ///
@@ -8369,7 +8403,21 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     /// A list of container definitions in JSON format that describe the different containers that make up your task.
     /// This member is required.
     public var containerDefinitions: [ECSClientTypes.ContainerDefinition]?
-    /// The number of CPU units used by the task. It can be expressed as an integer using CPU units (for example, 1024) or as a string using vCPUs (for example, 1 vCPU or 1 vcpu) in a task definition. String values are converted to an integer indicating the CPU units when the task definition is registered. Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers. If you're using the EC2 launch type or external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify a value, the parameter is ignored. This field is required for Fargate. For information about the valid values, see [Task size](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size) in the Amazon Elastic Container Service Developer Guide.
+    /// The number of CPU units used by the task. It can be expressed as an integer using CPU units (for example, 1024) or as a string using vCPUs (for example, 1 vCPU or 1 vcpu) in a task definition. String values are converted to an integer indicating the CPU units when the task definition is registered. Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers. If you're using the EC2 launch type or external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify a value, the parameter is ignored. If you're using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of supported values for the memory parameter: The CPU units cannot be less than 1 vCPU when you use Windows containers on Fargate.
+    ///
+    /// * 256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)
+    ///
+    /// * 512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)
+    ///
+    /// * 1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)
+    ///
+    /// * 2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)
+    ///
+    /// * 4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)
+    ///
+    /// * 8192 (8 vCPU) - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.
+    ///
+    /// * 16384 (16vCPU) - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
     public var cpu: Swift.String?
     /// Enables fault injection when you register your task definition and allows for fault injection requests to be accepted from the task's containers. The default value is false.
     public var enableFaultInjection: Swift.Bool?
@@ -8572,7 +8620,7 @@ extension ECSClientTypes {
 
     /// The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf. These settings are used to create each Amazon EBS volume, with one volume created for each task.
     public struct TaskManagedEBSVolumeConfiguration: Swift.Sendable {
-        /// Indicates whether the volume should be encrypted. If no value is specified, encryption is turned on by default. This parameter maps 1:1 with the Encrypted parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        /// Indicates whether the volume should be encrypted. If you turn on Region-level Amazon EBS encryption by default but set this value as false, the setting is overridden and the volume is encrypted with the KMS key specified for Amazon EBS encryption by default. This parameter maps 1:1 with the Encrypted parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
         public var encrypted: Swift.Bool?
         /// The Linux filesystem type for the volume. For volumes created from a snapshot, you must specify the same filesystem type that the volume was using when the snapshot was created. If there is a filesystem type mismatch, the task will fail to start. The available filesystem types are  ext3, ext4, and xfs. If no value is specified, the xfs filesystem type is used by default.
         public var filesystemType: ECSClientTypes.TaskFilesystemType?
@@ -8587,7 +8635,7 @@ extension ECSClientTypes {
         ///
         /// This parameter is required for io1 and io2 volume types. The default for gp3 volumes is 3,000 IOPS. This parameter is not supported for st1, sc1, or standard volume types. This parameter maps 1:1 with the Iops parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
         public var iops: Swift.Int?
-        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When encryption is turned on and no Amazon Web Services Key Management Service key is specified, the default Amazon Web Services managed key for Amazon EBS volumes is used. This parameter maps 1:1 with the KmsKeyId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an ID, alias, or ARN that is invalid, the action can appear to complete, but eventually fails.
+        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When a key is specified using this parameter, it overrides Amazon EBS default encryption or any KMS key that you specified for cluster-level managed storage encryption. This parameter maps 1:1 with the KmsKeyId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information about encrypting Amazon EBS volumes attached to a task, see [Encrypt data stored in Amazon EBS volumes attached to Amazon ECS tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-kms-encryption.html). Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an ID, alias, or ARN that is invalid, the action can appear to complete, but eventually fails.
         public var kmsKeyId: Swift.String?
         /// The ARN of the IAM role to associate with this volume. This is the Amazon ECS infrastructure IAM role that is used to manage your Amazon Web Services infrastructure. We recommend using the Amazon ECS-managed AmazonECSInfrastructureRolePolicyForVolumes IAM policy with this role. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
         /// This member is required.
@@ -8610,6 +8658,8 @@ extension ECSClientTypes {
         public var terminationPolicy: ECSClientTypes.TaskManagedEBSVolumeTerminationPolicy?
         /// The throughput to provision for a volume, in MiB/s, with a maximum of 1,000 MiB/s. This parameter maps 1:1 with the Throughput parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. This parameter is only supported for the gp3 volume type.
         public var throughput: Swift.Int?
+        /// The rate, in MiB/s, at which data is fetched from a snapshot of an existing Amazon EBS volume to create a new volume for attachment to the task. This property can be specified only if you specify a snapshotId. For more information, see [Initialize Amazon EBS volumes](https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html) in the Amazon EBS User Guide.
+        public var volumeInitializationRate: Swift.Int?
         /// The volume type. This parameter maps 1:1 with the VolumeType parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information, see [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) in the Amazon EC2 User Guide. The following are the supported volume types.
         ///
         /// * General Purpose SSD: gp2|gp3
@@ -8634,6 +8684,7 @@ extension ECSClientTypes {
             tagSpecifications: [ECSClientTypes.EBSTagSpecification]? = nil,
             terminationPolicy: ECSClientTypes.TaskManagedEBSVolumeTerminationPolicy? = nil,
             throughput: Swift.Int? = nil,
+            volumeInitializationRate: Swift.Int? = nil,
             volumeType: Swift.String? = nil
         ) {
             self.encrypted = encrypted
@@ -8646,6 +8697,7 @@ extension ECSClientTypes {
             self.tagSpecifications = tagSpecifications
             self.terminationPolicy = terminationPolicy
             self.throughput = throughput
+            self.volumeInitializationRate = volumeInitializationRate
             self.volumeType = volumeType
         }
     }
@@ -8931,7 +8983,7 @@ public struct StopServiceDeploymentInput: Swift.Sendable {
     /// The ARN of the service deployment that you want to stop.
     /// This member is required.
     public var serviceDeploymentArn: Swift.String?
-    /// How you want Amazon ECS to stop the service. The valid values are ROLLBACK.
+    /// How you want Amazon ECS to stop the service. The ROLLBACK and ABORT stopType aren't supported.
     public var stopType: ECSClientTypes.StopServiceDeploymentStopType?
 
     public init(
@@ -13501,6 +13553,7 @@ extension ECSClientTypes.ServiceManagedEBSVolumeConfiguration {
         try writer["snapshotId"].write(value.snapshotId)
         try writer["tagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: ECSClientTypes.EBSTagSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["throughput"].write(value.throughput)
+        try writer["volumeInitializationRate"].write(value.volumeInitializationRate)
         try writer["volumeType"].write(value.volumeType)
     }
 
@@ -13512,6 +13565,7 @@ extension ECSClientTypes.ServiceManagedEBSVolumeConfiguration {
         value.volumeType = try reader["volumeType"].readIfPresent()
         value.sizeInGiB = try reader["sizeInGiB"].readIfPresent()
         value.snapshotId = try reader["snapshotId"].readIfPresent()
+        value.volumeInitializationRate = try reader["volumeInitializationRate"].readIfPresent()
         value.iops = try reader["iops"].readIfPresent()
         value.throughput = try reader["throughput"].readIfPresent()
         value.tagSpecifications = try reader["tagSpecifications"].readListIfPresent(memberReadingClosure: ECSClientTypes.EBSTagSpecification.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -15078,6 +15132,7 @@ extension ECSClientTypes.TaskManagedEBSVolumeConfiguration {
         try writer["tagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: ECSClientTypes.EBSTagSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["terminationPolicy"].write(value.terminationPolicy, with: ECSClientTypes.TaskManagedEBSVolumeTerminationPolicy.write(value:to:))
         try writer["throughput"].write(value.throughput)
+        try writer["volumeInitializationRate"].write(value.volumeInitializationRate)
         try writer["volumeType"].write(value.volumeType)
     }
 }
