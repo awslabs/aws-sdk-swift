@@ -22,4 +22,5 @@ public enum IMDSError: Error {
     case deserializationError(String)
     case reachedMaxRetries
     case invalidRetryValue(String)
+    case invalidProfileName
 }

@@ -18,10 +18,12 @@ public struct IMDSToken {
 
     public init(
         value: String,
-        ttl: TimeInterval
+        ttl: Int
     ) {
         self.value = value
-        self.needsRefreshAfter = Date().addingTimeInterval(ttl - TOKEN_REFRESH_BUFFER)
+        self.needsRefreshAfter = Date().addingTimeInterval(
+            Double(ttl) - TOKEN_REFRESH_BUFFER
+        )
     }
 
     public func shouldRefresh() -> Bool {

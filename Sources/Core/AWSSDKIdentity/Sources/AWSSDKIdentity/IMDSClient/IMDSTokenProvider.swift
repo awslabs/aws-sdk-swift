@@ -9,7 +9,6 @@ import class Foundation.HTTPURLResponse
 import class Foundation.URLSession
 import enum SmithyHTTPAPI.HTTPStatusCode
 import struct Foundation.Data
-import struct Foundation.TimeInterval
 import struct Foundation.URL
 import struct Foundation.URLRequest
 #if os(Linux)
@@ -22,11 +21,11 @@ let X_AWS_EC2_METADATA_TOKEN_TTL_SECONDS = "x-aws-ec2-metadata-token-ttl-seconds
 public actor IMDSTokenProvider {
     private var cachedToken: IMDSToken?
     private let endpoint: URL
-    private let ttl: TimeInterval
+    private let ttl: Int
 
     public init(
         endpoint: URL,
-        ttl: TimeInterval
+        ttl: Int
     ) {
         self.endpoint = endpoint
         self.ttl = ttl
@@ -81,7 +80,7 @@ public actor IMDSTokenProvider {
                 let ttlStr = response.value(
                     forHTTPHeaderField: X_AWS_EC2_METADATA_TOKEN_TTL_SECONDS
                 ),
-                let ttl = TimeInterval(ttlStr),
+                let ttl = Int(ttlStr),
                 let tokenStr = String(data: data, encoding: .utf8)
             else {
                 throw IMDSError.deserializationError(

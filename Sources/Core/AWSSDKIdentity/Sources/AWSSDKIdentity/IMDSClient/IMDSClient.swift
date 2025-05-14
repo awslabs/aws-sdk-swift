@@ -16,7 +16,7 @@ import FoundationNetworking // For URLSession in Linux.
 #endif
 
 /// Maximum session token TTL allowed by default (6 hours).
-public let DEFAULT_TOKEN_TTL: TimeInterval = 21_600
+public let DEFAULT_TOKEN_TTL: Int = 21_600
 /// Maximum amount of retries by default.
 public let DEFAULT_MAX_RETRIES: Int = 3
 /// Default endpoint port.
@@ -27,12 +27,12 @@ public let SERVICE_NAME = "imds"
 let X_AWS_EC2_METADATA_TOKEN = "x-aws-ec2-metadata-token"
 
 /// The protocol for a generic IMDS client.
-public protocol EC2InstanceMetadataProvider {
+public protocol EC2InstanceMetadataProvider: Sendable {
     func get(path: String) async throws -> String
 }
 
 /// The IMDS endpoint mode config enum for IMDS client.
-public enum IMDSEndpointMode: String {
+public enum IMDSEndpointMode: String, Sendable {
     case IPv4 = "http://169.254.169.254"
     case IPv6 = "http://[fd00:ec2::254]"
 }
@@ -43,12 +43,12 @@ public enum IMDSEndpointMode: String {
 ///
 /// This client does not fall back to IMDSv1, and only supports IMDSv2 & IMDSv2.1.
 /// See [transitioning to IMDSv2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html#instance-metadata-transition-to-version-2) for more information.
-public class IMDSClient: EC2InstanceMetadataProvider {
+public final class IMDSClient: EC2InstanceMetadataProvider {
     private let retries: Int
     private let endpointMode: IMDSEndpointMode
     private let endpoint: URL
     private let port: Int
-    private let tokenTTL: TimeInterval
+    private let tokenTTL: Int
     private let tokenProvider: IMDSTokenProvider
 
     public init(
@@ -56,7 +56,7 @@ public class IMDSClient: EC2InstanceMetadataProvider {
         endpointMode: IMDSEndpointMode? = nil,
         endpoint: URL? = nil,
         port: Int? = nil,
-        tokenTTL: TimeInterval? = nil
+        tokenTTL: Int? = nil
     ) throws {
         self.retries = retries ?? DEFAULT_MAX_RETRIES
         guard self.retries > 0 else {
@@ -81,7 +81,7 @@ public class IMDSClient: EC2InstanceMetadataProvider {
                 let (data, response) = try await fetchMetadataResponse(path: path)
                 return try await processMetadataResponse(path: path, data: data, response: response)
             } catch let error as IMDSError {
-                try await handleErrorResponse(attempt: &attempt, backoff: &backoff, error: error)
+                try await handleErrors(attempt: &attempt, backoff: &backoff, error: error)
             }
         }
         throw IMDSError.reachedMaxRetries // Never reached; added to make compiler happy.
@@ -127,7 +127,8 @@ public class IMDSClient: EC2InstanceMetadataProvider {
         case 404: // Not Found; raised if metadata path is unrecognized by IMDS.
             let errorMessage = "IMDSClient: "
             + "Failed to retrieve metadata from the provided path \"\(path)\". "
-            + "Hint: ensure that the path is valid."
+            + "Hint: ensure that the path is valid. "
+            + "Error code: 404"
             throw IMDSError.metadata(.nonRetryable(errorMessage))
         default:
             let errorMessage = "IMDSClient: Failed to retrieve metadata."
@@ -135,7 +136,7 @@ public class IMDSClient: EC2InstanceMetadataProvider {
         }
     }
 
-    private func handleErrorResponse(
+    private func handleErrors(
         attempt: inout Int,
         backoff: inout TimeInterval,
         error: IMDSError
