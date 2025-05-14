@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AuditManagerClient: ClientRuntime.Client {
     public static let clientName = "AuditManagerClient"
-    public static let version = "1.3.15"
+    public static let version = "1.3.16"
     let client: ClientRuntime.SdkHttpClient
     let config: AuditManagerClient.AuditManagerClientConfiguration
     let serviceName = "AuditManager"

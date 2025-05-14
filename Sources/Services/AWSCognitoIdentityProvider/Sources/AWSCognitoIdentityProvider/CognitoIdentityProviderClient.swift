@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CognitoIdentityProviderClient: ClientRuntime.Client {
     public static let clientName = "CognitoIdentityProviderClient"
-    public static let version = "1.3.15"
+    public static let version = "1.3.16"
     let client: ClientRuntime.SdkHttpClient
     let config: CognitoIdentityProviderClient.CognitoIdentityProviderClientConfiguration
     let serviceName = "Cognito Identity Provider"
@@ -4653,8 +4653,10 @@ extension CognitoIdentityProviderClient {
     /// - `ForbiddenException` : This exception is thrown when WAF doesn't allow your request based on a web ACL that's associated with your user pool.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+    /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
+    /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func deleteWebAuthnCredential(input: DeleteWebAuthnCredentialInput) async throws -> DeleteWebAuthnCredentialOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7632,7 +7634,9 @@ extension CognitoIdentityProviderClient {
     /// - `ForbiddenException` : This exception is thrown when WAF doesn't allow your request based on a web ACL that's associated with your user pool.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+    /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func listWebAuthnCredentials(input: ListWebAuthnCredentialsInput) async throws -> ListWebAuthnCredentialsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

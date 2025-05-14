@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ImagebuilderClient: ClientRuntime.Client {
     public static let clientName = "ImagebuilderClient"
-    public static let version = "1.3.15"
+    public static let version = "1.3.16"
     let client: ClientRuntime.SdkHttpClient
     let config: ImagebuilderClient.ImagebuilderClientConfiguration
     let serviceName = "imagebuilder"
