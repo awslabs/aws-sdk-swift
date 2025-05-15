@@ -5,15 +5,10 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class Foundation.HTTPURLResponse
-import class Foundation.URLSession
-import struct Foundation.Data
-import struct Foundation.TimeInterval
-import struct Foundation.URL
-import struct Foundation.URLRequest
 #if os(Linux)
-import FoundationNetworking // For URLSession in Linux.
+import FoundationNetworking
 #endif
+import Foundation
 
 /// Maximum session token TTL allowed by default (6 hours).
 public let DEFAULT_TOKEN_TTL: Int = 21_600

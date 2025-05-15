@@ -5,15 +5,11 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class Foundation.HTTPURLResponse
-import class Foundation.URLSession
 import enum SmithyHTTPAPI.HTTPStatusCode
-import struct Foundation.Data
-import struct Foundation.URL
-import struct Foundation.URLRequest
 #if os(Linux)
-import FoundationNetworking // For URLSession in Linux.
+import FoundationNetworking
 #endif
+import Foundation
 
 // Header required for fetching the session token.
 let X_AWS_EC2_METADATA_TOKEN_TTL_SECONDS = "x-aws-ec2-metadata-token-ttl-seconds"
