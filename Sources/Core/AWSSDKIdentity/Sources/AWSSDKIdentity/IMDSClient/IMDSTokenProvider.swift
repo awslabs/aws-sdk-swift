@@ -56,7 +56,7 @@ public actor IMDSTokenProvider {
     private func fetchTokenResponse(
         request: URLRequest
     ) async throws -> (Data, HTTPURLResponse) {
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await URLSession.shared.asyncData(for: request)
         guard let httpResponse = response as? HTTPURLResponse else {
             throw IMDSError.deserializationError(
                 "IMDSTokenProvider: "

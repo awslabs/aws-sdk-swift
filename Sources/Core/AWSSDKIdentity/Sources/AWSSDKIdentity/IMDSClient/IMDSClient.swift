@@ -90,7 +90,7 @@ public final class IMDSClient: EC2InstanceMetadataProvider {
         request.addValue("aws-sdk-swift ua/2.1 api/\(SERVICE_NAME)", forHTTPHeaderField: "User-Agent")
 
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
+            let (data, response) = try await URLSession.shared.asyncData(for: request)
 
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw IMDSError.deserializationError(
@@ -146,6 +146,26 @@ public final class IMDSClient: EC2InstanceMetadataProvider {
             backoff *= 2
         default:
             throw error
+        }
+    }
+}
+
+// URLSession.data(for:) isn't available in Linux; so this wrapper is used instead.
+extension URLSession {
+    func asyncData(for request: URLRequest) async throws -> (Data, URLResponse) {
+        return try await withCheckedThrowingContinuation { continuation in
+            let task = self.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                    return
+                }
+                guard let data = data, let response = response else {
+                    continuation.resume(throwing: NSError(domain: "URLSession", code: 0, userInfo: [NSLocalizedDescriptionKey: "No data or response returned"]))
+                    return
+                }
+                continuation.resume(returning: (data, response))
+            }
+            task.resume()
         }
     }
 }
