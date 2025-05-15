@@ -3278,6 +3278,35 @@ public struct CreateWorkspacesOutput: Swift.Sendable {
 
 extension WorkSpacesClientTypes {
 
+    public enum PoolsRunningMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alwaysOn
+        case autoStop
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PoolsRunningMode] {
+            return [
+                .alwaysOn,
+                .autoStop
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alwaysOn: return "ALWAYS_ON"
+            case .autoStop: return "AUTO_STOP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     /// Describes the timeout settings for a pool of WorkSpaces.
     public struct TimeoutSettings: Swift.Sendable {
         /// Specifies the amount of time, in seconds, that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within the time set, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance.
@@ -3317,6 +3346,8 @@ public struct CreateWorkspacesPoolInput: Swift.Sendable {
     /// The name of the pool.
     /// This member is required.
     public var poolName: Swift.String?
+    /// The running mode for the pool.
+    public var runningMode: WorkSpacesClientTypes.PoolsRunningMode?
     /// The tags for the pool.
     public var tags: [WorkSpacesClientTypes.Tag]?
     /// Indicates the timeout settings of the pool.
@@ -3329,6 +3360,7 @@ public struct CreateWorkspacesPoolInput: Swift.Sendable {
         description: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         poolName: Swift.String? = nil,
+        runningMode: WorkSpacesClientTypes.PoolsRunningMode? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil,
         timeoutSettings: WorkSpacesClientTypes.TimeoutSettings? = nil
     ) {
@@ -3338,6 +3370,7 @@ public struct CreateWorkspacesPoolInput: Swift.Sendable {
         self.description = description
         self.directoryId = directoryId
         self.poolName = poolName
+        self.runningMode = runningMode
         self.tags = tags
         self.timeoutSettings = timeoutSettings
     }
@@ -3577,9 +3610,12 @@ extension WorkSpacesClientTypes {
         /// The identifier of a pool.
         /// This member is required.
         public var poolId: Swift.String?
-        /// The name of the pool,
+        /// The name of the pool.
         /// This member is required.
         public var poolName: Swift.String?
+        /// The running mode of the pool.
+        /// This member is required.
+        public var runningMode: WorkSpacesClientTypes.PoolsRunningMode?
         /// The current state of the pool.
         /// This member is required.
         public var state: WorkSpacesClientTypes.WorkspacesPoolState?
@@ -3597,6 +3633,7 @@ extension WorkSpacesClientTypes {
             poolArn: Swift.String? = nil,
             poolId: Swift.String? = nil,
             poolName: Swift.String? = nil,
+            runningMode: WorkSpacesClientTypes.PoolsRunningMode? = .autoStop,
             state: WorkSpacesClientTypes.WorkspacesPoolState? = nil,
             timeoutSettings: WorkSpacesClientTypes.TimeoutSettings? = nil
         ) {
@@ -3610,6 +3647,7 @@ extension WorkSpacesClientTypes {
             self.poolArn = poolArn
             self.poolId = poolId
             self.poolName = poolName
+            self.runningMode = runningMode
             self.state = state
             self.timeoutSettings = timeoutSettings
         }
@@ -5761,7 +5799,9 @@ extension WorkSpacesClientTypes {
         case domainJoined
         case environmentVariablesPathMissingEntries
         case firewallEnabled
+        case incompatibleMemoryIntegrity
         case incompatiblePartitioning
+        case incompatibleProtocol
         case insufficientDiskSpace
         case insufficientRearmCount
         case invalidIp
@@ -5776,6 +5816,7 @@ extension WorkSpacesClientTypes {
         case realtimeUniversalDisabled
         case remoteDesktopServicesDisabled
         case reservedStorageInUse
+        case restrictedDriveLetter
         case sixtyFourBitOs
         case stagedAppxPackage
         case sysprepFileMissing
@@ -5810,7 +5851,9 @@ extension WorkSpacesClientTypes {
                 .domainJoined,
                 .environmentVariablesPathMissingEntries,
                 .firewallEnabled,
+                .incompatibleMemoryIntegrity,
                 .incompatiblePartitioning,
+                .incompatibleProtocol,
                 .insufficientDiskSpace,
                 .insufficientRearmCount,
                 .invalidIp,
@@ -5825,6 +5868,7 @@ extension WorkSpacesClientTypes {
                 .realtimeUniversalDisabled,
                 .remoteDesktopServicesDisabled,
                 .reservedStorageInUse,
+                .restrictedDriveLetter,
                 .sixtyFourBitOs,
                 .stagedAppxPackage,
                 .sysprepFileMissing,
@@ -5865,7 +5909,9 @@ extension WorkSpacesClientTypes {
             case .domainJoined: return "DomainJoined"
             case .environmentVariablesPathMissingEntries: return "EnvironmentVariablesPathMissingEntries"
             case .firewallEnabled: return "FirewallEnabled"
+            case .incompatibleMemoryIntegrity: return "MemoryIntegrityIncompatibility"
             case .incompatiblePartitioning: return "IncompatiblePartitioning"
+            case .incompatibleProtocol: return "ProtocolOSIncompatibility"
             case .insufficientDiskSpace: return "InsufficientDiskSpace"
             case .insufficientRearmCount: return "InsufficientRearmCount"
             case .invalidIp: return "InvalidIp"
@@ -5880,6 +5926,7 @@ extension WorkSpacesClientTypes {
             case .realtimeUniversalDisabled: return "RealTimeUniversalDisabled"
             case .remoteDesktopServicesDisabled: return "RemoteDesktopServicesDisabled"
             case .reservedStorageInUse: return "ReservedStorageInUse"
+            case .restrictedDriveLetter: return "RestrictedDriveLetterInUse"
             case .sixtyFourBitOs: return "Requires64BitOS"
             case .stagedAppxPackage: return "StagedAppxPackage"
             case .sysprepFileMissing: return "SysPrepFileMissing"
@@ -7796,6 +7843,8 @@ public struct UpdateWorkspacesPoolInput: Swift.Sendable {
     /// The identifier of the specified pool to update.
     /// This member is required.
     public var poolId: Swift.String?
+    /// The desired running mode for the pool. The running mode can only be updated when the pool is in a stopped state.
+    public var runningMode: WorkSpacesClientTypes.PoolsRunningMode?
     /// Indicates the timeout settings of the specified pool.
     public var timeoutSettings: WorkSpacesClientTypes.TimeoutSettings?
 
@@ -7806,6 +7855,7 @@ public struct UpdateWorkspacesPoolInput: Swift.Sendable {
         description: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         poolId: Swift.String? = nil,
+        runningMode: WorkSpacesClientTypes.PoolsRunningMode? = nil,
         timeoutSettings: WorkSpacesClientTypes.TimeoutSettings? = nil
     ) {
         self.applicationSettings = applicationSettings
@@ -7814,6 +7864,7 @@ public struct UpdateWorkspacesPoolInput: Swift.Sendable {
         self.description = description
         self.directoryId = directoryId
         self.poolId = poolId
+        self.runningMode = runningMode
         self.timeoutSettings = timeoutSettings
     }
 }
@@ -8620,6 +8671,7 @@ extension CreateWorkspacesPoolInput {
         try writer["Description"].write(value.description)
         try writer["DirectoryId"].write(value.directoryId)
         try writer["PoolName"].write(value.poolName)
+        try writer["RunningMode"].write(value.runningMode)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: WorkSpacesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TimeoutSettings"].write(value.timeoutSettings, with: WorkSpacesClientTypes.TimeoutSettings.write(value:to:))
     }
@@ -9307,6 +9359,7 @@ extension UpdateWorkspacesPoolInput {
         try writer["Description"].write(value.description)
         try writer["DirectoryId"].write(value.directoryId)
         try writer["PoolId"].write(value.poolId)
+        try writer["RunningMode"].write(value.runningMode)
         try writer["TimeoutSettings"].write(value.timeoutSettings, with: WorkSpacesClientTypes.TimeoutSettings.write(value:to:))
     }
 }
@@ -12406,6 +12459,7 @@ extension WorkSpacesClientTypes.WorkspacesPool {
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.WorkspacesPoolError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.applicationSettings = try reader["ApplicationSettings"].readIfPresent(with: WorkSpacesClientTypes.ApplicationSettingsResponse.read(from:))
         value.timeoutSettings = try reader["TimeoutSettings"].readIfPresent(with: WorkSpacesClientTypes.TimeoutSettings.read(from:))
+        value.runningMode = try reader["RunningMode"].readIfPresent() ?? WorkSpacesClientTypes.PoolsRunningMode.autoStop
         return value
     }
 }
