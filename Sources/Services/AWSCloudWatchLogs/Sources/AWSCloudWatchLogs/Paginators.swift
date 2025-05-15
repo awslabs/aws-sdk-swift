@@ -186,6 +186,7 @@ extension DescribeLogGroupsInput: ClientRuntime.PaginateToken {
             includeLinkedAccounts: self.includeLinkedAccounts,
             limit: self.limit,
             logGroupClass: self.logGroupClass,
+            logGroupIdentifiers: self.logGroupIdentifiers,
             logGroupNamePattern: self.logGroupNamePattern,
             logGroupNamePrefix: self.logGroupNamePrefix,
             nextToken: token

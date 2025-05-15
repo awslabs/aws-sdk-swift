@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QLDBSessionClient: ClientRuntime.Client {
     public static let clientName = "QLDBSessionClient"
-    public static let version = "1.3.15"
+    public static let version = "1.3.16"
     let client: ClientRuntime.SdkHttpClient
     let config: QLDBSessionClient.QLDBSessionClientConfiguration
     let serviceName = "QLDB Session"

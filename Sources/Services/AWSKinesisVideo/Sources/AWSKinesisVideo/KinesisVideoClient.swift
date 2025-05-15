@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisVideoClient: ClientRuntime.Client {
     public static let clientName = "KinesisVideoClient"
-    public static let version = "1.3.15"
+    public static let version = "1.3.16"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoClient.KinesisVideoClientConfiguration
     let serviceName = "Kinesis Video"

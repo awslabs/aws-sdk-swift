@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AthenaClient: ClientRuntime.Client {
     public static let clientName = "AthenaClient"
-    public static let version = "1.3.15"
+    public static let version = "1.3.16"
     let client: ClientRuntime.SdkHttpClient
     let config: AthenaClient.AthenaClientConfiguration
     let serviceName = "Athena"
