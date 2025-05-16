@@ -844,6 +844,59 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes {
 
+    /// Contains information about the status of the docker server.
+    public struct DockerServerStatus: Swift.Sendable {
+        /// A message associated with the status of a docker server.
+        public var message: Swift.String?
+        /// The status of the docker server.
+        public var status: Swift.String?
+
+        public init(
+            message: Swift.String? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.message = message
+            self.status = status
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    /// Contains docker server information.
+    public struct DockerServer: Swift.Sendable {
+        /// Information about the compute resources the docker server uses. Available values include:
+        ///
+        /// * BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for your docker server.
+        ///
+        /// * BUILD_GENERAL1_MEDIUM: Use up to 8 GiB memory and 4 vCPUs for your docker server.
+        ///
+        /// * BUILD_GENERAL1_LARGE: Use up to 16 GiB memory and 8 vCPUs for your docker server.
+        ///
+        /// * BUILD_GENERAL1_XLARGE: Use up to 64 GiB memory and 32 vCPUs for your docker server.
+        ///
+        /// * BUILD_GENERAL1_2XLARGE: Use up to 128 GiB memory and 64 vCPUs for your docker server.
+        /// This member is required.
+        public var computeType: CodeBuildClientTypes.ComputeType?
+        /// A list of one or more security groups IDs. Security groups configured for Docker servers should allow ingress network traffic from the VPC configured in the project. They should allow ingress on port 9876.
+        public var securityGroupIds: [Swift.String]?
+        /// A DockerServerStatus object to use for this docker server.
+        public var status: CodeBuildClientTypes.DockerServerStatus?
+
+        public init(
+            computeType: CodeBuildClientTypes.ComputeType? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            status: CodeBuildClientTypes.DockerServerStatus? = nil
+        ) {
+            self.computeType = computeType
+            self.securityGroupIds = securityGroupIds
+            self.status = status
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
     public enum EnvironmentVariableType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case parameterStore
         case plaintext
@@ -1116,6 +1169,8 @@ extension CodeBuildClientTypes {
         /// For more information, see [On-demand environment types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment.types) in the CodeBuild User Guide.
         /// This member is required.
         public var computeType: CodeBuildClientTypes.ComputeType?
+        /// A DockerServer object to use for this build project.
+        public var dockerServer: CodeBuildClientTypes.DockerServer?
         /// A set of environment variables to make available to builds for this build project.
         public var environmentVariables: [CodeBuildClientTypes.EnvironmentVariable]?
         /// A ProjectFleet object to use for this build project.
@@ -1152,6 +1207,7 @@ extension CodeBuildClientTypes {
             certificate: Swift.String? = nil,
             computeConfiguration: CodeBuildClientTypes.ComputeConfiguration? = nil,
             computeType: CodeBuildClientTypes.ComputeType? = nil,
+            dockerServer: CodeBuildClientTypes.DockerServer? = nil,
             environmentVariables: [CodeBuildClientTypes.EnvironmentVariable]? = nil,
             fleet: CodeBuildClientTypes.ProjectFleet? = nil,
             image: Swift.String? = nil,
@@ -1163,6 +1219,7 @@ extension CodeBuildClientTypes {
             self.certificate = certificate
             self.computeConfiguration = computeConfiguration
             self.computeType = computeType
+            self.dockerServer = dockerServer
             self.environmentVariables = environmentVariables
             self.fleet = fleet
             self.image = image
@@ -2845,11 +2902,13 @@ extension CodeBuildClientTypes {
         public var arn: Swift.String?
         /// The initial number of machines allocated to the compute ﬂeet, which deﬁnes the number of builds that can run in parallel.
         public var baseCapacity: Swift.Int?
-        /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE.
+        /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE or CUSTOM_INSTANCE_TYPE.
         public var computeConfiguration: CodeBuildClientTypes.ComputeConfiguration?
         /// Information about the compute resources the compute fleet uses. Available values include:
         ///
         /// * ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine. If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild will select the cheapest instance that satisfies your specified attributes. For more information, see [Reserved capacity environment types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment-reserved-capacity.types) in the CodeBuild User Guide.
+        ///
+        /// * CUSTOM_INSTANCE_TYPE: Specify the instance type for your compute fleet. For a list of supported instance types, see [Supported instance families ](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment-reserved-capacity.instance-types) in the CodeBuild User Guide.
         ///
         /// * BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.
         ///
@@ -4378,11 +4437,13 @@ public struct CreateFleetInput: Swift.Sendable {
     /// The initial number of machines allocated to the ﬂeet, which deﬁnes the number of builds that can run in parallel.
     /// This member is required.
     public var baseCapacity: Swift.Int?
-    /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE.
+    /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE or CUSTOM_INSTANCE_TYPE.
     public var computeConfiguration: CodeBuildClientTypes.ComputeConfiguration?
     /// Information about the compute resources the compute fleet uses. Available values include:
     ///
     /// * ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine. If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild will select the cheapest instance that satisfies your specified attributes. For more information, see [Reserved capacity environment types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment-reserved-capacity.types) in the CodeBuild User Guide.
+    ///
+    /// * CUSTOM_INSTANCE_TYPE: Specify the instance type for your compute fleet. For a list of supported instance types, see [Supported instance families ](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment-reserved-capacity.instance-types) in the CodeBuild User Guide.
     ///
     /// * BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.
     ///
@@ -7011,11 +7072,13 @@ public struct UpdateFleetInput: Swift.Sendable {
     public var arn: Swift.String?
     /// The initial number of machines allocated to the compute ﬂeet, which deﬁnes the number of builds that can run in parallel.
     public var baseCapacity: Swift.Int?
-    /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE.
+    /// The compute configuration of the compute fleet. This is only required if computeType is set to ATTRIBUTE_BASED_COMPUTE or CUSTOM_INSTANCE_TYPE.
     public var computeConfiguration: CodeBuildClientTypes.ComputeConfiguration?
     /// Information about the compute resources the compute fleet uses. Available values include:
     ///
     /// * ATTRIBUTE_BASED_COMPUTE: Specify the amount of vCPUs, memory, disk space, and the type of machine. If you use ATTRIBUTE_BASED_COMPUTE, you must define your attributes by using computeConfiguration. CodeBuild will select the cheapest instance that satisfies your specified attributes. For more information, see [Reserved capacity environment types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment-reserved-capacity.types) in the CodeBuild User Guide.
+    ///
+    /// * CUSTOM_INSTANCE_TYPE: Specify the instance type for your compute fleet. For a list of supported instance types, see [Supported instance families ](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment-reserved-capacity.instance-types) in the CodeBuild User Guide.
     ///
     /// * BUILD_GENERAL1_SMALL: Use up to 4 GiB memory and 2 vCPUs for builds.
     ///
@@ -10355,6 +10418,7 @@ extension CodeBuildClientTypes.ProjectEnvironment {
         try writer["certificate"].write(value.certificate)
         try writer["computeConfiguration"].write(value.computeConfiguration, with: CodeBuildClientTypes.ComputeConfiguration.write(value:to:))
         try writer["computeType"].write(value.computeType)
+        try writer["dockerServer"].write(value.dockerServer, with: CodeBuildClientTypes.DockerServer.write(value:to:))
         try writer["environmentVariables"].writeList(value.environmentVariables, memberWritingClosure: CodeBuildClientTypes.EnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["fleet"].write(value.fleet, with: CodeBuildClientTypes.ProjectFleet.write(value:to:))
         try writer["image"].write(value.image)
@@ -10377,6 +10441,43 @@ extension CodeBuildClientTypes.ProjectEnvironment {
         value.certificate = try reader["certificate"].readIfPresent()
         value.registryCredential = try reader["registryCredential"].readIfPresent(with: CodeBuildClientTypes.RegistryCredential.read(from:))
         value.imagePullCredentialsType = try reader["imagePullCredentialsType"].readIfPresent()
+        value.dockerServer = try reader["dockerServer"].readIfPresent(with: CodeBuildClientTypes.DockerServer.read(from:))
+        return value
+    }
+}
+
+extension CodeBuildClientTypes.DockerServer {
+
+    static func write(value: CodeBuildClientTypes.DockerServer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computeType"].write(value.computeType)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["status"].write(value.status, with: CodeBuildClientTypes.DockerServerStatus.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.DockerServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeBuildClientTypes.DockerServer()
+        value.computeType = try reader["computeType"].readIfPresent() ?? .sdkUnknown("")
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent(with: CodeBuildClientTypes.DockerServerStatus.read(from:))
+        return value
+    }
+}
+
+extension CodeBuildClientTypes.DockerServerStatus {
+
+    static func write(value: CodeBuildClientTypes.DockerServerStatus?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["message"].write(value.message)
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.DockerServerStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeBuildClientTypes.DockerServerStatus()
+        value.status = try reader["status"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
