@@ -68,7 +68,7 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
     }
 
     private func shouldRefreshCredentials(expiration: Date?) -> Bool {
-        guard let expiration = expiration else {
+        guard let expiration else {
             return false // No expiration provided, assume no refresh is needed
         }
 
