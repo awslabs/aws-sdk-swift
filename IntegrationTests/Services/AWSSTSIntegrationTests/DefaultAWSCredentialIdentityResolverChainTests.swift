@@ -5,6 +5,10 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+#if !os(iOS) && !os(tvOS)
+// using a parameterized protocol type (i.e., a protocol with associated types) in a type-erased or generic way
+//  at runtime isn't supported in iOS and tvOS.
+
 import XCTest
 import AWSSTS
 import ClientRuntime
@@ -24,14 +28,12 @@ class DefaultAWSCredentialIdentityResolverChainTests: XCTestCase {
         stsClient = STSClient(config: stsConfig)
     }
 
-#if !os(iOS) && !os(tvOS)
     func testCredentialsCaching() async throws {
         let input = GetCallerIdentityInput()
         for _ in 1...5 {
             _ = try await stsClient.getCallerIdentity(input: input)
         }
     }
-#endif
 
     fileprivate class XCTestAssertionInterceptor<InputType, OutputType>: Interceptor {
         typealias RequestType = HTTPRequest
@@ -67,3 +69,5 @@ class DefaultAWSCredentialIdentityResolverChainTests: XCTestCase {
         }
     }
 }
+
+#endif
