@@ -2528,13 +2528,13 @@ public struct DescribeIndexPoliciesOutput: Swift.Sendable {
 }
 
 public struct DescribeLogGroupsInput: Swift.Sendable {
-    /// When includeLinkedAccounts is set to True, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
+    /// When includeLinkedAccounts is set to true, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
     public var accountIdentifiers: [Swift.String]?
-    /// If you are using a monitoring account, set this to True to have the operation return log groups in the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account.
+    /// If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. The default for this parameter is false.
     public var includeLinkedAccounts: Swift.Bool?
     /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
     public var limit: Swift.Int?
-    /// Specifies the log group class for this log group. There are three classes:
+    /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups of all classes can be returned. Specifies the log group class for this log group. There are three classes:
     ///
     /// * The Standard log class supports all CloudWatch Logs features.
     ///
@@ -2545,6 +2545,8 @@ public struct DescribeLogGroupsInput: Swift.Sendable {
     ///
     /// For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
     public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
+    /// Use this array to filter the list of log groups returned. If you specify this parameter, the only other filter that you can choose to specify is includeLinkedAccounts. If you are using this operation in a monitoring account, you can specify the ARNs of log groups in source accounts and in the monitoring account itself. If you are using this operation in an account that is not a cross-account monitoring account, you can specify only log group names in the same account as the operation.
+    public var logGroupIdentifiers: [Swift.String]?
     /// If you specify a string for this parameter, the operation returns only log groups that have names that match the string based on a case-sensitive substring search. For example, if you specify Foo, log groups named FooBar, aws/Foo, and GroupFoo would match, but foo, F/o/o and Froo would not match. If you specify logGroupNamePattern in your request, then only arn, creationTime, and logGroupName are included in the response. logGroupNamePattern and logGroupNamePrefix are mutually exclusive. Only one of these parameters can be passed.
     public var logGroupNamePattern: Swift.String?
     /// The prefix to match. logGroupNamePrefix and logGroupNamePattern are mutually exclusive. Only one of these parameters can be passed.
@@ -2557,6 +2559,7 @@ public struct DescribeLogGroupsInput: Swift.Sendable {
         includeLinkedAccounts: Swift.Bool? = nil,
         limit: Swift.Int? = nil,
         logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
+        logGroupIdentifiers: [Swift.String]? = nil,
         logGroupNamePattern: Swift.String? = nil,
         logGroupNamePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
@@ -2565,6 +2568,7 @@ public struct DescribeLogGroupsInput: Swift.Sendable {
         self.includeLinkedAccounts = includeLinkedAccounts
         self.limit = limit
         self.logGroupClass = logGroupClass
+        self.logGroupIdentifiers = logGroupIdentifiers
         self.logGroupNamePattern = logGroupNamePattern
         self.logGroupNamePrefix = logGroupNamePrefix
         self.nextToken = nextToken
@@ -2668,7 +2672,7 @@ extension CloudWatchLogsClientTypes {
 }
 
 public struct DescribeLogGroupsOutput: Swift.Sendable {
-    /// The log groups. If the retentionInDays value is not included for a log group, then that log group's events do not expire.
+    /// An array of structures, where each structure contains the information about one log group.
     public var logGroups: [CloudWatchLogsClientTypes.LogGroup]?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
@@ -5269,6 +5273,84 @@ public struct ListLogAnomalyDetectorsOutput: Swift.Sendable {
     }
 }
 
+public struct ListLogGroupsInput: Swift.Sendable {
+    /// When includeLinkedAccounts is set to true, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
+    public var accountIdentifiers: [Swift.String]?
+    /// If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. The default for this parameter is false.
+    public var includeLinkedAccounts: Swift.Bool?
+    /// The maximum number of log groups to return. If you omit this parameter, the default is up to 50 log groups.
+    public var limit: Swift.Int?
+    /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups of all classes can be returned.
+    public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
+    /// Use this parameter to limit the returned log groups to only those with names that match the pattern that you specify. This parameter is a regular expression that can match prefixes and substrings, and supports wildcard matching and matching multiple patterns, as in the following examples.
+    ///
+    /// * Use ^ to match log group names by prefix.
+    ///
+    /// * For a substring match, specify the string to match. All matches are case sensitive
+    ///
+    /// * To match multiple patterns, separate them with a | as in the example ^/aws/lambda|discovery
+    ///
+    ///
+    /// You can specify as many as five different regular expression patterns in this field, each of which must be between 3 and 24 characters. You can include the ^ symbol as many as five times, and include the | symbol as many as four times.
+    public var logGroupNamePattern: Swift.String?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountIdentifiers: [Swift.String]? = nil,
+        includeLinkedAccounts: Swift.Bool? = nil,
+        limit: Swift.Int? = nil,
+        logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
+        logGroupNamePattern: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accountIdentifiers = accountIdentifiers
+        self.includeLinkedAccounts = includeLinkedAccounts
+        self.limit = limit
+        self.logGroupClass = logGroupClass
+        self.logGroupNamePattern = logGroupNamePattern
+        self.nextToken = nextToken
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains information about one log group in your account.
+    public struct LogGroupSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the log group.
+        public var logGroupArn: Swift.String?
+        /// The log group class for this log group. For details about the features supported by each log group class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+        public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
+        /// The name of the log group.
+        public var logGroupName: Swift.String?
+
+        public init(
+            logGroupArn: Swift.String? = nil,
+            logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
+            logGroupName: Swift.String? = nil
+        ) {
+            self.logGroupArn = logGroupArn
+            self.logGroupClass = logGroupClass
+            self.logGroupName = logGroupName
+        }
+    }
+}
+
+public struct ListLogGroupsOutput: Swift.Sendable {
+    /// An array of structures, where each structure contains the information about one log group.
+    public var logGroups: [CloudWatchLogsClientTypes.LogGroupSummary]?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        logGroups: [CloudWatchLogsClientTypes.LogGroupSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.logGroups = logGroups
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListLogGroupsForQueryInput: Swift.Sendable {
     /// Limits the number of returned log groups to the specified number.
     public var maxResults: Swift.Int?
@@ -7158,6 +7240,13 @@ extension ListLogAnomalyDetectorsInput {
     }
 }
 
+extension ListLogGroupsInput {
+
+    static func urlPathProvider(_ value: ListLogGroupsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListLogGroupsForQueryInput {
 
     static func urlPathProvider(_ value: ListLogGroupsForQueryInput) -> Swift.String? {
@@ -7701,6 +7790,7 @@ extension DescribeLogGroupsInput {
         try writer["includeLinkedAccounts"].write(value.includeLinkedAccounts)
         try writer["limit"].write(value.limit)
         try writer["logGroupClass"].write(value.logGroupClass)
+        try writer["logGroupIdentifiers"].writeList(value.logGroupIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["logGroupNamePattern"].write(value.logGroupNamePattern)
         try writer["logGroupNamePrefix"].write(value.logGroupNamePrefix)
         try writer["nextToken"].write(value.nextToken)
@@ -7938,6 +8028,19 @@ extension ListLogAnomalyDetectorsInput {
         guard let value else { return }
         try writer["filterLogGroupArn"].write(value.filterLogGroupArn)
         try writer["limit"].write(value.limit)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListLogGroupsInput {
+
+    static func write(value: ListLogGroupsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountIdentifiers"].writeList(value.accountIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["includeLinkedAccounts"].write(value.includeLinkedAccounts)
+        try writer["limit"].write(value.limit)
+        try writer["logGroupClass"].write(value.logGroupClass)
+        try writer["logGroupNamePattern"].write(value.logGroupNamePattern)
         try writer["nextToken"].write(value.nextToken)
     }
 }
@@ -8885,6 +8988,19 @@ extension ListLogAnomalyDetectorsOutput {
         let reader = responseReader
         var value = ListLogAnomalyDetectorsOutput()
         value.anomalyDetectors = try reader["anomalyDetectors"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.AnomalyDetector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListLogGroupsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListLogGroupsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListLogGroupsOutput()
+        value.logGroups = try reader["logGroups"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.LogGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -10186,6 +10302,21 @@ enum ListLogAnomalyDetectorsOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "OperationAbortedException": return try OperationAbortedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListLogGroupsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -12201,6 +12332,18 @@ extension CloudWatchLogsClientTypes.AnomalyDetector {
         value.creationTimeStamp = try reader["creationTimeStamp"].readIfPresent() ?? 0
         value.lastModifiedTimeStamp = try reader["lastModifiedTimeStamp"].readIfPresent() ?? 0
         value.anomalyVisibilityTime = try reader["anomalyVisibilityTime"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.LogGroupSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.LogGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.LogGroupSummary()
+        value.logGroupName = try reader["logGroupName"].readIfPresent()
+        value.logGroupArn = try reader["logGroupArn"].readIfPresent()
+        value.logGroupClass = try reader["logGroupClass"].readIfPresent()
         return value
     }
 }

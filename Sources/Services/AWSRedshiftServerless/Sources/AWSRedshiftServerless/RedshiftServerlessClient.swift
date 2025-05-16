@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RedshiftServerlessClient: ClientRuntime.Client {
     public static let clientName = "RedshiftServerlessClient"
-    public static let version = "1.3.14"
+    public static let version = "1.3.17"
     let client: ClientRuntime.SdkHttpClient
     let config: RedshiftServerlessClient.RedshiftServerlessClientConfiguration
     let serviceName = "Redshift Serverless"

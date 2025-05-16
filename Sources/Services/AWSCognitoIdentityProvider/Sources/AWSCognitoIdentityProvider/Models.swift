@@ -14769,8 +14769,10 @@ enum DeleteWebAuthnCredentialOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -15481,7 +15483,9 @@ enum ListWebAuthnCredentialsOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "NotAuthorizedException": return try NotAuthorizedException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

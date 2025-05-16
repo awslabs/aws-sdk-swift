@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DSQLClient: ClientRuntime.Client {
     public static let clientName = "DSQLClient"
-    public static let version = "1.3.14"
+    public static let version = "1.3.17"
     let client: ClientRuntime.SdkHttpClient
     let config: DSQLClient.DSQLClientConfiguration
     let serviceName = "DSQL"
@@ -362,11 +362,22 @@ extension DSQLClient {
 extension DSQLClient {
     /// Performs the `CreateCluster` operation on the `DSQL` service.
     ///
-    /// Creates a cluster in Amazon Aurora DSQL.
+    /// This operation creates a cluster in Amazon Aurora DSQL. You need the following permissions to use this operation. Permission to create a cluster. dsql:CreateCluster Resources: arn:aws:dsql:region:account-id:cluster/* Permission to add tags to a resource. dsql:TagResource Resources: arn:aws:dsql:region:account-id:cluster/* Permission to configure multi-region properties for a cluster. dsql:PutMultiRegionProperties Resources: arn:aws:dsql:region:account-id:cluster/* When specifying multiRegionProperties.clusters. dsql:AddPeerCluster Permission to add peer clusters. Resources:
+    ///
+    /// * Local cluster: arn:aws:dsql:region:account-id:cluster/*
+    ///
+    /// * Each peer cluster: exact ARN of each specified peer cluster
+    ///
+    ///
+    /// When specifying multiRegionProperties.witnessRegion. dsql:PutWitnessRegion Permission to set a witness region. Resources: arn:aws:dsql:region:account-id:cluster/* Condition Keys: dsql:WitnessRegion (matching the specified witness region) This permission is checked both in the cluster Region and in the witness Region. Important Notes for Multi-Region Operations
+    ///
+    /// * The witness region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.
+    ///
+    /// * When updating clusters with peer relationships, permissions are checked for both adding and removing peers.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
     ///
-    /// - Returns: `CreateClusterOutput` : Output Mixin
+    /// - Returns: `CreateClusterOutput` : The output of a created cluster.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,6 +454,7 @@ extension DSQLClient {
     /// Performs the `CreateMultiRegionClusters` operation on the `DSQL` service.
     ///
     /// Creates multi-Region clusters in Amazon Aurora DSQL. Multi-Region clusters require a linked Region list, which is an array of the Regions in which you want to create linked clusters. Multi-Region clusters require a witness Region, which participates in quorum in failure scenarios.
+    @available(*, deprecated, message: "The CreateMultiRegionClusters API is deprecated. Use the CreateCluster API with multi-Region properties to create a multi-Region cluster. API deprecated since 5/13/2025")
     ///
     /// - Parameter CreateMultiRegionClustersInput : [no documentation found]
     ///
@@ -526,7 +538,7 @@ extension DSQLClient {
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteClusterOutput` : Output Mixin
+    /// - Returns: `DeleteClusterOutput` : The output from a deleted cluster.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -601,6 +613,7 @@ extension DSQLClient {
     /// Performs the `DeleteMultiRegionClusters` operation on the `DSQL` service.
     ///
     /// Deletes a multi-Region cluster in Amazon Aurora DSQL.
+    @available(*, deprecated, message: "The DeleteMultiRegionClusters API is deprecated. To delete a multi-Region cluster, use the DeleteCluster API instead. API deprecated since 5/13/2025")
     ///
     /// - Parameter DeleteMultiRegionClustersInput : [no documentation found]
     ///
@@ -682,7 +695,7 @@ extension DSQLClient {
     ///
     /// - Parameter GetClusterInput : [no documentation found]
     ///
-    /// - Returns: `GetClusterOutput` : Output Mixin
+    /// - Returns: `GetClusterOutput` : The output of a cluster.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1134,11 +1147,17 @@ extension DSQLClient {
 
     /// Performs the `UpdateCluster` operation on the `DSQL` service.
     ///
-    /// Updates a cluster.
+    /// Updates a cluster. Example IAM Policy for Multi-Region Operations The following IAM policy grants permissions for multi-Region operations. The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates. Important Notes for Multi-Region Operations
+    ///
+    /// * The witness region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.
+    ///
+    /// * When updating clusters with peer relationships, permissions are checked for both adding and removing peers.
+    ///
+    /// * The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates.
     ///
     /// - Parameter UpdateClusterInput : [no documentation found]
     ///
-    /// - Returns: `UpdateClusterOutput` : Output Mixin
+    /// - Returns: `UpdateClusterOutput` : The details of the cluster after it has been updated.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
