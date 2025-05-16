@@ -24,12 +24,14 @@ class DefaultAWSCredentialIdentityResolverChainTests: XCTestCase {
         stsClient = STSClient(config: stsConfig)
     }
 
+#if !os(iOS) && !os(tvOS)
     func testCredentialsCaching() async throws {
         let input = GetCallerIdentityInput()
         for _ in 1...5 {
             _ = try await stsClient.getCallerIdentity(input: input)
         }
     }
+#endif
 
     fileprivate class XCTestAssertionInterceptor<InputType, OutputType>: Interceptor {
         typealias RequestType = HTTPRequest
