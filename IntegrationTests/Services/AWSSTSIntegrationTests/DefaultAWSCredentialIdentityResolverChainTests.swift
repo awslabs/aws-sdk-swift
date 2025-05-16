@@ -59,8 +59,9 @@ class DefaultAWSCredentialIdentityResolverChainTests: XCTestCase {
     }
 
     class XCTestAssertionInterceptorProvider: HttpInterceptorProvider {
-      func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
-        return XCTestAssertionInterceptor()
-      }
+        private let interceptor = XCTestAssertionInterceptor<GetCallerIdentityInput, GetCallerIdentityOutput>()
+        func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
+            return interceptor as! any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse>
+        }
     }
 }
