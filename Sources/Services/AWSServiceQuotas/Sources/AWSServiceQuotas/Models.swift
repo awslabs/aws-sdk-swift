@@ -274,6 +274,29 @@ public struct IllegalArgumentException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
+/// The resource is in an invalid state.
+public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidResourceStateException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The specified resource does not exist.
 public struct NoSuchResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -295,6 +318,46 @@ public struct NoSuchResourceException: ClientRuntime.ModeledError, AWSClientRunt
     ) {
         self.properties.message = message
     }
+}
+
+/// The specified resource already exists.
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceAlreadyExistsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateSupportCaseInput: Swift.Sendable {
+    /// The ID of the pending quota increase request for which you want to open a Support case.
+    /// This member is required.
+    public var requestId: Swift.String?
+
+    public init(
+        requestId: Swift.String? = nil
+    ) {
+        self.requestId = requestId
+    }
+}
+
+public struct CreateSupportCaseOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteServiceQuotaIncreaseRequestFromTemplateInput: Swift.Sendable {
@@ -1013,29 +1076,6 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-/// The resource is in an invalid state.
-public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidResourceStateException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public struct ListAWSDefaultServiceQuotasInput: Swift.Sendable {
     /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
@@ -1375,29 +1415,6 @@ public struct PutServiceQuotaIncreaseRequestIntoTemplateOutput: Swift.Sendable {
     }
 }
 
-/// The specified resource already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceAlreadyExistsException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public struct RequestServiceQuotaIncreaseInput: Swift.Sendable {
     /// Specifies the resource with an Amazon Resource Name (ARN).
     public var contextId: Swift.String?
@@ -1536,6 +1553,13 @@ extension AssociateServiceQuotaTemplateInput {
     }
 }
 
+extension CreateSupportCaseInput {
+
+    static func urlPathProvider(_ value: CreateSupportCaseInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteServiceQuotaIncreaseRequestFromTemplateInput {
 
     static func urlPathProvider(_ value: DeleteServiceQuotaIncreaseRequestFromTemplateInput) -> Swift.String? {
@@ -1667,6 +1691,14 @@ extension AssociateServiceQuotaTemplateInput {
     static func write(value: AssociateServiceQuotaTemplateInput?, to writer: SmithyJSON.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
+    }
+}
+
+extension CreateSupportCaseInput {
+
+    static func write(value: CreateSupportCaseInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RequestId"].write(value.requestId)
     }
 }
 
@@ -1853,6 +1885,13 @@ extension AssociateServiceQuotaTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateServiceQuotaTemplateOutput {
         return AssociateServiceQuotaTemplateOutput()
+    }
+}
+
+extension CreateSupportCaseOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSupportCaseOutput {
+        return CreateSupportCaseOutput()
     }
 }
 
@@ -2073,6 +2112,27 @@ enum AssociateServiceQuotaTemplateOutputError {
             case "OrganizationNotInAllFeaturesModeException": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TemplatesNotAvailableInRegionException": return try TemplatesNotAvailableInRegionException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateSupportCaseOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DependencyAccessDeniedException": return try DependencyAccessDeniedException.makeError(baseError: baseError)
+            case "IllegalArgumentException": return try IllegalArgumentException.makeError(baseError: baseError)
+            case "InvalidResourceStateException": return try InvalidResourceStateException.makeError(baseError: baseError)
+            case "NoSuchResourceException": return try NoSuchResourceException.makeError(baseError: baseError)
+            case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2539,6 +2599,32 @@ extension AWSServiceAccessNotEnabledException {
     }
 }
 
+extension ResourceAlreadyExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceAlreadyExistsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidResourceStateException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResourceStateException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidResourceStateException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension IllegalArgumentException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IllegalArgumentException {
@@ -2596,32 +2682,6 @@ extension QuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = QuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceAlreadyExistsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceAlreadyExistsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidResourceStateException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResourceStateException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidResourceStateException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

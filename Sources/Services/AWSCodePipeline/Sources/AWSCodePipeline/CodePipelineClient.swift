@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodePipelineClient: ClientRuntime.Client {
     public static let clientName = "CodePipelineClient"
-    public static let version = "1.3.17"
+    public static let version = "1.3.18"
     let client: ClientRuntime.SdkHttpClient
     let config: CodePipelineClient.CodePipelineClientConfiguration
     let serviceName = "CodePipeline"
@@ -1738,6 +1738,84 @@ extension CodePipelineClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CodePipeline")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListActionTypes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListDeployActionExecutionTargets` operation on the `CodePipeline` service.
+    ///
+    /// Lists the targets for the deploy action.
+    ///
+    /// - Parameter ListDeployActionExecutionTargetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeployActionExecutionTargetsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ActionExecutionNotFoundException` : The action execution was not found.
+    /// - `InvalidNextTokenException` : The next token was specified in an invalid format. Make sure that the next token you provide is the token returned by a previous call.
+    /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
+    /// - `ValidationException` : The validation was specified in an invalid format.
+    public func listDeployActionExecutionTargets(input: ListDeployActionExecutionTargetsInput) async throws -> ListDeployActionExecutionTargetsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDeployActionExecutionTargets")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "codepipeline")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput>(ListDeployActionExecutionTargetsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeployActionExecutionTargetsOutput>(ListDeployActionExecutionTargetsOutput.httpOutput(from:), ListDeployActionExecutionTargetsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDeployActionExecutionTargetsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodePipeline", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDeployActionExecutionTargetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput>(xAmzTarget: "CodePipeline_20150709.ListDeployActionExecutionTargets"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDeployActionExecutionTargetsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDeployActionExecutionTargetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput>(serviceID: serviceName, version: CodePipelineClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CodePipeline")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDeployActionExecutionTargets")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
