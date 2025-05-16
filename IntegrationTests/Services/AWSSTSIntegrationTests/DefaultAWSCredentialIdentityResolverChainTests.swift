@@ -5,13 +5,10 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-#if !os(iOS) && !os(tvOS)
-// using a parameterized protocol type (i.e., a protocol with associated types) in a type-erased or generic way
-//  at runtime isn't supported in iOS and tvOS.
-
 import XCTest
 import AWSSTS
 import ClientRuntime
+import protocol SmithyIdentityAPI.Identity
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 import enum Smithy.ClientError
@@ -35,14 +32,11 @@ class DefaultAWSCredentialIdentityResolverChainTests: XCTestCase {
         }
     }
 
-    fileprivate class XCTestAssertionInterceptor<InputType, OutputType>: Interceptor {
-        typealias RequestType = HTTPRequest
-        typealias ResponseType = HTTPResponse
-
+    class XCTestAssertionChecker {
         private var cachedCredentials: AWSCredentialIdentity?
 
-        func readBeforeTransmit(context: some AfterSerialization<InputType, RequestType>) async throws {
-            let resolvedCredentials = context.getAttributes().selectedAuthScheme?.identity as? AWSCredentialIdentity
+        func checkCredentials(identity: Identity?) async throws {
+            let resolvedCredentials = identity as? AWSCredentialIdentity
             guard let resolvedCredentials else {
                 XCTFail()
                 throw ClientError.dataNotFound("This should never be reached.")
@@ -63,11 +57,21 @@ class DefaultAWSCredentialIdentityResolverChainTests: XCTestCase {
     }
 
     class XCTestAssertionInterceptorProvider: HttpInterceptorProvider {
-        private let interceptor = XCTestAssertionInterceptor<GetCallerIdentityInput, GetCallerIdentityOutput>()
+        private let checker = XCTestAssertionChecker()
         func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
-            return interceptor as! any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse>
+            return InterceptorContainer(checker: checker)
+        }
+    }
+
+    struct InterceptorContainer<InputType, OutputType>: Interceptor {
+        typealias RequestType = HTTPRequest
+        typealias ResponseType = HTTPResponse
+
+        let checker: XCTestAssertionChecker
+
+        func readBeforeTransmit(context: some AfterSerialization<InputType, RequestType>) async throws {
+            let identity = context.getAttributes().selectedAuthScheme?.identity
+            try await checker.checkCredentials(identity: identity)
         }
     }
 }
-
-#endif
