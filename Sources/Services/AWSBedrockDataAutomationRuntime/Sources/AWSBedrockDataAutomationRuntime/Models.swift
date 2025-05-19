@@ -378,15 +378,80 @@ extension BedrockDataAutomationRuntimeClientTypes {
 
 extension BedrockDataAutomationRuntimeClientTypes {
 
+    /// Timestamp segment
+    public struct TimestampSegment: Swift.Sendable {
+        /// End timestamp in milliseconds
+        /// This member is required.
+        public var endTimeMillis: Swift.Int?
+        /// Start timestamp in milliseconds
+        /// This member is required.
+        public var startTimeMillis: Swift.Int?
+
+        public init(
+            endTimeMillis: Swift.Int? = nil,
+            startTimeMillis: Swift.Int? = nil
+        ) {
+            self.endTimeMillis = endTimeMillis
+            self.startTimeMillis = startTimeMillis
+        }
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes {
+
+    /// Delimits the segment of the input that will be processed
+    public enum VideoSegmentConfiguration: Swift.Sendable {
+        /// Timestamp segment
+        case timestampsegment(BedrockDataAutomationRuntimeClientTypes.TimestampSegment)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes {
+
+    /// Video asset processing configuration
+    public struct VideoAssetProcessingConfiguration: Swift.Sendable {
+        /// Delimits the segment of the input that will be processed
+        public var segmentConfiguration: BedrockDataAutomationRuntimeClientTypes.VideoSegmentConfiguration?
+
+        public init(
+            segmentConfiguration: BedrockDataAutomationRuntimeClientTypes.VideoSegmentConfiguration? = nil
+        ) {
+            self.segmentConfiguration = segmentConfiguration
+        }
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes {
+
+    /// Config containing asset processing related knobs for all modalities
+    public struct AssetProcessingConfiguration: Swift.Sendable {
+        /// Video asset processing configuration
+        public var video: BedrockDataAutomationRuntimeClientTypes.VideoAssetProcessingConfiguration?
+
+        public init(
+            video: BedrockDataAutomationRuntimeClientTypes.VideoAssetProcessingConfiguration? = nil
+        ) {
+            self.video = video
+        }
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes {
+
     /// Input configuration.
     public struct InputConfiguration: Swift.Sendable {
+        /// Asset processing configuration
+        public var assetProcessingConfiguration: BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration?
         /// S3 uri.
         /// This member is required.
         public var s3Uri: Swift.String?
 
         public init(
+            assetProcessingConfiguration: BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration? = nil,
             s3Uri: Swift.String? = nil
         ) {
+            self.assetProcessingConfiguration = assetProcessingConfiguration
             self.s3Uri = s3Uri
         }
     }
@@ -915,7 +980,46 @@ extension BedrockDataAutomationRuntimeClientTypes.InputConfiguration {
 
     static func write(value: BedrockDataAutomationRuntimeClientTypes.InputConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["assetProcessingConfiguration"].write(value.assetProcessingConfiguration, with: BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration.write(value:to:))
         try writer["s3Uri"].write(value.s3Uri)
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["video"].write(value.video, with: BedrockDataAutomationRuntimeClientTypes.VideoAssetProcessingConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.VideoAssetProcessingConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.VideoAssetProcessingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["segmentConfiguration"].write(value.segmentConfiguration, with: BedrockDataAutomationRuntimeClientTypes.VideoSegmentConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.VideoSegmentConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.VideoSegmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .timestampsegment(timestampsegment):
+                try writer["timestampSegment"].write(timestampsegment, with: BedrockDataAutomationRuntimeClientTypes.TimestampSegment.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.TimestampSegment {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.TimestampSegment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTimeMillis"].write(value.endTimeMillis)
+        try writer["startTimeMillis"].write(value.startTimeMillis)
     }
 }
 

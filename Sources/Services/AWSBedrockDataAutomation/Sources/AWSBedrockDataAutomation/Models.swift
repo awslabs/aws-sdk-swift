@@ -276,13 +276,15 @@ extension BedrockDataAutomationClientTypes {
         case audio
         case document
         case image
+        case video
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ModelType] {
             return [
                 .audio,
                 .document,
-                .image
+                .image,
+                .video
             ]
         }
 
@@ -296,6 +298,7 @@ extension BedrockDataAutomationClientTypes {
             case .audio: return "AUDIO"
             case .document: return "DOCUMENT"
             case .image: return "IMAGE"
+            case .video: return "VIDEO"
             case let .sdkUnknown(s): return s
             }
         }

@@ -1936,6 +1936,39 @@ extension PaginatorSequence where OperationStackInput == DescribeMacHostsInput, 
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeMacModificationTasksOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMacModificationTasksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMacModificationTasksOutput`
+    public func describeMacModificationTasksPaginated(input: DescribeMacModificationTasksInput) -> ClientRuntime.PaginatorSequence<DescribeMacModificationTasksInput, DescribeMacModificationTasksOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeMacModificationTasksInput, DescribeMacModificationTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMacModificationTasks(input:))
+    }
+}
+
+extension DescribeMacModificationTasksInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMacModificationTasksInput {
+        return DescribeMacModificationTasksInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            macModificationTaskIds: self.macModificationTaskIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeMacModificationTasksInput, OperationStackOutput == DescribeMacModificationTasksOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMacModificationTasksPaginated`
+    /// to access the nested member `[EC2ClientTypes.MacModificationTask]`
+    /// - Returns: `[EC2ClientTypes.MacModificationTask]`
+    public func macModificationTasks() async throws -> [EC2ClientTypes.MacModificationTask] {
+        return try await self.asyncCompactMap { item in item.macModificationTasks }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeManagedPrefixListsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

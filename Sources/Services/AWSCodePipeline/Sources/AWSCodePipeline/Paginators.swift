@@ -74,6 +74,39 @@ extension PaginatorSequence where OperationStackInput == ListActionTypesInput, O
     }
 }
 extension CodePipelineClient {
+    /// Paginate over `[ListDeployActionExecutionTargetsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDeployActionExecutionTargetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeployActionExecutionTargetsOutput`
+    public func listDeployActionExecutionTargetsPaginated(input: ListDeployActionExecutionTargetsInput) -> ClientRuntime.PaginatorSequence<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDeployActionExecutionTargetsInput, ListDeployActionExecutionTargetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeployActionExecutionTargets(input:))
+    }
+}
+
+extension ListDeployActionExecutionTargetsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDeployActionExecutionTargetsInput {
+        return ListDeployActionExecutionTargetsInput(
+            actionExecutionId: self.actionExecutionId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pipelineName: self.pipelineName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDeployActionExecutionTargetsInput, OperationStackOutput == ListDeployActionExecutionTargetsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDeployActionExecutionTargetsPaginated`
+    /// to access the nested member `[CodePipelineClientTypes.DeployActionExecutionTarget]`
+    /// - Returns: `[CodePipelineClientTypes.DeployActionExecutionTarget]`
+    public func targets() async throws -> [CodePipelineClientTypes.DeployActionExecutionTarget] {
+        return try await self.asyncCompactMap { item in item.targets }
+    }
+}
+extension CodePipelineClient {
     /// Paginate over `[ListPipelineExecutionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
