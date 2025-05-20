@@ -160,7 +160,11 @@ extension URLSession {
                     return
                 }
                 guard let data = data, let response = response else {
-                    continuation.resume(throwing: NSError(domain: "URLSession", code: 0, userInfo: [NSLocalizedDescriptionKey: "No data or response returned"]))
+                    continuation.resume(throwing: NSError(
+                        domain: "URLSession",
+                        code: 0,
+                        userInfo: [NSLocalizedDescriptionKey: "No data or response returned"]
+                    ))
                     return
                 }
                 continuation.resume(returning: (data, response))

@@ -16,12 +16,13 @@ public struct FieldResolver<T> {
     let profileName: String?
     let converter: (String) -> T?
 
-    @_spi(FileBasedConfig) public init(configValue: T?,
-         envVarName: String?,
-         configFieldName: String?,
-         fileBasedConfig: FileBasedConfiguration,
-         profileName: String?,
-         converter: @escaping (String) -> T?
+    @_spi(FileBasedConfig) public init(
+        configValue: T?,
+        envVarName: String?,
+        configFieldName: String?,
+        fileBasedConfig: FileBasedConfiguration,
+        profileName: String?,
+        converter: @escaping (String) -> T?
     ) {
         self.configValue = configValue
         self.envVarName = envVarName

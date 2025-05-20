@@ -6,12 +6,12 @@
 //
 
 public enum IMDSError: Error {
-    public enum TokenError {
+    public enum TokenError: Sendable {
         case retryable
         case nonRetryable(_ message: String)
     }
 
-    public enum MetadataError {
+    public enum MetadataError: Sendable {
         case retryable
         case nonRetryable(_ message: String)
     }

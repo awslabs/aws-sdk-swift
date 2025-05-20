@@ -16,7 +16,7 @@ import struct Smithy.Attributes
 import typealias AWSSDKCommon.CRTFileBasedConfiguration
 
 // Temporary enum used until IMDS moves fully to IMDSv2.1.
-fileprivate enum IMDSAPIVersion {
+private enum IMDSAPIVersion {
     case unknown
     case legacy // IMDSv2, w/o accountID
     case extended // IMDSv2.1, w/ AccountID
