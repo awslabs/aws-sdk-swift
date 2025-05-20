@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKHTTPAuthTypes
 import software.amazon.smithy.aws.traits.auth.SigV4ATrait
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
@@ -86,7 +87,9 @@ open class AWSAuthUtils(
         if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || servicesUsingSigV4A.contains(sdkId)) {
             updatedAuthSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AAuthScheme)
         }
-
+        if (ctx.service.isS3) {
+            updatedAuthSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4S3ExpressAuthScheme)
+        }
         return updatedAuthSchemeList
     }
 }
