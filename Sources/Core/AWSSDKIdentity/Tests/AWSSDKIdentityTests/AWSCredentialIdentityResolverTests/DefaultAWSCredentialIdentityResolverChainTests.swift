@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import struct AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
+import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 
 class DefaultAWSCredentialIdentityResolverChainTests: XCTestCase {
 
@@ -19,7 +19,7 @@ class DefaultAWSCredentialIdentityResolverChainTests: XCTestCase {
             unsetenv("AWS_SECRET_ACCESS_KEY")
         }
 
-        let subject = try DefaultAWSCredentialIdentityResolverChain()
+        let subject = DefaultAWSCredentialIdentityResolverChain()
         let credentials = try await subject.getIdentity()
 
         XCTAssertEqual(credentials.accessKey, "some_access_key_b")
