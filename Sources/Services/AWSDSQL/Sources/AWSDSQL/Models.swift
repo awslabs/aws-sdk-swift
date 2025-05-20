@@ -29,11 +29,6 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
-public struct DeleteMultiRegionClustersOutput: Swift.Sendable {
-
-    public init() { }
-}
-
 public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
@@ -371,65 +366,6 @@ public struct CreateClusterOutput: Swift.Sendable {
     }
 }
 
-extension DSQLClientTypes {
-
-    /// Properties of linked clusters.
-    @available(*, deprecated, message: "The CreateMultiRegionClusters API is deprecated. To create a multi-Region cluster, use the CreateCluster API with multi-Region properties instead. API deprecated since 5/13/2025")
-    public struct LinkedClusterProperties: Swift.Sendable {
-        /// Whether deletion protection is enabled.
-        public var deletionProtectionEnabled: Swift.Bool?
-        /// A map of key and value pairs the linked cluster is tagged with.
-        public var tags: [Swift.String: Swift.String]?
-
-        public init(
-            deletionProtectionEnabled: Swift.Bool? = true,
-            tags: [Swift.String: Swift.String]? = nil
-        ) {
-            self.deletionProtectionEnabled = deletionProtectionEnabled
-            self.tags = tags
-        }
-    }
-}
-
-public struct CreateMultiRegionClustersInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
-    public var clientToken: Swift.String?
-    /// A mapping of properties to use when creating linked clusters.
-    @available(*, deprecated, message: "The CreateMultiRegionClusters API is deprecated. To create a multi-Region cluster, use the CreateCluster API with multi-Region properties instead. API deprecated since 5/13/2025")
-    public var clusterProperties: [Swift.String: DSQLClientTypes.LinkedClusterProperties]?
-    /// An array of the Regions in which you want to create additional clusters.
-    /// This member is required.
-    @available(*, deprecated, message: "The CreateMultiRegionClusters API is deprecated. Use the CreateCluster API with multi-Region properties to create a multi-Region cluster. API deprecated since 5/13/2025")
-    public var linkedRegionList: [Swift.String]?
-    /// The witness Region of multi-Region clusters.
-    /// This member is required.
-    public var witnessRegion: Swift.String?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        clusterProperties: [Swift.String: DSQLClientTypes.LinkedClusterProperties]? = nil,
-        linkedRegionList: [Swift.String]? = nil,
-        witnessRegion: Swift.String? = nil
-    ) {
-        self.clientToken = clientToken
-        self.clusterProperties = clusterProperties
-        self.linkedRegionList = linkedRegionList
-        self.witnessRegion = witnessRegion
-    }
-}
-
-public struct CreateMultiRegionClustersOutput: Swift.Sendable {
-    /// An array that contains the ARNs of all linked clusters.
-    /// This member is required.
-    public var linkedClusterArns: [Swift.String]?
-
-    public init(
-        linkedClusterArns: [Swift.String]? = nil
-    ) {
-        self.linkedClusterArns = linkedClusterArns
-    }
-}
-
 /// The resource could not be found.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -488,10 +424,6 @@ public struct DeleteClusterOutput: Swift.Sendable {
     /// The time of when the cluster was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
-    /// Specifies whether deletion protection was enabled on the cluster.
-    /// This member is required.
-    @available(*, deprecated, message: "The deletionProtectionEnabled field is deprecated in the DeleteCluster API. To check deletion protection status, use the GetCluster API instead. API deprecated since 5/13/2025")
-    public var deletionProtectionEnabled: Swift.Bool?
     /// The ID of the deleted cluster.
     /// This member is required.
     public var identifier: Swift.String?
@@ -502,31 +434,13 @@ public struct DeleteClusterOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
-        deletionProtectionEnabled: Swift.Bool? = nil,
         identifier: Swift.String? = nil,
         status: DSQLClientTypes.ClusterStatus? = nil
     ) {
         self.arn = arn
         self.creationTime = creationTime
-        self.deletionProtectionEnabled = deletionProtectionEnabled
         self.identifier = identifier
         self.status = status
-    }
-}
-
-public struct DeleteMultiRegionClustersInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
-    public var clientToken: Swift.String?
-    /// The ARNs of the clusters linked to the cluster you want to delete. also deletes these clusters as part of the operation.
-    /// This member is required.
-    public var linkedClusterArns: [Swift.String]?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        linkedClusterArns: [Swift.String]? = nil
-    ) {
-        self.clientToken = clientToken
-        self.linkedClusterArns = linkedClusterArns
     }
 }
 
@@ -556,9 +470,6 @@ public struct GetClusterOutput: Swift.Sendable {
     /// The ID of the retrieved cluster.
     /// This member is required.
     public var identifier: Swift.String?
-    /// The ARNs of the clusters linked to the retrieved cluster.
-    @available(*, deprecated, message: "The linkedClusterArns field is deprecated. To see the peered cluster Arns, use multiRegionProperties.cluster instead. API deprecated since 5/13/2025")
-    public var linkedClusterArns: [Swift.String]?
     /// Returns the current multi-Region cluster configuration, including witness region and linked cluster information.
     public var multiRegionProperties: DSQLClientTypes.MultiRegionProperties?
     /// The status of the retrieved cluster.
@@ -566,30 +477,23 @@ public struct GetClusterOutput: Swift.Sendable {
     public var status: DSQLClientTypes.ClusterStatus?
     /// Map of tags.
     public var tags: [Swift.String: Swift.String]?
-    /// The witness Region of the cluster. Applicable only for multi-Region clusters.
-    @available(*, deprecated, message: "The witnessRegion field is deprecated. To see the witnessRegion, use multiRegionProperties.witnessRegion instead. API deprecated since 5/13/2025")
-    public var witnessRegion: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         identifier: Swift.String? = nil,
-        linkedClusterArns: [Swift.String]? = nil,
         multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil,
         status: DSQLClientTypes.ClusterStatus? = nil,
-        tags: [Swift.String: Swift.String]? = nil,
-        witnessRegion: Swift.String? = nil
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.arn = arn
         self.creationTime = creationTime
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.identifier = identifier
-        self.linkedClusterArns = linkedClusterArns
         self.multiRegionProperties = multiRegionProperties
         self.status = status
         self.tags = tags
-        self.witnessRegion = witnessRegion
     }
 }
 
@@ -766,39 +670,23 @@ public struct UpdateClusterOutput: Swift.Sendable {
     /// The time of when the cluster was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
-    /// Whether deletion protection is enabled for the updated cluster.
-    /// This member is required.
-    @available(*, deprecated, message: "The deletionProtectionEnabled field is deprecated in the UpdateCluster API. To check deletion protection status, use the GetCluster API instead. API deprecated since 5/13/2025")
-    public var deletionProtectionEnabled: Swift.Bool?
     /// The ID of the cluster to update.
     /// This member is required.
     public var identifier: Swift.String?
-    /// The ARNs of the clusters linked to the updated cluster. Applicable only for multi-Region clusters.
-    @available(*, deprecated, message: "The linkedClusterArns field is deprecated in the UpdateCluster API. To check peer cluster, use the GetCluster API instead. API deprecated since 5/13/2025")
-    public var linkedClusterArns: [Swift.String]?
     /// The status of the updated cluster.
     /// This member is required.
     public var status: DSQLClientTypes.ClusterStatus?
-    /// The Region that receives all data you write to linked clusters.
-    @available(*, deprecated, message: "The witnessRegion field is deprecated in the UpdateCluster API. To check witnessRegion, use the GetCluster API instead. API deprecated since 5/13/2025")
-    public var witnessRegion: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
-        deletionProtectionEnabled: Swift.Bool? = nil,
         identifier: Swift.String? = nil,
-        linkedClusterArns: [Swift.String]? = nil,
-        status: DSQLClientTypes.ClusterStatus? = nil,
-        witnessRegion: Swift.String? = nil
+        status: DSQLClientTypes.ClusterStatus? = nil
     ) {
         self.arn = arn
         self.creationTime = creationTime
-        self.deletionProtectionEnabled = deletionProtectionEnabled
         self.identifier = identifier
-        self.linkedClusterArns = linkedClusterArns
         self.status = status
-        self.witnessRegion = witnessRegion
     }
 }
 
@@ -866,13 +754,6 @@ extension CreateClusterInput {
     }
 }
 
-extension CreateMultiRegionClustersInput {
-
-    static func urlPathProvider(_ value: CreateMultiRegionClustersInput) -> Swift.String? {
-        return "/multi-region-clusters"
-    }
-}
-
 extension DeleteClusterInput {
 
     static func urlPathProvider(_ value: DeleteClusterInput) -> Swift.String? {
@@ -887,33 +768,6 @@ extension DeleteClusterInput {
 
     static func queryItemProvider(_ value: DeleteClusterInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        if let clientToken = value.clientToken {
-            let clientTokenQueryItem = Smithy.URIQueryItem(name: "client-token".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-            items.append(clientTokenQueryItem)
-        }
-        return items
-    }
-}
-
-extension DeleteMultiRegionClustersInput {
-
-    static func urlPathProvider(_ value: DeleteMultiRegionClustersInput) -> Swift.String? {
-        return "/multi-region-clusters"
-    }
-}
-
-extension DeleteMultiRegionClustersInput {
-
-    static func queryItemProvider(_ value: DeleteMultiRegionClustersInput) throws -> [Smithy.URIQueryItem] {
-        var items = [Smithy.URIQueryItem]()
-        guard let linkedClusterArns = value.linkedClusterArns else {
-            let message = "Creating a URL Query Item failed. linkedClusterArns is required and must not be nil."
-            throw Smithy.ClientError.unknownError(message)
-        }
-        linkedClusterArns.forEach { queryItemValue in
-            let queryItem = Smithy.URIQueryItem(name: "linked-cluster-arns".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-            items.append(queryItem)
-        }
         if let clientToken = value.clientToken {
             let clientTokenQueryItem = Smithy.URIQueryItem(name: "client-token".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
@@ -1032,17 +886,6 @@ extension CreateClusterInput {
     }
 }
 
-extension CreateMultiRegionClustersInput {
-
-    static func write(value: CreateMultiRegionClustersInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientToken"].write(value.clientToken)
-        try writer["clusterProperties"].writeMap(value.clusterProperties, valueWritingClosure: DSQLClientTypes.LinkedClusterProperties.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["linkedRegionList"].writeList(value.linkedRegionList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["witnessRegion"].write(value.witnessRegion)
-    }
-}
-
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -1078,18 +921,6 @@ extension CreateClusterOutput {
     }
 }
 
-extension CreateMultiRegionClustersOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMultiRegionClustersOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = CreateMultiRegionClustersOutput()
-        value.linkedClusterArns = try reader["linkedClusterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
 extension DeleteClusterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteClusterOutput {
@@ -1099,17 +930,9 @@ extension DeleteClusterOutput {
         var value = DeleteClusterOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.deletionProtectionEnabled = try reader["deletionProtectionEnabled"].readIfPresent() ?? false
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
-    }
-}
-
-extension DeleteMultiRegionClustersOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMultiRegionClustersOutput {
-        return DeleteMultiRegionClustersOutput()
     }
 }
 
@@ -1124,11 +947,9 @@ extension GetClusterOutput {
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletionProtectionEnabled = try reader["deletionProtectionEnabled"].readIfPresent() ?? false
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
-        value.linkedClusterArns = try reader["linkedClusterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.multiRegionProperties = try reader["multiRegionProperties"].readIfPresent(with: DSQLClientTypes.MultiRegionProperties.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.witnessRegion = try reader["witnessRegion"].readIfPresent()
         return value
     }
 }
@@ -1193,11 +1014,8 @@ extension UpdateClusterOutput {
         var value = UpdateClusterOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.deletionProtectionEnabled = try reader["deletionProtectionEnabled"].readIfPresent() ?? false
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
-        value.linkedClusterArns = try reader["linkedClusterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.witnessRegion = try reader["witnessRegion"].readIfPresent()
         return value
     }
 }
@@ -1229,39 +1047,7 @@ enum CreateClusterOutputError {
     }
 }
 
-enum CreateMultiRegionClustersOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        if let error = try httpServiceError(baseError: baseError) { return error }
-        switch baseError.code {
-            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
-            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
 enum DeleteClusterOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        if let error = try httpServiceError(baseError: baseError) { return error }
-        switch baseError.code {
-            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
-            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum DeleteMultiRegionClustersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1535,15 +1321,6 @@ extension DSQLClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension DSQLClientTypes.LinkedClusterProperties {
-
-    static func write(value: DSQLClientTypes.LinkedClusterProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deletionProtectionEnabled"].write(value.deletionProtectionEnabled)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 

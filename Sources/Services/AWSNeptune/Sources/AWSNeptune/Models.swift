@@ -1392,7 +1392,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     /// The name of the database engine to be used for this DB cluster. Valid Values: neptune
     /// This member is required.
     public var engine: Swift.String?
-    /// The version number of the database engine to use for the new DB cluster. Example: 1.0.2.1
+    /// The version number of the database engine to use for the new DB cluster. Example: 1.2.1.0
     public var engineVersion: Swift.String?
     /// The ID of the Neptune global database to which this new DB cluster should be added.
     public var globalClusterIdentifier: Swift.String?
@@ -1433,17 +1433,11 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration?
     /// Specifies whether the DB cluster is encrypted.
     public var storageEncrypted: Swift.Bool?
-    /// The storage type to associate with the DB cluster. Valid Values:
+    /// The storage type for the new DB cluster. Valid Values:
     ///
-    /// * standard | iopt1
+    /// * standard – ( the default ) Configures cost-effective database storage for applications with moderate to small I/O usage. When set to standard, the storage type is not returned in the response.
     ///
-    ///
-    /// Default:
-    ///
-    /// * standard
-    ///
-    ///
-    /// When you create a Neptune cluster with the storage type set to iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to standard.
+    /// * iopt1 – Enables [I/O-Optimized storage](https://docs.aws.amazon.com/neptune/latest/userguide/storage-types.html#provisioned-iops-storage) that's designed to meet the needs of I/O-intensive graph workloads that require predictable pricing with low I/O latency and consistent I/O throughput. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0.
     public var storageType: Swift.String?
     /// The tags to assign to the new DB cluster.
     public var tags: [NeptuneClientTypes.Tag]?
@@ -1619,11 +1613,15 @@ extension NeptuneClientTypes {
         public var engineVersion: Swift.String?
         /// A value that indicates whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
-        /// The Provisioned IOPS (I/O operations per second) value. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// The Provisioned IOPS (I/O operations per second) value. This setting is only for Multi-AZ DB clusters.
         public var iops: Swift.Int?
         /// This PendingCloudwatchLogsExports structure specifies pending changes to which CloudWatch logs are enabled and which are disabled.
         public var pendingCloudwatchLogsExports: NeptuneClientTypes.PendingCloudwatchLogsExports?
-        /// The storage type for the DB cluster.
+        /// The pending change in storage type for the DB cluster. Valid Values:
+        ///
+        /// * standard – ( the default ) Configures cost-effective database storage for applications with moderate to small I/O usage.
+        ///
+        /// * iopt1 – Enables [I/O-Optimized storage](https://docs.aws.amazon.com/neptune/latest/userguide/storage-types.html#provisioned-iops-storage) that's designed to meet the needs of I/O-intensive graph workloads that require predictable pricing with low I/O latency and consistent I/O throughput. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0.
         public var storageType: Swift.String?
 
         public init(
@@ -1776,7 +1774,11 @@ extension NeptuneClientTypes {
         public var status: Swift.String?
         /// Specifies whether the DB cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
-        /// The storage type associated with the DB cluster.
+        /// The storage type used by the DB cluster. Valid Values:
+        ///
+        /// * standard – ( the default ) Provides cost-effective database storage for applications with moderate to small I/O usage.
+        ///
+        /// * iopt1 – Enables [I/O-Optimized storage](https://docs.aws.amazon.com/neptune/latest/userguide/storage-types.html#provisioned-iops-storage) that's designed to meet the needs of I/O-intensive graph workloads that require predictable pricing with low I/O latency and consistent I/O throughput. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0.
         public var storageType: Swift.String?
         /// Provides a list of VPC security groups that the DB cluster belongs to.
         public var vpcSecurityGroups: [NeptuneClientTypes.VpcSecurityGroupMembership]?
@@ -2432,7 +2434,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var publiclyAccessible: Swift.Bool?
     /// Specifies whether the DB instance is encrypted. Not applicable. The encryption for DB instances is managed by the DB cluster. For more information, see [CreateDBCluster]. Default: false
     public var storageEncrypted: Swift.Bool?
-    /// Specifies the storage type to be associated with the DB instance. Not applicable. Storage is managed by the DB Cluster.
+    /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
     public var storageType: Swift.String?
     /// The tags to assign to the new instance.
     public var tags: [NeptuneClientTypes.Tag]?
@@ -2759,7 +2761,7 @@ extension NeptuneClientTypes {
         public var pendingCloudwatchLogsExports: NeptuneClientTypes.PendingCloudwatchLogsExports?
         /// Specifies the pending port for the DB instance.
         public var port: Swift.Int?
-        /// Specifies the storage type to be associated with the DB instance.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public var storageType: Swift.String?
 
         public init(
@@ -2926,7 +2928,7 @@ extension NeptuneClientTypes {
         public var statusInfos: [NeptuneClientTypes.DBInstanceStatusInfo]?
         /// Not supported: The encryption for DB instances is managed by the DB cluster.
         public var storageEncrypted: Swift.Bool?
-        /// Specifies the storage type associated with DB instance.
+        /// Specifies the storage type associated with the DB instance.
         public var storageType: Swift.String?
         /// The ARN from the key store with which the instance is associated for TDE encryption.
         public var tdeCredentialArn: Swift.String?
@@ -3497,6 +3499,73 @@ public struct CreateGlobalClusterInput: Swift.Sendable {
 
 extension NeptuneClientTypes {
 
+    public enum FailoverStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelling
+        case failingOver
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FailoverStatus] {
+            return [
+                .cancelling,
+                .failingOver,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelling: return "cancelling"
+            case .failingOver: return "failing-over"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NeptuneClientTypes {
+
+    /// Contains the state of scheduled or in-process operations on a global cluster (Neptune global database). This data type is empty unless a switchover or failover operation is scheduled or is in progress on the Neptune global database.
+    public struct FailoverState: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Neptune DB cluster that is currently being demoted, and which is associated with this state.
+        public var fromDbClusterArn: Swift.String?
+        /// Indicates whether the operation is a global switchover or a global failover. If data loss is allowed, then the operation is a global failover. Otherwise, it's a switchover.
+        public var isDataLossAllowed: Swift.Bool?
+        /// The current status of the global cluster. Possible values are as follows:
+        ///
+        /// * pending  The service received a request to switch over or fail over the global cluster. The global cluster's primary DB cluster and the specified secondary DB cluster are being verified before the operation starts.
+        ///
+        /// * failing-over  Neptune is promoting the chosen secondary Neptune DB cluster to become the new primary DB cluster to fail over the global cluster.
+        ///
+        /// * cancelling  The request to switch over or fail over the global cluster was cancelled and the primary Neptune DB cluster and the selected secondary Neptune DB cluster are returning to their previous states.
+        ///
+        /// * switching-over  This status covers the range of Neptune internal operations that take place during the switchover process, such as demoting the primary Neptune DB cluster, promoting the secondary Neptune DB cluster, and synchronizing replicas.
+        public var status: NeptuneClientTypes.FailoverStatus?
+        /// The Amazon Resource Name (ARN) of the Neptune DB cluster that is currently being promoted, and which is associated with this state.
+        public var toDbClusterArn: Swift.String?
+
+        public init(
+            fromDbClusterArn: Swift.String? = nil,
+            isDataLossAllowed: Swift.Bool? = nil,
+            status: NeptuneClientTypes.FailoverStatus? = nil,
+            toDbClusterArn: Swift.String? = nil
+        ) {
+            self.fromDbClusterArn = fromDbClusterArn
+            self.isDataLossAllowed = isDataLossAllowed
+            self.status = status
+            self.toDbClusterArn = toDbClusterArn
+        }
+    }
+}
+
+extension NeptuneClientTypes {
+
     /// A data structure with information about any primary and secondary clusters associated with an Neptune global database.
     public struct GlobalClusterMember: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for each Neptune cluster.
@@ -3528,6 +3597,8 @@ extension NeptuneClientTypes {
         public var engine: Swift.String?
         /// The Neptune engine version used by the global database.
         public var engineVersion: Swift.String?
+        /// A data object containing all properties for the current state of an in-process or pending switchover or failover process for this global cluster (Neptune global database). This object is empty unless the SwitchoverGlobalCluster or FailoverGlobalCluster operation was called on this global cluster.
+        public var failoverState: NeptuneClientTypes.FailoverState?
         /// The Amazon Resource Name (ARN) for the global database.
         public var globalClusterArn: Swift.String?
         /// Contains a user-supplied global database cluster identifier. This identifier is the unique key that identifies a global database.
@@ -3545,6 +3616,7 @@ extension NeptuneClientTypes {
             deletionProtection: Swift.Bool? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
+            failoverState: NeptuneClientTypes.FailoverState? = nil,
             globalClusterArn: Swift.String? = nil,
             globalClusterIdentifier: Swift.String? = nil,
             globalClusterMembers: [NeptuneClientTypes.GlobalClusterMember]? = nil,
@@ -3555,6 +3627,7 @@ extension NeptuneClientTypes {
             self.deletionProtection = deletionProtection
             self.engine = engine
             self.engineVersion = engineVersion
+            self.failoverState = failoverState
             self.globalClusterArn = globalClusterArn
             self.globalClusterIdentifier = globalClusterIdentifier
             self.globalClusterMembers = globalClusterMembers
@@ -4101,7 +4174,7 @@ extension NeptuneClientTypes {
 public struct DescribeDBClusterEndpointsOutput: Swift.Sendable {
     /// Contains the details of the endpoints associated with the cluster and matching any filter conditions.
     public var dbClusterEndpoints: [NeptuneClientTypes.DBClusterEndpoint]?
-    /// An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    /// n optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
 
     public init(
@@ -5245,7 +5318,7 @@ extension NeptuneClientTypes {
         public var multiAZCapable: Swift.Bool?
         /// Indicates whether a DB instance can have a Read Replica.
         public var readReplicaCapable: Swift.Bool?
-        /// Indicates the storage type for a DB instance.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public var storageType: Swift.String?
         /// Indicates whether a DB instance supports Enhanced Monitoring at intervals from 1 to 60 seconds.
         public var supportsEnhancedMonitoring: Swift.Bool?
@@ -5423,15 +5496,15 @@ extension NeptuneClientTypes {
 
 extension NeptuneClientTypes {
 
-    /// Information about valid modifications that you can make to your DB instance. Contains the result of a successful call to the [DescribeValidDBInstanceModifications] action.
+    /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
     public struct ValidStorageOptions: Swift.Sendable {
-        /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public var iopsToStorageRatio: [NeptuneClientTypes.DoubleRange]?
-        /// The valid range of provisioned IOPS. For example, 1000-20000.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public var provisionedIops: [NeptuneClientTypes.Range]?
-        /// The valid range of storage in gibibytes. For example, 100 to 16384.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public var storageSize: [NeptuneClientTypes.Range]?
-        /// The valid storage types for your DB instance. For example, gp2, io1.
+        /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public var storageType: Swift.String?
 
         public init(
@@ -5503,18 +5576,26 @@ public struct FailoverDBClusterOutput: Swift.Sendable {
 }
 
 public struct FailoverGlobalClusterInput: Swift.Sendable {
+    /// Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss, the global database cluster operation defaults to a switchover. Constraints:Can't be specified together with the Switchover parameter.
+    public var allowDataLoss: Swift.Bool?
     /// Identifier of the Neptune global database that should be failed over. The identifier is the unique key assigned by the user when the Neptune global database was created. In other words, it's the name of the global database that you want to fail over. Constraints: Must match the identifier of an existing Neptune global database.
     /// This member is required.
     public var globalClusterIdentifier: Swift.String?
+    /// Specifies whether to switch over this global database cluster. Constraints:Can't be specified together with the AllowDataLoss parameter.
+    public var switchover: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that you want to promote to primary for the global database.
     /// This member is required.
     public var targetDbClusterIdentifier: Swift.String?
 
     public init(
+        allowDataLoss: Swift.Bool? = nil,
         globalClusterIdentifier: Swift.String? = nil,
+        switchover: Swift.Bool? = nil,
         targetDbClusterIdentifier: Swift.String? = nil
     ) {
+        self.allowDataLoss = allowDataLoss
         self.globalClusterIdentifier = globalClusterIdentifier
+        self.switchover = switchover
         self.targetDbClusterIdentifier = targetDbClusterIdentifier
     }
 }
@@ -5665,12 +5746,9 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration?
     /// The storage type to associate with the DB cluster. Valid Values:
     ///
-    /// * standard | iopt1
+    /// * standard – ( the default ) Configures cost-effective database storage for applications with moderate to small I/O usage.
     ///
-    ///
-    /// Default:
-    ///
-    /// * standard
+    /// * iopt1 – Enables [I/O-Optimized storage](https://docs.aws.amazon.com/neptune/latest/userguide/storage-types.html#provisioned-iops-storage) that's designed to meet the needs of I/O-intensive graph workloads that require predictable pricing with low I/O latency and consistent I/O throughput. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0.
     public var storageType: Swift.String?
     /// A list of VPC security groups that the DB cluster will belong to.
     public var vpcSecurityGroupIds: [Swift.String]?
@@ -6049,7 +6127,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     /// This flag should no longer be used.
     @available(*, deprecated)
     public var publiclyAccessible: Swift.Bool?
-    /// Not supported.
+    /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
     public var storageType: Swift.String?
     /// The ARN from the key store with which to associate the instance for TDE encryption.
     public var tdeCredentialArn: Swift.String?
@@ -6926,6 +7004,34 @@ public struct StopDBClusterOutput: Swift.Sendable {
     }
 }
 
+public struct SwitchoverGlobalClusterInput: Swift.Sendable {
+    /// The identifier of the global database cluster to switch over. This parameter isn't case-sensitive. Constraints: Must match the identifier of an existing global database cluster.
+    /// This member is required.
+    public var globalClusterIdentifier: Swift.String?
+    /// The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that you want to promote to primary for the global database.
+    /// This member is required.
+    public var targetDbClusterIdentifier: Swift.String?
+
+    public init(
+        globalClusterIdentifier: Swift.String? = nil,
+        targetDbClusterIdentifier: Swift.String? = nil
+    ) {
+        self.globalClusterIdentifier = globalClusterIdentifier
+        self.targetDbClusterIdentifier = targetDbClusterIdentifier
+    }
+}
+
+public struct SwitchoverGlobalClusterOutput: Swift.Sendable {
+    /// Contains the details of an Amazon Neptune global database. This data type is used as a response element for the [CreateGlobalCluster], [DescribeGlobalClusters], [ModifyGlobalCluster], [DeleteGlobalCluster], [FailoverGlobalCluster], and [RemoveFromGlobalCluster] actions.
+    public var globalCluster: NeptuneClientTypes.GlobalCluster?
+
+    public init(
+        globalCluster: NeptuneClientTypes.GlobalCluster? = nil
+    ) {
+        self.globalCluster = globalCluster
+    }
+}
+
 extension AddRoleToDBClusterInput {
 
     static func urlPathProvider(_ value: AddRoleToDBClusterInput) -> Swift.String? {
@@ -7405,6 +7511,13 @@ extension StartDBClusterInput {
 extension StopDBClusterInput {
 
     static func urlPathProvider(_ value: StopDBClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension SwitchoverGlobalClusterInput {
+
+    static func urlPathProvider(_ value: SwitchoverGlobalClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8063,7 +8176,9 @@ extension FailoverGlobalClusterInput {
 
     static func write(value: FailoverGlobalClusterInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AllowDataLoss"].write(value.allowDataLoss)
         try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
+        try writer["Switchover"].write(value.switchover)
         try writer["TargetDbClusterIdentifier"].write(value.targetDbClusterIdentifier)
         try writer["Action"].write("FailoverGlobalCluster")
         try writer["Version"].write("2014-10-31")
@@ -8404,6 +8519,17 @@ extension StopDBClusterInput {
         guard let value else { return }
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["Action"].write("StopDBCluster")
+        try writer["Version"].write("2014-10-31")
+    }
+}
+
+extension SwitchoverGlobalClusterInput {
+
+    static func write(value: SwitchoverGlobalClusterInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
+        try writer["TargetDbClusterIdentifier"].write(value.targetDbClusterIdentifier)
+        try writer["Action"].write("SwitchoverGlobalCluster")
         try writer["Version"].write("2014-10-31")
     }
 }
@@ -9239,6 +9365,18 @@ extension StopDBClusterOutput {
         let reader = responseReader["StopDBClusterResult"]
         var value = StopDBClusterOutput()
         value.dbCluster = try reader["DBCluster"].readIfPresent(with: NeptuneClientTypes.DBCluster.read(from:))
+        return value
+    }
+}
+
+extension SwitchoverGlobalClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SwitchoverGlobalClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["SwitchoverGlobalClusterResult"]
+        var value = SwitchoverGlobalClusterOutput()
+        value.globalCluster = try reader["GlobalCluster"].readIfPresent(with: NeptuneClientTypes.GlobalCluster.read(from:))
         return value
     }
 }
@@ -10385,6 +10523,23 @@ enum StopDBClusterOutputError {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SwitchoverGlobalClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
+            case "GlobalClusterNotFoundFault": return try GlobalClusterNotFoundFault.makeError(baseError: baseError)
+            case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
+            case "InvalidGlobalClusterStateFault": return try InvalidGlobalClusterStateFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11709,6 +11864,20 @@ extension NeptuneClientTypes.GlobalCluster {
         value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.globalClusterMembers = try reader["GlobalClusterMembers"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.GlobalClusterMember.read(from:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
+        value.failoverState = try reader["FailoverState"].readIfPresent(with: NeptuneClientTypes.FailoverState.read(from:))
+        return value
+    }
+}
+
+extension NeptuneClientTypes.FailoverState {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.FailoverState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.FailoverState()
+        value.status = try reader["Status"].readIfPresent()
+        value.fromDbClusterArn = try reader["FromDbClusterArn"].readIfPresent()
+        value.toDbClusterArn = try reader["ToDbClusterArn"].readIfPresent()
+        value.isDataLossAllowed = try reader["IsDataLossAllowed"].readIfPresent()
         return value
     }
 }

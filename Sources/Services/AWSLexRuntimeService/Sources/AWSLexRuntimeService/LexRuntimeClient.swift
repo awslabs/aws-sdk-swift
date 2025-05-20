@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LexRuntimeClient: ClientRuntime.Client {
     public static let clientName = "LexRuntimeClient"
-    public static let version = "1.3.17"
+    public static let version = "1.3.19"
     let client: ClientRuntime.SdkHttpClient
     let config: LexRuntimeClient.LexRuntimeClientConfiguration
     let serviceName = "Lex Runtime"
