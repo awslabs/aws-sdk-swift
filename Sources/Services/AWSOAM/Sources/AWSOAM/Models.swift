@@ -308,6 +308,9 @@ public struct CreateLinkInput: Swift.Sendable {
     /// * $AccountEmail is the globally unique email address of the account
     ///
     /// * $AccountEmailNoDomain is the email address of the account without the domain name
+    ///
+    ///
+    /// In the Amazon Web Services GovCloud (US-East) and Amazon Web Services GovCloud (US-West) Regions, the only supported option is to use custom labels, and the $AccountName, $AccountEmail, and $AccountEmailNoDomain variables all resolve as account-id instead of the specified variable.
     /// This member is required.
     public var labelTemplate: Swift.String?
     /// Use this structure to optionally create filters that specify that only some metric namespaces or log groups are to be shared from the source account to the monitoring account.
@@ -479,11 +482,15 @@ public struct GetLinkInput: Swift.Sendable {
     /// The ARN of the link to retrieve information for.
     /// This member is required.
     public var identifier: Swift.String?
+    /// Specifies whether to include the tags associated with the link in the response. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForResource, the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForResource, the API will raise an exception. The default value is false.
+    public var includeTags: Swift.Bool?
 
     public init(
-        identifier: Swift.String? = nil
+        identifier: Swift.String? = nil,
+        includeTags: Swift.Bool? = nil
     ) {
         self.identifier = identifier
+        self.includeTags = includeTags
     }
 }
 
@@ -530,11 +537,15 @@ public struct GetSinkInput: Swift.Sendable {
     /// The ARN of the sink to retrieve information for.
     /// This member is required.
     public var identifier: Swift.String?
+    /// Specifies whether to include the tags associated with the sink in the response. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForResource, the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForResource, the API will raise an exception. The default value is false.
+    public var includeTags: Swift.Bool?
 
     public init(
-        identifier: Swift.String? = nil
+        identifier: Swift.String? = nil,
+        includeTags: Swift.Bool? = nil
     ) {
         self.identifier = identifier
+        self.includeTags = includeTags
     }
 }
 
@@ -920,6 +931,8 @@ public struct UpdateLinkInput: Swift.Sendable {
     /// The ARN of the link that you want to update.
     /// This member is required.
     public var identifier: Swift.String?
+    /// Specifies whether to include the tags associated with the link in the response after the update operation. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForResource, the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForResource, the API will raise an exception. The default value is false.
+    public var includeTags: Swift.Bool?
     /// Use this structure to filter which metric namespaces and which log groups are to be shared from the source account to the monitoring account.
     public var linkConfiguration: OAMClientTypes.LinkConfiguration?
     /// An array of strings that define which types of data that the source account will send to the monitoring account. Your input here replaces the current set of data types that are shared.
@@ -928,10 +941,12 @@ public struct UpdateLinkInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil,
+        includeTags: Swift.Bool? = nil,
         linkConfiguration: OAMClientTypes.LinkConfiguration? = nil,
         resourceTypes: [OAMClientTypes.ResourceType]? = nil
     ) {
         self.identifier = identifier
+        self.includeTags = includeTags
         self.linkConfiguration = linkConfiguration
         self.resourceTypes = resourceTypes
     }
@@ -1148,6 +1163,7 @@ extension GetLinkInput {
     static func write(value: GetLinkInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Identifier"].write(value.identifier)
+        try writer["IncludeTags"].write(value.includeTags)
     }
 }
 
@@ -1156,6 +1172,7 @@ extension GetSinkInput {
     static func write(value: GetSinkInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Identifier"].write(value.identifier)
+        try writer["IncludeTags"].write(value.includeTags)
     }
 }
 
@@ -1217,6 +1234,7 @@ extension UpdateLinkInput {
     static func write(value: UpdateLinkInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Identifier"].write(value.identifier)
+        try writer["IncludeTags"].write(value.includeTags)
         try writer["LinkConfiguration"].write(value.linkConfiguration, with: OAMClientTypes.LinkConfiguration.write(value:to:))
         try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<OAMClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }

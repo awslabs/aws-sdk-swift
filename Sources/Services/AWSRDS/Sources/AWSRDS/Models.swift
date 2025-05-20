@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
 public struct AddRoleToDBClusterOutput: Swift.Sendable {
@@ -3980,9 +3981,9 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var engine: Swift.String?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the DB cluster will fail if the DB major version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
-    /// * Amazon Aurora - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    /// * Amazon Aurora - [Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
     ///
-    /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
+    /// * Amazon RDS - [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
     ///
     ///
     /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
@@ -4814,7 +4815,7 @@ extension RDSClientTypes {
         public var endpoint: Swift.String?
         /// The database engine used for this DB cluster.
         public var engine: Swift.String?
-        /// The life cycle type for the DB cluster. For more information, see CreateDBCluster.
+        /// The lifecycle type for the DB cluster. For more information, see CreateDBCluster.
         public var engineLifecycleSupport: Swift.String?
         /// The DB engine mode of the DB cluster, either provisioned or serverless. For more information, see [ CreateDBCluster](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBCluster.html).
         public var engineMode: Swift.String?
@@ -5866,7 +5867,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     /// * sqlserver-web
     /// This member is required.
     public var engine: Swift.String?
-    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the DB instance will fail if the DB major version is past its end of standard support date. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the DB instance will fail if the DB major version is past its end of standard support date. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     public var engineLifecycleSupport: Swift.String?
     /// The version number of the database engine to use. This setting doesn't apply to Amazon Aurora DB instances. The version number of the database engine the DB instance uses is managed by the DB cluster. For a list of valid engine versions, use the DescribeDBEngineVersions operation. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every Amazon Web Services Region. Amazon RDS Custom for Oracle A custom engine version (CEV) that you have previously created. This setting is required for RDS Custom for Oracle. The CEV name has the following format: 19.customized_string. A valid CEV name is 19.my_cev1. For more information, see [ Creating an RDS Custom for Oracle DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-creating.html#custom-creating.create) in the Amazon RDS User Guide. Amazon RDS Custom for SQL Server See [RDS Custom for SQL Server general requirements](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html) in the Amazon RDS User Guide. RDS for Db2 For information, see [Db2 on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Db2.html#Db2.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for MariaDB For information, see [MariaDB on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MariaDB.html#MariaDB.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for Microsoft SQL Server For information, see [Microsoft SQL Server versions on Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport) in the Amazon RDS User Guide. RDS for MySQL For information, see [MySQL on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for Oracle For information, see [Oracle Database Engine release notes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.Oracle.PatchComposition.html) in the Amazon RDS User Guide. RDS for PostgreSQL For information, see [Amazon RDS for PostgreSQL versions and extensions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide.
     public var engineVersion: Swift.String?
@@ -6665,7 +6666,7 @@ extension RDSClientTypes {
         public var endpoint: RDSClientTypes.Endpoint?
         /// The database engine used for this DB instance.
         public var engine: Swift.String?
-        /// The life cycle type for the DB instance. For more information, see CreateDBInstance.
+        /// The lifecycle type for the DB instance. For more information, see CreateDBInstance.
         public var engineLifecycleSupport: Swift.String?
         /// The version of the database engine.
         public var engineVersion: Swift.String?
@@ -8744,7 +8745,7 @@ public struct CreateGlobalClusterInput: Swift.Sendable {
     ///
     /// * Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine of the source DB cluster.
     public var engine: Swift.String?
-    /// The life cycle type for this global database cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your global cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the global cluster will fail if the DB major version is past its end of standard support date. This setting only applies to Aurora PostgreSQL-based global databases. You can use this setting to enroll your global cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your global cluster past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    /// The life cycle type for this global database cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your global cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the global cluster will fail if the DB major version is past its end of standard support date. This setting only applies to Aurora PostgreSQL-based global databases. You can use this setting to enroll your global cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your global cluster past the end of standard support for that engine version. For more information, see [Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     public var engineLifecycleSupport: Swift.String?
     /// The engine version to use for this global database cluster. Constraints:
     ///
@@ -8931,7 +8932,7 @@ extension RDSClientTypes {
         public var endpoint: Swift.String?
         /// The Aurora database engine used by the global database cluster.
         public var engine: Swift.String?
-        /// The life cycle type for the global cluster. For more information, see CreateGlobalCluster.
+        /// The lifecycle type for the global cluster. For more information, see CreateGlobalCluster.
         public var engineLifecycleSupport: Swift.String?
         /// Indicates the database engine version.
         public var engineVersion: Swift.String?
@@ -12466,6 +12467,165 @@ public struct DescribeDBLogFilesOutput: Swift.Sendable {
         marker: Swift.String? = nil
     ) {
         self.describeDBLogFiles = describeDBLogFiles
+        self.marker = marker
+    }
+}
+
+public struct DescribeDBMajorEngineVersionsInput: Swift.Sendable {
+    /// The database engine to return major version details for. Valid Values:
+    ///
+    /// * aurora-mysql
+    ///
+    /// * aurora-postgresql
+    ///
+    /// * custom-sqlserver-ee
+    ///
+    /// * custom-sqlserver-se
+    ///
+    /// * custom-sqlserver-web
+    ///
+    /// * db2-ae
+    ///
+    /// * db2-se
+    ///
+    /// * mariadb
+    ///
+    /// * mysql
+    ///
+    /// * oracle-ee
+    ///
+    /// * oracle-ee-cdb
+    ///
+    /// * oracle-se2
+    ///
+    /// * oracle-se2-cdb
+    ///
+    /// * postgres
+    ///
+    /// * sqlserver-ee
+    ///
+    /// * sqlserver-se
+    ///
+    /// * sqlserver-ex
+    ///
+    /// * sqlserver-web
+    public var engine: Swift.String?
+    /// A specific database major engine version to return details for. Example: 8.4
+    public var majorEngineVersion: Swift.String?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100
+    public var maxRecords: Swift.Int?
+
+    public init(
+        engine: Swift.String? = nil,
+        majorEngineVersion: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    ) {
+        self.engine = engine
+        self.majorEngineVersion = majorEngineVersion
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+extension RDSClientTypes {
+
+    public enum LifecycleSupportName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case openSourceRdsExtendedSupport
+        case openSourceRdsStandardSupport
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LifecycleSupportName] {
+            return [
+                .openSourceRdsExtendedSupport,
+                .openSourceRdsStandardSupport
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .openSourceRdsExtendedSupport: return "open-source-rds-extended-support"
+            case .openSourceRdsStandardSupport: return "open-source-rds-standard-support"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    /// This data type is used as a response element in the operation DescribeDBMajorEngineVersions. You can use the information that this data type returns to plan for upgrades. This data type only returns information for the open source engines Amazon RDS for MariaDB, Amazon RDS for MySQL, Amazon RDS for PostgreSQL, Aurora MySQL, and Aurora PostgreSQL.
+    public struct SupportedEngineLifecycle: Swift.Sendable {
+        /// The end date for the type of support returned by LifecycleSupportName.
+        /// This member is required.
+        public var lifecycleSupportEndDate: Foundation.Date?
+        /// The type of lifecycle support that the engine version is in. This parameter returns the following values:
+        ///
+        /// * open-source-rds-standard-support - Indicates RDS standard support or Aurora standard support.
+        ///
+        /// * open-source-rds-extended-support - Indicates Amazon RDS Extended Support.
+        ///
+        ///
+        /// For Amazon RDS for MySQL, Amazon RDS for PostgreSQL, Aurora MySQL, and Aurora PostgreSQL, this parameter returns both open-source-rds-standard-support and open-source-rds-extended-support. For Amazon RDS for MariaDB, this parameter only returns the value open-source-rds-standard-support. For information about Amazon RDS Extended Support, see [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide and [Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide.
+        /// This member is required.
+        public var lifecycleSupportName: RDSClientTypes.LifecycleSupportName?
+        /// The start date for the type of support returned by LifecycleSupportName.
+        /// This member is required.
+        public var lifecycleSupportStartDate: Foundation.Date?
+
+        public init(
+            lifecycleSupportEndDate: Foundation.Date? = nil,
+            lifecycleSupportName: RDSClientTypes.LifecycleSupportName? = nil,
+            lifecycleSupportStartDate: Foundation.Date? = nil
+        ) {
+            self.lifecycleSupportEndDate = lifecycleSupportEndDate
+            self.lifecycleSupportName = lifecycleSupportName
+            self.lifecycleSupportStartDate = lifecycleSupportStartDate
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    /// This data type is used as a response element in the operation DescribeDBMajorEngineVersions.
+    public struct DBMajorEngineVersion: Swift.Sendable {
+        /// The name of the database engine.
+        public var engine: Swift.String?
+        /// The major version number of the database engine.
+        public var majorEngineVersion: Swift.String?
+        /// A list of the lifecycles supported by this engine for the DescribeDBMajorEngineVersions operation.
+        public var supportedEngineLifecycles: [RDSClientTypes.SupportedEngineLifecycle]?
+
+        public init(
+            engine: Swift.String? = nil,
+            majorEngineVersion: Swift.String? = nil,
+            supportedEngineLifecycles: [RDSClientTypes.SupportedEngineLifecycle]? = nil
+        ) {
+            self.engine = engine
+            self.majorEngineVersion = majorEngineVersion
+            self.supportedEngineLifecycles = supportedEngineLifecycles
+        }
+    }
+}
+
+public struct DescribeDBMajorEngineVersionsOutput: Swift.Sendable {
+    /// A list of DBMajorEngineVersion elements.
+    public var dbMajorEngineVersions: [RDSClientTypes.DBMajorEngineVersion]?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+
+    public init(
+        dbMajorEngineVersions: [RDSClientTypes.DBMajorEngineVersion]? = nil,
+        marker: Swift.String? = nil
+    ) {
+        self.dbMajorEngineVersions = dbMajorEngineVersions
         self.marker = marker
     }
 }
@@ -19112,9 +19272,9 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
     public var engine: Swift.String?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
-    /// * Amazon Aurora - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    /// * Amazon Aurora - [Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
     ///
-    /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
+    /// * Amazon RDS - [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
     ///
     ///
     /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
@@ -19391,9 +19551,9 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var engine: Swift.String?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
-    /// * Amazon Aurora - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    /// * Amazon Aurora - [Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
     ///
-    /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
+    /// * Amazon RDS - [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
     ///
     ///
     /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
@@ -19620,9 +19780,9 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var enablePerformanceInsights: Swift.Bool?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
-    /// * Amazon Aurora - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    /// * Amazon Aurora - [Amazon RDS Extended Support with Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
     ///
-    /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
+    /// * Amazon RDS - [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
     ///
     ///
     /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
@@ -19970,7 +20130,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     ///
     /// * sqlserver-web
     public var engine: Swift.String?
-    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     public var engineLifecycleSupport: Swift.String?
     /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second. If this parameter isn't specified, the IOPS value is taken from the backup. If this parameter is set to 0, the new instance is converted to a non-PIOPS instance. The conversion takes additional time, though your DB instance is available for connections before the conversion starts. The provisioned IOPS value must follow the requirements for your database engine. For more information, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be an integer greater than 1000.
     public var iops: Swift.Int?
@@ -20186,7 +20346,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     /// The name of the database engine to be used for this instance. Valid Values: mysql
     /// This member is required.
     public var engine: Swift.String?
-    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Amazon RDS Extended Support Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     public var engineLifecycleSupport: Swift.String?
     /// The version number of the database engine to use. Choose the latest minor version of your database engine. For information about engine versions, see CreateDBInstance, or call DescribeDBEngineVersions.
     public var engineVersion: Swift.String?
@@ -20615,7 +20775,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// * Must be compatible with the engine of the source.
     public var engine: Swift.String?
-    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
+    /// The life cycle type for this DB instance. By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB instance to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see [Amazon RDS Extended Support with Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide. This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     public var engineLifecycleSupport: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. This setting doesn't apply to SQL Server. Constraints:
     ///
@@ -21160,23 +21320,9 @@ public struct StartExportTaskInput: Swift.Sendable {
     public var iamRoleArn: Swift.String?
     /// The ID of the Amazon Web Services KMS key to use to encrypt the data exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. The caller of this operation must be authorized to run the following operations. These can be set in the Amazon Web Services KMS key policy:
     ///
-    /// * kms:Encrypt
-    ///
-    /// * kms:Decrypt
-    ///
-    /// * kms:GenerateDataKey
-    ///
-    /// * kms:GenerateDataKeyWithoutPlaintext
-    ///
-    /// * kms:ReEncryptFrom
-    ///
-    /// * kms:ReEncryptTo
-    ///
     /// * kms:CreateGrant
     ///
     /// * kms:DescribeKey
-    ///
-    /// * kms:RetireGrant
     /// This member is required.
     public var kmsKeyId: Swift.String?
     /// The name of the Amazon S3 bucket to export the snapshot or cluster data to.
@@ -21977,6 +22123,13 @@ extension DescribeDBInstancesInput {
 extension DescribeDBLogFilesInput {
 
     static func urlPathProvider(_ value: DescribeDBLogFilesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeDBMajorEngineVersionsInput {
+
+    static func urlPathProvider(_ value: DescribeDBMajorEngineVersionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -23690,6 +23843,19 @@ extension DescribeDBLogFilesInput {
         try writer["Marker"].write(value.marker)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["Action"].write("DescribeDBLogFiles")
+        try writer["Version"].write("2014-10-31")
+    }
+}
+
+extension DescribeDBMajorEngineVersionsInput {
+
+    static func write(value: DescribeDBMajorEngineVersionsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Engine"].write(value.engine)
+        try writer["MajorEngineVersion"].write(value.majorEngineVersion)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["Action"].write("DescribeDBMajorEngineVersions")
         try writer["Version"].write("2014-10-31")
     }
 }
@@ -26155,6 +26321,19 @@ extension DescribeDBLogFilesOutput {
     }
 }
 
+extension DescribeDBMajorEngineVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDBMajorEngineVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeDBMajorEngineVersionsResult"]
+        var value = DescribeDBMajorEngineVersionsOutput()
+        value.dbMajorEngineVersions = try reader["DBMajorEngineVersions"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBMajorEngineVersion.read(from:), memberNodeInfo: "DBMajorEngineVersion", isFlattened: false)
+        value.marker = try reader["Marker"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeDBParameterGroupsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDBParameterGroupsOutput {
@@ -28557,6 +28736,19 @@ enum DescribeDBLogFilesOutputError {
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceNotReady": return try DBInstanceNotReadyFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeDBMajorEngineVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -33373,6 +33565,30 @@ extension RDSClientTypes.DescribeDBLogFilesDetails {
         value.logFileName = try reader["LogFileName"].readIfPresent()
         value.lastWritten = try reader["LastWritten"].readIfPresent()
         value.size = try reader["Size"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DBMajorEngineVersion {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBMajorEngineVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBMajorEngineVersion()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.supportedEngineLifecycles = try reader["SupportedEngineLifecycles"].readListIfPresent(memberReadingClosure: RDSClientTypes.SupportedEngineLifecycle.read(from:), memberNodeInfo: "SupportedEngineLifecycle", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.SupportedEngineLifecycle {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SupportedEngineLifecycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.SupportedEngineLifecycle()
+        value.lifecycleSupportName = try reader["LifecycleSupportName"].readIfPresent() ?? .sdkUnknown("")
+        value.lifecycleSupportStartDate = try reader["LifecycleSupportStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lifecycleSupportEndDate = try reader["LifecycleSupportEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

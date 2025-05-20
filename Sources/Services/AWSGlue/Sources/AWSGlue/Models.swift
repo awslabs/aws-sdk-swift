@@ -22358,23 +22358,70 @@ public struct ListConnectionTypesInput: Swift.Sendable {
 
 extension GlueClientTypes {
 
+    /// Represents a variant of a connection type in Glue Data Catalog. Connection type variants provide specific configurations and behaviors for different implementations of the same general connection type.
+    public struct ConnectionTypeVariant: Swift.Sendable {
+        /// The unique identifier for the connection type variant. This name is used internally to identify the specific variant of a connection type.
+        public var connectionTypeVariantName: Swift.String?
+        /// A detailed description of the connection type variant, including its purpose, use cases, and any specific configuration requirements.
+        public var description: Swift.String?
+        /// The human-readable name for the connection type variant that is displayed in the Glue console.
+        public var displayName: Swift.String?
+        /// The URL of the logo associated with a connection type variant.
+        public var logoUrl: Swift.String?
+
+        public init(
+            connectionTypeVariantName: Swift.String? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            logoUrl: Swift.String? = nil
+        ) {
+            self.connectionTypeVariantName = connectionTypeVariantName
+            self.description = description
+            self.displayName = displayName
+            self.logoUrl = logoUrl
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// Brief information about a supported connection type returned by the ListConnectionTypes API.
     public struct ConnectionTypeBrief: Swift.Sendable {
         /// The supported authentication types, data interface types (compute environments), and data operations of the connector.
         public var capabilities: GlueClientTypes.Capabilities?
+        /// A list of categories that this connection type belongs to. Categories help users filter and find appropriate connection types based on their use cases.
+        public var categories: [Swift.String]?
         /// The name of the connection type.
         public var connectionType: GlueClientTypes.ConnectionType?
+        /// A list of variants available for this connection type. Different variants may provide specialized configurations for specific use cases or implementations of the same general connection type.
+        public var connectionTypeVariants: [GlueClientTypes.ConnectionTypeVariant]?
         /// A description of the connection type.
         public var description: Swift.String?
+        /// The human-readable name for the connection type that is displayed in the Glue console.
+        public var displayName: Swift.String?
+        /// The URL of the logo associated with a connection type.
+        public var logoUrl: Swift.String?
+        /// The name of the vendor or provider that created or maintains this connection type.
+        public var vendor: Swift.String?
 
         public init(
             capabilities: GlueClientTypes.Capabilities? = nil,
+            categories: [Swift.String]? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil,
-            description: Swift.String? = nil
+            connectionTypeVariants: [GlueClientTypes.ConnectionTypeVariant]? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            logoUrl: Swift.String? = nil,
+            vendor: Swift.String? = nil
         ) {
             self.capabilities = capabilities
+            self.categories = categories
             self.connectionType = connectionType
+            self.connectionTypeVariants = connectionTypeVariants
             self.description = description
+            self.displayName = displayName
+            self.logoUrl = logoUrl
+            self.vendor = vendor
         }
     }
 }
@@ -46861,8 +46908,26 @@ extension GlueClientTypes.ConnectionTypeBrief {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.ConnectionTypeBrief()
         value.connectionType = try reader["ConnectionType"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.vendor = try reader["Vendor"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.capabilities = try reader["Capabilities"].readIfPresent(with: GlueClientTypes.Capabilities.read(from:))
+        value.logoUrl = try reader["LogoUrl"].readIfPresent()
+        value.connectionTypeVariants = try reader["ConnectionTypeVariants"].readListIfPresent(memberReadingClosure: GlueClientTypes.ConnectionTypeVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.ConnectionTypeVariant {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionTypeVariant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConnectionTypeVariant()
+        value.connectionTypeVariantName = try reader["ConnectionTypeVariantName"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.logoUrl = try reader["LogoUrl"].readIfPresent()
         return value
     }
 }
