@@ -125,9 +125,9 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         }
 
         // Must fail if host is IP address and doesn't match one of the three conditions below.
-        guard host != "169.254.170.2"
-            && host != "169.254.170.23"
-            && host.split(separator: ".").first != "127" else {
+        guard host == "169.254.170.2"
+            || host == "169.254.170.23"
+            || host.split(separator: ".").first == "127" else {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                 "ECSAWSCredentialIdentityResolver: "
                 + "The IP address in resolved URL is invalid. "
