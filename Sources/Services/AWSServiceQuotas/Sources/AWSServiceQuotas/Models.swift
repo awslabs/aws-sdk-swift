@@ -274,6 +274,29 @@ public struct IllegalArgumentException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
+/// The resource is in an invalid state.
+public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidResourceStateException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The specified resource does not exist.
 public struct NoSuchResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -295,6 +318,46 @@ public struct NoSuchResourceException: ClientRuntime.ModeledError, AWSClientRunt
     ) {
         self.properties.message = message
     }
+}
+
+/// The specified resource already exists.
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceAlreadyExistsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateSupportCaseInput: Swift.Sendable {
+    /// The ID of the pending quota increase request for which you want to open a Support case.
+    /// This member is required.
+    public var requestId: Swift.String?
+
+    public init(
+        requestId: Swift.String? = nil
+    ) {
+        self.requestId = requestId
+    }
+}
+
+public struct CreateSupportCaseOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteServiceQuotaIncreaseRequestFromTemplateInput: Swift.Sendable {
@@ -398,11 +461,11 @@ extension ServiceQuotasClientTypes {
     public struct ErrorReason: Swift.Sendable {
         /// Service Quotas returns the following error values:
         ///
-        /// * DEPENDENCY_ACCESS_DENIED_ERROR - The caller does not have the required permissions to complete the action. To resolve the error, you must have permission to access the Amazon Web Service or quota.
+        /// * DEPENDENCY_ACCESS_DENIED_ERROR - The caller does not have the required permissions to complete the action. To resolve the error, you must have permission to access the Amazon Web Services service or quota.
         ///
-        /// * DEPENDENCY_THROTTLING_ERROR - The Amazon Web Service is throttling Service Quotas.
+        /// * DEPENDENCY_THROTTLING_ERROR - The Amazon Web Services service is throttling Service Quotas.
         ///
-        /// * DEPENDENCY_SERVICE_ERROR - The Amazon Web Service is not available.
+        /// * DEPENDENCY_SERVICE_ERROR - The Amazon Web Services service is not available.
         ///
         /// * SERVICE_QUOTA_NOT_AVAILABLE_ERROR - There was an error in Service Quotas.
         public var errorCode: ServiceQuotasClientTypes.ErrorCode?
@@ -575,13 +638,13 @@ extension ServiceQuotasClientTypes {
 
 extension ServiceQuotasClientTypes {
 
-    /// A structure that describes the context for a service quota. The context identifies what the quota applies to.
+    /// A structure that describes the context for a resource-level quota. For resource-level quotas, such as Instances per OpenSearch Service Domain, you can apply the quota value at the resource-level for each OpenSearch Service Domain in your Amazon Web Services account. Together the attributes of this structure help you understand how the quota is implemented by Amazon Web Services and how you can manage it. For quotas such as Amazon OpenSearch Service Domains which can be managed at the account-level for each Amazon Web Services Region, the QuotaContext field is absent. See the attribute descriptions below to further understand how to use them.
     public struct QuotaContextInfo: Swift.Sendable {
-        /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+        /// Specifies the resource, or resources, to which the quota applies. The value for this field is either an Amazon Resource Name (ARN) or *. If the value is an ARN, the quota value applies to that resource. If the value is *, then the quota value applies to all resources listed in the ContextScopeType field. The quota value applies to all resources for which you haven’t previously applied a quota value, and any new resources you create in your Amazon Web Services account.
         public var contextId: Swift.String?
-        /// Specifies whether the quota applies to an Amazon Web Services account, or to a resource.
+        /// Specifies the scope to which the quota value is applied. If the scope is RESOURCE, the quota value is applied to each resource in the Amazon Web Services account. If the scope is ACCOUNT, the quota value is applied to the Amazon Web Services account.
         public var contextScope: ServiceQuotasClientTypes.QuotaContextScope?
-        /// When the ContextScope is RESOURCE, then this specifies the resource type of the specified resource.
+        /// Specifies the resource type to which the quota can be applied.
         public var contextScopeType: Swift.String?
 
         public init(
@@ -629,13 +692,15 @@ extension ServiceQuotasClientTypes {
     public struct ServiceQuota: Swift.Sendable {
         /// Indicates whether the quota value can be increased.
         public var adjustable: Swift.Bool
+        /// The quota description.
+        public var description: Swift.String?
         /// The error code and error reason.
         public var errorReason: ServiceQuotasClientTypes.ErrorReason?
         /// Indicates whether the quota is global.
         public var globalQuota: Swift.Bool
         /// The period of time.
         public var period: ServiceQuotasClientTypes.QuotaPeriod?
-        /// Specifies at which level of granularity that the quota value is applied.
+        /// Filters the response to return applied quota values for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
         public var quotaAppliedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
         /// The Amazon Resource Name (ARN) of the quota.
         public var quotaArn: Swift.String?
@@ -658,6 +723,7 @@ extension ServiceQuotasClientTypes {
 
         public init(
             adjustable: Swift.Bool = false,
+            description: Swift.String? = nil,
             errorReason: ServiceQuotasClientTypes.ErrorReason? = nil,
             globalQuota: Swift.Bool = false,
             period: ServiceQuotasClientTypes.QuotaPeriod? = nil,
@@ -673,6 +739,7 @@ extension ServiceQuotasClientTypes {
             value: Swift.Double? = nil
         ) {
             self.adjustable = adjustable
+            self.description = description
             self.errorReason = errorReason
             self.globalQuota = globalQuota
             self.period = period
@@ -781,7 +848,7 @@ extension ServiceQuotasClientTypes {
         public var quotaContext: ServiceQuotasClientTypes.QuotaContextInfo?
         /// Specifies the quota name.
         public var quotaName: Swift.String?
-        /// Specifies at which level within the Amazon Web Services account the quota request applies to.
+        /// Filters the response to return quota requests for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
         public var quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
         /// The IAM identity of the requester.
         public var requester: Swift.String?
@@ -790,6 +857,20 @@ extension ServiceQuotasClientTypes {
         /// Specifies the service name.
         public var serviceName: Swift.String?
         /// The state of the quota increase request.
+        ///
+        /// * PENDING: The quota increase request is under review by Amazon Web Services.
+        ///
+        /// * CASE_OPENED: Service Quotas opened a support case to process the quota increase request. Follow-up on the support case for more information.
+        ///
+        /// * APPROVED: The quota increase request is approved.
+        ///
+        /// * DENIED: The quota increase request can't be approved by Service Quotas. Contact Amazon Web Services Support for more details.
+        ///
+        /// * NOT APPROVED: The quota increase request can't be approved by Service Quotas. Contact Amazon Web Services Support for more details.
+        ///
+        /// * CASE_CLOSED: The support case associated with this quota increase request was closed. Check the support case correspondence for the outcome of your quota request.
+        ///
+        /// * INVALID_REQUEST: Service Quotas couldn't process your resource-level quota increase request because the Amazon Resource Name (ARN) specified as part of the ContextId is invalid.
         public var status: ServiceQuotasClientTypes.RequestStatus?
         /// The unit of measurement.
         public var unit: Swift.String?
@@ -844,7 +925,7 @@ public struct GetRequestedServiceQuotaChangeOutput: Swift.Sendable {
 }
 
 public struct GetServiceQuotaInput: Swift.Sendable {
-    /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+    /// Specifies the resource with an Amazon Resource Name (ARN).
     public var contextId: Swift.String?
     /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
     /// This member is required.
@@ -995,29 +1076,6 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-/// The resource is in an invalid state.
-public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidResourceStateException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public struct ListAWSDefaultServiceQuotasInput: Swift.Sendable {
     /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
@@ -1058,7 +1116,7 @@ public struct ListRequestedServiceQuotaChangeHistoryInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Specifies a value for receiving additional results after you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
-    /// Specifies at which level within the Amazon Web Services account the quota request applies to.
+    /// Filters the response to return quota requests for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
     public var quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
     /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     public var serviceCode: Swift.String?
@@ -1103,7 +1161,7 @@ public struct ListRequestedServiceQuotaChangeHistoryByQuotaInput: Swift.Sendable
     /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
     /// This member is required.
     public var quotaCode: Swift.String?
-    /// Specifies at which level within the Amazon Web Services account the quota request applies to.
+    /// Filters the response to return quota requests for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
     public var quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
     /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     /// This member is required.
@@ -1186,7 +1244,7 @@ public struct ListServiceQuotasInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Specifies a value for receiving additional results after you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
-    /// Specifies at which level of granularity that the quota value is applied.
+    /// Filters the response to return applied quota values for the ACCOUNT, RESOURCE, or ALL levels. ACCOUNT is the default.
     public var quotaAppliedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
     /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
     public var quotaCode: Swift.String?
@@ -1241,7 +1299,7 @@ public struct ListServicesInput: Swift.Sendable {
 
 extension ServiceQuotasClientTypes {
 
-    /// Information about an Amazon Web Service.
+    /// Information about an Amazon Web Services service.
     public struct ServiceInfo: Swift.Sendable {
         /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
         public var serviceCode: Swift.String?
@@ -1261,7 +1319,7 @@ extension ServiceQuotasClientTypes {
 public struct ListServicesOutput: Swift.Sendable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
-    /// The list of the Amazon Web Service names and service codes.
+    /// The list of the Amazon Web Services service names and service codes.
     public var services: [ServiceQuotasClientTypes.ServiceInfo]?
 
     public init(
@@ -1357,31 +1415,8 @@ public struct PutServiceQuotaIncreaseRequestIntoTemplateOutput: Swift.Sendable {
     }
 }
 
-/// The specified resource already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceAlreadyExistsException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public struct RequestServiceQuotaIncreaseInput: Swift.Sendable {
-    /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+    /// Specifies the resource with an Amazon Resource Name (ARN).
     public var contextId: Swift.String?
     /// Specifies the new, increased value for the quota.
     /// This member is required.
@@ -1392,17 +1427,21 @@ public struct RequestServiceQuotaIncreaseInput: Swift.Sendable {
     /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     /// This member is required.
     public var serviceCode: Swift.String?
+    /// Specifies if an Amazon Web Services Support case can be opened for the quota increase request. This parameter is optional. By default, this flag is set to True and Amazon Web Services may create a support case for some quota increase requests. You can set this flag to False if you do not want a support case created when you request a quota increase. If you set the flag to False, Amazon Web Services does not open a support case and updates the request status to Not approved.
+    public var supportCaseAllowed: Swift.Bool?
 
     public init(
         contextId: Swift.String? = nil,
         desiredValue: Swift.Double? = nil,
         quotaCode: Swift.String? = nil,
-        serviceCode: Swift.String? = nil
+        serviceCode: Swift.String? = nil,
+        supportCaseAllowed: Swift.Bool? = nil
     ) {
         self.contextId = contextId
         self.desiredValue = desiredValue
         self.quotaCode = quotaCode
         self.serviceCode = serviceCode
+        self.supportCaseAllowed = supportCaseAllowed
     }
 }
 
@@ -1510,6 +1549,13 @@ public struct UntagResourceOutput: Swift.Sendable {
 extension AssociateServiceQuotaTemplateInput {
 
     static func urlPathProvider(_ value: AssociateServiceQuotaTemplateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateSupportCaseInput {
+
+    static func urlPathProvider(_ value: CreateSupportCaseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1645,6 +1691,14 @@ extension AssociateServiceQuotaTemplateInput {
     static func write(value: AssociateServiceQuotaTemplateInput?, to writer: SmithyJSON.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
+    }
+}
+
+extension CreateSupportCaseInput {
+
+    static func write(value: CreateSupportCaseInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RequestId"].write(value.requestId)
     }
 }
 
@@ -1805,6 +1859,7 @@ extension RequestServiceQuotaIncreaseInput {
         try writer["DesiredValue"].write(value.desiredValue)
         try writer["QuotaCode"].write(value.quotaCode)
         try writer["ServiceCode"].write(value.serviceCode)
+        try writer["SupportCaseAllowed"].write(value.supportCaseAllowed)
     }
 }
 
@@ -1830,6 +1885,13 @@ extension AssociateServiceQuotaTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateServiceQuotaTemplateOutput {
         return AssociateServiceQuotaTemplateOutput()
+    }
+}
+
+extension CreateSupportCaseOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSupportCaseOutput {
+        return CreateSupportCaseOutput()
     }
 }
 
@@ -2050,6 +2112,27 @@ enum AssociateServiceQuotaTemplateOutputError {
             case "OrganizationNotInAllFeaturesModeException": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TemplatesNotAvailableInRegionException": return try TemplatesNotAvailableInRegionException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateSupportCaseOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DependencyAccessDeniedException": return try DependencyAccessDeniedException.makeError(baseError: baseError)
+            case "IllegalArgumentException": return try IllegalArgumentException.makeError(baseError: baseError)
+            case "InvalidResourceStateException": return try InvalidResourceStateException.makeError(baseError: baseError)
+            case "NoSuchResourceException": return try NoSuchResourceException.makeError(baseError: baseError)
+            case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2516,6 +2599,32 @@ extension AWSServiceAccessNotEnabledException {
     }
 }
 
+extension ResourceAlreadyExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceAlreadyExistsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidResourceStateException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResourceStateException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidResourceStateException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension IllegalArgumentException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IllegalArgumentException {
@@ -2581,32 +2690,6 @@ extension QuotaExceededException {
     }
 }
 
-extension ResourceAlreadyExistsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceAlreadyExistsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidResourceStateException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResourceStateException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidResourceStateException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension TooManyTagsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
@@ -2652,6 +2735,7 @@ extension ServiceQuotasClientTypes.ServiceQuota {
         value.errorReason = try reader["ErrorReason"].readIfPresent(with: ServiceQuotasClientTypes.ErrorReason.read(from:))
         value.quotaAppliedAtLevel = try reader["QuotaAppliedAtLevel"].readIfPresent()
         value.quotaContext = try reader["QuotaContext"].readIfPresent(with: ServiceQuotasClientTypes.QuotaContextInfo.read(from:))
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }

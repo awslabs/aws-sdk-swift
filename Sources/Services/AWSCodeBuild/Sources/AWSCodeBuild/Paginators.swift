@@ -204,6 +204,38 @@ extension PaginatorSequence where OperationStackInput == ListBuildsForProjectInp
     }
 }
 extension CodeBuildClient {
+    /// Paginate over `[ListCommandExecutionsForSandboxOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCommandExecutionsForSandboxInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCommandExecutionsForSandboxOutput`
+    public func listCommandExecutionsForSandboxPaginated(input: ListCommandExecutionsForSandboxInput) -> ClientRuntime.PaginatorSequence<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput> {
+        return ClientRuntime.PaginatorSequence<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCommandExecutionsForSandbox(input:))
+    }
+}
+
+extension ListCommandExecutionsForSandboxInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCommandExecutionsForSandboxInput {
+        return ListCommandExecutionsForSandboxInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sandboxId: self.sandboxId,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCommandExecutionsForSandboxInput, OperationStackOutput == ListCommandExecutionsForSandboxOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCommandExecutionsForSandboxPaginated`
+    /// to access the nested member `[CodeBuildClientTypes.CommandExecution]`
+    /// - Returns: `[CodeBuildClientTypes.CommandExecution]`
+    public func commandExecutions() async throws -> [CodeBuildClientTypes.CommandExecution] {
+        return try await self.asyncCompactMap { item in item.commandExecutions }
+    }
+}
+extension CodeBuildClient {
     /// Paginate over `[ListFleetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -352,6 +384,69 @@ extension PaginatorSequence where OperationStackInput == ListReportsForReportGro
     /// - Returns: `[Swift.String]`
     public func reports() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.reports }
+    }
+}
+extension CodeBuildClient {
+    /// Paginate over `[ListSandboxesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSandboxesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSandboxesOutput`
+    public func listSandboxesPaginated(input: ListSandboxesInput) -> ClientRuntime.PaginatorSequence<ListSandboxesInput, ListSandboxesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSandboxesInput, ListSandboxesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSandboxes(input:))
+    }
+}
+
+extension ListSandboxesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSandboxesInput {
+        return ListSandboxesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSandboxesInput, OperationStackOutput == ListSandboxesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSandboxesPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func ids() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.ids }
+    }
+}
+extension CodeBuildClient {
+    /// Paginate over `[ListSandboxesForProjectOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSandboxesForProjectInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSandboxesForProjectOutput`
+    public func listSandboxesForProjectPaginated(input: ListSandboxesForProjectInput) -> ClientRuntime.PaginatorSequence<ListSandboxesForProjectInput, ListSandboxesForProjectOutput> {
+        return ClientRuntime.PaginatorSequence<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSandboxesForProject(input:))
+    }
+}
+
+extension ListSandboxesForProjectInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSandboxesForProjectInput {
+        return ListSandboxesForProjectInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            projectName: self.projectName,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSandboxesForProjectInput, OperationStackOutput == ListSandboxesForProjectOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSandboxesForProjectPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func ids() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.ids }
     }
 }
 extension CodeBuildClient {

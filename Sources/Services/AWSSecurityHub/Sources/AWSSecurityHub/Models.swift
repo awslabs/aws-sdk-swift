@@ -21054,6 +21054,35 @@ public struct BatchDisableStandardsInput: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
+    public enum StandardsControlsUpdatable: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notReadyForUpdates
+        case readyForUpdates
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StandardsControlsUpdatable] {
+            return [
+                .notReadyForUpdates,
+                .readyForUpdates
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notReadyForUpdates: return "NOT_READY_FOR_UPDATES"
+            case .readyForUpdates: return "READY_FOR_UPDATES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     public enum StandardsStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deleting
         case failed
@@ -21094,12 +21123,14 @@ extension SecurityHubClientTypes {
 
     public enum StatusReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case internalError
+        case maximumNumberOfConfigRulesExceeded
         case noAvailableConfigurationRecorder
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StatusReasonCode] {
             return [
                 .internalError,
+                .maximumNumberOfConfigRulesExceeded,
                 .noAvailableConfigurationRecorder
             ]
         }
@@ -21112,6 +21143,7 @@ extension SecurityHubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .internalError: return "INTERNAL_ERROR"
+            case .maximumNumberOfConfigRulesExceeded: return "MAXIMUM_NUMBER_OF_CONFIG_RULES_EXCEEDED"
             case .noAvailableConfigurationRecorder: return "NO_AVAILABLE_CONFIGURATION_RECORDER"
             case let .sdkUnknown(s): return s
             }
@@ -21121,7 +21153,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// The reason for the current status of a standard subscription.
+    /// The reason for the current status of your subscription to the standard.
     public struct StandardsStatusReason: Swift.Sendable {
         /// The reason code that represents the reason for the current status of a standard subscription.
         /// This member is required.
@@ -21139,39 +21171,47 @@ extension SecurityHubClientTypes {
 
     /// A resource that represents your subscription to a supported standard.
     public struct StandardsSubscription: Swift.Sendable {
-        /// The ARN of a standard.
+        /// The ARN of the standard.
         /// This member is required.
         public var standardsArn: Swift.String?
+        /// Specifies whether you can retrieve information about and configure individual controls that apply to the standard. Possible values are:
+        ///
+        /// * READY_FOR_UPDATES - Controls in the standard can be retrieved and configured.
+        ///
+        /// * NOT_READY_FOR_UPDATES - Controls in the standard cannot be retrieved or configured.
+        public var standardsControlsUpdatable: SecurityHubClientTypes.StandardsControlsUpdatable?
         /// A key-value pair of input for the standard.
         /// This member is required.
         public var standardsInput: [Swift.String: Swift.String]?
-        /// The status of the standard subscription. The status values are as follows:
+        /// The status of your subscription to the standard. Possible values are:
         ///
-        /// * PENDING - Standard is in the process of being enabled.
+        /// * PENDING - The standard is in the process of being enabled. Or the standard is already enabled and Security Hub is adding new controls to the standard.
         ///
-        /// * READY - Standard is enabled.
+        /// * READY - The standard is enabled.
         ///
-        /// * INCOMPLETE - Standard could not be enabled completely. Some controls may not be available.
+        /// * INCOMPLETE - The standard could not be enabled completely. One or more errors (StandardsStatusReason) occurred when Security Hub attempted to enable the standard.
         ///
-        /// * DELETING - Standard is in the process of being disabled.
+        /// * DELETING - The standard is in the process of being disabled.
         ///
-        /// * FAILED - Standard could not be disabled.
+        /// * FAILED - The standard could not be disabled. One or more errors (StandardsStatusReason) occurred when Security Hub attempted to disable the standard.
         /// This member is required.
         public var standardsStatus: SecurityHubClientTypes.StandardsStatus?
         /// The reason for the current status.
         public var standardsStatusReason: SecurityHubClientTypes.StandardsStatusReason?
-        /// The ARN of a resource that represents your subscription to a supported standard.
+        /// The ARN of the resource that represents your subscription to the standard.
         /// This member is required.
         public var standardsSubscriptionArn: Swift.String?
 
         public init(
             standardsArn: Swift.String? = nil,
+            standardsControlsUpdatable: SecurityHubClientTypes.StandardsControlsUpdatable? = nil,
             standardsInput: [Swift.String: Swift.String]? = nil,
             standardsStatus: SecurityHubClientTypes.StandardsStatus? = nil,
             standardsStatusReason: SecurityHubClientTypes.StandardsStatusReason? = nil,
             standardsSubscriptionArn: Swift.String? = nil
         ) {
             self.standardsArn = standardsArn
+            self.standardsControlsUpdatable = standardsControlsUpdatable
             self.standardsInput = standardsInput
             self.standardsStatus = standardsStatus
             self.standardsStatusReason = standardsStatusReason
@@ -22146,7 +22186,7 @@ extension SecurityHubClientTypes {
 }
 
 public struct BatchUpdateStandardsControlAssociationsInput: Swift.Sendable {
-    /// Updates the enablement status of a security control in a specified standard.
+    /// Updates the enablement status of a security control in a specified standard. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUpdatable value NOT_READY_FOR_UPDATES.
     /// This member is required.
     public var standardsControlAssociationUpdates: [SecurityHubClientTypes.StandardsControlAssociationUpdate]?
 
@@ -23357,7 +23397,7 @@ extension SecurityHubClientTypes {
         public var enabledByDefault: Swift.Bool?
         /// The name of the standard.
         public var name: Swift.String?
-        /// The ARN of a standard.
+        /// The ARN of the standard.
         public var standardsArn: Swift.String?
         /// Provides details about the management of a standard.
         public var standardsManagedBy: SecurityHubClientTypes.StandardsManagedBy?
@@ -29058,6 +29098,7 @@ extension SecurityHubClientTypes.StandardsSubscription {
         value.standardsArn = try reader["StandardsArn"].readIfPresent() ?? ""
         value.standardsInput = try reader["StandardsInput"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.standardsStatus = try reader["StandardsStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.standardsControlsUpdatable = try reader["StandardsControlsUpdatable"].readIfPresent()
         value.standardsStatusReason = try reader["StandardsStatusReason"].readIfPresent(with: SecurityHubClientTypes.StandardsStatusReason.read(from:))
         return value
     }

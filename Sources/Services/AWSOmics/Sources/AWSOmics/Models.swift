@@ -62,6 +62,11 @@ public struct DeleteWorkflowOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteWorkflowVersionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateRunCacheOutput: Swift.Sendable {
 
     public init() { }
@@ -73,6 +78,11 @@ public struct UpdateRunGroupOutput: Swift.Sendable {
 }
 
 public struct UpdateWorkflowOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateWorkflowVersionOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -2600,9 +2610,9 @@ public struct CreateReferenceStoreOutput: Swift.Sendable {
 }
 
 public struct CreateRunCacheInput: Swift.Sendable {
-    /// Default cache behavior for runs that use this cache. Supported values are: CACHE_ON_FAILURE: Caches task outputs from completed tasks for runs that fail. This setting is useful if you're debugging a workflow that fails after several tasks completed successfully. The subsequent run uses the cache outputs for previously-completed tasks if the task definition, inputs, and container in ECR are identical to the prior run. CACHE_ALWAYS: Caches task outputs from completed tasks for all runs. This setting is useful in development mode, but do not use it in a production setting. If you don't specify a value, the default behavior is CACHE_ON_FAILURE. When you start a run that uses this cache, you can override the default cache behavior. For more information, see [Run cache behavior](https://docs.aws.amazon.com/omics/latest/dev/how-run-cache.html#run-cache-behavior) in the AWS HealthOmics User Guide.
+    /// Default cache behavior for runs that use this cache. Supported values are: CACHE_ON_FAILURE: Caches task outputs from completed tasks for runs that fail. This setting is useful if you're debugging a workflow that fails after several tasks completed successfully. The subsequent run uses the cache outputs for previously-completed tasks if the task definition, inputs, and container in ECR are identical to the prior run. CACHE_ALWAYS: Caches task outputs from completed tasks for all runs. This setting is useful in development mode, but do not use it in a production setting. If you don't specify a value, the default behavior is CACHE_ON_FAILURE. When you start a run that uses this cache, you can override the default cache behavior. For more information, see [Run cache behavior](https://docs.aws.amazon.com/omics/latest/dev/how-run-cache.html#run-cache-behavior) in the Amazon Web Services HealthOmics User Guide.
     public var cacheBehavior: OmicsClientTypes.CacheBehavior?
-    /// The AWS account ID of the expected owner of the S3 bucket for the run cache. If not provided, your account ID is set as the owner of the bucket.
+    /// The Amazon Web Services account ID of the expected owner of the S3 bucket for the run cache. If not provided, your account ID is set as the owner of the bucket.
     public var cacheBucketOwnerId: Swift.String?
     /// Specify the S3 location for storing the cached task outputs. This data must be immediately accessible (not in an archived state).
     /// This member is required.
@@ -2611,7 +2621,7 @@ public struct CreateRunCacheInput: Swift.Sendable {
     public var description: Swift.String?
     /// Enter a user-friendly name for the run cache.
     public var name: Swift.String?
-    /// A unique request token, to ensure idempotency. If you don't specify a token, HealthOmics automatically generates a universally unique identifier (UUID) for the request.
+    /// A unique request token, to ensure idempotency. If you don't specify a token, Amazon Web Services HealthOmics automatically generates a universally unique identifier (UUID) for the request.
     /// This member is required.
     public var requestId: Swift.String?
     /// Specify one or more tags to associate with this run cache.
@@ -3106,6 +3116,35 @@ extension OmicsClientTypes {
     }
 }
 
+extension OmicsClientTypes {
+
+    public enum StorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `dynamic`
+        case `static`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageType] {
+            return [
+                .dynamic,
+                .static
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dynamic: return "DYNAMIC"
+            case .static: return "STATIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateWorkflowInput: Swift.Sendable {
     /// The computational accelerator specified to run the workflow.
     public var accelerators: OmicsClientTypes.Accelerators?
@@ -3115,7 +3154,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
     public var definitionZip: Foundation.Data?
     /// A description for the workflow.
     public var description: Swift.String?
-    /// An engine for the workflow.
+    /// The workflow engine for the workflow.
     public var engine: OmicsClientTypes.WorkflowEngine?
     /// The path of the main definition file for the workflow.
     public var main: Swift.String?
@@ -3126,8 +3165,10 @@ public struct CreateWorkflowInput: Swift.Sendable {
     /// To ensure that requests don't run multiple times, specify a unique ID for each request.
     /// This member is required.
     public var requestId: Swift.String?
-    /// The default storage capacity for the workflow runs, in gibibytes.
+    /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
     public var storageCapacity: Swift.Int?
+    /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see [Running workflows](https://docs.aws.amazon.com/omics/latest/dev/Using-workflows.html) in the Amazon Web Services HealthOmics User Guide.
+    public var storageType: OmicsClientTypes.StorageType?
     /// Tags for the workflow.
     public var tags: [Swift.String: Swift.String]?
 
@@ -3142,6 +3183,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         parameterTemplate: [Swift.String: OmicsClientTypes.WorkflowParameter]? = nil,
         requestId: Swift.String? = nil,
         storageCapacity: Swift.Int? = nil,
+        storageType: OmicsClientTypes.StorageType? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.accelerators = accelerators
@@ -3154,6 +3196,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         self.parameterTemplate = parameterTemplate
         self.requestId = requestId
         self.storageCapacity = storageCapacity
+        self.storageType = storageType
         self.tags = tags
     }
 }
@@ -3208,17 +3251,118 @@ public struct CreateWorkflowOutput: Swift.Sendable {
     public var status: OmicsClientTypes.WorkflowStatus?
     /// The workflow's tags.
     public var tags: [Swift.String: Swift.String]?
+    /// The universally unique identifier (UUID) value for this workflow.
+    public var uuid: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         status: OmicsClientTypes.WorkflowStatus? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        uuid: Swift.String? = nil
     ) {
         self.arn = arn
         self.id = id
         self.status = status
         self.tags = tags
+        self.uuid = uuid
+    }
+}
+
+public struct CreateWorkflowVersionInput: Swift.Sendable {
+    /// The computational accelerator for this workflow version.
+    public var accelerators: OmicsClientTypes.Accelerators?
+    /// The URI specifies the location of the workflow definition for this workflow version.
+    public var definitionUri: Swift.String?
+    /// A zip archive containing the workflow definition for this workflow version.
+    public var definitionZip: Foundation.Data?
+    /// A description for this workflow version.
+    public var description: Swift.String?
+    /// The workflow engine for this workflow version.
+    public var engine: OmicsClientTypes.WorkflowEngine?
+    /// The path of the main definition file for this workflow version.
+    public var main: Swift.String?
+    /// The parameter template defines the input parameters for runs that use this workflow version.
+    public var parameterTemplate: [Swift.String: OmicsClientTypes.WorkflowParameter]?
+    /// To ensure that requests don't run multiple times, specify a unique ID for each request.
+    /// This member is required.
+    public var requestId: Swift.String?
+    /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+    public var storageCapacity: Swift.Int?
+    /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see [Running workflows](https://docs.aws.amazon.com/omics/latest/dev/Using-workflows.html) in the Amazon Web Services HealthOmics User Guide.
+    public var storageType: OmicsClientTypes.StorageType?
+    /// Optional tags to associate with this workflow version.
+    public var tags: [Swift.String: Swift.String]?
+    /// A name for the workflow version. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version. The version name must start with a letter or number and it can include upper-case and lower-case letters, numbers, hyphens, periods and underscores. The maximum length is 64 characters. You can use a simple naming scheme, such as version1, version2, version3. You can also match your workflow versions with your own internal versioning conventions, such as 2.7.0, 2.7.1, 2.7.2.
+    /// This member is required.
+    public var versionName: Swift.String?
+    /// Amazon Web Services Id of the owner of the S3 bucket that contains the workflow definition. You need to specify this parameter if your account is not the bucket owner.
+    public var workflowBucketOwnerId: Swift.String?
+    /// The ID of the workflow where you are creating the new version.
+    /// This member is required.
+    public var workflowId: Swift.String?
+
+    public init(
+        accelerators: OmicsClientTypes.Accelerators? = nil,
+        definitionUri: Swift.String? = nil,
+        definitionZip: Foundation.Data? = nil,
+        description: Swift.String? = nil,
+        engine: OmicsClientTypes.WorkflowEngine? = nil,
+        main: Swift.String? = nil,
+        parameterTemplate: [Swift.String: OmicsClientTypes.WorkflowParameter]? = nil,
+        requestId: Swift.String? = nil,
+        storageCapacity: Swift.Int? = nil,
+        storageType: OmicsClientTypes.StorageType? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        versionName: Swift.String? = nil,
+        workflowBucketOwnerId: Swift.String? = nil,
+        workflowId: Swift.String? = nil
+    ) {
+        self.accelerators = accelerators
+        self.definitionUri = definitionUri
+        self.definitionZip = definitionZip
+        self.description = description
+        self.engine = engine
+        self.main = main
+        self.parameterTemplate = parameterTemplate
+        self.requestId = requestId
+        self.storageCapacity = storageCapacity
+        self.storageType = storageType
+        self.tags = tags
+        self.versionName = versionName
+        self.workflowBucketOwnerId = workflowBucketOwnerId
+        self.workflowId = workflowId
+    }
+}
+
+public struct CreateWorkflowVersionOutput: Swift.Sendable {
+    /// ARN of the workflow version.
+    public var arn: Swift.String?
+    /// The workflow version status.
+    public var status: OmicsClientTypes.WorkflowStatus?
+    /// The workflow version's tags.
+    public var tags: [Swift.String: Swift.String]?
+    /// The universally unique identifier (UUID) value for this workflow version.
+    public var uuid: Swift.String?
+    /// The workflow version name.
+    public var versionName: Swift.String?
+    /// The workflow's ID.
+    public var workflowId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        status: OmicsClientTypes.WorkflowStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        uuid: Swift.String? = nil,
+        versionName: Swift.String? = nil,
+        workflowId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.status = status
+        self.tags = tags
+        self.uuid = uuid
+        self.versionName = versionName
+        self.workflowId = workflowId
     }
 }
 
@@ -3420,6 +3564,23 @@ public struct DeleteWorkflowInput: Swift.Sendable {
         id: Swift.String? = nil
     ) {
         self.id = id
+    }
+}
+
+public struct DeleteWorkflowVersionInput: Swift.Sendable {
+    /// The workflow version name.
+    /// This member is required.
+    public var versionName: Swift.String?
+    /// The workflow's ID.
+    /// This member is required.
+    public var workflowId: Swift.String?
+
+    public init(
+        versionName: Swift.String? = nil,
+        workflowId: Swift.String? = nil
+    ) {
+        self.versionName = versionName
+        self.workflowId = workflowId
     }
 }
 
@@ -5032,35 +5193,6 @@ extension OmicsClientTypes {
 
 extension OmicsClientTypes {
 
-    public enum StorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case `dynamic`
-        case `static`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StorageType] {
-            return [
-                .dynamic,
-                .static
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .dynamic: return "DYNAMIC"
-            case .static: return "STATIC"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension OmicsClientTypes {
-
     public enum WorkflowType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `private`
         case ready2run
@@ -5103,7 +5235,7 @@ public struct GetRunOutput: Swift.Sendable {
     public var definition: Swift.String?
     /// The run's digest.
     public var digest: Swift.String?
-    /// The workflow engine version.
+    /// The actual Nextflow engine version that Amazon Web Services HealthOmics used for the run. The other workflow definition languages don't provide a value for this field.
     public var engineVersion: Swift.String?
     /// The reason a run has failed.
     public var failureReason: Swift.String?
@@ -5157,6 +5289,10 @@ public struct GetRunOutput: Swift.Sendable {
     public var workflowOwnerId: Swift.String?
     /// The run's workflow type.
     public var workflowType: OmicsClientTypes.WorkflowType?
+    /// The universally unique identifier (UUID) value for the workflow.
+    public var workflowUuid: Swift.String?
+    /// The workflow version name.
+    public var workflowVersionName: Swift.String?
 
     public init(
         accelerators: OmicsClientTypes.Accelerators? = nil,
@@ -5192,7 +5328,9 @@ public struct GetRunOutput: Swift.Sendable {
         uuid: Swift.String? = nil,
         workflowId: Swift.String? = nil,
         workflowOwnerId: Swift.String? = nil,
-        workflowType: OmicsClientTypes.WorkflowType? = nil
+        workflowType: OmicsClientTypes.WorkflowType? = nil,
+        workflowUuid: Swift.String? = nil,
+        workflowVersionName: Swift.String? = nil
     ) {
         self.accelerators = accelerators
         self.arn = arn
@@ -5228,6 +5366,8 @@ public struct GetRunOutput: Swift.Sendable {
         self.workflowId = workflowId
         self.workflowOwnerId = workflowOwnerId
         self.workflowType = workflowType
+        self.workflowUuid = workflowUuid
+        self.workflowVersionName = workflowVersionName
     }
 }
 
@@ -5407,7 +5547,7 @@ extension OmicsClientTypes {
 }
 
 public struct GetRunTaskOutput: Swift.Sendable {
-    /// Set to true if AWS HealthOmics found a matching entry in the run cache for this task.
+    /// Set to true if Amazon Web Services HealthOmics found a matching entry in the run cache for this task.
     public var cacheHit: Swift.Bool?
     /// The S3 URI of the cache location.
     public var cacheS3Uri: Swift.String?
@@ -5520,7 +5660,7 @@ public struct GetS3AccessPolicyOutput: Swift.Sendable {
     /// The current resource policy that controls S3 access on the store.
     /// This member is required.
     public var s3AccessPolicy: Swift.String?
-    /// The AWS-generated Sequence Store or Reference Store ID.
+    /// The Amazon Web Services-generated Sequence Store or Reference Store ID.
     public var storeId: Swift.String?
     /// The type of store associated with the access point.
     public var storeType: OmicsClientTypes.StoreType?
@@ -5935,7 +6075,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The path of the main definition file for the workflow.
     public var main: Swift.String?
-    /// Gets metadata for workflow.
+    /// Gets metadata for the workflow.
     public var metadata: [Swift.String: Swift.String]?
     /// The workflow's name.
     public var name: Swift.String?
@@ -5945,12 +6085,16 @@ public struct GetWorkflowOutput: Swift.Sendable {
     public var status: OmicsClientTypes.WorkflowStatus?
     /// The workflow's status message.
     public var statusMessage: Swift.String?
-    /// The workflow's default run storage capacity in gibibytes.
+    /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
     public var storageCapacity: Swift.Int?
+    /// The default storage type for runs using this workflow.
+    public var storageType: OmicsClientTypes.StorageType?
     /// The workflow's tags.
     public var tags: [Swift.String: Swift.String]?
     /// The workflow's type.
     public var type: OmicsClientTypes.WorkflowType?
+    /// The universally unique identifier (UUID) value for this workflow.
+    public var uuid: Swift.String?
 
     public init(
         accelerators: OmicsClientTypes.Accelerators? = nil,
@@ -5968,8 +6112,10 @@ public struct GetWorkflowOutput: Swift.Sendable {
         status: OmicsClientTypes.WorkflowStatus? = nil,
         statusMessage: Swift.String? = nil,
         storageCapacity: Swift.Int? = nil,
+        storageType: OmicsClientTypes.StorageType? = nil,
         tags: [Swift.String: Swift.String]? = nil,
-        type: OmicsClientTypes.WorkflowType? = nil
+        type: OmicsClientTypes.WorkflowType? = nil,
+        uuid: Swift.String? = nil
     ) {
         self.accelerators = accelerators
         self.arn = arn
@@ -5986,8 +6132,126 @@ public struct GetWorkflowOutput: Swift.Sendable {
         self.status = status
         self.statusMessage = statusMessage
         self.storageCapacity = storageCapacity
+        self.storageType = storageType
         self.tags = tags
         self.type = type
+        self.uuid = uuid
+    }
+}
+
+public struct GetWorkflowVersionInput: Swift.Sendable {
+    /// The export format for the workflow.
+    public var export: [OmicsClientTypes.WorkflowExport]?
+    /// The workflow's type.
+    public var type: OmicsClientTypes.WorkflowType?
+    /// The workflow version name.
+    /// This member is required.
+    public var versionName: Swift.String?
+    /// The workflow's ID.
+    /// This member is required.
+    public var workflowId: Swift.String?
+    /// Amazon Web Services Id of the owner of the workflow.
+    public var workflowOwnerId: Swift.String?
+
+    public init(
+        export: [OmicsClientTypes.WorkflowExport]? = nil,
+        type: OmicsClientTypes.WorkflowType? = nil,
+        versionName: Swift.String? = nil,
+        workflowId: Swift.String? = nil,
+        workflowOwnerId: Swift.String? = nil
+    ) {
+        self.export = export
+        self.type = type
+        self.versionName = versionName
+        self.workflowId = workflowId
+        self.workflowOwnerId = workflowOwnerId
+    }
+}
+
+public struct GetWorkflowVersionOutput: Swift.Sendable {
+    /// The accelerator for this workflow version.
+    public var accelerators: OmicsClientTypes.Accelerators?
+    /// ARN of the workflow version.
+    public var arn: Swift.String?
+    /// When the workflow version was created.
+    public var creationTime: Foundation.Date?
+    /// Definition of the workflow version.
+    public var definition: Swift.String?
+    /// Description of the workflow version.
+    public var description: Swift.String?
+    /// The workflow version's digest.
+    public var digest: Swift.String?
+    /// The workflow engine for this workflow version.
+    public var engine: OmicsClientTypes.WorkflowEngine?
+    /// The path of the main definition file for the workflow.
+    public var main: Swift.String?
+    /// The metadata for the workflow version.
+    public var metadata: [Swift.String: Swift.String]?
+    /// The parameter template for the workflow version.
+    public var parameterTemplate: [Swift.String: OmicsClientTypes.WorkflowParameter]?
+    /// The workflow version status
+    public var status: OmicsClientTypes.WorkflowStatus?
+    /// The workflow version status message
+    public var statusMessage: Swift.String?
+    /// The default run storage capacity for static storage.
+    public var storageCapacity: Swift.Int?
+    /// The default storage type for the run.
+    public var storageType: OmicsClientTypes.StorageType?
+    /// The workflow version tags
+    public var tags: [Swift.String: Swift.String]?
+    /// The workflow version type
+    public var type: OmicsClientTypes.WorkflowType?
+    /// The universally unique identifier (UUID) value for this workflow version
+    public var uuid: Swift.String?
+    /// The workflow version name.
+    public var versionName: Swift.String?
+    /// Amazon Web Services Id of the owner of the bucket.
+    public var workflowBucketOwnerId: Swift.String?
+    /// The workflow's ID.
+    public var workflowId: Swift.String?
+
+    public init(
+        accelerators: OmicsClientTypes.Accelerators? = nil,
+        arn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        definition: Swift.String? = nil,
+        description: Swift.String? = nil,
+        digest: Swift.String? = nil,
+        engine: OmicsClientTypes.WorkflowEngine? = nil,
+        main: Swift.String? = nil,
+        metadata: [Swift.String: Swift.String]? = nil,
+        parameterTemplate: [Swift.String: OmicsClientTypes.WorkflowParameter]? = nil,
+        status: OmicsClientTypes.WorkflowStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        storageCapacity: Swift.Int? = nil,
+        storageType: OmicsClientTypes.StorageType? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        type: OmicsClientTypes.WorkflowType? = nil,
+        uuid: Swift.String? = nil,
+        versionName: Swift.String? = nil,
+        workflowBucketOwnerId: Swift.String? = nil,
+        workflowId: Swift.String? = nil
+    ) {
+        self.accelerators = accelerators
+        self.arn = arn
+        self.creationTime = creationTime
+        self.definition = definition
+        self.description = description
+        self.digest = digest
+        self.engine = engine
+        self.main = main
+        self.metadata = metadata
+        self.parameterTemplate = parameterTemplate
+        self.status = status
+        self.statusMessage = statusMessage
+        self.storageCapacity = storageCapacity
+        self.storageType = storageType
+        self.tags = tags
+        self.type = type
+        self.uuid = uuid
+        self.versionName = versionName
+        self.workflowBucketOwnerId = workflowBucketOwnerId
+        self.workflowId = workflowId
     }
 }
 
@@ -7057,6 +7321,8 @@ extension OmicsClientTypes {
         public var storageType: OmicsClientTypes.StorageType?
         /// The run's workflow ID.
         public var workflowId: Swift.String?
+        /// The name of the workflow version.
+        public var workflowVersionName: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
@@ -7069,7 +7335,8 @@ extension OmicsClientTypes {
             stopTime: Foundation.Date? = nil,
             storageCapacity: Swift.Int? = nil,
             storageType: OmicsClientTypes.StorageType? = nil,
-            workflowId: Swift.String? = nil
+            workflowId: Swift.String? = nil,
+            workflowVersionName: Swift.String? = nil
         ) {
             self.arn = arn
             self.creationTime = creationTime
@@ -7082,6 +7349,7 @@ extension OmicsClientTypes {
             self.storageCapacity = storageCapacity
             self.storageType = storageType
             self.workflowId = workflowId
+            self.workflowVersionName = workflowVersionName
         }
     }
 }
@@ -7129,7 +7397,7 @@ extension OmicsClientTypes {
 
     /// A workflow run task.
     public struct TaskListItem: Swift.Sendable {
-        /// Set to true if AWS HealthOmics found a matching entry in the run cache for this task.
+        /// Set to true if Amazon Web Services HealthOmics found a matching entry in the run cache for this task.
         public var cacheHit: Swift.Bool?
         /// The S3 URI of the cache location.
         public var cacheS3Uri: Swift.String?
@@ -7732,6 +8000,96 @@ public struct ListWorkflowsOutput: Swift.Sendable {
     }
 }
 
+public struct ListWorkflowVersionsInput: Swift.Sendable {
+    /// The maximum number of workflows to return in one page of results.
+    public var maxResults: Swift.Int?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var startingToken: Swift.String?
+    /// The workflow type.
+    public var type: OmicsClientTypes.WorkflowType?
+    /// The workflow's ID.
+    /// This member is required.
+    public var workflowId: Swift.String?
+    /// Amazon Web Services Id of the owner of the workflow.
+    public var workflowOwnerId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        startingToken: Swift.String? = nil,
+        type: OmicsClientTypes.WorkflowType? = nil,
+        workflowId: Swift.String? = nil,
+        workflowOwnerId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.startingToken = startingToken
+        self.type = type
+        self.workflowId = workflowId
+        self.workflowOwnerId = workflowOwnerId
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// A list of workflow version items.
+    public struct WorkflowVersionListItem: Swift.Sendable {
+        /// ARN of the workflow version.
+        public var arn: Swift.String?
+        /// The creation time of the workflow version.
+        public var creationTime: Foundation.Date?
+        /// The description of the workflow version.
+        public var description: Swift.String?
+        /// The digist of the workflow version.
+        public var digest: Swift.String?
+        /// Metadata for the workflow version.
+        public var metadata: [Swift.String: Swift.String]?
+        /// The status of the workflow version.
+        public var status: OmicsClientTypes.WorkflowStatus?
+        /// The type of the workflow version.
+        public var type: OmicsClientTypes.WorkflowType?
+        /// The name of the workflow version.
+        public var versionName: Swift.String?
+        /// The workflow's ID.
+        public var workflowId: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            digest: Swift.String? = nil,
+            metadata: [Swift.String: Swift.String]? = nil,
+            status: OmicsClientTypes.WorkflowStatus? = nil,
+            type: OmicsClientTypes.WorkflowType? = nil,
+            versionName: Swift.String? = nil,
+            workflowId: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.description = description
+            self.digest = digest
+            self.metadata = metadata
+            self.status = status
+            self.type = type
+            self.versionName = versionName
+            self.workflowId = workflowId
+        }
+    }
+}
+
+public struct ListWorkflowVersionsOutput: Swift.Sendable {
+    /// A list of workflow version items.
+    public var items: [OmicsClientTypes.WorkflowVersionListItem]?
+    /// A pagination token that's included if more results are available.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [OmicsClientTypes.WorkflowVersionListItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct PutS3AccessPolicyInput: Swift.Sendable {
     /// The S3 access point ARN where you want to put the access policy.
     /// This member is required.
@@ -7752,7 +8110,7 @@ public struct PutS3AccessPolicyInput: Swift.Sendable {
 public struct PutS3AccessPolicyOutput: Swift.Sendable {
     /// The S3 access point ARN that now has the access policy.
     public var s3AccessPointArn: Swift.String?
-    /// The AWS-generated Sequence Store or Reference Store ID.
+    /// The Amazon Web Services-generated Sequence Store or Reference Store ID.
     public var storeId: Swift.String?
     /// The type of store associated with the access point.
     public var storeType: OmicsClientTypes.StoreType?
@@ -7912,7 +8270,7 @@ public struct UpdateRunGroupInput: Swift.Sendable {
 }
 
 public struct StartRunInput: Swift.Sendable {
-    /// The cache behavior for the run. You specify this value if you want to override the default behavior for the cache. You had set the default value when you created the cache. For more information, see [Run cache behavior](https://docs.aws.amazon.com/omics/latest/dev/how-run-cache.html#run-cache-behavior) in the AWS HealthOmics User Guide.
+    /// The cache behavior for the run. You specify this value if you want to override the default behavior for the cache. You had set the default value when you created the cache. For more information, see [Run cache behavior](https://docs.aws.amazon.com/omics/latest/dev/how-run-cache.html#run-cache-behavior) in the Amazon Web Services HealthOmics User Guide.
     public var cacheBehavior: OmicsClientTypes.CacheBehavior?
     /// Identifier of the cache associated with this run. If you don't specify a cache ID, no task outputs are cached for this run.
     public var cacheId: Swift.String?
@@ -7929,7 +8287,7 @@ public struct StartRunInput: Swift.Sendable {
     /// To ensure that requests don't run multiple times, specify a unique ID for each request.
     /// This member is required.
     public var requestId: Swift.String?
-    /// The retention mode for the run. The default value is RETAIN. HealthOmics stores a fixed number of runs that are available to the console and API. In the default mode (RETAIN), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE, HealthOmics automatically removes runs (that have mode set to REMOVE) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see [Specifying run retention mode](https://docs.aws.amazon.com/omics/latest/dev/starting-a-run.html) in the AWS HealthOmics User Guide.
+    /// The retention mode for the run. The default value is RETAIN. Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. In the default mode (RETAIN), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE, Amazon Web Services HealthOmics automatically removes runs (that have mode set to REMOVE) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see [Specifying run retention mode](https://docs.aws.amazon.com/omics/latest/dev/starting-a-run.html) in the Amazon Web Services HealthOmics User Guide.
     public var retentionMode: OmicsClientTypes.RunRetentionMode?
     /// A service role for the run.
     /// This member is required.
@@ -7938,9 +8296,9 @@ public struct StartRunInput: Swift.Sendable {
     public var runGroupId: Swift.String?
     /// The ID of a run to duplicate.
     public var runId: Swift.String?
-    /// A storage capacity for the run in gibibytes. This field is not required if the storage type is dynamic (the system ignores any value that you enter).
+    /// The static storage capacity (in gibibytes) for this run. This field is not required if the storage type is dynamic (the system ignores any value that you enter).
     public var storageCapacity: Swift.Int?
-    /// The run's storage type. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. If you set the storage type to DYNAMIC, HealthOmics dynamically scales the storage up or down, based on file system utilization.
+    /// The storage type for the run. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. If you set the storage type to DYNAMIC, Amazon Web Services HealthOmics dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see [Running workflows](https://docs.aws.amazon.com/omics/latest/dev/Using-workflows.html) in the Amazon Web Services HealthOmics User Guide.
     public var storageType: OmicsClientTypes.StorageType?
     /// Tags for the run.
     public var tags: [Swift.String: Swift.String]?
@@ -7950,6 +8308,8 @@ public struct StartRunInput: Swift.Sendable {
     public var workflowOwnerId: Swift.String?
     /// The run's workflow type.
     public var workflowType: OmicsClientTypes.WorkflowType?
+    /// The name of the workflow version.
+    public var workflowVersionName: Swift.String?
 
     public init(
         cacheBehavior: OmicsClientTypes.CacheBehavior? = nil,
@@ -7969,7 +8329,8 @@ public struct StartRunInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         workflowId: Swift.String? = nil,
         workflowOwnerId: Swift.String? = nil,
-        workflowType: OmicsClientTypes.WorkflowType? = nil
+        workflowType: OmicsClientTypes.WorkflowType? = nil,
+        workflowVersionName: Swift.String? = nil
     ) {
         self.cacheBehavior = cacheBehavior
         self.cacheId = cacheId
@@ -7989,6 +8350,7 @@ public struct StartRunInput: Swift.Sendable {
         self.workflowId = workflowId
         self.workflowOwnerId = workflowOwnerId
         self.workflowType = workflowType
+        self.workflowVersionName = workflowVersionName
     }
 }
 
@@ -8569,15 +8931,52 @@ public struct UpdateWorkflowInput: Swift.Sendable {
     public var id: Swift.String?
     /// A name for the workflow.
     public var name: Swift.String?
+    /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+    public var storageCapacity: Swift.Int?
+    /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see [Running workflows](https://docs.aws.amazon.com/omics/latest/dev/Using-workflows.html) in the Amazon Web Services HealthOmics User Guide.
+    public var storageType: OmicsClientTypes.StorageType?
 
     public init(
         description: Swift.String? = nil,
         id: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        storageCapacity: Swift.Int? = nil,
+        storageType: OmicsClientTypes.StorageType? = nil
     ) {
         self.description = description
         self.id = id
         self.name = name
+        self.storageCapacity = storageCapacity
+        self.storageType = storageType
+    }
+}
+
+public struct UpdateWorkflowVersionInput: Swift.Sendable {
+    /// Description of the workflow version.
+    public var description: Swift.String?
+    /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+    public var storageCapacity: Swift.Int?
+    /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see [Running workflows](https://docs.aws.amazon.com/omics/latest/dev/Using-workflows.html) in the Amazon Web Services HealthOmics User Guide.
+    public var storageType: OmicsClientTypes.StorageType?
+    /// The name of the workflow version.
+    /// This member is required.
+    public var versionName: Swift.String?
+    /// The workflow's ID.
+    /// This member is required.
+    public var workflowId: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        storageCapacity: Swift.Int? = nil,
+        storageType: OmicsClientTypes.StorageType? = nil,
+        versionName: Swift.String? = nil,
+        workflowId: Swift.String? = nil
+    ) {
+        self.description = description
+        self.storageCapacity = storageCapacity
+        self.storageType = storageType
+        self.versionName = versionName
+        self.workflowId = workflowId
     }
 }
 
@@ -8730,6 +9129,16 @@ extension CreateWorkflowInput {
 
     static func urlPathProvider(_ value: CreateWorkflowInput) -> Swift.String? {
         return "/workflow"
+    }
+}
+
+extension CreateWorkflowVersionInput {
+
+    static func urlPathProvider(_ value: CreateWorkflowVersionInput) -> Swift.String? {
+        guard let workflowId = value.workflowId else {
+            return nil
+        }
+        return "/workflow/\(workflowId.urlPercentEncoding())/version"
     }
 }
 
@@ -8889,6 +9298,19 @@ extension DeleteWorkflowInput {
             return nil
         }
         return "/workflow/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteWorkflowVersionInput {
+
+    static func urlPathProvider(_ value: DeleteWorkflowVersionInput) -> Swift.String? {
+        guard let workflowId = value.workflowId else {
+            return nil
+        }
+        guard let versionName = value.versionName else {
+            return nil
+        }
+        return "/workflow/\(workflowId.urlPercentEncoding())/version/\(versionName.urlPercentEncoding())"
     }
 }
 
@@ -9206,6 +9628,41 @@ extension GetWorkflowInput {
 extension GetWorkflowInput {
 
     static func queryItemProvider(_ value: GetWorkflowInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let workflowOwnerId = value.workflowOwnerId {
+            let workflowOwnerIdQueryItem = Smithy.URIQueryItem(name: "workflowOwnerId".urlPercentEncoding(), value: Swift.String(workflowOwnerId).urlPercentEncoding())
+            items.append(workflowOwnerIdQueryItem)
+        }
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        if let export = value.export {
+            export.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "export".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
+    }
+}
+
+extension GetWorkflowVersionInput {
+
+    static func urlPathProvider(_ value: GetWorkflowVersionInput) -> Swift.String? {
+        guard let workflowId = value.workflowId else {
+            return nil
+        }
+        guard let versionName = value.versionName else {
+            return nil
+        }
+        return "/workflow/\(workflowId.urlPercentEncoding())/version/\(versionName.urlPercentEncoding())"
+    }
+}
+
+extension GetWorkflowVersionInput {
+
+    static func queryItemProvider(_ value: GetWorkflowVersionInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let workflowOwnerId = value.workflowOwnerId {
             let workflowOwnerIdQueryItem = Smithy.URIQueryItem(name: "workflowOwnerId".urlPercentEncoding(), value: Swift.String(workflowOwnerId).urlPercentEncoding())
@@ -9779,6 +10236,40 @@ extension ListWorkflowsInput {
     }
 }
 
+extension ListWorkflowVersionsInput {
+
+    static func urlPathProvider(_ value: ListWorkflowVersionsInput) -> Swift.String? {
+        guard let workflowId = value.workflowId else {
+            return nil
+        }
+        return "/workflow/\(workflowId.urlPercentEncoding())/version"
+    }
+}
+
+extension ListWorkflowVersionsInput {
+
+    static func queryItemProvider(_ value: ListWorkflowVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let workflowOwnerId = value.workflowOwnerId {
+            let workflowOwnerIdQueryItem = Smithy.URIQueryItem(name: "workflowOwnerId".urlPercentEncoding(), value: Swift.String(workflowOwnerId).urlPercentEncoding())
+            items.append(workflowOwnerIdQueryItem)
+        }
+        if let startingToken = value.startingToken {
+            let startingTokenQueryItem = Smithy.URIQueryItem(name: "startingToken".urlPercentEncoding(), value: Swift.String(startingToken).urlPercentEncoding())
+            items.append(startingTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        return items
+    }
+}
+
 extension PutS3AccessPolicyInput {
 
     static func urlPathProvider(_ value: PutS3AccessPolicyInput) -> Swift.String? {
@@ -9956,6 +10447,19 @@ extension UpdateWorkflowInput {
             return nil
         }
         return "/workflow/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateWorkflowVersionInput {
+
+    static func urlPathProvider(_ value: UpdateWorkflowVersionInput) -> Swift.String? {
+        guard let workflowId = value.workflowId else {
+            return nil
+        }
+        guard let versionName = value.versionName else {
+            return nil
+        }
+        return "/workflow/\(workflowId.urlPercentEncoding())/version/\(versionName.urlPercentEncoding())"
     }
 }
 
@@ -10142,7 +10646,28 @@ extension CreateWorkflowInput {
         try writer["parameterTemplate"].writeMap(value.parameterTemplate, valueWritingClosure: OmicsClientTypes.WorkflowParameter.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["requestId"].write(value.requestId)
         try writer["storageCapacity"].write(value.storageCapacity)
+        try writer["storageType"].write(value.storageType)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateWorkflowVersionInput {
+
+    static func write(value: CreateWorkflowVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accelerators"].write(value.accelerators)
+        try writer["definitionUri"].write(value.definitionUri)
+        try writer["definitionZip"].write(value.definitionZip)
+        try writer["description"].write(value.description)
+        try writer["engine"].write(value.engine)
+        try writer["main"].write(value.main)
+        try writer["parameterTemplate"].writeMap(value.parameterTemplate, valueWritingClosure: OmicsClientTypes.WorkflowParameter.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["requestId"].write(value.requestId)
+        try writer["storageCapacity"].write(value.storageCapacity)
+        try writer["storageType"].write(value.storageType)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["versionName"].write(value.versionName)
+        try writer["workflowBucketOwnerId"].write(value.workflowBucketOwnerId)
     }
 }
 
@@ -10364,6 +10889,7 @@ extension StartRunInput {
         try writer["workflowId"].write(value.workflowId)
         try writer["workflowOwnerId"].write(value.workflowOwnerId)
         try writer["workflowType"].write(value.workflowType)
+        try writer["workflowVersionName"].write(value.workflowVersionName)
     }
 }
 
@@ -10452,6 +10978,18 @@ extension UpdateWorkflowInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["storageCapacity"].write(value.storageCapacity)
+        try writer["storageType"].write(value.storageType)
+    }
+}
+
+extension UpdateWorkflowVersionInput {
+
+    static func write(value: UpdateWorkflowVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["storageCapacity"].write(value.storageCapacity)
+        try writer["storageType"].write(value.storageType)
     }
 }
 
@@ -10696,6 +11234,24 @@ extension CreateWorkflowOutput {
         value.id = try reader["id"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.uuid = try reader["uuid"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateWorkflowVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateWorkflowVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateWorkflowVersionOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.uuid = try reader["uuid"].readIfPresent()
+        value.versionName = try reader["versionName"].readIfPresent()
+        value.workflowId = try reader["workflowId"].readIfPresent()
         return value
     }
 }
@@ -10801,6 +11357,13 @@ extension DeleteWorkflowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWorkflowOutput {
         return DeleteWorkflowOutput()
+    }
+}
+
+extension DeleteWorkflowVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWorkflowVersionOutput {
+        return DeleteWorkflowVersionOutput()
     }
 }
 
@@ -11094,6 +11657,8 @@ extension GetRunOutput {
         value.workflowId = try reader["workflowId"].readIfPresent()
         value.workflowOwnerId = try reader["workflowOwnerId"].readIfPresent()
         value.workflowType = try reader["workflowType"].readIfPresent()
+        value.workflowUuid = try reader["workflowUuid"].readIfPresent()
+        value.workflowVersionName = try reader["workflowVersionName"].readIfPresent()
         return value
     }
 }
@@ -11284,8 +11849,41 @@ extension GetWorkflowOutput {
         value.status = try reader["status"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.storageCapacity = try reader["storageCapacity"].readIfPresent()
+        value.storageType = try reader["storageType"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
+        value.uuid = try reader["uuid"].readIfPresent()
+        return value
+    }
+}
+
+extension GetWorkflowVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetWorkflowVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetWorkflowVersionOutput()
+        value.accelerators = try reader["accelerators"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.definition = try reader["definition"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.digest = try reader["digest"].readIfPresent()
+        value.engine = try reader["engine"].readIfPresent()
+        value.main = try reader["main"].readIfPresent()
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.parameterTemplate = try reader["parameterTemplate"].readMapIfPresent(valueReadingClosure: OmicsClientTypes.WorkflowParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.storageCapacity = try reader["storageCapacity"].readIfPresent()
+        value.storageType = try reader["storageType"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.type = try reader["type"].readIfPresent()
+        value.uuid = try reader["uuid"].readIfPresent()
+        value.versionName = try reader["versionName"].readIfPresent()
+        value.workflowBucketOwnerId = try reader["workflowBucketOwnerId"].readIfPresent()
+        value.workflowId = try reader["workflowId"].readIfPresent()
         return value
     }
 }
@@ -11575,6 +12173,19 @@ extension ListWorkflowsOutput {
     }
 }
 
+extension ListWorkflowVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWorkflowVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListWorkflowVersionsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: OmicsClientTypes.WorkflowVersionListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension PutS3AccessPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutS3AccessPolicyOutput {
@@ -11806,6 +12417,13 @@ extension UpdateWorkflowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWorkflowOutput {
         return UpdateWorkflowOutput()
+    }
+}
+
+extension UpdateWorkflowVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWorkflowVersionOutput {
+        return UpdateWorkflowVersionOutput()
     }
 }
 
@@ -12161,6 +12779,27 @@ enum CreateWorkflowOutputError {
     }
 }
 
+enum CreateWorkflowVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteAnnotationStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12382,6 +13021,27 @@ enum DeleteVariantStoreOutputError {
 }
 
 enum DeleteWorkflowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteWorkflowVersionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12831,6 +13491,27 @@ enum GetWorkflowOutputError {
     }
 }
 
+enum GetWorkflowVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAnnotationImportJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13259,6 +13940,27 @@ enum ListWorkflowsOutputError {
     }
 }
 
+enum ListWorkflowVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutS3AccessPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13577,6 +14279,27 @@ enum UpdateVariantStoreOutputError {
 }
 
 enum UpdateWorkflowOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateWorkflowVersionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -14480,6 +15203,7 @@ extension OmicsClientTypes.RunListItem {
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.stopTime = try reader["stopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.storageType = try reader["storageType"].readIfPresent()
+        value.workflowVersionName = try reader["workflowVersionName"].readIfPresent()
         return value
     }
 }
@@ -14571,6 +15295,24 @@ extension OmicsClientTypes.WorkflowListItem {
         value.arn = try reader["arn"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.digest = try reader["digest"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension OmicsClientTypes.WorkflowVersionListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.WorkflowVersionListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.WorkflowVersionListItem()
+        value.arn = try reader["arn"].readIfPresent()
+        value.workflowId = try reader["workflowId"].readIfPresent()
+        value.versionName = try reader["versionName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
         value.digest = try reader["digest"].readIfPresent()

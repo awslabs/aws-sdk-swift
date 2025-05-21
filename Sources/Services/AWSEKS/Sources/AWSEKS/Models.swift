@@ -601,6 +601,7 @@ extension EKSClientTypes {
 extension EKSClientTypes {
 
     public enum AMITypes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case al2023Arm64Nvidia
         case al2023Arm64Standard
         case al2023X8664Neuron
         case al2023X8664Nvidia
@@ -609,8 +610,10 @@ extension EKSClientTypes {
         case al2X8664
         case al2X8664Gpu
         case bottlerocketArm64
+        case bottlerocketArm64Fips
         case bottlerocketArm64Nvidia
         case bottlerocketX8664
+        case bottlerocketX8664Fips
         case bottlerocketX8664Nvidia
         case custom
         case windowsCore2019X8664
@@ -621,6 +624,7 @@ extension EKSClientTypes {
 
         public static var allCases: [AMITypes] {
             return [
+                .al2023Arm64Nvidia,
                 .al2023Arm64Standard,
                 .al2023X8664Neuron,
                 .al2023X8664Nvidia,
@@ -629,8 +633,10 @@ extension EKSClientTypes {
                 .al2X8664,
                 .al2X8664Gpu,
                 .bottlerocketArm64,
+                .bottlerocketArm64Fips,
                 .bottlerocketArm64Nvidia,
                 .bottlerocketX8664,
+                .bottlerocketX8664Fips,
                 .bottlerocketX8664Nvidia,
                 .custom,
                 .windowsCore2019X8664,
@@ -647,6 +653,7 @@ extension EKSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .al2023Arm64Nvidia: return "AL2023_ARM_64_NVIDIA"
             case .al2023Arm64Standard: return "AL2023_ARM_64_STANDARD"
             case .al2023X8664Neuron: return "AL2023_x86_64_NEURON"
             case .al2023X8664Nvidia: return "AL2023_x86_64_NVIDIA"
@@ -655,8 +662,10 @@ extension EKSClientTypes {
             case .al2X8664: return "AL2_x86_64"
             case .al2X8664Gpu: return "AL2_x86_64_GPU"
             case .bottlerocketArm64: return "BOTTLEROCKET_ARM_64"
+            case .bottlerocketArm64Fips: return "BOTTLEROCKET_ARM_64_FIPS"
             case .bottlerocketArm64Nvidia: return "BOTTLEROCKET_ARM_64_NVIDIA"
             case .bottlerocketX8664: return "BOTTLEROCKET_x86_64"
+            case .bottlerocketX8664Fips: return "BOTTLEROCKET_x86_64_FIPS"
             case .bottlerocketX8664Nvidia: return "BOTTLEROCKET_x86_64_NVIDIA"
             case .custom: return "CUSTOM"
             case .windowsCore2019X8664: return "WINDOWS_CORE_2019_x86_64"
@@ -986,6 +995,33 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
+/// The request or operation couldn't be performed because a service is throttling requests.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The Amazon EKS cluster associated with the exception.
+        public internal(set) var clusterName: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.clusterName = clusterName
+        self.properties.message = message
+    }
+}
+
 extension EKSClientTypes {
 
     /// Identifies the Key Management Service (KMS) key used to encrypt the secrets.
@@ -1179,6 +1215,7 @@ extension EKSClientTypes {
         case podIdentityAssociations
         case publicAccessCidrs
         case releaseVersion
+        case remoteNetworkConfig
         case resolveConflicts
         case securityGroups
         case serviceAccountRoleArn
@@ -1218,6 +1255,7 @@ extension EKSClientTypes {
                 .podIdentityAssociations,
                 .publicAccessCidrs,
                 .releaseVersion,
+                .remoteNetworkConfig,
                 .resolveConflicts,
                 .securityGroups,
                 .serviceAccountRoleArn,
@@ -1263,6 +1301,7 @@ extension EKSClientTypes {
             case .podIdentityAssociations: return "PodIdentityAssociations"
             case .publicAccessCidrs: return "PublicAccessCidrs"
             case .releaseVersion: return "ReleaseVersion"
+            case .remoteNetworkConfig: return "RemoteNetworkConfig"
             case .resolveConflicts: return "ResolveConflicts"
             case .securityGroups: return "SecurityGroups"
             case .serviceAccountRoleArn: return "ServiceAccountRoleArn"
@@ -1346,6 +1385,7 @@ extension EKSClientTypes {
         case disassociateIdentityProviderConfig
         case endpointAccessUpdate
         case loggingUpdate
+        case remoteNetworkConfigUpdate
         case upgradePolicyUpdate
         case versionUpdate
         case vpcConfigUpdate
@@ -1363,6 +1403,7 @@ extension EKSClientTypes {
                 .disassociateIdentityProviderConfig,
                 .endpointAccessUpdate,
                 .loggingUpdate,
+                .remoteNetworkConfigUpdate,
                 .upgradePolicyUpdate,
                 .versionUpdate,
                 .vpcConfigUpdate,
@@ -1386,6 +1427,7 @@ extension EKSClientTypes {
             case .disassociateIdentityProviderConfig: return "DisassociateIdentityProviderConfig"
             case .endpointAccessUpdate: return "EndpointAccessUpdate"
             case .loggingUpdate: return "LoggingUpdate"
+            case .remoteNetworkConfigUpdate: return "RemoteNetworkConfigUpdate"
             case .upgradePolicyUpdate: return "UpgradePolicyUpdate"
             case .versionUpdate: return "VersionUpdate"
             case .vpcConfigUpdate: return "VpcConfigUpdate"
@@ -2078,7 +2120,7 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
-    /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+    /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
     public struct RemoteNetworkConfigRequest: Swift.Sendable {
         /// The list of network CIDRs that can contain hybrid nodes. These CIDR blocks define the expected IP address range of the hybrid nodes that join the cluster. These blocks are typically determined by your network administrator. Enter one or more IPv4 CIDR blocks in decimal dotted-quad notation (for example,  10.2.0.0/16). It must satisfy the following requirements:
         ///
@@ -2251,7 +2293,7 @@ public struct CreateClusterInput: Swift.Sendable {
     public var name: Swift.String?
     /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review [Local clusters for Amazon EKS on Amazon Web Services Outposts](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-overview.html) in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
     public var outpostConfig: EKSClientTypes.OutpostConfigRequest?
-    /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+    /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
     public var remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigRequest?
     /// The VPC configuration that's used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see [Cluster VPC Considerations](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) and [Cluster Security Group Considerations](https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html) in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane.
     /// This member is required.
@@ -2595,7 +2637,7 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
-    /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+    /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
     public struct RemoteNetworkConfigResponse: Swift.Sendable {
         /// The list of network CIDRs that can contain hybrid nodes.
         public var remoteNodeNetworks: [EKSClientTypes.RemoteNodeNetwork]?
@@ -2775,7 +2817,7 @@ extension EKSClientTypes {
         public var outpostConfig: EKSClientTypes.OutpostConfigResponse?
         /// The platform version of your Amazon EKS cluster. For more information about clusters deployed on the Amazon Web Services Cloud, see [Platform versions](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) in the Amazon EKS User Guide . For more information about local clusters deployed on an Outpost, see [Amazon EKS local cluster platform versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-platform-versions.html) in the Amazon EKS User Guide .
         public var platformVersion: Swift.String?
-        /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+        /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
         public var remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigResponse?
         /// The VPC configuration used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see [Cluster VPC considerations](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) and [Cluster security group considerations](https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html) in the Amazon EKS User Guide.
         public var resourcesVpcConfig: EKSClientTypes.VpcConfigResponse?
@@ -2973,6 +3015,25 @@ public struct CreateEksAnywhereSubscriptionInput: Swift.Sendable {
 
 extension EKSClientTypes {
 
+    /// An EKS Anywhere license associated with a subscription.
+    public struct License: Swift.Sendable {
+        /// An id associated with an EKS Anywhere subscription license.
+        public var id: Swift.String?
+        /// An optional license token that can be used for extended support verification.
+        public var token: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            token: Swift.String? = nil
+        ) {
+            self.id = id
+            self.token = token
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// An EKS Anywhere subscription authorizing the customer to support for licensed clusters and access to EKS Anywhere Curated Packages.
     public struct EksAnywhereSubscription: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the subscription.
@@ -2993,6 +3054,8 @@ extension EKSClientTypes {
         public var licenseQuantity: Swift.Int
         /// The type of licenses included in the subscription. Valid value is CLUSTER. With the CLUSTER license type, each license covers support for a single EKS Anywhere cluster.
         public var licenseType: EKSClientTypes.EksAnywhereSubscriptionLicenseType?
+        /// Includes all of the claims in the license token necessary to validate the license for extended support.
+        public var licenses: [EKSClientTypes.License]?
         /// The status of a subscription.
         public var status: Swift.String?
         /// The metadata for a subscription to assist with categorization and organization. Each tag consists of a key and an optional value. Subscription tags do not propagate to any other resources associated with the subscription.
@@ -3010,6 +3073,7 @@ extension EKSClientTypes {
             licenseArns: [Swift.String]? = nil,
             licenseQuantity: Swift.Int = 0,
             licenseType: EKSClientTypes.EksAnywhereSubscriptionLicenseType? = nil,
+            licenses: [EKSClientTypes.License]? = nil,
             status: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             term: EKSClientTypes.EksAnywhereSubscriptionTerm? = nil
@@ -3023,6 +3087,7 @@ extension EKSClientTypes {
             self.licenseArns = licenseArns
             self.licenseQuantity = licenseQuantity
             self.licenseType = licenseType
+            self.licenses = licenses
             self.status = status
             self.tags = tags
             self.term = term
@@ -3307,11 +3372,11 @@ extension EKSClientTypes {
 
     /// An object representing a node group launch template specification. The launch template can't include [SubnetId](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html), [IamInstanceProfile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IamInstanceProfile.html), [RequestSpotInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotInstances.html), [HibernationOptions](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_HibernationOptionsRequest.html), or [TerminateInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TerminateInstances.html), or the node group deployment or update will fail. For more information about launch templates, see [CreateLaunchTemplate](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplate.html) in the Amazon EC2 API Reference. For more information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide. You must specify either the launch template ID or the launch template name in the request, but not both.
     public struct LaunchTemplateSpecification: Swift.Sendable {
-        /// The ID of the launch template. You must specify either the launch template ID or the launch template name in the request, but not both.
+        /// The ID of the launch template. You must specify either the launch template ID or the launch template name in the request, but not both. After node group creation, you cannot use a different ID.
         public var id: Swift.String?
-        /// The name of the launch template. You must specify either the launch template name or the launch template ID in the request, but not both.
+        /// The name of the launch template. You must specify either the launch template name or the launch template ID in the request, but not both. After node group creation, you cannot use a different name.
         public var name: Swift.String?
-        /// The version number of the launch template to use. If no version is specified, then the template's default version is used.
+        /// The version number of the launch template to use. If no version is specified, then the template's default version is used. You can use a different version for node group updates.
         public var version: Swift.String?
 
         public init(
@@ -3506,7 +3571,7 @@ public struct CreateNodegroupInput: Swift.Sendable {
     public var instanceTypes: [Swift.String]?
     /// The Kubernetes labels to apply to the nodes in the node group when they are created.
     public var labels: [Swift.String: Swift.String]?
-    /// An object representing a node group's launch template specification. When using this object, don't directly specify instanceTypes, diskSize, or remoteAccess. Make sure that the launch template meets the requirements in launchTemplateSpecification. Also refer to [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
+    /// An object representing a node group's launch template specification. When using this object, don't directly specify instanceTypes, diskSize, or remoteAccess. You cannot later specify a different launch template ID or name than what was used to create the node group. Make sure that the launch template meets the requirements in launchTemplateSpecification. Also refer to [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var launchTemplate: EKSClientTypes.LaunchTemplateSpecification?
     /// The node auto repair configuration for the node group.
     public var nodeRepairConfig: EKSClientTypes.NodeRepairConfig?
@@ -6232,6 +6297,8 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
     /// The name of the Amazon EKS cluster to update.
     /// This member is required.
     public var name: Swift.String?
+    /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
+    public var remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigRequest?
     /// An object representing the VPC configuration to use for an Amazon EKS cluster.
     public var resourcesVpcConfig: EKSClientTypes.VpcConfigRequest?
     /// Update the configuration of the block storage capability of your EKS Auto Mode cluster. For example, enable the capability.
@@ -6248,6 +6315,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest? = nil,
         logging: EKSClientTypes.Logging? = nil,
         name: Swift.String? = nil,
+        remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigRequest? = nil,
         resourcesVpcConfig: EKSClientTypes.VpcConfigRequest? = nil,
         storageConfig: EKSClientTypes.StorageConfigRequest? = nil,
         upgradePolicy: EKSClientTypes.UpgradePolicyRequest? = nil,
@@ -6259,6 +6327,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         self.kubernetesNetworkConfig = kubernetesNetworkConfig
         self.logging = logging
         self.name = name
+        self.remoteNetworkConfig = remoteNetworkConfig
         self.resourcesVpcConfig = resourcesVpcConfig
         self.storageConfig = storageConfig
         self.upgradePolicy = upgradePolicy
@@ -6277,9 +6346,38 @@ public struct UpdateClusterConfigOutput: Swift.Sendable {
     }
 }
 
+/// Amazon EKS detected upgrade readiness issues. Call the [ListInsights](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListInsights.html) API to view detected upgrade blocking issues. Pass the [force](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateClusterVersion.html#API_UpdateClusterVersion_RequestBody) flag when updating to override upgrade readiness errors.
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The Amazon EKS cluster associated with the exception.
+        public internal(set) var clusterName: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidStateException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.clusterName = clusterName
+        self.properties.message = message
+    }
+}
+
 public struct UpdateClusterVersionInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
+    /// Set this value to true to override upgrade-blocking readiness checks when updating a cluster.
+    public var force: Swift.Bool?
     /// The name of the Amazon EKS cluster to update.
     /// This member is required.
     public var name: Swift.String?
@@ -6289,10 +6387,12 @@ public struct UpdateClusterVersionInput: Swift.Sendable {
 
     public init(
         clientRequestToken: Swift.String? = nil,
+        force: Swift.Bool? = false,
         name: Swift.String? = nil,
         version: Swift.String? = nil
     ) {
         self.clientRequestToken = clientRequestToken
+        self.force = force
         self.name = name
         self.version = version
     }
@@ -6439,7 +6539,7 @@ public struct UpdateNodegroupVersionInput: Swift.Sendable {
     public var clusterName: Swift.String?
     /// Force the update if any Pod on the existing node group can't be drained due to a Pod disruption budget issue. If an update fails because all Pods can't be drained, you can force the update after it fails to terminate the old node whether or not any Pod is running on the node.
     public var force: Swift.Bool?
-    /// An object representing a node group's launch template specification. You can only update a node group using a launch template if the node group was originally deployed with a launch template.
+    /// An object representing a node group's launch template specification. You can only update a node group using a launch template if the node group was originally deployed with a launch template. When updating, you must specify the same launch template ID or name that was used to create the node group.
     public var launchTemplate: EKSClientTypes.LaunchTemplateSpecification?
     /// The name of the managed node group to update.
     /// This member is required.
@@ -7699,6 +7799,7 @@ extension UpdateClusterConfigInput {
         try writer["computeConfig"].write(value.computeConfig, with: EKSClientTypes.ComputeConfigRequest.write(value:to:))
         try writer["kubernetesNetworkConfig"].write(value.kubernetesNetworkConfig, with: EKSClientTypes.KubernetesNetworkConfigRequest.write(value:to:))
         try writer["logging"].write(value.logging, with: EKSClientTypes.Logging.write(value:to:))
+        try writer["remoteNetworkConfig"].write(value.remoteNetworkConfig, with: EKSClientTypes.RemoteNetworkConfigRequest.write(value:to:))
         try writer["resourcesVpcConfig"].write(value.resourcesVpcConfig, with: EKSClientTypes.VpcConfigRequest.write(value:to:))
         try writer["storageConfig"].write(value.storageConfig, with: EKSClientTypes.StorageConfigRequest.write(value:to:))
         try writer["upgradePolicy"].write(value.upgradePolicy, with: EKSClientTypes.UpgradePolicyRequest.write(value:to:))
@@ -7711,6 +7812,7 @@ extension UpdateClusterVersionInput {
     static func write(value: UpdateClusterVersionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["force"].write(value.force)
         try writer["version"].write(value.version)
     }
 }
@@ -8475,6 +8577,7 @@ enum AssociateEncryptionConfigOutputError {
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8494,6 +8597,7 @@ enum AssociateIdentityProviderConfigOutputError {
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9024,6 +9128,7 @@ enum DisassociateIdentityProviderConfigOutputError {
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9348,6 +9453,7 @@ enum UpdateClusterConfigOutputError {
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9364,9 +9470,11 @@ enum UpdateClusterVersionOutputError {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9515,6 +9623,20 @@ extension InvalidParameterException {
     }
 }
 
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.clusterName = try reader["clusterName"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceInUseException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
@@ -9637,6 +9759,20 @@ extension ResourcePropagationDelayException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourcePropagationDelayException {
         let reader = baseError.errorBodyReader
         var value = ResourcePropagationDelayException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidStateException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidStateException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidStateException()
+        value.properties.clusterName = try reader["clusterName"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10144,7 +10280,19 @@ extension EKSClientTypes.EksAnywhereSubscription {
         value.status = try reader["status"].readIfPresent()
         value.autoRenew = try reader["autoRenew"].readIfPresent() ?? false
         value.licenseArns = try reader["licenseArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.licenses = try reader["licenses"].readListIfPresent(memberReadingClosure: EKSClientTypes.License.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.License {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.License {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.License()
+        value.id = try reader["id"].readIfPresent()
+        value.token = try reader["token"].readIfPresent()
         return value
     }
 }

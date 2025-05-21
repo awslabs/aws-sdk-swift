@@ -28,8 +28,6 @@ class AWSJSON1_0ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCusto
         setOf(
             "SDKAppliedContentEncoding_awsJson1_0",
             "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsJson1_0",
-            "AwsJson10ClientPopulatesDefaultValuesInInput", // TODO: broken in Smithy 1.53.0
-            "AwsJson10ClientPopulatesDefaultsValuesWhenMissingInResponse", // TODO: broken in Smithy 1.53.0
         )
 
     override fun getProtocolHttpBindingResolver(

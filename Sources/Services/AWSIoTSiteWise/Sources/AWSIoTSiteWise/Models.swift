@@ -4371,15 +4371,51 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes {
 
+    public enum CoreDeviceOperatingSystem: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case linuxAarch64
+        case linuxAmd64
+        case windowsAmd64
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CoreDeviceOperatingSystem] {
+            return [
+                .linuxAarch64,
+                .linuxAmd64,
+                .windowsAmd64
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .linuxAarch64: return "LINUX_AARCH64"
+            case .linuxAmd64: return "LINUX_AMD64"
+            case .windowsAmd64: return "WINDOWS_AMD64"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
     /// Contains details for a gateway that runs on IoT Greengrass V2. To create a gateway that runs on IoT Greengrass V2, you must deploy the IoT SiteWise Edge component to your gateway device. Your [Greengrass device role](https://docs.aws.amazon.com/greengrass/v2/developerguide/device-service-role.html) must use the AWSIoTSiteWiseEdgeAccess policy. For more information, see [Using IoT SiteWise at the edge](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/sw-gateways.html) in the IoT SiteWise User Guide.
     public struct GreengrassV2: Swift.Sendable {
+        /// The operating system of the core device in IoT Greengrass V2.
+        public var coreDeviceOperatingSystem: IoTSiteWiseClientTypes.CoreDeviceOperatingSystem?
         /// The name of the IoT thing for your IoT Greengrass V2 core device.
         /// This member is required.
         public var coreDeviceThingName: Swift.String?
 
         public init(
+            coreDeviceOperatingSystem: IoTSiteWiseClientTypes.CoreDeviceOperatingSystem? = nil,
             coreDeviceThingName: Swift.String? = nil
         ) {
+            self.coreDeviceOperatingSystem = coreDeviceOperatingSystem
             self.coreDeviceThingName = coreDeviceThingName
         }
     }
@@ -4431,16 +4467,20 @@ public struct CreateGatewayInput: Swift.Sendable {
     /// The gateway's platform. You can only specify one platform in a gateway.
     /// This member is required.
     public var gatewayPlatform: IoTSiteWiseClientTypes.GatewayPlatform?
+    /// The version of the gateway to create. Specify 3 to create an MQTT-enabled, V3 gateway and 2 To create a Classic streams, V2 gateway. If the version isn't specified, a Classic streams, V2 gateway is created by default. We recommend creating an MQTT-enabled, V3 gateway for self-hosted gateways. SiteWise Edge gateways on Siemens Industrial Edge should use gateway version 2. For more information on gateway versions, see [ Self-host a SiteWise Edge gateway with IoT Greengrass V2](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gw-self-host-gg2.html).
+    public var gatewayVersion: Swift.String?
     /// A list of key-value pairs that contain metadata for the gateway. For more information, see [Tagging your IoT SiteWise resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html) in the IoT SiteWise User Guide.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         gatewayName: Swift.String? = nil,
         gatewayPlatform: IoTSiteWiseClientTypes.GatewayPlatform? = nil,
+        gatewayVersion: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.gatewayName = gatewayName
         self.gatewayPlatform = gatewayPlatform
+        self.gatewayVersion = gatewayVersion
         self.tags = tags
     }
 }
@@ -6111,6 +6151,8 @@ public struct DescribeGatewayOutput: Swift.Sendable {
     public var gatewayName: Swift.String?
     /// The gateway's platform.
     public var gatewayPlatform: IoTSiteWiseClientTypes.GatewayPlatform?
+    /// The version of the gateway. A value of 3 indicates an MQTT-enabled, V3 gateway, while 2 indicates a Classic streams, V2 gateway.
+    public var gatewayVersion: Swift.String?
     /// The date the gateway was last updated, in Unix epoch time.
     /// This member is required.
     public var lastUpdateDate: Foundation.Date?
@@ -6122,6 +6164,7 @@ public struct DescribeGatewayOutput: Swift.Sendable {
         gatewayId: Swift.String? = nil,
         gatewayName: Swift.String? = nil,
         gatewayPlatform: IoTSiteWiseClientTypes.GatewayPlatform? = nil,
+        gatewayVersion: Swift.String? = nil,
         lastUpdateDate: Foundation.Date? = nil
     ) {
         self.creationDate = creationDate
@@ -6130,6 +6173,7 @@ public struct DescribeGatewayOutput: Swift.Sendable {
         self.gatewayId = gatewayId
         self.gatewayName = gatewayName
         self.gatewayPlatform = gatewayPlatform
+        self.gatewayVersion = gatewayVersion
         self.lastUpdateDate = lastUpdateDate
     }
 }
@@ -8425,6 +8469,8 @@ extension IoTSiteWiseClientTypes {
         public var gatewayName: Swift.String?
         /// Contains a gateway's platform information.
         public var gatewayPlatform: IoTSiteWiseClientTypes.GatewayPlatform?
+        /// The version of the gateway. A value of 3 indicates an MQTT-enabled, V3 gateway, while 2 indicates a Classic streams, V2 gateway.
+        public var gatewayVersion: Swift.String?
         /// The date the gateway was last updated, in Unix epoch time.
         /// This member is required.
         public var lastUpdateDate: Foundation.Date?
@@ -8435,6 +8481,7 @@ extension IoTSiteWiseClientTypes {
             gatewayId: Swift.String? = nil,
             gatewayName: Swift.String? = nil,
             gatewayPlatform: IoTSiteWiseClientTypes.GatewayPlatform? = nil,
+            gatewayVersion: Swift.String? = nil,
             lastUpdateDate: Foundation.Date? = nil
         ) {
             self.creationDate = creationDate
@@ -8442,6 +8489,7 @@ extension IoTSiteWiseClientTypes {
             self.gatewayId = gatewayId
             self.gatewayName = gatewayName
             self.gatewayPlatform = gatewayPlatform
+            self.gatewayVersion = gatewayVersion
             self.lastUpdateDate = lastUpdateDate
         }
     }
@@ -11574,6 +11622,7 @@ extension CreateGatewayInput {
         guard let value else { return }
         try writer["gatewayName"].write(value.gatewayName)
         try writer["gatewayPlatform"].write(value.gatewayPlatform, with: IoTSiteWiseClientTypes.GatewayPlatform.write(value:to:))
+        try writer["gatewayVersion"].write(value.gatewayVersion)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -12393,6 +12442,7 @@ extension DescribeGatewayOutput {
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.gatewayName = try reader["gatewayName"].readIfPresent() ?? ""
         value.gatewayPlatform = try reader["gatewayPlatform"].readIfPresent(with: IoTSiteWiseClientTypes.GatewayPlatform.read(from:))
+        value.gatewayVersion = try reader["gatewayVersion"].readIfPresent()
         value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
@@ -16094,6 +16144,7 @@ extension IoTSiteWiseClientTypes.GreengrassV2 {
 
     static func write(value: IoTSiteWiseClientTypes.GreengrassV2?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["coreDeviceOperatingSystem"].write(value.coreDeviceOperatingSystem)
         try writer["coreDeviceThingName"].write(value.coreDeviceThingName)
     }
 
@@ -16101,6 +16152,7 @@ extension IoTSiteWiseClientTypes.GreengrassV2 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.GreengrassV2()
         value.coreDeviceThingName = try reader["coreDeviceThingName"].readIfPresent() ?? ""
+        value.coreDeviceOperatingSystem = try reader["coreDeviceOperatingSystem"].readIfPresent()
         return value
     }
 }
@@ -16668,6 +16720,7 @@ extension IoTSiteWiseClientTypes.GatewaySummary {
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
         value.gatewayName = try reader["gatewayName"].readIfPresent() ?? ""
         value.gatewayPlatform = try reader["gatewayPlatform"].readIfPresent(with: IoTSiteWiseClientTypes.GatewayPlatform.read(from:))
+        value.gatewayVersion = try reader["gatewayVersion"].readIfPresent()
         value.gatewayCapabilitySummaries = try reader["gatewayCapabilitySummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.GatewayCapabilitySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdateDate = try reader["lastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")

@@ -726,7 +726,7 @@ extension AthenaClientTypes {
         public var resultConfiguration: AthenaClientTypes.ResultConfiguration?
         /// Specifies the query result reuse behavior that was used for the query.
         public var resultReuseConfiguration: AthenaClientTypes.ResultReuseConfiguration?
-        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, or DESCRIBE TABLE.
+        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, EXPLAIN, DESCRIBE, or SHOW TABLES.
         public var statementType: AthenaClientTypes.StatementType?
         /// Query execution statistics, such as the amount of data scanned, the amount of time that the query took to process, and the type of statement that was run.
         public var statistics: AthenaClientTypes.QueryExecutionStatistics?
@@ -944,7 +944,7 @@ public struct CreateDataCatalogInput: Swift.Sendable {
     public var parameters: [Swift.String: Swift.String]?
     /// A list of comma separated tags to add to the data catalog that is created. All the resources that are created by the CreateDataCatalog API operation with FEDERATED type will have the tag federated_athena_datacatalog="true". This includes the CFN Stack, Glue Connection, Athena DataCatalog, and all the resources created as part of the CFN Stack (Lambda Function, IAM policies/roles).
     public var tags: [AthenaClientTypes.Tag]?
-    /// The type of data catalog to create: LAMBDA for a federated catalog, GLUE for an Glue Data Catalog, and HIVE for an external Apache Hive metastore. FEDERATED is a federated catalog for which Athena creates the connection and the Lambda function for you based on the parameters that you pass.
+    /// The type of data catalog to create: LAMBDA for a federated catalog, GLUE for an Glue Data Catalog, and HIVE for an external Apache Hive metastore. FEDERATED is a federated catalog for which Athena creates the connection and the Lambda function for you based on the parameters that you pass. For FEDERATED type, we do not support IAM identity center.
     /// This member is required.
     public var type: AthenaClientTypes.DataCatalogType?
 
@@ -4082,7 +4082,7 @@ extension AthenaClientTypes {
 
 public struct StartCalculationExecutionInput: Swift.Sendable {
     /// Contains configuration information for the calculation.
-    @available(*, deprecated, message: "Kepler Post GA Tasks : https://sim.amazon.com/issues/ATHENA-39828")
+    @available(*, deprecated, message: "Structure is deprecated.")
     public var calculationConfiguration: AthenaClientTypes.CalculationConfiguration?
     /// A unique case-sensitive string used to ensure the request to create the calculation is idempotent (executes only once). If another StartCalculationExecutionRequest is received, the same response is returned and another calculation is not created. If a parameter has changed, an error is returned. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?

@@ -492,7 +492,9 @@ extension ACMPCAClientTypes {
     public enum KeyAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ecPrime256v1
         case ecSecp384r1
+        case ecSecp521r1
         case rsa2048
+        case rsa3072
         case rsa4096
         case sm2
         case sdkUnknown(Swift.String)
@@ -501,7 +503,9 @@ extension ACMPCAClientTypes {
             return [
                 .ecPrime256v1,
                 .ecSecp384r1,
+                .ecSecp521r1,
                 .rsa2048,
+                .rsa3072,
                 .rsa4096,
                 .sm2
             ]
@@ -516,7 +520,9 @@ extension ACMPCAClientTypes {
             switch self {
             case .ecPrime256v1: return "EC_prime256v1"
             case .ecSecp384r1: return "EC_secp384r1"
+            case .ecSecp521r1: return "EC_secp521r1"
             case .rsa2048: return "RSA_2048"
+            case .rsa3072: return "RSA_3072"
             case .rsa4096: return "RSA_4096"
             case .sm2: return "SM2"
             case let .sdkUnknown(s): return s
@@ -3453,6 +3459,7 @@ enum ListTagsOutputError {
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
             case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
+            case "RequestFailedException": return try RequestFailedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

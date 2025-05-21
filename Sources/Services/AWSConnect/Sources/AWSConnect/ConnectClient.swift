@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.2.22"
+    public static let version = "1.3.20"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -214,7 +214,7 @@ extension ConnectClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultConnectAuthSchemeResolver(),
@@ -268,7 +268,7 @@ extension ConnectClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultConnectAuthSchemeResolver(),
@@ -2182,7 +2182,7 @@ extension ConnectClient {
 
     /// Performs the `CreateContact` operation on the `Connect` service.
     ///
-    /// Only the EMAIL channel is supported. The supported initiation methods are: OUTBOUND, AGENT_REPLY, and FLOW. Creates a new EMAIL contact.
+    /// Only the EMAIL and VOICE channels are supported. The supported initiation methods for EMAIL are: OUTBOUND, AGENT_REPLY, and FLOW. For VOICE the supported initiation methods are TRANSFER and the subtype connect:ExternalAudio. Creates a new EMAIL or VOICE contact.
     ///
     /// - Parameter CreateContactInput : [no documentation found]
     ///
@@ -6726,7 +6726,7 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact.
     ///
-    /// * CustomerEndpoint and SystemEndpoint are only populated for EMAIL contacts.
+    /// * SystemEndpoint is not populated for contacts with initiation method of MONITOR, QUEUE_TRANSFER, or CALLBACK
     ///
     /// * Contact information remains available in Amazon Connect for 24 months from the InitiationTimestamp, and then it is deleted. Only contact information that is available in Amazon Connect is returned by this API.
     ///
@@ -9837,7 +9837,7 @@ extension ConnectClient {
 
     /// Performs the `GetCurrentMetricData` operation on the `Connect` service.
     ///
-    /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see [Real-time Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html) in the Amazon Connect Administrator Guide.
+    /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter GetCurrentMetricDataInput : [no documentation found]
     ///
@@ -10221,7 +10221,7 @@ extension ConnectClient {
 
     /// Performs the `GetMetricData` operation on the `Connect` service.
     ///
-    /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see [Historical Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide. We recommend using the [GetMetricDataV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricDataV2.html) API. It provides more flexibility, features, and the ability to query longer time ranges than GetMetricData. Use it to retrieve historical agent and contact metrics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to measure historical queue and agent performance. For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how contact volume changed per day of the week.
+    /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. We recommend using the [GetMetricDataV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricDataV2.html) API. It provides more flexibility, features, and the ability to query longer time ranges than GetMetricData. Use it to retrieve historical agent and contact metrics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to measure historical queue and agent performance. For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how contact volume changed per day of the week.
     ///
     /// - Parameter GetMetricDataInput : [no documentation found]
     ///
@@ -10299,7 +10299,7 @@ extension ConnectClient {
 
     /// Performs the `GetMetricDataV2` operation on the `Connect` service.
     ///
-    /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide.
+    /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter GetMetricDataV2Input : [no documentation found]
     ///
@@ -13045,7 +13045,7 @@ extension ConnectClient {
 
     /// Performs the `ListRealtimeContactAnalysisSegmentsV2` operation on the `Connect` service.
     ///
-    /// Provides a list of analysis segments for a real-time analysis session.
+    /// Provides a list of analysis segments for a real-time chat analysis session. This API supports CHAT channels only. This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs.
     ///
     /// - Parameter ListRealtimeContactAnalysisSegmentsV2Input : [no documentation found]
     ///
@@ -17873,7 +17873,7 @@ extension ConnectClient {
 
     /// Performs the `SuspendContactRecording` operation on the `Connect` service.
     ///
-    /// When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration: call, screen, or both. If only call recording or only screen recording is enabled, then it would be suspended. For example, you might suspend the screen recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording the screen. The period of time that the recording is suspended is filled with silence in the final recording. Voice and screen recordings are supported.
+    /// When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration: call (IVR or agent), screen, or both. If only call recording or only screen recording is enabled, then it would be suspended. For example, you might suspend the screen recording while collecting sensitive information, such as a credit card number. Then use [ResumeContactRecording](https://docs.aws.amazon.com/connect/latest/APIReference/API_ResumeContactRecording.html) to restart recording the screen. The period of time that the recording is suspended is filled with silence in the final recording. Voice (IVR, agent) and screen recordings are supported.
     ///
     /// - Parameter SuspendContactRecordingInput : [no documentation found]
     ///
@@ -18105,9 +18105,9 @@ extension ConnectClient {
 
     /// Performs the `TransferContact` operation on the `Connect` service.
     ///
-    /// Transfers contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements:
+    /// Transfers TASK or EMAIL contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements:
     ///
-    /// * Transfer is supported for only TASK contacts.
+    /// * Transfer is only supported for TASK and EMAIL contacts.
     ///
     /// * Do not use both QueueId and UserId in the same call.
     ///

@@ -69,6 +69,75 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+extension PCSClientTypes {
+
+    public enum AccountingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountingMode] {
+            return [
+                .none,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The accounting configuration includes configurable settings for Slurm accounting. It's a property of the ClusterSlurmConfiguration object.
+    public struct Accounting: Swift.Sendable {
+        /// The default value for all purge settings for slurmdbd.conf. For more information, see the [slurmdbd.conf documentation at SchedMD](https://slurm.schedmd.com/slurmdbd.conf.html). The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists. 0 isn't a valid value.
+        public var defaultPurgeTimeInDays: Swift.Int?
+        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        /// This member is required.
+        public var mode: PCSClientTypes.AccountingMode?
+
+        public init(
+            defaultPurgeTimeInDays: Swift.Int? = nil,
+            mode: PCSClientTypes.AccountingMode? = nil
+        ) {
+            self.defaultPurgeTimeInDays = defaultPurgeTimeInDays
+            self.mode = mode
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The accounting configuration includes configurable settings for Slurm accounting. It's a property of the ClusterSlurmConfiguration object.
+    public struct AccountingRequest: Swift.Sendable {
+        /// The default value for all purge settings for slurmdbd.conf. For more information, see the [slurmdbd.conf documentation at SchedMD](https://slurm.schedmd.com/slurmdbd.conf.html). The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists. 0 isn't a valid value.
+        public var defaultPurgeTimeInDays: Swift.Int?
+        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        /// This member is required.
+        public var mode: PCSClientTypes.AccountingMode?
+
+        public init(
+            defaultPurgeTimeInDays: Swift.Int? = nil,
+            mode: PCSClientTypes.AccountingMode? = nil
+        ) {
+            self.defaultPurgeTimeInDays = defaultPurgeTimeInDays
+            self.mode = mode
+        }
+    }
+}
+
 /// Your request has conflicting operations. This can occur if you're trying to perform more than 1 operation on the same resource at the same time. Examples
 ///
 /// * A cluster with the same name already exists.
@@ -1076,7 +1145,7 @@ extension PCSClientTypes {
         /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in Amazon Web Services PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
         /// This member is required.
         public var version: Swift.String?
 
@@ -1126,15 +1195,19 @@ extension PCSClientTypes {
 
     /// Additional options related to the Slurm scheduler.
     public struct ClusterSlurmConfigurationRequest: Swift.Sendable {
+        /// The accounting configuration includes configurable settings for Slurm accounting.
+        public var accounting: PCSClientTypes.AccountingRequest?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
 
         public init(
+            accounting: PCSClientTypes.AccountingRequest? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
         ) {
+            self.accounting = accounting
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
@@ -1301,7 +1374,7 @@ extension PCSClientTypes {
         /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in Amazon Web Services PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
         /// This member is required.
         public var version: Swift.String?
 
@@ -1340,6 +1413,8 @@ extension PCSClientTypes {
 
     /// Additional options related to the Slurm scheduler.
     public struct ClusterSlurmConfiguration: Swift.Sendable {
+        /// The accounting configuration includes configurable settings for Slurm accounting.
+        public var accounting: PCSClientTypes.Accounting?
         /// The shared Slurm key for authentication, also known as the cluster secret.
         public var authKey: PCSClientTypes.SlurmAuthKey?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
@@ -1348,10 +1423,12 @@ extension PCSClientTypes {
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
 
         public init(
+            accounting: PCSClientTypes.Accounting? = nil,
             authKey: PCSClientTypes.SlurmAuthKey? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
             slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
         ) {
+            self.accounting = accounting
             self.authKey = authKey
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
@@ -2815,6 +2892,7 @@ enum TagResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -3043,6 +3121,18 @@ extension PCSClientTypes.ClusterSlurmConfiguration {
         value.scaleDownIdleTimeInSeconds = try reader["scaleDownIdleTimeInSeconds"].readIfPresent()
         value.slurmCustomSettings = try reader["slurmCustomSettings"].readListIfPresent(memberReadingClosure: PCSClientTypes.SlurmCustomSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.authKey = try reader["authKey"].readIfPresent(with: PCSClientTypes.SlurmAuthKey.read(from:))
+        value.accounting = try reader["accounting"].readIfPresent(with: PCSClientTypes.Accounting.read(from:))
+        return value
+    }
+}
+
+extension PCSClientTypes.Accounting {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Accounting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.Accounting()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.defaultPurgeTimeInDays = try reader["defaultPurgeTimeInDays"].readIfPresent()
         return value
     }
 }
@@ -3293,8 +3383,18 @@ extension PCSClientTypes.ClusterSlurmConfigurationRequest {
 
     static func write(value: PCSClientTypes.ClusterSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["accounting"].write(value.accounting, with: PCSClientTypes.AccountingRequest.write(value:to:))
         try writer["scaleDownIdleTimeInSeconds"].write(value.scaleDownIdleTimeInSeconds)
         try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PCSClientTypes.AccountingRequest {
+
+    static func write(value: PCSClientTypes.AccountingRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultPurgeTimeInDays"].write(value.defaultPurgeTimeInDays)
+        try writer["mode"].write(value.mode)
     }
 }
 

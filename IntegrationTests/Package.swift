@@ -59,6 +59,7 @@ private var integrationTestTargets: [Target] {
         "AWSSTS",
         "AWSTranscribeStreaming",
         "AWSCognitoIdentity",
+        "AWSBedrockRuntime",
     ].map { integrationTestTarget($0) }
     return integrationTests + [.target(name: "AWSIntegrationTestUtils", path: "./AWSIntegrationTestUtils")]
 }

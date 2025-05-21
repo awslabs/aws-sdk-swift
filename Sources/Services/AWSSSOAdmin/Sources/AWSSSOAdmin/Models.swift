@@ -1039,7 +1039,7 @@ extension SSOAdminClientTypes {
 
     /// A structure that defines configuration settings for an application that supports the OAuth 2.0 Authorization Code Grant.
     public struct AuthorizationCodeGrant: Swift.Sendable {
-        /// A list of URIs that are valid locations to redirect a user's browser after the user is authorized.
+        /// A list of URIs that are valid locations to redirect a user's browser after the user is authorized. RedirectUris is required when the grant type is authorization_code.
         public var redirectUris: [Swift.String]?
 
         public init(
@@ -1071,9 +1071,9 @@ extension SSOAdminClientTypes {
 
 extension SSOAdminClientTypes {
 
-    /// A structure that defines configuration settings for an application that supports the JWT Bearer Token Authorization Grant.
+    /// A structure that defines configuration settings for an application that supports the JWT Bearer Token Authorization Grant. The AuthorizedAudience field is the aud claim. For more information, see [RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523).
     public struct JwtBearerGrant: Swift.Sendable {
-        /// A list of allowed token issuers trusted by the Identity Center instances for this application.
+        /// A list of allowed token issuers trusted by the Identity Center instances for this application. AuthorizedTokenIssuers is required when the grant type is JwtBearerGrant.
         public var authorizedTokenIssuers: [SSOAdminClientTypes.AuthorizedTokenIssuer]?
 
         public init(
@@ -1086,7 +1086,7 @@ extension SSOAdminClientTypes {
 
 extension SSOAdminClientTypes {
 
-    /// A structure that defines configuration settings for an application that supports the OAuth 2.0 Refresh Token Grant.
+    /// A structure that defines configuration settings for an application that supports the OAuth 2.0 Refresh Token Grant. For more, see [RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749#section-1.5).
     public struct RefreshTokenGrant: Swift.Sendable {
 
         public init() { }
@@ -1095,7 +1095,7 @@ extension SSOAdminClientTypes {
 
 extension SSOAdminClientTypes {
 
-    /// A structure that defines configuration settings for an application that supports the OAuth 2.0 Token Exchange Grant.
+    /// A structure that defines configuration settings for an application that supports the OAuth 2.0 Token Exchange Grant. For more information, see [RFC 8693](https://datatracker.ietf.org/doc/html/rfc8693).
     public struct TokenExchangeGrant: Swift.Sendable {
 
         public init() { }
@@ -1391,7 +1391,7 @@ public struct AttachCustomerManagedPolicyReferenceToPermissionSetOutput: Swift.S
 
 extension SSOAdminClientTypes {
 
-    /// A structure that stores the details of the Amazon Web Services managed policy.
+    /// A structure that stores a list of managed policy ARNs that describe the associated Amazon Web Services managed policy.
     public struct AttachedManagedPolicy: Swift.Sendable {
         /// The ARN of the Amazon Web Services managed policy. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
         public var arn: Swift.String?
@@ -1558,10 +1558,10 @@ public struct CreateApplicationOutput: Swift.Sendable {
 }
 
 public struct CreateApplicationAssignmentInput: Swift.Sendable {
-    /// The ARN of the application provider under which the operation will run.
+    /// The ARN of the application for which the assignment is created.
     /// This member is required.
     public var applicationArn: Swift.String?
-    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference].
+    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
     /// This member is required.
     public var principalId: Swift.String?
     /// The entity type for which the assignment will be created.
@@ -1939,7 +1939,7 @@ public struct DeleteApplicationAssignmentInput: Swift.Sendable {
     /// Specifies the ARN of the application.
     /// This member is required.
     public var applicationArn: Swift.String?
-    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference].
+    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
     /// This member is required.
     public var principalId: Swift.String?
     /// The entity type for which the assignment will be deleted.
@@ -2194,7 +2194,7 @@ public struct DescribeApplicationAssignmentInput: Swift.Sendable {
     /// Specifies the ARN of the application. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var applicationArn: Swift.String?
-    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference].
+    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
     /// This member is required.
     public var principalId: Swift.String?
     /// The entity type for which the assignment will be created.
@@ -2215,7 +2215,7 @@ public struct DescribeApplicationAssignmentInput: Swift.Sendable {
 public struct DescribeApplicationAssignmentOutput: Swift.Sendable {
     /// Specifies the ARN of the application. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     public var applicationArn: Swift.String?
-    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference].
+    /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html).
     public var principalId: Swift.String?
     /// The entity type for which the assignment will be created.
     public var principalType: SSOAdminClientTypes.PrincipalType?
@@ -7399,7 +7399,7 @@ extension SSOAdminClientTypes.PortalOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SSOAdminClientTypes.PortalOptions()
         value.signInOptions = try reader["SignInOptions"].readIfPresent(with: SSOAdminClientTypes.SignInOptions.read(from:))
-        value.visibility = try reader["Visibility"].readIfPresent() ?? .enabled
+        value.visibility = try reader["Visibility"].readIfPresent() ?? SSOAdminClientTypes.ApplicationVisibility.enabled
         return value
     }
 }

@@ -676,6 +676,44 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    /// An object that describes the details of a number filter.
+    public struct NumberFilter: Swift.Sendable {
+        /// The lowest number to be included in the filter.
+        public var lowerInclusive: Swift.Double?
+        /// The highest number to be included in the filter.
+        public var upperInclusive: Swift.Double?
+
+        public init(
+            lowerInclusive: Swift.Double? = nil,
+            upperInclusive: Swift.Double? = nil
+        ) {
+            self.lowerInclusive = lowerInclusive
+            self.upperInclusive = upperInclusive
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains details on the time range used to filter findings.
+    public struct DateFilter: Swift.Sendable {
+        /// A timestamp representing the end of the time period filtered on.
+        public var endInclusive: Foundation.Date?
+        /// A timestamp representing the start of the time period filtered on.
+        public var startInclusive: Foundation.Date?
+
+        public init(
+            endInclusive: Foundation.Date? = nil,
+            startInclusive: Foundation.Date? = nil
+        ) {
+            self.endInclusive = endInclusive
+            self.startInclusive = startInclusive
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     public enum AwsEcrContainerSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
         case critical
@@ -716,6 +754,10 @@ extension Inspector2ClientTypes {
         public var imageShas: [Inspector2ClientTypes.StringFilter]?
         /// The image tags.
         public var imageTags: [Inspector2ClientTypes.StringFilter]?
+        /// The number of Amazon ECS tasks or Amazon EKS pods where the Amazon ECR container image is in use.
+        public var inUseCount: [Inspector2ClientTypes.NumberFilter]?
+        /// The last time an Amazon ECR image was used in an Amazon ECS task or Amazon EKS pod.
+        public var lastInUseAt: [Inspector2ClientTypes.DateFilter]?
         /// The container repositories.
         public var repositories: [Inspector2ClientTypes.StringFilter]?
         /// The container resource IDs.
@@ -729,6 +771,8 @@ extension Inspector2ClientTypes {
             architectures: [Inspector2ClientTypes.StringFilter]? = nil,
             imageShas: [Inspector2ClientTypes.StringFilter]? = nil,
             imageTags: [Inspector2ClientTypes.StringFilter]? = nil,
+            inUseCount: [Inspector2ClientTypes.NumberFilter]? = nil,
+            lastInUseAt: [Inspector2ClientTypes.DateFilter]? = nil,
             repositories: [Inspector2ClientTypes.StringFilter]? = nil,
             resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
             sortBy: Inspector2ClientTypes.AwsEcrContainerSortBy? = nil,
@@ -737,6 +781,8 @@ extension Inspector2ClientTypes {
             self.architectures = architectures
             self.imageShas = imageShas
             self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
             self.repositories = repositories
             self.resourceIds = resourceIds
             self.sortBy = sortBy
@@ -1368,6 +1414,10 @@ extension Inspector2ClientTypes {
         public var imageSha: Swift.String?
         /// The container image stags.
         public var imageTags: [Swift.String]?
+        /// The number of Amazon ECS tasks or Amazon EKS pods where the Amazon ECR container image is in use.
+        public var inUseCount: Swift.Int?
+        /// The last time an Amazon ECR image was used in an Amazon ECS task or Amazon EKS pod.
+        public var lastInUseAt: Foundation.Date?
         /// The container repository.
         public var repository: Swift.String?
         /// The resource ID of the container.
@@ -1381,6 +1431,8 @@ extension Inspector2ClientTypes {
             architecture: Swift.String? = nil,
             imageSha: Swift.String? = nil,
             imageTags: [Swift.String]? = nil,
+            inUseCount: Swift.Int? = nil,
+            lastInUseAt: Foundation.Date? = nil,
             repository: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
@@ -1389,6 +1441,8 @@ extension Inspector2ClientTypes {
             self.architecture = architecture
             self.imageSha = imageSha
             self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
             self.repository = repository
             self.resourceId = resourceId
             self.severityCounts = severityCounts
@@ -2083,6 +2137,10 @@ extension Inspector2ClientTypes {
         public var imageHash: Swift.String?
         /// The image tags attached to the Amazon ECR container image.
         public var imageTags: [Swift.String]?
+        /// The number of Amazon ECS tasks or Amazon EKS pods where the Amazon ECR container image is in use.
+        public var inUseCount: Swift.Int?
+        /// The last time an Amazon ECR image was used in an Amazon ECS task or Amazon EKS pod.
+        public var lastInUseAt: Foundation.Date?
         /// The platform of the Amazon ECR container image.
         public var platform: Swift.String?
         /// The date and time the Amazon ECR container image was pushed.
@@ -2099,6 +2157,8 @@ extension Inspector2ClientTypes {
             author: Swift.String? = nil,
             imageHash: Swift.String? = nil,
             imageTags: [Swift.String]? = nil,
+            inUseCount: Swift.Int? = nil,
+            lastInUseAt: Foundation.Date? = nil,
             platform: Swift.String? = nil,
             pushedAt: Foundation.Date? = nil,
             registry: Swift.String? = nil,
@@ -2108,10 +2168,73 @@ extension Inspector2ClientTypes {
             self.author = author
             self.imageHash = imageHash
             self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
             self.platform = platform
             self.pushedAt = pushedAt
             self.registry = registry
             self.repositoryName = repositoryName
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Metadata about tasks where an image was in use.
+    public struct AwsEcsMetadataDetails: Swift.Sendable {
+        /// The details group information for a task in a cluster.
+        /// This member is required.
+        public var detailsGroup: Swift.String?
+        /// The task definition ARN.
+        /// This member is required.
+        public var taskDefinitionArn: Swift.String?
+
+        public init(
+            detailsGroup: Swift.String? = nil,
+            taskDefinitionArn: Swift.String? = nil
+        ) {
+            self.detailsGroup = detailsGroup
+            self.taskDefinitionArn = taskDefinitionArn
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Information about the workload.
+    public struct AwsEksWorkloadInfo: Swift.Sendable {
+        /// The name of the workload.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The workload type.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The metadata for an Amazon EKS pod where an Amazon ECR image is in use.
+    public struct AwsEksMetadataDetails: Swift.Sendable {
+        /// The namespace for an Amazon EKS cluster.
+        public var namespace: Swift.String?
+        /// The list of workloads.
+        public var workloadInfoList: [Inspector2ClientTypes.AwsEksWorkloadInfo]?
+
+        public init(
+            namespace: Swift.String? = nil,
+            workloadInfoList: [Inspector2ClientTypes.AwsEksWorkloadInfo]? = nil
+        ) {
+            self.namespace = namespace
+            self.workloadInfoList = workloadInfoList
         }
     }
 }
@@ -4567,6 +4690,83 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    /// The metadata for a cluster.
+    public enum ClusterMetadata: Swift.Sendable {
+        /// The details for an Amazon ECS cluster in the cluster metadata.
+        case awsecsmetadatadetails(Inspector2ClientTypes.AwsEcsMetadataDetails)
+        /// The details for an Amazon EKS cluster in the cluster metadata.
+        case awseksmetadatadetails(Inspector2ClientTypes.AwsEksMetadataDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Details about the task or pod in the cluster.
+    public struct ClusterDetails: Swift.Sendable {
+        /// The metadata for a cluster.
+        /// This member is required.
+        public var clusterMetadata: Inspector2ClientTypes.ClusterMetadata?
+        /// The last timestamp when Amazon Inspector recorded the image in use in the task or pod in the cluster.
+        /// This member is required.
+        public var lastInUse: Foundation.Date?
+        /// The number of tasks or pods where an image was running on the cluster.
+        public var runningUnitCount: Swift.Int?
+        /// The number of tasks or pods where an image was stopped on the cluster in the last 24 hours.
+        public var stoppedUnitCount: Swift.Int?
+
+        public init(
+            clusterMetadata: Inspector2ClientTypes.ClusterMetadata? = nil,
+            lastInUse: Foundation.Date? = nil,
+            runningUnitCount: Swift.Int? = nil,
+            stoppedUnitCount: Swift.Int? = nil
+        ) {
+            self.clusterMetadata = clusterMetadata
+            self.lastInUse = lastInUse
+            self.runningUnitCount = runningUnitCount
+            self.stoppedUnitCount = stoppedUnitCount
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The filter criteria to be used.
+    public struct ClusterForImageFilterCriteria: Swift.Sendable {
+        /// The resource Id to be used in the filter criteria.
+        /// This member is required.
+        public var resourceId: Swift.String?
+
+        public init(
+            resourceId: Swift.String? = nil
+        ) {
+            self.resourceId = resourceId
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Information about the cluster.
+    public struct ClusterInformation: Swift.Sendable {
+        /// The cluster ARN.
+        /// This member is required.
+        public var clusterArn: Swift.String?
+        /// Details about the cluster.
+        public var clusterDetails: [Inspector2ClientTypes.ClusterDetails]?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            clusterDetails: [Inspector2ClientTypes.ClusterDetails]? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.clusterDetails = clusterDetails
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// Contains information on where a code vulnerability is located in your Lambda function.
     public struct CodeFilePath: Swift.Sendable {
         /// The line number of the last line of code that a vulnerability was found in.
@@ -4879,12 +5079,35 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    /// The coverage number to be used in the filter.
+    public struct CoverageNumberFilter: Swift.Sendable {
+        /// The lower inclusive for the coverage number.
+        public var lowerInclusive: Swift.Int?
+        /// The upper inclusive for the coverage number.>
+        public var upperInclusive: Swift.Int?
+
+        public init(
+            lowerInclusive: Swift.Int? = nil,
+            upperInclusive: Swift.Int? = nil
+        ) {
+            self.lowerInclusive = lowerInclusive
+            self.upperInclusive = upperInclusive
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// A structure that identifies filter criteria for GetCoverageStatistics.
     public struct CoverageFilterCriteria: Swift.Sendable {
         /// An array of Amazon Web Services account IDs to return coverage statistics for.
         public var accountId: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The Amazon EC2 instance tags to filter on.
         public var ec2InstanceTags: [Inspector2ClientTypes.CoverageMapFilter]?
+        /// The number of Amazon ECR images in use.
+        public var ecrImageInUseCount: [Inspector2ClientTypes.CoverageNumberFilter]?
+        /// The Amazon ECR image that was last in use.
+        public var ecrImageLastInUseAt: [Inspector2ClientTypes.CoverageDateFilter]?
         /// The Amazon ECR image tags to filter on.
         public var ecrImageTags: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The Amazon ECR repository name to filter on.
@@ -4915,6 +5138,8 @@ extension Inspector2ClientTypes {
         public init(
             accountId: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             ec2InstanceTags: [Inspector2ClientTypes.CoverageMapFilter]? = nil,
+            ecrImageInUseCount: [Inspector2ClientTypes.CoverageNumberFilter]? = nil,
+            ecrImageLastInUseAt: [Inspector2ClientTypes.CoverageDateFilter]? = nil,
             ecrImageTags: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             ecrRepositoryName: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             imagePulledAt: [Inspector2ClientTypes.CoverageDateFilter]? = nil,
@@ -4931,6 +5156,8 @@ extension Inspector2ClientTypes {
         ) {
             self.accountId = accountId
             self.ec2InstanceTags = ec2InstanceTags
+            self.ecrImageInUseCount = ecrImageInUseCount
+            self.ecrImageLastInUseAt = ecrImageLastInUseAt
             self.ecrImageTags = ecrImageTags
             self.ecrRepositoryName = ecrRepositoryName
             self.imagePulledAt = imagePulledAt
@@ -5047,14 +5274,22 @@ extension Inspector2ClientTypes {
     public struct EcrContainerImageMetadata: Swift.Sendable {
         /// The date an image was last pulled at.
         public var imagePulledAt: Foundation.Date?
+        /// The number of Amazon ECS tasks or Amazon EKS pods where the Amazon ECR container image is in use.
+        public var inUseCount: Swift.Int?
+        /// The last time an Amazon ECR image was used in an Amazon ECS task or Amazon EKS pod.
+        public var lastInUseAt: Foundation.Date?
         /// Tags associated with the Amazon ECR image metadata.
         public var tags: [Swift.String]?
 
         public init(
             imagePulledAt: Foundation.Date? = nil,
+            inUseCount: Swift.Int? = nil,
+            lastInUseAt: Foundation.Date? = nil,
             tags: [Swift.String]? = nil
         ) {
             self.imagePulledAt = imagePulledAt
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
             self.tags = tags
         }
     }
@@ -5212,6 +5447,7 @@ extension Inspector2ClientTypes {
         case noResourcesFound
         case pendingDisable
         case pendingInitialScan
+        case pendingRevivalScan
         case resourceTerminated
         case scanEligibilityExpired
         case scanFrequencyManual
@@ -5242,6 +5478,7 @@ extension Inspector2ClientTypes {
                 .noResourcesFound,
                 .pendingDisable,
                 .pendingInitialScan,
+                .pendingRevivalScan,
                 .resourceTerminated,
                 .scanEligibilityExpired,
                 .scanFrequencyManual,
@@ -5278,6 +5515,7 @@ extension Inspector2ClientTypes {
             case .noResourcesFound: return "NO_RESOURCES_FOUND"
             case .pendingDisable: return "PENDING_DISABLE"
             case .pendingInitialScan: return "PENDING_INITIAL_SCAN"
+            case .pendingRevivalScan: return "PENDING_REVIVAL_SCAN"
             case .resourceTerminated: return "RESOURCE_TERMINATED"
             case .scanEligibilityExpired: return "SCAN_ELIGIBILITY_EXPIRED"
             case .scanFrequencyManual: return "SCAN_FREQUENCY_MANUAL"
@@ -5518,44 +5756,6 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
-    /// Contains details on the time range used to filter findings.
-    public struct DateFilter: Swift.Sendable {
-        /// A timestamp representing the end of the time period filtered on.
-        public var endInclusive: Foundation.Date?
-        /// A timestamp representing the start of the time period filtered on.
-        public var startInclusive: Foundation.Date?
-
-        public init(
-            endInclusive: Foundation.Date? = nil,
-            startInclusive: Foundation.Date? = nil
-        ) {
-            self.endInclusive = endInclusive
-            self.startInclusive = startInclusive
-        }
-    }
-}
-
-extension Inspector2ClientTypes {
-
-    /// An object that describes the details of a number filter.
-    public struct NumberFilter: Swift.Sendable {
-        /// The lowest number to be included in the filter.
-        public var lowerInclusive: Swift.Double?
-        /// The highest number to be included in the filter.
-        public var upperInclusive: Swift.Double?
-
-        public init(
-            lowerInclusive: Swift.Double? = nil,
-            upperInclusive: Swift.Double? = nil
-        ) {
-            self.lowerInclusive = lowerInclusive
-            self.upperInclusive = upperInclusive
-        }
-    }
-}
-
-extension Inspector2ClientTypes {
-
     /// An object that describes the details of a port range filter.
     public struct PortRangeFilter: Swift.Sendable {
         /// The port number the port range begins at.
@@ -5642,6 +5842,10 @@ extension Inspector2ClientTypes {
         public var ecrImageArchitecture: [Inspector2ClientTypes.StringFilter]?
         /// Details of the Amazon ECR image hashes used to filter findings.
         public var ecrImageHash: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria indicating when details for an Amazon ECR image include when an Amazon ECR image is in use.
+        public var ecrImageInUseCount: [Inspector2ClientTypes.NumberFilter]?
+        /// Filter criteria indicating when an Amazon ECR image was last used in an Amazon ECS cluster task or Amazon EKS cluster pod.
+        public var ecrImageLastInUseAt: [Inspector2ClientTypes.DateFilter]?
         /// Details on the Amazon ECR image push date and time used to filter findings.
         public var ecrImagePushedAt: [Inspector2ClientTypes.DateFilter]?
         /// Details on the Amazon ECR registry used to filter findings.
@@ -5717,6 +5921,8 @@ extension Inspector2ClientTypes {
             ec2InstanceVpcId: [Inspector2ClientTypes.StringFilter]? = nil,
             ecrImageArchitecture: [Inspector2ClientTypes.StringFilter]? = nil,
             ecrImageHash: [Inspector2ClientTypes.StringFilter]? = nil,
+            ecrImageInUseCount: [Inspector2ClientTypes.NumberFilter]? = nil,
+            ecrImageLastInUseAt: [Inspector2ClientTypes.DateFilter]? = nil,
             ecrImagePushedAt: [Inspector2ClientTypes.DateFilter]? = nil,
             ecrImageRegistry: [Inspector2ClientTypes.StringFilter]? = nil,
             ecrImageRepositoryName: [Inspector2ClientTypes.StringFilter]? = nil,
@@ -5760,6 +5966,8 @@ extension Inspector2ClientTypes {
             self.ec2InstanceVpcId = ec2InstanceVpcId
             self.ecrImageArchitecture = ecrImageArchitecture
             self.ecrImageHash = ecrImageHash
+            self.ecrImageInUseCount = ecrImageInUseCount
+            self.ecrImageLastInUseAt = ecrImageLastInUseAt
             self.ecrImagePushedAt = ecrImagePushedAt
             self.ecrImageRegistry = ecrImageRegistry
             self.ecrImageRepositoryName = ecrImageRepositoryName
@@ -6743,6 +6951,35 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    public enum EcrPullDateRescanMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lastInUseAt
+        case lastPullDate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EcrPullDateRescanMode] {
+            return [
+                .lastInUseAt,
+                .lastPullDate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lastInUseAt: return "LAST_IN_USE_AT"
+            case .lastPullDate: return "LAST_PULL_DATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     public enum EcrRescanDuration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case days14
         case days180
@@ -6788,15 +7025,19 @@ extension Inspector2ClientTypes {
     public struct EcrConfiguration: Swift.Sendable {
         /// The rescan duration configured for image pull date.
         public var pullDateRescanDuration: Inspector2ClientTypes.EcrPullDateRescanDuration?
+        /// The pull date for the re-scan mode.
+        public var pullDateRescanMode: Inspector2ClientTypes.EcrPullDateRescanMode?
         /// The rescan duration configured for image push date.
         /// This member is required.
         public var rescanDuration: Inspector2ClientTypes.EcrRescanDuration?
 
         public init(
             pullDateRescanDuration: Inspector2ClientTypes.EcrPullDateRescanDuration? = nil,
+            pullDateRescanMode: Inspector2ClientTypes.EcrPullDateRescanMode? = nil,
             rescanDuration: Inspector2ClientTypes.EcrRescanDuration? = nil
         ) {
             self.pullDateRescanDuration = pullDateRescanDuration
+            self.pullDateRescanMode = pullDateRescanMode
             self.rescanDuration = rescanDuration
         }
     }
@@ -6840,6 +7081,8 @@ extension Inspector2ClientTypes {
     public struct EcrRescanDurationState: Swift.Sendable {
         /// The rescan duration configured for image pull date.
         public var pullDateRescanDuration: Inspector2ClientTypes.EcrPullDateRescanDuration?
+        /// The pull date for the re-scan mode.
+        public var pullDateRescanMode: Inspector2ClientTypes.EcrPullDateRescanMode?
         /// The rescan duration configured for image push date.
         public var rescanDuration: Inspector2ClientTypes.EcrRescanDuration?
         /// The status of changes to the ECR automated re-scan duration.
@@ -6849,11 +7092,13 @@ extension Inspector2ClientTypes {
 
         public init(
             pullDateRescanDuration: Inspector2ClientTypes.EcrPullDateRescanDuration? = nil,
+            pullDateRescanMode: Inspector2ClientTypes.EcrPullDateRescanMode? = nil,
             rescanDuration: Inspector2ClientTypes.EcrRescanDuration? = nil,
             status: Inspector2ClientTypes.EcrRescanDurationStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.pullDateRescanDuration = pullDateRescanDuration
+            self.pullDateRescanMode = pullDateRescanMode
             self.rescanDuration = rescanDuration
             self.status = status
             self.updatedAt = updatedAt
@@ -7158,6 +7403,8 @@ extension Inspector2ClientTypes {
 
     /// Details about the step associated with a finding.
     public struct Step: Swift.Sendable {
+        /// The component ARN. The ARN can be null and is not displayed in the Amazon Web Services console.
+        public var componentArn: Swift.String?
         /// The component ID.
         /// This member is required.
         public var componentId: Swift.String?
@@ -7166,9 +7413,11 @@ extension Inspector2ClientTypes {
         public var componentType: Swift.String?
 
         public init(
+            componentArn: Swift.String? = nil,
             componentId: Swift.String? = nil,
             componentType: Swift.String? = nil
         ) {
+            self.componentArn = componentArn
             self.componentId = componentId
             self.componentType = componentType
         }
@@ -7881,6 +8130,42 @@ public struct GetCisScanResultDetailsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.scanResultDetails = scanResultDetails
+    }
+}
+
+public struct GetClustersForImageInput: Swift.Sendable {
+    /// The resource Id for the Amazon ECR image.
+    /// This member is required.
+    public var filter: Inspector2ClientTypes.ClusterForImageFilterCriteria?
+    /// The maximum number of results to be returned in a single page of results.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous request used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: Inspector2ClientTypes.ClusterForImageFilterCriteria? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct GetClustersForImageOutput: Swift.Sendable {
+    /// A unit of work inside of a cluster, which can include metadata about the cluster.
+    /// This member is required.
+    public var cluster: [Inspector2ClientTypes.ClusterInformation]?
+    /// The pagination token from a previous request used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        cluster: [Inspector2ClientTypes.ClusterInformation]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.cluster = cluster
+        self.nextToken = nextToken
     }
 }
 
@@ -9937,6 +10222,13 @@ extension GetCisScanResultDetailsInput {
     }
 }
 
+extension GetClustersForImageInput {
+
+    static func urlPathProvider(_ value: GetClustersForImageInput) -> Swift.String? {
+        return "/cluster/get"
+    }
+}
+
 extension GetConfigurationInput {
 
     static func urlPathProvider(_ value: GetConfigurationInput) -> Swift.String? {
@@ -10433,6 +10725,16 @@ extension GetCisScanResultDetailsInput {
         try writer["sortBy"].write(value.sortBy)
         try writer["sortOrder"].write(value.sortOrder)
         try writer["targetResourceId"].write(value.targetResourceId)
+    }
+}
+
+extension GetClustersForImageInput {
+
+    static func write(value: GetClustersForImageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filter"].write(value.filter, with: Inspector2ClientTypes.ClusterForImageFilterCriteria.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -11020,6 +11322,19 @@ extension GetCisScanResultDetailsOutput {
         var value = GetCisScanResultDetailsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.scanResultDetails = try reader["scanResultDetails"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CisScanResultDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetClustersForImageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetClustersForImageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetClustersForImageOutput()
+        value.cluster = try reader["cluster"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ClusterInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -11832,6 +12147,23 @@ enum GetCisScanReportOutputError {
 }
 
 enum GetCisScanResultDetailsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetClustersForImageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12878,6 +13210,79 @@ extension Inspector2ClientTypes.CisScanResultDetails {
     }
 }
 
+extension Inspector2ClientTypes.ClusterInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ClusterInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ClusterInformation()
+        value.clusterArn = try reader["clusterArn"].readIfPresent() ?? ""
+        value.clusterDetails = try reader["clusterDetails"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ClusterDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ClusterDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ClusterDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ClusterDetails()
+        value.lastInUse = try reader["lastInUse"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.runningUnitCount = try reader["runningUnitCount"].readIfPresent()
+        value.stoppedUnitCount = try reader["stoppedUnitCount"].readIfPresent()
+        value.clusterMetadata = try reader["clusterMetadata"].readIfPresent(with: Inspector2ClientTypes.ClusterMetadata.read(from:))
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ClusterMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ClusterMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "awsEcsMetadataDetails":
+                return .awsecsmetadatadetails(try reader["awsEcsMetadataDetails"].read(with: Inspector2ClientTypes.AwsEcsMetadataDetails.read(from:)))
+            case "awsEksMetadataDetails":
+                return .awseksmetadatadetails(try reader["awsEksMetadataDetails"].read(with: Inspector2ClientTypes.AwsEksMetadataDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension Inspector2ClientTypes.AwsEksMetadataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AwsEksMetadataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.AwsEksMetadataDetails()
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.workloadInfoList = try reader["workloadInfoList"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.AwsEksWorkloadInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.AwsEksWorkloadInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AwsEksWorkloadInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.AwsEksWorkloadInfo()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.AwsEcsMetadataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AwsEcsMetadataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.AwsEcsMetadataDetails()
+        value.detailsGroup = try reader["detailsGroup"].readIfPresent() ?? ""
+        value.taskDefinitionArn = try reader["taskDefinitionArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension Inspector2ClientTypes.EcrConfigurationState {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.EcrConfigurationState {
@@ -12897,6 +13302,7 @@ extension Inspector2ClientTypes.EcrRescanDurationState {
         value.status = try reader["status"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.pullDateRescanDuration = try reader["pullDateRescanDuration"].readIfPresent()
+        value.pullDateRescanMode = try reader["pullDateRescanMode"].readIfPresent()
         return value
     }
 }
@@ -12967,6 +13373,8 @@ extension Inspector2ClientTypes.FilterCriteria {
         try writer["ec2InstanceVpcId"].writeList(value.ec2InstanceVpcId, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecrImageArchitecture"].writeList(value.ecrImageArchitecture, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecrImageHash"].writeList(value.ecrImageHash, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ecrImageInUseCount"].writeList(value.ecrImageInUseCount, memberWritingClosure: Inspector2ClientTypes.NumberFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ecrImageLastInUseAt"].writeList(value.ecrImageLastInUseAt, memberWritingClosure: Inspector2ClientTypes.DateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecrImagePushedAt"].writeList(value.ecrImagePushedAt, memberWritingClosure: Inspector2ClientTypes.DateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecrImageRegistry"].writeList(value.ecrImageRegistry, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecrImageRepositoryName"].writeList(value.ecrImageRepositoryName, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -13025,6 +13433,8 @@ extension Inspector2ClientTypes.FilterCriteria {
         value.ecrImageRepositoryName = try reader["ecrImageRepositoryName"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ecrImageTags = try reader["ecrImageTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ecrImageHash = try reader["ecrImageHash"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ecrImageLastInUseAt = try reader["ecrImageLastInUseAt"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.DateFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ecrImageInUseCount = try reader["ecrImageInUseCount"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.NumberFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.portRange = try reader["portRange"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.PortRangeFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.networkProtocol = try reader["networkProtocol"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.componentId = try reader["componentId"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -13523,6 +13933,8 @@ extension Inspector2ClientTypes.EcrContainerImageMetadata {
         var value = Inspector2ClientTypes.EcrContainerImageMetadata()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.imagePulledAt = try reader["imagePulledAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastInUseAt = try reader["lastInUseAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inUseCount = try reader["inUseCount"].readIfPresent()
         return value
     }
 }
@@ -13760,6 +14172,8 @@ extension Inspector2ClientTypes.AwsEcrContainerAggregationResponse {
         value.imageTags = try reader["imageTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.accountId = try reader["accountId"].readIfPresent()
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
+        value.lastInUseAt = try reader["lastInUseAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inUseCount = try reader["inUseCount"].readIfPresent()
         return value
     }
 }
@@ -13951,6 +14365,7 @@ extension Inspector2ClientTypes.Step {
         var value = Inspector2ClientTypes.Step()
         value.componentId = try reader["componentId"].readIfPresent() ?? ""
         value.componentType = try reader["componentType"].readIfPresent() ?? ""
+        value.componentArn = try reader["componentArn"].readIfPresent()
         return value
     }
 }
@@ -14073,6 +14488,8 @@ extension Inspector2ClientTypes.AwsEcrContainerImageDetails {
         value.imageHash = try reader["imageHash"].readIfPresent() ?? ""
         value.registry = try reader["registry"].readIfPresent() ?? ""
         value.platform = try reader["platform"].readIfPresent()
+        value.lastInUseAt = try reader["lastInUseAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inUseCount = try reader["inUseCount"].readIfPresent()
         return value
     }
 }
@@ -14280,6 +14697,14 @@ extension Inspector2ClientTypes.CisFindingStatusFilter {
     }
 }
 
+extension Inspector2ClientTypes.ClusterForImageFilterCriteria {
+
+    static func write(value: Inspector2ClientTypes.ClusterForImageFilterCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceId"].write(value.resourceId)
+    }
+}
+
 extension Inspector2ClientTypes.ListCisScanConfigurationsFilterCriteria {
 
     static func write(value: Inspector2ClientTypes.ListCisScanConfigurationsFilterCriteria?, to writer: SmithyJSON.Writer) throws {
@@ -14406,6 +14831,8 @@ extension Inspector2ClientTypes.CoverageFilterCriteria {
         guard let value else { return }
         try writer["accountId"].writeList(value.accountId, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ec2InstanceTags"].writeList(value.ec2InstanceTags, memberWritingClosure: Inspector2ClientTypes.CoverageMapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ecrImageInUseCount"].writeList(value.ecrImageInUseCount, memberWritingClosure: Inspector2ClientTypes.CoverageNumberFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ecrImageLastInUseAt"].writeList(value.ecrImageLastInUseAt, memberWritingClosure: Inspector2ClientTypes.CoverageDateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecrImageTags"].writeList(value.ecrImageTags, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecrRepositoryName"].writeList(value.ecrRepositoryName, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["imagePulledAt"].writeList(value.imagePulledAt, memberWritingClosure: Inspector2ClientTypes.CoverageDateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -14419,6 +14846,15 @@ extension Inspector2ClientTypes.CoverageFilterCriteria {
         try writer["scanStatusCode"].writeList(value.scanStatusCode, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scanStatusReason"].writeList(value.scanStatusReason, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scanType"].writeList(value.scanType, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension Inspector2ClientTypes.CoverageNumberFilter {
+
+    static func write(value: Inspector2ClientTypes.CoverageNumberFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lowerInclusive"].write(value.lowerInclusive)
+        try writer["upperInclusive"].write(value.upperInclusive)
     }
 }
 
@@ -14584,6 +15020,8 @@ extension Inspector2ClientTypes.AwsEcrContainerAggregation {
         try writer["architectures"].writeList(value.architectures, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["imageShas"].writeList(value.imageShas, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["imageTags"].writeList(value.imageTags, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inUseCount"].writeList(value.inUseCount, memberWritingClosure: Inspector2ClientTypes.NumberFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["lastInUseAt"].writeList(value.lastInUseAt, memberWritingClosure: Inspector2ClientTypes.DateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["repositories"].writeList(value.repositories, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["resourceIds"].writeList(value.resourceIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["sortBy"].write(value.sortBy)
@@ -14699,6 +15137,7 @@ extension Inspector2ClientTypes.EcrConfiguration {
     static func write(value: Inspector2ClientTypes.EcrConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["pullDateRescanDuration"].write(value.pullDateRescanDuration)
+        try writer["pullDateRescanMode"].write(value.pullDateRescanMode)
         try writer["rescanDuration"].write(value.rescanDuration)
     }
 }

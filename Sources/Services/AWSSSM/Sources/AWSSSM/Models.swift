@@ -32,6 +32,68 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
+/// The requester doesn't have permissions to perform the requested operation.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum AccessRequestStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case expired
+        case pending
+        case rejected
+        case revoked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessRequestStatus] {
+            return [
+                .approved,
+                .expired,
+                .pending,
+                .rejected,
+                .revoked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "Approved"
+            case .expired: return "Expired"
+            case .pending: return "Pending"
+            case .rejected: return "Rejected"
+            case .revoked: return "Revoked"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 extension SSMClientTypes {
 
     /// Information includes the Amazon Web Services account ID where the current document is shared and the version shared with that account.
@@ -1229,13 +1291,13 @@ extension SSMClientTypes {
 public struct CreateAssociationInput: Swift.Sendable {
     /// The details for the CloudWatch alarm you want to apply to an automation or command.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
-    /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
+    /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified and when target changes are detected. Specify true for ApplyOnlyAtCronIntervalif you want the association to run only according to the schedule you specified. For more information, see [Understanding when associations are applied to resources](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling) and [>About target updates with Automation runbooks](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates) in the Amazon Web Services Systems Manager User Guide. This parameter isn't supported for rate expressions.
     public var applyOnlyAtCronInterval: Swift.Bool?
     /// Specify a descriptive name for the association.
     public var associationName: Swift.String?
     /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
     public var automationTargetParameterName: Swift.String?
-    /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+    /// The names of Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar) in the Amazon Web Services Systems Manager User Guide.
     public var calendarNames: [Swift.String]?
     /// The severity level to assign to the association.
     public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
@@ -1428,7 +1490,7 @@ extension SSMClientTypes {
         public var associationVersion: Swift.String?
         /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
         public var automationTargetParameterName: Swift.String?
-        /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+        /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar) in the Amazon Web Services Systems Manager User Guide.
         public var calendarNames: [Swift.String]?
         /// The severity level that is assigned to the association.
         public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
@@ -1561,13 +1623,13 @@ extension SSMClientTypes {
     public struct CreateAssociationBatchRequestEntry: Swift.Sendable {
         /// The details for the CloudWatch alarm you want to apply to an automation or command.
         public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
-        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
+        /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified and when target changes are detected. Specify true for ApplyOnlyAtCronInterval if you want the association to run only according to the schedule you specified. For more information, see [Understanding when associations are applied to resources](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling) and [>About target updates with Automation runbooks](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates) in the Amazon Web Services Systems Manager User Guide. This parameter isn't supported for rate expressions.
         public var applyOnlyAtCronInterval: Swift.Bool
         /// Specify a descriptive name for the association.
         public var associationName: Swift.String?
         /// Specify the target for the association. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
         public var automationTargetParameterName: Swift.String?
-        /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that Change Calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+        /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations only run when that Change Calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar) in the Amazon Web Services Systems Manager User Guide.
         public var calendarNames: [Swift.String]?
         /// The severity level to assign to the association.
         public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
@@ -1952,6 +2014,7 @@ extension SSMClientTypes {
     public enum DocumentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case applicationconfiguration
         case applicationconfigurationschema
+        case autoapprovalpolicy
         case automation
         case changecalendar
         case changetemplate
@@ -1959,6 +2022,7 @@ extension SSMClientTypes {
         case command
         case conformancepacktemplate
         case deploymentstrategy
+        case manualapprovalpolicy
         case package
         case policy
         case problemanalysis
@@ -1971,6 +2035,7 @@ extension SSMClientTypes {
             return [
                 .applicationconfiguration,
                 .applicationconfigurationschema,
+                .autoapprovalpolicy,
                 .automation,
                 .changecalendar,
                 .changetemplate,
@@ -1978,6 +2043,7 @@ extension SSMClientTypes {
                 .command,
                 .conformancepacktemplate,
                 .deploymentstrategy,
+                .manualapprovalpolicy,
                 .package,
                 .policy,
                 .problemanalysis,
@@ -1996,6 +2062,7 @@ extension SSMClientTypes {
             switch self {
             case .applicationconfiguration: return "ApplicationConfiguration"
             case .applicationconfigurationschema: return "ApplicationConfigurationSchema"
+            case .autoapprovalpolicy: return "AutoApprovalPolicy"
             case .automation: return "Automation"
             case .changecalendar: return "ChangeCalendar"
             case .changetemplate: return "Automation.ChangeTemplate"
@@ -2003,6 +2070,7 @@ extension SSMClientTypes {
             case .command: return "Command"
             case .conformancepacktemplate: return "ConformancePackTemplate"
             case .deploymentstrategy: return "DeploymentStrategy"
+            case .manualapprovalpolicy: return "ManualApprovalPolicy"
             case .package: return "Package"
             case .policy: return "Policy"
             case .problemanalysis: return "ProblemAnalysis"
@@ -3192,6 +3260,35 @@ extension SSMClientTypes {
 
 extension SSMClientTypes {
 
+    public enum PatchComplianceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case compliant
+        case noncompliant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PatchComplianceStatus] {
+            return [
+                .compliant,
+                .noncompliant
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .compliant: return "COMPLIANT"
+            case .noncompliant: return "NON_COMPLIANT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
     public enum OperatingSystem: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case almalinux
         case amazonlinux
@@ -3333,6 +3430,8 @@ public struct CreatePatchBaselineInput: Swift.Sendable {
     public var approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel?
     /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
     public var approvedPatchesEnableNonSecurity: Swift.Bool?
+    /// Indicates the status you want to assign to security patches that are available but not approved because they don't meet the installation criteria specified in the patch baseline. Example scenario: Security patches that you might want installed can be skipped if you have specified a long period to wait after a patch is released before installation. If an update to the patch is released during your specified waiting period, the waiting period for installing the patch starts over. If the waiting period is too long, multiple versions of the patch could be released but never installed. Supported for Windows Server managed nodes only.
+    public var availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus?
     /// User-provided idempotency token.
     public var clientToken: Swift.String?
     /// A description of the patch baseline.
@@ -3365,6 +3464,7 @@ public struct CreatePatchBaselineInput: Swift.Sendable {
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
         approvedPatchesEnableNonSecurity: Swift.Bool? = false,
+        availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         globalFilters: SSMClientTypes.PatchFilterGroup? = nil,
@@ -3379,6 +3479,7 @@ public struct CreatePatchBaselineInput: Swift.Sendable {
         self.approvedPatches = approvedPatches
         self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
         self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+        self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
         self.clientToken = clientToken
         self.description = description
         self.globalFilters = globalFilters
@@ -4112,7 +4213,7 @@ public struct DeleteOpsMetadataOutput: Swift.Sendable {
     public init() { }
 }
 
-/// The parameter couldn't be found. Verify the name and try again.
+/// The parameter couldn't be found. Verify the name and try again. For the DeleteParameter and GetParameter actions, if the specified parameter doesn't exist, the ParameterNotFound exception is not recorded in CloudTrail event logs.
 public struct ParameterNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -5332,11 +5433,13 @@ extension SSMClientTypes {
 extension SSMClientTypes {
 
     public enum AutomationSubtype: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessrequest
         case changerequest
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AutomationSubtype] {
             return [
+                .accessrequest,
                 .changerequest
             ]
         }
@@ -5348,6 +5451,7 @@ extension SSMClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .accessrequest: return "AccessRequest"
             case .changerequest: return "ChangeRequest"
             case let .sdkUnknown(s): return s
             }
@@ -6983,6 +7087,7 @@ public struct DescribeInstancePatchesInput: Swift.Sendable {
 extension SSMClientTypes {
 
     public enum PatchComplianceDataState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case availablesecurityupdate
         case failed
         case installed
         case installedother
@@ -6994,6 +7099,7 @@ extension SSMClientTypes {
 
         public static var allCases: [PatchComplianceDataState] {
             return [
+                .availablesecurityupdate,
                 .failed,
                 .installed,
                 .installedother,
@@ -7011,6 +7117,7 @@ extension SSMClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .availablesecurityupdate: return "AVAILABLE_SECURITY_UPDATE"
             case .failed: return "FAILED"
             case .installed: return "INSTALLED"
             case .installedother: return "INSTALLED_OTHER"
@@ -7180,6 +7287,8 @@ extension SSMClientTypes {
 
     /// Defines the high-level patch compliance state for a managed node, providing information about the number of installed, missing, not applicable, and failed patches along with metadata about the operation when this information was gathered for the managed node.
     public struct InstancePatchState: Swift.Sendable {
+        /// The number of security-related patches that are available but not approved because they didn't meet the patch baseline requirements. For example, an updated version of a patch might have been released before the specified auto-approval period was over. Applies to Windows Server managed nodes only.
+        public var availableSecurityUpdateCount: Swift.Int?
         /// The ID of the patch baseline used to patch the managed node.
         /// This member is required.
         public var baselineId: Swift.String?
@@ -7240,6 +7349,7 @@ extension SSMClientTypes {
         public var unreportedNotApplicableCount: Swift.Int?
 
         public init(
+            availableSecurityUpdateCount: Swift.Int? = 0,
             baselineId: Swift.String? = nil,
             criticalNonCompliantCount: Swift.Int? = 0,
             failedCount: Swift.Int = 0,
@@ -7263,6 +7373,7 @@ extension SSMClientTypes {
             snapshotId: Swift.String? = nil,
             unreportedNotApplicableCount: Swift.Int? = 0
         ) {
+            self.availableSecurityUpdateCount = availableSecurityUpdateCount
             self.baselineId = baselineId
             self.criticalNonCompliantCount = criticalNonCompliantCount
             self.failedCount = failedCount
@@ -7291,7 +7402,7 @@ extension SSMClientTypes {
 
 extension SSMClientTypes.InstancePatchState: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InstancePatchState(baselineId: \(Swift.String(describing: baselineId)), criticalNonCompliantCount: \(Swift.String(describing: criticalNonCompliantCount)), failedCount: \(Swift.String(describing: failedCount)), installOverrideList: \(Swift.String(describing: installOverrideList)), installedCount: \(Swift.String(describing: installedCount)), installedOtherCount: \(Swift.String(describing: installedOtherCount)), installedPendingRebootCount: \(Swift.String(describing: installedPendingRebootCount)), installedRejectedCount: \(Swift.String(describing: installedRejectedCount)), instanceId: \(Swift.String(describing: instanceId)), lastNoRebootInstallOperationTime: \(Swift.String(describing: lastNoRebootInstallOperationTime)), missingCount: \(Swift.String(describing: missingCount)), notApplicableCount: \(Swift.String(describing: notApplicableCount)), operation: \(Swift.String(describing: operation)), operationEndTime: \(Swift.String(describing: operationEndTime)), operationStartTime: \(Swift.String(describing: operationStartTime)), otherNonCompliantCount: \(Swift.String(describing: otherNonCompliantCount)), patchGroup: \(Swift.String(describing: patchGroup)), rebootOption: \(Swift.String(describing: rebootOption)), securityNonCompliantCount: \(Swift.String(describing: securityNonCompliantCount)), snapshotId: \(Swift.String(describing: snapshotId)), unreportedNotApplicableCount: \(Swift.String(describing: unreportedNotApplicableCount)), ownerInformation: \"CONTENT_REDACTED\")"}
+        "InstancePatchState(availableSecurityUpdateCount: \(Swift.String(describing: availableSecurityUpdateCount)), baselineId: \(Swift.String(describing: baselineId)), criticalNonCompliantCount: \(Swift.String(describing: criticalNonCompliantCount)), failedCount: \(Swift.String(describing: failedCount)), installOverrideList: \(Swift.String(describing: installOverrideList)), installedCount: \(Swift.String(describing: installedCount)), installedOtherCount: \(Swift.String(describing: installedOtherCount)), installedPendingRebootCount: \(Swift.String(describing: installedPendingRebootCount)), installedRejectedCount: \(Swift.String(describing: installedRejectedCount)), instanceId: \(Swift.String(describing: instanceId)), lastNoRebootInstallOperationTime: \(Swift.String(describing: lastNoRebootInstallOperationTime)), missingCount: \(Swift.String(describing: missingCount)), notApplicableCount: \(Swift.String(describing: notApplicableCount)), operation: \(Swift.String(describing: operation)), operationEndTime: \(Swift.String(describing: operationEndTime)), operationStartTime: \(Swift.String(describing: operationStartTime)), otherNonCompliantCount: \(Swift.String(describing: otherNonCompliantCount)), patchGroup: \(Swift.String(describing: patchGroup)), rebootOption: \(Swift.String(describing: rebootOption)), securityNonCompliantCount: \(Swift.String(describing: securityNonCompliantCount)), snapshotId: \(Swift.String(describing: snapshotId)), unreportedNotApplicableCount: \(Swift.String(describing: unreportedNotApplicableCount)), ownerInformation: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeInstancePatchStatesOutput: Swift.Sendable {
@@ -8797,6 +8908,15 @@ public struct DescribeMaintenanceWindowTasksOutput: Swift.Sendable {
 extension SSMClientTypes {
 
     public enum OpsItemFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessRequestApproverArn
+        case accessRequestApproverId
+        case accessRequestIsReplica
+        case accessRequestRequesterArn
+        case accessRequestRequesterId
+        case accessRequestSourceAccountId
+        case accessRequestSourceOpsItemId
+        case accessRequestSourceRegion
+        case accessRequestTargetResourceId
         case accountId
         case actualEndTime
         case actualStartTime
@@ -8829,6 +8949,15 @@ extension SSMClientTypes {
 
         public static var allCases: [OpsItemFilterKey] {
             return [
+                .accessRequestApproverArn,
+                .accessRequestApproverId,
+                .accessRequestIsReplica,
+                .accessRequestRequesterArn,
+                .accessRequestRequesterId,
+                .accessRequestSourceAccountId,
+                .accessRequestSourceOpsItemId,
+                .accessRequestSourceRegion,
+                .accessRequestTargetResourceId,
                 .accountId,
                 .actualEndTime,
                 .actualStartTime,
@@ -8867,6 +8996,15 @@ extension SSMClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .accessRequestApproverArn: return "AccessRequestByApproverArn"
+            case .accessRequestApproverId: return "AccessRequestByApproverId"
+            case .accessRequestIsReplica: return "AccessRequestByIsReplica"
+            case .accessRequestRequesterArn: return "AccessRequestByRequesterArn"
+            case .accessRequestRequesterId: return "AccessRequestByRequesterId"
+            case .accessRequestSourceAccountId: return "AccessRequestBySourceAccountId"
+            case .accessRequestSourceOpsItemId: return "AccessRequestBySourceOpsItemId"
+            case .accessRequestSourceRegion: return "AccessRequestBySourceRegion"
+            case .accessRequestTargetResourceId: return "AccessRequestByTargetResourceId"
             case .accountId: return "AccountId"
             case .actualEndTime: return "ActualEndTime"
             case .actualStartTime: return "ActualStartTime"
@@ -9031,6 +9169,7 @@ extension SSMClientTypes {
         case pendingChangeCalendarOverride
         case rejected
         case resolved
+        case revoked
         case runbookInProgress
         case scheduled
         case timedOut
@@ -9054,6 +9193,7 @@ extension SSMClientTypes {
                 .pendingChangeCalendarOverride,
                 .rejected,
                 .resolved,
+                .revoked,
                 .runbookInProgress,
                 .scheduled,
                 .timedOut
@@ -9083,6 +9223,7 @@ extension SSMClientTypes {
             case .pendingChangeCalendarOverride: return "PendingChangeCalendarOverride"
             case .rejected: return "Rejected"
             case .resolved: return "Resolved"
+            case .revoked: return "Revoked"
             case .runbookInProgress: return "RunbookInProgress"
             case .scheduled: return "Scheduled"
             case .timedOut: return "TimedOut"
@@ -9628,6 +9769,8 @@ public struct DescribePatchGroupStateInput: Swift.Sendable {
 public struct DescribePatchGroupStateOutput: Swift.Sendable {
     /// The number of managed nodes in the patch group.
     public var instances: Swift.Int
+    /// The number of managed nodes for which security-related patches are available but not approved because because they didn't meet the patch baseline requirements. For example, an updated version of a patch might have been released before the specified auto-approval period was over. Applies to Windows Server managed nodes only.
+    public var instancesWithAvailableSecurityUpdates: Swift.Int?
     /// The number of managed nodes where patches that are specified as Critical for compliance reporting in the patch baseline aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
     public var instancesWithCriticalNonCompliantPatches: Swift.Int?
     /// The number of managed nodes with patches from the patch baseline that failed to install.
@@ -9653,6 +9796,7 @@ public struct DescribePatchGroupStateOutput: Swift.Sendable {
 
     public init(
         instances: Swift.Int = 0,
+        instancesWithAvailableSecurityUpdates: Swift.Int? = 0,
         instancesWithCriticalNonCompliantPatches: Swift.Int? = 0,
         instancesWithFailedPatches: Swift.Int = 0,
         instancesWithInstalledOtherPatches: Swift.Int = 0,
@@ -9666,6 +9810,7 @@ public struct DescribePatchGroupStateOutput: Swift.Sendable {
         instancesWithUnreportedNotApplicablePatches: Swift.Int? = 0
     ) {
         self.instances = instances
+        self.instancesWithAvailableSecurityUpdates = instancesWithAvailableSecurityUpdates
         self.instancesWithCriticalNonCompliantPatches = instancesWithCriticalNonCompliantPatches
         self.instancesWithFailedPatches = instancesWithFailedPatches
         self.instancesWithInstalledOtherPatches = instancesWithInstalledOtherPatches
@@ -10111,6 +10256,128 @@ public struct DisassociateOpsItemRelatedItemOutput: Swift.Sendable {
     public init() { }
 }
 
+/// The request or operation couldn't be performed because the service is throttling requests.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The quota code recognized by the Amazon Web Services Service Quotas service.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// The code for the Amazon Web Services service that owns the quota.
+        public internal(set) var serviceCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.serviceCode = serviceCode
+    }
+}
+
+/// The request isn't valid. Verify that you entered valid contents for the command and try again.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The reason code for the invalid request.
+        public internal(set) var reasonCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        reasonCode: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.reasonCode = reasonCode
+    }
+}
+
+public struct GetAccessTokenInput: Swift.Sendable {
+    /// The ID of a just-in-time node access request.
+    /// This member is required.
+    public var accessRequestId: Swift.String?
+
+    public init(
+        accessRequestId: Swift.String? = nil
+    ) {
+        self.accessRequestId = accessRequestId
+    }
+}
+
+extension SSMClientTypes {
+
+    /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.
+    public struct Credentials: Swift.Sendable {
+        /// The access key ID that identifies the temporary security credentials.
+        /// This member is required.
+        public var accessKeyId: Swift.String?
+        /// The datetime on which the current credentials expire.
+        /// This member is required.
+        public var expirationTime: Foundation.Date?
+        /// The secret access key that can be used to sign requests.
+        /// This member is required.
+        public var secretAccessKey: Swift.String?
+        /// The token that users must pass to the service API to use the temporary credentials.
+        /// This member is required.
+        public var sessionToken: Swift.String?
+
+        public init(
+            accessKeyId: Swift.String? = nil,
+            expirationTime: Foundation.Date? = nil,
+            secretAccessKey: Swift.String? = nil,
+            sessionToken: Swift.String? = nil
+        ) {
+            self.accessKeyId = accessKeyId
+            self.expirationTime = expirationTime
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+    }
+}
+
+extension SSMClientTypes.Credentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Credentials(accessKeyId: \(Swift.String(describing: accessKeyId)), expirationTime: \(Swift.String(describing: expirationTime)), secretAccessKey: \"CONTENT_REDACTED\", sessionToken: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetAccessTokenOutput: Swift.Sendable {
+    /// The status of the access request.
+    public var accessRequestStatus: SSMClientTypes.AccessRequestStatus?
+    /// The temporary security credentials which can be used to start just-in-time node access sessions.
+    public var credentials: SSMClientTypes.Credentials?
+
+    public init(
+        accessRequestStatus: SSMClientTypes.AccessRequestStatus? = nil,
+        credentials: SSMClientTypes.Credentials? = nil
+    ) {
+        self.accessRequestStatus = accessRequestStatus
+        self.credentials = credentials
+    }
+}
+
 public struct GetAutomationExecutionInput: Swift.Sendable {
     /// The unique identifier for an existing automation execution to examine. The execution ID is returned by StartAutomationExecution when the execution of an Automation runbook is initiated.
     /// This member is required.
@@ -10365,7 +10632,7 @@ public struct UnsupportedCalendarException: ClientRuntime.ModeledError, AWSClien
 public struct GetCalendarStateInput: Swift.Sendable {
     /// (Optional) The specific time for which you want to get calendar state information, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. If you don't specify a value or AtTime, the current time is used.
     public var atTime: Swift.String?
-    /// The names or Amazon Resource Names (ARNs) of the Systems Manager documents (SSM documents) that represent the calendar entries for which you want to get the state.
+    /// The names of Amazon Resource Names (ARNs) of the Systems Manager documents (SSM documents) that represent the calendar entries for which you want to get the state.
     /// This member is required.
     public var calendarNames: [Swift.String]?
 
@@ -10751,6 +11018,8 @@ extension SSMClientTypes {
         public var approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel?
         /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
         public var approvedPatchesEnableNonSecurity: Swift.Bool
+        /// Indicates whether managed nodes for which there are available security-related patches that have not been approved by the baseline are being defined as COMPLIANT or NON_COMPLIANT. This option is specified when the CreatePatchBaseline or UpdatePatchBaseline commands are run. Applies to Windows Server managed nodes only.
+        public var availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus?
         /// A set of patch filters, typically used for approval rules.
         public var globalFilters: SSMClientTypes.PatchFilterGroup?
         /// The operating system rule used by the patch baseline override.
@@ -10767,6 +11036,7 @@ extension SSMClientTypes {
             approvedPatches: [Swift.String]? = nil,
             approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
             approvedPatchesEnableNonSecurity: Swift.Bool = false,
+            availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
             globalFilters: SSMClientTypes.PatchFilterGroup? = nil,
             operatingSystem: SSMClientTypes.OperatingSystem? = nil,
             rejectedPatches: [Swift.String]? = nil,
@@ -10777,6 +11047,7 @@ extension SSMClientTypes {
             self.approvedPatches = approvedPatches
             self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
             self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+            self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
             self.globalFilters = globalFilters
             self.operatingSystem = operatingSystem
             self.rejectedPatches = rejectedPatches
@@ -12790,6 +13061,8 @@ public struct GetPatchBaselineOutput: Swift.Sendable {
     public var approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel?
     /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
     public var approvedPatchesEnableNonSecurity: Swift.Bool?
+    /// Indicates the compliance status of managed nodes for which security-related patches are available but were not approved. This preference is specified when the CreatePatchBaseline or UpdatePatchBaseline commands are run. Applies to Windows Server managed nodes only.
+    public var availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus?
     /// The ID of the retrieved patch baseline.
     public var baselineId: Swift.String?
     /// The date the patch baseline was created.
@@ -12818,6 +13091,7 @@ public struct GetPatchBaselineOutput: Swift.Sendable {
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
         approvedPatchesEnableNonSecurity: Swift.Bool? = false,
+        availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
         baselineId: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
@@ -12834,6 +13108,7 @@ public struct GetPatchBaselineOutput: Swift.Sendable {
         self.approvedPatches = approvedPatches
         self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
         self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+        self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
         self.baselineId = baselineId
         self.createdDate = createdDate
         self.description = description
@@ -13298,7 +13573,7 @@ extension SSMClientTypes {
 
     /// Information about the association version.
     public struct AssociationVersionInfo: Swift.Sendable {
-        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
+        /// By default, when you create new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
         public var applyOnlyAtCronInterval: Swift.Bool
         /// The ID created by the system when the association was created.
         public var associationId: Swift.String?
@@ -13306,7 +13581,7 @@ extension SSMClientTypes {
         public var associationName: Swift.String?
         /// The association version.
         public var associationVersion: Swift.String?
-        /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations for this version only run when that Change Calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+        /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents your associations are gated under. The associations for this version only run when that Change Calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar) in the Amazon Web Services Systems Manager User Guide.
         public var calendarNames: [Swift.String]?
         /// The severity level that is assigned to the association.
         public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
@@ -15090,7 +15365,7 @@ public struct ListNodesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
-    /// The name of the resource data sync to retrieve information about. Required for cross-account/cross-Region configurations. Optional for single account/single-Region configurations.
+    /// The name of the Amazon Web Services managed resource data sync to retrieve information about. For cross-account/cross-Region configurations, this parameter is required, and the name of the supported resource data sync is AWS-QuickSetup-ManagedNode. For single account/single-Region configurations, the parameter is not required.
     public var syncName: Swift.String?
 
     public init(
@@ -16083,9 +16358,9 @@ public struct DocumentPermissionLimit: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 public struct ModifyDocumentPermissionInput: Swift.Sendable {
-    /// The Amazon Web Services users that should have access to the document. The account IDs can either be a group of account IDs or All.
+    /// The Amazon Web Services users that should have access to the document. The account IDs can either be a group of account IDs or All. You must specify a value for this parameter or the AccountIdsToRemove parameter.
     public var accountIdsToAdd: [Swift.String]?
-    /// The Amazon Web Services users that should no longer have access to the document. The Amazon Web Services user can either be a group of account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify an ID to add and the same ID to remove, the system removes access to the document.
+    /// The Amazon Web Services users that should no longer have access to the document. The Amazon Web Services user can either be a group of account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify an ID to add and the same ID to remove, the system removes access to the document. You must specify a value for this parameter or the AccountIdsToAdd parameter.
     public var accountIdsToRemove: [Swift.String]?
     /// The name of the document that you want to share.
     /// This member is required.
@@ -16827,11 +17102,11 @@ public struct PutParameterInput: Swift.Sendable {
     public var dataType: Swift.String?
     /// Information about the parameter that you want to add to the system. Optional but recommended. Don't enter personally identifiable information in this field.
     public var description: Swift.String?
-    /// The Key Management Service (KMS) ID that you want to use to encrypt a parameter. Use a custom key for better security. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your Amazon Web Services account which is not as secure as using a custom key.
+    /// The Key Management Service (KMS) ID that you want to use to encrypt a parameter. Use a custom key for better security. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your Amazon Web Services account, which is not as secure as using a custom key.
     ///
     /// * To use a custom KMS key, choose the SecureString data type with the Key ID parameter.
     public var keyId: Swift.String?
-    /// The fully qualified name of the parameter that you want to add to the system. You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13 Naming Constraints:
+    /// The fully qualified name of the parameter that you want to create or update. You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13 Naming Constraints:
     ///
     /// * Parameter names are case sensitive.
     ///
@@ -16846,7 +17121,7 @@ public struct PutParameterInput: Swift.Sendable {
     /// * Parameter hierarchies are limited to a maximum depth of fifteen levels.
     ///
     ///
-    /// For additional information about valid values for parameter names, see [Creating Systems Manager parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html) in the Amazon Web Services Systems Manager User Guide. The maximum length constraint of 2048 characters listed below includes 1037 characters reserved for internal use by Systems Manager. The maximum length for a parameter name that you create is 1011 characters. This includes the characters in the ARN that precede the name you specify, such as arn:aws:ssm:us-east-2:111122223333:parameter/.
+    /// For additional information about valid values for parameter names, see [Creating Systems Manager parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html) in the Amazon Web Services Systems Manager User Guide. The reported maximum length of 2048 characters for a parameter name includes 1037 characters that are reserved for internal use by Systems Manager. The maximum length for a parameter name that you specify is 1011 characters. This count of 1011 characters includes the characters in the ARN that precede the name you specify. This ARN length will vary depending on your partition and Region. For example, the following 45 characters count toward the 1011 character maximum for a parameter created in the US East (Ohio) Region: arn:aws:ssm:us-east-2:111122223333:parameter/.
     /// This member is required.
     public var name: Swift.String?
     /// Overwrite an existing parameter. The default value is false.
@@ -16882,7 +17157,7 @@ public struct PutParameterInput: Swift.Sendable {
     ///
     /// For more information about configuring the default tier option, see [Specifying a default parameter tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html#ps-default-tier) in the Amazon Web Services Systems Manager User Guide.
     public var tier: SSMClientTypes.ParameterTier?
-    /// The type of parameter that you want to add to the system. SecureString isn't currently supported for CloudFormation templates. Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type. Specifying a parameter type isn't required when updating a parameter. You must specify a parameter type when creating a parameter.
+    /// The type of parameter that you want to create. SecureString isn't currently supported for CloudFormation templates. Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type. Specifying a parameter type isn't required when updating a parameter. You must specify a parameter type when creating a parameter.
     public var type: SSMClientTypes.ParameterType?
     /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB. Parameters can't be referenced or nested in the values of other parameters. You can't include values wrapped in double brackets {{}} or {{ssm:parameter-name}} in a parameter value.
     /// This member is required.
@@ -17392,6 +17667,7 @@ extension SSMClientTypes {
         case approve
         case reject
         case resume
+        case revoke
         case startStep
         case stopStep
         case sdkUnknown(Swift.String)
@@ -17401,6 +17677,7 @@ extension SSMClientTypes {
                 .approve,
                 .reject,
                 .resume,
+                .revoke,
                 .startStep,
                 .stopStep
             ]
@@ -17416,6 +17693,7 @@ extension SSMClientTypes {
             case .approve: return "Approve"
             case .reject: return "Reject"
             case .resume: return "Resume"
+            case .revoke: return "Revoke"
             case .startStep: return "StartStep"
             case .stopStep: return "StopStep"
             case let .sdkUnknown(s): return s
@@ -17602,6 +17880,80 @@ public struct SendCommandOutput: Swift.Sendable {
         command: SSMClientTypes.Command? = nil
     ) {
         self.command = command
+    }
+}
+
+/// The request exceeds the service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The quota code recognized by the Amazon Web Services Service Quotas service.
+        /// This member is required.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// The unique ID of the resource referenced in the failed request.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The resource type of the resource referenced in the failed request.
+        public internal(set) var resourceType: Swift.String? = nil
+        /// The code for the Amazon Web Services service that owns the quota.
+        /// This member is required.
+        public internal(set) var serviceCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+        self.properties.serviceCode = serviceCode
+    }
+}
+
+public struct StartAccessRequestInput: Swift.Sendable {
+    /// A brief description explaining why you are requesting access to the node.
+    /// This member is required.
+    public var reason: Swift.String?
+    /// Key-value pairs of metadata you want to assign to the access request.
+    public var tags: [SSMClientTypes.Tag]?
+    /// The node you are requesting access to.
+    /// This member is required.
+    public var targets: [SSMClientTypes.Target]?
+
+    public init(
+        reason: Swift.String? = nil,
+        tags: [SSMClientTypes.Tag]? = nil,
+        targets: [SSMClientTypes.Target]? = nil
+    ) {
+        self.reason = reason
+        self.tags = tags
+        self.targets = targets
+    }
+}
+
+public struct StartAccessRequestOutput: Swift.Sendable {
+    /// The ID of the access request.
+    public var accessRequestId: Swift.String?
+
+    public init(
+        accessRequestId: Swift.String? = nil
+    ) {
+        self.accessRequestId = accessRequestId
     }
 }
 
@@ -17910,33 +18262,6 @@ public struct StartChangeRequestExecutionOutput: Swift.Sendable {
         automationExecutionId: Swift.String? = nil
     ) {
         self.automationExecutionId = automationExecutionId
-    }
-}
-
-/// The request isn't valid. Verify that you entered valid contents for the command and try again.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The reason code for the invalid request.
-        public internal(set) var reasonCode: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        reasonCode: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.reasonCode = reasonCode
     }
 }
 
@@ -18264,7 +18589,7 @@ public struct InvalidUpdate: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 public struct UpdateAssociationInput: Swift.Sendable {
     /// The details for the CloudWatch alarm you want to apply to an automation or command.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
-    /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter isn't supported for rate expressions. If you chose this option when you created an association and later you edit that association or you make changes to the SSM document on which that association is based (by using the Documents page in the console), State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously selected this option. If this option wasn't selected, State Manager immediately runs the association. You can reset this option. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
+    /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify true for ApplyOnlyAtCronInterval if you want the association to run only according to the schedule you specified. If you chose this option when you created an association and later you edit that association or you make changes to the Automation runbook or SSM document on which that association is based, State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously set ApplyOnlyAtCronInterval to true. If this option wasn't selected, State Manager immediately runs the association. For more information, see [Understanding when associations are applied to resources](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling) and [About target updates with Automation runbooks](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates) in the Amazon Web Services Systems Manager User Guide. This parameter isn't supported for rate expressions. You can reset this parameter. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
     public var applyOnlyAtCronInterval: Swift.Bool?
     /// The ID of the association you want to update.
     /// This member is required.
@@ -18275,7 +18600,7 @@ public struct UpdateAssociationInput: Swift.Sendable {
     public var associationVersion: Swift.String?
     /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
     public var automationTargetParameterName: Swift.String?
-    /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+    /// The names or Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar) in the Amazon Web Services Systems Manager User Guide.
     public var calendarNames: [Swift.String]?
     /// The severity level to assign to the association.
     public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
@@ -19198,6 +19523,8 @@ public struct UpdatePatchBaselineInput: Swift.Sendable {
     public var approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel?
     /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
     public var approvedPatchesEnableNonSecurity: Swift.Bool?
+    /// Indicates the status to be assigned to security patches that are available but not approved because they don't meet the installation criteria specified in the patch baseline. Example scenario: Security patches that you might want installed can be skipped if you have specified a long period to wait after a patch is released before installation. If an update to the patch is released during your specified waiting period, the waiting period for installing the patch starts over. If the waiting period is too long, multiple versions of the patch could be released but never installed. Supported for Windows Server managed nodes only.
+    public var availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus?
     /// The ID of the patch baseline to update.
     /// This member is required.
     public var baselineId: Swift.String?
@@ -19221,6 +19548,7 @@ public struct UpdatePatchBaselineInput: Swift.Sendable {
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
         approvedPatchesEnableNonSecurity: Swift.Bool? = false,
+        availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
         baselineId: Swift.String? = nil,
         description: Swift.String? = nil,
         globalFilters: SSMClientTypes.PatchFilterGroup? = nil,
@@ -19234,6 +19562,7 @@ public struct UpdatePatchBaselineInput: Swift.Sendable {
         self.approvedPatches = approvedPatches
         self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
         self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+        self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
         self.baselineId = baselineId
         self.description = description
         self.globalFilters = globalFilters
@@ -19254,6 +19583,8 @@ public struct UpdatePatchBaselineOutput: Swift.Sendable {
     public var approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel?
     /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
     public var approvedPatchesEnableNonSecurity: Swift.Bool?
+    /// Indicates the compliance status of managed nodes for which security-related patches are available but were not approved. This preference is specified when the CreatePatchBaseline or UpdatePatchBaseline commands are run. Applies to Windows Server managed nodes only.
+    public var availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus?
     /// The ID of the deleted patch baseline.
     public var baselineId: Swift.String?
     /// The date when the patch baseline was created.
@@ -19280,6 +19611,7 @@ public struct UpdatePatchBaselineOutput: Swift.Sendable {
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
         approvedPatchesEnableNonSecurity: Swift.Bool? = false,
+        availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
         baselineId: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
@@ -19295,6 +19627,7 @@ public struct UpdatePatchBaselineOutput: Swift.Sendable {
         self.approvedPatches = approvedPatches
         self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
         self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+        self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
         self.baselineId = baselineId
         self.createdDate = createdDate
         self.description = description
@@ -19579,7 +19912,7 @@ public struct ListNodesSummaryInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.) The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var nextToken: Swift.String?
-    /// The name of the resource data sync to retrieve information about. Required for cross-account/cross-Region configuration. Optional for single account/single-Region configurations.
+    /// The name of the Amazon Web Services managed resource data sync to retrieve information about. For cross-account/cross-Region configurations, this parameter is required, and the name of the supported resource data sync is AWS-QuickSetup-ManagedNode. For single account/single-Region configurations, the parameter is not required.
     public var syncName: Swift.String?
 
     public init(
@@ -20038,6 +20371,13 @@ extension DisassociateOpsItemRelatedItemInput {
     }
 }
 
+extension GetAccessTokenInput {
+
+    static func urlPathProvider(_ value: GetAccessTokenInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetAutomationExecutionInput {
 
     static func urlPathProvider(_ value: GetAutomationExecutionInput) -> Swift.String? {
@@ -20451,6 +20791,13 @@ extension SendCommandInput {
     }
 }
 
+extension StartAccessRequestInput {
+
+    static func urlPathProvider(_ value: StartAccessRequestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartAssociationsOnceInput {
 
     static func urlPathProvider(_ value: StartAssociationsOnceInput) -> Swift.String? {
@@ -20770,6 +21117,7 @@ extension CreatePatchBaselineInput {
         try writer["ApprovedPatches"].writeList(value.approvedPatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ApprovedPatchesComplianceLevel"].write(value.approvedPatchesComplianceLevel)
         try writer["ApprovedPatchesEnableNonSecurity"].write(value.approvedPatchesEnableNonSecurity)
+        try writer["AvailableSecurityUpdatesComplianceStatus"].write(value.availableSecurityUpdatesComplianceStatus)
         try writer["ClientToken"].write(value.clientToken)
         try writer["Description"].write(value.description)
         try writer["GlobalFilters"].write(value.globalFilters, with: SSMClientTypes.PatchFilterGroup.write(value:to:))
@@ -21296,6 +21644,14 @@ extension DisassociateOpsItemRelatedItemInput {
         guard let value else { return }
         try writer["AssociationId"].write(value.associationId)
         try writer["OpsItemId"].write(value.opsItemId)
+    }
+}
+
+extension GetAccessTokenInput {
+
+    static func write(value: GetAccessTokenInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessRequestId"].write(value.accessRequestId)
     }
 }
 
@@ -21932,6 +22288,16 @@ extension SendCommandInput {
     }
 }
 
+extension StartAccessRequestInput {
+
+    static func write(value: StartAccessRequestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Reason"].write(value.reason)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SSMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Targets"].writeList(value.targets, memberWritingClosure: SSMClientTypes.Target.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension StartAssociationsOnceInput {
 
     static func write(value: StartAssociationsOnceInput?, to writer: SmithyJSON.Writer) throws {
@@ -22206,6 +22572,7 @@ extension UpdatePatchBaselineInput {
         try writer["ApprovedPatches"].writeList(value.approvedPatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ApprovedPatchesComplianceLevel"].write(value.approvedPatchesComplianceLevel)
         try writer["ApprovedPatchesEnableNonSecurity"].write(value.approvedPatchesEnableNonSecurity)
+        try writer["AvailableSecurityUpdatesComplianceStatus"].write(value.availableSecurityUpdatesComplianceStatus)
         try writer["BaselineId"].write(value.baselineId)
         try writer["Description"].write(value.description)
         try writer["GlobalFilters"].write(value.globalFilters, with: SSMClientTypes.PatchFilterGroup.write(value:to:))
@@ -22930,6 +23297,7 @@ extension DescribePatchGroupStateOutput {
         let reader = responseReader
         var value = DescribePatchGroupStateOutput()
         value.instances = try reader["Instances"].readIfPresent() ?? 0
+        value.instancesWithAvailableSecurityUpdates = try reader["InstancesWithAvailableSecurityUpdates"].readIfPresent()
         value.instancesWithCriticalNonCompliantPatches = try reader["InstancesWithCriticalNonCompliantPatches"].readIfPresent()
         value.instancesWithFailedPatches = try reader["InstancesWithFailedPatches"].readIfPresent() ?? 0
         value.instancesWithInstalledOtherPatches = try reader["InstancesWithInstalledOtherPatches"].readIfPresent() ?? 0
@@ -22975,6 +23343,19 @@ extension DisassociateOpsItemRelatedItemOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateOpsItemRelatedItemOutput {
         return DisassociateOpsItemRelatedItemOutput()
+    }
+}
+
+extension GetAccessTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccessTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessTokenOutput()
+        value.accessRequestStatus = try reader["AccessRequestStatus"].readIfPresent()
+        value.credentials = try reader["Credentials"].readIfPresent(with: SSMClientTypes.Credentials.read(from:))
+        return value
     }
 }
 
@@ -23359,6 +23740,7 @@ extension GetPatchBaselineOutput {
         value.approvedPatches = try reader["ApprovedPatches"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.approvedPatchesComplianceLevel = try reader["ApprovedPatchesComplianceLevel"].readIfPresent()
         value.approvedPatchesEnableNonSecurity = try reader["ApprovedPatchesEnableNonSecurity"].readIfPresent()
+        value.availableSecurityUpdatesComplianceStatus = try reader["AvailableSecurityUpdatesComplianceStatus"].readIfPresent()
         value.baselineId = try reader["BaselineId"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
@@ -23819,6 +24201,18 @@ extension SendCommandOutput {
     }
 }
 
+extension StartAccessRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAccessRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartAccessRequestOutput()
+        value.accessRequestId = try reader["AccessRequestId"].readIfPresent()
+        return value
+    }
+}
+
 extension StartAssociationsOnceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAssociationsOnceOutput {
@@ -24066,6 +24460,7 @@ extension UpdatePatchBaselineOutput {
         value.approvedPatches = try reader["ApprovedPatches"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.approvedPatchesComplianceLevel = try reader["ApprovedPatchesComplianceLevel"].readIfPresent()
         value.approvedPatchesEnableNonSecurity = try reader["ApprovedPatchesEnableNonSecurity"].readIfPresent()
+        value.availableSecurityUpdatesComplianceStatus = try reader["AvailableSecurityUpdatesComplianceStatus"].readIfPresent()
         value.baselineId = try reader["BaselineId"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
@@ -25129,6 +25524,24 @@ enum DisassociateOpsItemRelatedItemOutputError {
     }
 }
 
+enum GetAccessTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAutomationExecutionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -26127,6 +26540,25 @@ enum SendCommandOutputError {
             case "InvalidRole": return try InvalidRole.makeError(baseError: baseError)
             case "MaxDocumentSizeExceeded": return try MaxDocumentSizeExceeded.makeError(baseError: baseError)
             case "UnsupportedPlatformType": return try UnsupportedPlatformType.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartAccessRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -27465,6 +27897,48 @@ extension OpsItemRelatedItemAssociationNotFoundException {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reasonCode = try reader["ReasonCode"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["QuotaCode"].readIfPresent()
+        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidDocumentType {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDocumentType {
@@ -28037,6 +28511,23 @@ extension InvalidOutputFolder {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["QuotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.properties.serviceCode = try reader["ServiceCode"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidAssociation {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAssociation {
@@ -28108,20 +28599,6 @@ extension AutomationDefinitionNotApprovedException {
         let reader = baseError.errorBodyReader
         var value = AutomationDefinitionNotApprovedException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.reasonCode = try reader["ReasonCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -29062,6 +29539,7 @@ extension SSMClientTypes.InstancePatchState {
         value.failedCount = try reader["FailedCount"].readIfPresent() ?? 0
         value.unreportedNotApplicableCount = try reader["UnreportedNotApplicableCount"].readIfPresent()
         value.notApplicableCount = try reader["NotApplicableCount"].readIfPresent() ?? 0
+        value.availableSecurityUpdateCount = try reader["AvailableSecurityUpdateCount"].readIfPresent()
         value.operationStartTime = try reader["OperationStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.operationEndTime = try reader["OperationEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.operation = try reader["Operation"].readIfPresent() ?? .sdkUnknown("")
@@ -29426,6 +29904,19 @@ extension SSMClientTypes.SessionManagerOutputUrl {
         var value = SSMClientTypes.SessionManagerOutputUrl()
         value.s3OutputUrl = try reader["S3OutputUrl"].readIfPresent()
         value.cloudWatchOutputUrl = try reader["CloudWatchOutputUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension SSMClientTypes.Credentials {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.Credentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMClientTypes.Credentials()
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent() ?? ""
+        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent() ?? ""
+        value.sessionToken = try reader["SessionToken"].readIfPresent() ?? ""
+        value.expirationTime = try reader["ExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -30730,6 +31221,7 @@ extension SSMClientTypes.BaselineOverride {
         try writer["ApprovedPatches"].writeList(value.approvedPatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ApprovedPatchesComplianceLevel"].write(value.approvedPatchesComplianceLevel)
         try writer["ApprovedPatchesEnableNonSecurity"].write(value.approvedPatchesEnableNonSecurity)
+        try writer["AvailableSecurityUpdatesComplianceStatus"].write(value.availableSecurityUpdatesComplianceStatus)
         try writer["GlobalFilters"].write(value.globalFilters, with: SSMClientTypes.PatchFilterGroup.write(value:to:))
         try writer["OperatingSystem"].write(value.operatingSystem)
         try writer["RejectedPatches"].writeList(value.rejectedPatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)

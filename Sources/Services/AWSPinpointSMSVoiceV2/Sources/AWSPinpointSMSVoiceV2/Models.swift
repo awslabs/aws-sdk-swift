@@ -5057,7 +5057,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         ///
         /// * ASSOCIATE_BEFORE_SUBMIT The origination identity has to be supplied when creating a registration.
         ///
-        /// * ASSOCIATE_ON_APPROVAL This applies to all short code registrations. The short code will be automatically provisioned once the registration is approved.
+        /// * ASSOCIATE_ON_APPROVAL This applies to all sender ID registrations. The sender ID will be automatically provisioned once the registration is approved.
         ///
         /// * ASSOCIATE_AFTER_COMPLETE This applies to phone number registrations when you must complete a registration first, then associate one or more phone numbers later. For example 10DLC campaigns and long codes.
         /// This member is required.
@@ -5919,12 +5919,16 @@ extension PinpointSMSVoiceV2ClientTypes {
     public enum ProtectStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allow
         case block
+        case filter
+        case monitor
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProtectStatus] {
             return [
                 .allow,
-                .block
+                .block,
+                .filter,
+                .monitor
             ]
         }
 
@@ -5937,6 +5941,8 @@ extension PinpointSMSVoiceV2ClientTypes {
             switch self {
             case .allow: return "ALLOW"
             case .block: return "BLOCK"
+            case .filter: return "FILTER"
+            case .monitor: return "MONITOR"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6302,7 +6308,7 @@ public struct ListProtectConfigurationRuleSetNumberOverridesInput: Swift.Sendabl
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    /// Provides details on a RuleSetNumberOverride.
+    /// Provides details on phone number rule overrides for a protect configuration.
     public struct ProtectConfigurationRuleSetNumberOverride: Swift.Sendable {
         /// The action for the rule to perform of either blocking or allowing messages to the destination phone number.
         /// This member is required.
@@ -7055,7 +7061,7 @@ public struct RequestPhoneNumberInput: Swift.Sendable {
     /// Indicates if the phone number will be used for text messages, voice messages, or both.
     /// This member is required.
     public var numberCapabilities: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
-    /// The type of phone number to request.
+    /// The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL.
     /// This member is required.
     public var numberType: PinpointSMSVoiceV2ClientTypes.RequestableNumberType?
     /// The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
@@ -7344,7 +7350,7 @@ public struct SendMediaMessageInput: Swift.Sendable {
     public var dryRun: Swift.Bool?
     /// The maximum amount that you want to spend, in US dollars, per each MMS message.
     public var maxPrice: Swift.String?
-    /// An array of URLs to each media file to send. The media files have to be stored in a publicly available S3 bucket. Supported media file formats are listed in [MMS file types, size and character limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/mms-limitations-character.html). For more information on creating an S3 bucket and managing objects, see [Creating a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) and [Uploading objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html) in the S3 user guide.
+    /// An array of URLs to each media file to send. The media files have to be stored in an S3 bucket. Supported media file formats are listed in [MMS file types, size and character limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/mms-limitations-character.html). For more information on creating an S3 bucket and managing objects, see [Creating a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html), [Uploading objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html) in the Amazon S3 User Guide, and [Setting up an Amazon S3 bucket for MMS files](https://docs.aws.amazon.com/sms-voice/latest/userguide/send-mms-message.html#send-mms-message-bucket) in the Amazon Web Services End User Messaging SMS User Guide.
     public var mediaUrls: [Swift.String]?
     /// The text body of the message.
     public var messageBody: Swift.String?
@@ -8395,7 +8401,7 @@ public struct UpdateProtectConfigurationOutput: Swift.Sendable {
 }
 
 public struct UpdateProtectConfigurationCountryRuleSetInput: Swift.Sendable {
-    /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see [Supported countries and regions (SMS channel)](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html) in the AWS End User Messaging SMS User Guide.
+    /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see [Supported countries and regions (SMS channel)](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html) in the AWS End User Messaging SMS User Guide. For example, to set the United States as allowed and Canada as blocked, the CountryRuleSetUpdates would be formatted as: "CountryRuleSetUpdates": { "US" : { "ProtectStatus": "ALLOW" } "CA" : { "ProtectStatus": "BLOCK" } }
     /// This member is required.
     public var countryRuleSetUpdates: [Swift.String: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation]?
     /// The number capability to apply the CountryRuleSetUpdates updates to.
@@ -11621,6 +11627,7 @@ enum CreateProtectConfigurationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)

@@ -1019,6 +1019,7 @@ extension AppRunnerClientTypes {
         case nodejs14
         case nodejs16
         case nodejs18
+        case nodejs22
         case php81
         case python3
         case python311
@@ -1035,6 +1036,7 @@ extension AppRunnerClientTypes {
                 .nodejs14,
                 .nodejs16,
                 .nodejs18,
+                .nodejs22,
                 .php81,
                 .python3,
                 .python311,
@@ -1057,6 +1059,7 @@ extension AppRunnerClientTypes {
             case .nodejs14: return "NODEJS_14"
             case .nodejs16: return "NODEJS_16"
             case .nodejs18: return "NODEJS_18"
+            case .nodejs22: return "NODEJS_22"
             case .php81: return "PHP_81"
             case .python3: return "PYTHON_3"
             case .python311: return "PYTHON_311"

@@ -2126,13 +2126,13 @@ extension NetworkFirewallClientTypes {
 
     /// Criteria for Network Firewall to use to inspect an individual packet in stateless rule inspection. Each match attributes set can include one or more items such as IP address, CIDR range, port number, protocol, and TCP flags.
     public struct MatchAttributes: Swift.Sendable {
-        /// The destination ports to inspect for. If not specified, this matches with any destination port. This setting is only used for protocols 6 (TCP) and 17 (UDP). You can specify individual ports, for example 1994 and you can specify port ranges, for example 1990:1994.
+        /// The destination port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY. This setting is only used for protocols 6 (TCP) and 17 (UDP).
         public var destinationPorts: [NetworkFirewallClientTypes.PortRange]?
         /// The destination IP addresses and address ranges to inspect for, in CIDR notation. If not specified, this matches with any destination address.
         public var destinations: [NetworkFirewallClientTypes.Address]?
-        /// The protocols to inspect for, specified using each protocol's assigned internet protocol number (IANA). If not specified, this matches with any protocol.
+        /// The protocols to inspect for, specified using the assigned internet protocol number (IANA) for each protocol. If not specified, this matches with any protocol.
         public var protocols: [Swift.Int]?
-        /// The source ports to inspect for. If not specified, this matches with any source port. This setting is only used for protocols 6 (TCP) and 17 (UDP). You can specify individual ports, for example 1994 and you can specify port ranges, for example 1990:1994.
+        /// The source port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY. If not specified, this matches with any source port. This setting is only used for protocols 6 (TCP) and 17 (UDP).
         public var sourcePorts: [NetworkFirewallClientTypes.PortRange]?
         /// The source IP addresses and address ranges to inspect for, in CIDR notation. If not specified, this matches with any source address.
         public var sources: [NetworkFirewallClientTypes.Address]?
@@ -2542,7 +2542,7 @@ extension NetworkFirewallClientTypes {
         public var destinationPorts: [NetworkFirewallClientTypes.PortRange]?
         /// The destination IP addresses and address ranges to decrypt for inspection, in CIDR notation. If not specified, this matches with any destination address.
         public var destinations: [NetworkFirewallClientTypes.Address]?
-        /// The protocols to decrypt for inspection, specified using each protocol's assigned internet protocol number (IANA). Network Firewall currently supports only TCP.
+        /// The protocols to inspect for, specified using the assigned internet protocol number (IANA) for each protocol. If not specified, this matches with any protocol. Network Firewall currently supports only TCP.
         public var protocols: [Swift.Int]?
         /// The source ports to decrypt for inspection, in Transmission Control Protocol (TCP) format. If not specified, this matches with any source port. You can specify individual ports, for example 1994, and you can specify port ranges, such as 1990:1994.
         public var sourcePorts: [NetworkFirewallClientTypes.PortRange]?
@@ -2981,6 +2981,180 @@ public struct DescribeFirewallPolicyOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeFlowOperationInput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    /// This member is required.
+    public var firewallArn: Swift.String?
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    /// This member is required.
+    public var flowOperationId: Swift.String?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowOperationId: Swift.String? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowOperationId = flowOperationId
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public struct FlowFilter: Swift.Sendable {
+        /// A single IP address specification. This is used in the [MatchAttributes] source and destination specifications.
+        public var destinationAddress: NetworkFirewallClientTypes.Address?
+        /// The destination port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY.
+        public var destinationPort: Swift.String?
+        /// The protocols to inspect for, specified using the assigned internet protocol number (IANA) for each protocol. If not specified, this matches with any protocol.
+        public var protocols: [Swift.String]?
+        /// A single IP address specification. This is used in the [MatchAttributes] source and destination specifications.
+        public var sourceAddress: NetworkFirewallClientTypes.Address?
+        /// The source port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY.
+        public var sourcePort: Swift.String?
+
+        public init(
+            destinationAddress: NetworkFirewallClientTypes.Address? = nil,
+            destinationPort: Swift.String? = nil,
+            protocols: [Swift.String]? = nil,
+            sourceAddress: NetworkFirewallClientTypes.Address? = nil,
+            sourcePort: Swift.String? = nil
+        ) {
+            self.destinationAddress = destinationAddress
+            self.destinationPort = destinationPort
+            self.protocols = protocols
+            self.sourceAddress = sourceAddress
+            self.sourcePort = sourcePort
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Contains information about a flow operation, such as related statuses, unique identifiers, and all filters defined in the operation. Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules. For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
+    public struct FlowOperation: Swift.Sendable {
+        /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        public var flowFilters: [NetworkFirewallClientTypes.FlowFilter]?
+        /// The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds. You provide this for start commands.
+        public var minimumFlowAgeInSeconds: Swift.Int?
+
+        public init(
+            flowFilters: [NetworkFirewallClientTypes.FlowFilter]? = nil,
+            minimumFlowAgeInSeconds: Swift.Int? = nil
+        ) {
+            self.flowFilters = flowFilters
+            self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum FlowOperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case completedWithErrors
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowOperationStatus] {
+            return [
+                .completed,
+                .completedWithErrors,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .completedWithErrors: return "COMPLETED_WITH_ERRORS"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum FlowOperationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case flowCapture
+        case flowFlush
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowOperationType] {
+            return [
+                .flowCapture,
+                .flowFlush
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .flowCapture: return "FLOW_CAPTURE"
+            case .flowFlush: return "FLOW_FLUSH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeFlowOperationOutput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// Returns key information about a flow operation, such as related statuses, unique identifiers, and all filters defined in the operation.
+    public var flowOperation: NetworkFirewallClientTypes.FlowOperation?
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    public var flowOperationId: Swift.String?
+    /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response. If the status is FAILED, Flows returned will be empty.
+    public var flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus?
+    /// Defines the type of FlowOperation.
+    public var flowOperationType: NetworkFirewallClientTypes.FlowOperationType?
+    /// A timestamp indicating when the Suricata engine identified flows impacted by an operation.
+    public var flowRequestTimestamp: Foundation.Date?
+    /// If the asynchronous operation fails, Network Firewall populates this with the reason for the error or failure. Options include Flow operation error and Flow timeout.
+    public var statusMessage: Swift.String?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowOperation: NetworkFirewallClientTypes.FlowOperation? = nil,
+        flowOperationId: Swift.String? = nil,
+        flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus? = nil,
+        flowOperationType: NetworkFirewallClientTypes.FlowOperationType? = nil,
+        flowRequestTimestamp: Foundation.Date? = nil,
+        statusMessage: Swift.String? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowOperation = flowOperation
+        self.flowOperationId = flowOperationId
+        self.flowOperationStatus = flowOperationStatus
+        self.flowOperationType = flowOperationType
+        self.flowRequestTimestamp = flowRequestTimestamp
+        self.statusMessage = statusMessage
+    }
+}
+
 public struct DescribeLoggingConfigurationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     public var firewallArn: Swift.String?
@@ -3373,6 +3547,76 @@ extension NetworkFirewallClientTypes {
     }
 }
 
+extension NetworkFirewallClientTypes {
+
+    /// Any number of arrays, where each array is a single flow identified in the scope of the operation. If multiple flows were in the scope of the operation, multiple Flows arrays are returned.
+    public struct Flow: Swift.Sendable {
+        /// Returned as info about age of the flows identified by the flow operation.
+        public var age: Swift.Int?
+        /// Returns the number of bytes received or transmitted in a specific flow.
+        public var byteCount: Swift.Int
+        /// A single IP address specification. This is used in the [MatchAttributes] source and destination specifications.
+        public var destinationAddress: NetworkFirewallClientTypes.Address?
+        /// The destination port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY.
+        public var destinationPort: Swift.String?
+        /// Returns the total number of data packets received or transmitted in a flow.
+        public var packetCount: Swift.Int?
+        /// The protocols to inspect for, specified using the assigned internet protocol number (IANA) for each protocol. If not specified, this matches with any protocol.
+        public var `protocol`: Swift.String?
+        /// A single IP address specification. This is used in the [MatchAttributes] source and destination specifications.
+        public var sourceAddress: NetworkFirewallClientTypes.Address?
+        /// The source port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY.
+        public var sourcePort: Swift.String?
+
+        public init(
+            age: Swift.Int? = nil,
+            byteCount: Swift.Int = 0,
+            destinationAddress: NetworkFirewallClientTypes.Address? = nil,
+            destinationPort: Swift.String? = nil,
+            packetCount: Swift.Int? = nil,
+            `protocol`: Swift.String? = nil,
+            sourceAddress: NetworkFirewallClientTypes.Address? = nil,
+            sourcePort: Swift.String? = nil
+        ) {
+            self.age = age
+            self.byteCount = byteCount
+            self.destinationAddress = destinationAddress
+            self.destinationPort = destinationPort
+            self.packetCount = packetCount
+            self.`protocol` = `protocol`
+            self.sourceAddress = sourceAddress
+            self.sourcePort = sourcePort
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// An array of objects with metadata about the requested FlowOperation.
+    public struct FlowOperationMetadata: Swift.Sendable {
+        /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+        public var flowOperationId: Swift.String?
+        /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response. If the status is FAILED, Flows returned will be empty.
+        public var flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus?
+        /// Defines the type of FlowOperation.
+        public var flowOperationType: NetworkFirewallClientTypes.FlowOperationType?
+        /// A timestamp indicating when the Suricata engine identified flows impacted by an operation.
+        public var flowRequestTimestamp: Foundation.Date?
+
+        public init(
+            flowOperationId: Swift.String? = nil,
+            flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus? = nil,
+            flowOperationType: NetworkFirewallClientTypes.FlowOperationType? = nil,
+            flowRequestTimestamp: Foundation.Date? = nil
+        ) {
+            self.flowOperationId = flowOperationId
+            self.flowOperationStatus = flowOperationStatus
+            self.flowOperationType = flowOperationType
+            self.flowRequestTimestamp = flowRequestTimestamp
+        }
+    }
+}
+
 public struct GetAnalysisReportResultsInput: Swift.Sendable {
     /// The unique ID of the query that ran when you requested an analysis report.
     /// This member is required.
@@ -3534,6 +3778,117 @@ public struct ListFirewallsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.firewalls = firewalls
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListFlowOperationResultsInput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    /// This member is required.
+    public var firewallArn: Swift.String?
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    /// This member is required.
+    public var flowOperationId: Swift.String?
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowOperationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowOperationId = flowOperationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListFlowOperationResultsOutput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    public var flowOperationId: Swift.String?
+    /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response. If the status is FAILED, Flows returned will be empty.
+    public var flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus?
+    /// A timestamp indicating when the Suricata engine identified flows impacted by an operation.
+    public var flowRequestTimestamp: Foundation.Date?
+    /// Any number of arrays, where each array is a single flow identified in the scope of the operation. If multiple flows were in the scope of the operation, multiple Flows arrays are returned.
+    public var flows: [NetworkFirewallClientTypes.Flow]?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+    /// If the asynchronous operation fails, Network Firewall populates this with the reason for the error or failure. Options include Flow operation error and Flow timeout.
+    public var statusMessage: Swift.String?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowOperationId: Swift.String? = nil,
+        flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus? = nil,
+        flowRequestTimestamp: Foundation.Date? = nil,
+        flows: [NetworkFirewallClientTypes.Flow]? = nil,
+        nextToken: Swift.String? = nil,
+        statusMessage: Swift.String? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowOperationId = flowOperationId
+        self.flowOperationStatus = flowOperationStatus
+        self.flowRequestTimestamp = flowRequestTimestamp
+        self.flows = flows
+        self.nextToken = nextToken
+        self.statusMessage = statusMessage
+    }
+}
+
+public struct ListFlowOperationsInput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    /// This member is required.
+    public var firewallArn: Swift.String?
+    /// An optional string that defines whether any or all operation types are returned.
+    public var flowOperationType: NetworkFirewallClientTypes.FlowOperationType?
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowOperationType: NetworkFirewallClientTypes.FlowOperationType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowOperationType = flowOperationType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListFlowOperationsOutput: Swift.Sendable {
+    /// Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules. For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
+    public var flowOperations: [NetworkFirewallClientTypes.FlowOperationMetadata]?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        flowOperations: [NetworkFirewallClientTypes.FlowOperationMetadata]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.flowOperations = flowOperations
         self.nextToken = nextToken
     }
 }
@@ -3831,6 +4186,94 @@ public struct StartAnalysisReportOutput: Swift.Sendable {
         analysisReportId: Swift.String? = nil
     ) {
         self.analysisReportId = analysisReportId
+    }
+}
+
+public struct StartFlowCaptureInput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    /// This member is required.
+    public var firewallArn: Swift.String?
+    /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    /// This member is required.
+    public var flowFilters: [NetworkFirewallClientTypes.FlowFilter]?
+    /// The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds. You provide this for start commands. We recommend setting this value to at least 1 minute (60 seconds) to reduce chance of capturing flows that are not yet established.
+    public var minimumFlowAgeInSeconds: Swift.Int?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowFilters: [NetworkFirewallClientTypes.FlowFilter]? = nil,
+        minimumFlowAgeInSeconds: Swift.Int? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowFilters = flowFilters
+        self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
+    }
+}
+
+public struct StartFlowCaptureOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    public var flowOperationId: Swift.String?
+    /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response. If the status is FAILED, Flows returned will be empty.
+    public var flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus?
+
+    public init(
+        firewallArn: Swift.String? = nil,
+        flowOperationId: Swift.String? = nil,
+        flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus? = nil
+    ) {
+        self.firewallArn = firewallArn
+        self.flowOperationId = flowOperationId
+        self.flowOperationStatus = flowOperationStatus
+    }
+}
+
+public struct StartFlowFlushInput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    /// This member is required.
+    public var firewallArn: Swift.String?
+    /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    /// This member is required.
+    public var flowFilters: [NetworkFirewallClientTypes.FlowFilter]?
+    /// The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds. You provide this for start commands.
+    public var minimumFlowAgeInSeconds: Swift.Int?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowFilters: [NetworkFirewallClientTypes.FlowFilter]? = nil,
+        minimumFlowAgeInSeconds: Swift.Int? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowFilters = flowFilters
+        self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
+    }
+}
+
+public struct StartFlowFlushOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    public var flowOperationId: Swift.String?
+    /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response. If the status is FAILED, Flows returned will be empty.
+    public var flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus?
+
+    public init(
+        firewallArn: Swift.String? = nil,
+        flowOperationId: Swift.String? = nil,
+        flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus? = nil
+    ) {
+        self.firewallArn = firewallArn
+        self.flowOperationId = flowOperationId
+        self.flowOperationStatus = flowOperationStatus
     }
 }
 
@@ -4482,6 +4925,13 @@ extension DescribeFirewallPolicyInput {
     }
 }
 
+extension DescribeFlowOperationInput {
+
+    static func urlPathProvider(_ value: DescribeFlowOperationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeLoggingConfigurationInput {
 
     static func urlPathProvider(_ value: DescribeLoggingConfigurationInput) -> Swift.String? {
@@ -4552,6 +5002,20 @@ extension ListFirewallsInput {
     }
 }
 
+extension ListFlowOperationResultsInput {
+
+    static func urlPathProvider(_ value: ListFlowOperationResultsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListFlowOperationsInput {
+
+    static func urlPathProvider(_ value: ListFlowOperationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListRuleGroupsInput {
 
     static func urlPathProvider(_ value: ListRuleGroupsInput) -> Swift.String? {
@@ -4583,6 +5047,20 @@ extension PutResourcePolicyInput {
 extension StartAnalysisReportInput {
 
     static func urlPathProvider(_ value: StartAnalysisReportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartFlowCaptureInput {
+
+    static func urlPathProvider(_ value: StartFlowCaptureInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartFlowFlushInput {
+
+    static func urlPathProvider(_ value: StartFlowFlushInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4817,6 +5295,16 @@ extension DescribeFirewallPolicyInput {
     }
 }
 
+extension DescribeFlowOperationInput {
+
+    static func write(value: DescribeFlowOperationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FlowOperationId"].write(value.flowOperationId)
+    }
+}
+
 extension DescribeLoggingConfigurationInput {
 
     static func write(value: DescribeLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -4917,6 +5405,30 @@ extension ListFirewallsInput {
     }
 }
 
+extension ListFlowOperationResultsInput {
+
+    static func write(value: ListFlowOperationResultsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FlowOperationId"].write(value.flowOperationId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListFlowOperationsInput {
+
+    static func write(value: ListFlowOperationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FlowOperationType"].write(value.flowOperationType)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListRuleGroupsInput {
 
     static func write(value: ListRuleGroupsInput?, to writer: SmithyJSON.Writer) throws {
@@ -4964,6 +5476,28 @@ extension StartAnalysisReportInput {
         try writer["AnalysisType"].write(value.analysisType)
         try writer["FirewallArn"].write(value.firewallArn)
         try writer["FirewallName"].write(value.firewallName)
+    }
+}
+
+extension StartFlowCaptureInput {
+
+    static func write(value: StartFlowCaptureInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FlowFilters"].writeList(value.flowFilters, memberWritingClosure: NetworkFirewallClientTypes.FlowFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MinimumFlowAgeInSeconds"].write(value.minimumFlowAgeInSeconds)
+    }
+}
+
+extension StartFlowFlushInput {
+
+    static func write(value: StartFlowFlushInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FlowFilters"].writeList(value.flowFilters, memberWritingClosure: NetworkFirewallClientTypes.FlowFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MinimumFlowAgeInSeconds"].write(value.minimumFlowAgeInSeconds)
     }
 }
 
@@ -5272,6 +5806,25 @@ extension DescribeFirewallPolicyOutput {
     }
 }
 
+extension DescribeFlowOperationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeFlowOperationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeFlowOperationOutput()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.flowOperation = try reader["FlowOperation"].readIfPresent(with: NetworkFirewallClientTypes.FlowOperation.read(from:))
+        value.flowOperationId = try reader["FlowOperationId"].readIfPresent()
+        value.flowOperationStatus = try reader["FlowOperationStatus"].readIfPresent()
+        value.flowOperationType = try reader["FlowOperationType"].readIfPresent()
+        value.flowRequestTimestamp = try reader["FlowRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeLoggingConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeLoggingConfigurationOutput {
@@ -5415,6 +5968,38 @@ extension ListFirewallsOutput {
     }
 }
 
+extension ListFlowOperationResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFlowOperationResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFlowOperationResultsOutput()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.flowOperationId = try reader["FlowOperationId"].readIfPresent()
+        value.flowOperationStatus = try reader["FlowOperationStatus"].readIfPresent()
+        value.flowRequestTimestamp = try reader["FlowRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.flows = try reader["Flows"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Flow.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ListFlowOperationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFlowOperationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFlowOperationsOutput()
+        value.flowOperations = try reader["FlowOperations"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.FlowOperationMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListRuleGroupsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRuleGroupsOutput {
@@ -5469,6 +6054,34 @@ extension StartAnalysisReportOutput {
         let reader = responseReader
         var value = StartAnalysisReportOutput()
         value.analysisReportId = try reader["AnalysisReportId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension StartFlowCaptureOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartFlowCaptureOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartFlowCaptureOutput()
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.flowOperationId = try reader["FlowOperationId"].readIfPresent()
+        value.flowOperationStatus = try reader["FlowOperationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension StartFlowFlushOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartFlowFlushOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartFlowFlushOutput()
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.flowOperationId = try reader["FlowOperationId"].readIfPresent()
+        value.flowOperationStatus = try reader["FlowOperationStatus"].readIfPresent()
         return value
     }
 }
@@ -5869,6 +6482,23 @@ enum DescribeFirewallPolicyOutputError {
     }
 }
 
+enum DescribeFlowOperationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeLoggingConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6039,6 +6669,40 @@ enum ListFirewallsOutputError {
     }
 }
 
+enum ListFlowOperationResultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListFlowOperationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListRuleGroupsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6107,6 +6771,40 @@ enum PutResourcePolicyOutputError {
 }
 
 enum StartAnalysisReportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartFlowCaptureOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartFlowFlushOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6964,6 +7662,55 @@ extension NetworkFirewallClientTypes.StatelessRuleGroupReference {
     }
 }
 
+extension NetworkFirewallClientTypes.FlowOperation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FlowOperation()
+        value.minimumFlowAgeInSeconds = try reader["MinimumFlowAgeInSeconds"].readIfPresent()
+        value.flowFilters = try reader["FlowFilters"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.FlowFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FlowFilter {
+
+    static func write(value: NetworkFirewallClientTypes.FlowFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationAddress"].write(value.destinationAddress, with: NetworkFirewallClientTypes.Address.write(value:to:))
+        try writer["DestinationPort"].write(value.destinationPort)
+        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceAddress"].write(value.sourceAddress, with: NetworkFirewallClientTypes.Address.write(value:to:))
+        try writer["SourcePort"].write(value.sourcePort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FlowFilter()
+        value.sourceAddress = try reader["SourceAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
+        value.destinationAddress = try reader["DestinationAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
+        value.sourcePort = try reader["SourcePort"].readIfPresent()
+        value.destinationPort = try reader["DestinationPort"].readIfPresent()
+        value.protocols = try reader["Protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Address {
+
+    static func write(value: NetworkFirewallClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressDefinition"].write(value.addressDefinition)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Address {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Address()
+        value.addressDefinition = try reader["AddressDefinition"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension NetworkFirewallClientTypes.LoggingConfiguration {
 
     static func write(value: NetworkFirewallClientTypes.LoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -7161,21 +7908,6 @@ extension NetworkFirewallClientTypes.PortRange {
         var value = NetworkFirewallClientTypes.PortRange()
         value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
         value.toPort = try reader["ToPort"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.Address {
-
-    static func write(value: NetworkFirewallClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddressDefinition"].write(value.addressDefinition)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Address {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.Address()
-        value.addressDefinition = try reader["AddressDefinition"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7479,6 +8211,36 @@ extension NetworkFirewallClientTypes.FirewallMetadata {
         var value = NetworkFirewallClientTypes.FirewallMetadata()
         value.firewallName = try reader["FirewallName"].readIfPresent()
         value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Flow {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Flow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Flow()
+        value.sourceAddress = try reader["SourceAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
+        value.destinationAddress = try reader["DestinationAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
+        value.sourcePort = try reader["SourcePort"].readIfPresent()
+        value.destinationPort = try reader["DestinationPort"].readIfPresent()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.age = try reader["Age"].readIfPresent()
+        value.packetCount = try reader["PacketCount"].readIfPresent()
+        value.byteCount = try reader["ByteCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FlowOperationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowOperationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FlowOperationMetadata()
+        value.flowOperationId = try reader["FlowOperationId"].readIfPresent()
+        value.flowOperationType = try reader["FlowOperationType"].readIfPresent()
+        value.flowRequestTimestamp = try reader["FlowRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.flowOperationStatus = try reader["FlowOperationStatus"].readIfPresent()
         return value
     }
 }

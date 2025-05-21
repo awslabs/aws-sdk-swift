@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LicenseManagerClient: ClientRuntime.Client {
     public static let clientName = "LicenseManagerClient"
-    public static let version = "1.2.22"
+    public static let version = "1.3.20"
     let client: ClientRuntime.SdkHttpClient
     let config: LicenseManagerClient.LicenseManagerClientConfiguration
     let serviceName = "License Manager"
@@ -213,7 +213,7 @@ extension LicenseManagerClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultLicenseManagerAuthSchemeResolver(),
@@ -267,7 +267,7 @@ extension LicenseManagerClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultLicenseManagerAuthSchemeResolver(),
@@ -3590,7 +3590,7 @@ extension LicenseManagerClient {
 
     /// Performs the `ListTagsForResource` operation on the `LicenseManager` service.
     ///
-    /// Lists the tags for the specified license configuration.
+    /// Lists the tags for the specified resource. For more information about tagging support in License Manager, see the [TagResource](https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html) operation.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -3909,7 +3909,15 @@ extension LicenseManagerClient {
 
     /// Performs the `TagResource` operation on the `LicenseManager` service.
     ///
-    /// Adds the specified tags to the specified license configuration.
+    /// Adds the specified tags to the specified resource. The following resources support tagging in License Manager:
+    ///
+    /// * Licenses
+    ///
+    /// * Grants
+    ///
+    /// * License configurations
+    ///
+    /// * Report generators
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -3988,7 +3996,7 @@ extension LicenseManagerClient {
 
     /// Performs the `UntagResource` operation on the `LicenseManager` service.
     ///
-    /// Removes the specified tags from the specified license configuration.
+    /// Removes the specified tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -4078,6 +4086,7 @@ extension LicenseManagerClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access to resource denied.
     /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `ConflictException` : There was a conflict processing the request. Try your request again.
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
@@ -4240,6 +4249,7 @@ extension LicenseManagerClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access to resource denied.
     /// - `AuthorizationException` : The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
+    /// - `ConflictException` : There was a conflict processing the request. Try your request again.
     /// - `InvalidParameterValueException` : One or more parameter values are not valid.
     /// - `InvalidResourceStateException` : License Manager cannot allocate a license to a resource because of its state. For example, you cannot allocate a license to an instance in the process of shutting down.
     /// - `LicenseUsageException` : You do not have enough licenses available to support a new resource launch.

@@ -53,8 +53,6 @@ abstract class AWSHTTPBindingProtocolGenerator(
             protocolTestTagsToIgnore,
         ).generateProtocolTests() + renderEndpointsTests(ctx)
 
-    override fun generateSmokeTests(ctx: ProtocolGenerator.GenerationContext) = AWSSmokeTestGenerator(ctx).generateSmokeTests()
-
     fun renderEndpointsTests(ctx: ProtocolGenerator.GenerationContext): Int {
         val ruleSetNode = ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet
         val ruleSet = if (ruleSetNode != null) EndpointRuleSet.fromNode(ruleSetNode) else null

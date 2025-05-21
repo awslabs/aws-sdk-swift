@@ -275,6 +275,35 @@ extension GlueClientTypes {
     }
 }
 
+extension GlueClientTypes {
+
+    public enum AllowFullTableExternalDataAccessEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `false`
+        case `true`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AllowFullTableExternalDataAccessEnum] {
+            return [
+                .false,
+                .true
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .false: return "False"
+            case .true: return "True"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// A resource to be created or added already exists.
 public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -6351,9 +6380,12 @@ extension GlueClientTypes {
         case csv
         case delta
         case hudi
+        case hyper
+        case iceberg
         case json
         case orc
         case parquet
+        case xml
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TargetFormat] {
@@ -6362,9 +6394,12 @@ extension GlueClientTypes {
                 .csv,
                 .delta,
                 .hudi,
+                .hyper,
+                .iceberg,
                 .json,
                 .orc,
-                .parquet
+                .parquet,
+                .xml
             ]
         }
 
@@ -6379,9 +6414,12 @@ extension GlueClientTypes {
             case .csv: return "csv"
             case .delta: return "delta"
             case .hudi: return "hudi"
+            case .hyper: return "hyper"
+            case .iceberg: return "iceberg"
             case .json: return "json"
             case .orc: return "orc"
             case .parquet: return "parquet"
+            case .xml: return "xml"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6433,6 +6471,8 @@ extension GlueClientTypes {
         /// The name of the data target.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies the number of target partitions for distributing Delta Lake dataset files across Amazon S3.
+        public var numberTargetPartitions: Swift.String?
         /// Specifies native partitioning using a sequence of keys.
         public var partitionKeys: [[Swift.String]]?
         /// The Amazon S3 path of your Delta Lake data source to write to.
@@ -6447,6 +6487,7 @@ extension GlueClientTypes {
             format: GlueClientTypes.TargetFormat? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
+            numberTargetPartitions: Swift.String? = nil,
             partitionKeys: [[Swift.String]]? = nil,
             path: Swift.String? = nil,
             schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
@@ -6456,6 +6497,7 @@ extension GlueClientTypes {
             self.format = format
             self.inputs = inputs
             self.name = name
+            self.numberTargetPartitions = numberTargetPartitions
             self.partitionKeys = partitionKeys
             self.path = path
             self.schemaChangePolicy = schemaChangePolicy
@@ -6511,6 +6553,8 @@ extension GlueClientTypes {
         /// The name of the data target.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies the number of target partitions when writing data directly to Amazon S3.
+        public var numberTargetPartitions: Swift.String?
         /// Specifies native partitioning using a sequence of keys.
         public var partitionKeys: [[Swift.String]]?
         /// A single Amazon S3 path to write to.
@@ -6524,6 +6568,7 @@ extension GlueClientTypes {
             format: GlueClientTypes.TargetFormat? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
+            numberTargetPartitions: Swift.String? = nil,
             partitionKeys: [[Swift.String]]? = nil,
             path: Swift.String? = nil,
             schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
@@ -6532,6 +6577,7 @@ extension GlueClientTypes {
             self.format = format
             self.inputs = inputs
             self.name = name
+            self.numberTargetPartitions = numberTargetPartitions
             self.partitionKeys = partitionKeys
             self.path = path
             self.schemaChangePolicy = schemaChangePolicy
@@ -6542,7 +6588,9 @@ extension GlueClientTypes {
 extension GlueClientTypes {
 
     public enum ParquetCompressionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case brotli
         case gzip
+        case lz4
         case lzo
         case `none`
         case snappy
@@ -6551,7 +6599,9 @@ extension GlueClientTypes {
 
         public static var allCases: [ParquetCompressionType] {
             return [
+                .brotli,
                 .gzip,
+                .lz4,
                 .lzo,
                 .none,
                 .snappy,
@@ -6566,13 +6616,80 @@ extension GlueClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .brotli: return "brotli"
             case .gzip: return "gzip"
+            case .lz4: return "lz4"
             case .lzo: return "lzo"
             case .none: return "none"
             case .snappy: return "snappy"
             case .uncompressed: return "uncompressed"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Specifies an S3 Excel data source.
+    public struct S3ExcelSource: Swift.Sendable {
+        /// Additional configuration options for S3 direct source processing.
+        public var additionalOptions: GlueClientTypes.S3DirectSourceAdditionalOptions?
+        /// The compression format used for the Excel files.
+        public var compressionType: GlueClientTypes.ParquetCompressionType?
+        /// Patterns to exclude specific files or paths from processing.
+        public var exclusions: [Swift.String]?
+        /// Specifies how files should be grouped for processing.
+        public var groupFiles: Swift.String?
+        /// Defines the size of file groups for batch processing.
+        public var groupSize: Swift.String?
+        /// The maximum number of processing bands to use.
+        public var maxBand: Swift.Int?
+        /// The maximum number of files to process in each band.
+        public var maxFilesInBand: Swift.Int?
+        /// The name of the S3 Excel data source.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The number of rows to process from each Excel file.
+        public var numberRows: Swift.Int?
+        /// The AWS Glue schemas to apply to the processed data.
+        public var outputSchemas: [GlueClientTypes.GlueSchema]?
+        /// The S3 paths where the Excel files are located.
+        /// This member is required.
+        public var paths: [Swift.String]?
+        /// Indicates whether to recursively process subdirectories.
+        public var recurse: Swift.Bool?
+        /// The number of rows to skip at the end of each Excel file.
+        public var skipFooter: Swift.Int?
+
+        public init(
+            additionalOptions: GlueClientTypes.S3DirectSourceAdditionalOptions? = nil,
+            compressionType: GlueClientTypes.ParquetCompressionType? = nil,
+            exclusions: [Swift.String]? = nil,
+            groupFiles: Swift.String? = nil,
+            groupSize: Swift.String? = nil,
+            maxBand: Swift.Int? = nil,
+            maxFilesInBand: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            numberRows: Swift.Int? = nil,
+            outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
+            paths: [Swift.String]? = nil,
+            recurse: Swift.Bool? = nil,
+            skipFooter: Swift.Int? = nil
+        ) {
+            self.additionalOptions = additionalOptions
+            self.compressionType = compressionType
+            self.exclusions = exclusions
+            self.groupFiles = groupFiles
+            self.groupSize = groupSize
+            self.maxBand = maxBand
+            self.maxFilesInBand = maxFilesInBand
+            self.name = name
+            self.numberRows = numberRows
+            self.outputSchemas = outputSchemas
+            self.paths = paths
+            self.recurse = recurse
+            self.skipFooter = skipFooter
         }
     }
 }
@@ -6589,6 +6706,8 @@ extension GlueClientTypes {
         /// The name of the data target.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies the number of target partitions for Parquet files when writing to Amazon S3 using AWS Glue.
+        public var numberTargetPartitions: Swift.String?
         /// Specifies native partitioning using a sequence of keys.
         public var partitionKeys: [[Swift.String]]?
         /// A single Amazon S3 path to write to.
@@ -6601,6 +6720,7 @@ extension GlueClientTypes {
             compression: GlueClientTypes.ParquetCompressionType? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
+            numberTargetPartitions: Swift.String? = nil,
             partitionKeys: [[Swift.String]]? = nil,
             path: Swift.String? = nil,
             schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
@@ -6608,6 +6728,7 @@ extension GlueClientTypes {
             self.compression = compression
             self.inputs = inputs
             self.name = name
+            self.numberTargetPartitions = numberTargetPartitions
             self.partitionKeys = partitionKeys
             self.path = path
             self.schemaChangePolicy = schemaChangePolicy
@@ -6713,6 +6834,8 @@ extension GlueClientTypes {
         /// The name of the data target.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies the number of target partitions for distributing Hudi dataset files across Amazon S3.
+        public var numberTargetPartitions: Swift.String?
         /// Specifies native partitioning using a sequence of keys.
         public var partitionKeys: [[Swift.String]]?
         /// The Amazon S3 path of your Hudi data source to write to.
@@ -6727,6 +6850,7 @@ extension GlueClientTypes {
             format: GlueClientTypes.TargetFormat? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
+            numberTargetPartitions: Swift.String? = nil,
             partitionKeys: [[Swift.String]]? = nil,
             path: Swift.String? = nil,
             schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
@@ -6736,6 +6860,7 @@ extension GlueClientTypes {
             self.format = format
             self.inputs = inputs
             self.name = name
+            self.numberTargetPartitions = numberTargetPartitions
             self.partitionKeys = partitionKeys
             self.path = path
             self.schemaChangePolicy = schemaChangePolicy
@@ -6772,6 +6897,157 @@ extension GlueClientTypes {
             self.name = name
             self.outputSchemas = outputSchemas
             self.paths = paths
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum HyperTargetCompressionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case uncompressed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HyperTargetCompressionType] {
+            return [
+                .uncompressed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .uncompressed: return "uncompressed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Specifies a HyperDirect data target that writes to Amazon S3.
+    public struct S3HyperDirectTarget: Swift.Sendable {
+        /// The compression type to apply to the output data.
+        public var compression: GlueClientTypes.HyperTargetCompressionType?
+        /// Specifies the input source for the HyperDirect target.
+        /// This member is required.
+        public var inputs: [Swift.String]?
+        /// The unique identifier for the HyperDirect target node.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Defines the partitioning strategy for the output data.
+        public var partitionKeys: [[Swift.String]]?
+        /// The S3 location where the output data will be written.
+        /// This member is required.
+        public var path: Swift.String?
+        /// Defines how schema changes are handled during write operations.
+        public var schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy?
+
+        public init(
+            compression: GlueClientTypes.HyperTargetCompressionType? = nil,
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            partitionKeys: [[Swift.String]]? = nil,
+            path: Swift.String? = nil,
+            schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
+        ) {
+            self.compression = compression
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.path = path
+            self.schemaChangePolicy = schemaChangePolicy
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum IcebergTargetCompressionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gzip
+        case lzo
+        case snappy
+        case uncompressed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergTargetCompressionType] {
+            return [
+                .gzip,
+                .lzo,
+                .snappy,
+                .uncompressed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gzip: return "gzip"
+            case .lzo: return "lzo"
+            case .snappy: return "snappy"
+            case .uncompressed: return "uncompressed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Specifies a target that writes to an Iceberg data source in Amazon S3.
+    public struct S3IcebergDirectTarget: Swift.Sendable {
+        /// Provides additional configuration options for customizing the Iceberg table behavior.
+        public var additionalOptions: [Swift.String: Swift.String]?
+        /// Specifies the compression codec used for Iceberg table files in S3.
+        /// This member is required.
+        public var compression: GlueClientTypes.IcebergTargetCompressionType?
+        /// Specifies the file format used for storing Iceberg table data (e.g., Parquet, ORC).
+        /// This member is required.
+        public var format: GlueClientTypes.TargetFormat?
+        /// Defines the single input source that provides data to this Iceberg target.
+        /// This member is required.
+        public var inputs: [Swift.String]?
+        /// Specifies the unique identifier for the Iceberg target node in your data pipeline.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Sets the number of target partitions for distributing Iceberg table files across S3.
+        public var numberTargetPartitions: Swift.String?
+        /// Specifies the columns used to partition the Iceberg table data in S3.
+        public var partitionKeys: [[Swift.String]]?
+        /// Defines the S3 location where the Iceberg table data will be stored.
+        /// This member is required.
+        public var path: Swift.String?
+        /// Defines how schema changes are handled when writing data to the Iceberg table.
+        public var schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy?
+
+        public init(
+            additionalOptions: [Swift.String: Swift.String]? = nil,
+            compression: GlueClientTypes.IcebergTargetCompressionType? = nil,
+            format: GlueClientTypes.TargetFormat? = nil,
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            numberTargetPartitions: Swift.String? = nil,
+            partitionKeys: [[Swift.String]]? = nil,
+            path: Swift.String? = nil,
+            schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
+        ) {
+            self.additionalOptions = additionalOptions
+            self.compression = compression
+            self.format = format
+            self.inputs = inputs
+            self.name = name
+            self.numberTargetPartitions = numberTargetPartitions
+            self.partitionKeys = partitionKeys
+            self.path = path
+            self.schemaChangePolicy = schemaChangePolicy
         }
     }
 }
@@ -8034,21 +8310,25 @@ extension GlueClientTypes {
 
     /// Compaction metrics for Iceberg for the optimizer run.
     public struct IcebergCompactionMetrics: Swift.Sendable {
+        /// The number of DPU hours consumed by the job.
+        public var dpuHours: Swift.Double
         /// The duration of the job in hours.
         public var jobDurationInHour: Swift.Double
         /// The number of bytes removed by the compaction job run.
         public var numberOfBytesCompacted: Swift.Int
-        /// The number of DPU hours consumed by the job.
+        /// The number of DPUs consumed by the job, rounded up to the nearest whole number.
         public var numberOfDpus: Swift.Int
         /// The number of files removed by the compaction job run.
         public var numberOfFilesCompacted: Swift.Int
 
         public init(
+            dpuHours: Swift.Double = 0.0,
             jobDurationInHour: Swift.Double = 0.0,
             numberOfBytesCompacted: Swift.Int = 0,
             numberOfDpus: Swift.Int = 0,
             numberOfFilesCompacted: Swift.Int = 0
         ) {
+            self.dpuHours = dpuHours
             self.jobDurationInHour = jobDurationInHour
             self.numberOfBytesCompacted = numberOfBytesCompacted
             self.numberOfDpus = numberOfDpus
@@ -8115,7 +8395,7 @@ extension GlueClientTypes {
         public var jobDurationInHour: Swift.String?
         /// The number of bytes removed by the compaction job run.
         public var numberOfBytesCompacted: Swift.String?
-        /// The number of DPU hours consumed by the job.
+        /// The number of DPUs consumed by the job, rounded up to the nearest whole number.
         public var numberOfDpus: Swift.String?
         /// The number of files removed by the compaction job run.
         public var numberOfFilesCompacted: Swift.String?
@@ -8138,18 +8418,22 @@ extension GlueClientTypes {
 
     /// Orphan file deletion metrics for Iceberg for the optimizer run.
     public struct IcebergOrphanFileDeletionMetrics: Swift.Sendable {
+        /// The number of DPU hours consumed by the job.
+        public var dpuHours: Swift.Double
         /// The duration of the job in hours.
         public var jobDurationInHour: Swift.Double
-        /// The number of DPU hours consumed by the job.
+        /// The number of DPUs consumed by the job, rounded up to the nearest whole number.
         public var numberOfDpus: Swift.Int
         /// The number of orphan files deleted by the orphan file deletion job run.
         public var numberOfOrphanFilesDeleted: Swift.Int
 
         public init(
+            dpuHours: Swift.Double = 0.0,
             jobDurationInHour: Swift.Double = 0.0,
             numberOfDpus: Swift.Int = 0,
             numberOfOrphanFilesDeleted: Swift.Int = 0
         ) {
+            self.dpuHours = dpuHours
             self.jobDurationInHour = jobDurationInHour
             self.numberOfDpus = numberOfDpus
             self.numberOfOrphanFilesDeleted = numberOfOrphanFilesDeleted
@@ -8176,11 +8460,13 @@ extension GlueClientTypes {
 
     /// Snapshot retention metrics for Iceberg for the optimizer run.
     public struct IcebergRetentionMetrics: Swift.Sendable {
+        /// The number of DPU hours consumed by the job.
+        public var dpuHours: Swift.Double
         /// The duration of the job in hours.
         public var jobDurationInHour: Swift.Double
         /// The number of data files deleted by the retention job run.
         public var numberOfDataFilesDeleted: Swift.Int
-        /// The number of DPU hours consumed by the job.
+        /// The number of DPUs consumed by the job, rounded up to the nearest whole number.
         public var numberOfDpus: Swift.Int
         /// The number of manifest files deleted by the retention job run.
         public var numberOfManifestFilesDeleted: Swift.Int
@@ -8188,12 +8474,14 @@ extension GlueClientTypes {
         public var numberOfManifestListsDeleted: Swift.Int
 
         public init(
+            dpuHours: Swift.Double = 0.0,
             jobDurationInHour: Swift.Double = 0.0,
             numberOfDataFilesDeleted: Swift.Int = 0,
             numberOfDpus: Swift.Int = 0,
             numberOfManifestFilesDeleted: Swift.Int = 0,
             numberOfManifestListsDeleted: Swift.Int = 0
         ) {
+            self.dpuHours = dpuHours
             self.jobDurationInHour = jobDurationInHour
             self.numberOfDataFilesDeleted = numberOfDataFilesDeleted
             self.numberOfDpus = numberOfDpus
@@ -10007,6 +10295,8 @@ extension GlueClientTypes {
 
     /// A structure that describes catalog properties.
     public struct CatalogInput: Swift.Sendable {
+        /// Allows third-party engines to access data in Amazon S3 locations that are registered with Lake Formation.
+        public var allowFullTableExternalDataAccess: GlueClientTypes.AllowFullTableExternalDataAccessEnum?
         /// A CatalogProperties object that specifies data lake access properties and other custom properties.
         public var catalogProperties: GlueClientTypes.CatalogProperties?
         /// An array of PrincipalPermissions objects. Creates a set of default permissions on the database(s) for principals. Used by Amazon Web Services Lake Formation. Typically should be explicitly set as an empty list.
@@ -10023,6 +10313,7 @@ extension GlueClientTypes {
         public var targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog?
 
         public init(
+            allowFullTableExternalDataAccess: GlueClientTypes.AllowFullTableExternalDataAccessEnum? = nil,
             catalogProperties: GlueClientTypes.CatalogProperties? = nil,
             createDatabaseDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
             createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
@@ -10031,6 +10322,7 @@ extension GlueClientTypes {
             parameters: [Swift.String: Swift.String]? = nil,
             targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog? = nil
         ) {
+            self.allowFullTableExternalDataAccess = allowFullTableExternalDataAccess
             self.catalogProperties = catalogProperties
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
             self.createTableDefaultPermissions = createTableDefaultPermissions
@@ -11574,6 +11866,21 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension GlueClientTypes {
 
+    /// Properties associated with the integration.
+    public struct IntegrationConfig: Swift.Sendable {
+        /// Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flexibility to align the refresh rate with your specific data update patterns, system load considerations, and performance optimization goals. Time increment can be set from 15 minutes to 8640 minutes (six days). Currently supports creation of RefreshInterval only.
+        public var refreshInterval: Swift.String?
+
+        public init(
+            refreshInterval: Swift.String? = nil
+        ) {
+            self.refreshInterval = refreshInterval
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// The Tag object represents a label that you can assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. For more information about tags, and controlling access to resources in Glue, see [Amazon Web Services Tags in Glue](https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html) and [Specifying Glue Resource ARNs](https://docs.aws.amazon.com/glue/latest/dg/glue-specifying-resource-arns.html) in the developer guide.
     public struct Tag: Swift.Sendable {
         /// The tag key. The key is required when you create a tag on an object. The key is case-sensitive, and must not contain the prefix aws.
@@ -11598,6 +11905,8 @@ public struct CreateIntegrationInput: Swift.Sendable {
     public var dataFilter: Swift.String?
     /// A description of the integration.
     public var description: Swift.String?
+    /// The configuration settings.
+    public var integrationConfig: GlueClientTypes.IntegrationConfig?
     /// A unique name for an integration in Glue.
     /// This member is required.
     public var integrationName: Swift.String?
@@ -11616,6 +11925,7 @@ public struct CreateIntegrationInput: Swift.Sendable {
         additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
         dataFilter: Swift.String? = nil,
         description: Swift.String? = nil,
+        integrationConfig: GlueClientTypes.IntegrationConfig? = nil,
         integrationName: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         sourceArn: Swift.String? = nil,
@@ -11625,6 +11935,7 @@ public struct CreateIntegrationInput: Swift.Sendable {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.dataFilter = dataFilter
         self.description = description
+        self.integrationConfig = integrationConfig
         self.integrationName = integrationName
         self.kmsKeyId = kmsKeyId
         self.sourceArn = sourceArn
@@ -11711,6 +12022,8 @@ public struct CreateIntegrationOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for the created integration.
     /// This member is required.
     public var integrationArn: Swift.String?
+    /// The configuration settings.
+    public var integrationConfig: GlueClientTypes.IntegrationConfig?
     /// A unique name for an integration in Glue.
     /// This member is required.
     public var integrationName: Swift.String?
@@ -11749,6 +12062,7 @@ public struct CreateIntegrationOutput: Swift.Sendable {
         description: Swift.String? = nil,
         errors: [GlueClientTypes.IntegrationError]? = nil,
         integrationArn: Swift.String? = nil,
+        integrationConfig: GlueClientTypes.IntegrationConfig? = nil,
         integrationName: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         sourceArn: Swift.String? = nil,
@@ -11762,6 +12076,7 @@ public struct CreateIntegrationOutput: Swift.Sendable {
         self.description = description
         self.errors = errors
         self.integrationArn = integrationArn
+        self.integrationConfig = integrationConfig
         self.integrationName = integrationName
         self.kmsKeyId = kmsKeyId
         self.sourceArn = sourceArn
@@ -11857,13 +12172,13 @@ extension GlueClientTypes {
 
     /// Properties used by the source leg to process data from the source.
     public struct SourceTableConfig: Swift.Sendable {
-        /// A list of fields used for column-level filtering.
+        /// A list of fields used for column-level filtering. Currently unsupported.
         public var fields: [Swift.String]?
-        /// A condition clause used for row-level filtering.
+        /// A condition clause used for row-level filtering. Currently unsupported.
         public var filterPredicate: Swift.String?
-        /// Unique identifier of a record.
+        /// Provide the primary key set for this table. Currently supported specifically for SAP EntityOf entities upon request. Contact Amazon Web Services Support to make this feature available.
         public var primaryKey: [Swift.String]?
-        /// Incremental pull timestamp-based field.
+        /// Incremental pull timestamp-based field. Currently unsupported.
         public var recordUpdateField: Swift.String?
 
         public init(
@@ -11884,9 +12199,9 @@ extension GlueClientTypes {
 
     /// A structure that describes how data is partitioned on the target.
     public struct IntegrationPartition: Swift.Sendable {
-        /// The field name used to partition data on the target.
+        /// The field name used to partition data on the target. Avoid using columns that have unique values for each row (for example, `LastModifiedTimestamp`, `SystemModTimeStamp`) as the partition column. These columns are not suitable for partitioning because they create a large number of small partitions, which can lead to performance issues.
         public var fieldName: Swift.String?
-        /// Specifies a function used to partition data on the target.
+        /// Specifies the function used to partition data on the target. The only accepted value for this parameter is `'identity'` (string). The `'identity'` function ensures that the data partitioning on the target follows the same scheme as the source. In other words, the partitioning structure of the source data is preserved in the target destination.
         public var functionSpec: Swift.String?
 
         public init(
@@ -11958,7 +12273,7 @@ public struct CreateIntegrationTablePropertiesInput: Swift.Sendable {
     /// The connection ARN of the source, or the database ARN of the target.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A structure for the source table configuration.
+    /// A structure for the source table configuration. See the SourceTableConfig structure to see list of supported source properties.
     public var sourceTableConfig: GlueClientTypes.SourceTableConfig?
     /// The name of the table to be replicated.
     /// This member is required.
@@ -15385,6 +15700,8 @@ extension GlueClientTypes {
         /// The ARN of the zero-ETL integration.
         /// This member is required.
         public var integrationArn: Swift.String?
+        /// Properties associated with the integration.
+        public var integrationConfig: GlueClientTypes.IntegrationConfig?
         /// The ARN of the source resource for the integration.
         /// This member is required.
         public var sourceArn: Swift.String?
@@ -15413,6 +15730,7 @@ extension GlueClientTypes {
             createTime: Foundation.Date? = nil,
             errors: [GlueClientTypes.IntegrationError]? = nil,
             integrationArn: Swift.String? = nil,
+            integrationConfig: GlueClientTypes.IntegrationConfig? = nil,
             sourceArn: Swift.String? = nil,
             status: GlueClientTypes.IntegrationStatus? = nil,
             targetArn: Swift.String? = nil
@@ -15420,6 +15738,7 @@ extension GlueClientTypes {
             self.createTime = createTime
             self.errors = errors
             self.integrationArn = integrationArn
+            self.integrationConfig = integrationConfig
             self.sourceArn = sourceArn
             self.status = status
             self.targetArn = targetArn
@@ -15502,6 +15821,8 @@ extension GlueClientTypes {
         /// The Amazon Resource Name (ARN) for the integration.
         /// This member is required.
         public var integrationArn: Swift.String?
+        /// Properties associated with the integration.
+        public var integrationConfig: GlueClientTypes.IntegrationConfig?
         /// A unique name for the integration.
         /// This member is required.
         public var integrationName: Swift.String?
@@ -15540,6 +15861,7 @@ extension GlueClientTypes {
             description: Swift.String? = nil,
             errors: [GlueClientTypes.IntegrationError]? = nil,
             integrationArn: Swift.String? = nil,
+            integrationConfig: GlueClientTypes.IntegrationConfig? = nil,
             integrationName: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             sourceArn: Swift.String? = nil,
@@ -15553,6 +15875,7 @@ extension GlueClientTypes {
             self.description = description
             self.errors = errors
             self.integrationArn = integrationArn
+            self.integrationConfig = integrationConfig
             self.integrationName = integrationName
             self.kmsKeyId = kmsKeyId
             self.sourceArn = sourceArn
@@ -15844,6 +16167,8 @@ extension GlueClientTypes {
 
     /// The catalog object represents a logical grouping of databases in the Glue Data Catalog or a federated source. You can now create a Redshift-federated catalog or a catalog containing resource links to Redshift databases in another account or region.
     public struct Catalog: Swift.Sendable {
+        /// Allows third-party engines to access data in Amazon S3 locations that are registered with Lake Formation.
+        public var allowFullTableExternalDataAccess: GlueClientTypes.AllowFullTableExternalDataAccessEnum?
         /// The ID of the catalog. To grant access to the default catalog, this field should not be provided.
         public var catalogId: Swift.String?
         /// A CatalogProperties object that specifies data lake access properties and other custom properties.
@@ -15871,6 +16196,7 @@ extension GlueClientTypes {
         public var updateTime: Foundation.Date?
 
         public init(
+            allowFullTableExternalDataAccess: GlueClientTypes.AllowFullTableExternalDataAccessEnum? = nil,
             catalogId: Swift.String? = nil,
             catalogProperties: GlueClientTypes.CatalogPropertiesOutput? = nil,
             createDatabaseDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
@@ -15884,6 +16210,7 @@ extension GlueClientTypes {
             targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog? = nil,
             updateTime: Foundation.Date? = nil
         ) {
+            self.allowFullTableExternalDataAccess = allowFullTableExternalDataAccess
             self.catalogId = catalogId
             self.catalogProperties = catalogProperties
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
@@ -22031,23 +22358,70 @@ public struct ListConnectionTypesInput: Swift.Sendable {
 
 extension GlueClientTypes {
 
+    /// Represents a variant of a connection type in Glue Data Catalog. Connection type variants provide specific configurations and behaviors for different implementations of the same general connection type.
+    public struct ConnectionTypeVariant: Swift.Sendable {
+        /// The unique identifier for the connection type variant. This name is used internally to identify the specific variant of a connection type.
+        public var connectionTypeVariantName: Swift.String?
+        /// A detailed description of the connection type variant, including its purpose, use cases, and any specific configuration requirements.
+        public var description: Swift.String?
+        /// The human-readable name for the connection type variant that is displayed in the Glue console.
+        public var displayName: Swift.String?
+        /// The URL of the logo associated with a connection type variant.
+        public var logoUrl: Swift.String?
+
+        public init(
+            connectionTypeVariantName: Swift.String? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            logoUrl: Swift.String? = nil
+        ) {
+            self.connectionTypeVariantName = connectionTypeVariantName
+            self.description = description
+            self.displayName = displayName
+            self.logoUrl = logoUrl
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// Brief information about a supported connection type returned by the ListConnectionTypes API.
     public struct ConnectionTypeBrief: Swift.Sendable {
         /// The supported authentication types, data interface types (compute environments), and data operations of the connector.
         public var capabilities: GlueClientTypes.Capabilities?
+        /// A list of categories that this connection type belongs to. Categories help users filter and find appropriate connection types based on their use cases.
+        public var categories: [Swift.String]?
         /// The name of the connection type.
         public var connectionType: GlueClientTypes.ConnectionType?
+        /// A list of variants available for this connection type. Different variants may provide specialized configurations for specific use cases or implementations of the same general connection type.
+        public var connectionTypeVariants: [GlueClientTypes.ConnectionTypeVariant]?
         /// A description of the connection type.
         public var description: Swift.String?
+        /// The human-readable name for the connection type that is displayed in the Glue console.
+        public var displayName: Swift.String?
+        /// The URL of the logo associated with a connection type.
+        public var logoUrl: Swift.String?
+        /// The name of the vendor or provider that created or maintains this connection type.
+        public var vendor: Swift.String?
 
         public init(
             capabilities: GlueClientTypes.Capabilities? = nil,
+            categories: [Swift.String]? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil,
-            description: Swift.String? = nil
+            connectionTypeVariants: [GlueClientTypes.ConnectionTypeVariant]? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            logoUrl: Swift.String? = nil,
+            vendor: Swift.String? = nil
         ) {
             self.capabilities = capabilities
+            self.categories = categories
             self.connectionType = connectionType
+            self.connectionTypeVariants = connectionTypeVariants
             self.description = description
+            self.displayName = displayName
+            self.logoUrl = logoUrl
+            self.vendor = vendor
         }
     }
 }
@@ -27060,6 +27434,8 @@ extension GlueClientTypes {
         public var s3DeltaSource: GlueClientTypes.S3DeltaSource?
         /// Specifies a data target that writes to Amazon S3.
         public var s3DirectTarget: GlueClientTypes.S3DirectTarget?
+        /// Defines configuration parameters for reading Excel files from Amazon S3.
+        public var s3ExcelSource: GlueClientTypes.S3ExcelSource?
         /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar storage.
         public var s3GlueParquetTarget: GlueClientTypes.S3GlueParquetTarget?
         /// Specifies a target that writes to a Hudi data source in the Glue Data Catalog.
@@ -27068,6 +27444,10 @@ extension GlueClientTypes {
         public var s3HudiDirectTarget: GlueClientTypes.S3HudiDirectTarget?
         /// Specifies a Hudi data source stored in Amazon S3.
         public var s3HudiSource: GlueClientTypes.S3HudiSource?
+        /// Defines configuration parameters for writing data to Amazon S3 using HyperDirect optimization.
+        public var s3HyperDirectTarget: GlueClientTypes.S3HyperDirectTarget?
+        /// Defines configuration parameters for writing data to Amazon S3 as an Apache Iceberg table.
+        public var s3IcebergDirectTarget: GlueClientTypes.S3IcebergDirectTarget?
         /// Specifies a JSON data store stored in Amazon S3.
         public var s3JsonSource: GlueClientTypes.S3JsonSource?
         /// Specifies an Apache Parquet data store stored in Amazon S3.
@@ -27149,10 +27529,13 @@ extension GlueClientTypes {
             s3DeltaDirectTarget: GlueClientTypes.S3DeltaDirectTarget? = nil,
             s3DeltaSource: GlueClientTypes.S3DeltaSource? = nil,
             s3DirectTarget: GlueClientTypes.S3DirectTarget? = nil,
+            s3ExcelSource: GlueClientTypes.S3ExcelSource? = nil,
             s3GlueParquetTarget: GlueClientTypes.S3GlueParquetTarget? = nil,
             s3HudiCatalogTarget: GlueClientTypes.S3HudiCatalogTarget? = nil,
             s3HudiDirectTarget: GlueClientTypes.S3HudiDirectTarget? = nil,
             s3HudiSource: GlueClientTypes.S3HudiSource? = nil,
+            s3HyperDirectTarget: GlueClientTypes.S3HyperDirectTarget? = nil,
+            s3IcebergDirectTarget: GlueClientTypes.S3IcebergDirectTarget? = nil,
             s3JsonSource: GlueClientTypes.S3JsonSource? = nil,
             s3ParquetSource: GlueClientTypes.S3ParquetSource? = nil,
             selectFields: GlueClientTypes.SelectFields? = nil,
@@ -27221,10 +27604,13 @@ extension GlueClientTypes {
             self.s3DeltaDirectTarget = s3DeltaDirectTarget
             self.s3DeltaSource = s3DeltaSource
             self.s3DirectTarget = s3DirectTarget
+            self.s3ExcelSource = s3ExcelSource
             self.s3GlueParquetTarget = s3GlueParquetTarget
             self.s3HudiCatalogTarget = s3HudiCatalogTarget
             self.s3HudiDirectTarget = s3HudiDirectTarget
             self.s3HudiSource = s3HudiSource
+            self.s3HyperDirectTarget = s3HyperDirectTarget
+            self.s3IcebergDirectTarget = s3IcebergDirectTarget
             self.s3JsonSource = s3JsonSource
             self.s3ParquetSource = s3ParquetSource
             self.selectFields = selectFields
@@ -29984,6 +30370,7 @@ extension CreateIntegrationInput {
         try writer["AdditionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["DataFilter"].write(value.dataFilter)
         try writer["Description"].write(value.description)
+        try writer["IntegrationConfig"].write(value.integrationConfig, with: GlueClientTypes.IntegrationConfig.write(value:to:))
         try writer["IntegrationName"].write(value.integrationName)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["SourceArn"].write(value.sourceArn)
@@ -32695,6 +33082,7 @@ extension CreateIntegrationOutput {
         value.description = try reader["Description"].readIfPresent()
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.integrationConfig = try reader["IntegrationConfig"].readIfPresent(with: GlueClientTypes.IntegrationConfig.read(from:))
         value.integrationName = try reader["IntegrationName"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
@@ -41154,10 +41542,13 @@ extension GlueClientTypes.CodeGenConfigurationNode {
         try writer["S3DeltaDirectTarget"].write(value.s3DeltaDirectTarget, with: GlueClientTypes.S3DeltaDirectTarget.write(value:to:))
         try writer["S3DeltaSource"].write(value.s3DeltaSource, with: GlueClientTypes.S3DeltaSource.write(value:to:))
         try writer["S3DirectTarget"].write(value.s3DirectTarget, with: GlueClientTypes.S3DirectTarget.write(value:to:))
+        try writer["S3ExcelSource"].write(value.s3ExcelSource, with: GlueClientTypes.S3ExcelSource.write(value:to:))
         try writer["S3GlueParquetTarget"].write(value.s3GlueParquetTarget, with: GlueClientTypes.S3GlueParquetTarget.write(value:to:))
         try writer["S3HudiCatalogTarget"].write(value.s3HudiCatalogTarget, with: GlueClientTypes.S3HudiCatalogTarget.write(value:to:))
         try writer["S3HudiDirectTarget"].write(value.s3HudiDirectTarget, with: GlueClientTypes.S3HudiDirectTarget.write(value:to:))
         try writer["S3HudiSource"].write(value.s3HudiSource, with: GlueClientTypes.S3HudiSource.write(value:to:))
+        try writer["S3HyperDirectTarget"].write(value.s3HyperDirectTarget, with: GlueClientTypes.S3HyperDirectTarget.write(value:to:))
+        try writer["S3IcebergDirectTarget"].write(value.s3IcebergDirectTarget, with: GlueClientTypes.S3IcebergDirectTarget.write(value:to:))
         try writer["S3JsonSource"].write(value.s3JsonSource, with: GlueClientTypes.S3JsonSource.write(value:to:))
         try writer["S3ParquetSource"].write(value.s3ParquetSource, with: GlueClientTypes.S3ParquetSource.write(value:to:))
         try writer["SelectFields"].write(value.selectFields, with: GlueClientTypes.SelectFields.write(value:to:))
@@ -41182,6 +41573,7 @@ extension GlueClientTypes.CodeGenConfigurationNode {
         value.redshiftSource = try reader["RedshiftSource"].readIfPresent(with: GlueClientTypes.RedshiftSource.read(from:))
         value.s3CatalogSource = try reader["S3CatalogSource"].readIfPresent(with: GlueClientTypes.S3CatalogSource.read(from:))
         value.s3CsvSource = try reader["S3CsvSource"].readIfPresent(with: GlueClientTypes.S3CsvSource.read(from:))
+        value.s3ExcelSource = try reader["S3ExcelSource"].readIfPresent(with: GlueClientTypes.S3ExcelSource.read(from:))
         value.s3JsonSource = try reader["S3JsonSource"].readIfPresent(with: GlueClientTypes.S3JsonSource.read(from:))
         value.s3ParquetSource = try reader["S3ParquetSource"].readIfPresent(with: GlueClientTypes.S3ParquetSource.read(from:))
         value.relationalCatalogSource = try reader["RelationalCatalogSource"].readIfPresent(with: GlueClientTypes.RelationalCatalogSource.read(from:))
@@ -41192,7 +41584,9 @@ extension GlueClientTypes.CodeGenConfigurationNode {
         value.redshiftTarget = try reader["RedshiftTarget"].readIfPresent(with: GlueClientTypes.RedshiftTarget.read(from:))
         value.s3CatalogTarget = try reader["S3CatalogTarget"].readIfPresent(with: GlueClientTypes.S3CatalogTarget.read(from:))
         value.s3GlueParquetTarget = try reader["S3GlueParquetTarget"].readIfPresent(with: GlueClientTypes.S3GlueParquetTarget.read(from:))
+        value.s3HyperDirectTarget = try reader["S3HyperDirectTarget"].readIfPresent(with: GlueClientTypes.S3HyperDirectTarget.read(from:))
         value.s3DirectTarget = try reader["S3DirectTarget"].readIfPresent(with: GlueClientTypes.S3DirectTarget.read(from:))
+        value.s3IcebergDirectTarget = try reader["S3IcebergDirectTarget"].readIfPresent(with: GlueClientTypes.S3IcebergDirectTarget.read(from:))
         value.applyMapping = try reader["ApplyMapping"].readIfPresent(with: GlueClientTypes.ApplyMapping.read(from:))
         value.selectFields = try reader["SelectFields"].readIfPresent(with: GlueClientTypes.SelectFields.read(from:))
         value.dropFields = try reader["DropFields"].readIfPresent(with: GlueClientTypes.DropFields.read(from:))
@@ -41717,6 +42111,7 @@ extension GlueClientTypes.S3DeltaDirectTarget {
         try writer["Format"].write(value.format)
         try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
+        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
         try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         try writer["Path"].write(value.path)
         try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
@@ -41730,6 +42125,7 @@ extension GlueClientTypes.S3DeltaDirectTarget {
         value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.path = try reader["Path"].readIfPresent() ?? ""
         value.compression = try reader["Compression"].readIfPresent() ?? .sdkUnknown("")
+        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
         value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
         value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
@@ -41926,6 +42322,7 @@ extension GlueClientTypes.S3HudiDirectTarget {
         try writer["Format"].write(value.format)
         try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
+        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
         try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         try writer["Path"].write(value.path)
         try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
@@ -41938,6 +42335,7 @@ extension GlueClientTypes.S3HudiDirectTarget {
         value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.path = try reader["Path"].readIfPresent() ?? ""
         value.compression = try reader["Compression"].readIfPresent() ?? .sdkUnknown("")
+        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
         value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
         value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
@@ -43114,6 +43512,37 @@ extension GlueClientTypes.Mapping {
     }
 }
 
+extension GlueClientTypes.S3IcebergDirectTarget {
+
+    static func write(value: GlueClientTypes.S3IcebergDirectTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Compression"].write(value.compression)
+        try writer["Format"].write(value.format)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["Path"].write(value.path)
+        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3IcebergDirectTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3IcebergDirectTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
+        value.compression = try reader["Compression"].readIfPresent() ?? .sdkUnknown("")
+        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
+        return value
+    }
+}
+
 extension GlueClientTypes.S3DirectTarget {
 
     static func write(value: GlueClientTypes.S3DirectTarget?, to writer: SmithyJSON.Writer) throws {
@@ -43122,6 +43551,7 @@ extension GlueClientTypes.S3DirectTarget {
         try writer["Format"].write(value.format)
         try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
+        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
         try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         try writer["Path"].write(value.path)
         try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
@@ -43135,7 +43565,33 @@ extension GlueClientTypes.S3DirectTarget {
         value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.path = try reader["Path"].readIfPresent() ?? ""
         value.compression = try reader["Compression"].readIfPresent()
+        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
         value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.S3HyperDirectTarget {
+
+    static func write(value: GlueClientTypes.S3HyperDirectTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Compression"].write(value.compression)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["Path"].write(value.path)
+        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3HyperDirectTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3HyperDirectTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.compression = try reader["Compression"].readIfPresent()
         value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
         return value
     }
@@ -43148,6 +43604,7 @@ extension GlueClientTypes.S3GlueParquetTarget {
         try writer["Compression"].write(value.compression)
         try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
+        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
         try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         try writer["Path"].write(value.path)
         try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
@@ -43161,6 +43618,7 @@ extension GlueClientTypes.S3GlueParquetTarget {
         value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.path = try reader["Path"].readIfPresent() ?? ""
         value.compression = try reader["Compression"].readIfPresent()
+        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
         value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
         return value
     }
@@ -43423,6 +43881,45 @@ extension GlueClientTypes.S3JsonSource {
         value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3DirectSourceAdditionalOptions.read(from:))
         value.jsonPath = try reader["JsonPath"].readIfPresent()
         value.multiline = try reader["Multiline"].readIfPresent()
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.S3ExcelSource {
+
+    static func write(value: GlueClientTypes.S3ExcelSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.S3DirectSourceAdditionalOptions.write(value:to:))
+        try writer["CompressionType"].write(value.compressionType)
+        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["GroupFiles"].write(value.groupFiles)
+        try writer["GroupSize"].write(value.groupSize)
+        try writer["MaxBand"].write(value.maxBand)
+        try writer["MaxFilesInBand"].write(value.maxFilesInBand)
+        try writer["Name"].write(value.name)
+        try writer["NumberRows"].write(value.numberRows)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Recurse"].write(value.recurse)
+        try writer["SkipFooter"].write(value.skipFooter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3ExcelSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3ExcelSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.compressionType = try reader["CompressionType"].readIfPresent()
+        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupSize = try reader["GroupSize"].readIfPresent()
+        value.groupFiles = try reader["GroupFiles"].readIfPresent()
+        value.recurse = try reader["Recurse"].readIfPresent()
+        value.maxBand = try reader["MaxBand"].readIfPresent()
+        value.maxFilesInBand = try reader["MaxFilesInBand"].readIfPresent()
+        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3DirectSourceAdditionalOptions.read(from:))
+        value.numberRows = try reader["NumberRows"].readIfPresent()
+        value.skipFooter = try reader["SkipFooter"].readIfPresent()
         value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -43966,6 +44463,7 @@ extension GlueClientTypes.IcebergOrphanFileDeletionMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.IcebergOrphanFileDeletionMetrics()
         value.numberOfOrphanFilesDeleted = try reader["NumberOfOrphanFilesDeleted"].readIfPresent() ?? 0
+        value.dpuHours = try reader["DpuHours"].readIfPresent() ?? 0
         value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
         value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
         return value
@@ -43990,6 +44488,7 @@ extension GlueClientTypes.IcebergRetentionMetrics {
         value.numberOfDataFilesDeleted = try reader["NumberOfDataFilesDeleted"].readIfPresent() ?? 0
         value.numberOfManifestFilesDeleted = try reader["NumberOfManifestFilesDeleted"].readIfPresent() ?? 0
         value.numberOfManifestListsDeleted = try reader["NumberOfManifestListsDeleted"].readIfPresent() ?? 0
+        value.dpuHours = try reader["DpuHours"].readIfPresent() ?? 0
         value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
         value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
         return value
@@ -44013,6 +44512,7 @@ extension GlueClientTypes.IcebergCompactionMetrics {
         var value = GlueClientTypes.IcebergCompactionMetrics()
         value.numberOfBytesCompacted = try reader["NumberOfBytesCompacted"].readIfPresent() ?? 0
         value.numberOfFilesCompacted = try reader["NumberOfFilesCompacted"].readIfPresent() ?? 0
+        value.dpuHours = try reader["DpuHours"].readIfPresent() ?? 0
         value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
         value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
         return value
@@ -44542,6 +45042,21 @@ extension GlueClientTypes.IntegrationError {
     }
 }
 
+extension GlueClientTypes.IntegrationConfig {
+
+    static func write(value: GlueClientTypes.IntegrationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RefreshInterval"].write(value.refreshInterval)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IntegrationConfig()
+        value.refreshInterval = try reader["RefreshInterval"].readIfPresent()
+        return value
+    }
+}
+
 extension GlueClientTypes.SourceProcessingProperties {
 
     static func write(value: GlueClientTypes.SourceProcessingProperties?, to writer: SmithyJSON.Writer) throws {
@@ -44754,6 +45269,7 @@ extension GlueClientTypes.InboundIntegration {
         value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.integrationConfig = try reader["IntegrationConfig"].readIfPresent(with: GlueClientTypes.IntegrationConfig.read(from:))
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -44774,6 +45290,7 @@ extension GlueClientTypes.Integration {
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: GlueClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.integrationConfig = try reader["IntegrationConfig"].readIfPresent(with: GlueClientTypes.IntegrationConfig.read(from:))
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dataFilter = try reader["DataFilter"].readIfPresent()
         return value
@@ -44816,6 +45333,7 @@ extension GlueClientTypes.Catalog {
         value.catalogProperties = try reader["CatalogProperties"].readIfPresent(with: GlueClientTypes.CatalogPropertiesOutput.read(from:))
         value.createTableDefaultPermissions = try reader["CreateTableDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createDatabaseDefaultPermissions = try reader["CreateDatabaseDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowFullTableExternalDataAccess = try reader["AllowFullTableExternalDataAccess"].readIfPresent()
         return value
     }
 }
@@ -46390,8 +46908,26 @@ extension GlueClientTypes.ConnectionTypeBrief {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.ConnectionTypeBrief()
         value.connectionType = try reader["ConnectionType"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.vendor = try reader["Vendor"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.capabilities = try reader["Capabilities"].readIfPresent(with: GlueClientTypes.Capabilities.read(from:))
+        value.logoUrl = try reader["LogoUrl"].readIfPresent()
+        value.connectionTypeVariants = try reader["ConnectionTypeVariants"].readListIfPresent(memberReadingClosure: GlueClientTypes.ConnectionTypeVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.ConnectionTypeVariant {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionTypeVariant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConnectionTypeVariant()
+        value.connectionTypeVariantName = try reader["ConnectionTypeVariantName"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.logoUrl = try reader["LogoUrl"].readIfPresent()
         return value
     }
 }
@@ -46679,6 +47215,7 @@ extension GlueClientTypes.CatalogInput {
 
     static func write(value: GlueClientTypes.CatalogInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AllowFullTableExternalDataAccess"].write(value.allowFullTableExternalDataAccess)
         try writer["CatalogProperties"].write(value.catalogProperties, with: GlueClientTypes.CatalogProperties.write(value:to:))
         try writer["CreateDatabaseDefaultPermissions"].writeList(value.createDatabaseDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CreateTableDefaultPermissions"].writeList(value.createTableDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)

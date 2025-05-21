@@ -152,6 +152,36 @@ extension ApiGatewayV2ClientTypes {
 
 extension ApiGatewayV2ClientTypes {
 
+    /// The IP address types that can invoke your API or domain name.
+    public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpAddressType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApiGatewayV2ClientTypes {
+
     /// Represents a protocol type.
     public enum ProtocolType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case http
@@ -204,6 +234,8 @@ extension ApiGatewayV2ClientTypes {
         public var disableSchemaValidation: Swift.Bool?
         /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
         public var importInfo: [Swift.String]?
+        /// The IP address types that can invoke the API.
+        public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
         /// The name of the API.
         /// This member is required.
         public var name: Swift.String?
@@ -231,6 +263,7 @@ extension ApiGatewayV2ClientTypes {
             disableExecuteApiEndpoint: Swift.Bool? = nil,
             disableSchemaValidation: Swift.Bool? = nil,
             importInfo: [Swift.String]? = nil,
+            ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
             name: Swift.String? = nil,
             protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
             routeSelectionExpression: Swift.String? = nil,
@@ -248,6 +281,7 @@ extension ApiGatewayV2ClientTypes {
             self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
+            self.ipAddressType = ipAddressType
             self.name = name
             self.protocolType = protocolType
             self.routeSelectionExpression = routeSelectionExpression
@@ -576,6 +610,8 @@ extension ApiGatewayV2ClientTypes {
         public var endpointType: ApiGatewayV2ClientTypes.EndpointType?
         /// The Amazon Route 53 Hosted Zone ID of the endpoint.
         public var hostedZoneId: Swift.String?
+        /// The IP address types that can invoke the domain name. Use ipv4 to allow only IPv4 addresses to invoke your domain name, or use dualstack to allow both IPv4 and IPv6 addresses to invoke your domain name.
+        public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
         /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn
         public var ownershipVerificationCertificateArn: Swift.String?
         /// The Transport Layer Security (TLS) version of the security policy for this domain name. The valid values are TLS_1_0 and TLS_1_2.
@@ -590,6 +626,7 @@ extension ApiGatewayV2ClientTypes {
             domainNameStatusMessage: Swift.String? = nil,
             endpointType: ApiGatewayV2ClientTypes.EndpointType? = nil,
             hostedZoneId: Swift.String? = nil,
+            ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
             ownershipVerificationCertificateArn: Swift.String? = nil,
             securityPolicy: ApiGatewayV2ClientTypes.SecurityPolicy? = nil
         ) {
@@ -601,6 +638,7 @@ extension ApiGatewayV2ClientTypes {
             self.domainNameStatusMessage = domainNameStatusMessage
             self.endpointType = endpointType
             self.hostedZoneId = hostedZoneId
+            self.ipAddressType = ipAddressType
             self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
             self.securityPolicy = securityPolicy
         }
@@ -1522,6 +1560,8 @@ public struct CreateApiInput: Swift.Sendable {
     public var disableExecuteApiEndpoint: Swift.Bool?
     /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
     public var disableSchemaValidation: Swift.Bool?
+    /// The IP address types that can invoke the API.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     /// This member is required.
     public var name: Swift.String?
@@ -1546,6 +1586,7 @@ public struct CreateApiInput: Swift.Sendable {
         description: Swift.String? = nil,
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
         routeKey: Swift.String? = nil,
@@ -1560,6 +1601,7 @@ public struct CreateApiInput: Swift.Sendable {
         self.description = description
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
+        self.ipAddressType = ipAddressType
         self.name = name
         self.protocolType = protocolType
         self.routeKey = routeKey
@@ -1591,6 +1633,8 @@ public struct CreateApiOutput: Swift.Sendable {
     public var disableSchemaValidation: Swift.Bool?
     /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
     public var importInfo: [Swift.String]?
+    /// The IP address types that can invoke the API.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     public var name: Swift.String?
     /// The API protocol.
@@ -1615,6 +1659,7 @@ public struct CreateApiOutput: Swift.Sendable {
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
         importInfo: [Swift.String]? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
         routeSelectionExpression: Swift.String? = nil,
@@ -1632,6 +1677,7 @@ public struct CreateApiOutput: Swift.Sendable {
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
         self.importInfo = importInfo
+        self.ipAddressType = ipAddressType
         self.name = name
         self.protocolType = protocolType
         self.routeSelectionExpression = routeSelectionExpression
@@ -2952,6 +2998,8 @@ public struct GetApiOutput: Swift.Sendable {
     public var disableSchemaValidation: Swift.Bool?
     /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
     public var importInfo: [Swift.String]?
+    /// The IP address types that can invoke the API.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     public var name: Swift.String?
     /// The API protocol.
@@ -2976,6 +3024,7 @@ public struct GetApiOutput: Swift.Sendable {
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
         importInfo: [Swift.String]? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
         routeSelectionExpression: Swift.String? = nil,
@@ -2993,6 +3042,7 @@ public struct GetApiOutput: Swift.Sendable {
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
         self.importInfo = importInfo
+        self.ipAddressType = ipAddressType
         self.name = name
         self.protocolType = protocolType
         self.routeSelectionExpression = routeSelectionExpression
@@ -4166,6 +4216,8 @@ public struct ImportApiOutput: Swift.Sendable {
     public var disableSchemaValidation: Swift.Bool?
     /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
     public var importInfo: [Swift.String]?
+    /// The IP address types that can invoke the API.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     public var name: Swift.String?
     /// The API protocol.
@@ -4190,6 +4242,7 @@ public struct ImportApiOutput: Swift.Sendable {
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
         importInfo: [Swift.String]? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
         routeSelectionExpression: Swift.String? = nil,
@@ -4207,6 +4260,7 @@ public struct ImportApiOutput: Swift.Sendable {
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
         self.importInfo = importInfo
+        self.ipAddressType = ipAddressType
         self.name = name
         self.protocolType = protocolType
         self.routeSelectionExpression = routeSelectionExpression
@@ -4263,6 +4317,8 @@ public struct ReimportApiOutput: Swift.Sendable {
     public var disableSchemaValidation: Swift.Bool?
     /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
     public var importInfo: [Swift.String]?
+    /// The IP address types that can invoke the API.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     public var name: Swift.String?
     /// The API protocol.
@@ -4287,6 +4343,7 @@ public struct ReimportApiOutput: Swift.Sendable {
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
         importInfo: [Swift.String]? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
         routeSelectionExpression: Swift.String? = nil,
@@ -4304,6 +4361,7 @@ public struct ReimportApiOutput: Swift.Sendable {
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
         self.importInfo = importInfo
+        self.ipAddressType = ipAddressType
         self.name = name
         self.protocolType = protocolType
         self.routeSelectionExpression = routeSelectionExpression
@@ -4386,6 +4444,8 @@ public struct UpdateApiInput: Swift.Sendable {
     public var disableExecuteApiEndpoint: Swift.Bool?
     /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
     public var disableSchemaValidation: Swift.Bool?
+    /// The IP address types that can invoke your API or domain name.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     public var name: Swift.String?
     /// This property is part of quick create. If not specified, the route created using quick create is kept. Otherwise, this value replaces the route key of the quick create route. Additional routes may still be added after the API is updated. Supported only for HTTP APIs.
@@ -4405,6 +4465,7 @@ public struct UpdateApiInput: Swift.Sendable {
         description: Swift.String? = nil,
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         routeKey: Swift.String? = nil,
         routeSelectionExpression: Swift.String? = nil,
@@ -4418,6 +4479,7 @@ public struct UpdateApiInput: Swift.Sendable {
         self.description = description
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
+        self.ipAddressType = ipAddressType
         self.name = name
         self.routeKey = routeKey
         self.routeSelectionExpression = routeSelectionExpression
@@ -4447,6 +4509,8 @@ public struct UpdateApiOutput: Swift.Sendable {
     public var disableSchemaValidation: Swift.Bool?
     /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
     public var importInfo: [Swift.String]?
+    /// The IP address types that can invoke the API.
+    public var ipAddressType: ApiGatewayV2ClientTypes.IpAddressType?
     /// The name of the API.
     public var name: Swift.String?
     /// The API protocol.
@@ -4471,6 +4535,7 @@ public struct UpdateApiOutput: Swift.Sendable {
         disableExecuteApiEndpoint: Swift.Bool? = nil,
         disableSchemaValidation: Swift.Bool? = nil,
         importInfo: [Swift.String]? = nil,
+        ipAddressType: ApiGatewayV2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         protocolType: ApiGatewayV2ClientTypes.ProtocolType? = nil,
         routeSelectionExpression: Swift.String? = nil,
@@ -4488,6 +4553,7 @@ public struct UpdateApiOutput: Swift.Sendable {
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
         self.disableSchemaValidation = disableSchemaValidation
         self.importInfo = importInfo
+        self.ipAddressType = ipAddressType
         self.name = name
         self.protocolType = protocolType
         self.routeSelectionExpression = routeSelectionExpression
@@ -6539,6 +6605,7 @@ extension CreateApiInput {
         try writer["description"].write(value.description)
         try writer["disableExecuteApiEndpoint"].write(value.disableExecuteApiEndpoint)
         try writer["disableSchemaValidation"].write(value.disableSchemaValidation)
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["name"].write(value.name)
         try writer["protocolType"].write(value.protocolType)
         try writer["routeKey"].write(value.routeKey)
@@ -6734,6 +6801,7 @@ extension UpdateApiInput {
         try writer["description"].write(value.description)
         try writer["disableExecuteApiEndpoint"].write(value.disableExecuteApiEndpoint)
         try writer["disableSchemaValidation"].write(value.disableSchemaValidation)
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["name"].write(value.name)
         try writer["routeKey"].write(value.routeKey)
         try writer["routeSelectionExpression"].write(value.routeSelectionExpression)
@@ -6902,6 +6970,7 @@ extension CreateApiOutput {
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
         value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
         value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.protocolType = try reader["protocolType"].readIfPresent()
         value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent()
@@ -7276,6 +7345,7 @@ extension GetApiOutput {
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
         value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
         value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.protocolType = try reader["protocolType"].readIfPresent()
         value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent()
@@ -7702,6 +7772,7 @@ extension ImportApiOutput {
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
         value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
         value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.protocolType = try reader["protocolType"].readIfPresent()
         value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent()
@@ -7729,6 +7800,7 @@ extension ReimportApiOutput {
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
         value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
         value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.protocolType = try reader["protocolType"].readIfPresent()
         value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent()
@@ -7777,6 +7849,7 @@ extension UpdateApiOutput {
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
         value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
         value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.protocolType = try reader["protocolType"].readIfPresent()
         value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent()
@@ -9277,6 +9350,7 @@ extension ApiGatewayV2ClientTypes.DomainNameConfiguration {
         try writer["domainNameStatusMessage"].write(value.domainNameStatusMessage)
         try writer["endpointType"].write(value.endpointType)
         try writer["hostedZoneId"].write(value.hostedZoneId)
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["ownershipVerificationCertificateArn"].write(value.ownershipVerificationCertificateArn)
         try writer["securityPolicy"].write(value.securityPolicy)
     }
@@ -9292,6 +9366,7 @@ extension ApiGatewayV2ClientTypes.DomainNameConfiguration {
         value.domainNameStatusMessage = try reader["domainNameStatusMessage"].readIfPresent()
         value.endpointType = try reader["endpointType"].readIfPresent()
         value.hostedZoneId = try reader["hostedZoneId"].readIfPresent()
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.securityPolicy = try reader["securityPolicy"].readIfPresent()
         value.ownershipVerificationCertificateArn = try reader["ownershipVerificationCertificateArn"].readIfPresent()
         return value
@@ -9403,6 +9478,7 @@ extension ApiGatewayV2ClientTypes.Api {
         value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
         value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.protocolType = try reader["protocolType"].readIfPresent() ?? .sdkUnknown("")
         value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent() ?? ""

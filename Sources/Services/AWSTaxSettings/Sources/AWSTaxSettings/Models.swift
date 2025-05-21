@@ -27,7 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
-/// The access is denied for the Amazon Web Services Support API.
+/// The access is denied for the Amazon Web ServicesSupport API.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -268,6 +268,25 @@ extension TaxSettingsClientTypes {
 
 extension TaxSettingsClientTypes {
 
+    /// Additional tax information to specify for a TRN in Egypt.
+    public struct EgyptAdditionalInfo: Swift.Sendable {
+        /// The unique identification number provided by the Egypt Tax Authority.
+        public var uniqueIdentificationNumber: Swift.String?
+        /// The expiration date of the unique identification number provided by the Egypt Tax Authority.
+        public var uniqueIdentificationNumberExpirationDate: Swift.String?
+
+        public init(
+            uniqueIdentificationNumber: Swift.String? = nil,
+            uniqueIdentificationNumberExpirationDate: Swift.String? = nil
+        ) {
+            self.uniqueIdentificationNumber = uniqueIdentificationNumber
+            self.uniqueIdentificationNumberExpirationDate = uniqueIdentificationNumberExpirationDate
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN in Estonia.
     public struct EstoniaAdditionalInfo: Swift.Sendable {
         /// Registry commercial code (RCC) for your TRN in Estonia. This value is an eight-numeric string, such as 12345678.
@@ -332,6 +351,21 @@ extension TaxSettingsClientTypes {
 
 extension TaxSettingsClientTypes {
 
+    /// Additional tax information to specify for a TRN in Greece.
+    public struct GreeceAdditionalInfo: Swift.Sendable {
+        /// The code of contracting authority for e-invoicing.
+        public var contractingAuthorityCode: Swift.String?
+
+        public init(
+            contractingAuthorityCode: Swift.String? = nil
+        ) {
+            self.contractingAuthorityCode = contractingAuthorityCode
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
     /// Additional tax information in India.
     public struct IndiaAdditionalInfo: Swift.Sendable {
         /// India pan information associated with the account.
@@ -341,6 +375,64 @@ extension TaxSettingsClientTypes {
             pan: Swift.String? = nil
         ) {
             self.pan = pan
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
+    public enum IndonesiaTaxRegistrationNumberType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case nik
+        case nitku
+        case npwp
+        case passportNumber
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IndonesiaTaxRegistrationNumberType] {
+            return [
+                .nik,
+                .nitku,
+                .npwp,
+                .passportNumber
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .nik: return "NIK"
+            case .nitku: return "NITKU"
+            case .npwp: return "NPWP"
+            case .passportNumber: return "PassportNumber"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
+    /// Additional tax information associated with your TRN in Indonesia.
+    public struct IndonesiaAdditionalInfo: Swift.Sendable {
+        /// VAT-exempt customers have a Directorate General of Taxation (DGT) exemption letter or certificate (Surat Keterangan Bebas) decision number. Non-collected VAT have a DGT letter or certificate (Surat Keterangan Tidak Dipungut).
+        public var decisionNumber: Swift.String?
+        /// Exception code if you are designated by Directorate General of Taxation (DGT) as a VAT collector, non-collected VAT, or VAT-exempt customer.
+        public var ppnExceptionDesignationCode: Swift.String?
+        /// The tax registration number type.
+        public var taxRegistrationNumberType: TaxSettingsClientTypes.IndonesiaTaxRegistrationNumberType?
+
+        public init(
+            decisionNumber: Swift.String? = nil,
+            ppnExceptionDesignationCode: Swift.String? = nil,
+            taxRegistrationNumberType: TaxSettingsClientTypes.IndonesiaTaxRegistrationNumberType? = nil
+        ) {
+            self.decisionNumber = decisionNumber
+            self.ppnExceptionDesignationCode = ppnExceptionDesignationCode
+            self.taxRegistrationNumberType = taxRegistrationNumberType
         }
     }
 }
@@ -822,18 +914,99 @@ extension TaxSettingsClientTypes {
 
 extension TaxSettingsClientTypes {
 
+    public enum UzbekistanTaxRegistrationNumberType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case business
+        case individual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UzbekistanTaxRegistrationNumberType] {
+            return [
+                .business,
+                .individual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .business: return "Business"
+            case .individual: return "Individual"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
+    /// Additional tax information to specify for a TRN in Uzbekistan.
+    public struct UzbekistanAdditionalInfo: Swift.Sendable {
+        /// The tax registration number type. The tax registration number type valid values are Business and Individual.
+        public var taxRegistrationNumberType: TaxSettingsClientTypes.UzbekistanTaxRegistrationNumberType?
+        /// The unique 12-digit number issued to identify VAT-registered identities in Uzbekistan.
+        public var vatRegistrationNumber: Swift.String?
+
+        public init(
+            taxRegistrationNumberType: TaxSettingsClientTypes.UzbekistanTaxRegistrationNumberType? = nil,
+            vatRegistrationNumber: Swift.String? = nil
+        ) {
+            self.taxRegistrationNumberType = taxRegistrationNumberType
+            self.vatRegistrationNumber = vatRegistrationNumber
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
+    /// Additional tax information to specify for a TRN in Vietnam.
+    public struct VietnamAdditionalInfo: Swift.Sendable {
+        /// The electronic transaction code number on the tax return document. This field must be provided for successful API operation.
+        public var electronicTransactionCodeNumber: Swift.String?
+        /// The enterprise identification number for tax registration. This field must be provided for successful API operation.
+        public var enterpriseIdentificationNumber: Swift.String?
+        /// The payment voucher number on the tax return payment document. This field must be provided for successful API operation.
+        public var paymentVoucherNumber: Swift.String?
+        /// The date on the tax return payment document. This field must be provided for successful API operation.
+        public var paymentVoucherNumberDate: Swift.String?
+
+        public init(
+            electronicTransactionCodeNumber: Swift.String? = nil,
+            enterpriseIdentificationNumber: Swift.String? = nil,
+            paymentVoucherNumber: Swift.String? = nil,
+            paymentVoucherNumberDate: Swift.String? = nil
+        ) {
+            self.electronicTransactionCodeNumber = electronicTransactionCodeNumber
+            self.enterpriseIdentificationNumber = enterpriseIdentificationNumber
+            self.paymentVoucherNumber = paymentVoucherNumber
+            self.paymentVoucherNumberDate = paymentVoucherNumberDate
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
     /// Additional tax information associated with your TRN. The Tax Settings API returns country-specific information in the response when any additional information is present with your TRN for the following countries.
     public struct AdditionalInfoResponse: Swift.Sendable {
         /// Additional tax information associated with your TRN in Brazil. The Tax Settings API returns this information in your response when any additional information is present with your TRN in Brazil.
         public var brazilAdditionalInfo: TaxSettingsClientTypes.BrazilAdditionalInfo?
         /// Additional tax information associated with your TRN in Canada.
         public var canadaAdditionalInfo: TaxSettingsClientTypes.CanadaAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Egypt.
+        public var egyptAdditionalInfo: TaxSettingsClientTypes.EgyptAdditionalInfo?
         /// Additional tax information associated with your TRN in Estonia.
         public var estoniaAdditionalInfo: TaxSettingsClientTypes.EstoniaAdditionalInfo?
         /// Additional tax information associated with your TRN in Georgia.
         public var georgiaAdditionalInfo: TaxSettingsClientTypes.GeorgiaAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Greece.
+        public var greeceAdditionalInfo: TaxSettingsClientTypes.GreeceAdditionalInfo?
         /// Additional tax information in India.
         public var indiaAdditionalInfo: TaxSettingsClientTypes.IndiaAdditionalInfo?
+        /// Additional tax information associated with your TRN in Indonesia.
+        public var indonesiaAdditionalInfo: TaxSettingsClientTypes.IndonesiaAdditionalInfo?
         /// Additional tax information associated with your TRN in Israel.
         public var israelAdditionalInfo: TaxSettingsClientTypes.IsraelAdditionalInfo?
         /// Additional tax information associated with your TRN in Italy.
@@ -856,13 +1029,20 @@ extension TaxSettingsClientTypes {
         public var turkeyAdditionalInfo: TaxSettingsClientTypes.TurkeyAdditionalInfo?
         /// Additional tax information associated with your TRN in Ukraine.
         public var ukraineAdditionalInfo: TaxSettingsClientTypes.UkraineAdditionalInfo?
+        /// Additional tax information associated with your TRN in Uzbekistan.
+        public var uzbekistanAdditionalInfo: TaxSettingsClientTypes.UzbekistanAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Vietnam.
+        public var vietnamAdditionalInfo: TaxSettingsClientTypes.VietnamAdditionalInfo?
 
         public init(
             brazilAdditionalInfo: TaxSettingsClientTypes.BrazilAdditionalInfo? = nil,
             canadaAdditionalInfo: TaxSettingsClientTypes.CanadaAdditionalInfo? = nil,
+            egyptAdditionalInfo: TaxSettingsClientTypes.EgyptAdditionalInfo? = nil,
             estoniaAdditionalInfo: TaxSettingsClientTypes.EstoniaAdditionalInfo? = nil,
             georgiaAdditionalInfo: TaxSettingsClientTypes.GeorgiaAdditionalInfo? = nil,
+            greeceAdditionalInfo: TaxSettingsClientTypes.GreeceAdditionalInfo? = nil,
             indiaAdditionalInfo: TaxSettingsClientTypes.IndiaAdditionalInfo? = nil,
+            indonesiaAdditionalInfo: TaxSettingsClientTypes.IndonesiaAdditionalInfo? = nil,
             israelAdditionalInfo: TaxSettingsClientTypes.IsraelAdditionalInfo? = nil,
             italyAdditionalInfo: TaxSettingsClientTypes.ItalyAdditionalInfo? = nil,
             kenyaAdditionalInfo: TaxSettingsClientTypes.KenyaAdditionalInfo? = nil,
@@ -873,13 +1053,18 @@ extension TaxSettingsClientTypes {
             southKoreaAdditionalInfo: TaxSettingsClientTypes.SouthKoreaAdditionalInfo? = nil,
             spainAdditionalInfo: TaxSettingsClientTypes.SpainAdditionalInfo? = nil,
             turkeyAdditionalInfo: TaxSettingsClientTypes.TurkeyAdditionalInfo? = nil,
-            ukraineAdditionalInfo: TaxSettingsClientTypes.UkraineAdditionalInfo? = nil
+            ukraineAdditionalInfo: TaxSettingsClientTypes.UkraineAdditionalInfo? = nil,
+            uzbekistanAdditionalInfo: TaxSettingsClientTypes.UzbekistanAdditionalInfo? = nil,
+            vietnamAdditionalInfo: TaxSettingsClientTypes.VietnamAdditionalInfo? = nil
         ) {
             self.brazilAdditionalInfo = brazilAdditionalInfo
             self.canadaAdditionalInfo = canadaAdditionalInfo
+            self.egyptAdditionalInfo = egyptAdditionalInfo
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
             self.georgiaAdditionalInfo = georgiaAdditionalInfo
+            self.greeceAdditionalInfo = greeceAdditionalInfo
             self.indiaAdditionalInfo = indiaAdditionalInfo
+            self.indonesiaAdditionalInfo = indonesiaAdditionalInfo
             self.israelAdditionalInfo = israelAdditionalInfo
             self.italyAdditionalInfo = italyAdditionalInfo
             self.kenyaAdditionalInfo = kenyaAdditionalInfo
@@ -891,6 +1076,8 @@ extension TaxSettingsClientTypes {
             self.spainAdditionalInfo = spainAdditionalInfo
             self.turkeyAdditionalInfo = turkeyAdditionalInfo
             self.ukraineAdditionalInfo = ukraineAdditionalInfo
+            self.uzbekistanAdditionalInfo = uzbekistanAdditionalInfo
+            self.vietnamAdditionalInfo = vietnamAdditionalInfo
         }
     }
 }
@@ -1124,10 +1311,16 @@ extension TaxSettingsClientTypes {
     public struct AdditionalInfoRequest: Swift.Sendable {
         /// Additional tax information associated with your TRN in Canada.
         public var canadaAdditionalInfo: TaxSettingsClientTypes.CanadaAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Egypt.
+        public var egyptAdditionalInfo: TaxSettingsClientTypes.EgyptAdditionalInfo?
         /// Additional tax information to specify for a TRN in Estonia.
         public var estoniaAdditionalInfo: TaxSettingsClientTypes.EstoniaAdditionalInfo?
         /// Additional tax information to specify for a TRN in Georgia.
         public var georgiaAdditionalInfo: TaxSettingsClientTypes.GeorgiaAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Greece.
+        public var greeceAdditionalInfo: TaxSettingsClientTypes.GreeceAdditionalInfo?
+        ///
+        public var indonesiaAdditionalInfo: TaxSettingsClientTypes.IndonesiaAdditionalInfo?
         /// Additional tax information to specify for a TRN in Israel.
         public var israelAdditionalInfo: TaxSettingsClientTypes.IsraelAdditionalInfo?
         /// Additional tax information to specify for a TRN in Italy.
@@ -1150,11 +1343,18 @@ extension TaxSettingsClientTypes {
         public var turkeyAdditionalInfo: TaxSettingsClientTypes.TurkeyAdditionalInfo?
         /// Additional tax information associated with your TRN in Ukraine.
         public var ukraineAdditionalInfo: TaxSettingsClientTypes.UkraineAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Uzbekistan.
+        public var uzbekistanAdditionalInfo: TaxSettingsClientTypes.UzbekistanAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Vietnam.
+        public var vietnamAdditionalInfo: TaxSettingsClientTypes.VietnamAdditionalInfo?
 
         public init(
             canadaAdditionalInfo: TaxSettingsClientTypes.CanadaAdditionalInfo? = nil,
+            egyptAdditionalInfo: TaxSettingsClientTypes.EgyptAdditionalInfo? = nil,
             estoniaAdditionalInfo: TaxSettingsClientTypes.EstoniaAdditionalInfo? = nil,
             georgiaAdditionalInfo: TaxSettingsClientTypes.GeorgiaAdditionalInfo? = nil,
+            greeceAdditionalInfo: TaxSettingsClientTypes.GreeceAdditionalInfo? = nil,
+            indonesiaAdditionalInfo: TaxSettingsClientTypes.IndonesiaAdditionalInfo? = nil,
             israelAdditionalInfo: TaxSettingsClientTypes.IsraelAdditionalInfo? = nil,
             italyAdditionalInfo: TaxSettingsClientTypes.ItalyAdditionalInfo? = nil,
             kenyaAdditionalInfo: TaxSettingsClientTypes.KenyaAdditionalInfo? = nil,
@@ -1165,11 +1365,16 @@ extension TaxSettingsClientTypes {
             southKoreaAdditionalInfo: TaxSettingsClientTypes.SouthKoreaAdditionalInfo? = nil,
             spainAdditionalInfo: TaxSettingsClientTypes.SpainAdditionalInfo? = nil,
             turkeyAdditionalInfo: TaxSettingsClientTypes.TurkeyAdditionalInfo? = nil,
-            ukraineAdditionalInfo: TaxSettingsClientTypes.UkraineAdditionalInfo? = nil
+            ukraineAdditionalInfo: TaxSettingsClientTypes.UkraineAdditionalInfo? = nil,
+            uzbekistanAdditionalInfo: TaxSettingsClientTypes.UzbekistanAdditionalInfo? = nil,
+            vietnamAdditionalInfo: TaxSettingsClientTypes.VietnamAdditionalInfo? = nil
         ) {
             self.canadaAdditionalInfo = canadaAdditionalInfo
+            self.egyptAdditionalInfo = egyptAdditionalInfo
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
             self.georgiaAdditionalInfo = georgiaAdditionalInfo
+            self.greeceAdditionalInfo = greeceAdditionalInfo
+            self.indonesiaAdditionalInfo = indonesiaAdditionalInfo
             self.israelAdditionalInfo = israelAdditionalInfo
             self.italyAdditionalInfo = italyAdditionalInfo
             self.kenyaAdditionalInfo = kenyaAdditionalInfo
@@ -1181,11 +1386,13 @@ extension TaxSettingsClientTypes {
             self.spainAdditionalInfo = spainAdditionalInfo
             self.turkeyAdditionalInfo = turkeyAdditionalInfo
             self.ukraineAdditionalInfo = ukraineAdditionalInfo
+            self.uzbekistanAdditionalInfo = uzbekistanAdditionalInfo
+            self.vietnamAdditionalInfo = vietnamAdditionalInfo
         }
     }
 }
 
-/// Failed to upload the tax exemption document to Amazon Web Services Support case.
+/// Failed to upload the tax exemption document to Amazon Web ServicesSupport case.
 public struct AttachmentUploadException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1830,7 +2037,7 @@ public struct BatchPutTaxRegistrationOutput: Swift.Sendable {
     }
 }
 
-/// You've exceeded the Amazon Web Services Support case creation limit for your account.
+/// You've exceeded the Amazon Web ServicesSupport case creation limit for your account.
 public struct CaseCreationLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2022,7 +2229,7 @@ extension TaxSettingsClientTypes {
         /// Your tax registration unique identifier.
         /// This member is required.
         public var registrationId: Swift.String?
-        /// Type of your tax registration. This can be either VAT or GST.
+        /// Type of your tax registration.
         /// This member is required.
         public var registrationType: TaxSettingsClientTypes.TaxRegistrationType?
         /// The industry that describes your business. For business-to-business (B2B) customers, specify Business. For business-to-consumer (B2C) customers, specify Individual. For business-to-government (B2G), specify Government. Note that certain values may not applicable for the request country. Please refer to country specific information in API document.
@@ -2366,7 +2573,7 @@ public struct PutTaxExemptionInput: Swift.Sendable {
     /// The exemption certificate.
     /// This member is required.
     public var exemptionCertificate: TaxSettingsClientTypes.ExemptionCertificate?
-    /// The exemption type.
+    /// The exemption type. Use the supported tax exemption type description.
     /// This member is required.
     public var exemptionType: Swift.String?
 
@@ -3365,6 +3572,100 @@ extension TaxSettingsClientTypes.AdditionalInfoResponse {
         value.polandAdditionalInfo = try reader["polandAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.PolandAdditionalInfo.read(from:))
         value.saudiArabiaAdditionalInfo = try reader["saudiArabiaAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.SaudiArabiaAdditionalInfo.read(from:))
         value.indiaAdditionalInfo = try reader["indiaAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.IndiaAdditionalInfo.read(from:))
+        value.indonesiaAdditionalInfo = try reader["indonesiaAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.IndonesiaAdditionalInfo.read(from:))
+        value.vietnamAdditionalInfo = try reader["vietnamAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.VietnamAdditionalInfo.read(from:))
+        value.egyptAdditionalInfo = try reader["egyptAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.EgyptAdditionalInfo.read(from:))
+        value.greeceAdditionalInfo = try reader["greeceAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.GreeceAdditionalInfo.read(from:))
+        value.uzbekistanAdditionalInfo = try reader["uzbekistanAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.UzbekistanAdditionalInfo.read(from:))
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.UzbekistanAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.UzbekistanAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["taxRegistrationNumberType"].write(value.taxRegistrationNumberType)
+        try writer["vatRegistrationNumber"].write(value.vatRegistrationNumber)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.UzbekistanAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.UzbekistanAdditionalInfo()
+        value.taxRegistrationNumberType = try reader["taxRegistrationNumberType"].readIfPresent()
+        value.vatRegistrationNumber = try reader["vatRegistrationNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.GreeceAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.GreeceAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["contractingAuthorityCode"].write(value.contractingAuthorityCode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.GreeceAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.GreeceAdditionalInfo()
+        value.contractingAuthorityCode = try reader["contractingAuthorityCode"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.EgyptAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.EgyptAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["uniqueIdentificationNumber"].write(value.uniqueIdentificationNumber)
+        try writer["uniqueIdentificationNumberExpirationDate"].write(value.uniqueIdentificationNumberExpirationDate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.EgyptAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.EgyptAdditionalInfo()
+        value.uniqueIdentificationNumber = try reader["uniqueIdentificationNumber"].readIfPresent()
+        value.uniqueIdentificationNumberExpirationDate = try reader["uniqueIdentificationNumberExpirationDate"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.VietnamAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.VietnamAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["electronicTransactionCodeNumber"].write(value.electronicTransactionCodeNumber)
+        try writer["enterpriseIdentificationNumber"].write(value.enterpriseIdentificationNumber)
+        try writer["paymentVoucherNumber"].write(value.paymentVoucherNumber)
+        try writer["paymentVoucherNumberDate"].write(value.paymentVoucherNumberDate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.VietnamAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.VietnamAdditionalInfo()
+        value.enterpriseIdentificationNumber = try reader["enterpriseIdentificationNumber"].readIfPresent()
+        value.electronicTransactionCodeNumber = try reader["electronicTransactionCodeNumber"].readIfPresent()
+        value.paymentVoucherNumber = try reader["paymentVoucherNumber"].readIfPresent()
+        value.paymentVoucherNumberDate = try reader["paymentVoucherNumberDate"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.IndonesiaAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.IndonesiaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["decisionNumber"].write(value.decisionNumber)
+        try writer["ppnExceptionDesignationCode"].write(value.ppnExceptionDesignationCode)
+        try writer["taxRegistrationNumberType"].write(value.taxRegistrationNumberType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.IndonesiaAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.IndonesiaAdditionalInfo()
+        value.taxRegistrationNumberType = try reader["taxRegistrationNumberType"].readIfPresent()
+        value.ppnExceptionDesignationCode = try reader["ppnExceptionDesignationCode"].readIfPresent()
+        value.decisionNumber = try reader["decisionNumber"].readIfPresent()
         return value
     }
 }
@@ -3795,8 +4096,11 @@ extension TaxSettingsClientTypes.AdditionalInfoRequest {
     static func write(value: TaxSettingsClientTypes.AdditionalInfoRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["canadaAdditionalInfo"].write(value.canadaAdditionalInfo, with: TaxSettingsClientTypes.CanadaAdditionalInfo.write(value:to:))
+        try writer["egyptAdditionalInfo"].write(value.egyptAdditionalInfo, with: TaxSettingsClientTypes.EgyptAdditionalInfo.write(value:to:))
         try writer["estoniaAdditionalInfo"].write(value.estoniaAdditionalInfo, with: TaxSettingsClientTypes.EstoniaAdditionalInfo.write(value:to:))
         try writer["georgiaAdditionalInfo"].write(value.georgiaAdditionalInfo, with: TaxSettingsClientTypes.GeorgiaAdditionalInfo.write(value:to:))
+        try writer["greeceAdditionalInfo"].write(value.greeceAdditionalInfo, with: TaxSettingsClientTypes.GreeceAdditionalInfo.write(value:to:))
+        try writer["indonesiaAdditionalInfo"].write(value.indonesiaAdditionalInfo, with: TaxSettingsClientTypes.IndonesiaAdditionalInfo.write(value:to:))
         try writer["israelAdditionalInfo"].write(value.israelAdditionalInfo, with: TaxSettingsClientTypes.IsraelAdditionalInfo.write(value:to:))
         try writer["italyAdditionalInfo"].write(value.italyAdditionalInfo, with: TaxSettingsClientTypes.ItalyAdditionalInfo.write(value:to:))
         try writer["kenyaAdditionalInfo"].write(value.kenyaAdditionalInfo, with: TaxSettingsClientTypes.KenyaAdditionalInfo.write(value:to:))
@@ -3808,6 +4112,8 @@ extension TaxSettingsClientTypes.AdditionalInfoRequest {
         try writer["spainAdditionalInfo"].write(value.spainAdditionalInfo, with: TaxSettingsClientTypes.SpainAdditionalInfo.write(value:to:))
         try writer["turkeyAdditionalInfo"].write(value.turkeyAdditionalInfo, with: TaxSettingsClientTypes.TurkeyAdditionalInfo.write(value:to:))
         try writer["ukraineAdditionalInfo"].write(value.ukraineAdditionalInfo, with: TaxSettingsClientTypes.UkraineAdditionalInfo.write(value:to:))
+        try writer["uzbekistanAdditionalInfo"].write(value.uzbekistanAdditionalInfo, with: TaxSettingsClientTypes.UzbekistanAdditionalInfo.write(value:to:))
+        try writer["vietnamAdditionalInfo"].write(value.vietnamAdditionalInfo, with: TaxSettingsClientTypes.VietnamAdditionalInfo.write(value:to:))
     }
 }
 

@@ -9940,6 +9940,7 @@ enum UpdateDirectoryConfigOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "IncompatibleImageException": return try IncompatibleImageException.makeError(baseError: baseError)
             case "InvalidRoleException": return try InvalidRoleException.makeError(baseError: baseError)
             case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)

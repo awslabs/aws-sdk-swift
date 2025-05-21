@@ -4937,6 +4937,48 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+    public enum FrameMetricType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case msSsim
+        case psnr
+        case psnrHvs
+        case qvbr
+        case ssim
+        case vmaf
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FrameMetricType] {
+            return [
+                .msSsim,
+                .psnr,
+                .psnrHvs,
+                .qvbr,
+                .ssim,
+                .vmaf
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .msSsim: return "MS_SSIM"
+            case .psnr: return "PSNR"
+            case .psnrHvs: return "PSNR_HVS"
+            case .qvbr: return "QVBR"
+            case .ssim: return "SSIM"
+            case .vmaf: return "VMAF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Specify the details for each additional HLS manifest that you want the service to generate for this output group. Each manifest can reference a different subset of outputs in the group.
     public struct HlsAdditionalManifest: Swift.Sendable {
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your HLS group is film-name.m3u8. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.m3u8. For HLS output groups, specify a manifestNameModifier that is different from the nameModifier of the output. The service uses the output name modifier to create unique names for the individual variant manifests.
@@ -5276,6 +5318,7 @@ extension MediaConvertClientTypes {
 
     /// Specifies the type of the audio selector.
     public enum AudioSelectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allPcm
         case hlsRenditionGroup
         case languageCode
         case pid
@@ -5284,6 +5327,7 @@ extension MediaConvertClientTypes {
 
         public static var allCases: [AudioSelectorType] {
             return [
+                .allPcm,
                 .hlsRenditionGroup,
                 .languageCode,
                 .pid,
@@ -5298,6 +5342,7 @@ extension MediaConvertClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .allPcm: return "ALL_PCM"
             case .hlsRenditionGroup: return "HLS_RENDITION_GROUP"
             case .languageCode: return "LANGUAGE_CODE"
             case .pid: return "PID"
@@ -5693,6 +5738,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Specify whether this set of input captions appears in your outputs in both STL and Teletext format. If you choose Upconvert, MediaConvert includes the captions data in two ways: it passes the STL data through using the Teletext compatibility bytes fields of the Teletext wrapper, and it also translates the STL data into Teletext.
+    public enum CaptionSourceUpconvertSTLToTeletext: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case upconvert
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CaptionSourceUpconvertSTLToTeletext] {
+            return [
+                .disabled,
+                .upconvert
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .upconvert: return "UPCONVERT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// If your input captions are SCC, SMI, SRT, STL, TTML, WebVTT, or IMSC 1.1 in an xml file, specify the URI of the input caption source file. If your caption source is IMSC in an IMF package, use TrackSourceSettings instead of FileSoureSettings.
     public struct FileSourceSettings: Swift.Sendable {
         /// Choose whether to limit the byte rate at which your SCC input captions are inserted into your output. To not limit the caption rate: We recommend that you keep the default value, Disabled. MediaConvert inserts captions in your output according to the byte rates listed in the EIA-608 specification, typically 2 or 3 caption bytes per frame depending on your output frame rate. To limit your output caption rate: Choose Enabled. Choose this option if your downstream systems require a maximum of 2 caption bytes per frame. Note that this setting has no effect when your output frame rate is 30 or 60.
@@ -5709,6 +5784,8 @@ extension MediaConvertClientTypes {
         public var timeDelta: Swift.Int?
         /// When you use the setting Time delta to adjust the sync between your sidecar captions and your video, use this setting to specify the units for the delta that you specify. When you don't specify a value for Time delta units, MediaConvert uses seconds by default.
         public var timeDeltaUnits: MediaConvertClientTypes.FileSourceTimeDeltaUnits?
+        /// Specify whether this set of input captions appears in your outputs in both STL and Teletext format. If you choose Upconvert, MediaConvert includes the captions data in two ways: it passes the STL data through using the Teletext compatibility bytes fields of the Teletext wrapper, and it also translates the STL data into Teletext.
+        public var upconvertSTLToTeletext: MediaConvertClientTypes.CaptionSourceUpconvertSTLToTeletext?
 
         public init(
             byteRateLimit: MediaConvertClientTypes.CaptionSourceByteRateLimit? = nil,
@@ -5717,7 +5794,8 @@ extension MediaConvertClientTypes {
             framerate: MediaConvertClientTypes.CaptionSourceFramerate? = nil,
             sourceFile: Swift.String? = nil,
             timeDelta: Swift.Int? = nil,
-            timeDeltaUnits: MediaConvertClientTypes.FileSourceTimeDeltaUnits? = nil
+            timeDeltaUnits: MediaConvertClientTypes.FileSourceTimeDeltaUnits? = nil,
+            upconvertSTLToTeletext: MediaConvertClientTypes.CaptionSourceUpconvertSTLToTeletext? = nil
         ) {
             self.byteRateLimit = byteRateLimit
             self.convert608To708 = convert608To708
@@ -5726,6 +5804,7 @@ extension MediaConvertClientTypes {
             self.sourceFile = sourceFile
             self.timeDelta = timeDelta
             self.timeDeltaUnits = timeDeltaUnits
+            self.upconvertSTLToTeletext = upconvertSTLToTeletext
         }
     }
 }
@@ -6094,7 +6173,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Use Dynamic audio selectors when you do not know the track layout of your source when you submit your job, but want to select multiple audio tracks. When you include an audio track in your output and specify this Dynamic audio selector as the Audio source, MediaConvert creates an output audio track for each dynamically selected track. Note that when you include a Dynamic audio selector for two or more inputs, each input must have the same number of audio tracks and audio channels.
+    /// Use Dynamic audio selectors when you do not know the track layout of your source when you submit your job, but want to select multiple audio tracks. When you include an audio track in your output and specify this Dynamic audio selector as the Audio source, MediaConvert creates an audio track within that output for each dynamically selected track. Note that when you include a Dynamic audio selector for two or more inputs, each input must have the same number of audio tracks and audio channels.
     public struct DynamicAudioSelector: Swift.Sendable {
         /// Apply audio timing corrections to help synchronize audio and video in your output. To apply timing corrections, your input must meet the following requirements: * Container: MP4, or MOV, with an accurate time-to-sample (STTS) table. * Audio track: AAC. Choose from the following audio timing correction settings: * Disabled (Default): Apply no correction. * Auto: Recommended for most inputs. MediaConvert analyzes the audio timing in your input and determines which correction setting to use, if needed. * Track: Adjust the duration of each audio frame by a constant amount to align the audio track length with STTS duration. Track-level correction does not affect pitch, and is recommended for tonal audio content such as music. * Frame: Adjust the duration of each audio frame by a variable amount to align audio frames with STTS timestamps. No corrections are made to already-aligned frames. Frame-level correction may affect the pitch of corrected frames, and is recommended for atonal audio content such as speech or percussion. * Force: Apply audio duration correction, either Track or Frame depending on your input, regardless of the accuracy of your input's STTS table. Your output audio and video may not be aligned or it may contain audio artifacts.
         public var audioDurationCorrection: MediaConvertClientTypes.AudioDurationCorrection?
@@ -6409,6 +6488,37 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Specify a rectangle of content to crop and use from your video overlay's input video. When you do, MediaConvert uses the cropped dimensions that you specify under X offset, Y offset, Width, and Height.
+    public struct VideoOverlayCrop: Swift.Sendable {
+        /// Specify the height of the video overlay cropping rectangle. To use the same height as your overlay input video: Keep blank, or enter 0. To specify a different height for the cropping rectangle: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 100 and choose Pixels, the cropping rectangle will 100 pixels high. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be 108 pixels high.
+        public var height: Swift.Int?
+        /// Specify the Unit type to use when you enter a value for X position, Y position, Width, or Height. You can choose Pixels or Percentage. Leave blank to use the default value, Pixels.
+        public var unit: MediaConvertClientTypes.VideoOverlayUnit?
+        /// Specify the width of the video overlay cropping rectangle. To use the same width as your overlay input video: Keep blank, or enter 0. To specify a different width for the cropping rectangle: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 100 and choose Pixels, the cropping rectangle will 100 pixels wide. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be 192 pixels wide.
+        public var width: Swift.Int?
+        /// Specify the distance between the cropping rectangle and the left edge of your overlay video's frame. To position the cropping rectangle along the left edge: Keep blank, or enter 0. To position the cropping rectangle to the right, relative to the left edge of your overlay video's frame: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 10 and choose Pixels, the cropping rectangle will be positioned 10 pixels from the left edge of the overlay video's frame. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be positioned 192 pixels from the left edge of the overlay video's frame.
+        public var x: Swift.Int?
+        /// Specify the distance between the cropping rectangle and the top edge of your overlay video's frame. To position the cropping rectangle along the top edge: Keep blank, or enter 0. To position the cropping rectangle down, relative to the top edge of your overlay video's frame: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 10 and choose Pixels, the cropping rectangle will be positioned 10 pixels from the top edge of the overlay video's frame. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be positioned 108 pixels from the top edge of the overlay video's frame.
+        public var y: Swift.Int?
+
+        public init(
+            height: Swift.Int? = nil,
+            unit: MediaConvertClientTypes.VideoOverlayUnit? = nil,
+            width: Swift.Int? = nil,
+            x: Swift.Int? = nil,
+            y: Swift.Int? = nil
+        ) {
+            self.height = height
+            self.unit = unit
+            self.width = width
+            self.x = x
+            self.y = y
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// position of video overlay
     public struct VideoOverlayPosition: Swift.Sendable {
         /// To scale your video overlay to the same height as the base input video: Leave blank. To scale the height of your video overlay to a different height: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 360 and choose Pixels, your video overlay will be rendered with a height of 360. When you enter 50, choose Percentage, and your overlay's source has a height of 1080, your video overlay will be rendered with a height of 540. To scale your overlay to a specific height while automatically maintaining its original aspect ratio, enter a value for Height and leave Width blank.
@@ -6541,6 +6651,8 @@ extension MediaConvertClientTypes {
 
     /// Overlay one or more videos on top of your input video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-overlays.html
     public struct VideoOverlay: Swift.Sendable {
+        /// Specify a rectangle of content to crop and use from your video overlay's input video. When you do, MediaConvert uses the cropped dimensions that you specify under X offset, Y offset, Width, and Height.
+        public var crop: MediaConvertClientTypes.VideoOverlayCrop?
         /// Enter the end timecode in the base input video for this overlay. Your overlay will be active through this frame. To display your video overlay for the duration of the base input video: Leave blank. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS isthe second, and FF is the frame number. When entering this value, take into account your choice for the base input video's timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your overlay to end ten minutes into the video, enter 01:10:00:00.
         public var endTimecode: Swift.String?
         /// Specify the Initial position of your video overlay. To specify the Initial position of your video overlay, including distance from the left or top edge of the base input video's frame, or size: Enter a value for X position, Y position, Width, or Height. To use the full frame of the base input video: Leave blank.
@@ -6555,6 +6667,7 @@ extension MediaConvertClientTypes {
         public var transitions: [MediaConvertClientTypes.VideoOverlayTransition]?
 
         public init(
+            crop: MediaConvertClientTypes.VideoOverlayCrop? = nil,
             endTimecode: Swift.String? = nil,
             initialPosition: MediaConvertClientTypes.VideoOverlayPosition? = nil,
             input: MediaConvertClientTypes.VideoOverlayInput? = nil,
@@ -6562,6 +6675,7 @@ extension MediaConvertClientTypes {
             startTimecode: Swift.String? = nil,
             transitions: [MediaConvertClientTypes.VideoOverlayTransition]? = nil
         ) {
+            self.crop = crop
             self.endTimecode = endTimecode
             self.initialPosition = initialPosition
             self.input = input
@@ -7875,6 +7989,8 @@ extension MediaConvertClientTypes {
     public struct AutomatedAbrSettings: Swift.Sendable {
         /// Specify the maximum average bitrate for MediaConvert to use in your automated ABR stack. If you don't specify a value, MediaConvert uses 8,000,000 (8 mb/s) by default. The average bitrate of your highest-quality rendition will be equal to or below this value, depending on the quality, complexity, and resolution of your content. Note that the instantaneous maximum bitrate may vary above the value that you specify.
         public var maxAbrBitrate: Swift.Int?
+        /// Optional. Specify the QVBR quality level to use for all renditions in your automated ABR stack. To have MediaConvert automatically determine the quality level: Leave blank. To manually specify a quality level: Enter a value from 1 to 10. MediaConvert will use a quality level up to the value that you specify, depending on your source. For more information about QVBR quality levels, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/qvbr-guidelines.html
+        public var maxQualityLevel: Swift.Double?
         /// Optional. The maximum number of renditions that MediaConvert will create in your automated ABR stack. The number of renditions is determined automatically, based on analysis of each job, but will never exceed this limit. When you set this to Auto in the console, which is equivalent to excluding it from your JSON job specification, MediaConvert defaults to a limit of 15.
         public var maxRenditions: Swift.Int?
         /// Specify the minimum average bitrate for MediaConvert to use in your automated ABR stack. If you don't specify a value, MediaConvert uses 600,000 (600 kb/s) by default. The average bitrate of your lowest-quality rendition will be near this value. Note that the instantaneous minimum bitrate may vary below the value that you specify.
@@ -7884,11 +8000,13 @@ extension MediaConvertClientTypes {
 
         public init(
             maxAbrBitrate: Swift.Int? = nil,
+            maxQualityLevel: Swift.Double? = nil,
             maxRenditions: Swift.Int? = nil,
             minAbrBitrate: Swift.Int? = nil,
             rules: [MediaConvertClientTypes.AutomatedAbrRule]? = nil
         ) {
             self.maxAbrBitrate = maxAbrBitrate
+            self.maxQualityLevel = maxQualityLevel
             self.maxRenditions = maxRenditions
             self.minAbrBitrate = minAbrBitrate
             self.rules = rules
@@ -8373,7 +8491,7 @@ extension MediaConvertClientTypes {
         public var dashSignaledSystemIds: [Swift.String]?
         /// Specify the SPEKE version, either v1.0 or v2.0, that MediaConvert uses when encrypting your output. For more information, see: https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE v2.0 video preset and a SPEKE v2.0 audio preset.
         public var encryptionContractConfiguration: MediaConvertClientTypes.EncryptionContractConfiguration?
-        /// Specify the DRM system ID that you want signaled in the HLS manifest that MediaConvert creates as part of this CMAF package. The HLS manifest can currently signal only one system ID. For more information, see https://dashif.org/identifiers/content_protection/.
+        /// Specify up to 3 DRM system IDs that you want signaled in the HLS manifest that MediaConvert creates as part of this CMAF package. For more information, see https://dashif.org/identifiers/content_protection/.
         public var hlsSignaledSystemIds: [Swift.String]?
         /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
         public var resourceId: Swift.String?
@@ -8773,16 +8891,18 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+    /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
     public enum CmafSegmentLengthControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case exact
         case gopMultiple
+        case match
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CmafSegmentLengthControl] {
             return [
                 .exact,
-                .gopMultiple
+                .gopMultiple,
+                .match
             ]
         }
 
@@ -8795,6 +8915,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .exact: return "EXACT"
             case .gopMultiple: return "GOP_MULTIPLE"
+            case .match: return "MATCH"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9027,7 +9148,7 @@ extension MediaConvertClientTypes {
         public var segmentControl: MediaConvertClientTypes.CmafSegmentControl?
         /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control to specify whether the encoder enforces this value strictly. Use Segment control to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public var segmentLength: Swift.Int?
-        /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
         public var segmentLengthControl: MediaConvertClientTypes.CmafSegmentLengthControl?
         /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of variant manifest.
         public var streamInfResolution: MediaConvertClientTypes.CmafStreamInfResolution?
@@ -9174,7 +9295,7 @@ extension MediaConvertClientTypes {
         public var encryptionContractConfiguration: MediaConvertClientTypes.EncryptionContractConfiguration?
         /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
         public var resourceId: Swift.String?
-        /// Relates to SPEKE implementation. DRM system identifiers. DASH output groups support a max of two system ids. Other group types support one system id. See https://dashif.org/identifiers/content_protection/ for more details.
+        /// Relates to SPEKE implementation. DRM system identifiers. DASH output groups support a max of two system ids. HLS output groups support a max of 3 system ids. Other group types support one system id. See https://dashif.org/identifiers/content_protection/ for more details.
         public var systemIds: [Swift.String]?
         /// Specify the URL to the key server that your SPEKE-compliant DRM key provider uses to provide keys for encrypting your content.
         public var url: Swift.String?
@@ -9467,16 +9588,18 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+    /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
     public enum DashIsoSegmentLengthControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case exact
         case gopMultiple
+        case match
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DashIsoSegmentLengthControl] {
             return [
                 .exact,
-                .gopMultiple
+                .gopMultiple,
+                .match
             ]
         }
 
@@ -9489,6 +9612,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .exact: return "EXACT"
             case .gopMultiple: return "GOP_MULTIPLE"
+            case .match: return "MATCH"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9597,7 +9721,7 @@ extension MediaConvertClientTypes {
         public var segmentControl: MediaConvertClientTypes.DashIsoSegmentControl?
         /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 30. Related settings: Use Segment length control to specify whether the encoder enforces this value strictly. Use Segment control to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public var segmentLength: Swift.Int?
-        /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
         public var segmentLengthControl: MediaConvertClientTypes.DashIsoSegmentLengthControl?
         /// Specify the video sample composition time offset mode in the output fMP4 TRUN box. For wider player compatibility, set Video composition offsets to Unsigned or leave blank. The earliest presentation time may be greater than zero, and sample composition time offsets will increment using unsigned integers. For strict fMP4 video and audio timing, set Video composition offsets to Signed. The earliest presentation time will be equal to zero, and sample composition time offsets will increment using signed integers.
         public var videoCompositionOffsets: MediaConvertClientTypes.DashIsoVideoCompositionOffsets?
@@ -10298,16 +10422,18 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+    /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
     public enum HlsSegmentLengthControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case exact
         case gopMultiple
+        case match
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HlsSegmentLengthControl] {
             return [
                 .exact,
-                .gopMultiple
+                .gopMultiple,
+                .match
             ]
         }
 
@@ -10320,6 +10446,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .exact: return "EXACT"
             case .gopMultiple: return "GOP_MULTIPLE"
+            case .match: return "MATCH"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10473,7 +10600,7 @@ extension MediaConvertClientTypes {
         public var segmentControl: MediaConvertClientTypes.HlsSegmentControl?
         /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control to specify whether the encoder enforces this value strictly. Use Segment control to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public var segmentLength: Swift.Int?
-        /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
         public var segmentLengthControl: MediaConvertClientTypes.HlsSegmentLengthControl?
         /// Specify the number of segments to write to a subdirectory before starting a new one. You must also set Directory structure to Subdirectory per stream for this setting to have an effect.
         public var segmentsPerSubdirectory: Swift.Int?
@@ -10778,6 +10905,8 @@ extension MediaConvertClientTypes {
         public var hlsGroupSettings: MediaConvertClientTypes.HlsGroupSettings?
         /// Settings related to your Microsoft Smooth Streaming output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
         public var msSmoothGroupSettings: MediaConvertClientTypes.MsSmoothGroupSettings?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Type of output group (File group, Apple HLS, DASH ISO, Microsoft Smooth Streaming, CMAF)
         public var type: MediaConvertClientTypes.OutputGroupType?
 
@@ -10787,6 +10916,7 @@ extension MediaConvertClientTypes {
             fileGroupSettings: MediaConvertClientTypes.FileGroupSettings? = nil,
             hlsGroupSettings: MediaConvertClientTypes.HlsGroupSettings? = nil,
             msSmoothGroupSettings: MediaConvertClientTypes.MsSmoothGroupSettings? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             type: MediaConvertClientTypes.OutputGroupType? = nil
         ) {
             self.cmafGroupSettings = cmafGroupSettings
@@ -10794,6 +10924,7 @@ extension MediaConvertClientTypes {
             self.fileGroupSettings = fileGroupSettings
             self.hlsGroupSettings = hlsGroupSettings
             self.msSmoothGroupSettings = msSmoothGroupSettings
+            self.perFrameMetrics = perFrameMetrics
             self.type = type
         }
     }
@@ -11746,15 +11877,17 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds. Then specify the number of seconds with PTS offset.
+    /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds or Milliseconds. Then specify the number of seconds or milliseconds with PTS offset.
     public enum TsPtsOffset: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auto
+        case milliseconds
         case seconds
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TsPtsOffset] {
             return [
                 .auto,
+                .milliseconds,
                 .seconds
             ]
         }
@@ -11767,6 +11900,7 @@ extension MediaConvertClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .auto: return "AUTO"
+            case .milliseconds: return "MILLISECONDS"
             case .seconds: return "SECONDS"
             case let .sdkUnknown(s): return s
             }
@@ -11933,6 +12067,8 @@ extension MediaConvertClientTypes {
         public var audioFramesPerPes: Swift.Int?
         /// Specify the packet identifiers (PIDs) for any elementary audio streams you include in this output. Specify multiple PIDs as a JSON array. Default is the range 482-492.
         public var audioPids: [Swift.Int]?
+        /// Manually specify the difference in PTS offset that will be applied to the audio track, in seconds or milliseconds, when you set PTS offset to Seconds or Milliseconds. Enter an integer from -10000 to 10000. Leave blank to keep the default value 0.
+        public var audioPtsOffsetDelta: Swift.Int?
         /// Specify the output bitrate of the transport stream in bits per second. Setting to 0 lets the muxer automatically determine the appropriate bitrate. Other common values are 3750000, 7500000, and 15000000.
         public var bitrate: Swift.Int?
         /// Controls what buffer model to use for accurate interleaving. If set to MULTIPLEX, use multiplex buffer model. If set to NONE, this can lead to lower latency, but low-memory devices may not be able to play back the stream without interruptions.
@@ -11987,7 +12123,7 @@ extension MediaConvertClientTypes {
         public var programNumber: Swift.Int?
         /// Manually specify the initial PTS offset, in seconds, when you set PTS offset to Seconds. Enter an integer from 0 to 3600. Leave blank to keep the default value 2.
         public var ptsOffset: Swift.Int?
-        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds. Then specify the number of seconds with PTS offset.
+        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds or Milliseconds. Then specify the number of seconds or milliseconds with PTS offset.
         public var ptsOffsetMode: MediaConvertClientTypes.TsPtsOffset?
         /// When set to CBR, inserts null packets into transport stream to fill specified bitrate. When set to VBR, the bitrate setting acts as the maximum bitrate, but the output will not be padded up to that bitrate.
         public var rateMode: MediaConvertClientTypes.M2tsRateMode?
@@ -12015,6 +12151,7 @@ extension MediaConvertClientTypes {
             audioDuration: MediaConvertClientTypes.M2tsAudioDuration? = nil,
             audioFramesPerPes: Swift.Int? = nil,
             audioPids: [Swift.Int]? = nil,
+            audioPtsOffsetDelta: Swift.Int? = nil,
             bitrate: Swift.Int? = nil,
             bufferModel: MediaConvertClientTypes.M2tsBufferModel? = nil,
             dataPTSControl: MediaConvertClientTypes.M2tsDataPtsControl? = nil,
@@ -12058,6 +12195,7 @@ extension MediaConvertClientTypes {
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
+            self.audioPtsOffsetDelta = audioPtsOffsetDelta
             self.bitrate = bitrate
             self.bufferModel = bufferModel
             self.dataPTSControl = dataPTSControl
@@ -12290,6 +12428,8 @@ extension MediaConvertClientTypes {
         public var audioFramesPerPes: Swift.Int?
         /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation.
         public var audioPids: [Swift.Int]?
+        /// Manually specify the difference in PTS offset that will be applied to the audio track, in seconds or milliseconds, when you set PTS offset to Seconds or Milliseconds. Enter an integer from -10000 to 10000. Leave blank to keep the default value 0.
+        public var audioPtsOffsetDelta: Swift.Int?
         /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets with Presentation Timestamp (PTS) values greater than or equal to the first video packet PTS (MediaConvert drops captions and data packets with lesser PTS values). Keep the default value AUTO to allow all PTS values.
         public var dataPTSControl: MediaConvertClientTypes.M3u8DataPtsControl?
         /// Specify the maximum time, in milliseconds, between Program Clock References (PCRs) inserted into the transport stream.
@@ -12312,7 +12452,7 @@ extension MediaConvertClientTypes {
         public var programNumber: Swift.Int?
         /// Manually specify the initial PTS offset, in seconds, when you set PTS offset to Seconds. Enter an integer from 0 to 3600. Leave blank to keep the default value 2.
         public var ptsOffset: Swift.Int?
-        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds. Then specify the number of seconds with PTS offset.
+        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds or Milliseconds. Then specify the number of seconds or milliseconds with PTS offset.
         public var ptsOffsetMode: MediaConvertClientTypes.TsPtsOffset?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream.
         public var scte35Pid: Swift.Int?
@@ -12331,6 +12471,7 @@ extension MediaConvertClientTypes {
             audioDuration: MediaConvertClientTypes.M3u8AudioDuration? = nil,
             audioFramesPerPes: Swift.Int? = nil,
             audioPids: [Swift.Int]? = nil,
+            audioPtsOffsetDelta: Swift.Int? = nil,
             dataPTSControl: MediaConvertClientTypes.M3u8DataPtsControl? = nil,
             maxPcrInterval: Swift.Int? = nil,
             nielsenId3: MediaConvertClientTypes.M3u8NielsenId3? = nil,
@@ -12353,6 +12494,7 @@ extension MediaConvertClientTypes {
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
+            self.audioPtsOffsetDelta = audioPtsOffsetDelta
             self.dataPTSControl = dataPTSControl
             self.maxPcrInterval = maxPcrInterval
             self.nielsenId3 = nielsenId3
@@ -13738,6 +13880,8 @@ extension MediaConvertClientTypes {
         public var maxBitrate: Swift.Int?
         /// Specify from the number of B-frames, in the range of 0-15. For AV1 encoding, we recommend using 7 or 15. Choose a larger number for a lower bitrate and smaller file size; choose a smaller number for better video quality.
         public var numberBFramesBetweenReferenceFrames: Swift.Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
         public var qvbrSettings: MediaConvertClientTypes.Av1QvbrSettings?
         /// 'With AV1 outputs, for rate control mode, MediaConvert supports only quality-defined variable bitrate (QVBR). You can''t use CBR or VBR.'
@@ -13758,6 +13902,7 @@ extension MediaConvertClientTypes {
             gopSize: Swift.Double? = nil,
             maxBitrate: Swift.Int? = nil,
             numberBFramesBetweenReferenceFrames: Swift.Int? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             qvbrSettings: MediaConvertClientTypes.Av1QvbrSettings? = nil,
             rateControlMode: MediaConvertClientTypes.Av1RateControlMode? = nil,
             slices: Swift.Int? = nil,
@@ -13773,6 +13918,7 @@ extension MediaConvertClientTypes {
             self.gopSize = gopSize
             self.maxBitrate = maxBitrate
             self.numberBFramesBetweenReferenceFrames = numberBFramesBetweenReferenceFrames
+            self.perFrameMetrics = perFrameMetrics
             self.qvbrSettings = qvbrSettings
             self.rateControlMode = rateControlMode
             self.slices = slices
@@ -14075,6 +14221,8 @@ extension MediaConvertClientTypes {
         public var framerateNumerator: Swift.Int?
         /// Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
         public var interlaceMode: MediaConvertClientTypes.AvcIntraInterlaceMode?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public var scanTypeConversionMode: MediaConvertClientTypes.AvcIntraScanTypeConversionMode?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
@@ -14090,6 +14238,7 @@ extension MediaConvertClientTypes {
             framerateDenominator: Swift.Int? = nil,
             framerateNumerator: Swift.Int? = nil,
             interlaceMode: MediaConvertClientTypes.AvcIntraInterlaceMode? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             scanTypeConversionMode: MediaConvertClientTypes.AvcIntraScanTypeConversionMode? = nil,
             slowPal: MediaConvertClientTypes.AvcIntraSlowPal? = nil,
             telecine: MediaConvertClientTypes.AvcIntraTelecine? = nil
@@ -14101,6 +14250,7 @@ extension MediaConvertClientTypes {
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
             self.interlaceMode = interlaceMode
+            self.perFrameMetrics = perFrameMetrics
             self.scanTypeConversionMode = scanTypeConversionMode
             self.slowPal = slowPal
             self.telecine = telecine
@@ -15382,6 +15532,8 @@ extension MediaConvertClientTypes {
         public var parDenominator: Swift.Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public var parNumerator: Swift.Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// The Quality tuning level you choose represents a trade-off between the encoding speed of your job and the output video quality. For the fastest encoding speed at the cost of video quality: Choose Single pass. For a good balance between encoding speed and video quality: Leave blank or keep the default value Single pass HQ. For the best video quality, at the cost of encoding speed: Choose Multi pass HQ. MediaConvert performs an analysis pass on your input followed by an encoding pass. Outputs that use this feature incur pro-tier pricing.
         public var qualityTuningLevel: MediaConvertClientTypes.H264QualityTuningLevel?
         /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
@@ -15445,6 +15597,7 @@ extension MediaConvertClientTypes {
             parControl: MediaConvertClientTypes.H264ParControl? = nil,
             parDenominator: Swift.Int? = nil,
             parNumerator: Swift.Int? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             qualityTuningLevel: MediaConvertClientTypes.H264QualityTuningLevel? = nil,
             qvbrSettings: MediaConvertClientTypes.H264QvbrSettings? = nil,
             rateControlMode: MediaConvertClientTypes.H264RateControlMode? = nil,
@@ -15491,6 +15644,7 @@ extension MediaConvertClientTypes {
             self.parControl = parControl
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.qualityTuningLevel = qualityTuningLevel
             self.qvbrSettings = qvbrSettings
             self.rateControlMode = rateControlMode
@@ -16508,6 +16662,8 @@ extension MediaConvertClientTypes {
         public var parDenominator: Swift.Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public var parNumerator: Swift.Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public var qualityTuningLevel: MediaConvertClientTypes.H265QualityTuningLevel?
         /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
@@ -16569,6 +16725,7 @@ extension MediaConvertClientTypes {
             parControl: MediaConvertClientTypes.H265ParControl? = nil,
             parDenominator: Swift.Int? = nil,
             parNumerator: Swift.Int? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             qualityTuningLevel: MediaConvertClientTypes.H265QualityTuningLevel? = nil,
             qvbrSettings: MediaConvertClientTypes.H265QvbrSettings? = nil,
             rateControlMode: MediaConvertClientTypes.H265RateControlMode? = nil,
@@ -16614,6 +16771,7 @@ extension MediaConvertClientTypes {
             self.parControl = parControl
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.qualityTuningLevel = qualityTuningLevel
             self.qvbrSettings = qvbrSettings
             self.rateControlMode = rateControlMode
@@ -17295,6 +17453,8 @@ extension MediaConvertClientTypes {
         public var parDenominator: Swift.Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public var parNumerator: Swift.Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public var qualityTuningLevel: MediaConvertClientTypes.Mpeg2QualityTuningLevel?
         /// Use Rate control mode to specify whether the bitrate is variable (vbr) or constant (cbr).
@@ -17340,6 +17500,7 @@ extension MediaConvertClientTypes {
             parControl: MediaConvertClientTypes.Mpeg2ParControl? = nil,
             parDenominator: Swift.Int? = nil,
             parNumerator: Swift.Int? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             qualityTuningLevel: MediaConvertClientTypes.Mpeg2QualityTuningLevel? = nil,
             rateControlMode: MediaConvertClientTypes.Mpeg2RateControlMode? = nil,
             scanTypeConversionMode: MediaConvertClientTypes.Mpeg2ScanTypeConversionMode? = nil,
@@ -17374,6 +17535,7 @@ extension MediaConvertClientTypes {
             self.parControl = parControl
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.qualityTuningLevel = qualityTuningLevel
             self.rateControlMode = rateControlMode
             self.scanTypeConversionMode = scanTypeConversionMode
@@ -17709,6 +17871,8 @@ extension MediaConvertClientTypes {
         public var parDenominator: Swift.Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public var parNumerator: Swift.Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public var scanTypeConversionMode: MediaConvertClientTypes.ProresScanTypeConversionMode?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
@@ -17727,6 +17891,7 @@ extension MediaConvertClientTypes {
             parControl: MediaConvertClientTypes.ProresParControl? = nil,
             parDenominator: Swift.Int? = nil,
             parNumerator: Swift.Int? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             scanTypeConversionMode: MediaConvertClientTypes.ProresScanTypeConversionMode? = nil,
             slowPal: MediaConvertClientTypes.ProresSlowPal? = nil,
             telecine: MediaConvertClientTypes.ProresTelecine? = nil
@@ -17741,6 +17906,7 @@ extension MediaConvertClientTypes {
             self.parControl = parControl
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.scanTypeConversionMode = scanTypeConversionMode
             self.slowPal = slowPal
             self.telecine = telecine
@@ -19526,6 +19692,8 @@ extension MediaConvertClientTypes {
         public var framerateDenominator: Swift.Int?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateNumerator: Swift.Int?
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Specify the XAVC profile for this output. For more information, see the Sony documentation at https://www.xavc-info.org/. Note that MediaConvert doesn't support the interlaced video XAVC operating points for XAVC_HD_INTRA_CBG. To create an interlaced XAVC output, choose the profile XAVC_HD.
         public var profile: MediaConvertClientTypes.XavcProfile?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output by relabeling the video frames and resampling your audio. Note that enabling this setting will slightly reduce the duration of your video. Related settings: You must also set Frame rate to 25.
@@ -19554,6 +19722,7 @@ extension MediaConvertClientTypes {
             framerateConversionAlgorithm: MediaConvertClientTypes.XavcFramerateConversionAlgorithm? = nil,
             framerateDenominator: Swift.Int? = nil,
             framerateNumerator: Swift.Int? = nil,
+            perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             profile: MediaConvertClientTypes.XavcProfile? = nil,
             slowPal: MediaConvertClientTypes.XavcSlowPal? = nil,
             softness: Swift.Int? = nil,
@@ -19571,6 +19740,7 @@ extension MediaConvertClientTypes {
             self.framerateConversionAlgorithm = framerateConversionAlgorithm
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
+            self.perFrameMetrics = perFrameMetrics
             self.profile = profile
             self.slowPal = slowPal
             self.softness = softness
@@ -21620,6 +21790,655 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// The input file that needs to be analyzed.
+    public struct ProbeInputFile: Swift.Sendable {
+        /// Specify the S3, HTTP, or HTTPS URL for your media file.
+        public var fileUrl: Swift.String?
+
+        public init(
+            fileUrl: Swift.String? = nil
+        ) {
+            self.fileUrl = fileUrl
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    public enum Format: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case matroska
+        case mp4
+        case quicktime
+        case webm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Format] {
+            return [
+                .matroska,
+                .mp4,
+                .quicktime,
+                .webm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .matroska: return "matroska"
+            case .mp4: return "mp4"
+            case .quicktime: return "quicktime"
+            case .webm: return "webm"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The frame rate of the video or audio track.
+    public struct FrameRate: Swift.Sendable {
+        /// The denominator, or bottom number, in the fractional frame rate. For example, if your frame rate is 24000 / 1001 (23.976 frames per second), then the denominator would be 1001.
+        public var denominator: Swift.Int?
+        /// The numerator, or top number, in the fractional frame rate. For example, if your frame rate is 24000 / 1001 (23.976 frames per second), then the numerator would be 24000.
+        public var numerator: Swift.Int?
+
+        public init(
+            denominator: Swift.Int? = nil,
+            numerator: Swift.Int? = nil
+        ) {
+            self.denominator = denominator
+            self.numerator = numerator
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Details about the media file's audio track.
+    public struct AudioProperties: Swift.Sendable {
+        /// The bit depth of the audio track.
+        public var bitDepth: Swift.Int?
+        /// The bit rate of the audio track, in bits per second.
+        public var bitRate: Swift.Int?
+        /// The number of audio channels in the audio track.
+        public var channels: Swift.Int?
+        /// The frame rate of the video or audio track.
+        public var frameRate: MediaConvertClientTypes.FrameRate?
+        /// The language code of the audio track, in three character ISO 639-3 format.
+        public var languageCode: Swift.String?
+        /// The sample rate of the audio track.
+        public var sampleRate: Swift.Int?
+
+        public init(
+            bitDepth: Swift.Int? = nil,
+            bitRate: Swift.Int? = nil,
+            channels: Swift.Int? = nil,
+            frameRate: MediaConvertClientTypes.FrameRate? = nil,
+            languageCode: Swift.String? = nil,
+            sampleRate: Swift.Int? = nil
+        ) {
+            self.bitDepth = bitDepth
+            self.bitRate = bitRate
+            self.channels = channels
+            self.frameRate = frameRate
+            self.languageCode = languageCode
+            self.sampleRate = sampleRate
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    public enum Codec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aac
+        case ac3
+        case av1
+        case avc
+        case c608
+        case c708
+        case eac3
+        case flac
+        case hevc
+        case mjpeg
+        case mp3
+        case mp4v
+        case mpeg2
+        case opus
+        case pcm
+        case prores
+        case theora
+        case unknown
+        case vorbis
+        case vp8
+        case vp9
+        case webvtt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Codec] {
+            return [
+                .aac,
+                .ac3,
+                .av1,
+                .avc,
+                .c608,
+                .c708,
+                .eac3,
+                .flac,
+                .hevc,
+                .mjpeg,
+                .mp3,
+                .mp4v,
+                .mpeg2,
+                .opus,
+                .pcm,
+                .prores,
+                .theora,
+                .unknown,
+                .vorbis,
+                .vp8,
+                .vp9,
+                .webvtt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aac: return "AAC"
+            case .ac3: return "AC3"
+            case .av1: return "AV1"
+            case .avc: return "AVC"
+            case .c608: return "C608"
+            case .c708: return "C708"
+            case .eac3: return "EAC3"
+            case .flac: return "FLAC"
+            case .hevc: return "HEVC"
+            case .mjpeg: return "MJPEG"
+            case .mp3: return "MP3"
+            case .mp4v: return "MP4V"
+            case .mpeg2: return "MPEG2"
+            case .opus: return "OPUS"
+            case .pcm: return "PCM"
+            case .prores: return "PRORES"
+            case .theora: return "THEORA"
+            case .unknown: return "UNKNOWN"
+            case .vorbis: return "VORBIS"
+            case .vp8: return "VP8"
+            case .vp9: return "VP9"
+            case .webvtt: return "WEBVTT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Details about the media file's data track.
+    public struct DataProperties: Swift.Sendable {
+        /// The language code of the data track, in three character ISO 639-3 format.
+        public var languageCode: Swift.String?
+
+        public init(
+            languageCode: Swift.String? = nil
+        ) {
+            self.languageCode = languageCode
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    public enum TrackType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audio
+        case data
+        case video
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrackType] {
+            return [
+                .audio,
+                .data,
+                .video
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audio: return "audio"
+            case .data: return "data"
+            case .video: return "video"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The color space color primaries of the video track.
+    public enum ColorPrimaries: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ebu3213E
+        case genericFilm
+        case ipt
+        case itu2020
+        case itu470bg
+        case itu470m
+        case itu709
+        case last
+        case reserved
+        case smpte170m
+        case smpte2067xyz
+        case smpte240m
+        case smpte4281
+        case smpte4312
+        case smpteEg4321
+        case unspecified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ColorPrimaries] {
+            return [
+                .ebu3213E,
+                .genericFilm,
+                .ipt,
+                .itu2020,
+                .itu470bg,
+                .itu470m,
+                .itu709,
+                .last,
+                .reserved,
+                .smpte170m,
+                .smpte2067xyz,
+                .smpte240m,
+                .smpte4281,
+                .smpte4312,
+                .smpteEg4321,
+                .unspecified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ebu3213E: return "EBU_3213_E"
+            case .genericFilm: return "GENERIC_FILM"
+            case .ipt: return "IPT"
+            case .itu2020: return "ITU_2020"
+            case .itu470bg: return "ITU_470BG"
+            case .itu470m: return "ITU_470M"
+            case .itu709: return "ITU_709"
+            case .last: return "LAST"
+            case .reserved: return "RESERVED"
+            case .smpte170m: return "SMPTE_170M"
+            case .smpte2067xyz: return "SMPTE_2067XYZ"
+            case .smpte240m: return "SMPTE_240M"
+            case .smpte4281: return "SMPTE_428_1"
+            case .smpte4312: return "SMPTE_431_2"
+            case .smpteEg4321: return "SMPTE_EG_432_1"
+            case .unspecified: return "UNSPECIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The color space matrix coefficients of the video track.
+    public enum MatrixCoefficients: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cdCl
+        case cdNcl
+        case ebu3213
+        case fcc
+        case ipt
+        case itu2020Cl
+        case itu2020Ncl
+        case itu2100ictcp
+        case itu470bg
+        case itu709
+        case last
+        case reserved
+        case rgb
+        case smpte170m
+        case smpte2085
+        case smpte240m
+        case unspecified
+        case ycgco
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MatrixCoefficients] {
+            return [
+                .cdCl,
+                .cdNcl,
+                .ebu3213,
+                .fcc,
+                .ipt,
+                .itu2020Cl,
+                .itu2020Ncl,
+                .itu2100ictcp,
+                .itu470bg,
+                .itu709,
+                .last,
+                .reserved,
+                .rgb,
+                .smpte170m,
+                .smpte2085,
+                .smpte240m,
+                .unspecified,
+                .ycgco
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cdCl: return "CD_CL"
+            case .cdNcl: return "CD_NCL"
+            case .ebu3213: return "EBU3213"
+            case .fcc: return "FCC"
+            case .ipt: return "IPT"
+            case .itu2020Cl: return "ITU_2020_CL"
+            case .itu2020Ncl: return "ITU_2020_NCL"
+            case .itu2100ictcp: return "ITU_2100ICtCp"
+            case .itu470bg: return "ITU_470BG"
+            case .itu709: return "ITU_709"
+            case .last: return "LAST"
+            case .reserved: return "RESERVED"
+            case .rgb: return "RGB"
+            case .smpte170m: return "SMPTE_170M"
+            case .smpte2085: return "SMPTE_2085"
+            case .smpte240m: return "SMPTE_240M"
+            case .unspecified: return "UNSPECIFIED"
+            case .ycgco: return "YCgCo"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The color space transfer characteristics of the video track.
+    public enum TransferCharacteristics: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aribB67
+        case iec6196621
+        case iec6196624
+        case itu1361
+        case itu202010bit
+        case itu202012bit
+        case itu470bg
+        case itu470m
+        case itu709
+        case last
+        case linear
+        case loc1025
+        case log102
+        case reserved
+        case smpte170m
+        case smpte2084
+        case smpte240m
+        case smpte4281
+        case unspecified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransferCharacteristics] {
+            return [
+                .aribB67,
+                .iec6196621,
+                .iec6196624,
+                .itu1361,
+                .itu202010bit,
+                .itu202012bit,
+                .itu470bg,
+                .itu470m,
+                .itu709,
+                .last,
+                .linear,
+                .loc1025,
+                .log102,
+                .reserved,
+                .smpte170m,
+                .smpte2084,
+                .smpte240m,
+                .smpte4281,
+                .unspecified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aribB67: return "ARIB_B67"
+            case .iec6196621: return "IEC_61966_2_1"
+            case .iec6196624: return "IEC_61966_2_4"
+            case .itu1361: return "ITU_1361"
+            case .itu202010bit: return "ITU_2020_10bit"
+            case .itu202012bit: return "ITU_2020_12bit"
+            case .itu470bg: return "ITU_470BG"
+            case .itu470m: return "ITU_470M"
+            case .itu709: return "ITU_709"
+            case .last: return "LAST"
+            case .linear: return "LINEAR"
+            case .loc1025: return "LOC10_2_5"
+            case .log102: return "LOG10_2"
+            case .reserved: return "RESERVED"
+            case .smpte170m: return "SMPTE_170M"
+            case .smpte2084: return "SMPTE_2084"
+            case .smpte240m: return "SMPTE_240M"
+            case .smpte4281: return "SMPTE_428_1"
+            case .unspecified: return "UNSPECIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Details about the media file's video track.
+    public struct VideoProperties: Swift.Sendable {
+        /// The bit depth of the video track.
+        public var bitDepth: Swift.Int?
+        /// The bit rate of the video track, in bits per second.
+        public var bitRate: Swift.Int?
+        /// The color space color primaries of the video track.
+        public var colorPrimaries: MediaConvertClientTypes.ColorPrimaries?
+        /// The frame rate of the video or audio track.
+        public var frameRate: MediaConvertClientTypes.FrameRate?
+        /// The height of the video track, in pixels.
+        public var height: Swift.Int?
+        /// The color space matrix coefficients of the video track.
+        public var matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients?
+        /// The color space transfer characteristics of the video track.
+        public var transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics?
+        /// The width of the video track, in pixels.
+        public var width: Swift.Int?
+
+        public init(
+            bitDepth: Swift.Int? = nil,
+            bitRate: Swift.Int? = nil,
+            colorPrimaries: MediaConvertClientTypes.ColorPrimaries? = nil,
+            frameRate: MediaConvertClientTypes.FrameRate? = nil,
+            height: Swift.Int? = nil,
+            matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients? = nil,
+            transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics? = nil,
+            width: Swift.Int? = nil
+        ) {
+            self.bitDepth = bitDepth
+            self.bitRate = bitRate
+            self.colorPrimaries = colorPrimaries
+            self.frameRate = frameRate
+            self.height = height
+            self.matrixCoefficients = matrixCoefficients
+            self.transferCharacteristics = transferCharacteristics
+            self.width = width
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Details about each track (video, audio, or data) in the media file.
+    public struct Track: Swift.Sendable {
+        /// Details about the media file's audio track.
+        public var audioProperties: MediaConvertClientTypes.AudioProperties?
+        /// The codec of the audio or video track, or caption format of the data track.
+        public var codec: MediaConvertClientTypes.Codec?
+        /// Details about the media file's data track.
+        public var dataProperties: MediaConvertClientTypes.DataProperties?
+        /// The duration of the track, in seconds.
+        public var duration: Swift.Double?
+        /// The unique index number of the track, starting at 1.
+        public var index: Swift.Int?
+        /// The type of track: video, audio, or data.
+        public var trackType: MediaConvertClientTypes.TrackType?
+        /// Details about the media file's video track.
+        public var videoProperties: MediaConvertClientTypes.VideoProperties?
+
+        public init(
+            audioProperties: MediaConvertClientTypes.AudioProperties? = nil,
+            codec: MediaConvertClientTypes.Codec? = nil,
+            dataProperties: MediaConvertClientTypes.DataProperties? = nil,
+            duration: Swift.Double? = nil,
+            index: Swift.Int? = nil,
+            trackType: MediaConvertClientTypes.TrackType? = nil,
+            videoProperties: MediaConvertClientTypes.VideoProperties? = nil
+        ) {
+            self.audioProperties = audioProperties
+            self.codec = codec
+            self.dataProperties = dataProperties
+            self.duration = duration
+            self.index = index
+            self.trackType = trackType
+            self.videoProperties = videoProperties
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The container of your media file. This information helps you understand the overall structure and details of your media, including format, duration, and track layout.
+    public struct Container: Swift.Sendable {
+        /// The total duration of your media file, in seconds.
+        public var duration: Swift.Double?
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), or WebM. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
+        public var format: MediaConvertClientTypes.Format?
+        /// Details about each track (video, audio, or data) in the media file.
+        public var tracks: [MediaConvertClientTypes.Track]?
+
+        public init(
+            duration: Swift.Double? = nil,
+            format: MediaConvertClientTypes.Format? = nil,
+            tracks: [MediaConvertClientTypes.Track]? = nil
+        ) {
+            self.duration = duration
+            self.format = format
+            self.tracks = tracks
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Metadata and other file information.
+    public struct Metadata: Swift.Sendable {
+        /// The entity tag (ETag) of the file.
+        public var eTag: Swift.String?
+        /// The size of the media file, in bytes.
+        public var fileSize: Swift.Int?
+        /// The last modification timestamp of the media file, in Unix time.
+        public var lastModified: Foundation.Date?
+        /// The MIME type of the media file.
+        public var mimeType: Swift.String?
+
+        public init(
+            eTag: Swift.String? = nil,
+            fileSize: Swift.Int? = nil,
+            lastModified: Foundation.Date? = nil,
+            mimeType: Swift.String? = nil
+        ) {
+            self.eTag = eTag
+            self.fileSize = fileSize
+            self.lastModified = lastModified
+            self.mimeType = mimeType
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// An array containing track mapping information.
+    public struct TrackMapping: Swift.Sendable {
+        /// The index numbers of the audio tracks in your media file.
+        public var audioTrackIndexes: [Swift.Int]?
+        /// The index numbers of the data tracks in your media file.
+        public var dataTrackIndexes: [Swift.Int]?
+        /// The index numbers of the video tracks in your media file.
+        public var videoTrackIndexes: [Swift.Int]?
+
+        public init(
+            audioTrackIndexes: [Swift.Int]? = nil,
+            dataTrackIndexes: [Swift.Int]? = nil,
+            videoTrackIndexes: [Swift.Int]? = nil
+        ) {
+            self.audioTrackIndexes = audioTrackIndexes
+            self.dataTrackIndexes = dataTrackIndexes
+            self.videoTrackIndexes = videoTrackIndexes
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Probe results for your media file.
+    public struct ProbeResult: Swift.Sendable {
+        /// The container of your media file. This information helps you understand the overall structure and details of your media, including format, duration, and track layout.
+        public var container: MediaConvertClientTypes.Container?
+        /// Metadata and other file information.
+        public var metadata: MediaConvertClientTypes.Metadata?
+        /// An array containing track mapping information.
+        public var trackMappings: [MediaConvertClientTypes.TrackMapping]?
+
+        public init(
+            container: MediaConvertClientTypes.Container? = nil,
+            metadata: MediaConvertClientTypes.Metadata? = nil,
+            trackMappings: [MediaConvertClientTypes.TrackMapping]? = nil
+        ) {
+            self.container = container
+            self.metadata = metadata
+            self.trackMappings = trackMappings
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Specifies whether the pricing plan for the queue is on-demand or reserved. For on-demand, you pay per minute, billed in increments of .01 minute. For reserved, you pay for the transcoding capacity of the entire queue, regardless of how much or how little you use it. Reserved pricing requires a 12-month commitment.
     public enum PricingPlan: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case onDemand
@@ -22066,7 +22885,7 @@ public struct CancelJobOutput: Swift.Sendable {
 public struct CreateJobInput: Swift.Sendable {
     /// Optional. Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
     public var accelerationSettings: MediaConvertClientTypes.AccelerationSettings?
-    /// Optional. Choose a tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up. Any transcoding outputs that don't have an associated tag will appear in your billing report unsorted. If you don't choose a valid value for this field, your job outputs will appear on the billing report unsorted.
+    /// Optionally choose a Billing tags source that AWS Billing and Cost Management will use to display tags for individual output costs on any billing report that you set up. Leave blank to use the default value, Job.
     public var billingTagsSource: MediaConvertClientTypes.BillingTagsSource?
     /// Prevent duplicate jobs from being created and ensure idempotency for your requests. A client request token can be any string that includes up to 64 ASCII characters. If you reuse a client request token within one minute of a successful request, the API returns the job details of the original request instead. For more information see https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
     public var clientRequestToken: Swift.String?
@@ -22989,6 +23808,28 @@ public struct ListVersionsOutput: Swift.Sendable {
     }
 }
 
+public struct ProbeInput: Swift.Sendable {
+    /// Specify a media file to probe.
+    public var inputFiles: [MediaConvertClientTypes.ProbeInputFile]?
+
+    public init(
+        inputFiles: [MediaConvertClientTypes.ProbeInputFile]? = nil
+    ) {
+        self.inputFiles = inputFiles
+    }
+}
+
+public struct ProbeOutput: Swift.Sendable {
+    /// Probe results for your media file.
+    public var probeResults: [MediaConvertClientTypes.ProbeResult]?
+
+    public init(
+        probeResults: [MediaConvertClientTypes.ProbeResult]? = nil
+    ) {
+        self.probeResults = probeResults
+    }
+}
+
 public struct PutPolicyInput: Swift.Sendable {
     /// A policy configures behavior that you allow or disallow for your account. For information about MediaConvert policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     /// This member is required.
@@ -23545,6 +24386,13 @@ extension ListVersionsInput {
     }
 }
 
+extension ProbeInput {
+
+    static func urlPathProvider(_ value: ProbeInput) -> Swift.String? {
+        return "/2017-08-29/probe"
+    }
+}
+
 extension PutPolicyInput {
 
     static func urlPathProvider(_ value: PutPolicyInput) -> Swift.String? {
@@ -23717,6 +24565,14 @@ extension DescribeEndpointsInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["mode"].write(value.mode)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ProbeInput {
+
+    static func write(value: ProbeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inputFiles"].writeList(value.inputFiles, memberWritingClosure: MediaConvertClientTypes.ProbeInputFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -24026,6 +24882,18 @@ extension ListVersionsOutput {
         var value = ListVersionsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.versions = try reader["versions"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.JobEngineVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ProbeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ProbeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ProbeOutput()
+        value.probeResults = try reader["probeResults"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.ProbeResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -24524,6 +25392,25 @@ enum ListTagsForResourceOutputError {
 }
 
 enum ListVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ProbeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -25460,6 +26347,7 @@ extension MediaConvertClientTypes.XavcSettings {
         try writer["framerateConversionAlgorithm"].write(value.framerateConversionAlgorithm)
         try writer["framerateDenominator"].write(value.framerateDenominator)
         try writer["framerateNumerator"].write(value.framerateNumerator)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["profile"].write(value.profile)
         try writer["slowPal"].write(value.slowPal)
         try writer["softness"].write(value.softness)
@@ -25481,6 +26369,7 @@ extension MediaConvertClientTypes.XavcSettings {
         value.framerateConversionAlgorithm = try reader["framerateConversionAlgorithm"].readIfPresent()
         value.framerateDenominator = try reader["framerateDenominator"].readIfPresent()
         value.framerateNumerator = try reader["framerateNumerator"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.profile = try reader["profile"].readIfPresent()
         value.slowPal = try reader["slowPal"].readIfPresent()
         value.softness = try reader["softness"].readIfPresent()
@@ -25754,6 +26643,7 @@ extension MediaConvertClientTypes.ProresSettings {
         try writer["parControl"].write(value.parControl)
         try writer["parDenominator"].write(value.parDenominator)
         try writer["parNumerator"].write(value.parNumerator)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scanTypeConversionMode"].write(value.scanTypeConversionMode)
         try writer["slowPal"].write(value.slowPal)
         try writer["telecine"].write(value.telecine)
@@ -25772,6 +26662,7 @@ extension MediaConvertClientTypes.ProresSettings {
         value.parControl = try reader["parControl"].readIfPresent()
         value.parDenominator = try reader["parDenominator"].readIfPresent()
         value.parNumerator = try reader["parNumerator"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.scanTypeConversionMode = try reader["scanTypeConversionMode"].readIfPresent()
         value.slowPal = try reader["slowPal"].readIfPresent()
         value.telecine = try reader["telecine"].readIfPresent()
@@ -25806,6 +26697,7 @@ extension MediaConvertClientTypes.Mpeg2Settings {
         try writer["parControl"].write(value.parControl)
         try writer["parDenominator"].write(value.parDenominator)
         try writer["parNumerator"].write(value.parNumerator)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["qualityTuningLevel"].write(value.qualityTuningLevel)
         try writer["rateControlMode"].write(value.rateControlMode)
         try writer["scanTypeConversionMode"].write(value.scanTypeConversionMode)
@@ -25844,6 +26736,7 @@ extension MediaConvertClientTypes.Mpeg2Settings {
         value.parControl = try reader["parControl"].readIfPresent()
         value.parDenominator = try reader["parDenominator"].readIfPresent()
         value.parNumerator = try reader["parNumerator"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.qualityTuningLevel = try reader["qualityTuningLevel"].readIfPresent()
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
         value.scanTypeConversionMode = try reader["scanTypeConversionMode"].readIfPresent()
@@ -25891,6 +26784,7 @@ extension MediaConvertClientTypes.H265Settings {
         try writer["parControl"].write(value.parControl)
         try writer["parDenominator"].write(value.parDenominator)
         try writer["parNumerator"].write(value.parNumerator)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["qualityTuningLevel"].write(value.qualityTuningLevel)
         try writer["qvbrSettings"].write(value.qvbrSettings, with: MediaConvertClientTypes.H265QvbrSettings.write(value:to:))
         try writer["rateControlMode"].write(value.rateControlMode)
@@ -25940,6 +26834,7 @@ extension MediaConvertClientTypes.H265Settings {
         value.parControl = try reader["parControl"].readIfPresent()
         value.parDenominator = try reader["parDenominator"].readIfPresent()
         value.parNumerator = try reader["parNumerator"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.qualityTuningLevel = try reader["qualityTuningLevel"].readIfPresent()
         value.qvbrSettings = try reader["qvbrSettings"].readIfPresent(with: MediaConvertClientTypes.H265QvbrSettings.read(from:))
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
@@ -26028,6 +26923,7 @@ extension MediaConvertClientTypes.H264Settings {
         try writer["parControl"].write(value.parControl)
         try writer["parDenominator"].write(value.parDenominator)
         try writer["parNumerator"].write(value.parNumerator)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["qualityTuningLevel"].write(value.qualityTuningLevel)
         try writer["qvbrSettings"].write(value.qvbrSettings, with: MediaConvertClientTypes.H264QvbrSettings.write(value:to:))
         try writer["rateControlMode"].write(value.rateControlMode)
@@ -26078,6 +26974,7 @@ extension MediaConvertClientTypes.H264Settings {
         value.parControl = try reader["parControl"].readIfPresent()
         value.parDenominator = try reader["parDenominator"].readIfPresent()
         value.parNumerator = try reader["parNumerator"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.qualityTuningLevel = try reader["qualityTuningLevel"].readIfPresent()
         value.qvbrSettings = try reader["qvbrSettings"].readIfPresent(with: MediaConvertClientTypes.H264QvbrSettings.read(from:))
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
@@ -26170,6 +27067,7 @@ extension MediaConvertClientTypes.AvcIntraSettings {
         try writer["framerateDenominator"].write(value.framerateDenominator)
         try writer["framerateNumerator"].write(value.framerateNumerator)
         try writer["interlaceMode"].write(value.interlaceMode)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scanTypeConversionMode"].write(value.scanTypeConversionMode)
         try writer["slowPal"].write(value.slowPal)
         try writer["telecine"].write(value.telecine)
@@ -26185,6 +27083,7 @@ extension MediaConvertClientTypes.AvcIntraSettings {
         value.framerateDenominator = try reader["framerateDenominator"].readIfPresent()
         value.framerateNumerator = try reader["framerateNumerator"].readIfPresent()
         value.interlaceMode = try reader["interlaceMode"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.scanTypeConversionMode = try reader["scanTypeConversionMode"].readIfPresent()
         value.slowPal = try reader["slowPal"].readIfPresent()
         value.telecine = try reader["telecine"].readIfPresent()
@@ -26221,6 +27120,7 @@ extension MediaConvertClientTypes.Av1Settings {
         try writer["gopSize"].write(value.gopSize)
         try writer["maxBitrate"].write(value.maxBitrate)
         try writer["numberBFramesBetweenReferenceFrames"].write(value.numberBFramesBetweenReferenceFrames)
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["qvbrSettings"].write(value.qvbrSettings, with: MediaConvertClientTypes.Av1QvbrSettings.write(value:to:))
         try writer["rateControlMode"].write(value.rateControlMode)
         try writer["slices"].write(value.slices)
@@ -26240,6 +27140,7 @@ extension MediaConvertClientTypes.Av1Settings {
         value.gopSize = try reader["gopSize"].readIfPresent()
         value.maxBitrate = try reader["maxBitrate"].readIfPresent()
         value.numberBFramesBetweenReferenceFrames = try reader["numberBFramesBetweenReferenceFrames"].readIfPresent()
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.qvbrSettings = try reader["qvbrSettings"].readIfPresent(with: MediaConvertClientTypes.Av1QvbrSettings.read(from:))
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
         value.slices = try reader["slices"].readIfPresent()
@@ -26464,6 +27365,7 @@ extension MediaConvertClientTypes.M3u8Settings {
         try writer["audioDuration"].write(value.audioDuration)
         try writer["audioFramesPerPes"].write(value.audioFramesPerPes)
         try writer["audioPids"].writeList(value.audioPids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["audioPtsOffsetDelta"].write(value.audioPtsOffsetDelta)
         try writer["dataPTSControl"].write(value.dataPTSControl)
         try writer["maxPcrInterval"].write(value.maxPcrInterval)
         try writer["nielsenId3"].write(value.nielsenId3)
@@ -26490,6 +27392,7 @@ extension MediaConvertClientTypes.M3u8Settings {
         value.audioDuration = try reader["audioDuration"].readIfPresent()
         value.audioFramesPerPes = try reader["audioFramesPerPes"].readIfPresent()
         value.audioPids = try reader["audioPids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.audioPtsOffsetDelta = try reader["audioPtsOffsetDelta"].readIfPresent()
         value.dataPTSControl = try reader["dataPTSControl"].readIfPresent()
         value.maxPcrInterval = try reader["maxPcrInterval"].readIfPresent()
         value.nielsenId3 = try reader["nielsenId3"].readIfPresent()
@@ -26520,6 +27423,7 @@ extension MediaConvertClientTypes.M2tsSettings {
         try writer["audioDuration"].write(value.audioDuration)
         try writer["audioFramesPerPes"].write(value.audioFramesPerPes)
         try writer["audioPids"].writeList(value.audioPids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["audioPtsOffsetDelta"].write(value.audioPtsOffsetDelta)
         try writer["bitrate"].write(value.bitrate)
         try writer["bufferModel"].write(value.bufferModel)
         try writer["dataPTSControl"].write(value.dataPTSControl)
@@ -26567,6 +27471,7 @@ extension MediaConvertClientTypes.M2tsSettings {
         value.audioDuration = try reader["audioDuration"].readIfPresent()
         value.audioFramesPerPes = try reader["audioFramesPerPes"].readIfPresent()
         value.audioPids = try reader["audioPids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.audioPtsOffsetDelta = try reader["audioPtsOffsetDelta"].readIfPresent()
         value.bitrate = try reader["bitrate"].readIfPresent()
         value.bufferModel = try reader["bufferModel"].readIfPresent()
         value.dataPTSControl = try reader["dataPTSControl"].readIfPresent()
@@ -27529,6 +28434,7 @@ extension MediaConvertClientTypes.OutputGroupSettings {
         try writer["fileGroupSettings"].write(value.fileGroupSettings, with: MediaConvertClientTypes.FileGroupSettings.write(value:to:))
         try writer["hlsGroupSettings"].write(value.hlsGroupSettings, with: MediaConvertClientTypes.HlsGroupSettings.write(value:to:))
         try writer["msSmoothGroupSettings"].write(value.msSmoothGroupSettings, with: MediaConvertClientTypes.MsSmoothGroupSettings.write(value:to:))
+        try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["type"].write(value.type)
     }
 
@@ -27540,6 +28446,7 @@ extension MediaConvertClientTypes.OutputGroupSettings {
         value.fileGroupSettings = try reader["fileGroupSettings"].readIfPresent(with: MediaConvertClientTypes.FileGroupSettings.read(from:))
         value.hlsGroupSettings = try reader["hlsGroupSettings"].readIfPresent(with: MediaConvertClientTypes.HlsGroupSettings.read(from:))
         value.msSmoothGroupSettings = try reader["msSmoothGroupSettings"].readIfPresent(with: MediaConvertClientTypes.MsSmoothGroupSettings.read(from:))
+        value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
         return value
     }
@@ -28216,6 +29123,7 @@ extension MediaConvertClientTypes.AutomatedAbrSettings {
     static func write(value: MediaConvertClientTypes.AutomatedAbrSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["maxAbrBitrate"].write(value.maxAbrBitrate)
+        try writer["maxQualityLevel"].write(value.maxQualityLevel)
         try writer["maxRenditions"].write(value.maxRenditions)
         try writer["minAbrBitrate"].write(value.minAbrBitrate)
         try writer["rules"].writeList(value.rules, memberWritingClosure: MediaConvertClientTypes.AutomatedAbrRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -28225,6 +29133,7 @@ extension MediaConvertClientTypes.AutomatedAbrSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.AutomatedAbrSettings()
         value.maxAbrBitrate = try reader["maxAbrBitrate"].readIfPresent()
+        value.maxQualityLevel = try reader["maxQualityLevel"].readIfPresent()
         value.maxRenditions = try reader["maxRenditions"].readIfPresent()
         value.minAbrBitrate = try reader["minAbrBitrate"].readIfPresent()
         value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.AutomatedAbrRule.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -28579,6 +29488,7 @@ extension MediaConvertClientTypes.VideoOverlay {
 
     static func write(value: MediaConvertClientTypes.VideoOverlay?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["crop"].write(value.crop, with: MediaConvertClientTypes.VideoOverlayCrop.write(value:to:))
         try writer["endTimecode"].write(value.endTimecode)
         try writer["initialPosition"].write(value.initialPosition, with: MediaConvertClientTypes.VideoOverlayPosition.write(value:to:))
         try writer["input"].write(value.input, with: MediaConvertClientTypes.VideoOverlayInput.write(value:to:))
@@ -28590,6 +29500,7 @@ extension MediaConvertClientTypes.VideoOverlay {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.VideoOverlay {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.VideoOverlay()
+        value.crop = try reader["crop"].readIfPresent(with: MediaConvertClientTypes.VideoOverlayCrop.read(from:))
         value.endTimecode = try reader["endTimecode"].readIfPresent()
         value.initialPosition = try reader["initialPosition"].readIfPresent(with: MediaConvertClientTypes.VideoOverlayPosition.read(from:))
         value.input = try reader["input"].readIfPresent(with: MediaConvertClientTypes.VideoOverlayInput.read(from:))
@@ -28676,6 +29587,29 @@ extension MediaConvertClientTypes.VideoOverlayInputClipping {
         var value = MediaConvertClientTypes.VideoOverlayInputClipping()
         value.endTimecode = try reader["endTimecode"].readIfPresent()
         value.startTimecode = try reader["startTimecode"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.VideoOverlayCrop {
+
+    static func write(value: MediaConvertClientTypes.VideoOverlayCrop?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["height"].write(value.height)
+        try writer["unit"].write(value.unit)
+        try writer["width"].write(value.width)
+        try writer["x"].write(value.x)
+        try writer["y"].write(value.y)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.VideoOverlayCrop {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.VideoOverlayCrop()
+        value.height = try reader["height"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.width = try reader["width"].readIfPresent()
+        value.x = try reader["x"].readIfPresent()
+        value.y = try reader["y"].readIfPresent()
         return value
     }
 }
@@ -28872,6 +29806,7 @@ extension MediaConvertClientTypes.FileSourceSettings {
         try writer["sourceFile"].write(value.sourceFile)
         try writer["timeDelta"].write(value.timeDelta)
         try writer["timeDeltaUnits"].write(value.timeDeltaUnits)
+        try writer["upconvertSTLToTeletext"].write(value.upconvertSTLToTeletext)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.FileSourceSettings {
@@ -28884,6 +29819,7 @@ extension MediaConvertClientTypes.FileSourceSettings {
         value.sourceFile = try reader["sourceFile"].readIfPresent()
         value.timeDelta = try reader["timeDelta"].readIfPresent()
         value.timeDeltaUnits = try reader["timeDeltaUnits"].readIfPresent()
+        value.upconvertSTLToTeletext = try reader["upconvertSTLToTeletext"].readIfPresent()
         return value
     }
 }
@@ -29521,6 +30457,124 @@ extension MediaConvertClientTypes.JobEngineVersion {
     }
 }
 
+extension MediaConvertClientTypes.ProbeResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ProbeResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.ProbeResult()
+        value.container = try reader["container"].readIfPresent(with: MediaConvertClientTypes.Container.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent(with: MediaConvertClientTypes.Metadata.read(from:))
+        value.trackMappings = try reader["trackMappings"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.TrackMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.TrackMapping {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.TrackMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.TrackMapping()
+        value.audioTrackIndexes = try reader["audioTrackIndexes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataTrackIndexes = try reader["dataTrackIndexes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.videoTrackIndexes = try reader["videoTrackIndexes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.Metadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Metadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.Metadata()
+        value.eTag = try reader["eTag"].readIfPresent()
+        value.fileSize = try reader["fileSize"].readIfPresent()
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.mimeType = try reader["mimeType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.Container {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Container {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.Container()
+        value.duration = try reader["duration"].readIfPresent()
+        value.format = try reader["format"].readIfPresent()
+        value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.Track.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.Track {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Track {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.Track()
+        value.audioProperties = try reader["audioProperties"].readIfPresent(with: MediaConvertClientTypes.AudioProperties.read(from:))
+        value.codec = try reader["codec"].readIfPresent()
+        value.dataProperties = try reader["dataProperties"].readIfPresent(with: MediaConvertClientTypes.DataProperties.read(from:))
+        value.duration = try reader["duration"].readIfPresent()
+        value.index = try reader["index"].readIfPresent()
+        value.trackType = try reader["trackType"].readIfPresent()
+        value.videoProperties = try reader["videoProperties"].readIfPresent(with: MediaConvertClientTypes.VideoProperties.read(from:))
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.VideoProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.VideoProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.VideoProperties()
+        value.bitDepth = try reader["bitDepth"].readIfPresent()
+        value.bitRate = try reader["bitRate"].readIfPresent()
+        value.colorPrimaries = try reader["colorPrimaries"].readIfPresent()
+        value.frameRate = try reader["frameRate"].readIfPresent(with: MediaConvertClientTypes.FrameRate.read(from:))
+        value.height = try reader["height"].readIfPresent()
+        value.matrixCoefficients = try reader["matrixCoefficients"].readIfPresent()
+        value.transferCharacteristics = try reader["transferCharacteristics"].readIfPresent()
+        value.width = try reader["width"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.FrameRate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.FrameRate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.FrameRate()
+        value.denominator = try reader["denominator"].readIfPresent()
+        value.numerator = try reader["numerator"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.DataProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.DataProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.DataProperties()
+        value.languageCode = try reader["languageCode"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.AudioProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.AudioProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.AudioProperties()
+        value.bitDepth = try reader["bitDepth"].readIfPresent()
+        value.bitRate = try reader["bitRate"].readIfPresent()
+        value.channels = try reader["channels"].readIfPresent()
+        value.frameRate = try reader["frameRate"].readIfPresent(with: MediaConvertClientTypes.FrameRate.read(from:))
+        value.languageCode = try reader["languageCode"].readIfPresent()
+        value.sampleRate = try reader["sampleRate"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaConvertClientTypes.ReservationPlanSettings {
 
     static func write(value: MediaConvertClientTypes.ReservationPlanSettings?, to writer: SmithyJSON.Writer) throws {
@@ -29528,6 +30582,14 @@ extension MediaConvertClientTypes.ReservationPlanSettings {
         try writer["commitment"].write(value.commitment)
         try writer["renewalType"].write(value.renewalType)
         try writer["reservedSlots"].write(value.reservedSlots)
+    }
+}
+
+extension MediaConvertClientTypes.ProbeInputFile {
+
+    static func write(value: MediaConvertClientTypes.ProbeInputFile?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fileUrl"].write(value.fileUrl)
     }
 }
 

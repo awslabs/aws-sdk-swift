@@ -45,6 +45,178 @@ public struct UntagResourceOutput: Swift.Sendable {
 
 extension MediaTailorClientTypes {
 
+    public enum AdsInteractionExcludeEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case adMarkerFound
+        case beaconFired
+        case emptyVastResponse
+        case emptyVmapResponse
+        case errorAdsInvalidResponse
+        case errorAdsIo
+        case errorAdsResponseParse
+        case errorAdsResponseUnknownRootElement
+        case errorAdsTimeout
+        case errorDisallowedHost
+        case errorFiringBeaconFailed
+        case errorPersonalizationDisabled
+        case errorUnknown
+        case errorUnknownHost
+        case errorVastInvalidMediaFile
+        case errorVastInvalidVastAdTagUri
+        case errorVastMissingCreatives
+        case errorVastMissingImpression
+        case errorVastMissingMediafiles
+        case errorVastMissingOverlays
+        case errorVastMultipleLinear
+        case errorVastMultipleTrackingEvents
+        case errorVastRedirectEmptyResponse
+        case errorVastRedirectFailed
+        case errorVastRedirectMultipleVast
+        case filledAvail
+        case filledOverlayAvail
+        case interstitialVodFailure
+        case interstitialVodSuccess
+        case makingAdsRequest
+        case modifiedTargetUrl
+        case nonAdMarkerFound
+        case redirectedVastResponse
+        case vastRedirect
+        case vastResponse
+        case vodTimeBasedAvailPlanSuccess
+        case vodTimeBasedAvailPlanVastResponseForOffset
+        case vodTimeBasedAvailPlanWarningNoAdvertisements
+        case warningNoAdvertisements
+        case warningUrlVariableSubstitutionFailed
+        case warningVpaidAdDropped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdsInteractionExcludeEventType] {
+            return [
+                .adMarkerFound,
+                .beaconFired,
+                .emptyVastResponse,
+                .emptyVmapResponse,
+                .errorAdsInvalidResponse,
+                .errorAdsIo,
+                .errorAdsResponseParse,
+                .errorAdsResponseUnknownRootElement,
+                .errorAdsTimeout,
+                .errorDisallowedHost,
+                .errorFiringBeaconFailed,
+                .errorPersonalizationDisabled,
+                .errorUnknown,
+                .errorUnknownHost,
+                .errorVastInvalidMediaFile,
+                .errorVastInvalidVastAdTagUri,
+                .errorVastMissingCreatives,
+                .errorVastMissingImpression,
+                .errorVastMissingMediafiles,
+                .errorVastMissingOverlays,
+                .errorVastMultipleLinear,
+                .errorVastMultipleTrackingEvents,
+                .errorVastRedirectEmptyResponse,
+                .errorVastRedirectFailed,
+                .errorVastRedirectMultipleVast,
+                .filledAvail,
+                .filledOverlayAvail,
+                .interstitialVodFailure,
+                .interstitialVodSuccess,
+                .makingAdsRequest,
+                .modifiedTargetUrl,
+                .nonAdMarkerFound,
+                .redirectedVastResponse,
+                .vastRedirect,
+                .vastResponse,
+                .vodTimeBasedAvailPlanSuccess,
+                .vodTimeBasedAvailPlanVastResponseForOffset,
+                .vodTimeBasedAvailPlanWarningNoAdvertisements,
+                .warningNoAdvertisements,
+                .warningUrlVariableSubstitutionFailed,
+                .warningVpaidAdDropped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .adMarkerFound: return "AD_MARKER_FOUND"
+            case .beaconFired: return "BEACON_FIRED"
+            case .emptyVastResponse: return "EMPTY_VAST_RESPONSE"
+            case .emptyVmapResponse: return "EMPTY_VMAP_RESPONSE"
+            case .errorAdsInvalidResponse: return "ERROR_ADS_INVALID_RESPONSE"
+            case .errorAdsIo: return "ERROR_ADS_IO"
+            case .errorAdsResponseParse: return "ERROR_ADS_RESPONSE_PARSE"
+            case .errorAdsResponseUnknownRootElement: return "ERROR_ADS_RESPONSE_UNKNOWN_ROOT_ELEMENT"
+            case .errorAdsTimeout: return "ERROR_ADS_TIMEOUT"
+            case .errorDisallowedHost: return "ERROR_DISALLOWED_HOST"
+            case .errorFiringBeaconFailed: return "ERROR_FIRING_BEACON_FAILED"
+            case .errorPersonalizationDisabled: return "ERROR_PERSONALIZATION_DISABLED"
+            case .errorUnknown: return "ERROR_UNKNOWN"
+            case .errorUnknownHost: return "ERROR_UNKNOWN_HOST"
+            case .errorVastInvalidMediaFile: return "ERROR_VAST_INVALID_MEDIA_FILE"
+            case .errorVastInvalidVastAdTagUri: return "ERROR_VAST_INVALID_VAST_AD_TAG_URI"
+            case .errorVastMissingCreatives: return "ERROR_VAST_MISSING_CREATIVES"
+            case .errorVastMissingImpression: return "ERROR_VAST_MISSING_IMPRESSION"
+            case .errorVastMissingMediafiles: return "ERROR_VAST_MISSING_MEDIAFILES"
+            case .errorVastMissingOverlays: return "ERROR_VAST_MISSING_OVERLAYS"
+            case .errorVastMultipleLinear: return "ERROR_VAST_MULTIPLE_LINEAR"
+            case .errorVastMultipleTrackingEvents: return "ERROR_VAST_MULTIPLE_TRACKING_EVENTS"
+            case .errorVastRedirectEmptyResponse: return "ERROR_VAST_REDIRECT_EMPTY_RESPONSE"
+            case .errorVastRedirectFailed: return "ERROR_VAST_REDIRECT_FAILED"
+            case .errorVastRedirectMultipleVast: return "ERROR_VAST_REDIRECT_MULTIPLE_VAST"
+            case .filledAvail: return "FILLED_AVAIL"
+            case .filledOverlayAvail: return "FILLED_OVERLAY_AVAIL"
+            case .interstitialVodFailure: return "INTERSTITIAL_VOD_FAILURE"
+            case .interstitialVodSuccess: return "INTERSTITIAL_VOD_SUCCESS"
+            case .makingAdsRequest: return "MAKING_ADS_REQUEST"
+            case .modifiedTargetUrl: return "MODIFIED_TARGET_URL"
+            case .nonAdMarkerFound: return "NON_AD_MARKER_FOUND"
+            case .redirectedVastResponse: return "REDIRECTED_VAST_RESPONSE"
+            case .vastRedirect: return "VAST_REDIRECT"
+            case .vastResponse: return "VAST_RESPONSE"
+            case .vodTimeBasedAvailPlanSuccess: return "VOD_TIME_BASED_AVAIL_PLAN_SUCCESS"
+            case .vodTimeBasedAvailPlanVastResponseForOffset: return "VOD_TIME_BASED_AVAIL_PLAN_VAST_RESPONSE_FOR_OFFSET"
+            case .vodTimeBasedAvailPlanWarningNoAdvertisements: return "VOD_TIME_BASED_AVAIL_PLAN_WARNING_NO_ADVERTISEMENTS"
+            case .warningNoAdvertisements: return "WARNING_NO_ADVERTISEMENTS"
+            case .warningUrlVariableSubstitutionFailed: return "WARNING_URL_VARIABLE_SUBSTITUTION_FAILED"
+            case .warningVpaidAdDropped: return "WARNING_VPAID_AD_DROPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum AdsInteractionPublishOptInEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rawAdsResponse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdsInteractionPublishOptInEventType] {
+            return [
+                .rawAdsResponse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .rawAdsResponse: return "RAW_ADS_RESPONSE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// For SCTE35_ENHANCED output, defines a key and corresponding value. MediaTailor generates these pairs within the EXT-X-ASSETtag.
     public struct KeyValuePair: Swift.Sendable {
         /// For SCTE35_ENHANCED output, defines a key. MediaTailor takes this key, and its associated value, and generates the key/value pair within the EXT-X-ASSETtag. If you specify a key, you must also specify a corresponding value.
@@ -805,7 +977,7 @@ extension MediaTailorClientTypes {
 
     /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns.
     public struct AdConditioningConfiguration: Swift.Sendable {
-        /// For ads that have media files with streaming delivery and supported file extensions, indicates what transcoding action MediaTailor takes when it first receives these ads from the ADS. TRANSCODE indicates that MediaTailor must transcode the ads. NONE indicates that you have already transcoded the ads outside of MediaTailor and don't need them transcoded as part of the ad insertion workflow. For more information about ad conditioning see [https://docs.aws.amazon.com/precondition-ads.html](https://docs.aws.amazon.com/precondition-ads.html).
+        /// For ads that have media files with streaming delivery and supported file extensions, indicates what transcoding action MediaTailor takes when it first receives these ads from the ADS. TRANSCODE indicates that MediaTailor must transcode the ads. NONE indicates that you have already transcoded the ads outside of MediaTailor and don't need them transcoded as part of the ad insertion workflow. For more information about ad conditioning see [Using preconditioned ads](https://docs.aws.amazon.com/mediatailor/latest/ug/precondition-ads.html) in the Elemental MediaTailor user guide.
         /// This member is required.
         public var streamingMediaFileConditioning: MediaTailorClientTypes.StreamingMediaFileConditioning?
 
@@ -1057,19 +1229,181 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    /// Settings for customizing what events are included in logs for interactions with the ad decision server (ADS). For more information about ADS logs, inlcuding descriptions of the event types, see [MediaTailor ADS logs description and event types](https://docs.aws.amazon.com/mediatailor/latest/ug/ads-log-format.html) in Elemental MediaTailor User Guide.
+    public struct AdsInteractionLog: Swift.Sendable {
+        /// Indicates that MediaTailor won't emit the selected events in the logs for playback sessions that are initialized with this configuration.
+        public var excludeEventTypes: [MediaTailorClientTypes.AdsInteractionExcludeEventType]?
+        /// Indicates that MediaTailor emits RAW_ADS_RESPONSE logs for playback sessions that are initialized with this configuration.
+        public var publishOptInEventTypes: [MediaTailorClientTypes.AdsInteractionPublishOptInEventType]?
+
+        public init(
+            excludeEventTypes: [MediaTailorClientTypes.AdsInteractionExcludeEventType]? = nil,
+            publishOptInEventTypes: [MediaTailorClientTypes.AdsInteractionPublishOptInEventType]? = nil
+        ) {
+            self.excludeEventTypes = excludeEventTypes
+            self.publishOptInEventTypes = publishOptInEventTypes
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum ManifestServiceExcludeEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case configSecurityError
+        case configSyntaxError
+        case connectionError
+        case errorAdsInterpolation
+        case errorBumperEndInterpolation
+        case errorBumperStartInterpolation
+        case errorCdnAdSegmentInterpolation
+        case errorCdnContentSegmentInterpolation
+        case errorLivePreRollAdsInterpolation
+        case errorOriginPrefixInterpolation
+        case errorProfileNameInterpolation
+        case errorSlateAdUrlInterpolation
+        case generatedManifest
+        case hostDisallowed
+        case incompatibleHlsVersion
+        case invalidSinglePeriodDashManifest
+        case ioError
+        case lastPeriodMissingAudio
+        case lastPeriodMissingAudioWarning
+        case manifestError
+        case noMasterOrMediaPlaylist
+        case noMasterPlaylist
+        case noMediaPlaylist
+        case originManifest
+        case parsingError
+        case scte35ParsingError
+        case sessionInitialized
+        case timeoutError
+        case trackingResponse
+        case unknownError
+        case unknownHost
+        case unsupportedSinglePeriodDashManifest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManifestServiceExcludeEventType] {
+            return [
+                .configSecurityError,
+                .configSyntaxError,
+                .connectionError,
+                .errorAdsInterpolation,
+                .errorBumperEndInterpolation,
+                .errorBumperStartInterpolation,
+                .errorCdnAdSegmentInterpolation,
+                .errorCdnContentSegmentInterpolation,
+                .errorLivePreRollAdsInterpolation,
+                .errorOriginPrefixInterpolation,
+                .errorProfileNameInterpolation,
+                .errorSlateAdUrlInterpolation,
+                .generatedManifest,
+                .hostDisallowed,
+                .incompatibleHlsVersion,
+                .invalidSinglePeriodDashManifest,
+                .ioError,
+                .lastPeriodMissingAudio,
+                .lastPeriodMissingAudioWarning,
+                .manifestError,
+                .noMasterOrMediaPlaylist,
+                .noMasterPlaylist,
+                .noMediaPlaylist,
+                .originManifest,
+                .parsingError,
+                .scte35ParsingError,
+                .sessionInitialized,
+                .timeoutError,
+                .trackingResponse,
+                .unknownError,
+                .unknownHost,
+                .unsupportedSinglePeriodDashManifest
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .configSecurityError: return "CONFIG_SECURITY_ERROR"
+            case .configSyntaxError: return "CONFIG_SYNTAX_ERROR"
+            case .connectionError: return "CONNECTION_ERROR"
+            case .errorAdsInterpolation: return "ERROR_ADS_INTERPOLATION"
+            case .errorBumperEndInterpolation: return "ERROR_BUMPER_END_INTERPOLATION"
+            case .errorBumperStartInterpolation: return "ERROR_BUMPER_START_INTERPOLATION"
+            case .errorCdnAdSegmentInterpolation: return "ERROR_CDN_AD_SEGMENT_INTERPOLATION"
+            case .errorCdnContentSegmentInterpolation: return "ERROR_CDN_CONTENT_SEGMENT_INTERPOLATION"
+            case .errorLivePreRollAdsInterpolation: return "ERROR_LIVE_PRE_ROLL_ADS_INTERPOLATION"
+            case .errorOriginPrefixInterpolation: return "ERROR_ORIGIN_PREFIX_INTERPOLATION"
+            case .errorProfileNameInterpolation: return "ERROR_PROFILE_NAME_INTERPOLATION"
+            case .errorSlateAdUrlInterpolation: return "ERROR_SLATE_AD_URL_INTERPOLATION"
+            case .generatedManifest: return "GENERATED_MANIFEST"
+            case .hostDisallowed: return "HOST_DISALLOWED"
+            case .incompatibleHlsVersion: return "INCOMPATIBLE_HLS_VERSION"
+            case .invalidSinglePeriodDashManifest: return "INVALID_SINGLE_PERIOD_DASH_MANIFEST"
+            case .ioError: return "IO_ERROR"
+            case .lastPeriodMissingAudio: return "LAST_PERIOD_MISSING_AUDIO"
+            case .lastPeriodMissingAudioWarning: return "LAST_PERIOD_MISSING_AUDIO_WARNING"
+            case .manifestError: return "MANIFEST_ERROR"
+            case .noMasterOrMediaPlaylist: return "NO_MASTER_OR_MEDIA_PLAYLIST"
+            case .noMasterPlaylist: return "NO_MASTER_PLAYLIST"
+            case .noMediaPlaylist: return "NO_MEDIA_PLAYLIST"
+            case .originManifest: return "ORIGIN_MANIFEST"
+            case .parsingError: return "PARSING_ERROR"
+            case .scte35ParsingError: return "SCTE35_PARSING_ERROR"
+            case .sessionInitialized: return "SESSION_INITIALIZED"
+            case .timeoutError: return "TIMEOUT_ERROR"
+            case .trackingResponse: return "TRACKING_RESPONSE"
+            case .unknownError: return "UNKNOWN_ERROR"
+            case .unknownHost: return "UNKNOWN_HOST"
+            case .unsupportedSinglePeriodDashManifest: return "UNSUPPORTED_SINGLE_PERIOD_DASH_MANIFEST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// Settings for customizing what events are included in logs for interactions with the origin server. For more information about manifest service logs, including descriptions of the event types, see [MediaTailor manifest logs description and event types](https://docs.aws.amazon.com/mediatailor/latest/ug/log-types.html) in Elemental MediaTailor User Guide.
+    public struct ManifestServiceInteractionLog: Swift.Sendable {
+        /// Indicates that MediaTailor won't emit the selected events in the logs for playback sessions that are initialized with this configuration.
+        public var excludeEventTypes: [MediaTailorClientTypes.ManifestServiceExcludeEventType]?
+
+        public init(
+            excludeEventTypes: [MediaTailorClientTypes.ManifestServiceExcludeEventType]? = nil
+        ) {
+            self.excludeEventTypes = excludeEventTypes
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
     public struct LogConfiguration: Swift.Sendable {
+        /// Settings for customizing what events are included in logs for interactions with the ad decision server (ADS).
+        public var adsInteractionLog: MediaTailorClientTypes.AdsInteractionLog?
         /// The method used for collecting logs from AWS Elemental MediaTailor. LEGACY_CLOUDWATCH indicates that MediaTailor is sending logs directly to Amazon CloudWatch Logs. VENDED_LOGS indicates that MediaTailor is sending logs to CloudWatch, which then vends the logs to your destination of choice. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream.
+        /// This member is required.
         public var enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]?
+        /// Settings for customizing what events are included in logs for interactions with the origin server.
+        public var manifestServiceInteractionLog: MediaTailorClientTypes.ManifestServiceInteractionLog?
         /// The percentage of session logs that MediaTailor sends to your configured log destination. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html). Valid values: 0 - 100
         /// This member is required.
         public var percentEnabled: Swift.Int?
 
         public init(
+            adsInteractionLog: MediaTailorClientTypes.AdsInteractionLog? = nil,
             enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]? = nil,
+            manifestServiceInteractionLog: MediaTailorClientTypes.ManifestServiceInteractionLog? = nil,
             percentEnabled: Swift.Int? = nil
         ) {
+            self.adsInteractionLog = adsInteractionLog
             self.enabledLoggingStrategies = enabledLoggingStrategies
+            self.manifestServiceInteractionLog = manifestServiceInteractionLog
             self.percentEnabled = percentEnabled
         }
     }
@@ -1202,7 +1536,7 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
-    /// A complex type that contains settings that determine how and when that MediaTailor places prefetched ads into upcoming ad breaks.
+    /// For single prefetch, describes how and when that MediaTailor places prefetched ads into upcoming ad breaks.
     public struct PrefetchConsumption: Swift.Sendable {
         /// If you only want MediaTailor to insert prefetched ads into avails (ad breaks) that match specific dynamic variables, such as scte.event_id, set the avail matching criteria.
         public var availMatchingCriteria: [MediaTailorClientTypes.AvailMatchingCriteria]?
@@ -1226,6 +1560,123 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    /// The settings that determine how and when MediaTailor places prefetched ads into upcoming ad breaks for recurring prefetch scedules.
+    public struct RecurringConsumption: Swift.Sendable {
+        /// The configuration for the dynamic variables that determine which ad breaks that MediaTailor inserts prefetched ads in.
+        public var availMatchingCriteria: [MediaTailorClientTypes.AvailMatchingCriteria]?
+        /// The number of seconds that an ad is available for insertion after it was prefetched.
+        public var retrievedAdExpirationSeconds: Swift.Int?
+
+        public init(
+            availMatchingCriteria: [MediaTailorClientTypes.AvailMatchingCriteria]? = nil,
+            retrievedAdExpirationSeconds: Swift.Int? = nil
+        ) {
+            self.availMatchingCriteria = availMatchingCriteria
+            self.retrievedAdExpirationSeconds = retrievedAdExpirationSeconds
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The configuration that tells Elemental MediaTailor how to spread out requests to the ad decision server (ADS). Instead of sending ADS requests for all sessions at the same time, MediaTailor spreads the requests across the amount of time specified in the retrieval window.
+    public struct TrafficShapingRetrievalWindow: Swift.Sendable {
+        /// The amount of time, in seconds, that MediaTailor spreads prefetch requests to the ADS.
+        public var retrievalWindowDurationSeconds: Swift.Int?
+
+        public init(
+            retrievalWindowDurationSeconds: Swift.Int? = nil
+        ) {
+            self.retrievalWindowDurationSeconds = retrievalWindowDurationSeconds
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum TrafficShapingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case retrievalWindow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrafficShapingType] {
+            return [
+                .retrievalWindow
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .retrievalWindow: return "RETRIEVAL_WINDOW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// With recurring prefetch, MediaTailor automatically prefetches ads for every avail that occurs during the retrieval window. The following configurations describe the MediaTailor behavior when prefetching ads for a live event.
+    public struct RecurringRetrieval: Swift.Sendable {
+        /// The number of seconds that MediaTailor waits after an ad avail before prefetching ads for the next avail. If not set, the default is 0 (no delay).
+        public var delayAfterAvailEndSeconds: Swift.Int?
+        /// The dynamic variables to use for substitution during prefetch requests to the ADS.
+        public var dynamicVariables: [Swift.String: Swift.String]?
+        /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
+        public var trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow?
+        /// Indicates if this configuration uses a retrieval window for traffic shaping and limiting the number of requests to the ADS at one time.
+        public var trafficShapingType: MediaTailorClientTypes.TrafficShapingType?
+
+        public init(
+            delayAfterAvailEndSeconds: Swift.Int? = nil,
+            dynamicVariables: [Swift.String: Swift.String]? = nil,
+            trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow? = nil,
+            trafficShapingType: MediaTailorClientTypes.TrafficShapingType? = nil
+        ) {
+            self.delayAfterAvailEndSeconds = delayAfterAvailEndSeconds
+            self.dynamicVariables = dynamicVariables
+            self.trafficShapingRetrievalWindow = trafficShapingRetrievalWindow
+            self.trafficShapingType = trafficShapingType
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// The configuration that defines how MediaTailor performs recurring prefetch.
+    public struct RecurringPrefetchConfiguration: Swift.Sendable {
+        /// The end time for the window that MediaTailor prefetches and inserts ads in a live event.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The settings that determine how and when MediaTailor places prefetched ads into upcoming ad breaks for recurring prefetch scedules.
+        /// This member is required.
+        public var recurringConsumption: MediaTailorClientTypes.RecurringConsumption?
+        /// The configuration for prefetch ad retrieval from the ADS.
+        /// This member is required.
+        public var recurringRetrieval: MediaTailorClientTypes.RecurringRetrieval?
+        /// The start time for the window that MediaTailor prefetches and inserts ads in a live event.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            recurringConsumption: MediaTailorClientTypes.RecurringConsumption? = nil,
+            recurringRetrieval: MediaTailorClientTypes.RecurringRetrieval? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.recurringConsumption = recurringConsumption
+            self.recurringRetrieval = recurringRetrieval
+            self.startTime = startTime
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     /// A complex type that contains settings governing when MediaTailor prefetches ads, and which dynamic variables that MediaTailor includes in the request to the ad decision server.
     public struct PrefetchRetrieval: Swift.Sendable {
         /// The dynamic variables to use for substitution during prefetch requests to the ad decision server (ADS). You initially configure [dynamic variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables.html) for the ADS URL when you set up your playback configuration. When you specify DynamicVariables for prefetch retrieval, MediaTailor includes the dynamic variables in the request to the ADS.
@@ -1235,15 +1686,52 @@ extension MediaTailorClientTypes {
         public var endTime: Foundation.Date?
         /// The time when prefetch retrievals can start for this break. Ad prefetching will be attempted for manifest requests that occur at or after this time. Defaults to the current time. If not specified, the prefetch retrieval starts as soon as possible.
         public var startTime: Foundation.Date?
+        /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
+        public var trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow?
+        /// Indicates if this configuration uses a retrieval window for traffic shaping and limiting the number of requests to the ADS at one time.
+        public var trafficShapingType: MediaTailorClientTypes.TrafficShapingType?
 
         public init(
             dynamicVariables: [Swift.String: Swift.String]? = nil,
             endTime: Foundation.Date? = nil,
-            startTime: Foundation.Date? = nil
+            startTime: Foundation.Date? = nil,
+            trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow? = nil,
+            trafficShapingType: MediaTailorClientTypes.TrafficShapingType? = nil
         ) {
             self.dynamicVariables = dynamicVariables
             self.endTime = endTime
             self.startTime = startTime
+            self.trafficShapingRetrievalWindow = trafficShapingRetrievalWindow
+            self.trafficShapingType = trafficShapingType
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum PrefetchScheduleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case recurring
+        case single
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PrefetchScheduleType] {
+            return [
+                .recurring,
+                .single
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .recurring: return "RECURRING"
+            case .single: return "SINGLE"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -1255,8 +1743,7 @@ extension MediaTailorClientTypes {
         /// The Amazon Resource Name (ARN) of the prefetch schedule.
         /// This member is required.
         public var arn: Swift.String?
-        /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
-        /// This member is required.
+        /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks for single prefetch schedules. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
         public var consumption: MediaTailorClientTypes.PrefetchConsumption?
         /// The name of the prefetch schedule. The name must be unique among all prefetch schedules that are associated with the specified playback configuration.
         /// This member is required.
@@ -1264,9 +1751,12 @@ extension MediaTailorClientTypes {
         /// The name of the playback configuration to create the prefetch schedule for.
         /// This member is required.
         public var playbackConfigurationName: Swift.String?
+        /// The settings that determine how and when MediaTailor prefetches ads and inserts them into ad breaks.
+        public var recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration?
         /// A complex type that contains settings for prefetch retrieval from the ad decision server (ADS).
-        /// This member is required.
         public var retrieval: MediaTailorClientTypes.PrefetchRetrieval?
+        /// The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event. For more information about the prefetch types and when you might use each, see [Prefetching ads in Elemental MediaTailor.](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html)
+        public var scheduleType: MediaTailorClientTypes.PrefetchScheduleType?
         /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
         public var streamId: Swift.String?
 
@@ -1275,14 +1765,18 @@ extension MediaTailorClientTypes {
             consumption: MediaTailorClientTypes.PrefetchConsumption? = nil,
             name: Swift.String? = nil,
             playbackConfigurationName: Swift.String? = nil,
+            recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration? = nil,
             retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
+            scheduleType: MediaTailorClientTypes.PrefetchScheduleType? = nil,
             streamId: Swift.String? = nil
         ) {
             self.arn = arn
             self.consumption = consumption
             self.name = name
             self.playbackConfigurationName = playbackConfigurationName
+            self.recurringPrefetchConfiguration = recurringPrefetchConfiguration
             self.retrieval = retrieval
+            self.scheduleType = scheduleType
             self.streamId = streamId
         }
     }
@@ -2664,8 +3158,12 @@ public struct UpdateChannelOutput: Swift.Sendable {
 
 /// Configures Amazon CloudWatch log settings for a playback configuration.
 public struct ConfigureLogsForPlaybackConfigurationInput: Swift.Sendable {
+    /// The event types that MediaTailor emits in logs for interactions with the ADS.
+    public var adsInteractionLog: MediaTailorClientTypes.AdsInteractionLog?
     /// The method used for collecting logs from AWS Elemental MediaTailor. To configure MediaTailor to send logs directly to Amazon CloudWatch Logs, choose LEGACY_CLOUDWATCH. To configure MediaTailor to send logs to CloudWatch, which then vends the logs to your destination of choice, choose VENDED_LOGS. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream. To use vended logs, you must configure the delivery destination in Amazon CloudWatch, as described in [Enable logging from AWS services, Logging that requires additional permissions [V2]](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html#AWS-vended-logs-permissions-V2).
     public var enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]?
+    /// The event types that MediaTailor emits in logs for interactions with the origin server.
+    public var manifestServiceInteractionLog: MediaTailorClientTypes.ManifestServiceInteractionLog?
     /// The percentage of session logs that MediaTailor sends to your CloudWatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the [debug log mode](https://docs.aws.amazon.com/mediatailor/latest/ug/debug-log-mode.html). Valid values: 0 - 100
     /// This member is required.
     public var percentEnabled: Swift.Int?
@@ -2674,19 +3172,27 @@ public struct ConfigureLogsForPlaybackConfigurationInput: Swift.Sendable {
     public var playbackConfigurationName: Swift.String?
 
     public init(
+        adsInteractionLog: MediaTailorClientTypes.AdsInteractionLog? = nil,
         enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]? = nil,
+        manifestServiceInteractionLog: MediaTailorClientTypes.ManifestServiceInteractionLog? = nil,
         percentEnabled: Swift.Int? = nil,
         playbackConfigurationName: Swift.String? = nil
     ) {
+        self.adsInteractionLog = adsInteractionLog
         self.enabledLoggingStrategies = enabledLoggingStrategies
+        self.manifestServiceInteractionLog = manifestServiceInteractionLog
         self.percentEnabled = percentEnabled
         self.playbackConfigurationName = playbackConfigurationName
     }
 }
 
 public struct ConfigureLogsForPlaybackConfigurationOutput: Swift.Sendable {
+    /// The event types that MediaTailor emits in logs for interactions with the ADS.
+    public var adsInteractionLog: MediaTailorClientTypes.AdsInteractionLog?
     /// The method used for collecting logs from AWS Elemental MediaTailor. LEGACY_CLOUDWATCH indicates that MediaTailor is sending logs directly to Amazon CloudWatch Logs. VENDED_LOGS indicates that MediaTailor is sending logs to CloudWatch, which then vends the logs to your destination of choice. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream.
     public var enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]?
+    /// The event types that MediaTailor emits in logs for interactions with the origin server.
+    public var manifestServiceInteractionLog: MediaTailorClientTypes.ManifestServiceInteractionLog?
     /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account.
     /// This member is required.
     public var percentEnabled: Swift.Int?
@@ -2694,11 +3200,15 @@ public struct ConfigureLogsForPlaybackConfigurationOutput: Swift.Sendable {
     public var playbackConfigurationName: Swift.String?
 
     public init(
+        adsInteractionLog: MediaTailorClientTypes.AdsInteractionLog? = nil,
         enabledLoggingStrategies: [MediaTailorClientTypes.LoggingStrategy]? = nil,
+        manifestServiceInteractionLog: MediaTailorClientTypes.ManifestServiceInteractionLog? = nil,
         percentEnabled: Swift.Int? = nil,
         playbackConfigurationName: Swift.String? = nil
     ) {
+        self.adsInteractionLog = adsInteractionLog
         self.enabledLoggingStrategies = enabledLoggingStrategies
+        self.manifestServiceInteractionLog = manifestServiceInteractionLog
         self.percentEnabled = percentEnabled
         self.playbackConfigurationName = playbackConfigurationName
     }
@@ -2766,8 +3276,7 @@ public struct CreateLiveSourceOutput: Swift.Sendable {
 }
 
 public struct CreatePrefetchScheduleInput: Swift.Sendable {
-    /// The configuration settings for MediaTailor's consumption of the prefetched ads from the ad decision server. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
-    /// This member is required.
+    /// The configuration settings for how and when MediaTailor consumes prefetched ads from the ad decision server for single prefetch schedules. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
     public var consumption: MediaTailorClientTypes.PrefetchConsumption?
     /// The name to assign to the schedule request.
     /// This member is required.
@@ -2775,9 +3284,12 @@ public struct CreatePrefetchScheduleInput: Swift.Sendable {
     /// The name to assign to the playback configuration.
     /// This member is required.
     public var playbackConfigurationName: Swift.String?
+    /// The configuration that defines how and when MediaTailor performs ad prefetching in a live event.
+    public var recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration?
     /// The configuration settings for retrieval of prefetched ads from the ad decision server. Only one set of prefetched ads will be retrieved and subsequently consumed for each ad break.
-    /// This member is required.
     public var retrieval: MediaTailorClientTypes.PrefetchRetrieval?
+    /// The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event. For more information about the prefetch types and when you might use each, see [Prefetching ads in Elemental MediaTailor.](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html)
+    public var scheduleType: MediaTailorClientTypes.PrefetchScheduleType?
     /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
     public var streamId: Swift.String?
 
@@ -2785,13 +3297,17 @@ public struct CreatePrefetchScheduleInput: Swift.Sendable {
         consumption: MediaTailorClientTypes.PrefetchConsumption? = nil,
         name: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil,
+        recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
+        scheduleType: MediaTailorClientTypes.PrefetchScheduleType? = nil,
         streamId: Swift.String? = nil
     ) {
         self.consumption = consumption
         self.name = name
         self.playbackConfigurationName = playbackConfigurationName
+        self.recurringPrefetchConfiguration = recurringPrefetchConfiguration
         self.retrieval = retrieval
+        self.scheduleType = scheduleType
         self.streamId = streamId
     }
 }
@@ -2799,14 +3315,18 @@ public struct CreatePrefetchScheduleInput: Swift.Sendable {
 public struct CreatePrefetchScheduleOutput: Swift.Sendable {
     /// The ARN to assign to the prefetch schedule.
     public var arn: Swift.String?
-    /// The configuration settings for MediaTailor's consumption of the prefetched ads from the ad decision server. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
+    /// The configuration settings for how and when MediaTailor consumes prefetched ads from the ad decision server for single prefetch schedules. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
     public var consumption: MediaTailorClientTypes.PrefetchConsumption?
     /// The name to assign to the prefetch schedule.
     public var name: Swift.String?
     /// The name to assign to the playback configuration.
     public var playbackConfigurationName: Swift.String?
+    /// The configuration that defines how MediaTailor performs recurring prefetch.
+    public var recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration?
     /// The configuration settings for retrieval of prefetched ads from the ad decision server. Only one set of prefetched ads will be retrieved and subsequently consumed for each ad break.
     public var retrieval: MediaTailorClientTypes.PrefetchRetrieval?
+    /// The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event.
+    public var scheduleType: MediaTailorClientTypes.PrefetchScheduleType?
     /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
     public var streamId: Swift.String?
 
@@ -2815,14 +3335,18 @@ public struct CreatePrefetchScheduleOutput: Swift.Sendable {
         consumption: MediaTailorClientTypes.PrefetchConsumption? = nil,
         name: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil,
+        recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
+        scheduleType: MediaTailorClientTypes.PrefetchScheduleType? = nil,
         streamId: Swift.String? = nil
     ) {
         self.arn = arn
         self.consumption = consumption
         self.name = name
         self.playbackConfigurationName = playbackConfigurationName
+        self.recurringPrefetchConfiguration = recurringPrefetchConfiguration
         self.retrieval = retrieval
+        self.scheduleType = scheduleType
         self.streamId = streamId
     }
 }
@@ -3369,14 +3893,18 @@ public struct GetPrefetchScheduleInput: Swift.Sendable {
 public struct GetPrefetchScheduleOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the prefetch schedule.
     public var arn: Swift.String?
-    /// Consumption settings determine how, and when, MediaTailor places the prefetched ads into ad breaks. Ad consumption occurs within a span of time that you define, called a consumption window. You can designate which ad breaks that MediaTailor fills with prefetch ads by setting avail matching criteria.
+    /// The configuration settings for how and when MediaTailor consumes prefetched ads from the ad decision server for single prefetch schedules. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
     public var consumption: MediaTailorClientTypes.PrefetchConsumption?
     /// The name of the prefetch schedule. The name must be unique among all prefetch schedules that are associated with the specified playback configuration.
     public var name: Swift.String?
     /// The name of the playback configuration to create the prefetch schedule for.
     public var playbackConfigurationName: Swift.String?
+    /// The configuration that defines how and when MediaTailor performs ad prefetching in a live event.
+    public var recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration?
     /// A complex type that contains settings for prefetch retrieval from the ad decision server (ADS).
     public var retrieval: MediaTailorClientTypes.PrefetchRetrieval?
+    /// The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event.
+    public var scheduleType: MediaTailorClientTypes.PrefetchScheduleType?
     /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
     public var streamId: Swift.String?
 
@@ -3385,14 +3913,18 @@ public struct GetPrefetchScheduleOutput: Swift.Sendable {
         consumption: MediaTailorClientTypes.PrefetchConsumption? = nil,
         name: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil,
+        recurringPrefetchConfiguration: MediaTailorClientTypes.RecurringPrefetchConfiguration? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
+        scheduleType: MediaTailorClientTypes.PrefetchScheduleType? = nil,
         streamId: Swift.String? = nil
     ) {
         self.arn = arn
         self.consumption = consumption
         self.name = name
         self.playbackConfigurationName = playbackConfigurationName
+        self.recurringPrefetchConfiguration = recurringPrefetchConfiguration
         self.retrieval = retrieval
+        self.scheduleType = scheduleType
         self.streamId = streamId
     }
 }
@@ -3497,6 +4029,38 @@ public struct ListPlaybackConfigurationsOutput: Swift.Sendable {
     }
 }
 
+extension MediaTailorClientTypes {
+
+    public enum ListPrefetchScheduleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case recurring
+        case single
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListPrefetchScheduleType] {
+            return [
+                .all,
+                .recurring,
+                .single
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .recurring: return "RECURRING"
+            case .single: return "SINGLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListPrefetchSchedulesInput: Swift.Sendable {
     /// The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
     public var maxResults: Swift.Int?
@@ -3505,6 +4069,8 @@ public struct ListPrefetchSchedulesInput: Swift.Sendable {
     /// Retrieves the prefetch schedule(s) for a specific playback configuration.
     /// This member is required.
     public var playbackConfigurationName: Swift.String?
+    /// The type of prefetch schedules that you want to list. SINGLE indicates that you want to list the configured single prefetch schedules. RECURRING indicates that you want to list the configured recurring prefetch schedules. ALL indicates that you want to list all configured prefetch schedules.
+    public var scheduleType: MediaTailorClientTypes.ListPrefetchScheduleType?
     /// An optional filtering parameter whereby MediaTailor filters the prefetch schedules to include only specific streams.
     public var streamId: Swift.String?
 
@@ -3512,11 +4078,13 @@ public struct ListPrefetchSchedulesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil,
+        scheduleType: MediaTailorClientTypes.ListPrefetchScheduleType? = nil,
         streamId: Swift.String? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.playbackConfigurationName = playbackConfigurationName
+        self.scheduleType = scheduleType
         self.streamId = streamId
     }
 }
@@ -4626,7 +5194,9 @@ extension ConfigureLogsForPlaybackConfigurationInput {
 
     static func write(value: ConfigureLogsForPlaybackConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AdsInteractionLog"].write(value.adsInteractionLog, with: MediaTailorClientTypes.AdsInteractionLog.write(value:to:))
         try writer["EnabledLoggingStrategies"].writeList(value.enabledLoggingStrategies, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.LoggingStrategy>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ManifestServiceInteractionLog"].write(value.manifestServiceInteractionLog, with: MediaTailorClientTypes.ManifestServiceInteractionLog.write(value:to:))
         try writer["PercentEnabled"].write(value.percentEnabled)
         try writer["PlaybackConfigurationName"].write(value.playbackConfigurationName)
     }
@@ -4660,7 +5230,9 @@ extension CreatePrefetchScheduleInput {
     static func write(value: CreatePrefetchScheduleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Consumption"].write(value.consumption, with: MediaTailorClientTypes.PrefetchConsumption.write(value:to:))
+        try writer["RecurringPrefetchConfiguration"].write(value.recurringPrefetchConfiguration, with: MediaTailorClientTypes.RecurringPrefetchConfiguration.write(value:to:))
         try writer["Retrieval"].write(value.retrieval, with: MediaTailorClientTypes.PrefetchRetrieval.write(value:to:))
+        try writer["ScheduleType"].write(value.scheduleType)
         try writer["StreamId"].write(value.streamId)
     }
 }
@@ -4705,6 +5277,7 @@ extension ListPrefetchSchedulesInput {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["ScheduleType"].write(value.scheduleType)
         try writer["StreamId"].write(value.streamId)
     }
 }
@@ -4816,7 +5389,9 @@ extension ConfigureLogsForPlaybackConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ConfigureLogsForPlaybackConfigurationOutput()
+        value.adsInteractionLog = try reader["AdsInteractionLog"].readIfPresent(with: MediaTailorClientTypes.AdsInteractionLog.read(from:))
         value.enabledLoggingStrategies = try reader["EnabledLoggingStrategies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LoggingStrategy>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.manifestServiceInteractionLog = try reader["ManifestServiceInteractionLog"].readIfPresent(with: MediaTailorClientTypes.ManifestServiceInteractionLog.read(from:))
         value.percentEnabled = try reader["PercentEnabled"].readIfPresent() ?? 0
         value.playbackConfigurationName = try reader["PlaybackConfigurationName"].readIfPresent()
         return value
@@ -4875,7 +5450,9 @@ extension CreatePrefetchScheduleOutput {
         value.consumption = try reader["Consumption"].readIfPresent(with: MediaTailorClientTypes.PrefetchConsumption.read(from:))
         value.name = try reader["Name"].readIfPresent()
         value.playbackConfigurationName = try reader["PlaybackConfigurationName"].readIfPresent()
+        value.recurringPrefetchConfiguration = try reader["RecurringPrefetchConfiguration"].readIfPresent(with: MediaTailorClientTypes.RecurringPrefetchConfiguration.read(from:))
         value.retrieval = try reader["Retrieval"].readIfPresent(with: MediaTailorClientTypes.PrefetchRetrieval.read(from:))
+        value.scheduleType = try reader["ScheduleType"].readIfPresent()
         value.streamId = try reader["StreamId"].readIfPresent()
         return value
     }
@@ -5142,7 +5719,7 @@ extension GetPlaybackConfigurationOutput {
         value.configurationAliases = try reader["ConfigurationAliases"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.dashConfiguration = try reader["DashConfiguration"].readIfPresent(with: MediaTailorClientTypes.DashConfiguration.read(from:))
         value.hlsConfiguration = try reader["HlsConfiguration"].readIfPresent(with: MediaTailorClientTypes.HlsConfiguration.read(from:))
-        value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? .stitchedOnly
+        value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? MediaTailorClientTypes.InsertionMode.stitchedOnly
         value.livePreRollConfiguration = try reader["LivePreRollConfiguration"].readIfPresent(with: MediaTailorClientTypes.LivePreRollConfiguration.read(from:))
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: MediaTailorClientTypes.LogConfiguration.read(from:))
         value.manifestProcessingRules = try reader["ManifestProcessingRules"].readIfPresent(with: MediaTailorClientTypes.ManifestProcessingRules.read(from:))
@@ -5170,7 +5747,9 @@ extension GetPrefetchScheduleOutput {
         value.consumption = try reader["Consumption"].readIfPresent(with: MediaTailorClientTypes.PrefetchConsumption.read(from:))
         value.name = try reader["Name"].readIfPresent()
         value.playbackConfigurationName = try reader["PlaybackConfigurationName"].readIfPresent()
+        value.recurringPrefetchConfiguration = try reader["RecurringPrefetchConfiguration"].readIfPresent(with: MediaTailorClientTypes.RecurringPrefetchConfiguration.read(from:))
         value.retrieval = try reader["Retrieval"].readIfPresent(with: MediaTailorClientTypes.PrefetchRetrieval.read(from:))
+        value.scheduleType = try reader["ScheduleType"].readIfPresent()
         value.streamId = try reader["StreamId"].readIfPresent()
         return value
     }
@@ -5301,7 +5880,7 @@ extension PutPlaybackConfigurationOutput {
         value.configurationAliases = try reader["ConfigurationAliases"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.dashConfiguration = try reader["DashConfiguration"].readIfPresent(with: MediaTailorClientTypes.DashConfiguration.read(from:))
         value.hlsConfiguration = try reader["HlsConfiguration"].readIfPresent(with: MediaTailorClientTypes.HlsConfiguration.read(from:))
-        value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? .stitchedOnly
+        value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? MediaTailorClientTypes.InsertionMode.stitchedOnly
         value.livePreRollConfiguration = try reader["LivePreRollConfiguration"].readIfPresent(with: MediaTailorClientTypes.LivePreRollConfiguration.read(from:))
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: MediaTailorClientTypes.LogConfiguration.read(from:))
         value.manifestProcessingRules = try reader["ManifestProcessingRules"].readIfPresent(with: MediaTailorClientTypes.ManifestProcessingRules.read(from:))
@@ -6036,6 +6615,38 @@ extension BadRequestException {
     }
 }
 
+extension MediaTailorClientTypes.AdsInteractionLog {
+
+    static func write(value: MediaTailorClientTypes.AdsInteractionLog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExcludeEventTypes"].writeList(value.excludeEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.AdsInteractionExcludeEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PublishOptInEventTypes"].writeList(value.publishOptInEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.AdsInteractionPublishOptInEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdsInteractionLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.AdsInteractionLog()
+        value.publishOptInEventTypes = try reader["PublishOptInEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.AdsInteractionPublishOptInEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludeEventTypes = try reader["ExcludeEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.AdsInteractionExcludeEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.ManifestServiceInteractionLog {
+
+    static func write(value: MediaTailorClientTypes.ManifestServiceInteractionLog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExcludeEventTypes"].writeList(value.excludeEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.ManifestServiceExcludeEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ManifestServiceInteractionLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.ManifestServiceInteractionLog()
+        value.excludeEventTypes = try reader["ExcludeEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.ManifestServiceExcludeEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension MediaTailorClientTypes.SlateSource {
 
     static func write(value: MediaTailorClientTypes.SlateSource?, to writer: SmithyJSON.Writer) throws {
@@ -6182,6 +6793,8 @@ extension MediaTailorClientTypes.PrefetchRetrieval {
         try writer["DynamicVariables"].writeMap(value.dynamicVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["TrafficShapingRetrievalWindow"].write(value.trafficShapingRetrievalWindow, with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.write(value:to:))
+        try writer["TrafficShapingType"].write(value.trafficShapingType)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.PrefetchRetrieval {
@@ -6190,6 +6803,82 @@ extension MediaTailorClientTypes.PrefetchRetrieval {
         value.dynamicVariables = try reader["DynamicVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.trafficShapingType = try reader["TrafficShapingType"].readIfPresent()
+        value.trafficShapingRetrievalWindow = try reader["TrafficShapingRetrievalWindow"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.TrafficShapingRetrievalWindow {
+
+    static func write(value: MediaTailorClientTypes.TrafficShapingRetrievalWindow?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RetrievalWindowDurationSeconds"].write(value.retrievalWindowDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.TrafficShapingRetrievalWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.TrafficShapingRetrievalWindow()
+        value.retrievalWindowDurationSeconds = try reader["RetrievalWindowDurationSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.RecurringPrefetchConfiguration {
+
+    static func write(value: MediaTailorClientTypes.RecurringPrefetchConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["RecurringConsumption"].write(value.recurringConsumption, with: MediaTailorClientTypes.RecurringConsumption.write(value:to:))
+        try writer["RecurringRetrieval"].write(value.recurringRetrieval, with: MediaTailorClientTypes.RecurringRetrieval.write(value:to:))
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.RecurringPrefetchConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.RecurringPrefetchConfiguration()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.recurringConsumption = try reader["RecurringConsumption"].readIfPresent(with: MediaTailorClientTypes.RecurringConsumption.read(from:))
+        value.recurringRetrieval = try reader["RecurringRetrieval"].readIfPresent(with: MediaTailorClientTypes.RecurringRetrieval.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.RecurringRetrieval {
+
+    static func write(value: MediaTailorClientTypes.RecurringRetrieval?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DelayAfterAvailEndSeconds"].write(value.delayAfterAvailEndSeconds)
+        try writer["DynamicVariables"].writeMap(value.dynamicVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TrafficShapingRetrievalWindow"].write(value.trafficShapingRetrievalWindow, with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.write(value:to:))
+        try writer["TrafficShapingType"].write(value.trafficShapingType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.RecurringRetrieval {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.RecurringRetrieval()
+        value.dynamicVariables = try reader["DynamicVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.delayAfterAvailEndSeconds = try reader["DelayAfterAvailEndSeconds"].readIfPresent()
+        value.trafficShapingType = try reader["TrafficShapingType"].readIfPresent()
+        value.trafficShapingRetrievalWindow = try reader["TrafficShapingRetrievalWindow"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.RecurringConsumption {
+
+    static func write(value: MediaTailorClientTypes.RecurringConsumption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailMatchingCriteria"].writeList(value.availMatchingCriteria, memberWritingClosure: MediaTailorClientTypes.AvailMatchingCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RetrievedAdExpirationSeconds"].write(value.retrievedAdExpirationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.RecurringConsumption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.RecurringConsumption()
+        value.retrievedAdExpirationSeconds = try reader["RetrievedAdExpirationSeconds"].readIfPresent()
+        value.availMatchingCriteria = try reader["AvailMatchingCriteria"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.AvailMatchingCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6596,7 +7285,9 @@ extension MediaTailorClientTypes.LogConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaTailorClientTypes.LogConfiguration()
         value.percentEnabled = try reader["PercentEnabled"].readIfPresent() ?? 0
-        value.enabledLoggingStrategies = try reader["EnabledLoggingStrategies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LoggingStrategy>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enabledLoggingStrategies = try reader["EnabledLoggingStrategies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LoggingStrategy>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.adsInteractionLog = try reader["AdsInteractionLog"].readIfPresent(with: MediaTailorClientTypes.AdsInteractionLog.read(from:))
+        value.manifestServiceInteractionLog = try reader["ManifestServiceInteractionLog"].readIfPresent(with: MediaTailorClientTypes.ManifestServiceInteractionLog.read(from:))
         return value
     }
 }
@@ -6710,7 +7401,7 @@ extension MediaTailorClientTypes.PlaybackConfiguration {
         value.configurationAliases = try reader["ConfigurationAliases"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.dashConfiguration = try reader["DashConfiguration"].readIfPresent(with: MediaTailorClientTypes.DashConfiguration.read(from:))
         value.hlsConfiguration = try reader["HlsConfiguration"].readIfPresent(with: MediaTailorClientTypes.HlsConfiguration.read(from:))
-        value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? .stitchedOnly
+        value.insertionMode = try reader["InsertionMode"].readIfPresent() ?? MediaTailorClientTypes.InsertionMode.stitchedOnly
         value.livePreRollConfiguration = try reader["LivePreRollConfiguration"].readIfPresent(with: MediaTailorClientTypes.LivePreRollConfiguration.read(from:))
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: MediaTailorClientTypes.LogConfiguration.read(from:))
         value.manifestProcessingRules = try reader["ManifestProcessingRules"].readIfPresent(with: MediaTailorClientTypes.ManifestProcessingRules.read(from:))
@@ -6738,6 +7429,8 @@ extension MediaTailorClientTypes.PrefetchSchedule {
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.playbackConfigurationName = try reader["PlaybackConfigurationName"].readIfPresent() ?? ""
         value.retrieval = try reader["Retrieval"].readIfPresent(with: MediaTailorClientTypes.PrefetchRetrieval.read(from:))
+        value.scheduleType = try reader["ScheduleType"].readIfPresent()
+        value.recurringPrefetchConfiguration = try reader["RecurringPrefetchConfiguration"].readIfPresent(with: MediaTailorClientTypes.RecurringPrefetchConfiguration.read(from:))
         value.streamId = try reader["StreamId"].readIfPresent()
         return value
     }

@@ -10,6 +10,7 @@
 @testable import AWSDynamoDB
 import XCTest
 import enum ClientRuntime.EndpointError
+import enum SmithyHTTPAPI.EndpointPropertyValue
 import enum SmithyTestUtil.TestInitializer
 import struct SmithyHTTPAPI.Endpoint
 import struct SmithyHTTPAPI.Headers
@@ -31,7 +32,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -51,7 +52,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -71,7 +72,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -91,7 +92,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -111,7 +112,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -131,7 +132,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -151,7 +152,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -171,7 +172,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -191,7 +192,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -211,7 +212,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -231,7 +232,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -251,7 +252,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -271,7 +272,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -291,7 +292,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -311,7 +312,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -331,7 +332,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -351,7 +352,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -371,15 +372,15 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4",
                         "signingName": "dynamodb",
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -399,7 +400,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -419,7 +420,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -439,7 +440,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -459,7 +460,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -479,7 +480,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -499,7 +500,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -519,7 +520,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -539,7 +540,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -559,7 +560,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -579,7 +580,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -599,7 +600,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -619,7 +620,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -639,7 +640,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -659,7 +660,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -679,7 +680,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -699,7 +700,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -719,7 +720,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -739,7 +740,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -759,7 +760,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -779,7 +780,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -799,7 +800,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -819,7 +820,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -839,7 +840,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -859,7 +860,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -879,7 +880,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -918,7 +919,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -957,7 +958,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -996,7 +997,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1036,7 +1037,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1056,7 +1057,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1121,11 +1122,13 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// For custom endpoint with account ID available, FIPS enabled, and DualStack enabled
+    /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
     func testResolve56() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
+            region: "us-east-1",
             useDualStack: true,
             useFIPS: true
         )
@@ -1141,11 +1144,13 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// For custom endpoint with account ID available, FIPS enabled, and DualStack disabled
+    /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
     func testResolve57() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
+            region: "us-east-1",
             useDualStack: false,
             useFIPS: true
         )
@@ -1161,11 +1166,13 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// For custom endpoint with account ID available, FIPS disabled, and DualStack enabled
+    /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
     func testResolve58() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
+            region: "us-east-1",
             useDualStack: true,
             useFIPS: false
         )
@@ -1181,11 +1188,13 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// For custom endpoint with account ID available, FIPS disabled, and DualStack disabled
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
     func testResolve59() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
+            region: "us-east-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -1193,7 +1202,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1202,11 +1211,16 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For custom endpoint with empty account ID available, FIPS disabled, and DualStack disabled
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
     func testResolve60() throws {
         let endpointParams = EndpointParams(
-            accountId: "",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
             useDualStack: false,
             useFIPS: false
         )
@@ -1214,7 +1228,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1223,10 +1237,1624 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region local with account ID available, FIPS enabled, and DualStack enabled
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
     func testResolve61() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve62() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve63() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve64() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve65() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:s3:us-east-1:333333333333:stream/testStream"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve66() throws {
+        let endpointParams = EndpointParams(
+            accountId: "",
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve67() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve68() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve69() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve70() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve71() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve72() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve73() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve74() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve75() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve76() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve77() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve78() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve79() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve80() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve81() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve82() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve83() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve84() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve85() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve86() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve87() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve88() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve89() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:s3:us-east-1:333333333333:stream/testStream"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve90() throws {
+        let endpointParams = EndpointParams(
+            accountId: "",
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve91() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve92() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve93() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve94() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve95() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve96() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve97() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve98() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve99() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve100() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve101() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve102() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve103() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve104() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve105() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve106() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve107() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve108() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve109() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve110() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve111() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve112() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve113() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:s3:us-east-1:333333333333:stream/testStream"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve114() throws {
+        let endpointParams = EndpointParams(
+            accountId: "",
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve115() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve116() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve117() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve118() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve119() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve120() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve121() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve122() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve123() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve124() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve125() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve126() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
+    func testResolve127() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=local}
+    func testResolve128() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "local",
             useDualStack: true,
             useFIPS: true
@@ -1243,10 +2871,11 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// For region local with account ID available, FIPS enabled, and DualStack disabled
-    func testResolve62() throws {
+    /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=local}
+    func testResolve129() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "local",
             useDualStack: false,
             useFIPS: true
@@ -1263,10 +2892,11 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// For region local with account ID available, FIPS disabled, and DualStack enabled
-    func testResolve63() throws {
+    /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=local}
+    func testResolve130() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "local",
             useDualStack: true,
             useFIPS: false
@@ -1283,10 +2913,11 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// For region local with account ID available, FIPS disabled, and DualStack disabled
-    func testResolve64() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=local}
+    func testResolve131() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "local",
             useDualStack: false,
             useFIPS: false
@@ -1295,15 +2926,15 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4",
                         "signingName": "dynamodb",
+                        "name": "sigv4",
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1312,10 +2943,214 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region local with empty account ID available, FIPS disabled, and DualStack disabled
-    func testResolve65() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
+    func testResolve132() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
+    func testResolve133() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
+    func testResolve134() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
+    func testResolve135() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
+    func testResolve136() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=preferred, Region=local}
+    func testResolve137() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:s3:us-east-1:333333333333:stream/testStream"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=local}
+    func testResolve138() throws {
         let endpointParams = EndpointParams(
             accountId: "",
+            accountIdEndpointMode: "preferred",
             region: "local",
             useDualStack: false,
             useFIPS: false
@@ -1324,15 +3159,15 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4",
                         "signingName": "dynamodb",
+                        "name": "sigv4",
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1341,28 +3176,1701 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For AccountIdEndpointMode required and no AccountId set
-    func testResolve66() throws {
+    /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local}
+    func testResolve139() throws {
         let endpointParams = EndpointParams(
-            accountIdEndpointMode: "required",
-            region: "us-east-1"
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: true
         )
         let resolver = try DefaultEndpointResolver()
 
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("AccountIdEndpointMode is required but no AccountID was provided or able to be loaded.", message)
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
             default:
                 XCTFail()
             }
         }
     }
 
-    /// For region us-east-1 with account ID available, FIPS enabled, and DualStack enabled
-    func testResolve67() throws {
+    /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local}
+    func testResolve140() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local}
+    func testResolve141() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local}
+    func testResolve142() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local}
+    func testResolve143() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=local}
+    func testResolve144() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=local}
+    func testResolve145() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArn: "",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
+    func testResolve146() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
+    func testResolve147() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
+    func testResolve148() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
+    func testResolve149() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
+    func testResolve150() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=local}
+    func testResolve151() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "local",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=local}
+    func testResolve152() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=local}
+    func testResolve153() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=local}
+    func testResolve154() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=local}
+    func testResolve155() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
+    func testResolve156() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
+    func testResolve157() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
+    func testResolve158() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
+    func testResolve159() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
+    func testResolve160() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=disabled, Region=local}
+    func testResolve161() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:s3:us-east-1:333333333333:stream/testStream"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=disabled, Region=local}
+    func testResolve162() throws {
+        let endpointParams = EndpointParams(
+            accountId: "",
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local}
+    func testResolve163() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local}
+    func testResolve164() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local}
+    func testResolve165() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local}
+    func testResolve166() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local}
+    func testResolve167() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=disabled, Region=local}
+    func testResolve168() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=disabled, Region=local}
+    func testResolve169() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArn: "",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
+    func testResolve170() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
+    func testResolve171() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
+    func testResolve172() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
+    func testResolve173() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
+    func testResolve174() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=disabled, Region=local}
+    func testResolve175() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "local",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=local}
+    func testResolve176() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "local",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=local}
+    func testResolve177() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "local",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=local}
+    func testResolve178() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "local",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=local}
+    func testResolve179() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "local",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
+    func testResolve180() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
+    func testResolve181() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
+    func testResolve182() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
+    func testResolve183() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
+    func testResolve184() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=required, Region=local}
+    func testResolve185() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:s3:us-east-1:333333333333:stream/testStream"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=required, Region=local}
+    func testResolve186() throws {
+        let endpointParams = EndpointParams(
+            accountId: "",
+            accountIdEndpointMode: "required",
+            region: "local",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local}
+    func testResolve187() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local}
+    func testResolve188() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local}
+    func testResolve189() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local}
+    func testResolve190() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local}
+    func testResolve191() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=required, Region=local}
+    func testResolve192() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=required, Region=local}
+    func testResolve193() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArn: "",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
+    func testResolve194() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
+    func testResolve195() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
+    func testResolve196() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Dualstack and local endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
+    func testResolve197() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
+    func testResolve198() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "local",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=required, Region=local}
+    func testResolve199() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "local",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "signingName": "dynamodb",
+                        "name": "sigv4",
+                        "signingRegion": "us-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://localhost:8000", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve200() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "us-east-1",
             useDualStack: true,
             useFIPS: true
@@ -1371,7 +4879,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1380,31 +4888,10 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-1 with account ID available, FIPS enabled, and DualStack disabled
-    func testResolve68() throws {
+    /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve201() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
-            region: "us-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-east-1 with account ID available, AccountIdEndpointMode preferred, FIPS enabled, and DualStack disabled
-    func testResolve69() throws {
-        let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
             useDualStack: false,
@@ -1414,7 +4901,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1423,74 +4910,10 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-1 with account ID available, AccountIdEndpointMode required, FIPS enabled, and DualStack disabled
-    func testResolve70() throws {
+    /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve202() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
-            accountIdEndpointMode: "required",
-            region: "us-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-east-1 with account ID available, FIPS disabled, and DualStack enabled
-    func testResolve71() throws {
-        let endpointParams = EndpointParams(
-            accountId: "012345678901",
-            region: "us-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-east-1 with account ID available, FIPS disabled, and DualStack enabled
-    func testResolve72() throws {
-        let endpointParams = EndpointParams(
-            accountId: "012345678901",
-            region: "us-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-east-1 with account ID available, AccountIdEndpointMode preferred, FIPS disabled, and DualStack enabled
-    func testResolve73() throws {
-        let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
             useDualStack: true,
@@ -1500,7 +4923,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1509,54 +4932,10 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-1 with account ID available, AccountIdEndpointMode disabled, FIPS disabled, and DualStack enabled
-    func testResolve74() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve203() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
-            accountIdEndpointMode: "disabled",
-            region: "us-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-east-1 with account ID available, AccountIdEndpointMode required, FIPS disabled, and DualStack enabled
-    func testResolve75() throws {
-        let endpointParams = EndpointParams(
-            accountId: "012345678901",
-            accountIdEndpointMode: "required",
-            region: "us-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-east-1 with account ID available, AccountIdEndpointMode preferred, FIPS disabled, and DualStack disabled
-    func testResolve76() throws {
-        let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
             useDualStack: false,
@@ -1566,21 +4945,24 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://012345678901.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-1 with account ID available, AccountIdEndpointMode required, FIPS disabled, and DualStack disabled
-    func testResolve77() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve204() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
-            accountIdEndpointMode: "required",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
             useDualStack: false,
             useFIPS: false
         )
@@ -1588,21 +4970,25 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://012345678901.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-1 with account ID available, AccountIdEndpointMode disabled, FIPS disabled, and DualStack disabled
-    func testResolve78() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve205() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
-            accountIdEndpointMode: "disabled",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
             useDualStack: false,
             useFIPS: false
         )
@@ -1610,19 +4996,124 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-1 with empty account ID, FIPS disabled, and DualStack disabled
-    func testResolve79() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve206() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve207() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve208() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve209() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:s3:us-east-1:333333333333:stream/testStream"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve210() throws {
         let endpointParams = EndpointParams(
             accountId: "",
+            accountIdEndpointMode: "preferred",
             region: "us-east-1",
             useDualStack: false,
             useFIPS: false
@@ -1639,10 +5130,1952 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// For region cn-north-1 with account ID available, FIPS enabled, and DualStack enabled
-    func testResolve80() throws {
+    /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve211() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve212() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve213() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve214() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve215() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve216() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve217() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArn: "",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve218() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve219() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve220() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve221() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve222() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=us-east-1}
+    func testResolve223() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve224() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve225() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve226() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and DualStack is enabled, but DualStack account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve227() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve228() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve229() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve230() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve231() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve232() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve233() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:s3:us-east-1:333333333333:stream/testStream"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve234() throws {
+        let endpointParams = EndpointParams(
+            accountId: "",
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Credentials-sourced account ID parameter is invalid", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve235() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve236() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve237() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and DualStack is enabled, but DualStack account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve238() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve239() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("AccountIdEndpointMode is required but no AccountID was provided or able to be loaded", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve240() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("AccountIdEndpointMode is required but no AccountID was provided or able to be loaded", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve241() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArn: "",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("AccountIdEndpointMode is required but no AccountID was provided or able to be loaded", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve242() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve243() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve244() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and DualStack is enabled, but DualStack account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve245() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve246() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=required, Region=us-east-1}
+    func testResolve247() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("AccountIdEndpointMode is required but no AccountID was provided or able to be loaded", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve248() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve249() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve250() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and DualStack is enabled, but DualStack account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve251() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve252() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve253() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve254() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve255() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve256() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve257() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:s3:us-east-1:333333333333:stream/testStream"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve258() throws {
+        let endpointParams = EndpointParams(
+            accountId: "",
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve259() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve260() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve261() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and DualStack is enabled, but DualStack account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve262() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve263() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve264() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve265() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArn: "",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve266() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve267() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve268() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required and DualStack is enabled, but DualStack account endpoints are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve269() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve270() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=required, Region=cn-north-1}
+    func testResolve271() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "required",
+            region: "cn-north-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve272() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve273() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve274() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve275() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve276() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve277() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve278() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve279() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve280() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve281() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:s3:us-east-1:333333333333:stream/testStream"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve282() throws {
+        let endpointParams = EndpointParams(
+            accountId: "",
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve283() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve284() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve285() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve286() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve287() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve288() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve289() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArn: "",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve290() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve291() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve292() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve293() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve294() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=disabled, Region=us-east-1}
+    func testResolve295() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "disabled",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve296() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "cn-north-1",
             useDualStack: true,
             useFIPS: true
@@ -1651,7 +7084,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1660,10 +7093,11 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region cn-north-1 with account ID available, FIPS enabled, and DualStack disabled
-    func testResolve81() throws {
+    /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve297() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "cn-north-1",
             useDualStack: false,
             useFIPS: true
@@ -1672,7 +7106,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1681,10 +7115,11 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region cn-north-1 with account ID available, FIPS disabled, and DualStack enabled
-    func testResolve82() throws {
+    /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve298() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "cn-north-1",
             useDualStack: true,
             useFIPS: false
@@ -1693,7 +7128,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1702,31 +7137,10 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region cn-north-1 with account ID available, FIPS disabled, and DualStack disabled
-    func testResolve83() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve299() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
-            region: "cn-north-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region cn-north-1 with account ID available, AccountIdEndpointMode preferred, FIPS disabled, and DualStack disabled
-    func testResolve84() throws {
-        let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
             useDualStack: false,
@@ -1736,7 +7150,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1745,12 +7159,15 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region cn-north-1 with account ID available, AccountIdEndpointMode disabled, FIPS disabled, and DualStack disabled
-    func testResolve85() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve300() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
-            accountIdEndpointMode: "disabled",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "cn-north-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
             useDualStack: false,
             useFIPS: false
         )
@@ -1758,7 +7175,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1767,12 +7184,16 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region cn-north-1 with account ID available, AccountIdEndpointMode required, FIPS disabled, and DualStack disabled
-    func testResolve86() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve301() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
-            accountIdEndpointMode: "required",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
             useDualStack: false,
             useFIPS: false
         )
@@ -1780,7 +7201,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1789,10 +7210,115 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region cn-north-1 with empty account ID available, FIPS disabled, and DualStack disabled
-    func testResolve87() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve302() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve303() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve304() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve305() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:s3:us-east-1:333333333333:stream/testStream"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve306() throws {
         let endpointParams = EndpointParams(
             accountId: "",
+            accountIdEndpointMode: "preferred",
             region: "cn-north-1",
             useDualStack: false,
             useFIPS: false
@@ -1801,7 +7327,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1810,10 +7336,307 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-iso-east-1 with account ID available, FIPS enabled, and DualStack enabled
-    func testResolve88() throws {
+    /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve307() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve308() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve309() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve310() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve311() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve312() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve313() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArn: "",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve314() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve315() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve316() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve317() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve318() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=cn-north-1}
+    func testResolve319() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "cn-north-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve320() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
             useDualStack: true,
             useFIPS: true
@@ -1830,10 +7653,11 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// For region us-iso-east-1 with account ID available, FIPS enabled, and DualStack disabled
-    func testResolve89() throws {
+    /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve321() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
             useDualStack: false,
             useFIPS: true
@@ -1842,7 +7666,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1851,10 +7675,11 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-iso-east-1 with account ID available, FIPS disabled, and DualStack enabled
-    func testResolve90() throws {
+    /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve322() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
             useDualStack: true,
             useFIPS: false
@@ -1871,10 +7696,11 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// For region us-iso-east-1 with account ID available, FIPS disabled, and DualStack disabled
-    func testResolve91() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve323() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
             useDualStack: false,
             useFIPS: false
@@ -1883,7 +7709,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1892,10 +7718,166 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-iso-east-1 with empty account ID available, FIPS disabled, and DualStack disabled
-    func testResolve92() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve324() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve325() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve326() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve327() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve328() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve329() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:s3:us-east-1:333333333333:stream/testStream"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve330() throws {
         let endpointParams = EndpointParams(
             accountId: "",
+            accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
             useDualStack: false,
             useFIPS: false
@@ -1904,7 +7886,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1913,10 +7895,303 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-gov-east-1 with account ID available, FIPS enabled, and DualStack enabled
-    func testResolve93() throws {
+    /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve331() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve332() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve333() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("DualStack is enabled but this partition does not support DualStack", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve334() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve335() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve336() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve337() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArn: "",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve338() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve339() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve340() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("DualStack is enabled but this partition does not support DualStack", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve341() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve342() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
+    func testResolve343() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-iso-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve344() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
             useDualStack: true,
             useFIPS: true
@@ -1925,7 +8200,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1934,10 +8209,11 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-gov-east-1 with account ID available, FIPS enabled, and DualStack disabled
-    func testResolve94() throws {
+    /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve345() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
             useDualStack: false,
             useFIPS: true
@@ -1946,7 +8222,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1955,10 +8231,11 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-gov-east-1 with account ID available, FIPS disabled, and DualStack enabled
-    func testResolve95() throws {
+    /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve346() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
             useDualStack: true,
             useFIPS: false
@@ -1967,7 +8244,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1976,10 +8253,11 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-gov-east-1 with account ID available, FIPS disabled, and DualStack disabled
-    func testResolve96() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve347() throws {
         let endpointParams = EndpointParams(
-            accountId: "012345678901",
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
             useDualStack: false,
             useFIPS: false
@@ -1988,7 +8266,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1997,10 +8275,166 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-gov-east-1 with empty account ID available, FIPS disabled, and DualStack disabled
-    func testResolve97() throws {
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve348() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve349() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve350() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve351() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve352() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve353() throws {
+        let endpointParams = EndpointParams(
+            accountId: "111111111111",
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            resourceArnList: [
+                "arn:aws:s3:us-east-1:333333333333:stream/testStream"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve354() throws {
         let endpointParams = EndpointParams(
             accountId: "",
+            accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
             useDualStack: false,
             useFIPS: false
@@ -2009,7 +8443,303 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve355() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve356() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve357() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve358() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve359() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArn: "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve360() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArn: "arn:aws:s3:us-west-2:222222222222:stream/testStream",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve361() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArn: "",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve362() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve363() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve364() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve365() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve366() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            resourceArn: "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
+            resourceArnList: [
+                "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
+            ],
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://dynamodb.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
+    func testResolve367() throws {
+        let endpointParams = EndpointParams(
+            accountIdEndpointMode: "preferred",
+            region: "us-gov-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [:]
 
         let headers = SmithyHTTPAPI.Headers()

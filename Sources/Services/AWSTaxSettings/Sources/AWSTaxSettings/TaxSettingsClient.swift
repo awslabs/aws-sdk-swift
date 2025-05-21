@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TaxSettingsClient: ClientRuntime.Client {
     public static let clientName = "TaxSettingsClient"
-    public static let version = "1.2.22"
+    public static let version = "1.3.20"
     let client: ClientRuntime.SdkHttpClient
     let config: TaxSettingsClient.TaxSettingsClientConfiguration
     let serviceName = "TaxSettings"
@@ -211,7 +211,7 @@ extension TaxSettingsClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultTaxSettingsAuthSchemeResolver(),
@@ -265,7 +265,7 @@ extension TaxSettingsClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultTaxSettingsAuthSchemeResolver(),
@@ -435,7 +435,7 @@ extension TaxSettingsClient {
 
     /// Performs the `BatchGetTaxExemptions` operation on the `TaxSettings` service.
     ///
-    /// Get the active tax exemptions for a given list of accounts.
+    /// Get the active tax exemptions for a given list of accounts. The IAM action is tax:GetExemptions.
     ///
     /// - Parameter BatchGetTaxExemptionsInput : [no documentation found]
     ///
@@ -526,6 +526,19 @@ extension TaxSettingsClient {
     /// Georgia
     ///
     /// * The valid personType values are Physical Person and Business.
+    ///
+    ///
+    /// Indonesia
+    ///
+    /// * PutTaxRegistration: The use of this operation to submit tax information is subject to the [Amazon Web Services service terms](http://aws.amazon.com/service-terms/). By submitting, you’re providing consent for Amazon Web Services to validate NIK, NPWP, and NITKU data, provided by you with the Directorate General of Taxes of Indonesia in accordance with the Minister of Finance Regulation (PMK) Number 112/PMK.03/2022.
+    ///
+    /// * BatchPutTaxRegistration: The use of this operation to submit tax information is subject to the [Amazon Web Services service terms](http://aws.amazon.com/service-terms/). By submitting, you’re providing consent for Amazon Web Services to validate NIK, NPWP, and NITKU data, provided by you with the Directorate General of Taxes of Indonesia in accordance with the Minister of Finance Regulation (PMK) Number 112/PMK.03/2022, through our third-party partner PT Achilles Advanced Management (OnlinePajak).
+    ///
+    /// * You must specify the taxRegistrationNumberType in the indonesiaAdditionalInfo field of the additionalTaxInformation object.
+    ///
+    /// * If you specify decisionNumber, you must specify the ppnExceptionDesignationCode in the indonesiaAdditionalInfo field of the additionalTaxInformation object. If the taxRegistrationNumberType is set to NPWP or NITKU, valid values for ppnExceptionDesignationCode are either 01, 02, 03, 07, or 08. For other taxRegistrationNumberType values, ppnExceptionDesignationCode must be either 01, 07, or 08.
+    ///
+    /// * If ppnExceptionDesignationCode is 07, you must specify the decisionNumber in the indonesiaAdditionalInfo field of the additionalTaxInformation object.
     ///
     ///
     /// Kenya
@@ -834,7 +847,7 @@ extension TaxSettingsClient {
 
     /// Performs the `GetTaxExemptionTypes` operation on the `TaxSettings` service.
     ///
-    /// Get supported tax exemption types.
+    /// Get supported tax exemption types. The IAM action is tax:GetExemptions.
     ///
     /// - Parameter GetTaxExemptionTypesInput : [no documentation found]
     ///
@@ -1207,7 +1220,7 @@ extension TaxSettingsClient {
 
     /// Performs the `ListTaxExemptions` operation on the `TaxSettings` service.
     ///
-    /// Retrieves the tax exemption of accounts listed in a consolidated billing family.
+    /// Retrieves the tax exemption of accounts listed in a consolidated billing family. The IAM action is tax:GetExemptions.
     ///
     /// - Parameter ListTaxExemptionsInput : [no documentation found]
     ///
@@ -1435,7 +1448,7 @@ extension TaxSettingsClient {
 
     /// Performs the `PutTaxExemption` operation on the `TaxSettings` service.
     ///
-    /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family.
+    /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family. The IAM action is tax:UpdateExemptions.
     ///
     /// - Parameter PutTaxExemptionInput : [no documentation found]
     ///
@@ -1444,9 +1457,9 @@ extension TaxSettingsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : The access is denied for the Amazon Web Services Support API.
-    /// - `AttachmentUploadException` : Failed to upload the tax exemption document to Amazon Web Services Support case.
-    /// - `CaseCreationLimitExceededException` : You've exceeded the Amazon Web Services Support case creation limit for your account.
+    /// - `AccessDeniedException` : The access is denied for the Amazon Web ServicesSupport API.
+    /// - `AttachmentUploadException` : Failed to upload the tax exemption document to Amazon Web ServicesSupport case.
+    /// - `CaseCreationLimitExceededException` : You've exceeded the Amazon Web ServicesSupport case creation limit for your account.
     /// - `InternalServerException` : The exception thrown when an unexpected error occurs when processing a request.
     /// - `ResourceNotFoundException` : The exception thrown when the input doesn't have a resource associated to it.
     /// - `ValidationException` : The exception when the input doesn't pass validation for at least one of the input parameters.
@@ -1606,6 +1619,19 @@ extension TaxSettingsClient {
     /// Georgia
     ///
     /// * The valid personType values are Physical Person and Business.
+    ///
+    ///
+    /// Indonesia
+    ///
+    /// * PutTaxRegistration: The use of this operation to submit tax information is subject to the [Amazon Web Services service terms](http://aws.amazon.com/service-terms/). By submitting, you’re providing consent for Amazon Web Services to validate NIK, NPWP, and NITKU data, provided by you with the Directorate General of Taxes of Indonesia in accordance with the Minister of Finance Regulation (PMK) Number 112/PMK.03/2022.
+    ///
+    /// * BatchPutTaxRegistration: The use of this operation to submit tax information is subject to the [Amazon Web Services service terms](http://aws.amazon.com/service-terms/). By submitting, you’re providing consent for Amazon Web Services to validate NIK, NPWP, and NITKU data, provided by you with the Directorate General of Taxes of Indonesia in accordance with the Minister of Finance Regulation (PMK) Number 112/PMK.03/2022, through our third-party partner PT Achilles Advanced Management (OnlinePajak).
+    ///
+    /// * You must specify the taxRegistrationNumberType in the indonesiaAdditionalInfo field of the additionalTaxInformation object.
+    ///
+    /// * If you specify decisionNumber, you must specify the ppnExceptionDesignationCode in the indonesiaAdditionalInfo field of the additionalTaxInformation object. If the taxRegistrationNumberType is set to NPWP or NITKU, valid values for ppnExceptionDesignationCode are either 01, 02, 03, 07, or 08. For other taxRegistrationNumberType values, ppnExceptionDesignationCode must be either 01, 07, or 08.
+    ///
+    /// * If ppnExceptionDesignationCode is 07, you must specify the decisionNumber in the indonesiaAdditionalInfo field of the additionalTaxInformation object.
     ///
     ///
     /// Kenya

@@ -1322,6 +1322,9 @@ extension EntityResolutionClientTypes {
         case addressStreet3
         case date
         case emailAddress
+        case ipv4
+        case ipv6
+        case maid
         case name
         case nameFirst
         case nameLast
@@ -1346,6 +1349,9 @@ extension EntityResolutionClientTypes {
                 .addressStreet3,
                 .date,
                 .emailAddress,
+                .ipv4,
+                .ipv6,
+                .maid,
                 .name,
                 .nameFirst,
                 .nameLast,
@@ -1376,6 +1382,9 @@ extension EntityResolutionClientTypes {
             case .addressStreet3: return "ADDRESS_STREET3"
             case .date: return "DATE"
             case .emailAddress: return "EMAIL_ADDRESS"
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case .maid: return "MAID"
             case .name: return "NAME"
             case .nameFirst: return "NAME_FIRST"
             case .nameLast: return "NAME_LAST"
@@ -1394,12 +1403,12 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes {
 
-    /// An object containing FieldName, Type, GroupName, MatchKey, Hashing, and SubType.
+    /// A configuration object for defining input data fields in Entity Resolution. The SchemaInputAttribute specifies how individual fields in your input data should be processed and matched.
     public struct SchemaInputAttribute: Swift.Sendable {
         /// A string containing the field name.
         /// This member is required.
         public var fieldName: Swift.String?
-        /// A string that instructs Entity Resolution to combine several columns into a unified column with the identical attribute type. For example, when working with columns such as first_name, middle_name, and last_name, assigning them a common groupName will prompt Entity Resolution to concatenate them into a single value.
+        /// A string that instructs Entity Resolution to combine several columns into a unified column with the identical attribute type. For example, when working with columns such as NAME_FIRST, NAME_MIDDLE, and NAME_LAST, assigning them a common groupName will prompt Entity Resolution to concatenate them into a single value.
         public var groupName: Swift.String?
         /// Indicates if the column values are hashed in the schema input. If the value is set to TRUE, the column values are hashed. If the value is set to FALSE, the column values are cleartext.
         public var hashed: Swift.Bool?
@@ -1407,7 +1416,7 @@ extension EntityResolutionClientTypes {
         public var matchKey: Swift.String?
         /// The subtype of the attribute, selected from a list of values.
         public var subType: Swift.String?
-        /// The type of the attribute, selected from a list of values.
+        /// The type of the attribute, selected from a list of values. LiveRamp supports: NAME | NAME_FIRST | NAME_MIDDLE | NAME_LAST | ADDRESS | ADDRESS_STREET1 | ADDRESS_STREET2 | ADDRESS_STREET3 | ADDRESS_CITY | ADDRESS_STATE | ADDRESS_COUNTRY | ADDRESS_POSTALCODE | PHONE | PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID | PROVIDER_ID TransUnion supports: NAME | NAME_FIRST | NAME_LAST | ADDRESS | ADDRESS_CITY | ADDRESS_STATE | ADDRESS_COUNTRY | ADDRESS_POSTALCODE | PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID | IPV4 | IPV6 | MAID Unified ID 2.0 supports: PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID Normalization is only supported for NAME, ADDRESS, PHONE, and EMAIL_ADDRESS. If you want to normalize NAME_FIRST, NAME_MIDDLE, and NAME_LAST, you must group them by assigning them to the NAMEgroupName. If you want to normalize ADDRESS_STREET1, ADDRESS_STREET2, ADDRESS_STREET3, ADDRESS_CITY, ADDRESS_STATE, ADDRESS_COUNTRY, and ADDRESS_POSTALCODE, you must group them by assigning them to the ADDRESSgroupName. If you want to normalize PHONE_NUMBER and PHONE_COUNTRYCODE, you must group them by assigning them to the PHONEgroupName.
         /// This member is required.
         public var type: EntityResolutionClientTypes.SchemaAttributeType?
 
@@ -1649,7 +1658,7 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes {
 
-    /// An object containing InputRecords, RecordsNotProcessed, TotalRecordsProcessed, TotalMappedRecords, TotalMappedSourceRecords, and TotalMappedTargetRecords.
+    /// An object that contains metrics about an ID mapping job, including counts of input records, processed records, and mapped records between source and target identifiers.
     public struct IdMappingJobMetrics: Swift.Sendable {
         /// The total number of records that were input for processing.
         public var inputRecords: Swift.Int?
@@ -1663,6 +1672,8 @@ extension EntityResolutionClientTypes {
         public var totalMappedTargetRecords: Swift.Int?
         /// The total number of records that were processed.
         public var totalRecordsProcessed: Swift.Int?
+        /// The number of records remaining after loading and aggregating duplicate records. Duplicates are determined by the field marked as UNIQUE_ID in your schema mapping - records sharing the same value in this field are considered duplicates. For example, if you specified "customer_id" as a UNIQUE_ID field and had three records with the same customer_id value, they would count as one unique record in this metric.
+        public var uniqueRecordsLoaded: Swift.Int?
 
         public init(
             inputRecords: Swift.Int? = nil,
@@ -1670,7 +1681,8 @@ extension EntityResolutionClientTypes {
             totalMappedRecords: Swift.Int? = nil,
             totalMappedSourceRecords: Swift.Int? = nil,
             totalMappedTargetRecords: Swift.Int? = nil,
-            totalRecordsProcessed: Swift.Int? = nil
+            totalRecordsProcessed: Swift.Int? = nil,
+            uniqueRecordsLoaded: Swift.Int? = nil
         ) {
             self.inputRecords = inputRecords
             self.recordsNotProcessed = recordsNotProcessed
@@ -1678,6 +1690,7 @@ extension EntityResolutionClientTypes {
             self.totalMappedSourceRecords = totalMappedSourceRecords
             self.totalMappedTargetRecords = totalMappedTargetRecords
             self.totalRecordsProcessed = totalRecordsProcessed
+            self.uniqueRecordsLoaded = uniqueRecordsLoaded
         }
     }
 }
@@ -2189,7 +2202,7 @@ extension EntityResolutionClientTypes {
         public var hashing: Swift.Bool?
         /// The sub type of the provider schema attribute.
         public var subType: Swift.String?
-        /// The type of the provider schema attribute.
+        /// The type of the provider schema attribute. LiveRamp supports: NAME | NAME_FIRST | NAME_MIDDLE | NAME_LAST | ADDRESS | ADDRESS_STREET1 | ADDRESS_STREET2 | ADDRESS_STREET3 | ADDRESS_CITY | ADDRESS_STATE | ADDRESS_COUNTRY | ADDRESS_POSTALCODE | PHONE | PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID | PROVIDER_ID TransUnion supports: NAME | NAME_FIRST | NAME_LAST | ADDRESS | ADDRESS_CITY | ADDRESS_STATE | ADDRESS_COUNTRY | ADDRESS_POSTALCODE | PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID | DATE | IPV4 | IPV6 | MAID Unified ID 2.0 supports: PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID
         /// This member is required.
         public var type: EntityResolutionClientTypes.SchemaAttributeType?
 
@@ -5695,6 +5708,7 @@ extension EntityResolutionClientTypes.IdMappingJobMetrics {
         value.totalMappedRecords = try reader["totalMappedRecords"].readIfPresent()
         value.totalMappedSourceRecords = try reader["totalMappedSourceRecords"].readIfPresent()
         value.totalMappedTargetRecords = try reader["totalMappedTargetRecords"].readIfPresent()
+        value.uniqueRecordsLoaded = try reader["uniqueRecordsLoaded"].readIfPresent()
         return value
     }
 }

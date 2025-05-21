@@ -1619,7 +1619,9 @@ public struct StartQueryMonitorTopContributorsInput: Swift.Sendable {
     ///
     /// * INTER_VPC: Top contributor network flows between VPCs
     ///
-    /// * AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services
+    /// * AMAZON_S3: Top contributor network flows to or from Amazon S3
+    ///
+    /// * AMAZON_DYNAMODB: Top contributor network flows to or from Amazon Dynamo DB
     ///
     /// * UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
     /// This member is required.
@@ -2877,6 +2879,7 @@ enum DeleteScopeOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3024,6 +3027,7 @@ enum GetScopeOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3260,6 +3264,7 @@ enum UpdateScopeOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)

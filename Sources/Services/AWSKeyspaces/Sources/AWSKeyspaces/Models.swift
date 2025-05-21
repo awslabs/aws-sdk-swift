@@ -530,11 +530,11 @@ extension KeyspacesClientTypes {
 
     /// The replication specification of the keyspace includes:
     ///
-    /// * regionList - up to six Amazon Web Services Regions where the keyspace is replicated in.
+    /// * regionList - the Amazon Web Services Regions where the keyspace is replicated in.
     ///
     /// * replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION.
     public struct ReplicationSpecification: Swift.Sendable {
-        /// The regionList can contain up to six Amazon Web Services Regions where the keyspace is replicated in.
+        /// The regionList contains the Amazon Web Services Regions where the keyspace is replicated in.
         public var regionList: [Swift.String]?
         /// The replicationStrategy of a keyspace, the required value is SINGLE_REGION or MULTI_REGION.
         /// This member is required.
@@ -579,7 +579,7 @@ public struct CreateKeyspaceInput: Swift.Sendable {
     ///
     /// * replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION.
     ///
-    /// * regionList - if the replicationStrategy is MULTI_REGION, the regionList requires the current Region and at least one additional Amazon Web Services Region where the keyspace is going to be replicated in. The maximum number of supported replication Regions including the current Region is six.
+    /// * regionList - if the replicationStrategy is MULTI_REGION, the regionList requires the current Region and at least one additional Amazon Web Services Region where the keyspace is going to be replicated in.
     public var replicationSpecification: KeyspacesClientTypes.ReplicationSpecification?
     /// A list of key-value pair tags to be attached to the keyspace. For more information, see [Adding tags and labels to Amazon Keyspaces resources](https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html) in the Amazon Keyspaces Developer Guide.
     public var tags: [KeyspacesClientTypes.Tag]?
@@ -1927,7 +1927,7 @@ public struct UpdateKeyspaceInput: Swift.Sendable {
     public var keyspaceName: Swift.String?
     /// The replication specification of the keyspace includes:
     ///
-    /// * regionList - up to six Amazon Web Services Regions where the keyspace is replicated in.
+    /// * regionList - the Amazon Web Services Regions where the keyspace is replicated in.
     ///
     /// * replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION.
     /// This member is required.

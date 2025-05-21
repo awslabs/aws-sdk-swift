@@ -406,6 +406,7 @@ extension StorageGatewayClientTypes {
     public enum ActiveDirectoryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
         case detached
+        case insufficientPermissions
         case joined
         case joining
         case networkError
@@ -417,6 +418,7 @@ extension StorageGatewayClientTypes {
             return [
                 .accessDenied,
                 .detached,
+                .insufficientPermissions,
                 .joined,
                 .joining,
                 .networkError,
@@ -434,6 +436,7 @@ extension StorageGatewayClientTypes {
             switch self {
             case .accessDenied: return "ACCESS_DENIED"
             case .detached: return "DETACHED"
+            case .insufficientPermissions: return "INSUFFICIENT_PERMISSIONS"
             case .joined: return "JOINED"
             case .joining: return "JOINING"
             case .networkError: return "NETWORK_ERROR"
@@ -4172,6 +4175,37 @@ extension StorageGatewayClientTypes {
     }
 }
 
+public struct EvictFilesFailingUploadInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the file share for which you want to start the cache clean operation.
+    /// This member is required.
+    public var fileShareARN: Swift.String?
+    /// Specifies whether cache entries with full or partial file data currently stored on the gateway will be forcibly removed by the cache clean operation. Valid arguments:
+    ///
+    /// * False - The cache clean operation skips cache entries failing upload if they are associated with data currently stored on the gateway. This preserves the cached data.
+    ///
+    /// * True - The cache clean operation removes cache entries failing upload even if they are associated with data currently stored on the gateway. This deletes the cached data. If ForceRemove is set to True, the cache clean operation will delete file data from the gateway which might otherwise be recoverable.
+    public var forceRemove: Swift.Bool?
+
+    public init(
+        fileShareARN: Swift.String? = nil,
+        forceRemove: Swift.Bool? = false
+    ) {
+        self.fileShareARN = fileShareARN
+        self.forceRemove = forceRemove
+    }
+}
+
+public struct EvictFilesFailingUploadOutput: Swift.Sendable {
+    /// The randomly generated ID of the CloudWatch notification associated with the cache clean operation. This ID is in UUID format.
+    public var notificationId: Swift.String?
+
+    public init(
+        notificationId: Swift.String? = nil
+    ) {
+        self.notificationId = notificationId
+    }
+}
+
 extension StorageGatewayClientTypes {
 
     /// The type of the file share.
@@ -4371,6 +4405,8 @@ public struct JoinDomainOutput: Swift.Sendable {
     /// * JOINED: Indicates that the gateway has successfully joined a domain.
     ///
     /// * JOINING: Indicates that a JoinDomain operation is in progress.
+    ///
+    /// * INSUFFICIENT_PERMISSIONS: Indicates that the JoinDomain operation failed because the specified user lacks the necessary permissions to join the domain.
     ///
     /// * NETWORK_ERROR: Indicates that JoinDomain operation failed due to a network or connectivity error.
     ///
@@ -5269,7 +5305,7 @@ public struct StartAvailabilityMonitorTestOutput: Swift.Sendable {
 }
 
 public struct StartCacheReportInput: Swift.Sendable {
-    /// The Amazon Web Services Region of the Amazon S3 bucket associated with the file share for which you want to generate the cache report.
+    /// The Amazon Web Services Region of the Amazon S3 bucket where you want to save the cache report.
     /// This member is required.
     public var bucketRegion: Swift.String?
     /// A unique identifier that you use to ensure idempotent report generation if you need to retry an unsuccessful StartCacheReport request. If you retry a request, use the same ClientToken you specified in the initial request.
@@ -5282,7 +5318,7 @@ public struct StartCacheReportInput: Swift.Sendable {
     public var fileShareARN: Swift.String?
     /// The list of filters and parameters that determine which files are included in the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request.
     public var inclusionFilters: [StorageGatewayClientTypes.CacheReportFilter]?
-    /// The ARN of the Amazon S3 bucket where the cache report will be saved. We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs.
+    /// The ARN of the Amazon S3 bucket where you want to save the cache report. We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs.
     /// This member is required.
     public var locationARN: Swift.String?
     /// The ARN of the IAM role used when saving the cache report to Amazon S3.
@@ -6412,6 +6448,13 @@ extension DisassociateFileSystemInput {
     }
 }
 
+extension EvictFilesFailingUploadInput {
+
+    static func urlPathProvider(_ value: EvictFilesFailingUploadInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension JoinDomainInput {
 
     static func urlPathProvider(_ value: JoinDomainInput) -> Swift.String? {
@@ -7262,6 +7305,15 @@ extension DisassociateFileSystemInput {
         guard let value else { return }
         try writer["FileSystemAssociationARN"].write(value.fileSystemAssociationARN)
         try writer["ForceDelete"].write(value.forceDelete)
+    }
+}
+
+extension EvictFilesFailingUploadInput {
+
+    static func write(value: EvictFilesFailingUploadInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FileShareARN"].write(value.fileShareARN)
+        try writer["ForceRemove"].write(value.forceRemove)
     }
 }
 
@@ -8406,6 +8458,18 @@ extension DisassociateFileSystemOutput {
         let reader = responseReader
         var value = DisassociateFileSystemOutput()
         value.fileSystemAssociationARN = try reader["FileSystemAssociationARN"].readIfPresent()
+        return value
+    }
+}
+
+extension EvictFilesFailingUploadOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EvictFilesFailingUploadOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = EvictFilesFailingUploadOutput()
+        value.notificationId = try reader["NotificationId"].readIfPresent()
         return value
     }
 }
@@ -9722,6 +9786,21 @@ enum DisableGatewayOutputError {
 }
 
 enum DisassociateFileSystemOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidGatewayRequestException": return try InvalidGatewayRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EvictFilesFailingUploadOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()

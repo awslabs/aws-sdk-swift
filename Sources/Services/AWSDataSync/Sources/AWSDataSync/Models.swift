@@ -17,7 +17,6 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
-@_spi(SmithyReadWrite) import func SmithyReadWrite.listWritingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -25,209 +24,6 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
-
-/// This exception is thrown when an error occurs in the DataSync service.
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var errorCode: Swift.String? = nil
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        errorCode: Swift.String? = nil,
-        message: Swift.String? = nil
-    ) {
-        self.properties.errorCode = errorCode
-        self.properties.message = message
-    }
-}
-
-/// This exception is thrown when the client submits a malformed request.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var datasyncErrorCode: Swift.String? = nil
-        public internal(set) var errorCode: Swift.String? = nil
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidRequestException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        datasyncErrorCode: Swift.String? = nil,
-        errorCode: Swift.String? = nil,
-        message: Swift.String? = nil
-    ) {
-        self.properties.datasyncErrorCode = datasyncErrorCode
-        self.properties.errorCode = errorCode
-        self.properties.message = message
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// The credentials that provide DataSync Discovery read access to your on-premises storage system's management interface. DataSync Discovery stores these credentials in [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html). For more information, see [Accessing your on-premises storage system](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-configure-storage.html).
-    public struct Credentials: Swift.Sendable {
-        /// Specifies the password for your storage system's management interface.
-        /// This member is required.
-        public var password: Swift.String?
-        /// Specifies the user name for your storage system's management interface.
-        /// This member is required.
-        public var username: Swift.String?
-
-        public init(
-            password: Swift.String? = nil,
-            username: Swift.String? = nil
-        ) {
-            self.password = password
-            self.username = username
-        }
-    }
-}
-
-extension DataSyncClientTypes.Credentials: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "Credentials(password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
-}
-
-extension DataSyncClientTypes {
-
-    /// The network settings that DataSync Discovery uses to connect with your on-premises storage system's management interface.
-    public struct DiscoveryServerConfiguration: Swift.Sendable {
-        /// The domain name or IP address of your storage system's management interface.
-        /// This member is required.
-        public var serverHostname: Swift.String?
-        /// The network port for accessing the storage system's management interface.
-        public var serverPort: Swift.Int?
-
-        public init(
-            serverHostname: Swift.String? = nil,
-            serverPort: Swift.Int? = nil
-        ) {
-            self.serverHostname = serverHostname
-            self.serverPort = serverPort
-        }
-    }
-}
-
-extension DataSyncClientTypes {
-
-    public enum DiscoverySystemType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case netappontap
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DiscoverySystemType] {
-            return [
-                .netappontap
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .netappontap: return "NetAppONTAP"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// A key-value pair representing a single tag that's been applied to an Amazon Web Services resource.
-    public struct TagListEntry: Swift.Sendable {
-        /// The key for an Amazon Web Services resource tag.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The value for an Amazon Web Services resource tag.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
-        }
-    }
-}
-
-public struct AddStorageSystemInput: Swift.Sendable {
-    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads from your on-premises storage system's management interface. You can only specify one ARN.
-    /// This member is required.
-    public var agentArns: [Swift.String]?
-    /// Specifies a client token to make sure requests with this API operation are idempotent. If you don't specify a client token, DataSync generates one for you automatically.
-    /// This member is required.
-    public var clientToken: Swift.String?
-    /// Specifies the ARN of the Amazon CloudWatch log group for monitoring and logging discovery job events.
-    public var cloudWatchLogGroupArn: Swift.String?
-    /// Specifies the user name and password for accessing your on-premises storage system's management interface.
-    /// This member is required.
-    public var credentials: DataSyncClientTypes.Credentials?
-    /// Specifies a familiar name for your on-premises storage system.
-    public var name: Swift.String?
-    /// Specifies the server name and network port required to connect with the management interface of your on-premises storage system.
-    /// This member is required.
-    public var serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
-    /// Specifies the type of on-premises storage system that you want DataSync Discovery to collect information about. DataSync Discovery currently supports NetApp Fabric-Attached Storage (FAS) and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
-    /// This member is required.
-    public var systemType: DataSyncClientTypes.DiscoverySystemType?
-    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your on-premises storage system.
-    public var tags: [DataSyncClientTypes.TagListEntry]?
-
-    public init(
-        agentArns: [Swift.String]? = nil,
-        clientToken: Swift.String? = nil,
-        cloudWatchLogGroupArn: Swift.String? = nil,
-        credentials: DataSyncClientTypes.Credentials? = nil,
-        name: Swift.String? = nil,
-        serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration? = nil,
-        systemType: DataSyncClientTypes.DiscoverySystemType? = nil,
-        tags: [DataSyncClientTypes.TagListEntry]? = nil
-    ) {
-        self.agentArns = agentArns
-        self.clientToken = clientToken
-        self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
-        self.credentials = credentials
-        self.name = name
-        self.serverConfiguration = serverConfiguration
-        self.systemType = systemType
-        self.tags = tags
-    }
-}
-
-public struct AddStorageSystemOutput: Swift.Sendable {
-    /// The ARN of the on-premises storage system that you can use with DataSync Discovery.
-    /// This member is required.
-    public var storageSystemArn: Swift.String?
-
-    public init(
-        storageSystemArn: Swift.String? = nil
-    ) {
-        self.storageSystemArn = storageSystemArn
-    }
-}
 
 extension DataSyncClientTypes {
 
@@ -438,6 +234,61 @@ extension DataSyncClientTypes {
     }
 }
 
+/// This exception is thrown when an error occurs in the DataSync service.
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var errorCode: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        errorCode: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.errorCode = errorCode
+        self.properties.message = message
+    }
+}
+
+/// This exception is thrown when the client submits a malformed request.
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var datasyncErrorCode: Swift.String? = nil
+        public internal(set) var errorCode: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        datasyncErrorCode: Swift.String? = nil,
+        errorCode: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.datasyncErrorCode = datasyncErrorCode
+        self.properties.errorCode = errorCode
+        self.properties.message = message
+    }
+}
+
 /// CancelTaskExecutionRequest
 public struct CancelTaskExecutionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the task execution to stop.
@@ -458,27 +309,20 @@ public struct CancelTaskExecutionOutput: Swift.Sendable {
 
 extension DataSyncClientTypes {
 
-    /// The storage capacity of an on-premises storage system resource (for example, a volume).
-    public struct Capacity: Swift.Sendable {
-        /// The amount of space in the cluster that's in cloud storage (for example, if you're using data tiering).
-        public var clusterCloudStorageUsed: Swift.Int?
-        /// The amount of space that's being used in a storage system resource without accounting for compression or deduplication.
-        public var logicalUsed: Swift.Int?
-        /// The total amount of space available in a storage system resource.
-        public var provisioned: Swift.Int?
-        /// The amount of space that's being used in a storage system resource.
-        public var used: Swift.Int?
+    /// A key-value pair representing a single tag that's been applied to an Amazon Web Services resource.
+    public struct TagListEntry: Swift.Sendable {
+        /// The key for an Amazon Web Services resource tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value for an Amazon Web Services resource tag.
+        public var value: Swift.String?
 
         public init(
-            clusterCloudStorageUsed: Swift.Int? = nil,
-            logicalUsed: Swift.Int? = nil,
-            provisioned: Swift.Int? = nil,
-            used: Swift.Int? = nil
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
         ) {
-            self.clusterCloudStorageUsed = clusterCloudStorageUsed
-            self.logicalUsed = logicalUsed
-            self.provisioned = provisioned
-            self.used = used
+            self.key = key
+            self.value = value
         }
     }
 }
@@ -1212,7 +1056,7 @@ public struct CreateLocationHdfsInput: Swift.Sendable {
     public var authenticationType: DataSyncClientTypes.HdfsAuthenticationType?
     /// The size of data blocks to write into the HDFS cluster. The block size must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
     public var blockSize: Swift.Int?
-    /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you're using the CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text. If KERBEROS is specified for AuthenticationType, this parameter is required.
+    /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If KERBEROS is specified for AuthenticationType, this parameter is required.
     public var kerberosKeytab: Foundation.Data?
     /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text. If KERBEROS is specified for AuthenticationType, this parameter is required.
     public var kerberosKrb5Conf: Foundation.Data?
@@ -1299,7 +1143,7 @@ public struct CreateLocationNfsInput: Swift.Sendable {
     /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect to your NFS file server. You can specify more than one agent. For more information, see [Using multiple DataSync agents](https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html#multiple-agents).
     /// This member is required.
     public var onPremConfig: DataSyncClientTypes.OnPremConfig?
-    /// Specifies the Domain Name System (DNS) name or IP version 4 address of the NFS file server that your DataSync agent connects to.
+    /// Specifies the DNS name or IP version 4 address of the NFS file server that your DataSync agent connects to.
     /// This member is required.
     public var serverHostname: Swift.String?
     /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync transfers data to or from. For information on configuring an export for DataSync, see [Accessing NFS file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs).
@@ -1387,7 +1231,7 @@ public struct CreateLocationObjectStorageInput: Swift.Sendable {
     ///
     /// You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates: cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem To use this parameter, configure ServerProtocol to HTTPS.
     public var serverCertificate: Foundation.Data?
-    /// Specifies the domain name or IP address of the object storage server. A DataSync agent uses this hostname to mount the object storage server in a network.
+    /// Specifies the domain name or IP version 4 (IPv4) address of the object storage server that your DataSync agent connects to.
     /// This member is required.
     public var serverHostname: Swift.String?
     /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443).
@@ -1592,23 +1436,23 @@ public struct CreateLocationSmbInput: Swift.Sendable {
     /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
     /// This member is required.
     public var agentArns: [Swift.String]?
-    /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication.
+    /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     public var authenticationType: DataSyncClientTypes.SmbAuthenticationType?
     /// Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
     public var dnsIpAddresses: [Swift.String]?
     /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
     public var domain: Swift.String?
-    /// Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. The file must be base64 encoded. If you're using the CLI, the encoding is done for you. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
+    /// Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
     public var kerberosKeytab: Foundation.Data?
     /// Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
     public var kerberosKrb5Conf: Foundation.Data?
-    /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@EXAMPLE.COM. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
+    /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@MYDOMAIN.ORG. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
     public var kerberosPrincipal: Swift.String?
     /// Specifies the version of the SMB protocol that DataSync uses to access your SMB file server.
     public var mountOptions: DataSyncClientTypes.SmbMountOptions?
     /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM.
     public var password: Swift.String?
-    /// Specifies the domain name or IP address of the SMB file server that your DataSync agent will mount. Remember the following when configuring this parameter:
+    /// Specifies the domain name or IP address of the SMB file server that your DataSync agent connects to. Remember the following when configuring this parameter:
     ///
     /// * You can't specify an IP version 6 (IPv6) address.
     ///
@@ -2927,93 +2771,6 @@ public struct DescribeAgentOutput: Swift.Sendable {
     }
 }
 
-public struct DescribeDiscoveryJobInput: Swift.Sendable {
-    /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want information about.
-    /// This member is required.
-    public var discoveryJobArn: Swift.String?
-
-    public init(
-        discoveryJobArn: Swift.String? = nil
-    ) {
-        self.discoveryJobArn = discoveryJobArn
-    }
-}
-
-extension DataSyncClientTypes {
-
-    public enum DiscoveryJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case completed
-        case completedWithIssues
-        case failed
-        case running
-        case stopped
-        case terminated
-        case warning
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DiscoveryJobStatus] {
-            return [
-                .completed,
-                .completedWithIssues,
-                .failed,
-                .running,
-                .stopped,
-                .terminated,
-                .warning
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .completed: return "COMPLETED"
-            case .completedWithIssues: return "COMPLETED_WITH_ISSUES"
-            case .failed: return "FAILED"
-            case .running: return "RUNNING"
-            case .stopped: return "STOPPED"
-            case .terminated: return "TERMINATED"
-            case .warning: return "WARNING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct DescribeDiscoveryJobOutput: Swift.Sendable {
-    /// The number of minutes that the discovery job runs.
-    public var collectionDurationMinutes: Swift.Int?
-    /// The ARN of the discovery job.
-    public var discoveryJobArn: Swift.String?
-    /// The time when the discovery job ended.
-    public var jobEndTime: Foundation.Date?
-    /// The time when the discovery job started.
-    public var jobStartTime: Foundation.Date?
-    /// Indicates the status of a discovery job. For more information, see [Discovery job statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#discovery-job-statuses-table).
-    public var status: DataSyncClientTypes.DiscoveryJobStatus?
-    /// The ARN of the on-premises storage system you're running the discovery job on.
-    public var storageSystemArn: Swift.String?
-
-    public init(
-        collectionDurationMinutes: Swift.Int? = nil,
-        discoveryJobArn: Swift.String? = nil,
-        jobEndTime: Foundation.Date? = nil,
-        jobStartTime: Foundation.Date? = nil,
-        status: DataSyncClientTypes.DiscoveryJobStatus? = nil,
-        storageSystemArn: Swift.String? = nil
-    ) {
-        self.collectionDurationMinutes = collectionDurationMinutes
-        self.discoveryJobArn = discoveryJobArn
-        self.jobEndTime = jobEndTime
-        self.jobStartTime = jobStartTime
-        self.status = status
-        self.storageSystemArn = storageSystemArn
-    }
-}
-
 public struct DescribeLocationAzureBlobInput: Swift.Sendable {
     /// Specifies the Amazon Resource Name (ARN) of your Azure Blob Storage transfer location.
     /// This member is required.
@@ -3538,720 +3295,6 @@ public struct DescribeLocationSmbOutput: Swift.Sendable {
         self.locationUri = locationUri
         self.mountOptions = mountOptions
         self.user = user
-    }
-}
-
-public struct DescribeStorageSystemInput: Swift.Sendable {
-    /// Specifies the Amazon Resource Name (ARN) of an on-premises storage system that you're using with DataSync Discovery.
-    /// This member is required.
-    public var storageSystemArn: Swift.String?
-
-    public init(
-        storageSystemArn: Swift.String? = nil
-    ) {
-        self.storageSystemArn = storageSystemArn
-    }
-}
-
-extension DataSyncClientTypes {
-
-    public enum StorageSystemConnectivityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case fail
-        case pass
-        case unknown
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StorageSystemConnectivityStatus] {
-            return [
-                .fail,
-                .pass,
-                .unknown
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .fail: return "FAIL"
-            case .pass: return "PASS"
-            case .unknown: return "UNKNOWN"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct DescribeStorageSystemOutput: Swift.Sendable {
-    /// The ARN of the DataSync agent that connects to and reads from your on-premises storage system.
-    public var agentArns: [Swift.String]?
-    /// The ARN of the Amazon CloudWatch log group that's used to monitor and log discovery job events.
-    public var cloudWatchLogGroupArn: Swift.String?
-    /// Indicates whether your DataSync agent can connect to your on-premises storage system.
-    public var connectivityStatus: DataSyncClientTypes.StorageSystemConnectivityStatus?
-    /// The time when you added the on-premises storage system to DataSync Discovery.
-    public var creationTime: Foundation.Date?
-    /// Describes the connectivity error that the DataSync agent is encountering with your on-premises storage system.
-    public var errorMessage: Swift.String?
-    /// The name that you gave your on-premises storage system when adding it to DataSync Discovery.
-    public var name: Swift.String?
-    /// The ARN of the secret that stores your on-premises storage system's credentials. DataSync Discovery stores these credentials in [Secrets Manager](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-configure-storage.html#discovery-add-storage).
-    public var secretsManagerArn: Swift.String?
-    /// The server name and network port required to connect with your on-premises storage system's management interface.
-    public var serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
-    /// The ARN of the on-premises storage system that the discovery job looked at.
-    public var storageSystemArn: Swift.String?
-    /// The type of on-premises storage system. DataSync Discovery currently only supports NetApp Fabric-Attached Storage (FAS) and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
-    public var systemType: DataSyncClientTypes.DiscoverySystemType?
-
-    public init(
-        agentArns: [Swift.String]? = nil,
-        cloudWatchLogGroupArn: Swift.String? = nil,
-        connectivityStatus: DataSyncClientTypes.StorageSystemConnectivityStatus? = nil,
-        creationTime: Foundation.Date? = nil,
-        errorMessage: Swift.String? = nil,
-        name: Swift.String? = nil,
-        secretsManagerArn: Swift.String? = nil,
-        serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration? = nil,
-        storageSystemArn: Swift.String? = nil,
-        systemType: DataSyncClientTypes.DiscoverySystemType? = nil
-    ) {
-        self.agentArns = agentArns
-        self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
-        self.connectivityStatus = connectivityStatus
-        self.creationTime = creationTime
-        self.errorMessage = errorMessage
-        self.name = name
-        self.secretsManagerArn = secretsManagerArn
-        self.serverConfiguration = serverConfiguration
-        self.storageSystemArn = storageSystemArn
-        self.systemType = systemType
-    }
-}
-
-extension DataSyncClientTypes {
-
-    public enum DiscoveryResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case cluster
-        case svm
-        case volume
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DiscoveryResourceType] {
-            return [
-                .cluster,
-                .svm,
-                .volume
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .cluster: return "CLUSTER"
-            case .svm: return "SVM"
-            case .volume: return "VOLUME"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct DescribeStorageSystemResourceMetricsInput: Swift.Sendable {
-    /// Specifies the Amazon Resource Name (ARN) of the discovery job that collects information about your on-premises storage system.
-    /// This member is required.
-    public var discoveryJobArn: Swift.String?
-    /// Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with StartTime.
-    public var endTime: Foundation.Date?
-    /// Specifies how many results that you want in the response.
-    public var maxResults: Swift.Int?
-    /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
-    public var nextToken: Swift.String?
-    /// Specifies the universally unique identifier (UUID) of the storage system resource that you want information about.
-    /// This member is required.
-    public var resourceId: Swift.String?
-    /// Specifies the kind of storage system resource that you want information about.
-    /// This member is required.
-    public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
-    /// Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with EndTime.
-    public var startTime: Foundation.Date?
-
-    public init(
-        discoveryJobArn: Swift.String? = nil,
-        endTime: Foundation.Date? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil,
-        startTime: Foundation.Date? = nil
-    ) {
-        self.discoveryJobArn = discoveryJobArn
-        self.endTime = endTime
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.resourceId = resourceId
-        self.resourceType = resourceType
-        self.startTime = startTime
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// The IOPS peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
-    public struct IOPS: Swift.Sendable {
-        /// Peak IOPS unrelated to read and write operations.
-        public var other: Swift.Double?
-        /// Peak IOPS related to read operations.
-        public var read: Swift.Double?
-        /// Peak total IOPS on your on-premises storage system resource.
-        public var total: Swift.Double?
-        /// Peak IOPS related to write operations.
-        public var write: Swift.Double?
-
-        public init(
-            other: Swift.Double? = nil,
-            read: Swift.Double? = nil,
-            total: Swift.Double? = nil,
-            write: Swift.Double? = nil
-        ) {
-            self.other = other
-            self.read = read
-            self.total = total
-            self.write = write
-        }
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// The latency peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
-    public struct Latency: Swift.Sendable {
-        /// Peak latency for operations unrelated to read and write operations.
-        public var other: Swift.Double?
-        /// Peak latency for read operations.
-        public var read: Swift.Double?
-        /// Peak latency for write operations.
-        public var write: Swift.Double?
-
-        public init(
-            other: Swift.Double? = nil,
-            read: Swift.Double? = nil,
-            write: Swift.Double? = nil
-        ) {
-            self.other = other
-            self.read = read
-            self.write = write
-        }
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// The throughput peaks for an on-premises storage system volume. Each data point represents the 95th percentile peak value during a 1-hour interval.
-    public struct Throughput: Swift.Sendable {
-        /// Peak throughput unrelated to read and write operations.
-        public var other: Swift.Double?
-        /// Peak throughput related to read operations.
-        public var read: Swift.Double?
-        /// Peak total throughput on your on-premises storage system resource.
-        public var total: Swift.Double?
-        /// Peak throughput related to write operations.
-        public var write: Swift.Double?
-
-        public init(
-            other: Swift.Double? = nil,
-            read: Swift.Double? = nil,
-            total: Swift.Double? = nil,
-            write: Swift.Double? = nil
-        ) {
-            self.other = other
-            self.read = read
-            self.total = total
-            self.write = write
-        }
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// The types of performance data that DataSync Discovery collects about an on-premises storage system resource.
-    public struct P95Metrics: Swift.Sendable {
-        /// The IOPS peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
-        public var iops: DataSyncClientTypes.IOPS?
-        /// The latency peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
-        public var latency: DataSyncClientTypes.Latency?
-        /// The throughput peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
-        public var throughput: DataSyncClientTypes.Throughput?
-
-        public init(
-            iops: DataSyncClientTypes.IOPS? = nil,
-            latency: DataSyncClientTypes.Latency? = nil,
-            throughput: DataSyncClientTypes.Throughput? = nil
-        ) {
-            self.iops = iops
-            self.latency = latency
-            self.throughput = throughput
-        }
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// Information, including performance data and capacity usage, provided by DataSync Discovery about a resource in your on-premises storage system.
-    public struct ResourceMetrics: Swift.Sendable {
-        /// The storage capacity of the on-premises storage system resource.
-        public var capacity: DataSyncClientTypes.Capacity?
-        /// The types of performance data that DataSync Discovery collects about the on-premises storage system resource.
-        public var p95Metrics: DataSyncClientTypes.P95Metrics?
-        /// The universally unique identifier (UUID) of the on-premises storage system resource.
-        public var resourceId: Swift.String?
-        /// The type of on-premises storage system resource.
-        public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
-        /// The time when DataSync Discovery collected this information from the resource.
-        public var timestamp: Foundation.Date?
-
-        public init(
-            capacity: DataSyncClientTypes.Capacity? = nil,
-            p95Metrics: DataSyncClientTypes.P95Metrics? = nil,
-            resourceId: Swift.String? = nil,
-            resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil,
-            timestamp: Foundation.Date? = nil
-        ) {
-            self.capacity = capacity
-            self.p95Metrics = p95Metrics
-            self.resourceId = resourceId
-            self.resourceType = resourceType
-            self.timestamp = timestamp
-        }
-    }
-}
-
-public struct DescribeStorageSystemResourceMetricsOutput: Swift.Sendable {
-    /// The details that your discovery job collected about your storage system resource.
-    public var metrics: [DataSyncClientTypes.ResourceMetrics]?
-    /// The opaque string that indicates the position to begin the next list of results in the response.
-    public var nextToken: Swift.String?
-
-    public init(
-        metrics: [DataSyncClientTypes.ResourceMetrics]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.metrics = metrics
-        self.nextToken = nextToken
-    }
-}
-
-extension DataSyncClientTypes {
-
-    public enum DiscoveryResourceFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case svm
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DiscoveryResourceFilter] {
-            return [
-                .svm
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .svm: return "SVM"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct DescribeStorageSystemResourcesInput: Swift.Sendable {
-    /// Specifies the Amazon Resource Name (ARN) of the discovery job that's collecting data from your on-premises storage system.
-    /// This member is required.
-    public var discoveryJobArn: Swift.String?
-    /// Filters the storage system resources that you want returned. For example, this might be volumes associated with a specific storage virtual machine (SVM).
-    public var filter: [Swift.String: [Swift.String]]?
-    /// Specifies the maximum number of storage system resources that you want to list in a response.
-    public var maxResults: Swift.Int?
-    /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
-    public var nextToken: Swift.String?
-    /// Specifies the universally unique identifiers (UUIDs) of the storage system resources that you want information about. You can't use this parameter in combination with the Filter parameter.
-    public var resourceIds: [Swift.String]?
-    /// Specifies what kind of storage system resources that you want information about.
-    /// This member is required.
-    public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
-
-    public init(
-        discoveryJobArn: Swift.String? = nil,
-        filter: [Swift.String: [Swift.String]]? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        resourceIds: [Swift.String]? = nil,
-        resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil
-    ) {
-        self.discoveryJobArn = discoveryJobArn
-        self.filter = filter
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.resourceIds = resourceIds
-        self.resourceType = resourceType
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// The performance data that DataSync Discovery collects about an on-premises storage system resource.
-    public struct MaxP95Performance: Swift.Sendable {
-        /// Peak IOPS unrelated to read and write operations.
-        public var iopsOther: Swift.Double?
-        /// Peak IOPS related to read operations.
-        public var iopsRead: Swift.Double?
-        /// Peak total IOPS on your on-premises storage system resource.
-        public var iopsTotal: Swift.Double?
-        /// Peak IOPS related to write operations.
-        public var iopsWrite: Swift.Double?
-        /// Peak latency for operations unrelated to read and write operations.
-        public var latencyOther: Swift.Double?
-        /// Peak latency for read operations.
-        public var latencyRead: Swift.Double?
-        /// Peak latency for write operations.
-        public var latencyWrite: Swift.Double?
-        /// Peak throughput unrelated to read and write operations.
-        public var throughputOther: Swift.Double?
-        /// Peak throughput related to read operations.
-        public var throughputRead: Swift.Double?
-        /// Peak total throughput on your on-premises storage system resource.
-        public var throughputTotal: Swift.Double?
-        /// Peak throughput related to write operations.
-        public var throughputWrite: Swift.Double?
-
-        public init(
-            iopsOther: Swift.Double? = nil,
-            iopsRead: Swift.Double? = nil,
-            iopsTotal: Swift.Double? = nil,
-            iopsWrite: Swift.Double? = nil,
-            latencyOther: Swift.Double? = nil,
-            latencyRead: Swift.Double? = nil,
-            latencyWrite: Swift.Double? = nil,
-            throughputOther: Swift.Double? = nil,
-            throughputRead: Swift.Double? = nil,
-            throughputTotal: Swift.Double? = nil,
-            throughputWrite: Swift.Double? = nil
-        ) {
-            self.iopsOther = iopsOther
-            self.iopsRead = iopsRead
-            self.iopsTotal = iopsTotal
-            self.iopsWrite = iopsWrite
-            self.latencyOther = latencyOther
-            self.latencyRead = latencyRead
-            self.latencyWrite = latencyWrite
-            self.throughputOther = throughputOther
-            self.throughputRead = throughputRead
-            self.throughputTotal = throughputTotal
-            self.throughputWrite = throughputWrite
-        }
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// The details about an Amazon Web Services storage service that DataSync Discovery recommends for a resource in your on-premises storage system. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
-    public struct Recommendation: Swift.Sendable {
-        /// The estimated monthly cost of the recommended Amazon Web Services storage service.
-        public var estimatedMonthlyStorageCost: Swift.String?
-        /// Information about how you can set up a recommended Amazon Web Services storage service.
-        public var storageConfiguration: [Swift.String: Swift.String]?
-        /// A recommended Amazon Web Services storage service that you can migrate data to based on information that DataSync Discovery collects about your on-premises storage system.
-        public var storageType: Swift.String?
-
-        public init(
-            estimatedMonthlyStorageCost: Swift.String? = nil,
-            storageConfiguration: [Swift.String: Swift.String]? = nil,
-            storageType: Swift.String? = nil
-        ) {
-            self.estimatedMonthlyStorageCost = estimatedMonthlyStorageCost
-            self.storageConfiguration = storageConfiguration
-            self.storageType = storageType
-        }
-    }
-}
-
-extension DataSyncClientTypes {
-
-    public enum RecommendationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case completed
-        case failed
-        case inProgress
-        case `none`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [RecommendationStatus] {
-            return [
-                .completed,
-                .failed,
-                .inProgress,
-                .none
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .completed: return "COMPLETED"
-            case .failed: return "FAILED"
-            case .inProgress: return "IN_PROGRESS"
-            case .none: return "NONE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// The information that DataSync Discovery collects about an on-premises storage system cluster.
-    public struct NetAppONTAPCluster: Swift.Sendable {
-        /// The number of CIFS shares in the cluster.
-        public var cifsShareCount: Swift.Int?
-        /// The storage space that's being used in the cluster without accounting for compression or deduplication.
-        public var clusterBlockStorageLogicalUsed: Swift.Int?
-        /// The total storage space that's available in the cluster.
-        public var clusterBlockStorageSize: Swift.Int?
-        /// The storage space that's being used in a cluster.
-        public var clusterBlockStorageUsed: Swift.Int?
-        /// The amount of space in the cluster that's in cloud storage (for example, if you're using data tiering).
-        public var clusterCloudStorageUsed: Swift.Int?
-        /// The name of the cluster.
-        public var clusterName: Swift.String?
-        /// The number of LUNs (logical unit numbers) in the cluster.
-        public var lunCount: Swift.Int?
-        /// The performance data that DataSync Discovery collects about the cluster.
-        public var maxP95Performance: DataSyncClientTypes.MaxP95Performance?
-        /// The number of NFS volumes in the cluster.
-        public var nfsExportedVolumes: Swift.Int?
-        /// Indicates whether DataSync Discovery recommendations for the cluster are ready to view, incomplete, or can't be determined. For more information, see [Recommendation statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#recommendation-statuses-table).
-        public var recommendationStatus: DataSyncClientTypes.RecommendationStatus?
-        /// The Amazon Web Services storage services that DataSync Discovery recommends for the cluster. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
-        public var recommendations: [DataSyncClientTypes.Recommendation]?
-        /// The universally unique identifier (UUID) of the cluster.
-        public var resourceId: Swift.String?
-
-        public init(
-            cifsShareCount: Swift.Int? = nil,
-            clusterBlockStorageLogicalUsed: Swift.Int? = nil,
-            clusterBlockStorageSize: Swift.Int? = nil,
-            clusterBlockStorageUsed: Swift.Int? = nil,
-            clusterCloudStorageUsed: Swift.Int? = nil,
-            clusterName: Swift.String? = nil,
-            lunCount: Swift.Int? = nil,
-            maxP95Performance: DataSyncClientTypes.MaxP95Performance? = nil,
-            nfsExportedVolumes: Swift.Int? = nil,
-            recommendationStatus: DataSyncClientTypes.RecommendationStatus? = nil,
-            recommendations: [DataSyncClientTypes.Recommendation]? = nil,
-            resourceId: Swift.String? = nil
-        ) {
-            self.cifsShareCount = cifsShareCount
-            self.clusterBlockStorageLogicalUsed = clusterBlockStorageLogicalUsed
-            self.clusterBlockStorageSize = clusterBlockStorageSize
-            self.clusterBlockStorageUsed = clusterBlockStorageUsed
-            self.clusterCloudStorageUsed = clusterCloudStorageUsed
-            self.clusterName = clusterName
-            self.lunCount = lunCount
-            self.maxP95Performance = maxP95Performance
-            self.nfsExportedVolumes = nfsExportedVolumes
-            self.recommendationStatus = recommendationStatus
-            self.recommendations = recommendations
-            self.resourceId = resourceId
-        }
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// The information that DataSync Discovery collects about a storage virtual machine (SVM) in your on-premises storage system.
-    public struct NetAppONTAPSVM: Swift.Sendable {
-        /// The number of CIFS shares in the SVM.
-        public var cifsShareCount: Swift.Int?
-        /// The universally unique identifier (UUID) of the cluster associated with the SVM.
-        public var clusterUuid: Swift.String?
-        /// The data transfer protocols (such as NFS) configured for the SVM.
-        public var enabledProtocols: [Swift.String]?
-        /// The number of LUNs (logical unit numbers) in the SVM.
-        public var lunCount: Swift.Int?
-        /// The performance data that DataSync Discovery collects about the SVM.
-        public var maxP95Performance: DataSyncClientTypes.MaxP95Performance?
-        /// The number of NFS volumes in the SVM.
-        public var nfsExportedVolumes: Swift.Int?
-        /// Indicates whether DataSync Discovery recommendations for the SVM are ready to view, incomplete, or can't be determined. For more information, see [Recommendation statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#recommendation-statuses-table).
-        public var recommendationStatus: DataSyncClientTypes.RecommendationStatus?
-        /// The Amazon Web Services storage services that DataSync Discovery recommends for the SVM. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
-        public var recommendations: [DataSyncClientTypes.Recommendation]?
-        /// The UUID of the SVM.
-        public var resourceId: Swift.String?
-        /// The name of the SVM
-        public var svmName: Swift.String?
-        /// The total storage space that's available in the SVM.
-        public var totalCapacityProvisioned: Swift.Int?
-        /// The storage space that's being used in the SVM.
-        public var totalCapacityUsed: Swift.Int?
-        /// The storage space that's being used in the SVM without accounting for compression or deduplication.
-        public var totalLogicalCapacityUsed: Swift.Int?
-        /// The amount of storage in the SVM that's being used for snapshots.
-        public var totalSnapshotCapacityUsed: Swift.Int?
-
-        public init(
-            cifsShareCount: Swift.Int? = nil,
-            clusterUuid: Swift.String? = nil,
-            enabledProtocols: [Swift.String]? = nil,
-            lunCount: Swift.Int? = nil,
-            maxP95Performance: DataSyncClientTypes.MaxP95Performance? = nil,
-            nfsExportedVolumes: Swift.Int? = nil,
-            recommendationStatus: DataSyncClientTypes.RecommendationStatus? = nil,
-            recommendations: [DataSyncClientTypes.Recommendation]? = nil,
-            resourceId: Swift.String? = nil,
-            svmName: Swift.String? = nil,
-            totalCapacityProvisioned: Swift.Int? = nil,
-            totalCapacityUsed: Swift.Int? = nil,
-            totalLogicalCapacityUsed: Swift.Int? = nil,
-            totalSnapshotCapacityUsed: Swift.Int? = nil
-        ) {
-            self.cifsShareCount = cifsShareCount
-            self.clusterUuid = clusterUuid
-            self.enabledProtocols = enabledProtocols
-            self.lunCount = lunCount
-            self.maxP95Performance = maxP95Performance
-            self.nfsExportedVolumes = nfsExportedVolumes
-            self.recommendationStatus = recommendationStatus
-            self.recommendations = recommendations
-            self.resourceId = resourceId
-            self.svmName = svmName
-            self.totalCapacityProvisioned = totalCapacityProvisioned
-            self.totalCapacityUsed = totalCapacityUsed
-            self.totalLogicalCapacityUsed = totalLogicalCapacityUsed
-            self.totalSnapshotCapacityUsed = totalSnapshotCapacityUsed
-        }
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// The information that DataSync Discovery collects about a volume in your on-premises storage system.
-    public struct NetAppONTAPVolume: Swift.Sendable {
-        /// The total storage space that's available in the volume.
-        public var capacityProvisioned: Swift.Int?
-        /// The storage space that's being used in the volume.
-        public var capacityUsed: Swift.Int?
-        /// The number of CIFS shares in the volume.
-        public var cifsShareCount: Swift.Int?
-        /// The storage space that's being used in the volume without accounting for compression or deduplication.
-        public var logicalCapacityUsed: Swift.Int?
-        /// The number of LUNs (logical unit numbers) in the volume.
-        public var lunCount: Swift.Int?
-        /// The performance data that DataSync Discovery collects about the volume.
-        public var maxP95Performance: DataSyncClientTypes.MaxP95Performance?
-        /// The number of NFS volumes in the volume.
-        public var nfsExported: Swift.Bool
-        /// Indicates whether DataSync Discovery recommendations for the volume are ready to view, incomplete, or can't be determined. For more information, see [Recommendation statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#recommendation-statuses-table).
-        public var recommendationStatus: DataSyncClientTypes.RecommendationStatus?
-        /// The Amazon Web Services storage services that DataSync Discovery recommends for the volume. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html).
-        public var recommendations: [DataSyncClientTypes.Recommendation]?
-        /// The universally unique identifier (UUID) of the volume.
-        public var resourceId: Swift.String?
-        /// The volume's security style (such as Unix or NTFS).
-        public var securityStyle: Swift.String?
-        /// The amount of storage in the volume that's being used for snapshots.
-        public var snapshotCapacityUsed: Swift.Int?
-        /// The name of the SVM associated with the volume.
-        public var svmName: Swift.String?
-        /// The UUID of the storage virtual machine (SVM) associated with the volume.
-        public var svmUuid: Swift.String?
-        /// The name of the volume.
-        public var volumeName: Swift.String?
-
-        public init(
-            capacityProvisioned: Swift.Int? = nil,
-            capacityUsed: Swift.Int? = nil,
-            cifsShareCount: Swift.Int? = nil,
-            logicalCapacityUsed: Swift.Int? = nil,
-            lunCount: Swift.Int? = nil,
-            maxP95Performance: DataSyncClientTypes.MaxP95Performance? = nil,
-            nfsExported: Swift.Bool = false,
-            recommendationStatus: DataSyncClientTypes.RecommendationStatus? = nil,
-            recommendations: [DataSyncClientTypes.Recommendation]? = nil,
-            resourceId: Swift.String? = nil,
-            securityStyle: Swift.String? = nil,
-            snapshotCapacityUsed: Swift.Int? = nil,
-            svmName: Swift.String? = nil,
-            svmUuid: Swift.String? = nil,
-            volumeName: Swift.String? = nil
-        ) {
-            self.capacityProvisioned = capacityProvisioned
-            self.capacityUsed = capacityUsed
-            self.cifsShareCount = cifsShareCount
-            self.logicalCapacityUsed = logicalCapacityUsed
-            self.lunCount = lunCount
-            self.maxP95Performance = maxP95Performance
-            self.nfsExported = nfsExported
-            self.recommendationStatus = recommendationStatus
-            self.recommendations = recommendations
-            self.resourceId = resourceId
-            self.securityStyle = securityStyle
-            self.snapshotCapacityUsed = snapshotCapacityUsed
-            self.svmName = svmName
-            self.svmUuid = svmUuid
-            self.volumeName = volumeName
-        }
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// Information provided by DataSync Discovery about the resources in your on-premises storage system.
-    public struct ResourceDetails: Swift.Sendable {
-        /// The information that DataSync Discovery collects about the cluster in your on-premises storage system.
-        public var netAppONTAPClusters: [DataSyncClientTypes.NetAppONTAPCluster]?
-        /// The information that DataSync Discovery collects about storage virtual machines (SVMs) in your on-premises storage system.
-        public var netAppONTAPSVMs: [DataSyncClientTypes.NetAppONTAPSVM]?
-        /// The information that DataSync Discovery collects about volumes in your on-premises storage system.
-        public var netAppONTAPVolumes: [DataSyncClientTypes.NetAppONTAPVolume]?
-
-        public init(
-            netAppONTAPClusters: [DataSyncClientTypes.NetAppONTAPCluster]? = nil,
-            netAppONTAPSVMs: [DataSyncClientTypes.NetAppONTAPSVM]? = nil,
-            netAppONTAPVolumes: [DataSyncClientTypes.NetAppONTAPVolume]? = nil
-        ) {
-            self.netAppONTAPClusters = netAppONTAPClusters
-            self.netAppONTAPSVMs = netAppONTAPSVMs
-            self.netAppONTAPVolumes = netAppONTAPVolumes
-        }
-    }
-}
-
-public struct DescribeStorageSystemResourcesOutput: Swift.Sendable {
-    /// The opaque string that indicates the position to begin the next list of results in the response.
-    public var nextToken: Swift.String?
-    /// The information collected about your storage system's resources. A response can also include Amazon Web Services storage service recommendations. For more information, see [storage resource information](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-findings.html) collected by and [recommendations](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html) provided by DataSync Discovery.
-    public var resourceDetails: DataSyncClientTypes.ResourceDetails?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        resourceDetails: DataSyncClientTypes.ResourceDetails? = nil
-    ) {
-        self.nextToken = nextToken
-        self.resourceDetails = resourceDetails
     }
 }
 
@@ -4781,52 +3824,6 @@ public struct DescribeTaskExecutionOutput: Swift.Sendable {
     }
 }
 
-extension DataSyncClientTypes {
-
-    /// The details about a specific DataSync discovery job.
-    public struct DiscoveryJobListEntry: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of a discovery job.
-        public var discoveryJobArn: Swift.String?
-        /// The status of a discovery job. For more information, see [Discovery job statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#discovery-job-statuses-table).
-        public var status: DataSyncClientTypes.DiscoveryJobStatus?
-
-        public init(
-            discoveryJobArn: Swift.String? = nil,
-            status: DataSyncClientTypes.DiscoveryJobStatus? = nil
-        ) {
-            self.discoveryJobArn = discoveryJobArn
-            self.status = status
-        }
-    }
-}
-
-public struct GenerateRecommendationsInput: Swift.Sendable {
-    /// Specifies the Amazon Resource Name (ARN) of the discovery job that collects information about your on-premises storage system.
-    /// This member is required.
-    public var discoveryJobArn: Swift.String?
-    /// Specifies the universally unique identifiers (UUIDs) of the resources in your storage system that you want recommendations on.
-    /// This member is required.
-    public var resourceIds: [Swift.String]?
-    /// Specifies the type of resource in your storage system that you want recommendations on.
-    /// This member is required.
-    public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
-
-    public init(
-        discoveryJobArn: Swift.String? = nil,
-        resourceIds: [Swift.String]? = nil,
-        resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil
-    ) {
-        self.discoveryJobArn = discoveryJobArn
-        self.resourceIds = resourceIds
-        self.resourceType = resourceType
-    }
-}
-
-public struct GenerateRecommendationsOutput: Swift.Sendable {
-
-    public init() { }
-}
-
 /// ListAgentsRequest
 public struct ListAgentsInput: Swift.Sendable {
     /// Specifies the maximum number of DataSync agents to list in a response. By default, a response shows a maximum of 100 agents.
@@ -4855,40 +3852,6 @@ public struct ListAgentsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.agents = agents
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListDiscoveryJobsInput: Swift.Sendable {
-    /// Specifies how many results you want in the response.
-    public var maxResults: Swift.Int?
-    /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
-    public var nextToken: Swift.String?
-    /// Specifies the Amazon Resource Name (ARN) of an on-premises storage system. Use this parameter if you only want to list the discovery jobs that are associated with a specific storage system.
-    public var storageSystemArn: Swift.String?
-
-    public init(
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        storageSystemArn: Swift.String? = nil
-    ) {
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.storageSystemArn = storageSystemArn
-    }
-}
-
-public struct ListDiscoveryJobsOutput: Swift.Sendable {
-    /// The discovery jobs that you've run.
-    public var discoveryJobs: [DataSyncClientTypes.DiscoveryJobListEntry]?
-    /// The opaque string that indicates the position to begin the next list of results in the response.
-    public var nextToken: Swift.String?
-
-    public init(
-        discoveryJobs: [DataSyncClientTypes.DiscoveryJobListEntry]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.discoveryJobs = discoveryJobs
         self.nextToken = nextToken
     }
 }
@@ -5056,55 +4019,6 @@ public struct ListLocationsOutput: Swift.Sendable {
     ) {
         self.locations = locations
         self.nextToken = nextToken
-    }
-}
-
-public struct ListStorageSystemsInput: Swift.Sendable {
-    /// Specifies how many results you want in the response.
-    public var maxResults: Swift.Int?
-    /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
-    public var nextToken: Swift.String?
-
-    public init(
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-extension DataSyncClientTypes {
-
-    /// Information that identifies an on-premises storage system that you're using with DataSync Discovery.
-    public struct StorageSystemListEntry: Swift.Sendable {
-        /// The name of an on-premises storage system that you added to DataSync Discovery.
-        public var name: Swift.String?
-        /// The Amazon Resource Names (ARN) of an on-premises storage system that you added to DataSync Discovery.
-        public var storageSystemArn: Swift.String?
-
-        public init(
-            name: Swift.String? = nil,
-            storageSystemArn: Swift.String? = nil
-        ) {
-            self.name = name
-            self.storageSystemArn = storageSystemArn
-        }
-    }
-}
-
-public struct ListStorageSystemsOutput: Swift.Sendable {
-    /// The opaque string that indicates the position to begin the next list of results in the response.
-    public var nextToken: Swift.String?
-    /// The Amazon Resource Names ARNs) of the on-premises storage systems that you're using with DataSync Discovery.
-    public var storageSystems: [DataSyncClientTypes.StorageSystemListEntry]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        storageSystems: [DataSyncClientTypes.StorageSystemListEntry]? = nil
-    ) {
-        self.nextToken = nextToken
-        self.storageSystems = storageSystems
     }
 }
 
@@ -5322,60 +4236,6 @@ public struct ListTasksOutput: Swift.Sendable {
     }
 }
 
-public struct RemoveStorageSystemInput: Swift.Sendable {
-    /// Specifies the Amazon Resource Name (ARN) of the storage system that you want to permanently remove from DataSync Discovery.
-    /// This member is required.
-    public var storageSystemArn: Swift.String?
-
-    public init(
-        storageSystemArn: Swift.String? = nil
-    ) {
-        self.storageSystemArn = storageSystemArn
-    }
-}
-
-public struct RemoveStorageSystemOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct StartDiscoveryJobInput: Swift.Sendable {
-    /// Specifies a client token to make sure requests with this API operation are idempotent. If you don't specify a client token, DataSync generates one for you automatically.
-    /// This member is required.
-    public var clientToken: Swift.String?
-    /// Specifies in minutes how long you want the discovery job to run. For more accurate recommendations, we recommend a duration of at least 14 days. Longer durations allow time to collect a sufficient number of data points and provide a realistic representation of storage performance and utilization.
-    /// This member is required.
-    public var collectionDurationMinutes: Swift.Int?
-    /// Specifies the Amazon Resource Name (ARN) of the on-premises storage system that you want to run the discovery job on.
-    /// This member is required.
-    public var storageSystemArn: Swift.String?
-    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources.
-    public var tags: [DataSyncClientTypes.TagListEntry]?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        collectionDurationMinutes: Swift.Int? = nil,
-        storageSystemArn: Swift.String? = nil,
-        tags: [DataSyncClientTypes.TagListEntry]? = nil
-    ) {
-        self.clientToken = clientToken
-        self.collectionDurationMinutes = collectionDurationMinutes
-        self.storageSystemArn = storageSystemArn
-        self.tags = tags
-    }
-}
-
-public struct StartDiscoveryJobOutput: Swift.Sendable {
-    /// The ARN of the discovery job that you started.
-    public var discoveryJobArn: Swift.String?
-
-    public init(
-        discoveryJobArn: Swift.String? = nil
-    ) {
-        self.discoveryJobArn = discoveryJobArn
-    }
-}
-
 /// StartTaskExecutionRequest
 public struct StartTaskExecutionInput: Swift.Sendable {
     /// Specifies a list of filter rules that determines which files to exclude from a task. The list contains a single filter string that consists of the patterns to exclude. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
@@ -5423,23 +4283,6 @@ public struct StartTaskExecutionOutput: Swift.Sendable {
     ) {
         self.taskExecutionArn = taskExecutionArn
     }
-}
-
-public struct StopDiscoveryJobInput: Swift.Sendable {
-    /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want to stop.
-    /// This member is required.
-    public var discoveryJobArn: Swift.String?
-
-    public init(
-        discoveryJobArn: Swift.String? = nil
-    ) {
-        self.discoveryJobArn = discoveryJobArn
-    }
-}
-
-public struct StopDiscoveryJobOutput: Swift.Sendable {
-
-    public init() { }
 }
 
 /// TagResourceRequest
@@ -5506,28 +4349,6 @@ public struct UpdateAgentInput: Swift.Sendable {
 }
 
 public struct UpdateAgentOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct UpdateDiscoveryJobInput: Swift.Sendable {
-    /// Specifies in minutes how long that you want the discovery job to run. (You can't set this parameter to less than the number of minutes that the job has already run for.)
-    /// This member is required.
-    public var collectionDurationMinutes: Swift.Int?
-    /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want to update.
-    /// This member is required.
-    public var discoveryJobArn: Swift.String?
-
-    public init(
-        collectionDurationMinutes: Swift.Int? = nil,
-        discoveryJobArn: Swift.String? = nil
-    ) {
-        self.collectionDurationMinutes = collectionDurationMinutes
-        self.discoveryJobArn = discoveryJobArn
-    }
-}
-
-public struct UpdateDiscoveryJobOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -5773,7 +4594,7 @@ public struct UpdateLocationHdfsInput: Swift.Sendable {
     public var authenticationType: DataSyncClientTypes.HdfsAuthenticationType?
     /// The size of the data blocks to write into the HDFS cluster.
     public var blockSize: Swift.Int?
-    /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you use the CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text.
+    /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address.
     public var kerberosKeytab: Foundation.Data?
     /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.
     public var kerberosKrb5Conf: Foundation.Data?
@@ -5839,6 +4660,8 @@ public struct UpdateLocationNfsInput: Swift.Sendable {
     public var mountOptions: DataSyncClientTypes.NfsMountOptions?
     /// The DataSync agents that can connect to your Network File System (NFS) file server.
     public var onPremConfig: DataSyncClientTypes.OnPremConfig?
+    /// Specifies the DNS name or IP version 4 (IPv4) address of the NFS file server that your DataSync agent connects to.
+    public var serverHostname: Swift.String?
     /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync transfers data to or from. For information on configuring an export for DataSync, see [Accessing NFS file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs).
     public var subdirectory: Swift.String?
 
@@ -5846,11 +4669,13 @@ public struct UpdateLocationNfsInput: Swift.Sendable {
         locationArn: Swift.String? = nil,
         mountOptions: DataSyncClientTypes.NfsMountOptions? = nil,
         onPremConfig: DataSyncClientTypes.OnPremConfig? = nil,
+        serverHostname: Swift.String? = nil,
         subdirectory: Swift.String? = nil
     ) {
         self.locationArn = locationArn
         self.mountOptions = mountOptions
         self.onPremConfig = onPremConfig
+        self.serverHostname = serverHostname
         self.subdirectory = subdirectory
     }
 }
@@ -5881,6 +4706,8 @@ public struct UpdateLocationObjectStorageInput: Swift.Sendable {
     ///
     /// You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates: cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem To use this parameter, configure ServerProtocol to HTTPS. Updating this parameter doesn't interfere with tasks that you have in progress.
     public var serverCertificate: Foundation.Data?
+    /// Specifies the domain name or IP version 4 (IPv4) address of the object storage server that your DataSync agent connects to.
+    public var serverHostname: Swift.String?
     /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443).
     public var serverPort: Swift.Int?
     /// Specifies the protocol that your object storage server uses to communicate.
@@ -5894,6 +4721,7 @@ public struct UpdateLocationObjectStorageInput: Swift.Sendable {
         locationArn: Swift.String? = nil,
         secretKey: Swift.String? = nil,
         serverCertificate: Foundation.Data? = nil,
+        serverHostname: Swift.String? = nil,
         serverPort: Swift.Int? = nil,
         serverProtocol: DataSyncClientTypes.ObjectStorageServerProtocol? = nil,
         subdirectory: Swift.String? = nil
@@ -5903,6 +4731,7 @@ public struct UpdateLocationObjectStorageInput: Swift.Sendable {
         self.locationArn = locationArn
         self.secretKey = secretKey
         self.serverCertificate = serverCertificate
+        self.serverHostname = serverHostname
         self.serverPort = serverPort
         self.serverProtocol = serverProtocol
         self.subdirectory = subdirectory
@@ -5911,7 +4740,7 @@ public struct UpdateLocationObjectStorageInput: Swift.Sendable {
 
 extension UpdateLocationObjectStorageInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateLocationObjectStorageInput(accessKey: \(Swift.String(describing: accessKey)), agentArns: \(Swift.String(describing: agentArns)), locationArn: \(Swift.String(describing: locationArn)), serverCertificate: \(Swift.String(describing: serverCertificate)), serverPort: \(Swift.String(describing: serverPort)), serverProtocol: \(Swift.String(describing: serverProtocol)), subdirectory: \(Swift.String(describing: subdirectory)), secretKey: \"CONTENT_REDACTED\")"}
+        "UpdateLocationObjectStorageInput(accessKey: \(Swift.String(describing: accessKey)), agentArns: \(Swift.String(describing: agentArns)), locationArn: \(Swift.String(describing: locationArn)), serverCertificate: \(Swift.String(describing: serverCertificate)), serverHostname: \(Swift.String(describing: serverHostname)), serverPort: \(Swift.String(describing: serverPort)), serverProtocol: \(Swift.String(describing: serverProtocol)), subdirectory: \(Swift.String(describing: subdirectory)), secretKey: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateLocationObjectStorageOutput: Swift.Sendable {
@@ -5959,17 +4788,17 @@ public struct UpdateLocationS3Output: Swift.Sendable {
 public struct UpdateLocationSmbInput: Swift.Sendable {
     /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
     public var agentArns: [Swift.String]?
-    /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication.
+    /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     public var authenticationType: DataSyncClientTypes.SmbAuthenticationType?
     /// Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
     public var dnsIpAddresses: [Swift.String]?
     /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
     public var domain: Swift.String?
-    /// Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. The file must be base64 encoded. If you're using the CLI, the encoding is done for you. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
+    /// Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
     public var kerberosKeytab: Foundation.Data?
     /// Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
     public var kerberosKrb5Conf: Foundation.Data?
-    /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@EXAMPLE.COM. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
+    /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@MYDOMAIN.ORG. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
     public var kerberosPrincipal: Swift.String?
     /// Specifies the ARN of the SMB location that you want to update.
     /// This member is required.
@@ -5978,6 +4807,12 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
     public var mountOptions: DataSyncClientTypes.SmbMountOptions?
     /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM.
     public var password: Swift.String?
+    /// Specifies the domain name or IP address of the SMB file server that your DataSync agent connects to. Remember the following when configuring this parameter:
+    ///
+    /// * You can't specify an IP version 6 (IPv6) address.
+    ///
+    /// * If you're using Kerberos authentication, you must specify a domain name.
+    public var serverHostname: Swift.String?
     /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the specified subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     public var subdirectory: Swift.String?
     /// Specifies the user name that can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM. For information about choosing a user with the right level of access for your transfer, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
@@ -5994,6 +4829,7 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
         locationArn: Swift.String? = nil,
         mountOptions: DataSyncClientTypes.SmbMountOptions? = nil,
         password: Swift.String? = nil,
+        serverHostname: Swift.String? = nil,
         subdirectory: Swift.String? = nil,
         user: Swift.String? = nil
     ) {
@@ -6007,6 +4843,7 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
         self.locationArn = locationArn
         self.mountOptions = mountOptions
         self.password = password
+        self.serverHostname = serverHostname
         self.subdirectory = subdirectory
         self.user = user
     }
@@ -6014,47 +4851,10 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
 
 extension UpdateLocationSmbInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateLocationSmbInput(agentArns: \(Swift.String(describing: agentArns)), authenticationType: \(Swift.String(describing: authenticationType)), dnsIpAddresses: \(Swift.String(describing: dnsIpAddresses)), domain: \(Swift.String(describing: domain)), kerberosKeytab: \(Swift.String(describing: kerberosKeytab)), kerberosKrb5Conf: \(Swift.String(describing: kerberosKrb5Conf)), kerberosPrincipal: \(Swift.String(describing: kerberosPrincipal)), locationArn: \(Swift.String(describing: locationArn)), mountOptions: \(Swift.String(describing: mountOptions)), subdirectory: \(Swift.String(describing: subdirectory)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
+        "UpdateLocationSmbInput(agentArns: \(Swift.String(describing: agentArns)), authenticationType: \(Swift.String(describing: authenticationType)), dnsIpAddresses: \(Swift.String(describing: dnsIpAddresses)), domain: \(Swift.String(describing: domain)), kerberosKeytab: \(Swift.String(describing: kerberosKeytab)), kerberosKrb5Conf: \(Swift.String(describing: kerberosKrb5Conf)), kerberosPrincipal: \(Swift.String(describing: kerberosPrincipal)), locationArn: \(Swift.String(describing: locationArn)), mountOptions: \(Swift.String(describing: mountOptions)), serverHostname: \(Swift.String(describing: serverHostname)), subdirectory: \(Swift.String(describing: subdirectory)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateLocationSmbOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct UpdateStorageSystemInput: Swift.Sendable {
-    /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that connects to and reads your on-premises storage system. You can only specify one ARN.
-    public var agentArns: [Swift.String]?
-    /// Specifies the ARN of the Amazon CloudWatch log group for monitoring and logging discovery job events.
-    public var cloudWatchLogGroupArn: Swift.String?
-    /// Specifies the user name and password for accessing your on-premises storage system's management interface.
-    public var credentials: DataSyncClientTypes.Credentials?
-    /// Specifies a familiar name for your on-premises storage system.
-    public var name: Swift.String?
-    /// Specifies the server name and network port required to connect with your on-premises storage system's management interface.
-    public var serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration?
-    /// Specifies the ARN of the on-premises storage system that you want reconfigure.
-    /// This member is required.
-    public var storageSystemArn: Swift.String?
-
-    public init(
-        agentArns: [Swift.String]? = nil,
-        cloudWatchLogGroupArn: Swift.String? = nil,
-        credentials: DataSyncClientTypes.Credentials? = nil,
-        name: Swift.String? = nil,
-        serverConfiguration: DataSyncClientTypes.DiscoveryServerConfiguration? = nil,
-        storageSystemArn: Swift.String? = nil
-    ) {
-        self.agentArns = agentArns
-        self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
-        self.credentials = credentials
-        self.name = name
-        self.serverConfiguration = serverConfiguration
-        self.storageSystemArn = storageSystemArn
-    }
-}
-
-public struct UpdateStorageSystemOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -6129,13 +4929,6 @@ public struct UpdateTaskExecutionInput: Swift.Sendable {
 public struct UpdateTaskExecutionOutput: Swift.Sendable {
 
     public init() { }
-}
-
-extension AddStorageSystemInput {
-
-    static func urlPathProvider(_ value: AddStorageSystemInput) -> Swift.String? {
-        return "/"
-    }
 }
 
 extension CancelTaskExecutionInput {
@@ -6264,13 +5057,6 @@ extension DescribeAgentInput {
     }
 }
 
-extension DescribeDiscoveryJobInput {
-
-    static func urlPathProvider(_ value: DescribeDiscoveryJobInput) -> Swift.String? {
-        return "/"
-    }
-}
-
 extension DescribeLocationAzureBlobInput {
 
     static func urlPathProvider(_ value: DescribeLocationAzureBlobInput) -> Swift.String? {
@@ -6348,27 +5134,6 @@ extension DescribeLocationSmbInput {
     }
 }
 
-extension DescribeStorageSystemInput {
-
-    static func urlPathProvider(_ value: DescribeStorageSystemInput) -> Swift.String? {
-        return "/"
-    }
-}
-
-extension DescribeStorageSystemResourceMetricsInput {
-
-    static func urlPathProvider(_ value: DescribeStorageSystemResourceMetricsInput) -> Swift.String? {
-        return "/"
-    }
-}
-
-extension DescribeStorageSystemResourcesInput {
-
-    static func urlPathProvider(_ value: DescribeStorageSystemResourcesInput) -> Swift.String? {
-        return "/"
-    }
-}
-
 extension DescribeTaskInput {
 
     static func urlPathProvider(_ value: DescribeTaskInput) -> Swift.String? {
@@ -6383,13 +5148,6 @@ extension DescribeTaskExecutionInput {
     }
 }
 
-extension GenerateRecommendationsInput {
-
-    static func urlPathProvider(_ value: GenerateRecommendationsInput) -> Swift.String? {
-        return "/"
-    }
-}
-
 extension ListAgentsInput {
 
     static func urlPathProvider(_ value: ListAgentsInput) -> Swift.String? {
@@ -6397,23 +5155,9 @@ extension ListAgentsInput {
     }
 }
 
-extension ListDiscoveryJobsInput {
-
-    static func urlPathProvider(_ value: ListDiscoveryJobsInput) -> Swift.String? {
-        return "/"
-    }
-}
-
 extension ListLocationsInput {
 
     static func urlPathProvider(_ value: ListLocationsInput) -> Swift.String? {
-        return "/"
-    }
-}
-
-extension ListStorageSystemsInput {
-
-    static func urlPathProvider(_ value: ListStorageSystemsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6439,30 +5183,9 @@ extension ListTasksInput {
     }
 }
 
-extension RemoveStorageSystemInput {
-
-    static func urlPathProvider(_ value: RemoveStorageSystemInput) -> Swift.String? {
-        return "/"
-    }
-}
-
-extension StartDiscoveryJobInput {
-
-    static func urlPathProvider(_ value: StartDiscoveryJobInput) -> Swift.String? {
-        return "/"
-    }
-}
-
 extension StartTaskExecutionInput {
 
     static func urlPathProvider(_ value: StartTaskExecutionInput) -> Swift.String? {
-        return "/"
-    }
-}
-
-extension StopDiscoveryJobInput {
-
-    static func urlPathProvider(_ value: StopDiscoveryJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6484,13 +5207,6 @@ extension UntagResourceInput {
 extension UpdateAgentInput {
 
     static func urlPathProvider(_ value: UpdateAgentInput) -> Swift.String? {
-        return "/"
-    }
-}
-
-extension UpdateDiscoveryJobInput {
-
-    static func urlPathProvider(_ value: UpdateDiscoveryJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6572,13 +5288,6 @@ extension UpdateLocationSmbInput {
     }
 }
 
-extension UpdateStorageSystemInput {
-
-    static func urlPathProvider(_ value: UpdateStorageSystemInput) -> Swift.String? {
-        return "/"
-    }
-}
-
 extension UpdateTaskInput {
 
     static func urlPathProvider(_ value: UpdateTaskInput) -> Swift.String? {
@@ -6590,21 +5299,6 @@ extension UpdateTaskExecutionInput {
 
     static func urlPathProvider(_ value: UpdateTaskExecutionInput) -> Swift.String? {
         return "/"
-    }
-}
-
-extension AddStorageSystemInput {
-
-    static func write(value: AddStorageSystemInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AgentArns"].writeList(value.agentArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ClientToken"].write(value.clientToken)
-        try writer["CloudWatchLogGroupArn"].write(value.cloudWatchLogGroupArn)
-        try writer["Credentials"].write(value.credentials, with: DataSyncClientTypes.Credentials.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["ServerConfiguration"].write(value.serverConfiguration, with: DataSyncClientTypes.DiscoveryServerConfiguration.write(value:to:))
-        try writer["SystemType"].write(value.systemType)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: DataSyncClientTypes.TagListEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6840,14 +5534,6 @@ extension DescribeAgentInput {
     }
 }
 
-extension DescribeDiscoveryJobInput {
-
-    static func write(value: DescribeDiscoveryJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DiscoveryJobArn"].write(value.discoveryJobArn)
-    }
-}
-
 extension DescribeLocationAzureBlobInput {
 
     static func write(value: DescribeLocationAzureBlobInput?, to writer: SmithyJSON.Writer) throws {
@@ -6936,41 +5622,6 @@ extension DescribeLocationSmbInput {
     }
 }
 
-extension DescribeStorageSystemInput {
-
-    static func write(value: DescribeStorageSystemInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StorageSystemArn"].write(value.storageSystemArn)
-    }
-}
-
-extension DescribeStorageSystemResourceMetricsInput {
-
-    static func write(value: DescribeStorageSystemResourceMetricsInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DiscoveryJobArn"].write(value.discoveryJobArn)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension DescribeStorageSystemResourcesInput {
-
-    static func write(value: DescribeStorageSystemResourcesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DiscoveryJobArn"].write(value.discoveryJobArn)
-        try writer["Filter"].writeMap(value.filter, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["ResourceIds"].writeList(value.resourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-}
-
 extension DescribeTaskInput {
 
     static func write(value: DescribeTaskInput?, to writer: SmithyJSON.Writer) throws {
@@ -6987,16 +5638,6 @@ extension DescribeTaskExecutionInput {
     }
 }
 
-extension GenerateRecommendationsInput {
-
-    static func write(value: GenerateRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DiscoveryJobArn"].write(value.discoveryJobArn)
-        try writer["ResourceIds"].writeList(value.resourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-}
-
 extension ListAgentsInput {
 
     static func write(value: ListAgentsInput?, to writer: SmithyJSON.Writer) throws {
@@ -7006,30 +5647,11 @@ extension ListAgentsInput {
     }
 }
 
-extension ListDiscoveryJobsInput {
-
-    static func write(value: ListDiscoveryJobsInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["StorageSystemArn"].write(value.storageSystemArn)
-    }
-}
-
 extension ListLocationsInput {
 
     static func write(value: ListLocationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Filters"].writeList(value.filters, memberWritingClosure: DataSyncClientTypes.LocationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-    }
-}
-
-extension ListStorageSystemsInput {
-
-    static func write(value: ListStorageSystemsInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
     }
@@ -7065,25 +5687,6 @@ extension ListTasksInput {
     }
 }
 
-extension RemoveStorageSystemInput {
-
-    static func write(value: RemoveStorageSystemInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StorageSystemArn"].write(value.storageSystemArn)
-    }
-}
-
-extension StartDiscoveryJobInput {
-
-    static func write(value: StartDiscoveryJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientToken"].write(value.clientToken)
-        try writer["CollectionDurationMinutes"].write(value.collectionDurationMinutes)
-        try writer["StorageSystemArn"].write(value.storageSystemArn)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: DataSyncClientTypes.TagListEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
 extension StartTaskExecutionInput {
 
     static func write(value: StartTaskExecutionInput?, to writer: SmithyJSON.Writer) throws {
@@ -7095,14 +5698,6 @@ extension StartTaskExecutionInput {
         try writer["Tags"].writeList(value.tags, memberWritingClosure: DataSyncClientTypes.TagListEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TaskArn"].write(value.taskArn)
         try writer["TaskReportConfig"].write(value.taskReportConfig, with: DataSyncClientTypes.TaskReportConfig.write(value:to:))
-    }
-}
-
-extension StopDiscoveryJobInput {
-
-    static func write(value: StopDiscoveryJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DiscoveryJobArn"].write(value.discoveryJobArn)
     }
 }
 
@@ -7130,15 +5725,6 @@ extension UpdateAgentInput {
         guard let value else { return }
         try writer["AgentArn"].write(value.agentArn)
         try writer["Name"].write(value.name)
-    }
-}
-
-extension UpdateDiscoveryJobInput {
-
-    static func write(value: UpdateDiscoveryJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CollectionDurationMinutes"].write(value.collectionDurationMinutes)
-        try writer["DiscoveryJobArn"].write(value.discoveryJobArn)
     }
 }
 
@@ -7236,6 +5822,7 @@ extension UpdateLocationNfsInput {
         try writer["LocationArn"].write(value.locationArn)
         try writer["MountOptions"].write(value.mountOptions, with: DataSyncClientTypes.NfsMountOptions.write(value:to:))
         try writer["OnPremConfig"].write(value.onPremConfig, with: DataSyncClientTypes.OnPremConfig.write(value:to:))
+        try writer["ServerHostname"].write(value.serverHostname)
         try writer["Subdirectory"].write(value.subdirectory)
     }
 }
@@ -7249,6 +5836,7 @@ extension UpdateLocationObjectStorageInput {
         try writer["LocationArn"].write(value.locationArn)
         try writer["SecretKey"].write(value.secretKey)
         try writer["ServerCertificate"].write(value.serverCertificate)
+        try writer["ServerHostname"].write(value.serverHostname)
         try writer["ServerPort"].write(value.serverPort)
         try writer["ServerProtocol"].write(value.serverProtocol)
         try writer["Subdirectory"].write(value.subdirectory)
@@ -7280,21 +5868,9 @@ extension UpdateLocationSmbInput {
         try writer["LocationArn"].write(value.locationArn)
         try writer["MountOptions"].write(value.mountOptions, with: DataSyncClientTypes.SmbMountOptions.write(value:to:))
         try writer["Password"].write(value.password)
+        try writer["ServerHostname"].write(value.serverHostname)
         try writer["Subdirectory"].write(value.subdirectory)
         try writer["User"].write(value.user)
-    }
-}
-
-extension UpdateStorageSystemInput {
-
-    static func write(value: UpdateStorageSystemInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AgentArns"].writeList(value.agentArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CloudWatchLogGroupArn"].write(value.cloudWatchLogGroupArn)
-        try writer["Credentials"].write(value.credentials, with: DataSyncClientTypes.Credentials.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["ServerConfiguration"].write(value.serverConfiguration, with: DataSyncClientTypes.DiscoveryServerConfiguration.write(value:to:))
-        try writer["StorageSystemArn"].write(value.storageSystemArn)
     }
 }
 
@@ -7320,18 +5896,6 @@ extension UpdateTaskExecutionInput {
         guard let value else { return }
         try writer["Options"].write(value.options, with: DataSyncClientTypes.Options.write(value:to:))
         try writer["TaskExecutionArn"].write(value.taskExecutionArn)
-    }
-}
-
-extension AddStorageSystemOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddStorageSystemOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = AddStorageSystemOutput()
-        value.storageSystemArn = try reader["StorageSystemArn"].readIfPresent() ?? ""
-        return value
     }
 }
 
@@ -7538,23 +6102,6 @@ extension DescribeAgentOutput {
     }
 }
 
-extension DescribeDiscoveryJobOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDiscoveryJobOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = DescribeDiscoveryJobOutput()
-        value.collectionDurationMinutes = try reader["CollectionDurationMinutes"].readIfPresent()
-        value.discoveryJobArn = try reader["DiscoveryJobArn"].readIfPresent()
-        value.jobEndTime = try reader["JobEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.jobStartTime = try reader["JobStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.storageSystemArn = try reader["StorageSystemArn"].readIfPresent()
-        return value
-    }
-}
-
 extension DescribeLocationAzureBlobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeLocationAzureBlobOutput {
@@ -7753,53 +6300,6 @@ extension DescribeLocationSmbOutput {
     }
 }
 
-extension DescribeStorageSystemOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeStorageSystemOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = DescribeStorageSystemOutput()
-        value.agentArns = try reader["AgentArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cloudWatchLogGroupArn = try reader["CloudWatchLogGroupArn"].readIfPresent()
-        value.connectivityStatus = try reader["ConnectivityStatus"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.secretsManagerArn = try reader["SecretsManagerArn"].readIfPresent()
-        value.serverConfiguration = try reader["ServerConfiguration"].readIfPresent(with: DataSyncClientTypes.DiscoveryServerConfiguration.read(from:))
-        value.storageSystemArn = try reader["StorageSystemArn"].readIfPresent()
-        value.systemType = try reader["SystemType"].readIfPresent()
-        return value
-    }
-}
-
-extension DescribeStorageSystemResourceMetricsOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeStorageSystemResourceMetricsOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = DescribeStorageSystemResourceMetricsOutput()
-        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.ResourceMetrics.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
-    }
-}
-
-extension DescribeStorageSystemResourcesOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeStorageSystemResourcesOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = DescribeStorageSystemResourcesOutput()
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        value.resourceDetails = try reader["ResourceDetails"].readIfPresent(with: DataSyncClientTypes.ResourceDetails.read(from:))
-        return value
-    }
-}
-
 extension DescribeTaskOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTaskOutput {
@@ -7866,13 +6366,6 @@ extension DescribeTaskExecutionOutput {
     }
 }
 
-extension GenerateRecommendationsOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GenerateRecommendationsOutput {
-        return GenerateRecommendationsOutput()
-    }
-}
-
 extension ListAgentsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgentsOutput {
@@ -7881,19 +6374,6 @@ extension ListAgentsOutput {
         let reader = responseReader
         var value = ListAgentsOutput()
         value.agents = try reader["Agents"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.AgentListEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
-    }
-}
-
-extension ListDiscoveryJobsOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDiscoveryJobsOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = ListDiscoveryJobsOutput()
-        value.discoveryJobs = try reader["DiscoveryJobs"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.DiscoveryJobListEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7908,19 +6388,6 @@ extension ListLocationsOutput {
         var value = ListLocationsOutput()
         value.locations = try reader["Locations"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.LocationListEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
-    }
-}
-
-extension ListStorageSystemsOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListStorageSystemsOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = ListStorageSystemsOutput()
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        value.storageSystems = try reader["StorageSystems"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.StorageSystemListEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7964,25 +6431,6 @@ extension ListTasksOutput {
     }
 }
 
-extension RemoveStorageSystemOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveStorageSystemOutput {
-        return RemoveStorageSystemOutput()
-    }
-}
-
-extension StartDiscoveryJobOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartDiscoveryJobOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = StartDiscoveryJobOutput()
-        value.discoveryJobArn = try reader["DiscoveryJobArn"].readIfPresent()
-        return value
-    }
-}
-
 extension StartTaskExecutionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartTaskExecutionOutput {
@@ -7992,13 +6440,6 @@ extension StartTaskExecutionOutput {
         var value = StartTaskExecutionOutput()
         value.taskExecutionArn = try reader["TaskExecutionArn"].readIfPresent()
         return value
-    }
-}
-
-extension StopDiscoveryJobOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopDiscoveryJobOutput {
-        return StopDiscoveryJobOutput()
     }
 }
 
@@ -8020,13 +6461,6 @@ extension UpdateAgentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAgentOutput {
         return UpdateAgentOutput()
-    }
-}
-
-extension UpdateDiscoveryJobOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDiscoveryJobOutput {
-        return UpdateDiscoveryJobOutput()
     }
 }
 
@@ -8107,13 +6541,6 @@ extension UpdateLocationSmbOutput {
     }
 }
 
-extension UpdateStorageSystemOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateStorageSystemOutput {
-        return UpdateStorageSystemOutput()
-    }
-}
-
 extension UpdateTaskOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTaskOutput {
@@ -8125,21 +6552,6 @@ extension UpdateTaskExecutionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTaskExecutionOutput {
         return UpdateTaskExecutionOutput()
-    }
-}
-
-enum AddStorageSystemOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InternalException": return try InternalException.makeError(baseError: baseError)
-            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
     }
 }
 
@@ -8413,21 +6825,6 @@ enum DescribeAgentOutputError {
     }
 }
 
-enum DescribeDiscoveryJobOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InternalException": return try InternalException.makeError(baseError: baseError)
-            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
 enum DescribeLocationAzureBlobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8593,51 +6990,6 @@ enum DescribeLocationSmbOutputError {
     }
 }
 
-enum DescribeStorageSystemOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InternalException": return try InternalException.makeError(baseError: baseError)
-            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum DescribeStorageSystemResourceMetricsOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InternalException": return try InternalException.makeError(baseError: baseError)
-            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum DescribeStorageSystemResourcesOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InternalException": return try InternalException.makeError(baseError: baseError)
-            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
 enum DescribeTaskOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8668,21 +7020,6 @@ enum DescribeTaskExecutionOutputError {
     }
 }
 
-enum GenerateRecommendationsOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InternalException": return try InternalException.makeError(baseError: baseError)
-            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
 enum ListAgentsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8698,37 +7035,7 @@ enum ListAgentsOutputError {
     }
 }
 
-enum ListDiscoveryJobsOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InternalException": return try InternalException.makeError(baseError: baseError)
-            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
 enum ListLocationsOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InternalException": return try InternalException.makeError(baseError: baseError)
-            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum ListStorageSystemsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8788,52 +7095,7 @@ enum ListTasksOutputError {
     }
 }
 
-enum RemoveStorageSystemOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InternalException": return try InternalException.makeError(baseError: baseError)
-            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum StartDiscoveryJobOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InternalException": return try InternalException.makeError(baseError: baseError)
-            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
 enum StartTaskExecutionOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InternalException": return try InternalException.makeError(baseError: baseError)
-            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum StopDiscoveryJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8879,21 +7141,6 @@ enum UntagResourceOutputError {
 }
 
 enum UpdateAgentOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InternalException": return try InternalException.makeError(baseError: baseError)
-            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum UpdateDiscoveryJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9059,21 +7306,6 @@ enum UpdateLocationS3OutputError {
 }
 
 enum UpdateLocationSmbOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InternalException": return try InternalException.makeError(baseError: baseError)
-            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum UpdateStorageSystemOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9330,212 +7562,6 @@ extension DataSyncClientTypes.S3Config {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.S3Config()
         value.bucketAccessRoleArn = try reader["BucketAccessRoleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DataSyncClientTypes.DiscoveryServerConfiguration {
-
-    static func write(value: DataSyncClientTypes.DiscoveryServerConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ServerHostname"].write(value.serverHostname)
-        try writer["ServerPort"].write(value.serverPort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.DiscoveryServerConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.DiscoveryServerConfiguration()
-        value.serverHostname = try reader["ServerHostname"].readIfPresent() ?? ""
-        value.serverPort = try reader["ServerPort"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.ResourceMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ResourceMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.ResourceMetrics()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.p95Metrics = try reader["P95Metrics"].readIfPresent(with: DataSyncClientTypes.P95Metrics.read(from:))
-        value.capacity = try reader["Capacity"].readIfPresent(with: DataSyncClientTypes.Capacity.read(from:))
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.Capacity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.Capacity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.Capacity()
-        value.used = try reader["Used"].readIfPresent()
-        value.provisioned = try reader["Provisioned"].readIfPresent()
-        value.logicalUsed = try reader["LogicalUsed"].readIfPresent()
-        value.clusterCloudStorageUsed = try reader["ClusterCloudStorageUsed"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.P95Metrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.P95Metrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.P95Metrics()
-        value.iops = try reader["IOPS"].readIfPresent(with: DataSyncClientTypes.IOPS.read(from:))
-        value.throughput = try reader["Throughput"].readIfPresent(with: DataSyncClientTypes.Throughput.read(from:))
-        value.latency = try reader["Latency"].readIfPresent(with: DataSyncClientTypes.Latency.read(from:))
-        return value
-    }
-}
-
-extension DataSyncClientTypes.Latency {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.Latency {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.Latency()
-        value.read = try reader["Read"].readIfPresent()
-        value.write = try reader["Write"].readIfPresent()
-        value.other = try reader["Other"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.Throughput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.Throughput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.Throughput()
-        value.read = try reader["Read"].readIfPresent()
-        value.write = try reader["Write"].readIfPresent()
-        value.other = try reader["Other"].readIfPresent()
-        value.total = try reader["Total"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.IOPS {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.IOPS {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.IOPS()
-        value.read = try reader["Read"].readIfPresent()
-        value.write = try reader["Write"].readIfPresent()
-        value.other = try reader["Other"].readIfPresent()
-        value.total = try reader["Total"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.ResourceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.ResourceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.ResourceDetails()
-        value.netAppONTAPSVMs = try reader["NetAppONTAPSVMs"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.NetAppONTAPSVM.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.netAppONTAPVolumes = try reader["NetAppONTAPVolumes"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.NetAppONTAPVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.netAppONTAPClusters = try reader["NetAppONTAPClusters"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.NetAppONTAPCluster.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DataSyncClientTypes.NetAppONTAPCluster {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.NetAppONTAPCluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.NetAppONTAPCluster()
-        value.cifsShareCount = try reader["CifsShareCount"].readIfPresent()
-        value.nfsExportedVolumes = try reader["NfsExportedVolumes"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.clusterName = try reader["ClusterName"].readIfPresent()
-        value.maxP95Performance = try reader["MaxP95Performance"].readIfPresent(with: DataSyncClientTypes.MaxP95Performance.read(from:))
-        value.clusterBlockStorageSize = try reader["ClusterBlockStorageSize"].readIfPresent()
-        value.clusterBlockStorageUsed = try reader["ClusterBlockStorageUsed"].readIfPresent()
-        value.clusterBlockStorageLogicalUsed = try reader["ClusterBlockStorageLogicalUsed"].readIfPresent()
-        value.recommendations = try reader["Recommendations"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.Recommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.recommendationStatus = try reader["RecommendationStatus"].readIfPresent()
-        value.lunCount = try reader["LunCount"].readIfPresent()
-        value.clusterCloudStorageUsed = try reader["ClusterCloudStorageUsed"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.Recommendation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.Recommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.Recommendation()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.storageConfiguration = try reader["StorageConfiguration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.estimatedMonthlyStorageCost = try reader["EstimatedMonthlyStorageCost"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.MaxP95Performance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.MaxP95Performance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.MaxP95Performance()
-        value.iopsRead = try reader["IopsRead"].readIfPresent()
-        value.iopsWrite = try reader["IopsWrite"].readIfPresent()
-        value.iopsOther = try reader["IopsOther"].readIfPresent()
-        value.iopsTotal = try reader["IopsTotal"].readIfPresent()
-        value.throughputRead = try reader["ThroughputRead"].readIfPresent()
-        value.throughputWrite = try reader["ThroughputWrite"].readIfPresent()
-        value.throughputOther = try reader["ThroughputOther"].readIfPresent()
-        value.throughputTotal = try reader["ThroughputTotal"].readIfPresent()
-        value.latencyRead = try reader["LatencyRead"].readIfPresent()
-        value.latencyWrite = try reader["LatencyWrite"].readIfPresent()
-        value.latencyOther = try reader["LatencyOther"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.NetAppONTAPVolume {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.NetAppONTAPVolume {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.NetAppONTAPVolume()
-        value.volumeName = try reader["VolumeName"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.cifsShareCount = try reader["CifsShareCount"].readIfPresent()
-        value.securityStyle = try reader["SecurityStyle"].readIfPresent()
-        value.svmUuid = try reader["SvmUuid"].readIfPresent()
-        value.svmName = try reader["SvmName"].readIfPresent()
-        value.capacityUsed = try reader["CapacityUsed"].readIfPresent()
-        value.capacityProvisioned = try reader["CapacityProvisioned"].readIfPresent()
-        value.logicalCapacityUsed = try reader["LogicalCapacityUsed"].readIfPresent()
-        value.nfsExported = try reader["NfsExported"].readIfPresent() ?? false
-        value.snapshotCapacityUsed = try reader["SnapshotCapacityUsed"].readIfPresent()
-        value.maxP95Performance = try reader["MaxP95Performance"].readIfPresent(with: DataSyncClientTypes.MaxP95Performance.read(from:))
-        value.recommendations = try reader["Recommendations"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.Recommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.recommendationStatus = try reader["RecommendationStatus"].readIfPresent()
-        value.lunCount = try reader["LunCount"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.NetAppONTAPSVM {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.NetAppONTAPSVM {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.NetAppONTAPSVM()
-        value.clusterUuid = try reader["ClusterUuid"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.svmName = try reader["SvmName"].readIfPresent()
-        value.cifsShareCount = try reader["CifsShareCount"].readIfPresent()
-        value.enabledProtocols = try reader["EnabledProtocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.totalCapacityUsed = try reader["TotalCapacityUsed"].readIfPresent()
-        value.totalCapacityProvisioned = try reader["TotalCapacityProvisioned"].readIfPresent()
-        value.totalLogicalCapacityUsed = try reader["TotalLogicalCapacityUsed"].readIfPresent()
-        value.maxP95Performance = try reader["MaxP95Performance"].readIfPresent(with: DataSyncClientTypes.MaxP95Performance.read(from:))
-        value.recommendations = try reader["Recommendations"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.Recommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nfsExportedVolumes = try reader["NfsExportedVolumes"].readIfPresent()
-        value.recommendationStatus = try reader["RecommendationStatus"].readIfPresent()
-        value.totalSnapshotCapacityUsed = try reader["TotalSnapshotCapacityUsed"].readIfPresent()
-        value.lunCount = try reader["LunCount"].readIfPresent()
         return value
     }
 }
@@ -9844,17 +7870,6 @@ extension DataSyncClientTypes.AgentListEntry {
     }
 }
 
-extension DataSyncClientTypes.DiscoveryJobListEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.DiscoveryJobListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.DiscoveryJobListEntry()
-        value.discoveryJobArn = try reader["DiscoveryJobArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
 extension DataSyncClientTypes.LocationListEntry {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.LocationListEntry {
@@ -9862,17 +7877,6 @@ extension DataSyncClientTypes.LocationListEntry {
         var value = DataSyncClientTypes.LocationListEntry()
         value.locationArn = try reader["LocationArn"].readIfPresent()
         value.locationUri = try reader["LocationUri"].readIfPresent()
-        return value
-    }
-}
-
-extension DataSyncClientTypes.StorageSystemListEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.StorageSystemListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataSyncClientTypes.StorageSystemListEntry()
-        value.storageSystemArn = try reader["StorageSystemArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -9916,15 +7920,6 @@ extension DataSyncClientTypes.TaskListEntry {
         value.name = try reader["Name"].readIfPresent()
         value.taskMode = try reader["TaskMode"].readIfPresent()
         return value
-    }
-}
-
-extension DataSyncClientTypes.Credentials {
-
-    static func write(value: DataSyncClientTypes.Credentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Password"].write(value.password)
-        try writer["Username"].write(value.username)
     }
 }
 

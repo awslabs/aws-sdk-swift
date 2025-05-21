@@ -336,6 +336,78 @@ extension PaginatorSequence where OperationStackInput == ListCandidatesForAutoML
     }
 }
 extension SageMakerClient {
+    /// Paginate over `[ListClusterNodesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListClusterNodesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClusterNodesOutput`
+    public func listClusterNodesPaginated(input: ListClusterNodesInput) -> ClientRuntime.PaginatorSequence<ListClusterNodesInput, ListClusterNodesOutput> {
+        return ClientRuntime.PaginatorSequence<ListClusterNodesInput, ListClusterNodesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClusterNodes(input:))
+    }
+}
+
+extension ListClusterNodesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListClusterNodesInput {
+        return ListClusterNodesInput(
+            clusterName: self.clusterName,
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            instanceGroupNameContains: self.instanceGroupNameContains,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListClusterNodesInput, OperationStackOutput == ListClusterNodesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listClusterNodesPaginated`
+    /// to access the nested member `[SageMakerClientTypes.ClusterNodeSummary]`
+    /// - Returns: `[SageMakerClientTypes.ClusterNodeSummary]`
+    public func clusterNodeSummaries() async throws -> [SageMakerClientTypes.ClusterNodeSummary] {
+        return try await self.asyncCompactMap { item in item.clusterNodeSummaries }
+    }
+}
+extension SageMakerClient {
+    /// Paginate over `[ListClustersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListClustersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutput`
+    public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput> {
+        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClusters(input:))
+    }
+}
+
+extension ListClustersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListClustersInput {
+        return ListClustersInput(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            trainingPlanArn: self.trainingPlanArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListClustersInput, OperationStackOutput == ListClustersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listClustersPaginated`
+    /// to access the nested member `[SageMakerClientTypes.ClusterSummary]`
+    /// - Returns: `[SageMakerClientTypes.ClusterSummary]`
+    public func clusterSummaries() async throws -> [SageMakerClientTypes.ClusterSummary] {
+        return try await self.asyncCompactMap { item in item.clusterSummaries }
+    }
+}
+extension SageMakerClient {
     /// Paginate over `[ListClusterSchedulerConfigsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

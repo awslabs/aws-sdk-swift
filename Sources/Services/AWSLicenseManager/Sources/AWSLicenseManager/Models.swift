@@ -875,6 +875,25 @@ public struct CheckoutLicenseOutput: Swift.Sendable {
     }
 }
 
+extension LicenseManagerClientTypes {
+
+    /// Details about the tags for a resource. For more information about tagging support in License Manager, see the [TagResource](https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html) operation.
+    public struct Tag: Swift.Sendable {
+        /// The tag key.
+        public var key: Swift.String?
+        /// The tag value.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
 public struct CreateGrantInput: Swift.Sendable {
     /// Allowed operations for the grant.
     /// This member is required.
@@ -906,6 +925,8 @@ public struct CreateGrantInput: Swift.Sendable {
     /// * An organization, which will include all accounts across your organization.
     /// This member is required.
     public var principals: [Swift.String]?
+    /// Tags to add to the grant. For more information about tagging support in License Manager, see the [TagResource](https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html) operation.
+    public var tags: [LicenseManagerClientTypes.Tag]?
 
     public init(
         allowedOperations: [LicenseManagerClientTypes.AllowedOperation]? = nil,
@@ -913,7 +934,8 @@ public struct CreateGrantInput: Swift.Sendable {
         grantName: Swift.String? = nil,
         homeRegion: Swift.String? = nil,
         licenseArn: Swift.String? = nil,
-        principals: [Swift.String]? = nil
+        principals: [Swift.String]? = nil,
+        tags: [LicenseManagerClientTypes.Tag]? = nil
     ) {
         self.allowedOperations = allowedOperations
         self.clientToken = clientToken
@@ -921,6 +943,7 @@ public struct CreateGrantInput: Swift.Sendable {
         self.homeRegion = homeRegion
         self.licenseArn = licenseArn
         self.principals = principals
+        self.tags = tags
     }
 }
 
@@ -1330,6 +1353,8 @@ public struct CreateLicenseInput: Swift.Sendable {
     /// Product SKU.
     /// This member is required.
     public var productSKU: Swift.String?
+    /// Tags to add to the license. For more information about tagging support in License Manager, see the [TagResource](https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html) operation.
+    public var tags: [LicenseManagerClientTypes.Tag]?
     /// Date and time range during which the license is valid, in ISO8601-UTC format.
     /// This member is required.
     public var validity: LicenseManagerClientTypes.DatetimeRange?
@@ -1345,6 +1370,7 @@ public struct CreateLicenseInput: Swift.Sendable {
         licenseName: Swift.String? = nil,
         productName: Swift.String? = nil,
         productSKU: Swift.String? = nil,
+        tags: [LicenseManagerClientTypes.Tag]? = nil,
         validity: LicenseManagerClientTypes.DatetimeRange? = nil
     ) {
         self.beneficiary = beneficiary
@@ -1357,6 +1383,7 @@ public struct CreateLicenseInput: Swift.Sendable {
         self.licenseName = licenseName
         self.productName = productName
         self.productSKU = productSKU
+        self.tags = tags
         self.validity = validity
     }
 }
@@ -1509,7 +1536,7 @@ extension LicenseManagerClientTypes {
         ///
         /// The following filters and logical operators are supported when the resource type is RDS:
         ///
-        /// * Engine Edition - The edition of the database engine. Logical operator is EQUALS. Possible values are: oracle-ee | oracle-se | oracle-se1 | oracle-se2.
+        /// * Engine Edition - The edition of the database engine. Logical operator is EQUALS. Possible values are: oracle-ee | oracle-se | oracle-se1 | oracle-se2 | db2-se | db2-ae.
         ///
         /// * License Pack - The license pack. Logical operator is EQUALS. Possible values are: data guard | diagnostic pack sqlt | tuning pack sqlt | ols | olap.
         /// This member is required.
@@ -1524,25 +1551,6 @@ extension LicenseManagerClientTypes {
         ) {
             self.productInformationFilterList = productInformationFilterList
             self.resourceType = resourceType
-        }
-    }
-}
-
-extension LicenseManagerClientTypes {
-
-    /// Details about a tag for a license configuration.
-    public struct Tag: Swift.Sendable {
-        /// Tag key.
-        public var key: Swift.String?
-        /// Tag value.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
         }
     }
 }
@@ -1563,7 +1571,7 @@ public struct CreateLicenseConfigurationInput: Swift.Sendable {
     ///
     /// * Cores dimension: allowedTenancy | licenseAffinityToHost | maximumCores | minimumCores
     ///
-    /// * Instances dimension: allowedTenancy | maximumCores | minimumCores | maximumSockets | minimumSockets | maximumVcpus | minimumVcpus
+    /// * Instances dimension: allowedTenancy | maximumVcpus | minimumVcpus
     ///
     /// * Sockets dimension: allowedTenancy | licenseAffinityToHost | maximumSockets | minimumSockets
     ///
@@ -3097,11 +3105,11 @@ public struct ListFailuresForLicenseConfigurationOperationsOutput: Swift.Sendabl
 public struct ListLicenseConfigurationsInput: Swift.Sendable {
     /// Filters to scope the results. The following filters and logical operators are supported:
     ///
-    /// * licenseCountingType - The dimension for which licenses are counted. Possible values are vCPU | Instance | Core | Socket. Logical operators are EQUALS | NOT_EQUALS.
+    /// * licenseCountingType - The dimension for which licenses are counted. Possible values are vCPU | Instance | Core | Socket.
     ///
-    /// * enforceLicenseCount - A Boolean value that indicates whether hard license enforcement is used. Logical operators are EQUALS | NOT_EQUALS.
+    /// * enforceLicenseCount - A Boolean value that indicates whether hard license enforcement is used.
     ///
-    /// * usagelimitExceeded - A Boolean value that indicates whether the available licenses have been exceeded. Logical operators are EQUALS | NOT_EQUALS.
+    /// * usagelimitExceeded - A Boolean value that indicates whether the available licenses have been exceeded.
     public var filters: [LicenseManagerClientTypes.Filter]?
     /// Amazon Resource Names (ARN) of the license configurations.
     public var licenseConfigurationArns: [Swift.String]?
@@ -3952,7 +3960,7 @@ public struct ListResourceInventoryOutput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// Amazon Resource Name (ARN) of the license configuration.
+    /// Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -4056,11 +4064,11 @@ public struct ListTokensOutput: Swift.Sendable {
 public struct ListUsageForLicenseConfigurationInput: Swift.Sendable {
     /// Filters to scope the results. The following filters and logical operators are supported:
     ///
-    /// * resourceArn - The ARN of the license configuration resource. Logical operators are EQUALS | NOT_EQUALS.
+    /// * resourceArn - The ARN of the license configuration resource.
     ///
-    /// * resourceType - The resource type (EC2_INSTANCE | EC2_HOST | EC2_AMI | SYSTEMS_MANAGER_MANAGED_INSTANCE). Logical operators are EQUALS | NOT_EQUALS.
+    /// * resourceType - The resource type (EC2_INSTANCE | EC2_HOST | EC2_AMI | SYSTEMS_MANAGER_MANAGED_INSTANCE).
     ///
-    /// * resourceAccount - The ID of the account that owns the resource. Logical operators are EQUALS | NOT_EQUALS.
+    /// * resourceAccount - The ID of the account that owns the resource.
     public var filters: [LicenseManagerClientTypes.Filter]?
     /// Amazon Resource Name (ARN) of the license configuration.
     /// This member is required.
@@ -4165,7 +4173,15 @@ public struct RejectGrantOutput: Swift.Sendable {
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// Amazon Resource Name (ARN) of the license configuration.
+    /// Amazon Resource Name (ARN) of the resource. The following examples provide an example ARN for each supported resource in License Manager:
+    ///
+    /// * Licenses - arn:aws:license-manager::111122223333:license:l-EXAMPLE2da7646d6861033667f20e895
+    ///
+    /// * Grants - arn:aws:license-manager::111122223333:grant:g-EXAMPLE7b19f4a0ab73679b0beb52707
+    ///
+    /// * License configurations - arn:aws:license-manager:us-east-1:111122223333:license-configuration:lic-EXAMPLE6a788d4c8acd4264ff0ecf2ed2d
+    ///
+    /// * Report generators - arn:aws:license-manager:us-east-1:111122223333:report-generator:r-EXAMPLE825b4a4f8fe5a3e0c88824e5fc6
     /// This member is required.
     public var resourceArn: Swift.String?
     /// One or more tags.
@@ -4187,7 +4203,7 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// Amazon Resource Name (ARN) of the license configuration.
+    /// Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// Keys identifying the tags to remove.
@@ -4839,6 +4855,7 @@ extension CreateGrantInput {
         try writer["HomeRegion"].write(value.homeRegion)
         try writer["LicenseArn"].write(value.licenseArn)
         try writer["Principals"].writeList(value.principals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: LicenseManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4871,6 +4888,7 @@ extension CreateLicenseInput {
         try writer["LicenseName"].write(value.licenseName)
         try writer["ProductName"].write(value.productName)
         try writer["ProductSKU"].write(value.productSKU)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: LicenseManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Validity"].write(value.validity, with: LicenseManagerClientTypes.DatetimeRange.write(value:to:))
     }
 }
@@ -6854,6 +6872,7 @@ enum UpdateLicenseConfigurationOutputError {
         switch baseError.code {
             case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
             case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "RateLimitExceeded": return try RateLimitExceededException.makeError(baseError: baseError)
             case "ResourceLimitExceeded": return try ResourceLimitExceededException.makeError(baseError: baseError)
@@ -6894,6 +6913,7 @@ enum UpdateLicenseSpecificationsForResourceOutputError {
         switch baseError.code {
             case "ServiceAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
             case "AuthorizationFailure": return try AuthorizationException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InvalidParameterValueProvided": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "InvalidResourceState": return try InvalidResourceStateException.makeError(baseError: baseError)
             case "LicenseUsageFailure": return try LicenseUsageException.makeError(baseError: baseError)

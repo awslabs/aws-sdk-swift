@@ -525,7 +525,7 @@ extension GameLiftClientTypes {
         public var creationTime: Foundation.Date?
         /// A descriptive label that is associated with a build. Build names do not need to be unique. It can be set using [CreateBuild](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateBuild.html) or [UpdateBuild](https://docs.aws.amazon.com/gamelift/latest/apireference/UpdateBuild).
         public var name: Swift.String?
-        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
         /// The Amazon GameLift Server SDK version used to develop your game server.
         public var serverSdkVersion: Swift.String?
@@ -995,6 +995,14 @@ extension GameLiftClientTypes {
         case c5a8xlarge
         case c5aLarge
         case c5aXlarge
+        case c5ad12xlarge
+        case c5ad16xlarge
+        case c5ad24xlarge
+        case c5ad2xlarge
+        case c5ad4xlarge
+        case c5ad8xlarge
+        case c5adLarge
+        case c5adXlarge
         case c5d12xlarge
         case c5d18xlarge
         case c5d24xlarge
@@ -1003,10 +1011,18 @@ extension GameLiftClientTypes {
         case c5d9xlarge
         case c5dLarge
         case c5dXlarge
+        case c5n18xlarge
+        case c5n2xlarge
+        case c5n4xlarge
+        case c5n9xlarge
+        case c5nLarge
+        case c5nXlarge
         case c6a12xlarge
         case c6a16xlarge
         case c6a24xlarge
         case c6a2xlarge
+        case c6a32xlarge
+        case c6a48xlarge
         case c6a4xlarge
         case c6a8xlarge
         case c6aLarge
@@ -1019,6 +1035,14 @@ extension GameLiftClientTypes {
         case c6gLarge
         case c6gMedium
         case c6gXlarge
+        case c6gd12xlarge
+        case c6gd16xlarge
+        case c6gd2xlarge
+        case c6gd4xlarge
+        case c6gd8xlarge
+        case c6gdLarge
+        case c6gdMedium
+        case c6gdXlarge
         case c6gn12xlarge
         case c6gn16xlarge
         case c6gn2xlarge
@@ -1031,10 +1055,40 @@ extension GameLiftClientTypes {
         case c6i16xlarge
         case c6i24xlarge
         case c6i2xlarge
+        case c6i32xlarge
         case c6i4xlarge
         case c6i8xlarge
         case c6iLarge
         case c6iXlarge
+        case c6id12xlarge
+        case c6id16xlarge
+        case c6id24xlarge
+        case c6id2xlarge
+        case c6id32xlarge
+        case c6id4xlarge
+        case c6id8xlarge
+        case c6idLarge
+        case c6idXlarge
+        case c6in12xlarge
+        case c6in16xlarge
+        case c6in24xlarge
+        case c6in2xlarge
+        case c6in32xlarge
+        case c6in4xlarge
+        case c6in8xlarge
+        case c6inLarge
+        case c6inXlarge
+        case c7a12xlarge
+        case c7a16xlarge
+        case c7a24xlarge
+        case c7a2xlarge
+        case c7a32xlarge
+        case c7a48xlarge
+        case c7a4xlarge
+        case c7a8xlarge
+        case c7aLarge
+        case c7aMedium
+        case c7aXlarge
         case c7g12xlarge
         case c7g16xlarge
         case c7g2xlarge
@@ -1043,6 +1097,41 @@ extension GameLiftClientTypes {
         case c7gLarge
         case c7gMedium
         case c7gXlarge
+        case c7gd12xlarge
+        case c7gd16xlarge
+        case c7gd2xlarge
+        case c7gd4xlarge
+        case c7gd8xlarge
+        case c7gdLarge
+        case c7gdMedium
+        case c7gdXlarge
+        case c7gn12xlarge
+        case c7gn16xlarge
+        case c7gn2xlarge
+        case c7gn4xlarge
+        case c7gn8xlarge
+        case c7gnLarge
+        case c7gnMedium
+        case c7gnXlarge
+        case c7i12xlarge
+        case c7i16xlarge
+        case c7i24xlarge
+        case c7i2xlarge
+        case c7i48xlarge
+        case c7i4xlarge
+        case c7i8xlarge
+        case c7iLarge
+        case c7iXlarge
+        case c8g12xlarge
+        case c8g16xlarge
+        case c8g24xlarge
+        case c8g2xlarge
+        case c8g48xlarge
+        case c8g4xlarge
+        case c8g8xlarge
+        case c8gLarge
+        case c8gMedium
+        case c8gXlarge
         case g5g16xlarge
         case g5g2xlarge
         case g5g4xlarge
@@ -1053,6 +1142,7 @@ extension GameLiftClientTypes {
         case m3Medium
         case m3Xlarge
         case m410xlarge
+        case m416xlarge
         case m42xlarge
         case m44xlarge
         case m4Large
@@ -1073,6 +1163,48 @@ extension GameLiftClientTypes {
         case m5a8xlarge
         case m5aLarge
         case m5aXlarge
+        case m5ad12xlarge
+        case m5ad16xlarge
+        case m5ad24xlarge
+        case m5ad2xlarge
+        case m5ad4xlarge
+        case m5ad8xlarge
+        case m5adLarge
+        case m5adXlarge
+        case m5d12xlarge
+        case m5d16xlarge
+        case m5d24xlarge
+        case m5d2xlarge
+        case m5d4xlarge
+        case m5d8xlarge
+        case m5dLarge
+        case m5dXlarge
+        case m5dn12xlarge
+        case m5dn16xlarge
+        case m5dn24xlarge
+        case m5dn2xlarge
+        case m5dn4xlarge
+        case m5dn8xlarge
+        case m5dnLarge
+        case m5dnXlarge
+        case m5n12xlarge
+        case m5n16xlarge
+        case m5n24xlarge
+        case m5n2xlarge
+        case m5n4xlarge
+        case m5n8xlarge
+        case m5nLarge
+        case m5nXlarge
+        case m6a12xlarge
+        case m6a16xlarge
+        case m6a24xlarge
+        case m6a2xlarge
+        case m6a32xlarge
+        case m6a48xlarge
+        case m6a4xlarge
+        case m6a8xlarge
+        case m6aLarge
+        case m6aXlarge
         case m6g12xlarge
         case m6g16xlarge
         case m6g2xlarge
@@ -1081,6 +1213,61 @@ extension GameLiftClientTypes {
         case m6gLarge
         case m6gMedium
         case m6gXlarge
+        case m6gd12xlarge
+        case m6gd16xlarge
+        case m6gd2xlarge
+        case m6gd4xlarge
+        case m6gd8xlarge
+        case m6gdLarge
+        case m6gdMedium
+        case m6gdXlarge
+        case m6i12xlarge
+        case m6i16xlarge
+        case m6i24xlarge
+        case m6i2xlarge
+        case m6i32xlarge
+        case m6i4xlarge
+        case m6i8xlarge
+        case m6iLarge
+        case m6iXlarge
+        case m6id12xlarge
+        case m6id16xlarge
+        case m6id24xlarge
+        case m6id2xlarge
+        case m6id32xlarge
+        case m6id4xlarge
+        case m6id8xlarge
+        case m6idLarge
+        case m6idXlarge
+        case m6idn12xlarge
+        case m6idn16xlarge
+        case m6idn24xlarge
+        case m6idn2xlarge
+        case m6idn32xlarge
+        case m6idn4xlarge
+        case m6idn8xlarge
+        case m6idnLarge
+        case m6idnXlarge
+        case m6in12xlarge
+        case m6in16xlarge
+        case m6in24xlarge
+        case m6in2xlarge
+        case m6in32xlarge
+        case m6in4xlarge
+        case m6in8xlarge
+        case m6inLarge
+        case m6inXlarge
+        case m7a12xlarge
+        case m7a16xlarge
+        case m7a24xlarge
+        case m7a2xlarge
+        case m7a32xlarge
+        case m7a48xlarge
+        case m7a4xlarge
+        case m7a8xlarge
+        case m7aLarge
+        case m7aMedium
+        case m7aXlarge
         case m7g12xlarge
         case m7g16xlarge
         case m7g2xlarge
@@ -1089,6 +1276,33 @@ extension GameLiftClientTypes {
         case m7gLarge
         case m7gMedium
         case m7gXlarge
+        case m7gd12xlarge
+        case m7gd16xlarge
+        case m7gd2xlarge
+        case m7gd4xlarge
+        case m7gd8xlarge
+        case m7gdLarge
+        case m7gdMedium
+        case m7gdXlarge
+        case m7i12xlarge
+        case m7i16xlarge
+        case m7i24xlarge
+        case m7i2xlarge
+        case m7i48xlarge
+        case m7i4xlarge
+        case m7i8xlarge
+        case m7iLarge
+        case m7iXlarge
+        case m8g12xlarge
+        case m8g16xlarge
+        case m8g24xlarge
+        case m8g2xlarge
+        case m8g48xlarge
+        case m8g4xlarge
+        case m8g8xlarge
+        case m8gLarge
+        case m8gMedium
+        case m8gXlarge
         case r32xlarge
         case r34xlarge
         case r38xlarge
@@ -1116,6 +1330,14 @@ extension GameLiftClientTypes {
         case r5a8xlarge
         case r5aLarge
         case r5aXlarge
+        case r5ad12xlarge
+        case r5ad16xlarge
+        case r5ad24xlarge
+        case r5ad2xlarge
+        case r5ad4xlarge
+        case r5ad8xlarge
+        case r5adLarge
+        case r5adXlarge
         case r5d12xlarge
         case r5d16xlarge
         case r5d24xlarge
@@ -1124,6 +1346,32 @@ extension GameLiftClientTypes {
         case r5d8xlarge
         case r5dLarge
         case r5dXlarge
+        case r5dn12xlarge
+        case r5dn16xlarge
+        case r5dn24xlarge
+        case r5dn2xlarge
+        case r5dn4xlarge
+        case r5dn8xlarge
+        case r5dnLarge
+        case r5dnXlarge
+        case r5n12xlarge
+        case r5n16xlarge
+        case r5n24xlarge
+        case r5n2xlarge
+        case r5n4xlarge
+        case r5n8xlarge
+        case r5nLarge
+        case r5nXlarge
+        case r6a12xlarge
+        case r6a16xlarge
+        case r6a24xlarge
+        case r6a2xlarge
+        case r6a32xlarge
+        case r6a48xlarge
+        case r6a4xlarge
+        case r6a8xlarge
+        case r6aLarge
+        case r6aXlarge
         case r6g12xlarge
         case r6g16xlarge
         case r6g2xlarge
@@ -1132,6 +1380,61 @@ extension GameLiftClientTypes {
         case r6gLarge
         case r6gMedium
         case r6gXlarge
+        case r6gd12xlarge
+        case r6gd16xlarge
+        case r6gd2xlarge
+        case r6gd4xlarge
+        case r6gd8xlarge
+        case r6gdLarge
+        case r6gdMedium
+        case r6gdXlarge
+        case r6i12xlarge
+        case r6i16xlarge
+        case r6i24xlarge
+        case r6i2xlarge
+        case r6i32xlarge
+        case r6i4xlarge
+        case r6i8xlarge
+        case r6iLarge
+        case r6iXlarge
+        case r6id12xlarge
+        case r6id16xlarge
+        case r6id24xlarge
+        case r6id2xlarge
+        case r6id32xlarge
+        case r6id4xlarge
+        case r6id8xlarge
+        case r6idLarge
+        case r6idXlarge
+        case r6idn12xlarge
+        case r6idn16xlarge
+        case r6idn24xlarge
+        case r6idn2xlarge
+        case r6idn32xlarge
+        case r6idn4xlarge
+        case r6idn8xlarge
+        case r6idnLarge
+        case r6idnXlarge
+        case r6in12xlarge
+        case r6in16xlarge
+        case r6in24xlarge
+        case r6in2xlarge
+        case r6in32xlarge
+        case r6in4xlarge
+        case r6in8xlarge
+        case r6inLarge
+        case r6inXlarge
+        case r7a12xlarge
+        case r7a16xlarge
+        case r7a24xlarge
+        case r7a2xlarge
+        case r7a32xlarge
+        case r7a48xlarge
+        case r7a4xlarge
+        case r7a8xlarge
+        case r7aLarge
+        case r7aMedium
+        case r7aXlarge
         case r7g12xlarge
         case r7g16xlarge
         case r7g2xlarge
@@ -1140,6 +1443,33 @@ extension GameLiftClientTypes {
         case r7gLarge
         case r7gMedium
         case r7gXlarge
+        case r7gd12xlarge
+        case r7gd16xlarge
+        case r7gd2xlarge
+        case r7gd4xlarge
+        case r7gd8xlarge
+        case r7gdLarge
+        case r7gdMedium
+        case r7gdXlarge
+        case r7i12xlarge
+        case r7i16xlarge
+        case r7i24xlarge
+        case r7i2xlarge
+        case r7i48xlarge
+        case r7i4xlarge
+        case r7i8xlarge
+        case r7iLarge
+        case r7iXlarge
+        case r8g12xlarge
+        case r8g16xlarge
+        case r8g24xlarge
+        case r8g2xlarge
+        case r8g48xlarge
+        case r8g4xlarge
+        case r8g8xlarge
+        case r8gLarge
+        case r8gMedium
+        case r8gXlarge
         case t2Large
         case t2Medium
         case t2Micro
@@ -1174,6 +1504,14 @@ extension GameLiftClientTypes {
                 .c5a8xlarge,
                 .c5aLarge,
                 .c5aXlarge,
+                .c5ad12xlarge,
+                .c5ad16xlarge,
+                .c5ad24xlarge,
+                .c5ad2xlarge,
+                .c5ad4xlarge,
+                .c5ad8xlarge,
+                .c5adLarge,
+                .c5adXlarge,
                 .c5d12xlarge,
                 .c5d18xlarge,
                 .c5d24xlarge,
@@ -1182,10 +1520,18 @@ extension GameLiftClientTypes {
                 .c5d9xlarge,
                 .c5dLarge,
                 .c5dXlarge,
+                .c5n18xlarge,
+                .c5n2xlarge,
+                .c5n4xlarge,
+                .c5n9xlarge,
+                .c5nLarge,
+                .c5nXlarge,
                 .c6a12xlarge,
                 .c6a16xlarge,
                 .c6a24xlarge,
                 .c6a2xlarge,
+                .c6a32xlarge,
+                .c6a48xlarge,
                 .c6a4xlarge,
                 .c6a8xlarge,
                 .c6aLarge,
@@ -1198,6 +1544,14 @@ extension GameLiftClientTypes {
                 .c6gLarge,
                 .c6gMedium,
                 .c6gXlarge,
+                .c6gd12xlarge,
+                .c6gd16xlarge,
+                .c6gd2xlarge,
+                .c6gd4xlarge,
+                .c6gd8xlarge,
+                .c6gdLarge,
+                .c6gdMedium,
+                .c6gdXlarge,
                 .c6gn12xlarge,
                 .c6gn16xlarge,
                 .c6gn2xlarge,
@@ -1210,10 +1564,40 @@ extension GameLiftClientTypes {
                 .c6i16xlarge,
                 .c6i24xlarge,
                 .c6i2xlarge,
+                .c6i32xlarge,
                 .c6i4xlarge,
                 .c6i8xlarge,
                 .c6iLarge,
                 .c6iXlarge,
+                .c6id12xlarge,
+                .c6id16xlarge,
+                .c6id24xlarge,
+                .c6id2xlarge,
+                .c6id32xlarge,
+                .c6id4xlarge,
+                .c6id8xlarge,
+                .c6idLarge,
+                .c6idXlarge,
+                .c6in12xlarge,
+                .c6in16xlarge,
+                .c6in24xlarge,
+                .c6in2xlarge,
+                .c6in32xlarge,
+                .c6in4xlarge,
+                .c6in8xlarge,
+                .c6inLarge,
+                .c6inXlarge,
+                .c7a12xlarge,
+                .c7a16xlarge,
+                .c7a24xlarge,
+                .c7a2xlarge,
+                .c7a32xlarge,
+                .c7a48xlarge,
+                .c7a4xlarge,
+                .c7a8xlarge,
+                .c7aLarge,
+                .c7aMedium,
+                .c7aXlarge,
                 .c7g12xlarge,
                 .c7g16xlarge,
                 .c7g2xlarge,
@@ -1222,6 +1606,41 @@ extension GameLiftClientTypes {
                 .c7gLarge,
                 .c7gMedium,
                 .c7gXlarge,
+                .c7gd12xlarge,
+                .c7gd16xlarge,
+                .c7gd2xlarge,
+                .c7gd4xlarge,
+                .c7gd8xlarge,
+                .c7gdLarge,
+                .c7gdMedium,
+                .c7gdXlarge,
+                .c7gn12xlarge,
+                .c7gn16xlarge,
+                .c7gn2xlarge,
+                .c7gn4xlarge,
+                .c7gn8xlarge,
+                .c7gnLarge,
+                .c7gnMedium,
+                .c7gnXlarge,
+                .c7i12xlarge,
+                .c7i16xlarge,
+                .c7i24xlarge,
+                .c7i2xlarge,
+                .c7i48xlarge,
+                .c7i4xlarge,
+                .c7i8xlarge,
+                .c7iLarge,
+                .c7iXlarge,
+                .c8g12xlarge,
+                .c8g16xlarge,
+                .c8g24xlarge,
+                .c8g2xlarge,
+                .c8g48xlarge,
+                .c8g4xlarge,
+                .c8g8xlarge,
+                .c8gLarge,
+                .c8gMedium,
+                .c8gXlarge,
                 .g5g16xlarge,
                 .g5g2xlarge,
                 .g5g4xlarge,
@@ -1232,6 +1651,7 @@ extension GameLiftClientTypes {
                 .m3Medium,
                 .m3Xlarge,
                 .m410xlarge,
+                .m416xlarge,
                 .m42xlarge,
                 .m44xlarge,
                 .m4Large,
@@ -1252,6 +1672,48 @@ extension GameLiftClientTypes {
                 .m5a8xlarge,
                 .m5aLarge,
                 .m5aXlarge,
+                .m5ad12xlarge,
+                .m5ad16xlarge,
+                .m5ad24xlarge,
+                .m5ad2xlarge,
+                .m5ad4xlarge,
+                .m5ad8xlarge,
+                .m5adLarge,
+                .m5adXlarge,
+                .m5d12xlarge,
+                .m5d16xlarge,
+                .m5d24xlarge,
+                .m5d2xlarge,
+                .m5d4xlarge,
+                .m5d8xlarge,
+                .m5dLarge,
+                .m5dXlarge,
+                .m5dn12xlarge,
+                .m5dn16xlarge,
+                .m5dn24xlarge,
+                .m5dn2xlarge,
+                .m5dn4xlarge,
+                .m5dn8xlarge,
+                .m5dnLarge,
+                .m5dnXlarge,
+                .m5n12xlarge,
+                .m5n16xlarge,
+                .m5n24xlarge,
+                .m5n2xlarge,
+                .m5n4xlarge,
+                .m5n8xlarge,
+                .m5nLarge,
+                .m5nXlarge,
+                .m6a12xlarge,
+                .m6a16xlarge,
+                .m6a24xlarge,
+                .m6a2xlarge,
+                .m6a32xlarge,
+                .m6a48xlarge,
+                .m6a4xlarge,
+                .m6a8xlarge,
+                .m6aLarge,
+                .m6aXlarge,
                 .m6g12xlarge,
                 .m6g16xlarge,
                 .m6g2xlarge,
@@ -1260,6 +1722,61 @@ extension GameLiftClientTypes {
                 .m6gLarge,
                 .m6gMedium,
                 .m6gXlarge,
+                .m6gd12xlarge,
+                .m6gd16xlarge,
+                .m6gd2xlarge,
+                .m6gd4xlarge,
+                .m6gd8xlarge,
+                .m6gdLarge,
+                .m6gdMedium,
+                .m6gdXlarge,
+                .m6i12xlarge,
+                .m6i16xlarge,
+                .m6i24xlarge,
+                .m6i2xlarge,
+                .m6i32xlarge,
+                .m6i4xlarge,
+                .m6i8xlarge,
+                .m6iLarge,
+                .m6iXlarge,
+                .m6id12xlarge,
+                .m6id16xlarge,
+                .m6id24xlarge,
+                .m6id2xlarge,
+                .m6id32xlarge,
+                .m6id4xlarge,
+                .m6id8xlarge,
+                .m6idLarge,
+                .m6idXlarge,
+                .m6idn12xlarge,
+                .m6idn16xlarge,
+                .m6idn24xlarge,
+                .m6idn2xlarge,
+                .m6idn32xlarge,
+                .m6idn4xlarge,
+                .m6idn8xlarge,
+                .m6idnLarge,
+                .m6idnXlarge,
+                .m6in12xlarge,
+                .m6in16xlarge,
+                .m6in24xlarge,
+                .m6in2xlarge,
+                .m6in32xlarge,
+                .m6in4xlarge,
+                .m6in8xlarge,
+                .m6inLarge,
+                .m6inXlarge,
+                .m7a12xlarge,
+                .m7a16xlarge,
+                .m7a24xlarge,
+                .m7a2xlarge,
+                .m7a32xlarge,
+                .m7a48xlarge,
+                .m7a4xlarge,
+                .m7a8xlarge,
+                .m7aLarge,
+                .m7aMedium,
+                .m7aXlarge,
                 .m7g12xlarge,
                 .m7g16xlarge,
                 .m7g2xlarge,
@@ -1268,6 +1785,33 @@ extension GameLiftClientTypes {
                 .m7gLarge,
                 .m7gMedium,
                 .m7gXlarge,
+                .m7gd12xlarge,
+                .m7gd16xlarge,
+                .m7gd2xlarge,
+                .m7gd4xlarge,
+                .m7gd8xlarge,
+                .m7gdLarge,
+                .m7gdMedium,
+                .m7gdXlarge,
+                .m7i12xlarge,
+                .m7i16xlarge,
+                .m7i24xlarge,
+                .m7i2xlarge,
+                .m7i48xlarge,
+                .m7i4xlarge,
+                .m7i8xlarge,
+                .m7iLarge,
+                .m7iXlarge,
+                .m8g12xlarge,
+                .m8g16xlarge,
+                .m8g24xlarge,
+                .m8g2xlarge,
+                .m8g48xlarge,
+                .m8g4xlarge,
+                .m8g8xlarge,
+                .m8gLarge,
+                .m8gMedium,
+                .m8gXlarge,
                 .r32xlarge,
                 .r34xlarge,
                 .r38xlarge,
@@ -1295,6 +1839,14 @@ extension GameLiftClientTypes {
                 .r5a8xlarge,
                 .r5aLarge,
                 .r5aXlarge,
+                .r5ad12xlarge,
+                .r5ad16xlarge,
+                .r5ad24xlarge,
+                .r5ad2xlarge,
+                .r5ad4xlarge,
+                .r5ad8xlarge,
+                .r5adLarge,
+                .r5adXlarge,
                 .r5d12xlarge,
                 .r5d16xlarge,
                 .r5d24xlarge,
@@ -1303,6 +1855,32 @@ extension GameLiftClientTypes {
                 .r5d8xlarge,
                 .r5dLarge,
                 .r5dXlarge,
+                .r5dn12xlarge,
+                .r5dn16xlarge,
+                .r5dn24xlarge,
+                .r5dn2xlarge,
+                .r5dn4xlarge,
+                .r5dn8xlarge,
+                .r5dnLarge,
+                .r5dnXlarge,
+                .r5n12xlarge,
+                .r5n16xlarge,
+                .r5n24xlarge,
+                .r5n2xlarge,
+                .r5n4xlarge,
+                .r5n8xlarge,
+                .r5nLarge,
+                .r5nXlarge,
+                .r6a12xlarge,
+                .r6a16xlarge,
+                .r6a24xlarge,
+                .r6a2xlarge,
+                .r6a32xlarge,
+                .r6a48xlarge,
+                .r6a4xlarge,
+                .r6a8xlarge,
+                .r6aLarge,
+                .r6aXlarge,
                 .r6g12xlarge,
                 .r6g16xlarge,
                 .r6g2xlarge,
@@ -1311,6 +1889,61 @@ extension GameLiftClientTypes {
                 .r6gLarge,
                 .r6gMedium,
                 .r6gXlarge,
+                .r6gd12xlarge,
+                .r6gd16xlarge,
+                .r6gd2xlarge,
+                .r6gd4xlarge,
+                .r6gd8xlarge,
+                .r6gdLarge,
+                .r6gdMedium,
+                .r6gdXlarge,
+                .r6i12xlarge,
+                .r6i16xlarge,
+                .r6i24xlarge,
+                .r6i2xlarge,
+                .r6i32xlarge,
+                .r6i4xlarge,
+                .r6i8xlarge,
+                .r6iLarge,
+                .r6iXlarge,
+                .r6id12xlarge,
+                .r6id16xlarge,
+                .r6id24xlarge,
+                .r6id2xlarge,
+                .r6id32xlarge,
+                .r6id4xlarge,
+                .r6id8xlarge,
+                .r6idLarge,
+                .r6idXlarge,
+                .r6idn12xlarge,
+                .r6idn16xlarge,
+                .r6idn24xlarge,
+                .r6idn2xlarge,
+                .r6idn32xlarge,
+                .r6idn4xlarge,
+                .r6idn8xlarge,
+                .r6idnLarge,
+                .r6idnXlarge,
+                .r6in12xlarge,
+                .r6in16xlarge,
+                .r6in24xlarge,
+                .r6in2xlarge,
+                .r6in32xlarge,
+                .r6in4xlarge,
+                .r6in8xlarge,
+                .r6inLarge,
+                .r6inXlarge,
+                .r7a12xlarge,
+                .r7a16xlarge,
+                .r7a24xlarge,
+                .r7a2xlarge,
+                .r7a32xlarge,
+                .r7a48xlarge,
+                .r7a4xlarge,
+                .r7a8xlarge,
+                .r7aLarge,
+                .r7aMedium,
+                .r7aXlarge,
                 .r7g12xlarge,
                 .r7g16xlarge,
                 .r7g2xlarge,
@@ -1319,6 +1952,33 @@ extension GameLiftClientTypes {
                 .r7gLarge,
                 .r7gMedium,
                 .r7gXlarge,
+                .r7gd12xlarge,
+                .r7gd16xlarge,
+                .r7gd2xlarge,
+                .r7gd4xlarge,
+                .r7gd8xlarge,
+                .r7gdLarge,
+                .r7gdMedium,
+                .r7gdXlarge,
+                .r7i12xlarge,
+                .r7i16xlarge,
+                .r7i24xlarge,
+                .r7i2xlarge,
+                .r7i48xlarge,
+                .r7i4xlarge,
+                .r7i8xlarge,
+                .r7iLarge,
+                .r7iXlarge,
+                .r8g12xlarge,
+                .r8g16xlarge,
+                .r8g24xlarge,
+                .r8g2xlarge,
+                .r8g48xlarge,
+                .r8g4xlarge,
+                .r8g8xlarge,
+                .r8gLarge,
+                .r8gMedium,
+                .r8gXlarge,
                 .t2Large,
                 .t2Medium,
                 .t2Micro,
@@ -1359,6 +2019,14 @@ extension GameLiftClientTypes {
             case .c5a8xlarge: return "c5a.8xlarge"
             case .c5aLarge: return "c5a.large"
             case .c5aXlarge: return "c5a.xlarge"
+            case .c5ad12xlarge: return "c5ad.12xlarge"
+            case .c5ad16xlarge: return "c5ad.16xlarge"
+            case .c5ad24xlarge: return "c5ad.24xlarge"
+            case .c5ad2xlarge: return "c5ad.2xlarge"
+            case .c5ad4xlarge: return "c5ad.4xlarge"
+            case .c5ad8xlarge: return "c5ad.8xlarge"
+            case .c5adLarge: return "c5ad.large"
+            case .c5adXlarge: return "c5ad.xlarge"
             case .c5d12xlarge: return "c5d.12xlarge"
             case .c5d18xlarge: return "c5d.18xlarge"
             case .c5d24xlarge: return "c5d.24xlarge"
@@ -1367,10 +2035,18 @@ extension GameLiftClientTypes {
             case .c5d9xlarge: return "c5d.9xlarge"
             case .c5dLarge: return "c5d.large"
             case .c5dXlarge: return "c5d.xlarge"
+            case .c5n18xlarge: return "c5n.18xlarge"
+            case .c5n2xlarge: return "c5n.2xlarge"
+            case .c5n4xlarge: return "c5n.4xlarge"
+            case .c5n9xlarge: return "c5n.9xlarge"
+            case .c5nLarge: return "c5n.large"
+            case .c5nXlarge: return "c5n.xlarge"
             case .c6a12xlarge: return "c6a.12xlarge"
             case .c6a16xlarge: return "c6a.16xlarge"
             case .c6a24xlarge: return "c6a.24xlarge"
             case .c6a2xlarge: return "c6a.2xlarge"
+            case .c6a32xlarge: return "c6a.32xlarge"
+            case .c6a48xlarge: return "c6a.48xlarge"
             case .c6a4xlarge: return "c6a.4xlarge"
             case .c6a8xlarge: return "c6a.8xlarge"
             case .c6aLarge: return "c6a.large"
@@ -1383,6 +2059,14 @@ extension GameLiftClientTypes {
             case .c6gLarge: return "c6g.large"
             case .c6gMedium: return "c6g.medium"
             case .c6gXlarge: return "c6g.xlarge"
+            case .c6gd12xlarge: return "c6gd.12xlarge"
+            case .c6gd16xlarge: return "c6gd.16xlarge"
+            case .c6gd2xlarge: return "c6gd.2xlarge"
+            case .c6gd4xlarge: return "c6gd.4xlarge"
+            case .c6gd8xlarge: return "c6gd.8xlarge"
+            case .c6gdLarge: return "c6gd.large"
+            case .c6gdMedium: return "c6gd.medium"
+            case .c6gdXlarge: return "c6gd.xlarge"
             case .c6gn12xlarge: return "c6gn.12xlarge"
             case .c6gn16xlarge: return "c6gn.16xlarge"
             case .c6gn2xlarge: return "c6gn.2xlarge"
@@ -1395,10 +2079,40 @@ extension GameLiftClientTypes {
             case .c6i16xlarge: return "c6i.16xlarge"
             case .c6i24xlarge: return "c6i.24xlarge"
             case .c6i2xlarge: return "c6i.2xlarge"
+            case .c6i32xlarge: return "c6i.32xlarge"
             case .c6i4xlarge: return "c6i.4xlarge"
             case .c6i8xlarge: return "c6i.8xlarge"
             case .c6iLarge: return "c6i.large"
             case .c6iXlarge: return "c6i.xlarge"
+            case .c6id12xlarge: return "c6id.12xlarge"
+            case .c6id16xlarge: return "c6id.16xlarge"
+            case .c6id24xlarge: return "c6id.24xlarge"
+            case .c6id2xlarge: return "c6id.2xlarge"
+            case .c6id32xlarge: return "c6id.32xlarge"
+            case .c6id4xlarge: return "c6id.4xlarge"
+            case .c6id8xlarge: return "c6id.8xlarge"
+            case .c6idLarge: return "c6id.large"
+            case .c6idXlarge: return "c6id.xlarge"
+            case .c6in12xlarge: return "c6in.12xlarge"
+            case .c6in16xlarge: return "c6in.16xlarge"
+            case .c6in24xlarge: return "c6in.24xlarge"
+            case .c6in2xlarge: return "c6in.2xlarge"
+            case .c6in32xlarge: return "c6in.32xlarge"
+            case .c6in4xlarge: return "c6in.4xlarge"
+            case .c6in8xlarge: return "c6in.8xlarge"
+            case .c6inLarge: return "c6in.large"
+            case .c6inXlarge: return "c6in.xlarge"
+            case .c7a12xlarge: return "c7a.12xlarge"
+            case .c7a16xlarge: return "c7a.16xlarge"
+            case .c7a24xlarge: return "c7a.24xlarge"
+            case .c7a2xlarge: return "c7a.2xlarge"
+            case .c7a32xlarge: return "c7a.32xlarge"
+            case .c7a48xlarge: return "c7a.48xlarge"
+            case .c7a4xlarge: return "c7a.4xlarge"
+            case .c7a8xlarge: return "c7a.8xlarge"
+            case .c7aLarge: return "c7a.large"
+            case .c7aMedium: return "c7a.medium"
+            case .c7aXlarge: return "c7a.xlarge"
             case .c7g12xlarge: return "c7g.12xlarge"
             case .c7g16xlarge: return "c7g.16xlarge"
             case .c7g2xlarge: return "c7g.2xlarge"
@@ -1407,6 +2121,41 @@ extension GameLiftClientTypes {
             case .c7gLarge: return "c7g.large"
             case .c7gMedium: return "c7g.medium"
             case .c7gXlarge: return "c7g.xlarge"
+            case .c7gd12xlarge: return "c7gd.12xlarge"
+            case .c7gd16xlarge: return "c7gd.16xlarge"
+            case .c7gd2xlarge: return "c7gd.2xlarge"
+            case .c7gd4xlarge: return "c7gd.4xlarge"
+            case .c7gd8xlarge: return "c7gd.8xlarge"
+            case .c7gdLarge: return "c7gd.large"
+            case .c7gdMedium: return "c7gd.medium"
+            case .c7gdXlarge: return "c7gd.xlarge"
+            case .c7gn12xlarge: return "c7gn.12xlarge"
+            case .c7gn16xlarge: return "c7gn.16xlarge"
+            case .c7gn2xlarge: return "c7gn.2xlarge"
+            case .c7gn4xlarge: return "c7gn.4xlarge"
+            case .c7gn8xlarge: return "c7gn.8xlarge"
+            case .c7gnLarge: return "c7gn.large"
+            case .c7gnMedium: return "c7gn.medium"
+            case .c7gnXlarge: return "c7gn.xlarge"
+            case .c7i12xlarge: return "c7i.12xlarge"
+            case .c7i16xlarge: return "c7i.16xlarge"
+            case .c7i24xlarge: return "c7i.24xlarge"
+            case .c7i2xlarge: return "c7i.2xlarge"
+            case .c7i48xlarge: return "c7i.48xlarge"
+            case .c7i4xlarge: return "c7i.4xlarge"
+            case .c7i8xlarge: return "c7i.8xlarge"
+            case .c7iLarge: return "c7i.large"
+            case .c7iXlarge: return "c7i.xlarge"
+            case .c8g12xlarge: return "c8g.12xlarge"
+            case .c8g16xlarge: return "c8g.16xlarge"
+            case .c8g24xlarge: return "c8g.24xlarge"
+            case .c8g2xlarge: return "c8g.2xlarge"
+            case .c8g48xlarge: return "c8g.48xlarge"
+            case .c8g4xlarge: return "c8g.4xlarge"
+            case .c8g8xlarge: return "c8g.8xlarge"
+            case .c8gLarge: return "c8g.large"
+            case .c8gMedium: return "c8g.medium"
+            case .c8gXlarge: return "c8g.xlarge"
             case .g5g16xlarge: return "g5g.16xlarge"
             case .g5g2xlarge: return "g5g.2xlarge"
             case .g5g4xlarge: return "g5g.4xlarge"
@@ -1417,6 +2166,7 @@ extension GameLiftClientTypes {
             case .m3Medium: return "m3.medium"
             case .m3Xlarge: return "m3.xlarge"
             case .m410xlarge: return "m4.10xlarge"
+            case .m416xlarge: return "m4.16xlarge"
             case .m42xlarge: return "m4.2xlarge"
             case .m44xlarge: return "m4.4xlarge"
             case .m4Large: return "m4.large"
@@ -1437,6 +2187,48 @@ extension GameLiftClientTypes {
             case .m5a8xlarge: return "m5a.8xlarge"
             case .m5aLarge: return "m5a.large"
             case .m5aXlarge: return "m5a.xlarge"
+            case .m5ad12xlarge: return "m5ad.12xlarge"
+            case .m5ad16xlarge: return "m5ad.16xlarge"
+            case .m5ad24xlarge: return "m5ad.24xlarge"
+            case .m5ad2xlarge: return "m5ad.2xlarge"
+            case .m5ad4xlarge: return "m5ad.4xlarge"
+            case .m5ad8xlarge: return "m5ad.8xlarge"
+            case .m5adLarge: return "m5ad.large"
+            case .m5adXlarge: return "m5ad.xlarge"
+            case .m5d12xlarge: return "m5d.12xlarge"
+            case .m5d16xlarge: return "m5d.16xlarge"
+            case .m5d24xlarge: return "m5d.24xlarge"
+            case .m5d2xlarge: return "m5d.2xlarge"
+            case .m5d4xlarge: return "m5d.4xlarge"
+            case .m5d8xlarge: return "m5d.8xlarge"
+            case .m5dLarge: return "m5d.large"
+            case .m5dXlarge: return "m5d.xlarge"
+            case .m5dn12xlarge: return "m5dn.12xlarge"
+            case .m5dn16xlarge: return "m5dn.16xlarge"
+            case .m5dn24xlarge: return "m5dn.24xlarge"
+            case .m5dn2xlarge: return "m5dn.2xlarge"
+            case .m5dn4xlarge: return "m5dn.4xlarge"
+            case .m5dn8xlarge: return "m5dn.8xlarge"
+            case .m5dnLarge: return "m5dn.large"
+            case .m5dnXlarge: return "m5dn.xlarge"
+            case .m5n12xlarge: return "m5n.12xlarge"
+            case .m5n16xlarge: return "m5n.16xlarge"
+            case .m5n24xlarge: return "m5n.24xlarge"
+            case .m5n2xlarge: return "m5n.2xlarge"
+            case .m5n4xlarge: return "m5n.4xlarge"
+            case .m5n8xlarge: return "m5n.8xlarge"
+            case .m5nLarge: return "m5n.large"
+            case .m5nXlarge: return "m5n.xlarge"
+            case .m6a12xlarge: return "m6a.12xlarge"
+            case .m6a16xlarge: return "m6a.16xlarge"
+            case .m6a24xlarge: return "m6a.24xlarge"
+            case .m6a2xlarge: return "m6a.2xlarge"
+            case .m6a32xlarge: return "m6a.32xlarge"
+            case .m6a48xlarge: return "m6a.48xlarge"
+            case .m6a4xlarge: return "m6a.4xlarge"
+            case .m6a8xlarge: return "m6a.8xlarge"
+            case .m6aLarge: return "m6a.large"
+            case .m6aXlarge: return "m6a.xlarge"
             case .m6g12xlarge: return "m6g.12xlarge"
             case .m6g16xlarge: return "m6g.16xlarge"
             case .m6g2xlarge: return "m6g.2xlarge"
@@ -1445,6 +2237,61 @@ extension GameLiftClientTypes {
             case .m6gLarge: return "m6g.large"
             case .m6gMedium: return "m6g.medium"
             case .m6gXlarge: return "m6g.xlarge"
+            case .m6gd12xlarge: return "m6gd.12xlarge"
+            case .m6gd16xlarge: return "m6gd.16xlarge"
+            case .m6gd2xlarge: return "m6gd.2xlarge"
+            case .m6gd4xlarge: return "m6gd.4xlarge"
+            case .m6gd8xlarge: return "m6gd.8xlarge"
+            case .m6gdLarge: return "m6gd.large"
+            case .m6gdMedium: return "m6gd.medium"
+            case .m6gdXlarge: return "m6gd.xlarge"
+            case .m6i12xlarge: return "m6i.12xlarge"
+            case .m6i16xlarge: return "m6i.16xlarge"
+            case .m6i24xlarge: return "m6i.24xlarge"
+            case .m6i2xlarge: return "m6i.2xlarge"
+            case .m6i32xlarge: return "m6i.32xlarge"
+            case .m6i4xlarge: return "m6i.4xlarge"
+            case .m6i8xlarge: return "m6i.8xlarge"
+            case .m6iLarge: return "m6i.large"
+            case .m6iXlarge: return "m6i.xlarge"
+            case .m6id12xlarge: return "m6id.12xlarge"
+            case .m6id16xlarge: return "m6id.16xlarge"
+            case .m6id24xlarge: return "m6id.24xlarge"
+            case .m6id2xlarge: return "m6id.2xlarge"
+            case .m6id32xlarge: return "m6id.32xlarge"
+            case .m6id4xlarge: return "m6id.4xlarge"
+            case .m6id8xlarge: return "m6id.8xlarge"
+            case .m6idLarge: return "m6id.large"
+            case .m6idXlarge: return "m6id.xlarge"
+            case .m6idn12xlarge: return "m6idn.12xlarge"
+            case .m6idn16xlarge: return "m6idn.16xlarge"
+            case .m6idn24xlarge: return "m6idn.24xlarge"
+            case .m6idn2xlarge: return "m6idn.2xlarge"
+            case .m6idn32xlarge: return "m6idn.32xlarge"
+            case .m6idn4xlarge: return "m6idn.4xlarge"
+            case .m6idn8xlarge: return "m6idn.8xlarge"
+            case .m6idnLarge: return "m6idn.large"
+            case .m6idnXlarge: return "m6idn.xlarge"
+            case .m6in12xlarge: return "m6in.12xlarge"
+            case .m6in16xlarge: return "m6in.16xlarge"
+            case .m6in24xlarge: return "m6in.24xlarge"
+            case .m6in2xlarge: return "m6in.2xlarge"
+            case .m6in32xlarge: return "m6in.32xlarge"
+            case .m6in4xlarge: return "m6in.4xlarge"
+            case .m6in8xlarge: return "m6in.8xlarge"
+            case .m6inLarge: return "m6in.large"
+            case .m6inXlarge: return "m6in.xlarge"
+            case .m7a12xlarge: return "m7a.12xlarge"
+            case .m7a16xlarge: return "m7a.16xlarge"
+            case .m7a24xlarge: return "m7a.24xlarge"
+            case .m7a2xlarge: return "m7a.2xlarge"
+            case .m7a32xlarge: return "m7a.32xlarge"
+            case .m7a48xlarge: return "m7a.48xlarge"
+            case .m7a4xlarge: return "m7a.4xlarge"
+            case .m7a8xlarge: return "m7a.8xlarge"
+            case .m7aLarge: return "m7a.large"
+            case .m7aMedium: return "m7a.medium"
+            case .m7aXlarge: return "m7a.xlarge"
             case .m7g12xlarge: return "m7g.12xlarge"
             case .m7g16xlarge: return "m7g.16xlarge"
             case .m7g2xlarge: return "m7g.2xlarge"
@@ -1453,6 +2300,33 @@ extension GameLiftClientTypes {
             case .m7gLarge: return "m7g.large"
             case .m7gMedium: return "m7g.medium"
             case .m7gXlarge: return "m7g.xlarge"
+            case .m7gd12xlarge: return "m7gd.12xlarge"
+            case .m7gd16xlarge: return "m7gd.16xlarge"
+            case .m7gd2xlarge: return "m7gd.2xlarge"
+            case .m7gd4xlarge: return "m7gd.4xlarge"
+            case .m7gd8xlarge: return "m7gd.8xlarge"
+            case .m7gdLarge: return "m7gd.large"
+            case .m7gdMedium: return "m7gd.medium"
+            case .m7gdXlarge: return "m7gd.xlarge"
+            case .m7i12xlarge: return "m7i.12xlarge"
+            case .m7i16xlarge: return "m7i.16xlarge"
+            case .m7i24xlarge: return "m7i.24xlarge"
+            case .m7i2xlarge: return "m7i.2xlarge"
+            case .m7i48xlarge: return "m7i.48xlarge"
+            case .m7i4xlarge: return "m7i.4xlarge"
+            case .m7i8xlarge: return "m7i.8xlarge"
+            case .m7iLarge: return "m7i.large"
+            case .m7iXlarge: return "m7i.xlarge"
+            case .m8g12xlarge: return "m8g.12xlarge"
+            case .m8g16xlarge: return "m8g.16xlarge"
+            case .m8g24xlarge: return "m8g.24xlarge"
+            case .m8g2xlarge: return "m8g.2xlarge"
+            case .m8g48xlarge: return "m8g.48xlarge"
+            case .m8g4xlarge: return "m8g.4xlarge"
+            case .m8g8xlarge: return "m8g.8xlarge"
+            case .m8gLarge: return "m8g.large"
+            case .m8gMedium: return "m8g.medium"
+            case .m8gXlarge: return "m8g.xlarge"
             case .r32xlarge: return "r3.2xlarge"
             case .r34xlarge: return "r3.4xlarge"
             case .r38xlarge: return "r3.8xlarge"
@@ -1480,6 +2354,14 @@ extension GameLiftClientTypes {
             case .r5a8xlarge: return "r5a.8xlarge"
             case .r5aLarge: return "r5a.large"
             case .r5aXlarge: return "r5a.xlarge"
+            case .r5ad12xlarge: return "r5ad.12xlarge"
+            case .r5ad16xlarge: return "r5ad.16xlarge"
+            case .r5ad24xlarge: return "r5ad.24xlarge"
+            case .r5ad2xlarge: return "r5ad.2xlarge"
+            case .r5ad4xlarge: return "r5ad.4xlarge"
+            case .r5ad8xlarge: return "r5ad.8xlarge"
+            case .r5adLarge: return "r5ad.large"
+            case .r5adXlarge: return "r5ad.xlarge"
             case .r5d12xlarge: return "r5d.12xlarge"
             case .r5d16xlarge: return "r5d.16xlarge"
             case .r5d24xlarge: return "r5d.24xlarge"
@@ -1488,6 +2370,32 @@ extension GameLiftClientTypes {
             case .r5d8xlarge: return "r5d.8xlarge"
             case .r5dLarge: return "r5d.large"
             case .r5dXlarge: return "r5d.xlarge"
+            case .r5dn12xlarge: return "r5dn.12xlarge"
+            case .r5dn16xlarge: return "r5dn.16xlarge"
+            case .r5dn24xlarge: return "r5dn.24xlarge"
+            case .r5dn2xlarge: return "r5dn.2xlarge"
+            case .r5dn4xlarge: return "r5dn.4xlarge"
+            case .r5dn8xlarge: return "r5dn.8xlarge"
+            case .r5dnLarge: return "r5dn.large"
+            case .r5dnXlarge: return "r5dn.xlarge"
+            case .r5n12xlarge: return "r5n.12xlarge"
+            case .r5n16xlarge: return "r5n.16xlarge"
+            case .r5n24xlarge: return "r5n.24xlarge"
+            case .r5n2xlarge: return "r5n.2xlarge"
+            case .r5n4xlarge: return "r5n.4xlarge"
+            case .r5n8xlarge: return "r5n.8xlarge"
+            case .r5nLarge: return "r5n.large"
+            case .r5nXlarge: return "r5n.xlarge"
+            case .r6a12xlarge: return "r6a.12xlarge"
+            case .r6a16xlarge: return "r6a.16xlarge"
+            case .r6a24xlarge: return "r6a.24xlarge"
+            case .r6a2xlarge: return "r6a.2xlarge"
+            case .r6a32xlarge: return "r6a.32xlarge"
+            case .r6a48xlarge: return "r6a.48xlarge"
+            case .r6a4xlarge: return "r6a.4xlarge"
+            case .r6a8xlarge: return "r6a.8xlarge"
+            case .r6aLarge: return "r6a.large"
+            case .r6aXlarge: return "r6a.xlarge"
             case .r6g12xlarge: return "r6g.12xlarge"
             case .r6g16xlarge: return "r6g.16xlarge"
             case .r6g2xlarge: return "r6g.2xlarge"
@@ -1496,6 +2404,61 @@ extension GameLiftClientTypes {
             case .r6gLarge: return "r6g.large"
             case .r6gMedium: return "r6g.medium"
             case .r6gXlarge: return "r6g.xlarge"
+            case .r6gd12xlarge: return "r6gd.12xlarge"
+            case .r6gd16xlarge: return "r6gd.16xlarge"
+            case .r6gd2xlarge: return "r6gd.2xlarge"
+            case .r6gd4xlarge: return "r6gd.4xlarge"
+            case .r6gd8xlarge: return "r6gd.8xlarge"
+            case .r6gdLarge: return "r6gd.large"
+            case .r6gdMedium: return "r6gd.medium"
+            case .r6gdXlarge: return "r6gd.xlarge"
+            case .r6i12xlarge: return "r6i.12xlarge"
+            case .r6i16xlarge: return "r6i.16xlarge"
+            case .r6i24xlarge: return "r6i.24xlarge"
+            case .r6i2xlarge: return "r6i.2xlarge"
+            case .r6i32xlarge: return "r6i.32xlarge"
+            case .r6i4xlarge: return "r6i.4xlarge"
+            case .r6i8xlarge: return "r6i.8xlarge"
+            case .r6iLarge: return "r6i.large"
+            case .r6iXlarge: return "r6i.xlarge"
+            case .r6id12xlarge: return "r6id.12xlarge"
+            case .r6id16xlarge: return "r6id.16xlarge"
+            case .r6id24xlarge: return "r6id.24xlarge"
+            case .r6id2xlarge: return "r6id.2xlarge"
+            case .r6id32xlarge: return "r6id.32xlarge"
+            case .r6id4xlarge: return "r6id.4xlarge"
+            case .r6id8xlarge: return "r6id.8xlarge"
+            case .r6idLarge: return "r6id.large"
+            case .r6idXlarge: return "r6id.xlarge"
+            case .r6idn12xlarge: return "r6idn.12xlarge"
+            case .r6idn16xlarge: return "r6idn.16xlarge"
+            case .r6idn24xlarge: return "r6idn.24xlarge"
+            case .r6idn2xlarge: return "r6idn.2xlarge"
+            case .r6idn32xlarge: return "r6idn.32xlarge"
+            case .r6idn4xlarge: return "r6idn.4xlarge"
+            case .r6idn8xlarge: return "r6idn.8xlarge"
+            case .r6idnLarge: return "r6idn.large"
+            case .r6idnXlarge: return "r6idn.xlarge"
+            case .r6in12xlarge: return "r6in.12xlarge"
+            case .r6in16xlarge: return "r6in.16xlarge"
+            case .r6in24xlarge: return "r6in.24xlarge"
+            case .r6in2xlarge: return "r6in.2xlarge"
+            case .r6in32xlarge: return "r6in.32xlarge"
+            case .r6in4xlarge: return "r6in.4xlarge"
+            case .r6in8xlarge: return "r6in.8xlarge"
+            case .r6inLarge: return "r6in.large"
+            case .r6inXlarge: return "r6in.xlarge"
+            case .r7a12xlarge: return "r7a.12xlarge"
+            case .r7a16xlarge: return "r7a.16xlarge"
+            case .r7a24xlarge: return "r7a.24xlarge"
+            case .r7a2xlarge: return "r7a.2xlarge"
+            case .r7a32xlarge: return "r7a.32xlarge"
+            case .r7a48xlarge: return "r7a.48xlarge"
+            case .r7a4xlarge: return "r7a.4xlarge"
+            case .r7a8xlarge: return "r7a.8xlarge"
+            case .r7aLarge: return "r7a.large"
+            case .r7aMedium: return "r7a.medium"
+            case .r7aXlarge: return "r7a.xlarge"
             case .r7g12xlarge: return "r7g.12xlarge"
             case .r7g16xlarge: return "r7g.16xlarge"
             case .r7g2xlarge: return "r7g.2xlarge"
@@ -1504,6 +2467,33 @@ extension GameLiftClientTypes {
             case .r7gLarge: return "r7g.large"
             case .r7gMedium: return "r7g.medium"
             case .r7gXlarge: return "r7g.xlarge"
+            case .r7gd12xlarge: return "r7gd.12xlarge"
+            case .r7gd16xlarge: return "r7gd.16xlarge"
+            case .r7gd2xlarge: return "r7gd.2xlarge"
+            case .r7gd4xlarge: return "r7gd.4xlarge"
+            case .r7gd8xlarge: return "r7gd.8xlarge"
+            case .r7gdLarge: return "r7gd.large"
+            case .r7gdMedium: return "r7gd.medium"
+            case .r7gdXlarge: return "r7gd.xlarge"
+            case .r7i12xlarge: return "r7i.12xlarge"
+            case .r7i16xlarge: return "r7i.16xlarge"
+            case .r7i24xlarge: return "r7i.24xlarge"
+            case .r7i2xlarge: return "r7i.2xlarge"
+            case .r7i48xlarge: return "r7i.48xlarge"
+            case .r7i4xlarge: return "r7i.4xlarge"
+            case .r7i8xlarge: return "r7i.8xlarge"
+            case .r7iLarge: return "r7i.large"
+            case .r7iXlarge: return "r7i.xlarge"
+            case .r8g12xlarge: return "r8g.12xlarge"
+            case .r8g16xlarge: return "r8g.16xlarge"
+            case .r8g24xlarge: return "r8g.24xlarge"
+            case .r8g2xlarge: return "r8g.2xlarge"
+            case .r8g48xlarge: return "r8g.48xlarge"
+            case .r8g4xlarge: return "r8g.4xlarge"
+            case .r8g8xlarge: return "r8g.8xlarge"
+            case .r8gLarge: return "r8g.large"
+            case .r8gMedium: return "r8g.medium"
+            case .r8gXlarge: return "r8g.xlarge"
             case .t2Large: return "t2.large"
             case .t2Medium: return "t2.medium"
             case .t2Micro: return "t2.micro"
@@ -1550,7 +2540,7 @@ extension GameLiftClientTypes {
         public var ipAddress: Swift.String?
         /// The name of the custom location you added to the fleet that this compute resource resides in.
         public var location: Swift.String?
-        /// The type of operating system on the compute resource. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+        /// The type of operating system on the compute resource. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
         /// The Amazon EC2 instance type that the fleet uses. For registered computes in an Amazon GameLift Anywhere fleet, this property is empty.
         public var type: GameLiftClientTypes.EC2InstanceType?
@@ -1832,7 +2822,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A range of IP addresses and port settings that allow inbound traffic to connect to processes on an instance in a fleet. Processes are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. For Realtime Servers fleets, Amazon GameLift automatically opens two port ranges, one for TCP messaging and one for UDP.
+    /// A range of IP addresses and port settings that allow inbound traffic to connect to processes on an instance in a fleet. Processes are assigned an IP address/port number combination, which must fall into the fleet's allowed ranges. For Amazon GameLift Realtime fleets, Amazon GameLift automatically opens two port ranges, one for TCP messaging and one for UDP.
     public struct IpPermission: Swift.Sendable {
         /// A starting value for a range of allowed port numbers. For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid.
         /// This member is required.
@@ -1981,7 +2971,7 @@ extension GameLiftClientTypes {
         ///
         /// * CLOUDWATCH -- (default value) Send logs to an Amazon CloudWatch log group that you define. Each container emits a log stream, which is organized in the log group.
         ///
-        /// * S3 -- Store logs in an Amazon S3 bucket that you define.
+        /// * S3 -- Store logs in an Amazon S3 bucket that you define. This bucket must reside in the fleet's home Amazon Web Services Region.
         ///
         /// * NONE -- Don't collect container logs.
         public var logDestination: GameLiftClientTypes.LogDestination?
@@ -2554,7 +3544,7 @@ extension GameLiftClientTypes {
         /// A descriptive identifier for the container group definition. The name value is unique in an Amazon Web Services Region.
         /// This member is required.
         public var name: Swift.String?
-        /// The platform that all containers in the container group definition run on. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+        /// The platform that all containers in the container group definition run on. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
         public var operatingSystem: GameLiftClientTypes.ContainerOperatingSystem?
         /// Current status of the container group definition resource. Values include:
         ///
@@ -2771,7 +3761,7 @@ extension GameLiftClientTypes {
 public struct CreateBuildInput: Swift.Sendable {
     /// A descriptive label that is associated with a build. Build names do not need to be unique. You can change this value later.
     public var name: Swift.String?
-    /// The operating system that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. You must specify a valid operating system in this request. There is no default value. You can't change a build's operating system later. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+    /// The operating system that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. You must specify a valid operating system in this request. There is no default value. You can't change a build's operating system later. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
     public var operatingSystem: GameLiftClientTypes.OperatingSystem?
     /// A server SDK version you used when integrating your game server build with Amazon GameLift. For more information see [Integrate games with custom game servers](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-custom-intro.html). By default Amazon GameLift sets this value to 4.0.2.
     public var serverSdkVersion: Swift.String?
@@ -3062,7 +4052,7 @@ public struct CreateContainerGroupDefinitionInput: Swift.Sendable {
     /// A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region.
     /// This member is required.
     public var name: Swift.String?
-    /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Default value: AMAZON_LINUX_2023 Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+    /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Default value: AMAZON_LINUX_2023 Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
     /// This member is required.
     public var operatingSystem: GameLiftClientTypes.ContainerOperatingSystem?
     /// One or more definition for support containers in this group. You can define a support container in any type of container group. You can pass in your container definitions as a JSON file.
@@ -3211,7 +4201,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A set of instructions for launching server processes on fleet computes. Server processes run either an executable in a custom game build or a Realtime Servers script. Server process configurations are part of a fleet's runtime configuration.
+    /// A set of instructions for launching server processes on fleet computes. Server processes run either an executable in a custom game build or a Amazon GameLift Realtime script. Server process configurations are part of a fleet's runtime configuration.
     public struct ServerProcess: Swift.Sendable {
         /// The number of server processes using this configuration that run concurrently on each instance or compute.
         /// This member is required.
@@ -3243,7 +4233,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A set of instructions that define the set of server processes to run on computes in a fleet. Server processes run either an executable in a custom game build or a Realtime Servers script. Amazon GameLift launches the processes, manages their life cycle, and replaces them as needed. Computes check regularly for an updated runtime configuration. An Amazon GameLift instance is limited to 50 processes running concurrently. To calculate the total number of processes defined in a runtime configuration, add the values of the ConcurrentExecutions parameter for each server process. Learn more about [ Running Multiple Processes on a Fleet](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-multiprocess.html).
+    /// A set of instructions that define the set of server processes to run on computes in a fleet. Server processes run either an executable in a custom game build or a Amazon GameLift Realtime script. Amazon GameLift launches the processes, manages their life cycle, and replaces them as needed. Computes check regularly for an updated runtime configuration. An Amazon GameLift instance is limited to 50 processes running concurrently. To calculate the total number of processes defined in a runtime configuration, add the values of the ConcurrentExecutions parameter for each server process. Learn more about [ Running Multiple Processes on a Fleet](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-multiprocess.html).
     public struct RuntimeConfiguration: Swift.Sendable {
         /// The maximum amount of time (in seconds) allowed to launch a new game session and have it report ready to host players. During this time, the game session is in status ACTIVATING. If the game session does not become active before the timeout, it is ended and the game session status is changed to TERMINATED.
         public var gameSessionActivationTimeoutSeconds: Swift.Int?
@@ -3279,7 +4269,7 @@ public struct CreateFleetInput: Swift.Sendable {
     public var computeType: GameLiftClientTypes.ComputeType?
     /// A description for the fleet.
     public var description: Swift.String?
-    /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for managed EC2 fleets. You can leave this parameter empty when creating the fleet, but you must call [https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetPortSettings](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetPortSettings) to set it before players can connect to game sessions. As a best practice, we recommend opening ports for remote access only when you need them and closing them when you're finished. For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges.
+    /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for managed EC2 fleets. You can leave this parameter empty when creating the fleet, but you must call [https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetPortSettings](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetPortSettings) to set it before players can connect to game sessions. As a best practice, we recommend opening ports for remote access only when you need them and closing them when you're finished. For Amazon GameLift Realtime fleets, Amazon GameLift automatically sets TCP and UDP ranges.
     public var ec2InboundPermissions: [GameLiftClientTypes.IpPermission]?
     /// The Amazon GameLift-supported Amazon EC2 instance type to use with managed EC2 fleets. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types.
     public var ec2InstanceType: GameLiftClientTypes.EC2InstanceType?
@@ -3455,7 +4445,7 @@ extension GameLiftClientTypes {
 
     /// Describes an Amazon GameLift fleet of game hosting resources. Attributes differ based on the fleet's compute type, as follows:
     ///
-    /// * EC2 fleet attributes identify a Build resource (for fleets with customer game server builds) or a Script resource (for Realtime Servers fleets).
+    /// * EC2 fleet attributes identify a Build resource (for fleets with customer game server builds) or a Script resource (for Amazon GameLift Realtime fleets).
     ///
     /// * Amazon GameLift Anywhere fleets have an abbreviated set of attributes, because most fleet configurations are set directly on the fleet's computes. Attributes include fleet identifiers and descriptive properties, creation/termination time, and fleet status.
     ///
@@ -3500,7 +4490,7 @@ extension GameLiftClientTypes {
         ///
         /// * FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public var newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy?
-        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is EC2. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is EC2. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
         /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
         public var resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy?
@@ -4755,11 +5745,11 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// Custom prioritization settings for a game session queue to use when searching for available game servers to place new game sessions. This configuration replaces the default FleetIQ prioritization process. By default, a queue makes placements based on the following default prioritizations:
+    /// Custom prioritization settings to use with a game session queue. Prioritization settings determine how the queue selects a game hosting resource to start a new game session. This configuration replaces the default prioritization process for queues. By default, a queue makes game session placements based on the following criteria:
     ///
-    /// * If player latency data is included in a game session request, Amazon GameLift prioritizes placing game sessions where the average player latency is lowest. Amazon GameLift re-orders the queue's destinations and locations (for multi-location fleets) based on the following priorities: (1) the lowest average latency across all players, (2) the lowest hosting cost, (3) the queue's default destination order, and then (4), an alphabetic list of locations.
+    /// * When a game session request does not include player latency data, Amazon GameLift places game sessions based on the following priorities: (1) the queue's default destination order, and (2) for multi-location fleets, an alphabetic list of locations.
     ///
-    /// * If player latency data is not included, Amazon GameLift prioritizes placing game sessions in the queue's first destination. If that fleet has multiple locations, the game session is placed on the first location (when listed alphabetically). Amazon GameLift re-orders the queue's destinations and locations (for multi-location fleets) based on the following priorities: (1) the queue's default destination order, and then (2) an alphabetic list of locations.
+    /// * When a game session request includes player latency data, Amazon GameLift re-orders the queue's destinations to make placements where the average player latency is lowest. It reorders based the following priorities: (1) the lowest average latency across all players, (2) the lowest hosting cost, (3) the queue's default destination order, and (4) for multi-location fleets, an alphabetic list of locations.
     public struct PriorityConfiguration: Swift.Sendable {
         /// The prioritization order to use for fleet locations, when the PriorityOrder property includes LOCATION. Locations can include Amazon Web Services Region codes (such as us-west-2), local zones, and custom locations (for Anywhere fleets). Each location must be listed only once. For details, see [Amazon GameLift service locations.](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
         public var locationOrder: [Swift.String]?
@@ -4767,7 +5757,7 @@ extension GameLiftClientTypes {
         ///
         /// * LATENCY -- Amazon GameLift prioritizes locations where the average player latency is lowest. Player latency data is provided in each game session placement request.
         ///
-        /// * COST -- Amazon GameLift prioritizes destinations with the lowest current hosting costs. Cost is evaluated based on the location, instance type, and fleet type (Spot or On-Demand) of each destination in the queue.
+        /// * COST -- Amazon GameLift prioritizes queue destinations with the lowest current hosting costs. Cost is evaluated based on the destination's location, instance type, and fleet type (Spot or On-Demand).
         ///
         /// * DESTINATION -- Amazon GameLift prioritizes based on the list order of destinations in the queue configuration.
         ///
@@ -4802,7 +5792,7 @@ public struct CreateGameSessionQueueInput: Swift.Sendable {
     public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
     /// A list of labels to assign to the new game session queue resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
-    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. If you don't specify a request timeout, the queue uses a default value.
     public var timeoutInSeconds: Swift.Int?
 
     public init(
@@ -6127,7 +7117,7 @@ public struct DescribeBuildOutput: Swift.Sendable {
 }
 
 public struct DescribeComputeInput: Swift.Sendable {
-    /// The unique identifier of the compute resource to retrieve properties for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID.
+    /// The unique identifier of the compute resource to retrieve properties for. For a managed container fleet or Anywhere fleet, use a compute name. For an EC2 fleet, use an instance ID. To retrieve a fleet's compute identifiers, call [ListCompute](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute.html).
     /// This member is required.
     public var computeName: Swift.String?
     /// A unique identifier for the fleet that the compute belongs to. You can use either the fleet ID or ARN value.
@@ -6832,7 +7822,7 @@ extension GameLiftClientTypes {
         ///
         /// * SERVER_PROCESS_INVALID_PATH -- The game server executable or script could not be found based on the Fleet runtime configuration. Check that the launch path is correct based on the operating system of the Fleet.
         ///
-        /// * SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT -- The server process did not call InitSDK() within the time expected (5 minutes). Check your game session log to see why InitSDK() was not called in time.
+        /// * SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT -- The server process did not call InitSDK() within the time expected (5 minutes). Check your game session log to see why InitSDK() was not called in time. This event is not emitted for managed container fleets and Anywhere fleets unless they're deployed with the Amazon GameLift Agent.
         ///
         /// * SERVER_PROCESS_PROCESS_READY_TIMEOUT -- The server process did not call ProcessReady() within the time expected (5 minutes) after calling InitSDK(). Check your game session log to see why ProcessReady() was not called in time.
         ///
@@ -7491,16 +8481,16 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// An alternate list of prioritized locations for use with a game session queue. When this property is included in a [StartGameSessionPlacement](https://docs.aws.amazon.com/gamelift/latest/apireference/API_StartGameSessionPlacement.html) request, this list overrides the queue's default location prioritization, as defined in the queue's [PriorityConfiguration] setting (LocationOrder). This property overrides the queue's default priority list for individual placement requests only. Use this property only with queues that have a PriorityConfiguration setting that prioritizes first. A priority configuration override list does not override a queue's FilterConfiguration setting, if the queue has one. Filter configurations are used to limit placements to a subset of the locations in a queue's destinations. If the override list includes a location that's not included in the FilterConfiguration allowed list, Amazon GameLift won't attempt to place a game session there.
+    /// An alternate list of prioritized locations for use with a game session queue. When this property is included in a [StartGameSessionPlacement](https://docs.aws.amazon.com/gamelift/latest/apireference/API_StartGameSessionPlacement.html) request, the alternate list overrides the queue's default location priorities, as defined in the queue's [PriorityConfiguration] setting (LocationOrder). The override is valid for an individual placement request only. Use this property only with queues that have a PriorityConfiguration setting that prioritizes LOCATION first. A priority configuration override list does not override a queue's FilterConfiguration setting, if the queue has one. Filter configurations are used to limit placements to a subset of the locations in a queue's destinations. If the override list includes a location that's not on in the FilterConfiguration allowed list, Amazon GameLift won't attempt to place a game session there.
     public struct PriorityConfigurationOverride: Swift.Sendable {
         /// A prioritized list of hosting locations. The list can include Amazon Web Services Regions (such as us-west-2), local zones, and custom locations (for Anywhere fleets). Each location must be listed only once. For details, see [Amazon GameLift service locations.](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
         /// This member is required.
         public var locationOrder: [Swift.String]?
-        /// Instructions for how to use the override list if the first round of placement attempts fails. The first round is a failure if Amazon GameLift searches all listed locations, in all of the queue's destinations, without finding an available hosting resource for a new game session. Valid strategies include:
+        /// Instructions for how to proceed if placement fails in every location on the priority override list. Valid strategies include:
         ///
-        /// * DEFAULT_AFTER_SINGLE_PASS -- After the first round of placement attempts, discard the override list and use the queue's default location priority list. Continue to use the queue's default list until the placement request times out.
+        /// * DEFAULT_AFTER_SINGLE_PASS -- After attempting to place a new game session in every location on the priority override list, try to place a game session in queue's other locations. This is the default behavior.
         ///
-        /// * NONE -- Continue to use the override list for all rounds of placement attempts until the placement request times out.
+        /// * NONE -- Limit placements to locations on the priority override list only.
         public var placementFallbackStrategy: GameLiftClientTypes.PlacementFallbackStrategy?
 
         public init(
@@ -7594,7 +8584,7 @@ extension GameLiftClientTypes {
         public var playerLatencies: [GameLiftClientTypes.PlayerLatency]?
         /// The port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value isn't final until placement status is FULFILLED.
         public var port: Swift.Int?
-        /// A prioritized list of locations to use with a game session placement request and instructions on how to use it. This list overrides a queue's prioritized location list for a single game session placement request only. The list can include Amazon Web Services Regions, local zones, and custom locations (for Anywhere fleets). The fallback strategy instructs Amazon GameLift to use the override list for the first placement attempt only or for all placement attempts.
+        /// An alternative priority list of locations that's included with a game session placement request. When provided, the list overrides a queue's location order list for this game session placement request only. The list might include Amazon Web Services Regions, local zones, and custom locations (for Anywhere fleets). The fallback strategy tells Amazon GameLift what action to take (if any) in the event that it failed to place a new game session.
         public var priorityConfigurationOverride: GameLiftClientTypes.PriorityConfigurationOverride?
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var startTime: Foundation.Date?
@@ -7840,7 +8830,7 @@ extension GameLiftClientTypes {
         public var ipAddress: Swift.String?
         /// The fleet location of the instance, expressed as an Amazon Web Services Region code, such as us-west-2.
         public var location: Swift.String?
-        /// Operating system that is running on this EC2 instance. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+        /// Operating system that is running on this EC2 instance. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
         /// Current status of the instance. Possible statuses include the following:
         ///
@@ -8787,7 +9777,7 @@ extension GameLiftClientTypes.DesiredPlayerSession: Swift.CustomDebugStringConve
 }
 
 public struct GetComputeAccessInput: Swift.Sendable {
-    /// A unique identifier for the compute resource that you want to connect to. For an EC2 fleet compute, use the instance ID. Use [https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute.html) to retrieve compute identifiers.
+    /// A unique identifier for the compute resource that you want to connect to. For an EC2 fleet, use an instance ID. For a managed container fleet, use a compute name. You can retrieve a fleet's compute names by calling [ListCompute](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute.html).
     /// This member is required.
     public var computeName: Swift.String?
     /// A unique identifier for the fleet that holds the compute resource that you want to connect to. You can use either the fleet ID or ARN value.
@@ -9955,7 +10945,7 @@ public struct StartGameSessionPlacementInput: Swift.Sendable {
     public var placementId: Swift.String?
     /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions. This information is used to try to place the new game session where it can offer the best possible gameplay experience for the players.
     public var playerLatencies: [GameLiftClientTypes.PlayerLatency]?
-    /// A prioritized list of locations to use for the game session placement and instructions on how to use it. This list overrides a queue's prioritized location list for this game session placement request only. You can include Amazon Web Services Regions, local zones, and custom locations (for Anywhere fleets). Choose a fallback strategy to instruct Amazon GameLift to use the override list for the first placement attempt only or for all placement attempts.
+    /// A prioritized list of locations to use for the game session placement and instructions on how to use it. This list overrides a queue's prioritized location list for this game session placement request only. You can include Amazon Web Services Regions, local zones, and custom locations (for Anywhere fleets). You can choose to limit placements to locations on the override list only, or you can prioritize locations on the override list first and then fall back to the queue's other locations if needed. Choose a fallback strategy to use in the event that Amazon GameLift fails to place a game session in any of the locations on the priority override list.
     public var priorityConfigurationOverride: GameLiftClientTypes.PriorityConfigurationOverride?
 
     public init(
@@ -10420,7 +11410,7 @@ public struct UpdateContainerGroupDefinitionInput: Swift.Sendable {
     /// A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region.
     /// This member is required.
     public var name: Swift.String?
-    /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to Amazon GameLift server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+    /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
     public var operatingSystem: GameLiftClientTypes.ContainerOperatingSystem?
     /// The container group definition version to update. The new version starts with values from the source version, and then updates values included in this request.
     public var sourceVersionNumber: Swift.Int?
@@ -10894,7 +11884,7 @@ public struct UpdateRuntimeConfigurationInput: Swift.Sendable {
     /// A unique identifier for the fleet to update runtime configuration for. You can use either the fleet ID or ARN value.
     /// This member is required.
     public var fleetId: Swift.String?
-    /// Instructions for launching server processes on fleet computes. Server processes run either a custom game build executable or a Realtime Servers script. The runtime configuration lists the types of server processes to run, how to launch them, and the number of processes to run concurrently.
+    /// Instructions for launching server processes on fleet computes. Server processes run either a custom game build executable or a Amazon GameLift Realtime script. The runtime configuration lists the types of server processes to run, how to launch them, and the number of processes to run concurrently.
     /// This member is required.
     public var runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration?
 

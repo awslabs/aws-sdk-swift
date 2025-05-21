@@ -783,6 +783,133 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// Defines the value for one rating in a custom metric rating scale.
+    public enum RatingScaleItemValue: Swift.Sendable {
+        /// A string representing the value for a rating in a custom metric rating scale.
+        case stringvalue(Swift.String)
+        /// A floating point number representing the value for a rating in a custom metric rating scale.
+        case floatvalue(Swift.Float)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Defines the value and corresponding definition for one rating in a custom metric rating scale.
+    public struct RatingScaleItem: Swift.Sendable {
+        /// Defines the definition for one rating in a custom metric rating scale.
+        /// This member is required.
+        public var definition: Swift.String?
+        /// Defines the value for one rating in a custom metric rating scale.
+        /// This member is required.
+        public var value: BedrockClientTypes.RatingScaleItemValue?
+
+        public init(
+            definition: Swift.String? = nil,
+            value: BedrockClientTypes.RatingScaleItemValue? = nil
+        ) {
+            self.definition = definition
+            self.value = value
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// The definition of a custom metric for use in an Amazon Bedrock evaluation job. A custom metric definition includes a metric name, prompt (instructions) and optionally, a rating scale. Your prompt must include a task description and input variables. The required input variables are different for model-as-a-judge and RAG evaluations. For more information about how to define a custom metric in Amazon Bedrock, see [Create a prompt for a custom metrics (LLM-as-a-judge model evaluations)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-custom-metrics-prompt-formats.html) and [Create a prompt for a custom metrics (RAG evaluations)](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-evaluation-custom-metrics-prompt-formats.html).
+    public struct CustomMetricDefinition: Swift.Sendable {
+        /// The prompt for a custom metric that instructs the evaluator model how to rate the model or RAG source under evaluation.
+        /// This member is required.
+        public var instructions: Swift.String?
+        /// The name for a custom metric. Names must be unique in your Amazon Web Services region.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Defines the rating scale to be used for a custom metric. We recommend that you always define a ratings scale when creating a custom metric. If you don't define a scale, Amazon Bedrock won't be able to visually display the results of the evaluation in the console or calculate average values of numerical scores. For more information on specifying a rating scale, see [Specifying an output schema (rating scale)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-custom-metrics-prompt-formats.html#model-evaluation-custom-metrics-prompt-formats-schema).
+        public var ratingScale: [BedrockClientTypes.RatingScaleItem]?
+
+        public init(
+            instructions: Swift.String? = nil,
+            name: Swift.String? = nil,
+            ratingScale: [BedrockClientTypes.RatingScaleItem]? = nil
+        ) {
+            self.instructions = instructions
+            self.name = name
+            self.ratingScale = ratingScale
+        }
+    }
+}
+
+extension BedrockClientTypes.CustomMetricDefinition: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// An array item definining a single custom metric for use in an Amazon Bedrock evaluation job.
+    public enum AutomatedEvaluationCustomMetricSource: Swift.Sendable {
+        /// The definition of a custom metric for use in an Amazon Bedrock evaluation job.
+        case custommetricdefinition(BedrockClientTypes.CustomMetricDefinition)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Defines the model you want to evaluate custom metrics in an Amazon Bedrock evaluation job.
+    public struct CustomMetricBedrockEvaluatorModel: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the evaluator model for custom metrics. For a list of supported evaluator models, see [Evaluate model performance using another LLM as a judge](https://docs.aws.amazon.com/bedrock/latest/userguide/evaluation-judge.html) and [Evaluate the performance of RAG sources using Amazon Bedrock evaluations](https://docs.aws.amazon.com/bedrock/latest/userguide/evaluation-kb.html).
+        /// This member is required.
+        public var modelIdentifier: Swift.String?
+
+        public init(
+            modelIdentifier: Swift.String? = nil
+        ) {
+            self.modelIdentifier = modelIdentifier
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Configuration of the evaluator model you want to use to evaluate custom metrics in an Amazon Bedrock evaluation job.
+    public struct CustomMetricEvaluatorModelConfig: Swift.Sendable {
+        /// Defines the model you want to evaluate custom metrics in an Amazon Bedrock evaluation job.
+        /// This member is required.
+        public var bedrockEvaluatorModels: [BedrockClientTypes.CustomMetricBedrockEvaluatorModel]?
+
+        public init(
+            bedrockEvaluatorModels: [BedrockClientTypes.CustomMetricBedrockEvaluatorModel]? = nil
+        ) {
+            self.bedrockEvaluatorModels = bedrockEvaluatorModels
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Defines the configuration of custom metrics to be used in an evaluation job. To learn more about using custom metrics in Amazon Bedrock evaluation jobs, see [Create a prompt for a custom metrics (LLM-as-a-judge model evaluations)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation-custom-metrics-prompt-formats.html) and [Create a prompt for a custom metrics (RAG evaluations)](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-evaluation-custom-metrics-prompt-formats.html).
+    public struct AutomatedEvaluationCustomMetricConfig: Swift.Sendable {
+        /// Defines a list of custom metrics to be used in an Amazon Bedrock evaluation job.
+        /// This member is required.
+        public var customMetrics: [BedrockClientTypes.AutomatedEvaluationCustomMetricSource]?
+        /// Configuration of the evaluator model you want to use to evaluate custom metrics in an Amazon Bedrock evaluation job.
+        /// This member is required.
+        public var evaluatorModelConfig: BedrockClientTypes.CustomMetricEvaluatorModelConfig?
+
+        public init(
+            customMetrics: [BedrockClientTypes.AutomatedEvaluationCustomMetricSource]? = nil,
+            evaluatorModelConfig: BedrockClientTypes.CustomMetricEvaluatorModelConfig? = nil
+        ) {
+            self.customMetrics = customMetrics
+            self.evaluatorModelConfig = evaluatorModelConfig
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// The location in Amazon S3 where your prompt dataset is stored.
     public enum EvaluationDatasetLocation: Swift.Sendable {
         /// The S3 URI of the S3 bucket specified in the job.
@@ -861,7 +988,7 @@ extension BedrockClientTypes {
         /// Specifies the prompt dataset.
         /// This member is required.
         public var dataset: BedrockClientTypes.EvaluationDataset?
-        /// The names of the metrics you want to use for your evaluation job. For knowledge base evaluation jobs that evaluate retrieval only, valid values are "Builtin.ContextRelevance", "Builtin.ContextConverage". For knowledge base evaluation jobs that evaluate retrieval with response generation, valid values are "Builtin.Correctness", "Builtin.Completeness", "Builtin.Helpfulness", "Builtin.LogicalCoherence", "Builtin.Faithfulness", "Builtin.Harmfulness", "Builtin.Stereotyping", "Builtin.Refusal". For automated model evaluation jobs, valid values are "Builtin.Accuracy", "Builtin.Robustness", and "Builtin.Toxicity". In model evaluation jobs that use a LLM as judge you can specify "Builtin.Correctness", "Builtin.Completeness", "Builtin.Faithfulness", "Builtin.Helpfulness", "Builtin.Coherence", "Builtin.Relevance", "Builtin.FollowingInstructions", "Builtin.ProfessionalStyleAndTone", You can also specify the following responsible AI related metrics only for model evaluation job that use a LLM as judge "Builtin.Harmfulness", "Builtin.Stereotyping", and "Builtin.Refusal". For human-based model evaluation jobs, the list of strings must match the name parameter specified in HumanEvaluationCustomMetric.
+        /// The names of the metrics you want to use for your evaluation job. For knowledge base evaluation jobs that evaluate retrieval only, valid values are "Builtin.ContextRelevance", "Builtin.ContextCoverage". For knowledge base evaluation jobs that evaluate retrieval with response generation, valid values are "Builtin.Correctness", "Builtin.Completeness", "Builtin.Helpfulness", "Builtin.LogicalCoherence", "Builtin.Faithfulness", "Builtin.Harmfulness", "Builtin.Stereotyping", "Builtin.Refusal". For automated model evaluation jobs, valid values are "Builtin.Accuracy", "Builtin.Robustness", and "Builtin.Toxicity". In model evaluation jobs that use a LLM as judge you can specify "Builtin.Correctness", "Builtin.Completeness", "Builtin.Faithfulness", "Builtin.Helpfulness", "Builtin.Coherence", "Builtin.Relevance", "Builtin.FollowingInstructions", "Builtin.ProfessionalStyleAndTone", You can also specify the following responsible AI related metrics only for model evaluation job that use a LLM as judge "Builtin.Harmfulness", "Builtin.Stereotyping", and "Builtin.Refusal". For human-based model evaluation jobs, the list of strings must match the name parameter specified in HumanEvaluationCustomMetric.
         /// This member is required.
         public var metricNames: [Swift.String]?
         /// The the type of task you want to evaluate for your evaluation job. This applies only to model evaluation jobs and is ignored for knowledge base evaluation jobs.
@@ -915,6 +1042,8 @@ extension BedrockClientTypes {
 
     /// The configuration details of an automated evaluation job. The EvaluationDatasetMetricConfig object is used to specify the prompt datasets, task type, and metric names.
     public struct AutomatedEvaluationConfig: Swift.Sendable {
+        /// Defines the configuration of custom metrics to be used in an evaluation job.
+        public var customMetricConfig: BedrockClientTypes.AutomatedEvaluationCustomMetricConfig?
         /// Configuration details of the prompt datasets and metrics you want to use for your evaluation job.
         /// This member is required.
         public var datasetMetricConfigs: [BedrockClientTypes.EvaluationDatasetMetricConfig]?
@@ -922,9 +1051,11 @@ extension BedrockClientTypes {
         public var evaluatorModelConfig: BedrockClientTypes.EvaluatorModelConfig?
 
         public init(
+            customMetricConfig: BedrockClientTypes.AutomatedEvaluationCustomMetricConfig? = nil,
             datasetMetricConfigs: [BedrockClientTypes.EvaluationDatasetMetricConfig]? = nil,
             evaluatorModelConfig: BedrockClientTypes.EvaluatorModelConfig? = nil
         ) {
+            self.customMetricConfig = customMetricConfig
             self.datasetMetricConfigs = datasetMetricConfigs
             self.evaluatorModelConfig = evaluatorModelConfig
         }
@@ -1097,10 +1228,28 @@ extension BedrockClientTypes.EvaluationBedrockModel: Swift.CustomDebugStringConv
 
 extension BedrockClientTypes {
 
+    /// A summary of a model used for a model evaluation job where you provide your own inference response data.
+    public struct EvaluationPrecomputedInferenceSource: Swift.Sendable {
+        /// A label that identifies a model used in a model evaluation job where you provide your own inference response data.
+        /// This member is required.
+        public var inferenceSourceIdentifier: Swift.String?
+
+        public init(
+            inferenceSourceIdentifier: Swift.String? = nil
+        ) {
+            self.inferenceSourceIdentifier = inferenceSourceIdentifier
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// Defines the models used in the model evaluation job.
     public enum EvaluationModelConfig: Swift.Sendable {
         /// Defines the Amazon Bedrock model or inference profile and inference parameters you want used.
         case bedrockmodel(BedrockClientTypes.EvaluationBedrockModel)
+        /// Defines the model used to generate inference response data for a model evaluation job where you provide your own inference response data.
+        case precomputedinferencesource(BedrockClientTypes.EvaluationPrecomputedInferenceSource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1506,6 +1655,50 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// A summary of a RAG source used for a retrieve-and-generate Knowledge Base evaluation job where you provide your own inference response data.
+    public struct EvaluationPrecomputedRetrieveAndGenerateSourceConfig: Swift.Sendable {
+        /// A label that identifies the RAG source used for a retrieve-and-generate Knowledge Base evaluation job where you provide your own inference response data.
+        /// This member is required.
+        public var ragSourceIdentifier: Swift.String?
+
+        public init(
+            ragSourceIdentifier: Swift.String? = nil
+        ) {
+            self.ragSourceIdentifier = ragSourceIdentifier
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A summary of a RAG source used for a retrieve-only Knowledge Base evaluation job where you provide your own inference response data.
+    public struct EvaluationPrecomputedRetrieveSourceConfig: Swift.Sendable {
+        /// A label that identifies the RAG source used for a retrieve-only Knowledge Base evaluation job where you provide your own inference response data.
+        /// This member is required.
+        public var ragSourceIdentifier: Swift.String?
+
+        public init(
+            ragSourceIdentifier: Swift.String? = nil
+        ) {
+            self.ragSourceIdentifier = ragSourceIdentifier
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A summary of a RAG source used for a Knowledge Base evaluation job where you provide your own inference response data.
+    public enum EvaluationPrecomputedRagSourceConfig: Swift.Sendable {
+        /// A summary of a RAG source used for a retrieve-only Knowledge Base evaluation job where you provide your own inference response data.
+        case retrievesourceconfig(BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig)
+        /// A summary of a RAG source used for a retrieve-and-generate Knowledge Base evaluation job where you provide your own inference response data.
+        case retrieveandgeneratesourceconfig(BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
     /// The Amazon S3 location where the results of your evaluation job are saved.
     public struct EvaluationOutputDataConfig: Swift.Sendable {
         /// The Amazon S3 URI where the results of the evaluation job are saved.
@@ -1678,6 +1871,63 @@ public struct ListEvaluationJobsInput: Swift.Sendable {
 
 extension BedrockClientTypes {
 
+    /// A summary of the models used in an Amazon Bedrock model evaluation job. These resources can be models in Amazon Bedrock or models outside of Amazon Bedrock that you use to generate your own inference response data.
+    public struct EvaluationModelConfigSummary: Swift.Sendable {
+        /// The Amazon Resource Names (ARNs) of the models used for the evaluation job.
+        public var bedrockModelIdentifiers: [Swift.String]?
+        /// A label that identifies the models used for a model evaluation job where you provide your own inference response data.
+        public var precomputedInferenceSourceIdentifiers: [Swift.String]?
+
+        public init(
+            bedrockModelIdentifiers: [Swift.String]? = nil,
+            precomputedInferenceSourceIdentifiers: [Swift.String]? = nil
+        ) {
+            self.bedrockModelIdentifiers = bedrockModelIdentifiers
+            self.precomputedInferenceSourceIdentifiers = precomputedInferenceSourceIdentifiers
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A summary of the RAG resources used in an Amazon Bedrock Knowledge Base evaluation job. These resources can be Knowledge Bases in Amazon Bedrock or RAG sources outside of Amazon Bedrock that you use to generate your own inference response data.
+    public struct EvaluationRagConfigSummary: Swift.Sendable {
+        /// The Amazon Resource Names (ARNs) of the Knowledge Base resources used for a Knowledge Base evaluation job where Amazon Bedrock invokes the Knowledge Base for you.
+        public var bedrockKnowledgeBaseIdentifiers: [Swift.String]?
+        /// A label that identifies the RAG sources used for a Knowledge Base evaluation job where you provide your own inference response data.
+        public var precomputedRagSourceIdentifiers: [Swift.String]?
+
+        public init(
+            bedrockKnowledgeBaseIdentifiers: [Swift.String]? = nil,
+            precomputedRagSourceIdentifiers: [Swift.String]? = nil
+        ) {
+            self.bedrockKnowledgeBaseIdentifiers = bedrockKnowledgeBaseIdentifiers
+            self.precomputedRagSourceIdentifiers = precomputedRagSourceIdentifiers
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Identifies the models, Knowledge Bases, or other RAG sources evaluated in a model or Knowledge Base evaluation job.
+    public struct EvaluationInferenceConfigSummary: Swift.Sendable {
+        /// A summary of the models used in an Amazon Bedrock model evaluation job. These resources can be models in Amazon Bedrock or models outside of Amazon Bedrock that you use to generate your own inference response data.
+        public var modelConfigSummary: BedrockClientTypes.EvaluationModelConfigSummary?
+        /// A summary of the RAG resources used in an Amazon Bedrock Knowledge Base evaluation job. These resources can be Knowledge Bases in Amazon Bedrock or RAG sources outside of Amazon Bedrock that you use to generate your own inference response data.
+        public var ragConfigSummary: BedrockClientTypes.EvaluationRagConfigSummary?
+
+        public init(
+            modelConfigSummary: BedrockClientTypes.EvaluationModelConfigSummary? = nil,
+            ragConfigSummary: BedrockClientTypes.EvaluationRagConfigSummary? = nil
+        ) {
+            self.modelConfigSummary = modelConfigSummary
+            self.ragConfigSummary = ragConfigSummary
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// Summary information of an evaluation job.
     public struct EvaluationSummary: Swift.Sendable {
         /// Specifies whether the evaluation job is for evaluating a model or evaluating a knowledge base (retrieval and response generation).
@@ -1685,11 +1935,15 @@ extension BedrockClientTypes {
         /// The time the evaluation job was created.
         /// This member is required.
         public var creationTime: Foundation.Date?
+        /// The Amazon Resource Names (ARNs) of the models used to compute custom metrics in an Amazon Bedrock evaluation job.
+        public var customMetricsEvaluatorModelIdentifiers: [Swift.String]?
         /// The type of task for model evaluation.
         /// This member is required.
         public var evaluationTaskTypes: [BedrockClientTypes.EvaluationTaskType]?
         /// The Amazon Resource Names (ARNs) of the models used to compute the metrics for a knowledge base evaluation job.
         public var evaluatorModelIdentifiers: [Swift.String]?
+        /// Identifies the models, Knowledge Bases, or other RAG sources evaluated in a model or Knowledge Base evaluation job.
+        public var inferenceConfigSummary: BedrockClientTypes.EvaluationInferenceConfigSummary?
         /// The Amazon Resource Name (ARN) of the evaluation job.
         /// This member is required.
         public var jobArn: Swift.String?
@@ -1700,8 +1954,10 @@ extension BedrockClientTypes {
         /// This member is required.
         public var jobType: BedrockClientTypes.EvaluationJobType?
         /// The Amazon Resource Names (ARNs) of the model(s) used for the evaluation job.
+        @available(*, deprecated, message: "Inference identifiers should be retrieved from the inferenceConfigSummary API deprecated since 2025-03-07")
         public var modelIdentifiers: [Swift.String]?
         /// The Amazon Resource Names (ARNs) of the knowledge base resources used for a knowledge base evaluation job.
+        @available(*, deprecated, message: "Inference identifiers should be retrieved from the inferenceConfigSummary API deprecated since 2025-03-07")
         public var ragIdentifiers: [Swift.String]?
         /// The current status of the evaluation job.
         /// This member is required.
@@ -1710,8 +1966,10 @@ extension BedrockClientTypes {
         public init(
             applicationType: BedrockClientTypes.ApplicationType? = nil,
             creationTime: Foundation.Date? = nil,
+            customMetricsEvaluatorModelIdentifiers: [Swift.String]? = nil,
             evaluationTaskTypes: [BedrockClientTypes.EvaluationTaskType]? = nil,
             evaluatorModelIdentifiers: [Swift.String]? = nil,
+            inferenceConfigSummary: BedrockClientTypes.EvaluationInferenceConfigSummary? = nil,
             jobArn: Swift.String? = nil,
             jobName: Swift.String? = nil,
             jobType: BedrockClientTypes.EvaluationJobType? = nil,
@@ -1721,8 +1979,10 @@ extension BedrockClientTypes {
         ) {
             self.applicationType = applicationType
             self.creationTime = creationTime
+            self.customMetricsEvaluatorModelIdentifiers = customMetricsEvaluatorModelIdentifiers
             self.evaluationTaskTypes = evaluationTaskTypes
             self.evaluatorModelIdentifiers = evaluatorModelIdentifiers
+            self.inferenceConfigSummary = inferenceConfigSummary
             self.jobArn = jobArn
             self.jobName = jobName
             self.jobType = jobType
@@ -1794,6 +2054,35 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum GuardrailContentFilterAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case block
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContentFilterAction] {
+            return [
+                .block,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .block: return "BLOCK"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -1917,11 +2206,27 @@ extension BedrockClientTypes {
     ///
     /// Content filtering depends on the confidence classification of user inputs and FM responses across each of the four harmful categories. All input and output statements are classified into one of four confidence levels (NONE, LOW, MEDIUM, HIGH) for each harmful category. For example, if a statement is classified as Hate with HIGH confidence, the likelihood of the statement representing hateful content is high. A single statement can be classified across multiple categories with varying confidence levels. For example, a single statement can be classified as Hate with HIGH confidence, Insults with LOW confidence, Sexual with NONE confidence, and Violence with MEDIUM confidence. For more information, see [Guardrails content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters.html).
     public struct GuardrailContentFilterConfig: Swift.Sendable {
+        /// Specifies the action to take when harmful content is detected. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailContentFilterAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
         /// The input modalities selected for the guardrail content filter configuration.
         public var inputModalities: [BedrockClientTypes.GuardrailModality]?
         /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
         /// This member is required.
         public var inputStrength: BedrockClientTypes.GuardrailFilterStrength?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailContentFilterAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// The output modalities selected for the guardrail content filter configuration.
         public var outputModalities: [BedrockClientTypes.GuardrailModality]?
         /// The strength of the content filter to apply to model responses. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
@@ -1932,14 +2237,22 @@ extension BedrockClientTypes {
         public var type: BedrockClientTypes.GuardrailContentFilterType?
 
         public init(
+            inputAction: BedrockClientTypes.GuardrailContentFilterAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
             inputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             inputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
+            outputAction: BedrockClientTypes.GuardrailContentFilterAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             outputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             outputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
             type: BedrockClientTypes.GuardrailContentFilterType? = nil
         ) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.inputModalities = inputModalities
             self.inputStrength = inputStrength
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.outputModalities = outputModalities
             self.outputStrength = outputStrength
             self.type = type
@@ -1949,7 +2262,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailContentFilterConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GuardrailContentFilterConfig(inputStrength: \(Swift.String(describing: inputStrength)), outputStrength: \(Swift.String(describing: outputStrength)), type: \(Swift.String(describing: type)), inputModalities: \"CONTENT_REDACTED\", outputModalities: \"CONTENT_REDACTED\")"}
+        "GuardrailContentFilterConfig(inputEnabled: \(Swift.String(describing: inputEnabled)), inputStrength: \(Swift.String(describing: inputStrength)), outputEnabled: \(Swift.String(describing: outputEnabled)), outputStrength: \(Swift.String(describing: outputStrength)), type: \(Swift.String(describing: type)), inputAction: \"CONTENT_REDACTED\", inputModalities: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\", outputModalities: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -1964,6 +2277,35 @@ extension BedrockClientTypes {
             filtersConfig: [BedrockClientTypes.GuardrailContentFilterConfig]? = nil
         ) {
             self.filtersConfig = filtersConfig
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum GuardrailContextualGroundingAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case block
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContextualGroundingAction] {
+            return [
+                .block,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .block: return "BLOCK"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2001,6 +2343,14 @@ extension BedrockClientTypes {
 
     /// The filter configuration details for the guardrails contextual grounding filter.
     public struct GuardrailContextualGroundingFilterConfig: Swift.Sendable {
+        /// Specifies the action to take when content fails the contextual grounding evaluation. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var action: BedrockClientTypes.GuardrailContextualGroundingAction?
+        /// Specifies whether to enable contextual grounding evaluation. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var enabled: Swift.Bool?
         /// The threshold details for the guardrails contextual grounding filter.
         /// This member is required.
         public var threshold: Swift.Double?
@@ -2009,13 +2359,22 @@ extension BedrockClientTypes {
         public var type: BedrockClientTypes.GuardrailContextualGroundingFilterType?
 
         public init(
+            action: BedrockClientTypes.GuardrailContextualGroundingAction? = nil,
+            enabled: Swift.Bool? = nil,
             threshold: Swift.Double? = nil,
             type: BedrockClientTypes.GuardrailContextualGroundingFilterType? = nil
         ) {
+            self.action = action
+            self.enabled = enabled
             self.threshold = threshold
             self.type = type
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailContextualGroundingFilterConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailContextualGroundingFilterConfig(enabled: \(Swift.String(describing: enabled)), threshold: \(Swift.String(describing: threshold)), type: \(Swift.String(describing: type)), action: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -2036,15 +2395,33 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// The system-defined guardrail profile that you're using with your guardrail. Guardrail profiles define the destination Amazon Web Services Regions where guardrail inference requests can be automatically routed. Using guardrail profiles helps maintain guardrail performance and reliability when demand increases. For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+    public struct GuardrailCrossRegionConfig: Swift.Sendable {
+        /// The ID or Amazon Resource Name (ARN) of the guardrail profile that your guardrail is using. Guardrail profile availability depends on your current Amazon Web Services Region. For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region-support.html).
+        /// This member is required.
+        public var guardrailProfileIdentifier: Swift.String?
+
+        public init(
+            guardrailProfileIdentifier: Swift.String? = nil
+        ) {
+            self.guardrailProfileIdentifier = guardrailProfileIdentifier
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     public enum GuardrailSensitiveInformationAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case anonymize
         case block
+        case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GuardrailSensitiveInformationAction] {
             return [
                 .anonymize,
-                .block
+                .block,
+                .none
             ]
         }
 
@@ -2057,6 +2434,7 @@ extension BedrockClientTypes {
             switch self {
             case .anonymize: return "ANONYMIZE"
             case .block: return "BLOCK"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2186,6 +2564,26 @@ extension BedrockClientTypes {
         /// Configure guardrail action when the PII entity is detected.
         /// This member is required.
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * ANONYMIZE – Mask the content and replace it with identifier tags.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * ANONYMIZE – Mask the content and replace it with identifier tags.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// Configure guardrail type when the PII entity is detected. The following PIIs are used to block or mask sensitive information:
         ///
         /// * General
@@ -2288,9 +2686,17 @@ extension BedrockClientTypes {
 
         public init(
             action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
+            outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             type: BedrockClientTypes.GuardrailPiiEntityType? = nil
         ) {
             self.action = action
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
     }
@@ -2305,9 +2711,25 @@ extension BedrockClientTypes {
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
         /// The description of the regular expression to configure for the guardrail.
         public var description: Swift.String?
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
         /// The name of the regular expression to configure for the guardrail.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// The regular expression pattern to configure for the guardrail.
         /// This member is required.
         public var pattern: Swift.String?
@@ -2315,12 +2737,20 @@ extension BedrockClientTypes {
         public init(
             action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
             description: Swift.String? = nil,
+            inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
+            outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             pattern: Swift.String? = nil
         ) {
             self.action = action
             self.description = description
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.name = name
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.pattern = pattern
         }
     }
@@ -2341,6 +2771,35 @@ extension BedrockClientTypes {
         ) {
             self.piiEntitiesConfig = piiEntitiesConfig
             self.regexesConfig = regexesConfig
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum GuardrailTopicAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case block
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailTopicAction] {
+            return [
+                .block,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .block: return "BLOCK"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2380,9 +2839,25 @@ extension BedrockClientTypes {
         public var definition: Swift.String?
         /// A list of prompts, each of which is an example of a prompt that can be categorized as belonging to the topic.
         public var examples: [Swift.String]?
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailTopicAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
         /// The name of the topic to deny.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailTopicAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// Specifies to deny the topic.
         /// This member is required.
         public var type: BedrockClientTypes.GuardrailTopicType?
@@ -2390,12 +2865,20 @@ extension BedrockClientTypes {
         public init(
             definition: Swift.String? = nil,
             examples: [Swift.String]? = nil,
+            inputAction: BedrockClientTypes.GuardrailTopicAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
+            outputAction: BedrockClientTypes.GuardrailTopicAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             type: BedrockClientTypes.GuardrailTopicType? = nil
         ) {
             self.definition = definition
             self.examples = examples
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.name = name
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
     }
@@ -2403,7 +2886,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailTopicConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GuardrailTopicConfig(type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", examples: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GuardrailTopicConfig(inputEnabled: \(Swift.String(describing: inputEnabled)), outputEnabled: \(Swift.String(describing: outputEnabled)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", examples: \"CONTENT_REDACTED\", inputAction: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -2418,6 +2901,35 @@ extension BedrockClientTypes {
             topicsConfig: [BedrockClientTypes.GuardrailTopicConfig]? = nil
         ) {
             self.topicsConfig = topicsConfig
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum GuardrailWordAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case block
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailWordAction] {
+            return [
+                .block,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .block: return "BLOCK"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2452,32 +2964,90 @@ extension BedrockClientTypes {
 
     /// The managed word list to configure for the guardrail.
     public struct GuardrailManagedWordsConfig: Swift.Sendable {
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// The managed word type to configure for the guardrail.
         /// This member is required.
         public var type: BedrockClientTypes.GuardrailManagedWordsType?
 
         public init(
+            inputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
+            outputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             type: BedrockClientTypes.GuardrailManagedWordsType? = nil
         ) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailManagedWordsConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailManagedWordsConfig(inputEnabled: \(Swift.String(describing: inputEnabled)), outputEnabled: \(Swift.String(describing: outputEnabled)), type: \(Swift.String(describing: type)), inputAction: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
 
     /// A word to configure for the guardrail.
     public struct GuardrailWordConfig: Swift.Sendable {
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Specifies whether to enable guardrail evaluation on the intput. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// Text of the word configured for the guardrail to block.
         /// This member is required.
         public var text: Swift.String?
 
         public init(
+            inputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
+            outputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             text: Swift.String? = nil
         ) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.text = text
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailWordConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailWordConfig(inputEnabled: \(Swift.String(describing: inputEnabled)), outputEnabled: \(Swift.String(describing: outputEnabled)), text: \(Swift.String(describing: text)), inputAction: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -2512,6 +3082,8 @@ public struct CreateGuardrailInput: Swift.Sendable {
     public var contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig?
     /// The contextual grounding policy configuration used to create a guardrail.
     public var contextualGroundingPolicyConfig: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig?
+    /// The system-defined guardrail profile that you're using with your guardrail. Guardrail profiles define the destination Amazon Web Services Regions where guardrail inference requests can be automatically routed. For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+    public var crossRegionConfig: BedrockClientTypes.GuardrailCrossRegionConfig?
     /// A description of the guardrail.
     public var description: Swift.String?
     /// The ARN of the KMS key that you use to encrypt the guardrail.
@@ -2534,6 +3106,7 @@ public struct CreateGuardrailInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig? = nil,
         contextualGroundingPolicyConfig: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig? = nil,
+        crossRegionConfig: BedrockClientTypes.GuardrailCrossRegionConfig? = nil,
         description: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -2547,6 +3120,7 @@ public struct CreateGuardrailInput: Swift.Sendable {
         self.clientRequestToken = clientRequestToken
         self.contentPolicyConfig = contentPolicyConfig
         self.contextualGroundingPolicyConfig = contextualGroundingPolicyConfig
+        self.crossRegionConfig = crossRegionConfig
         self.description = description
         self.kmsKeyId = kmsKeyId
         self.name = name
@@ -2559,7 +3133,7 @@ public struct CreateGuardrailInput: Swift.Sendable {
 
 extension CreateGuardrailInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGuardrailInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), tags: \(Swift.String(describing: tags)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGuardrailInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), crossRegionConfig: \(Swift.String(describing: crossRegionConfig)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), tags: \(Swift.String(describing: tags)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGuardrailOutput: Swift.Sendable {
@@ -2685,11 +3259,27 @@ extension BedrockClientTypes {
     ///
     /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
     public struct GuardrailContentFilter: Swift.Sendable {
+        /// The action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailContentFilterAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
         /// The input modalities selected for the guardrail content filter.
         public var inputModalities: [BedrockClientTypes.GuardrailModality]?
         /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
         /// This member is required.
         public var inputStrength: BedrockClientTypes.GuardrailFilterStrength?
+        /// The action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailContentFilterAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// The output modalities selected for the guardrail content filter.
         public var outputModalities: [BedrockClientTypes.GuardrailModality]?
         /// The strength of the content filter to apply to model responses. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
@@ -2700,14 +3290,22 @@ extension BedrockClientTypes {
         public var type: BedrockClientTypes.GuardrailContentFilterType?
 
         public init(
+            inputAction: BedrockClientTypes.GuardrailContentFilterAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
             inputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             inputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
+            outputAction: BedrockClientTypes.GuardrailContentFilterAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             outputModalities: [BedrockClientTypes.GuardrailModality]? = nil,
             outputStrength: BedrockClientTypes.GuardrailFilterStrength? = nil,
             type: BedrockClientTypes.GuardrailContentFilterType? = nil
         ) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.inputModalities = inputModalities
             self.inputStrength = inputStrength
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.outputModalities = outputModalities
             self.outputStrength = outputStrength
             self.type = type
@@ -2717,7 +3315,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailContentFilter: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GuardrailContentFilter(inputStrength: \(Swift.String(describing: inputStrength)), outputStrength: \(Swift.String(describing: outputStrength)), type: \(Swift.String(describing: type)), inputModalities: \"CONTENT_REDACTED\", outputModalities: \"CONTENT_REDACTED\")"}
+        "GuardrailContentFilter(inputEnabled: \(Swift.String(describing: inputEnabled)), inputStrength: \(Swift.String(describing: inputStrength)), outputEnabled: \(Swift.String(describing: outputEnabled)), outputStrength: \(Swift.String(describing: outputStrength)), type: \(Swift.String(describing: type)), inputAction: \"CONTENT_REDACTED\", inputModalities: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\", outputModalities: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -2741,6 +3339,14 @@ extension BedrockClientTypes {
 
     /// The details for the guardrails contextual grounding filter.
     public struct GuardrailContextualGroundingFilter: Swift.Sendable {
+        /// The action to take when content fails the contextual grounding evaluation. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var action: BedrockClientTypes.GuardrailContextualGroundingAction?
+        /// Indicates whether contextual grounding is enabled for evaluation. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var enabled: Swift.Bool?
         /// The threshold details for the guardrails contextual grounding filter.
         /// This member is required.
         public var threshold: Swift.Double?
@@ -2749,13 +3355,22 @@ extension BedrockClientTypes {
         public var type: BedrockClientTypes.GuardrailContextualGroundingFilterType?
 
         public init(
+            action: BedrockClientTypes.GuardrailContextualGroundingAction? = nil,
+            enabled: Swift.Bool? = nil,
             threshold: Swift.Double? = nil,
             type: BedrockClientTypes.GuardrailContextualGroundingFilterType? = nil
         ) {
+            self.action = action
+            self.enabled = enabled
             self.threshold = threshold
             self.type = type
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailContextualGroundingFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailContextualGroundingFilter(enabled: \(Swift.String(describing: enabled)), threshold: \(Swift.String(describing: threshold)), type: \(Swift.String(describing: type)), action: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -2776,20 +3391,67 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// Contains details about the system-defined guardrail profile that you're using with your guardrail for cross-Region inference. For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+    public struct GuardrailCrossRegionDetails: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the guardrail profile that you're using with your guardrail.
+        public var guardrailProfileArn: Swift.String?
+        /// The ID of the guardrail profile that your guardrail is using. Profile availability depends on your current Amazon Web Services Region. For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region-support.html).
+        public var guardrailProfileId: Swift.String?
+
+        public init(
+            guardrailProfileArn: Swift.String? = nil,
+            guardrailProfileId: Swift.String? = nil
+        ) {
+            self.guardrailProfileArn = guardrailProfileArn
+            self.guardrailProfileId = guardrailProfileId
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// The PII entity configured for the guardrail.
     public struct GuardrailPiiEntity: Swift.Sendable {
         /// The configured guardrail action when PII entity is detected.
         /// This member is required.
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// The action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * ANONYMIZE – Mask the content and replace it with identifier tags.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
+        /// The action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * ANONYMIZE – Mask the content and replace it with identifier tags.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// The type of PII entity. For example, Social Security Number.
         /// This member is required.
         public var type: BedrockClientTypes.GuardrailPiiEntityType?
 
         public init(
             action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
+            outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             type: BedrockClientTypes.GuardrailPiiEntityType? = nil
         ) {
             self.action = action
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
     }
@@ -2804,9 +3466,25 @@ extension BedrockClientTypes {
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
         /// The description of the regular expression for the guardrail.
         public var description: Swift.String?
+        /// The action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
         /// The name of the regular expression for the guardrail.
         /// This member is required.
         public var name: Swift.String?
+        /// The action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// The pattern of the regular expression configured for the guardrail.
         /// This member is required.
         public var pattern: Swift.String?
@@ -2814,12 +3492,20 @@ extension BedrockClientTypes {
         public init(
             action: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
             description: Swift.String? = nil,
+            inputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
+            outputAction: BedrockClientTypes.GuardrailSensitiveInformationAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             pattern: Swift.String? = nil
         ) {
             self.action = action
             self.description = description
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.name = name
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.pattern = pattern
         }
     }
@@ -2896,21 +3582,45 @@ extension BedrockClientTypes {
         public var definition: Swift.String?
         /// A list of prompts, each of which is an example of a prompt that can be categorized as belonging to the topic.
         public var examples: [Swift.String]?
+        /// The action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailTopicAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
         /// The name of the topic to deny.
         /// This member is required.
         public var name: Swift.String?
+        /// The action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailTopicAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// Specifies to deny the topic.
         public var type: BedrockClientTypes.GuardrailTopicType?
 
         public init(
             definition: Swift.String? = nil,
             examples: [Swift.String]? = nil,
+            inputAction: BedrockClientTypes.GuardrailTopicAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
+            outputAction: BedrockClientTypes.GuardrailTopicAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             type: BedrockClientTypes.GuardrailTopicType? = nil
         ) {
             self.definition = definition
             self.examples = examples
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.name = name
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
     }
@@ -2918,7 +3628,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailTopic: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GuardrailTopic(type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", examples: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GuardrailTopic(inputEnabled: \(Swift.String(describing: inputEnabled)), outputEnabled: \(Swift.String(describing: outputEnabled)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", examples: \"CONTENT_REDACTED\", inputAction: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -2943,32 +3653,90 @@ extension BedrockClientTypes {
 
     /// The managed word list that was configured for the guardrail. (This is a list of words that are pre-defined and managed by guardrails only.)
     public struct GuardrailManagedWords: Swift.Sendable {
+        /// The action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
+        /// The action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// ManagedWords$type The managed word type that was configured for the guardrail. (For now, we only offer profanity word list)
         /// This member is required.
         public var type: BedrockClientTypes.GuardrailManagedWordsType?
 
         public init(
+            inputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
+            outputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             type: BedrockClientTypes.GuardrailManagedWordsType? = nil
         ) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailManagedWords: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailManagedWords(inputEnabled: \(Swift.String(describing: inputEnabled)), outputEnabled: \(Swift.String(describing: outputEnabled)), type: \(Swift.String(describing: type)), inputAction: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
 
     /// A word configured for the guardrail.
     public struct GuardrailWord: Swift.Sendable {
+        /// The action to take when harmful content is detected in the input. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var inputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var inputEnabled: Swift.Bool?
+        /// The action to take when harmful content is detected in the output. Supported values include:
+        ///
+        /// * BLOCK – Block the content and replace it with blocked messaging.
+        ///
+        /// * NONE – Take no action but return detection information in the trace response.
+        public var outputAction: BedrockClientTypes.GuardrailWordAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public var outputEnabled: Swift.Bool?
         /// Text of the word configured for the guardrail to block.
         /// This member is required.
         public var text: Swift.String?
 
         public init(
+            inputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            inputEnabled: Swift.Bool? = nil,
+            outputAction: BedrockClientTypes.GuardrailWordAction? = nil,
+            outputEnabled: Swift.Bool? = nil,
             text: Swift.String? = nil
         ) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.text = text
         }
     }
+}
+
+extension BedrockClientTypes.GuardrailWord: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailWord(inputEnabled: \(Swift.String(describing: inputEnabled)), outputEnabled: \(Swift.String(describing: outputEnabled)), text: \(Swift.String(describing: text)), inputAction: \"CONTENT_REDACTED\", outputAction: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -3004,6 +3772,8 @@ public struct GetGuardrailOutput: Swift.Sendable {
     /// The date and time at which the guardrail was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
+    /// Details about the system-defined guardrail profile that you're using with your guardrail, including the guardrail profile ID and Amazon Resource Name (ARN).
+    public var crossRegionDetails: BedrockClientTypes.GuardrailCrossRegionDetails?
     /// The description of the guardrail.
     public var description: Swift.String?
     /// Appears if the status of the guardrail is FAILED. A list of recommendations to carry out before retrying the request.
@@ -3043,6 +3813,7 @@ public struct GetGuardrailOutput: Swift.Sendable {
         contentPolicy: BedrockClientTypes.GuardrailContentPolicy? = nil,
         contextualGroundingPolicy: BedrockClientTypes.GuardrailContextualGroundingPolicy? = nil,
         createdAt: Foundation.Date? = nil,
+        crossRegionDetails: BedrockClientTypes.GuardrailCrossRegionDetails? = nil,
         description: Swift.String? = nil,
         failureRecommendations: [Swift.String]? = nil,
         guardrailArn: Swift.String? = nil,
@@ -3062,6 +3833,7 @@ public struct GetGuardrailOutput: Swift.Sendable {
         self.contentPolicy = contentPolicy
         self.contextualGroundingPolicy = contextualGroundingPolicy
         self.createdAt = createdAt
+        self.crossRegionDetails = crossRegionDetails
         self.description = description
         self.failureRecommendations = failureRecommendations
         self.guardrailArn = guardrailArn
@@ -3080,7 +3852,7 @@ public struct GetGuardrailOutput: Swift.Sendable {
 
 extension GetGuardrailOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGuardrailOutput(contentPolicy: \(Swift.String(describing: contentPolicy)), contextualGroundingPolicy: \(Swift.String(describing: contextualGroundingPolicy)), createdAt: \(Swift.String(describing: createdAt)), guardrailArn: \(Swift.String(describing: guardrailArn)), guardrailId: \(Swift.String(describing: guardrailId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), sensitiveInformationPolicy: \(Swift.String(describing: sensitiveInformationPolicy)), status: \(Swift.String(describing: status)), topicPolicy: \(Swift.String(describing: topicPolicy)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), wordPolicy: \(Swift.String(describing: wordPolicy)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", failureRecommendations: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", statusReasons: \"CONTENT_REDACTED\")"}
+        "GetGuardrailOutput(contentPolicy: \(Swift.String(describing: contentPolicy)), contextualGroundingPolicy: \(Swift.String(describing: contextualGroundingPolicy)), createdAt: \(Swift.String(describing: createdAt)), crossRegionDetails: \(Swift.String(describing: crossRegionDetails)), guardrailArn: \(Swift.String(describing: guardrailArn)), guardrailId: \(Swift.String(describing: guardrailId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), sensitiveInformationPolicy: \(Swift.String(describing: sensitiveInformationPolicy)), status: \(Swift.String(describing: status)), topicPolicy: \(Swift.String(describing: topicPolicy)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), wordPolicy: \(Swift.String(describing: wordPolicy)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", failureRecommendations: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", statusReasons: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListGuardrailsInput: Swift.Sendable {
@@ -3114,6 +3886,8 @@ extension BedrockClientTypes {
         /// The date and time at which the guardrail was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
+        /// Details about the system-defined guardrail profile that you're using with your guardrail, including the guardrail profile ID and Amazon Resource Name (ARN).
+        public var crossRegionDetails: BedrockClientTypes.GuardrailCrossRegionDetails?
         /// A description of the guardrail.
         public var description: Swift.String?
         /// The unique identifier of the guardrail.
@@ -3135,6 +3909,7 @@ extension BedrockClientTypes {
         public init(
             arn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
+            crossRegionDetails: BedrockClientTypes.GuardrailCrossRegionDetails? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -3144,6 +3919,7 @@ extension BedrockClientTypes {
         ) {
             self.arn = arn
             self.createdAt = createdAt
+            self.crossRegionDetails = crossRegionDetails
             self.description = description
             self.id = id
             self.name = name
@@ -3156,7 +3932,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.GuardrailSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GuardrailSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GuardrailSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), crossRegionDetails: \(Swift.String(describing: crossRegionDetails)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListGuardrailsOutput: Swift.Sendable {
@@ -3186,6 +3962,8 @@ public struct UpdateGuardrailInput: Swift.Sendable {
     public var contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig?
     /// The contextual grounding policy configuration used to update a guardrail.
     public var contextualGroundingPolicyConfig: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig?
+    /// The system-defined guardrail profile that you're using with your guardrail. Guardrail profiles define the destination Amazon Web Services Regions where guardrail inference requests can be automatically routed. For more information, see the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+    public var crossRegionConfig: BedrockClientTypes.GuardrailCrossRegionConfig?
     /// A description of the guardrail.
     public var description: Swift.String?
     /// The unique identifier of the guardrail. This can be an ID or the ARN.
@@ -3208,6 +3986,7 @@ public struct UpdateGuardrailInput: Swift.Sendable {
         blockedOutputsMessaging: Swift.String? = nil,
         contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig? = nil,
         contextualGroundingPolicyConfig: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig? = nil,
+        crossRegionConfig: BedrockClientTypes.GuardrailCrossRegionConfig? = nil,
         description: Swift.String? = nil,
         guardrailIdentifier: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -3220,6 +3999,7 @@ public struct UpdateGuardrailInput: Swift.Sendable {
         self.blockedOutputsMessaging = blockedOutputsMessaging
         self.contentPolicyConfig = contentPolicyConfig
         self.contextualGroundingPolicyConfig = contextualGroundingPolicyConfig
+        self.crossRegionConfig = crossRegionConfig
         self.description = description
         self.guardrailIdentifier = guardrailIdentifier
         self.kmsKeyId = kmsKeyId
@@ -3232,7 +4012,7 @@ public struct UpdateGuardrailInput: Swift.Sendable {
 
 extension UpdateGuardrailInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGuardrailInput(contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGuardrailInput(contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), crossRegionConfig: \(Swift.String(describing: crossRegionConfig)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGuardrailOutput: Swift.Sendable {
@@ -4083,9 +4863,30 @@ public struct GetImportedModelInput: Swift.Sendable {
     }
 }
 
+extension BedrockClientTypes {
+
+    /// A CustomModelUnit (CMU) is an abstract view of the hardware utilization that Amazon Bedrock needs to host a single copy of your custom model. A model copy represents a single instance of your imported model that is ready to serve inference requests. Amazon Bedrock determines the number of custom model units that a model copy needs when you import the custom model. You can use CustomModelUnits to estimate the cost of running your custom model. For more information, see Calculate the cost of running a custom model in the Amazon Bedrock user guide.
+    public struct CustomModelUnits: Swift.Sendable {
+        /// The number of custom model units used to host a model copy.
+        public var customModelUnitsPerModelCopy: Swift.Int?
+        /// The version of the custom model unit. Use to determine the billing rate for the custom model unit.
+        public var customModelUnitsVersion: Swift.String?
+
+        public init(
+            customModelUnitsPerModelCopy: Swift.Int? = nil,
+            customModelUnitsVersion: Swift.String? = nil
+        ) {
+            self.customModelUnitsPerModelCopy = customModelUnitsPerModelCopy
+            self.customModelUnitsVersion = customModelUnitsVersion
+        }
+    }
+}
+
 public struct GetImportedModelOutput: Swift.Sendable {
     /// Creation time of the imported model.
     public var creationTime: Foundation.Date?
+    /// Information about the hardware utilization for a single copy of the model.
+    public var customModelUnits: BedrockClientTypes.CustomModelUnits?
     /// Specifies if the imported model supports converse.
     public var instructSupported: Swift.Bool?
     /// Job Amazon Resource Name (ARN) associated with the imported model.
@@ -4105,6 +4906,7 @@ public struct GetImportedModelOutput: Swift.Sendable {
 
     public init(
         creationTime: Foundation.Date? = nil,
+        customModelUnits: BedrockClientTypes.CustomModelUnits? = nil,
         instructSupported: Swift.Bool? = nil,
         jobArn: Swift.String? = nil,
         jobName: Swift.String? = nil,
@@ -4115,6 +4917,7 @@ public struct GetImportedModelOutput: Swift.Sendable {
         modelName: Swift.String? = nil
     ) {
         self.creationTime = creationTime
+        self.customModelUnits = customModelUnits
         self.instructSupported = instructSupported
         self.jobArn = jobArn
         self.jobName = jobName
@@ -4712,7 +5515,7 @@ public struct GetModelInvocationJobOutput: Swift.Sendable {
     ///
     /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
     ///
-    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
+    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web ServicesSupport Center](https://console.aws.amazon.com/support/home/).
     ///
     /// * Stopped – This job was stopped by a user.
     ///
@@ -4802,7 +5605,7 @@ public struct ListModelInvocationJobsInput: Swift.Sendable {
     ///
     /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
     ///
-    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
+    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web ServicesSupport Center](https://console.aws.amazon.com/support/home/).
     ///
     /// * Stopped – This job was stopped by a user.
     ///
@@ -4891,7 +5694,7 @@ extension BedrockClientTypes {
         ///
         /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
         ///
-        /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
+        /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web ServicesSupport Center](https://console.aws.amazon.com/support/home/).
         ///
         /// * Stopped – This job was stopped by a user.
         ///
@@ -5047,7 +5850,7 @@ extension BedrockClientTypes {
 
     /// A model customization configuration
     public enum CustomizationConfig: Swift.Sendable {
-        /// The distillation configuration for the custom model.
+        /// The Distillation configuration for the custom model.
         case distillationconfig(BedrockClientTypes.DistillationConfig)
         case sdkUnknown(Swift.String)
     }
@@ -5737,23 +6540,12 @@ public struct ListFoundationModelsOutput: Swift.Sendable {
     }
 }
 
-public struct GetPromptRouterInput: Swift.Sendable {
-    /// The prompt router's ARN
-    /// This member is required.
-    public var promptRouterArn: Swift.String?
-
-    public init(
-        promptRouterArn: Swift.String? = nil
-    ) {
-        self.promptRouterArn = promptRouterArn
-    }
-}
-
 extension BedrockClientTypes {
 
     /// The target model for a prompt router.
     public struct PromptRouterTargetModel: Swift.Sendable {
         /// The target model's ARN.
+        /// This member is required.
         public var modelArn: Swift.String?
 
         public init(
@@ -5777,6 +6569,90 @@ extension BedrockClientTypes {
         ) {
             self.responseQualityDifference = responseQualityDifference
         }
+    }
+}
+
+public struct CreatePromptRouterInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of your requests. If not specified, the Amazon Web Services SDK automatically generates one for you.
+    public var clientRequestToken: Swift.String?
+    /// An optional description of the prompt router to help identify its purpose.
+    public var description: Swift.String?
+    /// The default model to use when the routing criteria is not met.
+    /// This member is required.
+    public var fallbackModel: BedrockClientTypes.PromptRouterTargetModel?
+    /// A list of foundation models that the prompt router can route requests to. At least one model must be specified.
+    /// This member is required.
+    public var models: [BedrockClientTypes.PromptRouterTargetModel]?
+    /// The name of the prompt router. The name must be unique within your Amazon Web Services account in the current region.
+    /// This member is required.
+    public var promptRouterName: Swift.String?
+    /// The criteria, which is the response quality difference, used to determine how incoming requests are routed to different models.
+    /// This member is required.
+    public var routingCriteria: BedrockClientTypes.RoutingCriteria?
+    /// An array of key-value pairs to apply to this resource as tags. You can use tags to categorize and manage your Amazon Web Services resources.
+    public var tags: [BedrockClientTypes.Tag]?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        fallbackModel: BedrockClientTypes.PromptRouterTargetModel? = nil,
+        models: [BedrockClientTypes.PromptRouterTargetModel]? = nil,
+        promptRouterName: Swift.String? = nil,
+        routingCriteria: BedrockClientTypes.RoutingCriteria? = nil,
+        tags: [BedrockClientTypes.Tag]? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.description = description
+        self.fallbackModel = fallbackModel
+        self.models = models
+        self.promptRouterName = promptRouterName
+        self.routingCriteria = routingCriteria
+        self.tags = tags
+    }
+}
+
+extension CreatePromptRouterInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePromptRouterInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), fallbackModel: \(Swift.String(describing: fallbackModel)), models: \(Swift.String(describing: models)), promptRouterName: \(Swift.String(describing: promptRouterName)), routingCriteria: \(Swift.String(describing: routingCriteria)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreatePromptRouterOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the prompt router.
+    public var promptRouterArn: Swift.String?
+
+    public init(
+        promptRouterArn: Swift.String? = nil
+    ) {
+        self.promptRouterArn = promptRouterArn
+    }
+}
+
+public struct DeletePromptRouterInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the prompt router to delete.
+    /// This member is required.
+    public var promptRouterArn: Swift.String?
+
+    public init(
+        promptRouterArn: Swift.String? = nil
+    ) {
+        self.promptRouterArn = promptRouterArn
+    }
+}
+
+public struct DeletePromptRouterOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetPromptRouterInput: Swift.Sendable {
+    /// The prompt router's ARN
+    /// This member is required.
+    public var promptRouterArn: Swift.String?
+
+    public init(
+        promptRouterArn: Swift.String? = nil
+    ) {
+        self.promptRouterArn = promptRouterArn
     }
 }
 
@@ -5899,13 +6775,17 @@ public struct ListPromptRoutersInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Specify the pagination token from a previous request to retrieve the next page of results.
     public var nextToken: Swift.String?
+    /// The type of the prompt routers, such as whether it's default or custom.
+    public var type: BedrockClientTypes.PromptRouterType?
 
     public init(
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        type: BedrockClientTypes.PromptRouterType? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.type = type
     }
 }
 
@@ -6581,6 +7461,151 @@ extension BedrockClientTypes {
     }
 }
 
+extension BedrockClientTypes {
+
+    public enum JobStatusDetails: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case notStarted
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobStatusDetails] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .notStarted,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .notStarted: return "NotStarted"
+            case .stopped: return "Stopped"
+            case .stopping: return "Stopping"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// For a Distillation job, the status details for the data processing sub-task of the job.
+    public struct DataProcessingDetails: Swift.Sendable {
+        /// The start time of the data processing sub-task of the job.
+        public var creationTime: Foundation.Date?
+        /// The latest update to the data processing sub-task of the job.
+        public var lastModifiedTime: Foundation.Date?
+        /// The status of the data processing sub-task of the job.
+        public var status: BedrockClientTypes.JobStatusDetails?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            status: BedrockClientTypes.JobStatusDetails? = nil
+        ) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// For a Distillation job, the status details for the training sub-task of the job.
+    public struct TrainingDetails: Swift.Sendable {
+        /// The start time of the training sub-task of the job.
+        public var creationTime: Foundation.Date?
+        /// The latest update to the training sub-task of the job.
+        public var lastModifiedTime: Foundation.Date?
+        /// The status of the training sub-task of the job.
+        public var status: BedrockClientTypes.JobStatusDetails?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            status: BedrockClientTypes.JobStatusDetails? = nil
+        ) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// For a Distillation job, the status details for the validation sub-task of the job.
+    public struct ValidationDetails: Swift.Sendable {
+        /// The start time of the validation sub-task of the job.
+        public var creationTime: Foundation.Date?
+        /// The latest update to the validation sub-task of the job.
+        public var lastModifiedTime: Foundation.Date?
+        /// The status of the validation sub-task of the job.
+        public var status: BedrockClientTypes.JobStatusDetails?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            status: BedrockClientTypes.JobStatusDetails? = nil
+        ) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// For a Distillation job, the status details for sub-tasks of the job. Possible statuses for each sub-task include the following:
+    ///
+    /// * NotStarted
+    ///
+    /// * InProgress
+    ///
+    /// * Completed
+    ///
+    /// * Stopping
+    ///
+    /// * Stopped
+    ///
+    /// * Failed
+    public struct StatusDetails: Swift.Sendable {
+        /// The status details for the data processing sub-task of the job.
+        public var dataProcessingDetails: BedrockClientTypes.DataProcessingDetails?
+        /// The status details for the training sub-task of the job.
+        public var trainingDetails: BedrockClientTypes.TrainingDetails?
+        /// The status details for the validation sub-task of the job.
+        public var validationDetails: BedrockClientTypes.ValidationDetails?
+
+        public init(
+            dataProcessingDetails: BedrockClientTypes.DataProcessingDetails? = nil,
+            trainingDetails: BedrockClientTypes.TrainingDetails? = nil,
+            validationDetails: BedrockClientTypes.ValidationDetails? = nil
+        ) {
+            self.dataProcessingDetails = dataProcessingDetails
+            self.trainingDetails = trainingDetails
+            self.validationDetails = validationDetails
+        }
+    }
+}
+
 public struct GetModelCustomizationJobOutput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the base model.
     /// This member is required.
@@ -6623,6 +7648,8 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
     public var roleArn: Swift.String?
     /// The status of the job. A successful job transitions from in-progress to completed when the output model is ready to use. If the job failed, the failure message contains information about why the job failed.
     public var status: BedrockClientTypes.ModelCustomizationJobStatus?
+    /// For a Distillation job, the details about the statuses of the sub-tasks of the customization job.
+    public var statusDetails: BedrockClientTypes.StatusDetails?
     /// Contains information about the training dataset.
     /// This member is required.
     public var trainingDataConfig: BedrockClientTypes.TrainingDataConfig?
@@ -6654,6 +7681,7 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
         outputModelName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         status: BedrockClientTypes.ModelCustomizationJobStatus? = nil,
+        statusDetails: BedrockClientTypes.StatusDetails? = nil,
         trainingDataConfig: BedrockClientTypes.TrainingDataConfig? = nil,
         trainingMetrics: BedrockClientTypes.TrainingMetrics? = nil,
         validationDataConfig: BedrockClientTypes.ValidationDataConfig? = nil,
@@ -6677,6 +7705,7 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
         self.outputModelName = outputModelName
         self.roleArn = roleArn
         self.status = status
+        self.statusDetails = statusDetails
         self.trainingDataConfig = trainingDataConfig
         self.trainingMetrics = trainingMetrics
         self.validationDataConfig = validationDataConfig
@@ -6791,6 +7820,8 @@ extension BedrockClientTypes {
         /// Status of the customization job.
         /// This member is required.
         public var status: BedrockClientTypes.ModelCustomizationJobStatus?
+        /// Details about the status of the data processing sub-task of the job.
+        public var statusDetails: BedrockClientTypes.StatusDetails?
 
         public init(
             baseModelArn: Swift.String? = nil,
@@ -6802,7 +7833,8 @@ extension BedrockClientTypes {
             jobArn: Swift.String? = nil,
             jobName: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
-            status: BedrockClientTypes.ModelCustomizationJobStatus? = nil
+            status: BedrockClientTypes.ModelCustomizationJobStatus? = nil,
+            statusDetails: BedrockClientTypes.StatusDetails? = nil
         ) {
             self.baseModelArn = baseModelArn
             self.creationTime = creationTime
@@ -6814,6 +7846,7 @@ extension BedrockClientTypes {
             self.jobName = jobName
             self.lastModifiedTime = lastModifiedTime
             self.status = status
+            self.statusDetails = statusDetails
         }
     }
 }
@@ -7024,6 +8057,8 @@ extension BedrockClientTypes {
     public indirect enum RAGConfig: Swift.Sendable {
         /// Contains configuration details for knowledge base retrieval and response generation.
         case knowledgebaseconfig(BedrockClientTypes.KnowledgeBaseConfig)
+        /// Contains configuration details about the RAG source used to generate inference response data for a Knowledge Base evaluation job.
+        case precomputedragsourceconfig(BedrockClientTypes.EvaluationPrecomputedRagSourceConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7247,6 +8282,13 @@ extension CreateModelInvocationJobInput {
     }
 }
 
+extension CreatePromptRouterInput {
+
+    static func urlPathProvider(_ value: CreatePromptRouterInput) -> Swift.String? {
+        return "/prompt-routers"
+    }
+}
+
 extension CreateProvisionedModelThroughputInput {
 
     static func urlPathProvider(_ value: CreateProvisionedModelThroughputInput) -> Swift.String? {
@@ -7320,6 +8362,16 @@ extension DeleteModelInvocationLoggingConfigurationInput {
 
     static func urlPathProvider(_ value: DeleteModelInvocationLoggingConfigurationInput) -> Swift.String? {
         return "/logging/modelinvocations"
+    }
+}
+
+extension DeletePromptRouterInput {
+
+    static func urlPathProvider(_ value: DeletePromptRouterInput) -> Swift.String? {
+        guard let promptRouterArn = value.promptRouterArn else {
+            return nil
+        }
+        return "/prompt-routers/\(promptRouterArn.urlPercentEncoding())"
     }
 }
 
@@ -7968,6 +9020,10 @@ extension ListPromptRoutersInput {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
         return items
     }
 }
@@ -8155,6 +9211,7 @@ extension CreateGuardrailInput {
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["contentPolicyConfig"].write(value.contentPolicyConfig, with: BedrockClientTypes.GuardrailContentPolicyConfig.write(value:to:))
         try writer["contextualGroundingPolicyConfig"].write(value.contextualGroundingPolicyConfig, with: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig.write(value:to:))
+        try writer["crossRegionConfig"].write(value.crossRegionConfig, with: BedrockClientTypes.GuardrailCrossRegionConfig.write(value:to:))
         try writer["description"].write(value.description)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
@@ -8265,6 +9322,20 @@ extension CreateModelInvocationJobInput {
     }
 }
 
+extension CreatePromptRouterInput {
+
+    static func write(value: CreatePromptRouterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["description"].write(value.description)
+        try writer["fallbackModel"].write(value.fallbackModel, with: BedrockClientTypes.PromptRouterTargetModel.write(value:to:))
+        try writer["models"].writeList(value.models, memberWritingClosure: BedrockClientTypes.PromptRouterTargetModel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["promptRouterName"].write(value.promptRouterName)
+        try writer["routingCriteria"].write(value.routingCriteria, with: BedrockClientTypes.RoutingCriteria.write(value:to:))
+        try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateProvisionedModelThroughputInput {
 
     static func write(value: CreateProvisionedModelThroughputInput?, to writer: SmithyJSON.Writer) throws {
@@ -8328,6 +9399,7 @@ extension UpdateGuardrailInput {
         try writer["blockedOutputsMessaging"].write(value.blockedOutputsMessaging)
         try writer["contentPolicyConfig"].write(value.contentPolicyConfig, with: BedrockClientTypes.GuardrailContentPolicyConfig.write(value:to:))
         try writer["contextualGroundingPolicyConfig"].write(value.contextualGroundingPolicyConfig, with: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig.write(value:to:))
+        try writer["crossRegionConfig"].write(value.crossRegionConfig, with: BedrockClientTypes.GuardrailCrossRegionConfig.write(value:to:))
         try writer["description"].write(value.description)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
@@ -8481,6 +9553,18 @@ extension CreateModelInvocationJobOutput {
     }
 }
 
+extension CreatePromptRouterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePromptRouterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePromptRouterOutput()
+        value.promptRouterArn = try reader["promptRouterArn"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateProvisionedModelThroughputOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateProvisionedModelThroughputOutput {
@@ -8532,6 +9616,13 @@ extension DeleteModelInvocationLoggingConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteModelInvocationLoggingConfigurationOutput {
         return DeleteModelInvocationLoggingConfigurationOutput()
+    }
+}
+
+extension DeletePromptRouterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePromptRouterOutput {
+        return DeletePromptRouterOutput()
     }
 }
 
@@ -8624,6 +9715,7 @@ extension GetGuardrailOutput {
         value.contentPolicy = try reader["contentPolicy"].readIfPresent(with: BedrockClientTypes.GuardrailContentPolicy.read(from:))
         value.contextualGroundingPolicy = try reader["contextualGroundingPolicy"].readIfPresent(with: BedrockClientTypes.GuardrailContextualGroundingPolicy.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.crossRegionDetails = try reader["crossRegionDetails"].readIfPresent(with: BedrockClientTypes.GuardrailCrossRegionDetails.read(from:))
         value.description = try reader["description"].readIfPresent()
         value.failureRecommendations = try reader["failureRecommendations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.guardrailArn = try reader["guardrailArn"].readIfPresent() ?? ""
@@ -8649,6 +9741,7 @@ extension GetImportedModelOutput {
         let reader = responseReader
         var value = GetImportedModelOutput()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.customModelUnits = try reader["customModelUnits"].readIfPresent(with: BedrockClientTypes.CustomModelUnits.read(from:))
         value.instructSupported = try reader["instructSupported"].readIfPresent()
         value.jobArn = try reader["jobArn"].readIfPresent()
         value.jobName = try reader["jobName"].readIfPresent()
@@ -8739,6 +9832,7 @@ extension GetModelCustomizationJobOutput {
         value.outputModelName = try reader["outputModelName"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
+        value.statusDetails = try reader["statusDetails"].readIfPresent(with: BedrockClientTypes.StatusDetails.read(from:))
         value.trainingDataConfig = try reader["trainingDataConfig"].readIfPresent(with: BedrockClientTypes.TrainingDataConfig.read(from:))
         value.trainingMetrics = try reader["trainingMetrics"].readIfPresent(with: BedrockClientTypes.TrainingMetrics.read(from:))
         value.validationDataConfig = try reader["validationDataConfig"].readIfPresent(with: BedrockClientTypes.ValidationDataConfig.read(from:))
@@ -9323,6 +10417,27 @@ enum CreateModelInvocationJobOutputError {
     }
 }
 
+enum CreatePromptRouterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateProvisionedModelThroughputOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9448,6 +10563,24 @@ enum DeleteModelInvocationLoggingConfigurationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePromptRouterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -10775,6 +11908,7 @@ extension BedrockClientTypes.AutomatedEvaluationConfig {
 
     static func write(value: BedrockClientTypes.AutomatedEvaluationConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["customMetricConfig"].write(value.customMetricConfig, with: BedrockClientTypes.AutomatedEvaluationCustomMetricConfig.write(value:to:))
         try writer["datasetMetricConfigs"].writeList(value.datasetMetricConfigs, memberWritingClosure: BedrockClientTypes.EvaluationDatasetMetricConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["evaluatorModelConfig"].write(value.evaluatorModelConfig, with: BedrockClientTypes.EvaluatorModelConfig.write(value:to:))
     }
@@ -10784,7 +11918,143 @@ extension BedrockClientTypes.AutomatedEvaluationConfig {
         var value = BedrockClientTypes.AutomatedEvaluationConfig()
         value.datasetMetricConfigs = try reader["datasetMetricConfigs"].readListIfPresent(memberReadingClosure: BedrockClientTypes.EvaluationDatasetMetricConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.evaluatorModelConfig = try reader["evaluatorModelConfig"].readIfPresent(with: BedrockClientTypes.EvaluatorModelConfig.read(from:))
+        value.customMetricConfig = try reader["customMetricConfig"].readIfPresent(with: BedrockClientTypes.AutomatedEvaluationCustomMetricConfig.read(from:))
         return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedEvaluationCustomMetricConfig {
+
+    static func write(value: BedrockClientTypes.AutomatedEvaluationCustomMetricConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customMetrics"].writeList(value.customMetrics, memberWritingClosure: BedrockClientTypes.AutomatedEvaluationCustomMetricSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["evaluatorModelConfig"].write(value.evaluatorModelConfig, with: BedrockClientTypes.CustomMetricEvaluatorModelConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedEvaluationCustomMetricConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedEvaluationCustomMetricConfig()
+        value.customMetrics = try reader["customMetrics"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AutomatedEvaluationCustomMetricSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.evaluatorModelConfig = try reader["evaluatorModelConfig"].readIfPresent(with: BedrockClientTypes.CustomMetricEvaluatorModelConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.CustomMetricEvaluatorModelConfig {
+
+    static func write(value: BedrockClientTypes.CustomMetricEvaluatorModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bedrockEvaluatorModels"].writeList(value.bedrockEvaluatorModels, memberWritingClosure: BedrockClientTypes.CustomMetricBedrockEvaluatorModel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomMetricEvaluatorModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.CustomMetricEvaluatorModelConfig()
+        value.bedrockEvaluatorModels = try reader["bedrockEvaluatorModels"].readListIfPresent(memberReadingClosure: BedrockClientTypes.CustomMetricBedrockEvaluatorModel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockClientTypes.CustomMetricBedrockEvaluatorModel {
+
+    static func write(value: BedrockClientTypes.CustomMetricBedrockEvaluatorModel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelIdentifier"].write(value.modelIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomMetricBedrockEvaluatorModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.CustomMetricBedrockEvaluatorModel()
+        value.modelIdentifier = try reader["modelIdentifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedEvaluationCustomMetricSource {
+
+    static func write(value: BedrockClientTypes.AutomatedEvaluationCustomMetricSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .custommetricdefinition(custommetricdefinition):
+                try writer["customMetricDefinition"].write(custommetricdefinition, with: BedrockClientTypes.CustomMetricDefinition.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedEvaluationCustomMetricSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "customMetricDefinition":
+                return .custommetricdefinition(try reader["customMetricDefinition"].read(with: BedrockClientTypes.CustomMetricDefinition.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.CustomMetricDefinition {
+
+    static func write(value: BedrockClientTypes.CustomMetricDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["instructions"].write(value.instructions)
+        try writer["name"].write(value.name)
+        try writer["ratingScale"].writeList(value.ratingScale, memberWritingClosure: BedrockClientTypes.RatingScaleItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomMetricDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.CustomMetricDefinition()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.instructions = try reader["instructions"].readIfPresent() ?? ""
+        value.ratingScale = try reader["ratingScale"].readListIfPresent(memberReadingClosure: BedrockClientTypes.RatingScaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockClientTypes.RatingScaleItem {
+
+    static func write(value: BedrockClientTypes.RatingScaleItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["definition"].write(value.definition)
+        try writer["value"].write(value.value, with: BedrockClientTypes.RatingScaleItemValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RatingScaleItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.RatingScaleItem()
+        value.definition = try reader["definition"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent(with: BedrockClientTypes.RatingScaleItemValue.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.RatingScaleItemValue {
+
+    static func write(value: BedrockClientTypes.RatingScaleItemValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .floatvalue(floatvalue):
+                try writer["floatValue"].write(floatvalue)
+            case let .stringvalue(stringvalue):
+                try writer["stringValue"].write(stringvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RatingScaleItemValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "stringValue":
+                return .stringvalue(try reader["stringValue"].read())
+            case "floatValue":
+                return .floatvalue(try reader["floatValue"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -10862,6 +12132,8 @@ extension BedrockClientTypes.RAGConfig {
         switch value {
             case let .knowledgebaseconfig(knowledgebaseconfig):
                 try writer["knowledgeBaseConfig"].write(knowledgebaseconfig, with: BedrockClientTypes.KnowledgeBaseConfig.write(value:to:))
+            case let .precomputedragsourceconfig(precomputedragsourceconfig):
+                try writer["precomputedRagSourceConfig"].write(precomputedragsourceconfig, with: BedrockClientTypes.EvaluationPrecomputedRagSourceConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -10873,9 +12145,69 @@ extension BedrockClientTypes.RAGConfig {
         switch name {
             case "knowledgeBaseConfig":
                 return .knowledgebaseconfig(try reader["knowledgeBaseConfig"].read(with: BedrockClientTypes.KnowledgeBaseConfig.read(from:)))
+            case "precomputedRagSourceConfig":
+                return .precomputedragsourceconfig(try reader["precomputedRagSourceConfig"].read(with: BedrockClientTypes.EvaluationPrecomputedRagSourceConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockClientTypes.EvaluationPrecomputedRagSourceConfig {
+
+    static func write(value: BedrockClientTypes.EvaluationPrecomputedRagSourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .retrieveandgeneratesourceconfig(retrieveandgeneratesourceconfig):
+                try writer["retrieveAndGenerateSourceConfig"].write(retrieveandgeneratesourceconfig, with: BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig.write(value:to:))
+            case let .retrievesourceconfig(retrievesourceconfig):
+                try writer["retrieveSourceConfig"].write(retrievesourceconfig, with: BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationPrecomputedRagSourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "retrieveSourceConfig":
+                return .retrievesourceconfig(try reader["retrieveSourceConfig"].read(with: BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig.read(from:)))
+            case "retrieveAndGenerateSourceConfig":
+                return .retrieveandgeneratesourceconfig(try reader["retrieveAndGenerateSourceConfig"].read(with: BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig {
+
+    static func write(value: BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ragSourceIdentifier"].write(value.ragSourceIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.EvaluationPrecomputedRetrieveAndGenerateSourceConfig()
+        value.ragSourceIdentifier = try reader["ragSourceIdentifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig {
+
+    static func write(value: BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ragSourceIdentifier"].write(value.ragSourceIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.EvaluationPrecomputedRetrieveSourceConfig()
+        value.ragSourceIdentifier = try reader["ragSourceIdentifier"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -11308,6 +12640,8 @@ extension BedrockClientTypes.EvaluationModelConfig {
         switch value {
             case let .bedrockmodel(bedrockmodel):
                 try writer["bedrockModel"].write(bedrockmodel, with: BedrockClientTypes.EvaluationBedrockModel.write(value:to:))
+            case let .precomputedinferencesource(precomputedinferencesource):
+                try writer["precomputedInferenceSource"].write(precomputedinferencesource, with: BedrockClientTypes.EvaluationPrecomputedInferenceSource.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -11319,9 +12653,26 @@ extension BedrockClientTypes.EvaluationModelConfig {
         switch name {
             case "bedrockModel":
                 return .bedrockmodel(try reader["bedrockModel"].read(with: BedrockClientTypes.EvaluationBedrockModel.read(from:)))
+            case "precomputedInferenceSource":
+                return .precomputedinferencesource(try reader["precomputedInferenceSource"].read(with: BedrockClientTypes.EvaluationPrecomputedInferenceSource.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockClientTypes.EvaluationPrecomputedInferenceSource {
+
+    static func write(value: BedrockClientTypes.EvaluationPrecomputedInferenceSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inferenceSourceIdentifier"].write(value.inferenceSourceIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationPrecomputedInferenceSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.EvaluationPrecomputedInferenceSource()
+        value.inferenceSourceIdentifier = try reader["inferenceSourceIdentifier"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -11422,6 +12773,10 @@ extension BedrockClientTypes.GuardrailTopic {
         value.definition = try reader["definition"].readIfPresent() ?? ""
         value.examples = try reader["examples"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
+        value.inputAction = try reader["inputAction"].readIfPresent()
+        value.outputAction = try reader["outputAction"].readIfPresent()
+        value.inputEnabled = try reader["inputEnabled"].readIfPresent()
+        value.outputEnabled = try reader["outputEnabled"].readIfPresent()
         return value
     }
 }
@@ -11446,6 +12801,10 @@ extension BedrockClientTypes.GuardrailContentFilter {
         value.outputStrength = try reader["outputStrength"].readIfPresent() ?? .sdkUnknown("")
         value.inputModalities = try reader["inputModalities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockClientTypes.GuardrailModality>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.outputModalities = try reader["outputModalities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockClientTypes.GuardrailModality>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputAction = try reader["inputAction"].readIfPresent()
+        value.outputAction = try reader["outputAction"].readIfPresent()
+        value.inputEnabled = try reader["inputEnabled"].readIfPresent()
+        value.outputEnabled = try reader["outputEnabled"].readIfPresent()
         return value
     }
 }
@@ -11467,6 +12826,10 @@ extension BedrockClientTypes.GuardrailManagedWords {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailManagedWords()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.inputAction = try reader["inputAction"].readIfPresent()
+        value.outputAction = try reader["outputAction"].readIfPresent()
+        value.inputEnabled = try reader["inputEnabled"].readIfPresent()
+        value.outputEnabled = try reader["outputEnabled"].readIfPresent()
         return value
     }
 }
@@ -11477,6 +12840,10 @@ extension BedrockClientTypes.GuardrailWord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailWord()
         value.text = try reader["text"].readIfPresent() ?? ""
+        value.inputAction = try reader["inputAction"].readIfPresent()
+        value.outputAction = try reader["outputAction"].readIfPresent()
+        value.inputEnabled = try reader["inputEnabled"].readIfPresent()
+        value.outputEnabled = try reader["outputEnabled"].readIfPresent()
         return value
     }
 }
@@ -11501,6 +12868,10 @@ extension BedrockClientTypes.GuardrailRegex {
         value.description = try reader["description"].readIfPresent()
         value.pattern = try reader["pattern"].readIfPresent() ?? ""
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.inputAction = try reader["inputAction"].readIfPresent()
+        value.outputAction = try reader["outputAction"].readIfPresent()
+        value.inputEnabled = try reader["inputEnabled"].readIfPresent()
+        value.outputEnabled = try reader["outputEnabled"].readIfPresent()
         return value
     }
 }
@@ -11512,6 +12883,10 @@ extension BedrockClientTypes.GuardrailPiiEntity {
         var value = BedrockClientTypes.GuardrailPiiEntity()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.inputAction = try reader["inputAction"].readIfPresent()
+        value.outputAction = try reader["outputAction"].readIfPresent()
+        value.inputEnabled = try reader["inputEnabled"].readIfPresent()
+        value.outputEnabled = try reader["outputEnabled"].readIfPresent()
         return value
     }
 }
@@ -11533,6 +12908,19 @@ extension BedrockClientTypes.GuardrailContextualGroundingFilter {
         var value = BedrockClientTypes.GuardrailContextualGroundingFilter()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.threshold = try reader["threshold"].readIfPresent() ?? 0.0
+        value.action = try reader["action"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.GuardrailCrossRegionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailCrossRegionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.GuardrailCrossRegionDetails()
+        value.guardrailProfileId = try reader["guardrailProfileId"].readIfPresent()
+        value.guardrailProfileArn = try reader["guardrailProfileArn"].readIfPresent()
         return value
     }
 }
@@ -11576,6 +12964,17 @@ extension BedrockClientTypes.S3DataSource {
     }
 }
 
+extension BedrockClientTypes.CustomModelUnits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomModelUnits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.CustomModelUnits()
+        value.customModelUnitsPerModelCopy = try reader["customModelUnitsPerModelCopy"].readIfPresent()
+        value.customModelUnitsVersion = try reader["customModelUnitsVersion"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockClientTypes.InferenceProfileModel {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.InferenceProfileModel {
@@ -11599,6 +12998,54 @@ extension BedrockClientTypes.Tag {
         var value = BedrockClientTypes.Tag()
         value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockClientTypes.StatusDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.StatusDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.StatusDetails()
+        value.validationDetails = try reader["validationDetails"].readIfPresent(with: BedrockClientTypes.ValidationDetails.read(from:))
+        value.dataProcessingDetails = try reader["dataProcessingDetails"].readIfPresent(with: BedrockClientTypes.DataProcessingDetails.read(from:))
+        value.trainingDetails = try reader["trainingDetails"].readIfPresent(with: BedrockClientTypes.TrainingDetails.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.TrainingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.TrainingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.TrainingDetails()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockClientTypes.DataProcessingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.DataProcessingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.DataProcessingDetails()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockClientTypes.ValidationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ValidationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.ValidationDetails()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -11752,6 +13199,11 @@ extension BedrockClientTypes.CloudWatchConfig {
 
 extension BedrockClientTypes.RoutingCriteria {
 
+    static func write(value: BedrockClientTypes.RoutingCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["responseQualityDifference"].write(value.responseQualityDifference)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RoutingCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.RoutingCriteria()
@@ -11762,10 +13214,15 @@ extension BedrockClientTypes.RoutingCriteria {
 
 extension BedrockClientTypes.PromptRouterTargetModel {
 
+    static func write(value: BedrockClientTypes.PromptRouterTargetModel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelArn"].write(value.modelArn)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.PromptRouterTargetModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.PromptRouterTargetModel()
-        value.modelArn = try reader["modelArn"].readIfPresent()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11800,7 +13257,42 @@ extension BedrockClientTypes.EvaluationSummary {
         value.modelIdentifiers = try reader["modelIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.ragIdentifiers = try reader["ragIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.evaluatorModelIdentifiers = try reader["evaluatorModelIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customMetricsEvaluatorModelIdentifiers = try reader["customMetricsEvaluatorModelIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inferenceConfigSummary = try reader["inferenceConfigSummary"].readIfPresent(with: BedrockClientTypes.EvaluationInferenceConfigSummary.read(from:))
         value.applicationType = try reader["applicationType"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.EvaluationInferenceConfigSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationInferenceConfigSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.EvaluationInferenceConfigSummary()
+        value.modelConfigSummary = try reader["modelConfigSummary"].readIfPresent(with: BedrockClientTypes.EvaluationModelConfigSummary.read(from:))
+        value.ragConfigSummary = try reader["ragConfigSummary"].readIfPresent(with: BedrockClientTypes.EvaluationRagConfigSummary.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.EvaluationRagConfigSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationRagConfigSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.EvaluationRagConfigSummary()
+        value.bedrockKnowledgeBaseIdentifiers = try reader["bedrockKnowledgeBaseIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.precomputedRagSourceIdentifiers = try reader["precomputedRagSourceIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockClientTypes.EvaluationModelConfigSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.EvaluationModelConfigSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.EvaluationModelConfigSummary()
+        value.bedrockModelIdentifiers = try reader["bedrockModelIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.precomputedInferenceSourceIdentifiers = try reader["precomputedInferenceSourceIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11837,6 +13329,7 @@ extension BedrockClientTypes.GuardrailSummary {
         value.version = try reader["version"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.crossRegionDetails = try reader["crossRegionDetails"].readIfPresent(with: BedrockClientTypes.GuardrailCrossRegionDetails.read(from:))
         return value
     }
 }
@@ -11918,6 +13411,7 @@ extension BedrockClientTypes.ModelCustomizationJobSummary {
         value.jobName = try reader["jobName"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.statusDetails = try reader["statusDetails"].readIfPresent(with: BedrockClientTypes.StatusDetails.read(from:))
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.customModelArn = try reader["customModelArn"].readIfPresent()
@@ -12022,7 +13516,11 @@ extension BedrockClientTypes.GuardrailTopicConfig {
         guard let value else { return }
         try writer["definition"].write(value.definition)
         try writer["examples"].writeList(value.examples, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inputAction"].write(value.inputAction)
+        try writer["inputEnabled"].write(value.inputEnabled)
         try writer["name"].write(value.name)
+        try writer["outputAction"].write(value.outputAction)
+        try writer["outputEnabled"].write(value.outputEnabled)
         try writer["type"].write(value.type)
     }
 }
@@ -12039,8 +13537,12 @@ extension BedrockClientTypes.GuardrailContentFilterConfig {
 
     static func write(value: BedrockClientTypes.GuardrailContentFilterConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["inputAction"].write(value.inputAction)
+        try writer["inputEnabled"].write(value.inputEnabled)
         try writer["inputModalities"].writeList(value.inputModalities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockClientTypes.GuardrailModality>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputStrength"].write(value.inputStrength)
+        try writer["outputAction"].write(value.outputAction)
+        try writer["outputEnabled"].write(value.outputEnabled)
         try writer["outputModalities"].writeList(value.outputModalities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockClientTypes.GuardrailModality>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["outputStrength"].write(value.outputStrength)
         try writer["type"].write(value.type)
@@ -12060,6 +13562,10 @@ extension BedrockClientTypes.GuardrailManagedWordsConfig {
 
     static func write(value: BedrockClientTypes.GuardrailManagedWordsConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["inputAction"].write(value.inputAction)
+        try writer["inputEnabled"].write(value.inputEnabled)
+        try writer["outputAction"].write(value.outputAction)
+        try writer["outputEnabled"].write(value.outputEnabled)
         try writer["type"].write(value.type)
     }
 }
@@ -12068,6 +13574,10 @@ extension BedrockClientTypes.GuardrailWordConfig {
 
     static func write(value: BedrockClientTypes.GuardrailWordConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["inputAction"].write(value.inputAction)
+        try writer["inputEnabled"].write(value.inputEnabled)
+        try writer["outputAction"].write(value.outputAction)
+        try writer["outputEnabled"].write(value.outputEnabled)
         try writer["text"].write(value.text)
     }
 }
@@ -12087,7 +13597,11 @@ extension BedrockClientTypes.GuardrailRegexConfig {
         guard let value else { return }
         try writer["action"].write(value.action)
         try writer["description"].write(value.description)
+        try writer["inputAction"].write(value.inputAction)
+        try writer["inputEnabled"].write(value.inputEnabled)
         try writer["name"].write(value.name)
+        try writer["outputAction"].write(value.outputAction)
+        try writer["outputEnabled"].write(value.outputEnabled)
         try writer["pattern"].write(value.pattern)
     }
 }
@@ -12097,6 +13611,10 @@ extension BedrockClientTypes.GuardrailPiiEntityConfig {
     static func write(value: BedrockClientTypes.GuardrailPiiEntityConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["action"].write(value.action)
+        try writer["inputAction"].write(value.inputAction)
+        try writer["inputEnabled"].write(value.inputEnabled)
+        try writer["outputAction"].write(value.outputAction)
+        try writer["outputEnabled"].write(value.outputEnabled)
         try writer["type"].write(value.type)
     }
 }
@@ -12113,8 +13631,18 @@ extension BedrockClientTypes.GuardrailContextualGroundingFilterConfig {
 
     static func write(value: BedrockClientTypes.GuardrailContextualGroundingFilterConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["enabled"].write(value.enabled)
         try writer["threshold"].write(value.threshold)
         try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockClientTypes.GuardrailCrossRegionConfig {
+
+    static func write(value: BedrockClientTypes.GuardrailCrossRegionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["guardrailProfileIdentifier"].write(value.guardrailProfileIdentifier)
     }
 }
 

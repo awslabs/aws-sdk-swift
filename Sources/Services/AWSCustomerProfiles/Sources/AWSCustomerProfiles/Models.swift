@@ -13039,7 +13039,7 @@ extension CustomerProfilesClientTypes.SegmentGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.SegmentGroup()
         value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.Group.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.include = try reader["Include"].readIfPresent() ?? .all
+        value.include = try reader["Include"].readIfPresent() ?? CustomerProfilesClientTypes.IncludeOptions.all
         return value
     }
 }
@@ -13059,8 +13059,8 @@ extension CustomerProfilesClientTypes.Group {
         var value = CustomerProfilesClientTypes.Group()
         value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sourceSegments = try reader["SourceSegments"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.SourceSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourceType = try reader["SourceType"].readIfPresent() ?? .all
-        value.type = try reader["Type"].readIfPresent() ?? .all
+        value.sourceType = try reader["SourceType"].readIfPresent() ?? CustomerProfilesClientTypes.IncludeOptions.all
+        value.type = try reader["Type"].readIfPresent() ?? CustomerProfilesClientTypes.IncludeOptions.all
         return value
     }
 }

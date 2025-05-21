@@ -1688,13 +1688,15 @@ extension BCMPricingCalculatorClientTypes {
         case failed
         case locked
         case ready
+        case stale
         case sdkUnknown(Swift.String)
 
         public static var allCases: [BillScenarioStatus] {
             return [
                 .failed,
                 .locked,
-                .ready
+                .ready,
+                .stale
             ]
         }
 
@@ -1708,6 +1710,7 @@ extension BCMPricingCalculatorClientTypes {
             case .failed: return "FAILED"
             case .locked: return "LOCKED"
             case .ready: return "READY"
+            case .stale: return "STALE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2393,13 +2396,17 @@ public struct GetPreferencesOutput: Swift.Sendable {
     public var managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
     /// The preferred rate types for member accounts.
     public var memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
+    /// The preferred rate types for a standalone account.
+    public var standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
 
     public init(
         managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
-        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
+        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
+        standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
     ) {
         self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
         self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
+        self.standaloneAccountRateTypeSelections = standaloneAccountRateTypeSelections
     }
 }
 
@@ -2539,13 +2546,17 @@ public struct UpdatePreferencesInput: Swift.Sendable {
     public var managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
     /// The updated preferred rate types for member accounts.
     public var memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
+    /// The updated preferred rate types for a standalone account.
+    public var standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
 
     public init(
         managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
-        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
+        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
+        standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
     ) {
         self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
         self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
+        self.standaloneAccountRateTypeSelections = standaloneAccountRateTypeSelections
     }
 }
 
@@ -2554,13 +2565,17 @@ public struct UpdatePreferencesOutput: Swift.Sendable {
     public var managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
     /// The updated preferred rate types for member accounts.
     public var memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
+    /// The updated preferred rate types for a standalone account.
+    public var standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
 
     public init(
         managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
-        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
+        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
+        standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
     ) {
         self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
         self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
+        self.standaloneAccountRateTypeSelections = standaloneAccountRateTypeSelections
     }
 }
 
@@ -4581,6 +4596,7 @@ extension UpdatePreferencesInput {
         guard let value else { return }
         try writer["managementAccountRateTypeSelections"].writeList(value.managementAccountRateTypeSelections, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMPricingCalculatorClientTypes.RateType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["memberAccountRateTypeSelections"].writeList(value.memberAccountRateTypeSelections, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMPricingCalculatorClientTypes.RateType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["standaloneAccountRateTypeSelections"].writeList(value.standaloneAccountRateTypeSelections, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMPricingCalculatorClientTypes.RateType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4833,6 +4849,7 @@ extension GetPreferencesOutput {
         var value = GetPreferencesOutput()
         value.managementAccountRateTypeSelections = try reader["managementAccountRateTypeSelections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMPricingCalculatorClientTypes.RateType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.memberAccountRateTypeSelections = try reader["memberAccountRateTypeSelections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMPricingCalculatorClientTypes.RateType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.standaloneAccountRateTypeSelections = try reader["standaloneAccountRateTypeSelections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMPricingCalculatorClientTypes.RateType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5060,6 +5077,7 @@ extension UpdatePreferencesOutput {
         var value = UpdatePreferencesOutput()
         value.managementAccountRateTypeSelections = try reader["managementAccountRateTypeSelections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMPricingCalculatorClientTypes.RateType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.memberAccountRateTypeSelections = try reader["memberAccountRateTypeSelections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMPricingCalculatorClientTypes.RateType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.standaloneAccountRateTypeSelections = try reader["standaloneAccountRateTypeSelections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMPricingCalculatorClientTypes.RateType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

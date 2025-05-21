@@ -71,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LambdaClient: ClientRuntime.Client {
     public static let clientName = "LambdaClient"
-    public static let version = "1.2.22"
+    public static let version = "1.3.20"
     let client: ClientRuntime.SdkHttpClient
     let config: LambdaClient.LambdaClientConfiguration
     let serviceName = "Lambda"
@@ -218,7 +218,7 @@ extension LambdaClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultLambdaAuthSchemeResolver(),
@@ -272,7 +272,7 @@ extension LambdaClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultLambdaAuthSchemeResolver(),
@@ -3007,7 +3007,7 @@ extension LambdaClient {
     /// - `EFSMountTimeoutException` : The Lambda function made a network connection to the configured file system, but the mount operation timed out.
     /// - `ENILimitReachedException` : Lambda couldn't create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
-    /// - `InvalidRequestContentException` : The request body could not be parsed as JSON.
+    /// - `InvalidRequestContentException` : The request body could not be parsed as JSON, or a request header is invalid. For example, the 'x-amzn-RequestId' header is not a valid UUID string.
     /// - `InvalidRuntimeException` : The runtime or runtime version specified is not supported.
     /// - `InvalidSecurityGroupIDException` : The security group ID provided in the Lambda function VPC configuration is not valid.
     /// - `InvalidSubnetIDException` : The subnet ID provided in the Lambda function VPC configuration is not valid.
@@ -3104,7 +3104,7 @@ extension LambdaClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidRequestContentException` : The request body could not be parsed as JSON.
+    /// - `InvalidRequestContentException` : The request body could not be parsed as JSON, or a request header is invalid. For example, the 'x-amzn-RequestId' header is not a valid UUID string.
     /// - `InvalidRuntimeException` : The runtime or runtime version specified is not supported.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
@@ -3191,7 +3191,7 @@ extension LambdaClient {
     /// - `EFSMountTimeoutException` : The Lambda function made a network connection to the configured file system, but the mount operation timed out.
     /// - `ENILimitReachedException` : Lambda couldn't create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
-    /// - `InvalidRequestContentException` : The request body could not be parsed as JSON.
+    /// - `InvalidRequestContentException` : The request body could not be parsed as JSON, or a request header is invalid. For example, the 'x-amzn-RequestId' header is not a valid UUID string.
     /// - `InvalidRuntimeException` : The runtime or runtime version specified is not supported.
     /// - `InvalidSecurityGroupIDException` : The security group ID provided in the Lambda function VPC configuration is not valid.
     /// - `InvalidSubnetIDException` : The subnet ID provided in the Lambda function VPC configuration is not valid.

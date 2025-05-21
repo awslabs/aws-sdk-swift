@@ -10,6 +10,7 @@
 @testable import AWSS3
 import XCTest
 import enum ClientRuntime.EndpointError
+import enum SmithyHTTPAPI.EndpointPropertyValue
 import enum SmithyTestUtil.TestInitializer
 import struct SmithyHTTPAPI.Endpoint
 import struct SmithyHTTPAPI.Headers
@@ -159,7 +160,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -167,8 +168,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -301,7 +302,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -309,8 +310,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -333,7 +334,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -341,8 +342,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -365,18 +366,18 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
                         "name": "sigv4a",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
+                        ],
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -487,7 +488,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -495,8 +496,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -563,7 +564,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -571,8 +572,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -616,7 +617,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -624,8 +625,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -647,7 +648,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -655,8 +656,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -679,7 +680,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -687,8 +688,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -711,7 +712,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -719,8 +720,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -743,7 +744,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -751,8 +752,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -797,7 +798,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -805,8 +806,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -852,7 +853,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -860,8 +861,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -885,7 +886,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -893,8 +894,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -913,7 +914,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -921,8 +922,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -941,7 +942,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -949,8 +950,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -969,7 +970,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -977,8 +978,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -997,7 +998,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1005,8 +1006,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1026,7 +1027,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1034,8 +1035,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1074,7 +1075,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1082,8 +1083,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1105,7 +1106,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1113,8 +1114,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1136,7 +1137,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1144,8 +1145,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1167,7 +1168,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1175,8 +1176,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1198,7 +1199,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1206,8 +1207,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1229,7 +1230,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1237,8 +1238,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1261,7 +1262,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1269,8 +1270,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1293,7 +1294,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1301,8 +1302,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1324,7 +1325,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1332,8 +1333,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1354,7 +1355,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1362,8 +1363,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1384,7 +1385,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1392,8 +1393,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1414,7 +1415,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1422,8 +1423,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1444,7 +1445,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1452,8 +1453,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1474,7 +1475,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1482,8 +1483,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1506,7 +1507,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1514,8 +1515,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1537,7 +1538,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1545,8 +1546,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1570,7 +1571,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1578,8 +1579,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1603,7 +1604,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1611,8 +1612,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1634,7 +1635,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1642,8 +1643,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1665,7 +1666,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1673,8 +1674,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1696,7 +1697,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1704,8 +1705,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1727,7 +1728,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1735,8 +1736,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1759,7 +1760,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1767,8 +1768,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1791,7 +1792,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1799,8 +1800,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1823,7 +1824,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1831,8 +1832,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1855,7 +1856,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1863,8 +1864,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1887,7 +1888,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1895,8 +1896,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1919,7 +1920,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1927,8 +1928,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1952,7 +1953,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1960,8 +1961,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -1984,7 +1985,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -1992,8 +1993,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2016,7 +2017,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2024,8 +2025,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true,
                         "name": "sigv4"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2048,7 +2049,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2056,8 +2057,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2081,7 +2082,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2089,8 +2090,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2114,7 +2115,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2122,8 +2123,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2147,7 +2148,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2155,8 +2156,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2180,7 +2181,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2188,8 +2189,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2214,7 +2215,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2222,8 +2223,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2246,7 +2247,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2254,16 +2255,16 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-outposts",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
+                        ],
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable],
+                    ],
                     [
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2301,7 +2302,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2309,8 +2310,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2333,7 +2334,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2341,8 +2342,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2423,7 +2424,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2431,8 +2432,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2471,7 +2472,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2479,8 +2480,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2500,7 +2501,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2508,8 +2509,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2529,7 +2530,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2537,8 +2538,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2558,7 +2559,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2566,8 +2567,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2590,7 +2591,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2598,8 +2599,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2621,7 +2622,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2629,8 +2630,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2653,7 +2654,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2661,8 +2662,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2683,7 +2684,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2691,8 +2692,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2714,7 +2715,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2722,8 +2723,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2789,7 +2790,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2797,8 +2798,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2821,7 +2822,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2829,8 +2830,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2852,7 +2853,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2860,8 +2861,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2906,7 +2907,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2914,8 +2915,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2938,7 +2939,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2946,8 +2947,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -2970,7 +2971,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -2978,8 +2979,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3003,7 +3004,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3011,8 +3012,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3059,7 +3060,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3067,8 +3068,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east-1"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3173,7 +3174,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3181,8 +3182,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3205,7 +3206,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3213,8 +3214,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3236,7 +3237,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3244,8 +3245,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3264,7 +3265,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3272,8 +3273,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3318,7 +3319,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3326,8 +3327,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3370,7 +3371,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3378,8 +3379,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3402,7 +3403,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3410,8 +3411,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3471,7 +3472,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3479,8 +3480,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3520,7 +3521,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3528,8 +3529,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3808,7 +3809,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3816,8 +3817,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3838,7 +3839,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3846,8 +3847,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3867,7 +3868,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3875,8 +3876,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3897,7 +3898,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3905,8 +3906,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3927,7 +3928,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3935,8 +3936,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3958,7 +3959,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3966,8 +3967,8 @@ class EndpointResolverTest: XCTestCase {
                         "name": "sigv4",
                         "signingName": "s3",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -3990,7 +3991,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -3998,8 +3999,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4022,7 +4023,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4030,8 +4031,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4054,7 +4055,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4062,8 +4063,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4086,7 +4087,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4094,8 +4095,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4118,7 +4119,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4126,8 +4127,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4150,7 +4151,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4158,8 +4159,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4204,7 +4205,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4212,8 +4213,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4236,7 +4237,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4244,8 +4245,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4312,7 +4313,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4320,8 +4321,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4344,7 +4345,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4352,8 +4353,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4376,7 +4377,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4384,8 +4385,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4408,7 +4409,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4416,8 +4417,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4440,7 +4441,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4448,8 +4449,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4472,7 +4473,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4480,8 +4481,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4526,7 +4527,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4534,8 +4535,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4557,7 +4558,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4565,8 +4566,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingRegion": "us-gov-west-1",
                         "disableDoubleEncoding": true,
                         "name": "sigv4"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4611,7 +4612,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4619,8 +4620,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4665,7 +4666,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4673,8 +4674,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4696,7 +4697,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4704,8 +4705,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4728,7 +4729,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4736,8 +4737,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4804,7 +4805,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4812,8 +4813,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4858,7 +4859,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4866,8 +4867,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4889,7 +4890,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4897,8 +4898,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4921,7 +4922,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4929,8 +4930,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -4953,7 +4954,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -4961,8 +4962,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true,
                         "name": "sigv4"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5007,7 +5008,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5015,8 +5016,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5061,7 +5062,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5069,8 +5070,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5092,7 +5093,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5100,8 +5101,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5125,7 +5126,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5133,8 +5134,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5158,7 +5159,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5166,8 +5167,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5260,7 +5261,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5268,8 +5269,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5293,7 +5294,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5301,8 +5302,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5326,7 +5327,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5334,8 +5335,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5427,7 +5428,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5435,8 +5436,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5460,7 +5461,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5468,8 +5469,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5493,7 +5494,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5501,8 +5502,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5595,7 +5596,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5603,8 +5604,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5627,7 +5628,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5635,8 +5636,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5659,7 +5660,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5667,8 +5668,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5713,7 +5714,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5721,8 +5722,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5745,7 +5746,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5753,8 +5754,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5843,7 +5844,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5851,8 +5852,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5875,7 +5876,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5883,8 +5884,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5929,7 +5930,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5937,8 +5938,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -5960,7 +5961,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -5968,16 +5969,16 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-outposts",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
+                        ],
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable],
+                    ],
                     [
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6000,7 +6001,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6008,16 +6009,16 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-outposts",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
+                        ],
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable],
+                    ],
                     [
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6088,7 +6089,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6096,16 +6097,16 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-outposts",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
+                        ],
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable],
+                    ],
                     [
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6128,7 +6129,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6136,16 +6137,16 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-outposts",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
+                        ],
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable],
+                    ],
                     [
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6191,7 +6192,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6199,16 +6200,16 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-outposts",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
+                        ],
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable],
+                    ],
                     [
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6315,7 +6316,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6323,8 +6324,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6347,7 +6348,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6355,8 +6356,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6379,7 +6380,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6387,8 +6388,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6411,7 +6412,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6419,8 +6420,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6443,7 +6444,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6451,8 +6452,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6497,7 +6498,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6505,8 +6506,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6595,7 +6596,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6603,8 +6604,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "signingRegion": "us-gov-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6627,7 +6628,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6635,8 +6636,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "signingRegion": "us-gov-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6902,7 +6903,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6910,8 +6911,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6956,7 +6957,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6964,8 +6965,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -6988,7 +6989,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -6996,8 +6997,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7019,7 +7020,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7027,8 +7028,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7050,7 +7051,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7058,8 +7059,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7165,7 +7166,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7173,8 +7174,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-object-lambda",
                         "disableDoubleEncoding": true,
                         "signingRegion": "us-east.special"
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7196,7 +7197,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7204,16 +7205,16 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-outposts",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
+                        ],
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable],
+                    ],
                     [
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7235,7 +7236,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7243,16 +7244,16 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-outposts",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
+                        ],
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable],
+                    ],
                     [
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "ap-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7274,7 +7275,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7282,16 +7283,16 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-outposts",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
+                        ],
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable],
+                    ],
                     [
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7313,7 +7314,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7321,16 +7322,16 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-outposts",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
+                        ],
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable],
+                    ],
                     [
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "me-south-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7353,7 +7354,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7361,16 +7362,16 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-outposts",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
+                        ],
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable],
+                    ],
                     [
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7393,7 +7394,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7401,16 +7402,16 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3-outposts",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
+                        ],
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable],
+                    ],
                     [
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7517,7 +7518,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7525,8 +7526,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "snow",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7548,7 +7549,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7556,8 +7557,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "snow",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7580,7 +7581,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7588,8 +7589,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "snow",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7612,7 +7613,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7620,8 +7621,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3",
                         "signingRegion": "snow",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
+                    ]
+                ]
             ]
 
         let headers = SmithyHTTPAPI.Headers()
@@ -7644,7 +7645,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7652,8 +7653,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -7663,8 +7664,107 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// Data Plane with short zone names (13 chars)
+    /// Data Plane with short zone name china region
     func testResolve276() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--abcd-ab1--x-s3",
+            region: "cn-north-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "cn-north-1",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://mybucket--abcd-ab1--x-s3.s3express-abcd-ab1.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with short zone name with AP
+    func testResolve277() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--abcd-ab1--xa-s3",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--abcd-ab1--xa-s3.s3express-abcd-ab1.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with short zone name with AP china region
+    func testResolve278() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--abcd-ab1--xa-s3",
+            region: "cn-north-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "cn-north-1",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--abcd-ab1--xa-s3.s3express-abcd-ab1.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with short zone names (13 chars)
+    func testResolve279() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test-zone-ab1--x-s3",
@@ -7677,7 +7777,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7685,8 +7785,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -7696,8 +7796,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane with short zone names (13 chars) with AP
+    func testResolve280() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test-zone-ab1--xa-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test-zone-ab1--xa-s3.s3express-test-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane with medium zone names (14 chars)
-    func testResolve277() throws {
+    func testResolve281() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test1-zone-ab1--x-s3",
@@ -7710,7 +7843,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7718,8 +7851,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -7729,8 +7862,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane with medium zone names (14 chars) with AP
+    func testResolve282() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test1-zone-ab1--xa-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test1-zone-ab1--xa-s3.s3express-test1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane with long zone names (20 chars)
-    func testResolve278() throws {
+    func testResolve283() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test1-long1-zone-ab1--x-s3",
@@ -7743,7 +7909,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7751,8 +7917,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -7762,8 +7928,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane with long zone names (20 chars)
+    func testResolve284() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test1-long1-zone-ab1--xa-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test1-long1-zone-ab1--xa-s3.s3express-test1-long1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane with short zone fips
-    func testResolve279() throws {
+    func testResolve285() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test-ab1--x-s3",
@@ -7776,7 +7975,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7784,8 +7983,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -7795,8 +7994,85 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane with short zone fips china region
+    func testResolve286() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test-ab1--x-s3",
+            region: "cn-north-1",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Partition does not support FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// Data Plane with short zone fips with AP
+    func testResolve287() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test-ab1--xa-s3",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test-ab1--xa-s3.s3express-fips-test-ab1.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Data Plane with short zone fips with AP china region
+    func testResolve288() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test-ab1--xa-s3",
+            region: "cn-north-1",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Partition does not support FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
     /// Data Plane with short zone (13 chars) fips
-    func testResolve280() throws {
+    func testResolve289() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test-zone-ab1--x-s3",
@@ -7809,7 +8085,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7817,8 +8093,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -7828,8 +8104,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane with short zone (13 chars) fips with AP
+    func testResolve290() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test-zone-ab1--xa-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test-zone-ab1--xa-s3.s3express-fips-test-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane with medium zone (14 chars) fips
-    func testResolve281() throws {
+    func testResolve291() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test1-zone-ab1--x-s3",
@@ -7842,7 +8151,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7850,8 +8159,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -7861,8 +8170,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane with medium zone (14 chars) fips with AP
+    func testResolve292() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test1-zone-ab1--xa-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test1-zone-ab1--xa-s3.s3express-fips-test1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane with long zone (20 chars) fips
-    func testResolve282() throws {
+    func testResolve293() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test1-long1-zone-ab1--x-s3",
@@ -7875,7 +8217,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7883,8 +8225,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -7894,8 +8236,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane with long zone (20 chars) fips with AP
+    func testResolve294() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test1-long1-zone-ab1--xa-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test1-long1-zone-ab1--xa-s3.s3express-fips-test1-long1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane with long AZ
-    func testResolve283() throws {
+    func testResolve295() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test1-az1--x-s3",
@@ -7908,7 +8283,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7916,8 +8291,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -7927,8 +8302,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane with long AZ with AP
+    func testResolve296() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test1-az1--xa-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test1-az1--xa-s3.s3express-test1-az1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane with long AZ fips
-    func testResolve284() throws {
+    func testResolve297() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test1-az1--x-s3",
@@ -7941,7 +8349,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7949,8 +8357,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -7960,8 +8368,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane with long AZ fips with AP
+    func testResolve298() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test1-az1--xa-s3",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test1-az1--xa-s3.s3express-fips-test1-az1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Control plane with short AZ bucket
-    func testResolve285() throws {
+    func testResolve299() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test-ab1--x-s3",
@@ -7975,7 +8416,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -7983,8 +8424,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -7994,8 +8435,42 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Control plane with short AZ bucket china region
+    func testResolve300() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test-ab1--x-s3",
+            disableS3ExpressSessionAuth: false,
+            region: "cn-north-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "cn-north-1",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3express-control.cn-north-1.amazonaws.com.cn/mybucket--test-ab1--x-s3", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Control plane with short AZ bucket and fips
-    func testResolve286() throws {
+    func testResolve301() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test-ab1--x-s3",
@@ -8009,7 +8484,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8017,8 +8492,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8028,8 +8503,31 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Control plane with short AZ bucket and fips china region
+    func testResolve302() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "mybucket--test-ab1--x-s3",
+            disableS3ExpressSessionAuth: false,
+            region: "cn-north-1",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Partition does not support FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
     /// Control plane without bucket
-    func testResolve287() throws {
+    func testResolve303() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             disableS3ExpressSessionAuth: false,
@@ -8042,7 +8540,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8050,8 +8548,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8062,7 +8560,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane without bucket and fips
-    func testResolve288() throws {
+    func testResolve304() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             disableS3ExpressSessionAuth: false,
@@ -8075,7 +8573,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8083,8 +8581,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8095,7 +8593,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Data Plane sigv4 auth with short AZ
-    func testResolve289() throws {
+    func testResolve305() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usw2-az1--x-s3",
@@ -8108,7 +8606,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8116,8 +8614,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8127,8 +8625,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane sigv4 auth with short AZ with AP
+    func testResolve306() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--usw2-az1--xa-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--usw2-az1--xa-s3.s3express-usw2-az1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane sigv4 auth with short zone (13 chars)
-    func testResolve290() throws {
+    func testResolve307() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test-zone-ab1--x-s3",
@@ -8141,7 +8672,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8149,8 +8680,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8160,8 +8691,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane sigv4 auth with short zone (13 chars) with AP
+    func testResolve308() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test-zone-ab1--xa-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test-zone-ab1--xa-s3.s3express-test-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane sigv4 auth with short AZ fips
-    func testResolve291() throws {
+    func testResolve309() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usw2-az1--x-s3",
@@ -8174,7 +8738,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8182,8 +8746,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8193,8 +8757,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane sigv4 auth with short AZ fips with AP
+    func testResolve310() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--usw2-az1--xa-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--usw2-az1--xa-s3.s3express-fips-usw2-az1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane sigv4 auth with short zone (13 chars) fips
-    func testResolve292() throws {
+    func testResolve311() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test-zone-ab1--x-s3",
@@ -8207,7 +8804,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8215,8 +8812,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8226,8 +8823,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane sigv4 auth with short zone (13 chars) fips with AP
+    func testResolve312() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test-zone-ab1--xa-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test-zone-ab1--xa-s3.s3express-fips-test-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane sigv4 auth with long AZ
-    func testResolve293() throws {
+    func testResolve313() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test1-az1--x-s3",
@@ -8241,7 +8871,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8249,8 +8879,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8260,8 +8890,42 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane sigv4 auth with long AZ with AP
+    func testResolve314() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test1-az1--xa-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test1-az1--xa-s3.s3express-test1-az1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane sigv4 auth with medium zone(14 chars)
-    func testResolve294() throws {
+    func testResolve315() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test1-zone-ab1--x-s3",
@@ -8275,7 +8939,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8283,8 +8947,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8294,8 +8958,42 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane sigv4 auth with medium zone(14 chars) with AP
+    func testResolve316() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test1-zone-ab1--xa-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test1-zone-ab1--xa-s3.s3express-test1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane sigv4 auth with long zone(20 chars)
-    func testResolve295() throws {
+    func testResolve317() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test1-long1-zone-ab1--x-s3",
@@ -8309,7 +9007,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8317,8 +9015,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8328,8 +9026,42 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane sigv4 auth with long zone(20 chars) with AP
+    func testResolve318() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test1-long1-zone-ab1--xa-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test1-long1-zone-ab1--xa-s3.s3express-test1-long1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane sigv4 auth with long AZ fips
-    func testResolve296() throws {
+    func testResolve319() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test1-az1--x-s3",
@@ -8343,7 +9075,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8351,8 +9083,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8362,8 +9094,42 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane sigv4 auth with long AZ fips with AP
+    func testResolve320() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test1-az1--xa-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test1-az1--xa-s3.s3express-fips-test1-az1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane sigv4 auth with medium zone (14 chars) fips
-    func testResolve297() throws {
+    func testResolve321() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test1-zone-ab1--x-s3",
@@ -8377,7 +9143,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8385,8 +9151,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8396,8 +9162,42 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane sigv4 auth with medium zone (14 chars) fips with AP
+    func testResolve322() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test1-zone-ab1--xa-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test1-zone-ab1--xa-s3.s3express-fips-test1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data Plane sigv4 auth with long zone (20 chars) fips
-    func testResolve298() throws {
+    func testResolve323() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test1-long1-zone-ab1--x-s3",
@@ -8411,7 +9211,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8419,8 +9219,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8430,8 +9230,42 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data Plane sigv4 auth with long zone (20 chars) fips with AP
+    func testResolve324() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test1-long1-zone-ab1--xa-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--test1-long1-zone-ab1--xa-s3.s3express-fips-test1-long1-zone-ab1.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Control Plane host override
-    func testResolve299() throws {
+    func testResolve325() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usw2-az1--x-s3",
@@ -8446,7 +9280,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8454,8 +9288,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8465,8 +9299,43 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Control Plane host override with AP
+    func testResolve326() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--usw2-az1--xa-s3",
+            disableS3ExpressSessionAuth: true,
+            endpoint: "https://custom.com",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--usw2-az1--xa-s3.custom.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Control Plane host override no bucket
-    func testResolve300() throws {
+    func testResolve327() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             disableS3ExpressSessionAuth: true,
@@ -8480,7 +9349,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8488,8 +9357,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8500,7 +9369,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Data plane host override non virtual session auth
-    func testResolve301() throws {
+    func testResolve328() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usw2-az1--x-s3",
@@ -8513,7 +9382,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8521,8 +9390,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8532,8 +9401,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data plane host override non virtual session auth with AP
+    func testResolve329() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--usw2-az1--xa-s3",
+            endpoint: "https://10.0.0.1",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://10.0.0.1/myaccesspoint--usw2-az1--xa-s3", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Control Plane host override ip
-    func testResolve302() throws {
+    func testResolve330() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usw2-az1--x-s3",
@@ -8548,7 +9450,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8556,8 +9458,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8567,8 +9469,43 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Control Plane host override ip with AP
+    func testResolve331() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--usw2-az1--xa-s3",
+            disableS3ExpressSessionAuth: true,
+            endpoint: "https://10.0.0.1",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://10.0.0.1/myaccesspoint--usw2-az1--xa-s3", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// Data plane host override
-    func testResolve303() throws {
+    func testResolve332() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usw2-az1--x-s3",
@@ -8581,7 +9518,7 @@ class EndpointResolverTest: XCTestCase {
 
         let actual = try resolver.resolve(params: endpointParams)
 
-        let properties: [String: AnyHashable] =
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
             [
                 "authSchemes": [
                     [
@@ -8589,8 +9526,8 @@ class EndpointResolverTest: XCTestCase {
                         "signingName": "s3express",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable],
+                    ]
+                ],
                 "backend": "S3Express"
             ]
 
@@ -8600,8 +9537,41 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Data plane host override with AP
+    func testResolve333() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--usw2-az1--xa-s3",
+            endpoint: "https://custom.com",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4-s3express",
+                        "signingName": "s3express",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ]
+                ],
+                "backend": "S3Express"
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myaccesspoint--usw2-az1--xa-s3.custom.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// bad format error
-    func testResolve304() throws {
+    func testResolve334() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usaz1--x-s3",
@@ -8622,11 +9592,56 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
+    /// bad AP format error
+    func testResolve335() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--usaz1--xa-s3",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Unrecognized S3Express bucket name format.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
     /// bad format error no session auth
-    func testResolve305() throws {
+    func testResolve336() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--usaz1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Unrecognized S3Express bucket name format.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// bad AP format error no session auth
+    func testResolve337() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--usaz1--xa-s3",
             disableS3ExpressSessionAuth: true,
             region: "us-east-1",
             useDualStack: false,
@@ -8646,7 +9661,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// dual-stack error
-    func testResolve306() throws {
+    func testResolve338() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "mybucket--test-ab1--x-s3",
@@ -8667,8 +9682,30 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
+    /// dual-stack error with AP
+    func testResolve339() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "myaccesspoint--test-ab1--xa-s3",
+            region: "us-east-1",
+            useDualStack: true,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("S3Express does not support Dual-stack.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
     /// accelerate error
-    func testResolve307() throws {
+    func testResolve340() throws {
         let endpointParams = EndpointParams(
             accelerate: true,
             bucket: "mybucket--test-ab1--x-s3",
@@ -8689,8 +9726,30 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
+    /// accelerate error with AP
+    func testResolve341() throws {
+        let endpointParams = EndpointParams(
+            accelerate: true,
+            bucket: "myaccesspoint--test-ab1--xa-s3",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("S3Express does not support S3 Accelerate.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
     /// Data plane bucket format error
-    func testResolve308() throws {
+    func testResolve342() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "my.bucket--test-ab1--x-s3",
@@ -8711,8 +9770,30 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
+    /// Data plane AP format error
+    func testResolve343() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "my.myaccesspoint--test-ab1--xa-s3",
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false,
+            useS3ExpressControlEndpoint: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("S3Express bucket name is not a valid virtual hostable name.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
     /// host override data plane bucket error session auth
-    func testResolve309() throws {
+    func testResolve344() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "my.bucket--usw2-az1--x-s3",
@@ -8733,11 +9814,56 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
+    /// host override data plane AP error session auth
+    func testResolve345() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "my.myaccesspoint--usw2-az1--xa-s3",
+            endpoint: "https://custom.com",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("S3Express bucket name is not a valid virtual hostable name.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
     /// host override data plane bucket error
-    func testResolve310() throws {
+    func testResolve346() throws {
         let endpointParams = EndpointParams(
             accelerate: false,
             bucket: "my.bucket--usw2-az1--x-s3",
+            disableS3ExpressSessionAuth: true,
+            endpoint: "https://custom.com",
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("S3Express bucket name is not a valid virtual hostable name.", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// host override data plane AP error
+    func testResolve347() throws {
+        let endpointParams = EndpointParams(
+            accelerate: false,
+            bucket: "my.myaccesspoint--usw2-az1--xa-s3",
             disableS3ExpressSessionAuth: true,
             endpoint: "https://custom.com",
             region: "us-west-2",

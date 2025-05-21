@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecurityHubClient: ClientRuntime.Client {
     public static let clientName = "SecurityHubClient"
-    public static let version = "1.2.22"
+    public static let version = "1.3.20"
     let client: ClientRuntime.SdkHttpClient
     let config: SecurityHubClient.SecurityHubClientConfiguration
     let serviceName = "SecurityHub"
@@ -213,7 +213,7 @@ extension SecurityHubClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultSecurityHubAuthSchemeResolver(),
@@ -267,7 +267,7 @@ extension SecurityHubClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultSecurityHubAuthSchemeResolver(),
@@ -987,7 +987,7 @@ extension SecurityHubClient {
 
     /// Performs the `BatchGetStandardsControlAssociations` operation on the `SecurityHub` service.
     ///
-    /// For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard.
+    /// For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the association has a NOT_READY_FOR_UPDATES value for StandardsControlsUpdatable.
     ///
     /// - Parameter BatchGetStandardsControlAssociationsInput : [no documentation found]
     ///
@@ -2821,7 +2821,7 @@ extension SecurityHubClient {
 
     /// Performs the `DescribeStandardsControls` operation on the `SecurityHub` service.
     ///
-    /// Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
+    /// Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information. This operation returns an empty list for standard subscriptions where StandardsControlsUpdatable has value NOT_READY_FOR_UPDATES.
     ///
     /// - Parameter DescribeStandardsControlsInput : [no documentation found]
     ///
@@ -5347,7 +5347,7 @@ extension SecurityHubClient {
 
     /// Performs the `ListStandardsControlAssociations` operation on the `SecurityHub` service.
     ///
-    /// Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account.
+    /// Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account. This operation omits standards control associations for standard subscriptions where StandardsControlsUpdatable has value NOT_READY_FOR_UPDATES.
     ///
     /// - Parameter ListStandardsControlAssociationsInput : [no documentation found]
     ///
@@ -6434,7 +6434,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateStandardsControl` operation on the `SecurityHub` service.
     ///
-    /// Used to control whether an individual security standard control is enabled or disabled.
+    /// Used to control whether an individual security standard control is enabled or disabled. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUpdatable value NOT_READY_FOR_UPDATES.
     ///
     /// - Parameter UpdateStandardsControlInput : [no documentation found]
     ///

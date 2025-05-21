@@ -660,7 +660,7 @@ extension WorkSpacesThinClientClientTypes {
 
 extension WorkSpacesThinClientClientTypes.EnvironmentSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EnvironmentSummary(activationCode: \(Swift.String(describing: activationCode)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), desktopType: \(Swift.String(describing: desktopType)), id: \(Swift.String(describing: id)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), updatedAt: \(Swift.String(describing: updatedAt)), desktopEndpoint: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "EnvironmentSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), desktopType: \(Swift.String(describing: desktopType)), id: \(Swift.String(describing: id)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), updatedAt: \(Swift.String(describing: updatedAt)), activationCode: \"CONTENT_REDACTED\", desktopEndpoint: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateEnvironmentOutput: Swift.Sendable {
@@ -912,6 +912,7 @@ extension WorkSpacesThinClientClientTypes {
         /// The status of the device.
         public var status: WorkSpacesThinClientClientTypes.DeviceStatus?
         /// The tag keys and optional values for the resource.
+        @available(*, deprecated, message: "This field will be removed in future releases. Use ListTagsForResource API instead. API deprecated since 2025-03-25")
         public var tags: [Swift.String: Swift.String]?
         /// The timestamp of when the device was updated.
         public var updatedAt: Foundation.Date?
@@ -1118,6 +1119,7 @@ extension WorkSpacesThinClientClientTypes {
         /// An option to define if software updates should be applied within a maintenance window.
         public var softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule?
         /// The tag keys and optional values for the resource.
+        @available(*, deprecated, message: "This field will be removed in future releases. Use ListTagsForResource API instead. API deprecated since 2025-03-25")
         public var tags: [Swift.String: Swift.String]?
         /// The timestamp of when the device was updated.
         public var updatedAt: Foundation.Date?
@@ -1170,7 +1172,7 @@ extension WorkSpacesThinClientClientTypes {
 
 extension WorkSpacesThinClientClientTypes.Environment: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Environment(activationCode: \(Swift.String(describing: activationCode)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), desktopType: \(Swift.String(describing: desktopType)), id: \(Swift.String(describing: id)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), pendingSoftwareSetVersion: \(Swift.String(describing: pendingSoftwareSetVersion)), registeredDevicesCount: \(Swift.String(describing: registeredDevicesCount)), softwareSetComplianceStatus: \(Swift.String(describing: softwareSetComplianceStatus)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), updatedAt: \(Swift.String(describing: updatedAt)), desktopEndpoint: \"CONTENT_REDACTED\", deviceCreationTags: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "Environment(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), desktopType: \(Swift.String(describing: desktopType)), id: \(Swift.String(describing: id)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), pendingSoftwareSetVersion: \(Swift.String(describing: pendingSoftwareSetVersion)), registeredDevicesCount: \(Swift.String(describing: registeredDevicesCount)), softwareSetComplianceStatus: \(Swift.String(describing: softwareSetComplianceStatus)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), updatedAt: \(Swift.String(describing: updatedAt)), activationCode: \"CONTENT_REDACTED\", desktopEndpoint: \"CONTENT_REDACTED\", deviceCreationTags: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDeviceInput: Swift.Sendable {
@@ -1294,6 +1296,7 @@ extension WorkSpacesThinClientClientTypes {
         /// The timestamp of the end of support for the software set.
         public var supportedUntil: Foundation.Date?
         /// The tag keys and optional values for the resource.
+        @available(*, deprecated, message: "This field will be removed in future releases. Use ListTagsForResource API instead. API deprecated since 2025-03-25")
         public var tags: [Swift.String: Swift.String]?
         /// An option to define if the software set has been validated.
         public var validationStatus: WorkSpacesThinClientClientTypes.SoftwareSetValidationStatus?

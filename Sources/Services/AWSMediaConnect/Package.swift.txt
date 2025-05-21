@@ -88,10 +88,6 @@ let package = Package(
                     name: "SmithyTimestamps",
                     package: "smithy-swift"
                 ),
-                .product(
-                    name: "SmithyWaitersAPI",
-                    package: "smithy-swift"
-                ),
             ]
         ),
         .testTarget(

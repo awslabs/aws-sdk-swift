@@ -128,6 +128,8 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 extension ARCZonalShiftClientTypes {
 
     public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoshiftUpdateNotAllowed
+        case fisExperimentUpdateNotAllowed
         case invalidAlarmCondition
         case invalidAz
         case invalidConditionType
@@ -142,6 +144,8 @@ extension ARCZonalShiftClientTypes {
 
         public static var allCases: [ValidationExceptionReason] {
             return [
+                .autoshiftUpdateNotAllowed,
+                .fisExperimentUpdateNotAllowed,
                 .invalidAlarmCondition,
                 .invalidAz,
                 .invalidConditionType,
@@ -162,6 +166,8 @@ extension ARCZonalShiftClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .autoshiftUpdateNotAllowed: return "AutoshiftUpdateNotAllowed"
+            case .fisExperimentUpdateNotAllowed: return "FISExperimentUpdateNotAllowed"
             case .invalidAlarmCondition: return "InvalidAlarmCondition"
             case .invalidAz: return "InvalidAz"
             case .invalidConditionType: return "InvalidConditionType"
@@ -239,7 +245,7 @@ extension ARCZonalShiftClientTypes {
 public struct ListAutoshiftsInput: Swift.Sendable {
     /// The number of objects that you want to return with this call.
     public var maxResults: Swift.Int?
-    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
     public var nextToken: Swift.String?
     /// The status of the autoshift.
     public var status: ARCZonalShiftClientTypes.AutoshiftExecutionStatus?
@@ -257,13 +263,12 @@ public struct ListAutoshiftsInput: Swift.Sendable {
 
 extension ARCZonalShiftClientTypes {
 
-    /// Information about an autoshift. Amazon Web Services starts an autoshift to temporarily move traffic for a resource away from an Availability Zone in an Amazon Web Services Region when Amazon Web Services determines that there's an issue in the Availability Zone that could potentially affect customers. You can configure zonal autoshift in Route 53 ARC for managed resources in your Amazon Web Services account in a Region. Supported Amazon Web Services resources are automatically registered with Route 53 ARC. Autoshifts are temporary. When the Availability Zone recovers, Amazon Web Services ends the autoshift, and traffic for the resource is no longer directed to the other Availability Zones in the Region. You can stop an autoshift for a resource by disabling zonal autoshift.
+    /// Information about an autoshift. Amazon Web Services starts an autoshift to temporarily move traffic for a resource away from an Availability Zone in an Amazon Web Services Region when Amazon Web Services determines that there's an issue in the Availability Zone that could potentially affect customers. You can configure zonal autoshift in ARC for managed resources in your Amazon Web Services account in a Region. Supported Amazon Web Services resources are automatically registered with ARC. Autoshifts are temporary. When the Availability Zone recovers, Amazon Web Services ends the autoshift, and traffic for the resource is no longer directed to the other Availability Zones in the Region.
     public struct AutoshiftSummary: Swift.Sendable {
         /// The Availability Zone (for example, use1-az1) that traffic is shifted away from for a resource when Amazon Web Services starts an autoshift. Until the autoshift ends, traffic for the resource is instead directed to other Availability Zones in the Amazon Web Services Region. An autoshift can end for a resource, for example, when Amazon Web Services ends the autoshift for the Availability Zone or when you disable zonal autoshift for the resource.
         /// This member is required.
         public var awayFrom: Swift.String?
         /// The time (in UTC) when the autoshift ended.
-        /// This member is required.
         public var endTime: Foundation.Date?
         /// The time (in UTC) when the autoshift started.
         /// This member is required.
@@ -289,7 +294,7 @@ extension ARCZonalShiftClientTypes {
 public struct ListAutoshiftsOutput: Swift.Sendable {
     /// The items in the response list.
     public var items: [ARCZonalShiftClientTypes.AutoshiftSummary]?
-    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -391,7 +396,7 @@ extension ARCZonalShiftClientTypes {
 }
 
 public struct GetAutoshiftObserverNotificationStatusOutput: Swift.Sendable {
-    /// The status of autoshift observer notification. If the status is ENABLED, Route 53 ARC includes all autoshift events when you use the Amazon EventBridge pattern Autoshift In Progress. When the status is DISABLED, Route 53 ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift.
+    /// The status of autoshift observer notification. If the status is ENABLED, ARC includes all autoshift events when you use the Amazon EventBridge pattern Autoshift In Progress. When the status is DISABLED, ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift.
     /// This member is required.
     public var status: ARCZonalShiftClientTypes.AutoshiftObserverNotificationStatus?
 
@@ -403,7 +408,7 @@ public struct GetAutoshiftObserverNotificationStatusOutput: Swift.Sendable {
 }
 
 public struct UpdateAutoshiftObserverNotificationStatusInput: Swift.Sendable {
-    /// The status to set for autoshift observer notification. If the status is ENABLED, Route 53 ARC includes all autoshift events when you use the Amazon EventBridge pattern Autoshift In Progress. When the status is DISABLED, Route 53 ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift.
+    /// The status to set for autoshift observer notification. If the status is ENABLED, ARC includes all autoshift events when you use the Amazon EventBridge pattern Autoshift In Progress. When the status is DISABLED, ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift.
     /// This member is required.
     public var status: ARCZonalShiftClientTypes.AutoshiftObserverNotificationStatus?
 
@@ -433,6 +438,7 @@ extension ARCZonalShiftClientTypes {
         case practiceConfigurationAlreadyExists
         case practiceConfigurationDoesNotExist
         case simultaneousZonalShiftsConflict
+        case zonalAutoshiftActive
         case zonalShiftAlreadyExists
         case zonalShiftStatusNotActive
         case sdkUnknown(Swift.String)
@@ -443,6 +449,7 @@ extension ARCZonalShiftClientTypes {
                 .practiceConfigurationAlreadyExists,
                 .practiceConfigurationDoesNotExist,
                 .simultaneousZonalShiftsConflict,
+                .zonalAutoshiftActive,
                 .zonalShiftAlreadyExists,
                 .zonalShiftStatusNotActive
             ]
@@ -459,6 +466,7 @@ extension ARCZonalShiftClientTypes {
             case .practiceConfigurationAlreadyExists: return "PracticeConfigurationAlreadyExists"
             case .practiceConfigurationDoesNotExist: return "PracticeConfigurationDoesNotExist"
             case .simultaneousZonalShiftsConflict: return "SimultaneousZonalShiftsConflict"
+            case .zonalAutoshiftActive: return "ZonalAutoshiftActive"
             case .zonalShiftAlreadyExists: return "ZonalShiftAlreadyExists"
             case .zonalShiftStatusNotActive: return "ZonalShiftStatusNotActive"
             case let .sdkUnknown(s): return s
@@ -575,7 +583,7 @@ public struct CancelZonalShiftOutput: Swift.Sendable {
     /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment history is maintained. A new comment overwrites any existing comment string.
     /// This member is required.
     public var comment: Swift.String?
-    /// The expiry time (expiration time) for a customer-initiated zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
+    /// The expiry time (expiration time) for a customer-initiated zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
     /// This member is required.
     public var expiryTime: Foundation.Date?
     /// The identifier for the resource that Amazon Web Services shifts traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
@@ -664,13 +672,13 @@ extension ARCZonalShiftClientTypes {
 }
 
 public struct CreatePracticeRunConfigurationInput: Swift.Sendable {
-    /// Optionally, you can block Route 53 ARC from starting practice runs for a resource on specific calendar dates. The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Separate multiple blocked dates with spaces. For example, if you have an application update scheduled to launch on May 1, 2024, and you don't want practice runs to shift traffic away at that time, you could set a blocked date for 2024-05-01.
+    /// Optionally, you can block ARC from starting practice runs for a resource on specific calendar dates. The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Separate multiple blocked dates with spaces. For example, if you have an application update scheduled to launch on May 1, 2024, and you don't want practice runs to shift traffic away at that time, you could set a blocked date for 2024-05-01.
     public var blockedDates: [Swift.String]?
-    /// Optionally, you can block Route 53 ARC from starting practice runs for specific windows of days and times. The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you might set the following recurring days and times as blocked windows, for example: MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30.
+    /// Optionally, you can block ARC from starting practice runs for specific windows of days and times. The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you might set the following recurring days and times as blocked windows, for example: MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30.
     public var blockedWindows: [Swift.String]?
-    /// An Amazon CloudWatch alarm that you can specify for zonal autoshift practice runs. This alarm blocks Route 53 ARC from starting practice run zonal shifts, and ends a practice run that's in progress, when the alarm is in an ALARM state.
+    /// An Amazon CloudWatch alarm that you can specify for zonal autoshift practice runs. This alarm blocks ARC from starting practice run zonal shifts, and ends a practice run that's in progress, when the alarm is in an ALARM state.
     public var blockingAlarms: [ARCZonalShiftClientTypes.ControlCondition]?
-    /// The outcome alarm for practice runs is a required Amazon CloudWatch alarm that you specify that ends a practice run when the alarm is in an ALARM state. Configure the alarm to monitor the health of your application when traffic is shifted away from an Availability Zone during each weekly practice run. You should configure the alarm to go into an ALARM state if your application is impacted by the zonal shift, and you want to stop the zonal shift, to let traffic for the resource return to the Availability Zone.
+    /// The outcome alarm for practice runs is a required Amazon CloudWatch alarm that you specify that ends a practice run when the alarm is in an ALARM state. Configure the alarm to monitor the health of your application when traffic is shifted away from an Availability Zone during each practice run. You should configure the alarm to go into an ALARM state if your application is impacted by the zonal shift, and you want to stop the zonal shift, to let traffic for the resource return to the Availability Zone.
     /// This member is required.
     public var outcomeAlarms: [ARCZonalShiftClientTypes.ControlCondition]?
     /// The identifier of the resource that Amazon Web Services shifts traffic for with a practice run zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
@@ -694,11 +702,11 @@ public struct CreatePracticeRunConfigurationInput: Swift.Sendable {
 
 extension ARCZonalShiftClientTypes {
 
-    /// A practice run configuration for a resource includes the Amazon CloudWatch alarms that you've specified for a practice run, as well as any blocked dates or blocked windows for the practice run. When a resource has a practice run configuration, Route 53 ARC shifts traffic for the resource weekly for practice runs. Practice runs are required for zonal autoshift. The zonal shifts that Route 53 ARC starts for practice runs help you to ensure that shifting away traffic from an Availability Zone during an autoshift is safe for your application. You can update or delete a practice run configuration. Before you delete a practice run configuration, you must disable zonal autoshift for the resource. A practice run configuration is required when zonal autoshift is enabled.
+    /// A practice run configuration for a resource includes the Amazon CloudWatch alarms that you've specified for a practice run, as well as any blocked dates or blocked windows for the practice run. When a resource has a practice run configuration, ARC shifts traffic for the resource weekly for practice runs. Practice runs are required for zonal autoshift. The zonal shifts that ARC starts for practice runs help you to ensure that shifting away traffic from an Availability Zone during an autoshift is safe for your application. You can update or delete a practice run configuration. Before you delete a practice run configuration, you must disable zonal autoshift for the resource. A practice run configuration is required when zonal autoshift is enabled.
     public struct PracticeRunConfiguration: Swift.Sendable {
         /// An array of one or more dates that you can specify when Amazon Web Services does not start practice runs for a resource. Specify blocked dates, in UTC, in the format YYYY-MM-DD, separated by spaces.
         public var blockedDates: [Swift.String]?
-        /// An array of one or more windows of days and times that you can block Route 53 ARC from starting practice runs for a resource. Specify the blocked windows in UTC, using the format DAY:HH:MM-DAY:HH:MM, separated by spaces. For example, MON:18:30-MON:19:30 TUE:18:30-TUE:19:30.
+        /// An array of one or more windows of days and times that you can block ARC from starting practice runs for a resource. Specify the blocked windows in UTC, using the format DAY:HH:MM-DAY:HH:MM, separated by spaces. For example, MON:18:30-MON:19:30 TUE:18:30-TUE:19:30.
         public var blockedWindows: [Swift.String]?
         /// The blocking alarm for practice runs is an optional alarm that you can specify that blocks practice runs when the alarm is in an ALARM state.
         public var blockingAlarms: [ARCZonalShiftClientTypes.ControlCondition]?
@@ -859,6 +867,41 @@ extension ARCZonalShiftClientTypes {
 
 extension ARCZonalShiftClientTypes {
 
+    public enum ShiftType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fisExperiment
+        case practiceRun
+        case zonalAutoshift
+        case zonalShift
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ShiftType] {
+            return [
+                .fisExperiment,
+                .practiceRun,
+                .zonalAutoshift,
+                .zonalShift
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fisExperiment: return "FIS_EXPERIMENT"
+            case .practiceRun: return "PRACTICE_RUN"
+            case .zonalAutoshift: return "ZONAL_AUTOSHIFT"
+            case .zonalShift: return "ZONAL_SHIFT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ARCZonalShiftClientTypes {
+
     /// A complex structure that lists the zonal shifts for a managed resource and their statuses for the resource.
     public struct ZonalShiftInResource: Swift.Sendable {
         /// The appliedStatus field specifies which application traffic shift is in effect for a resource when there is more than one active traffic shift. There can be more than one application traffic shift in progress at the same time - that is, practice run zonal shifts, customer-initiated zonal shifts, or an autoshift. The appliedStatus field for a shift that is in progress for a resource can have one of two values: APPLIED or NOT_APPLIED. The zonal shift or autoshift that is currently in effect for the resource has an appliedStatus set to APPLIED. The overall principle for precedence is that zonal shifts that you start as a customer take precedence autoshifts, which take precedence over practice runs. That is, customer-initiated zonal shifts > autoshifts > practice run zonal shifts. For more information, see [How zonal autoshift and practice runs work](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.how-it-works.html) in the Amazon Route 53 Application Recovery Controller Developer Guide.
@@ -870,7 +913,7 @@ extension ARCZonalShiftClientTypes {
         /// A comment that you enter for a customer-initiated zonal shift. Only the latest comment is retained; no comment history is maintained. That is, a new comment overwrites any existing comment string.
         /// This member is required.
         public var comment: Swift.String?
-        /// The expiry time (expiration time) for a customer-initiated zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
+        /// The expiry time (expiration time) for a customer-initiated zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
         /// This member is required.
         public var expiryTime: Foundation.Date?
         /// The outcome, or end state, returned for a practice run. The following values can be returned:
@@ -889,6 +932,8 @@ extension ARCZonalShiftClientTypes {
         /// The identifier for the resource to include in a zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
         /// This member is required.
         public var resourceIdentifier: Swift.String?
+        /// Defines the zonal shift type.
+        public var shiftType: ARCZonalShiftClientTypes.ShiftType?
         /// The time (UTC) when the zonal shift starts.
         /// This member is required.
         public var startTime: Foundation.Date?
@@ -903,6 +948,7 @@ extension ARCZonalShiftClientTypes {
             expiryTime: Foundation.Date? = nil,
             practiceRunOutcome: ARCZonalShiftClientTypes.PracticeRunOutcome? = nil,
             resourceIdentifier: Swift.String? = nil,
+            shiftType: ARCZonalShiftClientTypes.ShiftType? = nil,
             startTime: Foundation.Date? = nil,
             zonalShiftId: Swift.String? = nil
         ) {
@@ -912,6 +958,7 @@ extension ARCZonalShiftClientTypes {
             self.expiryTime = expiryTime
             self.practiceRunOutcome = practiceRunOutcome
             self.resourceIdentifier = resourceIdentifier
+            self.shiftType = shiftType
             self.startTime = startTime
             self.zonalShiftId = zonalShiftId
         }
@@ -958,7 +1005,7 @@ public struct GetManagedResourceOutput: Swift.Sendable {
 public struct ListManagedResourcesInput: Swift.Sendable {
     /// The number of objects that you want to return with this call.
     public var maxResults: Swift.Int?
-    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -972,7 +1019,7 @@ public struct ListManagedResourcesInput: Swift.Sendable {
 
 extension ARCZonalShiftClientTypes {
 
-    /// A complex structure for a managed resource in an Amazon Web Services account with information about zonal shifts and autoshifts. A managed resource is a load balancer that has been registered with Route 53 ARC by Elastic Load Balancing. You can start a zonal shift in Route 53 ARC for a managed resource to temporarily move traffic for the resource away from an Availability Zone in an Amazon Web Services Region. You can also configure zonal autoshift for a managed resource. At this time, managed resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
+    /// A complex structure for a managed resource in an Amazon Web Services account with information about zonal shifts and autoshifts. A managed resource is a load balancer that has been registered with ARC by Elastic Load Balancing. You can start a zonal shift in ARC for a managed resource to temporarily move traffic for the resource away from an Availability Zone in an Amazon Web Services Region. You can also configure zonal autoshift for a managed resource. At this time, managed resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
     public struct ManagedResourceSummary: Swift.Sendable {
         /// A collection of key-value pairs that indicate whether resources are active in Availability Zones or not. The key name is the Availability Zone where the resource is deployed. The value is 1 or 0.
         public var appliedWeights: [Swift.String: Swift.Float]?
@@ -985,7 +1032,7 @@ extension ARCZonalShiftClientTypes {
         public var availabilityZones: [Swift.String]?
         /// The name of the managed resource.
         public var name: Swift.String?
-        /// This status tracks whether a practice run configuration exists for a resource. When you configure a practice run for a resource so that a practice run configuration exists, Route 53 ARC sets this value to ENABLED. If a you have not configured a practice run for the resource, or delete a practice run configuration, Route 53 ARC sets the value to DISABLED. Route 53 ARC updates this status; you can't set a practice run status to ENABLED or DISABLED.
+        /// This status tracks whether a practice run configuration exists for a resource. When you configure a practice run for a resource so that a practice run configuration exists, ARC sets this value to ENABLED. If a you have not configured a practice run for the resource, or delete a practice run configuration, ARC sets the value to DISABLED. ARC updates this status; you can't set a practice run status to ENABLED or DISABLED.
         public var practiceRunStatus: ARCZonalShiftClientTypes.ZonalAutoshiftStatus?
         /// The status of autoshift for a resource. When you configure zonal autoshift for a resource, you can set the value of the status to ENABLED or DISABLED.
         public var zonalAutoshiftStatus: ARCZonalShiftClientTypes.ZonalAutoshiftStatus?
@@ -1018,7 +1065,7 @@ public struct ListManagedResourcesOutput: Swift.Sendable {
     /// The items in the response list.
     /// This member is required.
     public var items: [ARCZonalShiftClientTypes.ManagedResourceSummary]?
-    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -1033,7 +1080,7 @@ public struct ListManagedResourcesOutput: Swift.Sendable {
 public struct ListZonalShiftsInput: Swift.Sendable {
     /// The number of objects that you want to return with this call.
     public var maxResults: Swift.Int?
-    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
     public var nextToken: Swift.String?
     /// The identifier for the resource that you want to list zonal shifts for. The identifier is the Amazon Resource Name (ARN) for the resource.
     public var resourceIdentifier: Swift.String?
@@ -1061,7 +1108,7 @@ public struct ListZonalShiftsInput: Swift.Sendable {
 
 extension ARCZonalShiftClientTypes {
 
-    /// Lists information about zonal shifts in Amazon Route 53 Application Recovery Controller, including zonal shifts that you start yourself and zonal shifts that Route 53 ARC starts on your behalf for practice runs with zonal autoshift. Zonal shifts are temporary, including customer-initiated zonal shifts and the zonal autoshift practice run zonal shifts that Route 53 ARC starts weekly, on your behalf. A zonal shift that a customer starts can be active for up to three days (72 hours). A practice run zonal shift has a 30 minute duration.
+    /// Lists information about zonal shifts in Amazon Route 53 Application Recovery Controller, including zonal shifts that you start yourself and zonal shifts that ARC starts on your behalf for practice runs with zonal autoshift. Zonal shifts are temporary, including customer-initiated zonal shifts and the zonal autoshift practice run zonal shifts that ARC starts weekly, on your behalf. A zonal shift that a customer starts can be active for up to three days (72 hours). A practice run zonal shift has a 30 minute duration.
     public struct ZonalShiftSummary: Swift.Sendable {
         /// The Availability Zone (for example, use1-az1) that traffic is moved away from for a resource when you start a zonal shift. Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the Amazon Web Services Region.
         /// This member is required.
@@ -1069,7 +1116,7 @@ extension ARCZonalShiftClientTypes {
         /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment history is maintained. That is, a new comment overwrites any existing comment string.
         /// This member is required.
         public var comment: Swift.String?
-        /// The expiry time (expiration time) for a customer-initiated zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
+        /// The expiry time (expiration time) for a customer-initiated zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
         /// This member is required.
         public var expiryTime: Foundation.Date?
         /// The outcome, or end state, of a practice run. The following values can be returned:
@@ -1088,6 +1135,8 @@ extension ARCZonalShiftClientTypes {
         /// The identifier for the resource to include in a zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
         /// This member is required.
         public var resourceIdentifier: Swift.String?
+        /// Defines the zonal shift type.
+        public var shiftType: ARCZonalShiftClientTypes.ShiftType?
         /// The time (UTC) when the zonal shift starts.
         /// This member is required.
         public var startTime: Foundation.Date?
@@ -1110,6 +1159,7 @@ extension ARCZonalShiftClientTypes {
             expiryTime: Foundation.Date? = nil,
             practiceRunOutcome: ARCZonalShiftClientTypes.PracticeRunOutcome? = nil,
             resourceIdentifier: Swift.String? = nil,
+            shiftType: ARCZonalShiftClientTypes.ShiftType? = nil,
             startTime: Foundation.Date? = nil,
             status: ARCZonalShiftClientTypes.ZonalShiftStatus? = nil,
             zonalShiftId: Swift.String? = nil
@@ -1119,6 +1169,7 @@ extension ARCZonalShiftClientTypes {
             self.expiryTime = expiryTime
             self.practiceRunOutcome = practiceRunOutcome
             self.resourceIdentifier = resourceIdentifier
+            self.shiftType = shiftType
             self.startTime = startTime
             self.status = status
             self.zonalShiftId = zonalShiftId
@@ -1129,7 +1180,7 @@ extension ARCZonalShiftClientTypes {
 public struct ListZonalShiftsOutput: Swift.Sendable {
     /// The items in the response list.
     public var items: [ARCZonalShiftClientTypes.ZonalShiftSummary]?
-    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -1178,7 +1229,7 @@ public struct UpdateZonalAutoshiftConfigurationOutput: Swift.Sendable {
 public struct UpdatePracticeRunConfigurationInput: Swift.Sendable {
     /// Add, change, or remove blocked dates for a practice run in zonal autoshift. Optionally, you can block practice runs for specific calendar dates. The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Separate multiple blocked dates with spaces. For example, if you have an application update scheduled to launch on May 1, 2024, and you don't want practice runs to shift traffic away at that time, you could set a blocked date for 2024-05-01.
     public var blockedDates: [Swift.String]?
-    /// Add, change, or remove windows of days and times for when you can, optionally, block Route 53 ARC from starting a practice run for a resource. The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you might set the following recurring days and times as blocked windows, for example: MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30.
+    /// Add, change, or remove windows of days and times for when you can, optionally, block ARC from starting a practice run for a resource. The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you might set the following recurring days and times as blocked windows, for example: MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30.
     public var blockedWindows: [Swift.String]?
     /// Add, change, or remove the Amazon CloudWatch alarm that you optionally specify as the blocking alarm for practice runs.
     public var blockingAlarms: [ARCZonalShiftClientTypes.ControlCondition]?
@@ -1233,7 +1284,7 @@ public struct UpdatePracticeRunConfigurationOutput: Swift.Sendable {
 public struct UpdateZonalShiftInput: Swift.Sendable {
     /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment history is maintained. A new comment overwrites any existing comment string.
     public var comment: Swift.String?
-    /// The length of time that you want a zonal shift to be active, which Route 53 ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). If you want to still keep traffic away from an Availability Zone, you can update the zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to restore traffic to the Availability Zone. To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space:
+    /// The length of time that you want a zonal shift to be active, which ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). If you want to still keep traffic away from an Availability Zone, you can update the zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to restore traffic to the Availability Zone. To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space:
     ///
     /// * A lowercase letter m: To specify that the value is in minutes.
     ///
@@ -1264,7 +1315,7 @@ public struct UpdateZonalShiftOutput: Swift.Sendable {
     /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment history is maintained. A new comment overwrites any existing comment string.
     /// This member is required.
     public var comment: Swift.String?
-    /// The expiry time (expiration time) for a customer-initiated zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
+    /// The expiry time (expiration time) for a customer-initiated zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
     /// This member is required.
     public var expiryTime: Foundation.Date?
     /// The identifier for the resource that Amazon Web Services shifts traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
@@ -1312,7 +1363,7 @@ public struct StartZonalShiftInput: Swift.Sendable {
     /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment history is maintained. A new comment overwrites any existing comment string.
     /// This member is required.
     public var comment: Swift.String?
-    /// The length of time that you want a zonal shift to be active, which Route 53 ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). If you want to still keep traffic away from an Availability Zone, you can update the zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to restore traffic to the Availability Zone. To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space:
+    /// The length of time that you want a zonal shift to be active, which ARC converts to an expiry time (expiration time). Zonal shifts are temporary. You can set a zonal shift to be active initially for up to three days (72 hours). If you want to still keep traffic away from an Availability Zone, you can update the zonal shift and set a new expiration. You can also cancel a zonal shift, before it expires, for example, if you're ready to restore traffic to the Availability Zone. To set a length of time for a zonal shift to be active, specify a whole number, and then one of the following, with no space:
     ///
     /// * A lowercase letter m: To specify that the value is in minutes.
     ///
@@ -1346,7 +1397,7 @@ public struct StartZonalShiftOutput: Swift.Sendable {
     /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment history is maintained. A new comment overwrites any existing comment string.
     /// This member is required.
     public var comment: Swift.String?
-    /// The expiry time (expiration time) for a customer-initiated zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
+    /// The expiry time (expiration time) for a customer-initiated zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
     /// This member is required.
     public var expiryTime: Foundation.Date?
     /// The identifier for the resource that Amazon Web Services shifts traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
@@ -2165,6 +2216,7 @@ extension ARCZonalShiftClientTypes.ZonalShiftInResource {
         value.expiryTime = try reader["expiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.comment = try reader["comment"].readIfPresent() ?? ""
+        value.shiftType = try reader["shiftType"].readIfPresent()
         value.practiceRunOutcome = try reader["practiceRunOutcome"].readIfPresent()
         return value
     }
@@ -2188,7 +2240,7 @@ extension ARCZonalShiftClientTypes.AutoshiftSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ARCZonalShiftClientTypes.AutoshiftSummary()
         value.awayFrom = try reader["awayFrom"].readIfPresent() ?? ""
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
@@ -2224,6 +2276,7 @@ extension ARCZonalShiftClientTypes.ZonalShiftSummary {
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.comment = try reader["comment"].readIfPresent() ?? ""
+        value.shiftType = try reader["shiftType"].readIfPresent()
         value.practiceRunOutcome = try reader["practiceRunOutcome"].readIfPresent()
         return value
     }

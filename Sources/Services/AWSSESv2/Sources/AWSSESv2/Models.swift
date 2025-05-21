@@ -259,6 +259,108 @@ extension SESv2ClientTypes {
     }
 }
 
+extension SESv2ClientTypes {
+
+    public enum AttachmentContentDisposition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attachment
+        case inline
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttachmentContentDisposition] {
+            return [
+                .attachment,
+                .inline
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachment: return "ATTACHMENT"
+            case .inline: return "INLINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    public enum AttachmentContentTransferEncoding: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case base64
+        case quotedPrintable
+        case sevenBit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttachmentContentTransferEncoding] {
+            return [
+                .base64,
+                .quotedPrintable,
+                .sevenBit
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .base64: return "BASE64"
+            case .quotedPrintable: return "QUOTED_PRINTABLE"
+            case .sevenBit: return "SEVEN_BIT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains metadata and attachment raw content.
+    public struct Attachment: Swift.Sendable {
+        /// A brief description of the attachment content.
+        public var contentDescription: Swift.String?
+        /// A standard descriptor indicating how the attachment should be rendered in the email. Supported values: ATTACHMENT or INLINE.
+        public var contentDisposition: SESv2ClientTypes.AttachmentContentDisposition?
+        /// Unique identifier for the attachment, used for referencing attachments with INLINE disposition in HTML content.
+        public var contentId: Swift.String?
+        /// Specifies how the attachment is encoded. Supported values: BASE64, QUOTED_PRINTABLE, SEVEN_BIT.
+        public var contentTransferEncoding: SESv2ClientTypes.AttachmentContentTransferEncoding?
+        /// The MIME type of the attachment. Example: application/pdf, image/jpeg
+        public var contentType: Swift.String?
+        /// The file name for the attachment as it will appear in the email. Amazon SES restricts certain file extensions. To ensure attachments are accepted, check the [Unsupported attachment types](https://docs.aws.amazon.com/ses/latest/dg/mime-types.html) in the Amazon SES Developer Guide.
+        /// This member is required.
+        public var fileName: Swift.String?
+        /// The raw data of the attachment. It needs to be base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you.
+        /// This member is required.
+        public var rawContent: Foundation.Data?
+
+        public init(
+            contentDescription: Swift.String? = nil,
+            contentDisposition: SESv2ClientTypes.AttachmentContentDisposition? = nil,
+            contentId: Swift.String? = nil,
+            contentTransferEncoding: SESv2ClientTypes.AttachmentContentTransferEncoding? = nil,
+            contentType: Swift.String? = nil,
+            fileName: Swift.String? = nil,
+            rawContent: Foundation.Data? = nil
+        ) {
+            self.contentDescription = contentDescription
+            self.contentDisposition = contentDisposition
+            self.contentId = contentId
+            self.contentTransferEncoding = contentTransferEncoding
+            self.contentType = contentType
+            self.fileName = fileName
+            self.rawContent = rawContent
+        }
+    }
+}
+
 /// The input you provided is invalid.
 public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -861,6 +963,8 @@ extension SESv2ClientTypes {
 
     /// An object that defines the email template to use for an email message, and the values to use for any message variables in that template. An email template is a type of message template that contains content that you want to reuse in email messages that you send. You can specifiy the email template by providing the name or ARN of an email template previously saved in your Amazon SES account or by providing the full template content.
     public struct Template: Swift.Sendable {
+        /// The List of attachments to include in your email. All recipients will receive the same attachments.
+        public var attachments: [SESv2ClientTypes.Attachment]?
         /// The list of message headers that will be added to the email message.
         public var headers: [SESv2ClientTypes.MessageHeader]?
         /// The Amazon Resource Name (ARN) of the template.
@@ -873,12 +977,14 @@ extension SESv2ClientTypes {
         public var templateName: Swift.String?
 
         public init(
+            attachments: [SESv2ClientTypes.Attachment]? = nil,
             headers: [SESv2ClientTypes.MessageHeader]? = nil,
             templateArn: Swift.String? = nil,
             templateContent: SESv2ClientTypes.EmailTemplateContent? = nil,
             templateData: Swift.String? = nil,
             templateName: Swift.String? = nil
         ) {
+            self.attachments = attachments
             self.headers = headers
             self.templateArn = templateArn
             self.templateContent = templateContent
@@ -2325,6 +2431,8 @@ extension SESv2ClientTypes {
 
     /// Represents the email message that you're sending. The Message object consists of a subject line and a message body.
     public struct Message: Swift.Sendable {
+        /// The List of attachments to include in your email. All recipients will receive the same attachments.
+        public var attachments: [SESv2ClientTypes.Attachment]?
         /// The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both.
         /// This member is required.
         public var body: SESv2ClientTypes.Body?
@@ -2335,10 +2443,12 @@ extension SESv2ClientTypes {
         public var subject: SESv2ClientTypes.Content?
 
         public init(
+            attachments: [SESv2ClientTypes.Attachment]? = nil,
             body: SESv2ClientTypes.Body? = nil,
             headers: [SESv2ClientTypes.MessageHeader]? = nil,
             subject: SESv2ClientTypes.Content? = nil
         ) {
+            self.attachments = attachments
             self.body = body
             self.headers = headers
             self.subject = subject
@@ -2348,7 +2458,7 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
-    /// An object that defines the entire content of the email, including the message headers and the body content. You can create a simple email message, in which you specify the subject and the text and HTML versions of the message body. You can also create raw messages, in which you specify a complete MIME-formatted message. Raw messages can include attachments and custom headers.
+    /// An object that defines the entire content of the email, including the message headers, body content, and attachments. For a simple email message, you specify the subject and provide both text and HTML versions of the message body. You can also add attachments to simple and templated messages. For a raw message, you provide a complete MIME-formatted message, which can include custom headers and attachments.
     public struct EmailContent: Swift.Sendable {
         /// The raw email message. The message has to meet the following criteria:
         ///
@@ -2366,7 +2476,7 @@ extension SESv2ClientTypes {
         ///
         /// * The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in [RFC 5321](https://tools.ietf.org/html/rfc5321).
         public var raw: SESv2ClientTypes.RawMessage?
-        /// The simple email message. The message consists of a subject and a message body.
+        /// The simple email message. The message consists of a subject, message body and attachments list.
         public var simple: SESv2ClientTypes.Message?
         /// The template to use for the email message.
         public var template: SESv2ClientTypes.Template?
@@ -13472,11 +13582,26 @@ extension SESv2ClientTypes.Template {
 
     static func write(value: SESv2ClientTypes.Template?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: SESv2ClientTypes.Attachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Headers"].writeList(value.headers, memberWritingClosure: SESv2ClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TemplateArn"].write(value.templateArn)
         try writer["TemplateContent"].write(value.templateContent, with: SESv2ClientTypes.EmailTemplateContent.write(value:to:))
         try writer["TemplateData"].write(value.templateData)
         try writer["TemplateName"].write(value.templateName)
+    }
+}
+
+extension SESv2ClientTypes.Attachment {
+
+    static func write(value: SESv2ClientTypes.Attachment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentDescription"].write(value.contentDescription)
+        try writer["ContentDisposition"].write(value.contentDisposition)
+        try writer["ContentId"].write(value.contentId)
+        try writer["ContentTransferEncoding"].write(value.contentTransferEncoding)
+        try writer["ContentType"].write(value.contentType)
+        try writer["FileName"].write(value.fileName)
+        try writer["RawContent"].write(value.rawContent)
     }
 }
 
@@ -13501,6 +13626,7 @@ extension SESv2ClientTypes.Message {
 
     static func write(value: SESv2ClientTypes.Message?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: SESv2ClientTypes.Attachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Body"].write(value.body, with: SESv2ClientTypes.Body.write(value:to:))
         try writer["Headers"].writeList(value.headers, memberWritingClosure: SESv2ClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subject"].write(value.subject, with: SESv2ClientTypes.Content.write(value:to:))

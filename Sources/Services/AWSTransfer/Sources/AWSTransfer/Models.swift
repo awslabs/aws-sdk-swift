@@ -1056,7 +1056,7 @@ extension TransferClientTypes {
         public var encryptionAlgorithm: TransferClientTypes.EncryptionAlg?
         /// A unique identifier for the AS2 local profile.
         public var localProfileId: Swift.String?
-        /// Used for outbound requests (from an Transfer Family server to a partner AS2 server) to determine whether the partner response for transfers is synchronous or asynchronous. Specify either of the following values:
+        /// Used for outbound requests (from an Transfer Family connector to a partner AS2 server) to determine whether the partner response for transfers is synchronous or asynchronous. Specify either of the following values:
         ///
         /// * SYNC: The system expects a synchronous MDN response, confirming that the file was transferred successfully (or not).
         ///
@@ -1246,7 +1246,7 @@ extension TransferClientTypes {
 
     /// Describes the properties of a certificate.
     public struct DescribedCertificate: Swift.Sendable {
-        /// An optional date that specifies when the certificate becomes active.
+        /// An optional date that specifies when the certificate becomes active. If you do not specify a value, ActiveDate takes the same value as NotBeforeDate, which is specified by the CA.
         public var activeDate: Foundation.Date?
         /// The unique Amazon Resource Name (ARN) for the certificate.
         /// This member is required.
@@ -1259,7 +1259,7 @@ extension TransferClientTypes {
         public var certificateId: Swift.String?
         /// The name or description that's used to identity the certificate.
         public var description: Swift.String?
-        /// An optional date that specifies when the certificate becomes inactive.
+        /// An optional date that specifies when the certificate becomes inactive. If you do not specify a value, InactiveDate takes the same value as NotAfterDate, which is specified by the CA.
         public var inactiveDate: Foundation.Date?
         /// The final date that the certificate is valid.
         public var notAfterDate: Foundation.Date?
@@ -1267,7 +1267,7 @@ extension TransferClientTypes {
         public var notBeforeDate: Foundation.Date?
         /// The serial number for the certificate.
         public var serial: Swift.String?
-        /// Currently, the only available status is ACTIVE: all other values are reserved for future use.
+        /// A certificate's status can be either ACTIVE or INACTIVE. You can set ActiveDate and InactiveDate in the UpdateCertificate call. If you set values for these parameters, those values are used to determine whether the certificate has a status of ACTIVE or INACTIVE. If you don't set values for ActiveDate and InactiveDate, we use the NotBefore and NotAfter date as specified on the X509 certificate to determine when a certificate is active and when it is inactive.
         public var status: TransferClientTypes.CertificateStatusType?
         /// Key-value pairs that can be used to group and search for certificates.
         public var tags: [TransferClientTypes.Tag]?
@@ -1334,20 +1334,23 @@ public struct DescribeCertificateOutput: Swift.Sendable {
 }
 
 public struct ImportCertificateInput: Swift.Sendable {
-    /// An optional date that specifies when the certificate becomes active.
+    /// An optional date that specifies when the certificate becomes active. If you do not specify a value, ActiveDate takes the same value as NotBeforeDate, which is specified by the CA.
     public var activeDate: Foundation.Date?
     /// * For the CLI, provide a file path for a certificate in URI format. For example, --certificate file://encryption-cert.pem. Alternatively, you can provide the raw content.
     ///
     /// * For the SDK, specify the raw content of a certificate file. For example, --certificate "`cat encryption-cert.pem`".
+    ///
+    ///
+    /// You can provide both the certificate and its chain in this parameter, without needing to use the CertificateChain parameter. If you use this parameter for both the certificate and its chain, do not use the CertificateChain parameter.
     /// This member is required.
     public var certificate: Swift.String?
     /// An optional list of certificates that make up the chain for the certificate that's being imported.
     public var certificateChain: Swift.String?
     /// A short description that helps identify the certificate.
     public var description: Swift.String?
-    /// An optional date that specifies when the certificate becomes inactive.
+    /// An optional date that specifies when the certificate becomes inactive. If you do not specify a value, InactiveDate takes the same value as NotAfterDate, which is specified by the CA.
     public var inactiveDate: Foundation.Date?
-    /// * For the CLI, provide a file path for a private key in URI format.For example, --private-key file://encryption-key.pem. Alternatively, you can provide the raw content of the private key file.
+    /// * For the CLI, provide a file path for a private key in URI format. For example, --private-key file://encryption-key.pem. Alternatively, you can provide the raw content of the private key file.
     ///
     /// * For the SDK, specify the raw content of a private key file. For example, --private-key "`cat encryption-key.pem`"
     public var privateKey: Swift.String?
@@ -1420,7 +1423,7 @@ extension TransferClientTypes {
 
     /// Describes the properties of a certificate.
     public struct ListedCertificate: Swift.Sendable {
-        /// An optional date that specifies when the certificate becomes active.
+        /// An optional date that specifies when the certificate becomes active. If you do not specify a value, ActiveDate takes the same value as NotBeforeDate, which is specified by the CA.
         public var activeDate: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the specified certificate.
         public var arn: Swift.String?
@@ -1428,7 +1431,7 @@ extension TransferClientTypes {
         public var certificateId: Swift.String?
         /// The name or short description that's used to identify the certificate.
         public var description: Swift.String?
-        /// An optional date that specifies when the certificate becomes inactive.
+        /// An optional date that specifies when the certificate becomes inactive. If you do not specify a value, InactiveDate takes the same value as NotAfterDate, which is specified by the CA.
         public var inactiveDate: Foundation.Date?
         /// The certificate can be either ACTIVE, PENDING_ROTATION, or INACTIVE. PENDING_ROTATION means that this certificate will replace the current certificate when it expires.
         public var status: TransferClientTypes.CertificateStatusType?
@@ -1482,14 +1485,14 @@ public struct ListCertificatesOutput: Swift.Sendable {
 }
 
 public struct UpdateCertificateInput: Swift.Sendable {
-    /// An optional date that specifies when the certificate becomes active.
+    /// An optional date that specifies when the certificate becomes active. If you do not specify a value, ActiveDate takes the same value as NotBeforeDate, which is specified by the CA.
     public var activeDate: Foundation.Date?
     /// The identifier of the certificate object that you are updating.
     /// This member is required.
     public var certificateId: Swift.String?
     /// A short description to help identify the certificate.
     public var description: Swift.String?
-    /// An optional date that specifies when the certificate becomes inactive.
+    /// An optional date that specifies when the certificate becomes inactive. If you do not specify a value, InactiveDate takes the same value as NotAfterDate, which is specified by the CA.
     public var inactiveDate: Foundation.Date?
 
     public init(
@@ -1607,9 +1610,11 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
-    /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server. Because the SftpConnectorConfig data type is used for both creating and updating SFTP connectors, its parameters, TrustedHostKeys and UserSecretId are marked as not required. This is a bit misleading, as they are not required when you are updating an existing SFTP connector, but are required when you are creating a new SFTP connector.
+    /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server.
     public struct SftpConnectorConfig: Swift.Sendable {
-        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
+        /// Specify the number of concurrent connections that your connector creates to the remote server. The default value is 5 (this is also the maximum value allowed). This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel operations.
+        public var maxConcurrentConnections: Swift.Int?
+        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. TrustedHostKeys is optional for CreateConnector. If not provided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
         ///
         /// * For RSA keys, the <key type> string is ssh-rsa.
         ///
@@ -1619,12 +1624,18 @@ extension TransferClientTypes {
         /// Run this command to retrieve the SFTP server host key, where your SFTP server name is ftp.host.com. ssh-keyscan ftp.host.com This prints the public host key to standard output. ftp.host.com ssh-rsa AAAAB3Nza...<long-string-for-public-key Copy and paste this string into the TrustedHostKeys field for the create-connector command or into the Trusted host keys field in the console.
         public var trustedHostKeys: [Swift.String]?
         /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier must be the Amazon Resource Name (ARN) of the secret.
+        ///
+        /// * Required when creating an SFTP connector
+        ///
+        /// * Optional when updating an existing SFTP connector
         public var userSecretId: Swift.String?
 
         public init(
+            maxConcurrentConnections: Swift.Int? = 1,
             trustedHostKeys: [Swift.String]? = nil,
             userSecretId: Swift.String? = nil
         ) {
+            self.maxConcurrentConnections = maxConcurrentConnections
             self.trustedHostKeys = trustedHostKeys
             self.userSecretId = userSecretId
         }
@@ -2688,7 +2699,7 @@ public struct CreateServerInput: Swift.Sendable {
     public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
     /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
     public var identityProviderType: TransferClientTypes.IdentityProviderType?
-    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
+    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
     /// Specifies a string to display when users connect to a server. This string is displayed after the user authenticates. The SFTP protocol does not support post-authentication display banners.
     public var postAuthenticationLoginBanner: Swift.String?
@@ -2898,6 +2909,35 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
+    public enum WebAppEndpointPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fips
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebAppEndpointPolicy] {
+            return [
+                .fips,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fips: return "FIPS"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     /// Contains an integer value that represents the value for number of concurrent connections or the user sessions on your web app.
     public enum WebAppUnits: Swift.Sendable {
         /// An integer that represents the number of units for your desired number of concurrent connections, or the number of user sessions on your web app at the same time. Each increment allows an additional 250 concurrent sessions: a value of 1 sets the number of concurrent sessions to 250; 2 sets a value of 500, and so on.
@@ -2907,13 +2947,15 @@ extension TransferClientTypes {
 }
 
 public struct CreateWebAppInput: Swift.Sendable {
-    /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
+    /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value. Before you enter a custom URL for this parameter, follow the steps described in [Update your access endpoint with a custom URL](https://docs.aws.amazon.com/transfer/latest/userguide/webapp-customize.html).
     public var accessEndpoint: Swift.String?
-    /// You can provide a structure that contains the details for the identity provider to use with your web app.
+    /// You can provide a structure that contains the details for the identity provider to use with your web app. For more details about this parameter, see [Configure your identity provider for Transfer Family web apps](https://docs.aws.amazon.com/transfer/latest/userguide/webapp-identity-center.html).
     /// This member is required.
     public var identityProviderDetails: TransferClientTypes.WebAppIdentityProviderDetails?
     /// Key-value pairs that can be used to group and search for web apps.
     public var tags: [TransferClientTypes.Tag]?
+    /// Setting for the type of endpoint policy for the web app. The default value is STANDARD. If you are creating the web app in an Amazon Web Services GovCloud (US) Region, you can set this parameter to FIPS.
+    public var webAppEndpointPolicy: TransferClientTypes.WebAppEndpointPolicy?
     /// A union that contains the value for number of concurrent connections or the user sessions on your web app.
     public var webAppUnits: TransferClientTypes.WebAppUnits?
 
@@ -2921,11 +2963,13 @@ public struct CreateWebAppInput: Swift.Sendable {
         accessEndpoint: Swift.String? = nil,
         identityProviderDetails: TransferClientTypes.WebAppIdentityProviderDetails? = nil,
         tags: [TransferClientTypes.Tag]? = nil,
+        webAppEndpointPolicy: TransferClientTypes.WebAppEndpointPolicy? = nil,
         webAppUnits: TransferClientTypes.WebAppUnits? = nil
     ) {
         self.accessEndpoint = accessEndpoint
         self.identityProviderDetails = identityProviderDetails
         self.tags = tags
+        self.webAppEndpointPolicy = webAppEndpointPolicy
         self.webAppUnits = webAppUnits
     }
 }
@@ -3550,7 +3594,7 @@ extension TransferClientTypes {
     public struct LoggingConfiguration: Swift.Sendable {
         /// The name of the CloudWatch logging group for the Transfer Family server to which this workflow belongs.
         public var logGroupName: Swift.String?
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
         public var loggingRole: Swift.String?
 
         public init(
@@ -4098,7 +4142,7 @@ extension TransferClientTypes {
         public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
         /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
         public var identityProviderType: TransferClientTypes.IdentityProviderType?
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
         public var loggingRole: Swift.String?
         /// Specifies a string to display when users connect to a server. This string is displayed after the user authenticates. The SFTP protocol does not support post-authentication display banners.
         public var postAuthenticationLoginBanner: Swift.String?
@@ -4249,7 +4293,7 @@ extension TransferClientTypes {
         public var posixProfile: TransferClientTypes.PosixProfile?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3 bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
         public var role: Swift.String?
-        /// Specifies the public key portion of the Secure Shell (SSH) keys stored for the described user.
+        /// Specifies the public key portion of the Secure Shell (SSH) keys stored for the described user. To delete the public key body, set its value to zero keys, as shown here: SshPublicKeys: []
         public var sshPublicKeys: [TransferClientTypes.SshPublicKey]?
         /// Specifies the key-value pairs for the user requested. Tag can be used to search for and group users for a variety of purposes.
         public var tags: [TransferClientTypes.Tag]?
@@ -4307,6 +4351,8 @@ extension TransferClientTypes {
         public var tags: [TransferClientTypes.Tag]?
         /// The WebAppEndpoint is the unique URL for your Transfer Family web app. This is the value that you use when you configure Origins on CloudFront.
         public var webAppEndpoint: Swift.String?
+        /// Setting for the type of endpoint policy for the web app. The default value is STANDARD. If your web app was created in an Amazon Web Services GovCloud (US) Region, the value of this parameter can be FIPS, which indicates the web app endpoint is FIPS-compliant.
+        public var webAppEndpointPolicy: TransferClientTypes.WebAppEndpointPolicy?
         /// The unique identifier for the web app.
         /// This member is required.
         public var webAppId: Swift.String?
@@ -4319,6 +4365,7 @@ extension TransferClientTypes {
             describedIdentityProviderDetails: TransferClientTypes.DescribedWebAppIdentityProviderDetails? = nil,
             tags: [TransferClientTypes.Tag]? = nil,
             webAppEndpoint: Swift.String? = nil,
+            webAppEndpointPolicy: TransferClientTypes.WebAppEndpointPolicy? = nil,
             webAppId: Swift.String? = nil,
             webAppUnits: TransferClientTypes.WebAppUnits? = nil
         ) {
@@ -4327,6 +4374,7 @@ extension TransferClientTypes {
             self.describedIdentityProviderDetails = describedIdentityProviderDetails
             self.tags = tags
             self.webAppEndpoint = webAppEndpoint
+            self.webAppEndpointPolicy = webAppEndpointPolicy
             self.webAppId = webAppId
             self.webAppUnits = webAppUnits
         }
@@ -4340,7 +4388,7 @@ extension TransferClientTypes {
         /// Returns the Amazon Resource Name (ARN) for the web app.
         /// This member is required.
         public var arn: Swift.String?
-        /// Returns a icon file data string (in base64 encoding).
+        /// Returns an icon file data string (in base64 encoding).
         public var faviconFile: Foundation.Data?
         /// Returns a logo file data string (in base64 encoding).
         public var logoFile: Foundation.Data?
@@ -4921,7 +4969,7 @@ extension TransferClientTypes {
         public var endpointType: TransferClientTypes.EndpointType?
         /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
         public var identityProviderType: TransferClientTypes.IdentityProviderType?
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
         public var loggingRole: Swift.String?
         /// Specifies the unique system assigned identifier for the servers that were listed.
         public var serverId: Swift.String?
@@ -5494,7 +5542,7 @@ public struct UpdateServerInput: Swift.Sendable {
     public var hostKey: Swift.String?
     /// An array containing all of the information required to call a customer's authentication API method.
     public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
-    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
+    /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
     /// Specifies a string to display when users connect to a server. This string is displayed after the user authenticates. The SFTP protocol does not support post-authentication display banners.
     public var postAuthenticationLoginBanner: Swift.String?
@@ -5597,6 +5645,21 @@ public struct UpdateServerOutput: Swift.Sendable {
     }
 }
 
+extension TransferClientTypes {
+
+    /// Contains the details for an SFTP connector connection.
+    public struct SftpConnectorConnectionDetails: Swift.Sendable {
+        /// The SSH public key of the remote SFTP server. This is returned during the initial connection attempt when you call TestConnection. It allows you to retrieve the valid server host key to update the connector when you are unable to obtain it in advance.
+        public var hostKey: Swift.String?
+
+        public init(
+            hostKey: Swift.String? = nil
+        ) {
+            self.hostKey = hostKey
+        }
+    }
+}
+
 public struct StartDirectoryListingInput: Swift.Sendable {
     /// The unique identifier for the connector.
     /// This member is required.
@@ -5680,6 +5743,69 @@ public struct StartFileTransferOutput: Swift.Sendable {
     }
 }
 
+public struct StartRemoteDeleteInput: Swift.Sendable {
+    /// The unique identifier for the connector.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// The absolute path of the file or directory to delete. You can only specify one path per call to this operation.
+    /// This member is required.
+    public var deletePath: Swift.String?
+
+    public init(
+        connectorId: Swift.String? = nil,
+        deletePath: Swift.String? = nil
+    ) {
+        self.connectorId = connectorId
+        self.deletePath = deletePath
+    }
+}
+
+public struct StartRemoteDeleteOutput: Swift.Sendable {
+    /// Returns a unique identifier for the delete operation.
+    /// This member is required.
+    public var deleteId: Swift.String?
+
+    public init(
+        deleteId: Swift.String? = nil
+    ) {
+        self.deleteId = deleteId
+    }
+}
+
+public struct StartRemoteMoveInput: Swift.Sendable {
+    /// The unique identifier for the connector.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// The absolute path of the file or directory to move or rename. You can only specify one path per call to this operation.
+    /// This member is required.
+    public var sourcePath: Swift.String?
+    /// The absolute path for the target of the move/rename operation.
+    /// This member is required.
+    public var targetPath: Swift.String?
+
+    public init(
+        connectorId: Swift.String? = nil,
+        sourcePath: Swift.String? = nil,
+        targetPath: Swift.String? = nil
+    ) {
+        self.connectorId = connectorId
+        self.sourcePath = sourcePath
+        self.targetPath = targetPath
+    }
+}
+
+public struct StartRemoteMoveOutput: Swift.Sendable {
+    /// Returns a unique identifier for the move/rename operation.
+    /// This member is required.
+    public var moveId: Swift.String?
+
+    public init(
+        moveId: Swift.String? = nil
+    ) {
+        self.moveId = moveId
+    }
+}
+
 public struct StartServerInput: Swift.Sendable {
     /// A system-assigned unique identifier for a server that you start.
     /// This member is required.
@@ -5736,6 +5862,8 @@ public struct TestConnectionInput: Swift.Sendable {
 public struct TestConnectionOutput: Swift.Sendable {
     /// Returns the identifier of the connector object that you are testing.
     public var connectorId: Swift.String?
+    /// Structure that contains the SFTP connector host key.
+    public var sftpConnectionDetails: TransferClientTypes.SftpConnectorConnectionDetails?
     /// Returns OK for successful test, or ERROR if the test fails.
     public var status: Swift.String?
     /// Returns Connection succeeded if the test is successful. Or, returns a descriptive error message if the test fails. The following list provides troubleshooting details, depending on the error message that you receive.
@@ -5751,10 +5879,12 @@ public struct TestConnectionOutput: Swift.Sendable {
 
     public init(
         connectorId: Swift.String? = nil,
+        sftpConnectionDetails: TransferClientTypes.SftpConnectorConnectionDetails? = nil,
         status: Swift.String? = nil,
         statusMessage: Swift.String? = nil
     ) {
         self.connectorId = connectorId
+        self.sftpConnectionDetails = sftpConnectionDetails
         self.status = status
         self.statusMessage = statusMessage
     }
@@ -6001,7 +6131,7 @@ public struct UpdateUserOutput: Swift.Sendable {
 }
 
 public struct UpdateWebAppCustomizationInput: Swift.Sendable {
-    /// Specify icon file data string (in base64 encoding).
+    /// Specify an icon file data string (in base64 encoding).
     public var faviconFile: Foundation.Data?
     /// Specify logo file data string (in base64 encoding).
     public var logoFile: Foundation.Data?
@@ -6473,6 +6603,20 @@ extension StartFileTransferInput {
     }
 }
 
+extension StartRemoteDeleteInput {
+
+    static func urlPathProvider(_ value: StartRemoteDeleteInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartRemoteMoveInput {
+
+    static func urlPathProvider(_ value: StartRemoteMoveInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartServerInput {
 
     static func urlPathProvider(_ value: StartServerInput) -> Swift.String? {
@@ -6691,6 +6835,7 @@ extension CreateWebAppInput {
         try writer["AccessEndpoint"].write(value.accessEndpoint)
         try writer["IdentityProviderDetails"].write(value.identityProviderDetails, with: TransferClientTypes.WebAppIdentityProviderDetails.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TransferClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WebAppEndpointPolicy"].write(value.webAppEndpointPolicy)
         try writer["WebAppUnits"].write(value.webAppUnits, with: TransferClientTypes.WebAppUnits.write(value:to:))
     }
 }
@@ -7119,6 +7264,25 @@ extension StartFileTransferInput {
         try writer["RemoteDirectoryPath"].write(value.remoteDirectoryPath)
         try writer["RetrieveFilePaths"].writeList(value.retrieveFilePaths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SendFilePaths"].writeList(value.sendFilePaths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension StartRemoteDeleteInput {
+
+    static func write(value: StartRemoteDeleteInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectorId"].write(value.connectorId)
+        try writer["DeletePath"].write(value.deletePath)
+    }
+}
+
+extension StartRemoteMoveInput {
+
+    static func write(value: StartRemoteMoveInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectorId"].write(value.connectorId)
+        try writer["SourcePath"].write(value.sourcePath)
+        try writer["TargetPath"].write(value.targetPath)
     }
 }
 
@@ -7911,6 +8075,30 @@ extension StartFileTransferOutput {
     }
 }
 
+extension StartRemoteDeleteOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartRemoteDeleteOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartRemoteDeleteOutput()
+        value.deleteId = try reader["DeleteId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension StartRemoteMoveOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartRemoteMoveOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartRemoteMoveOutput()
+        value.moveId = try reader["MoveId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension StartServerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartServerOutput {
@@ -7940,6 +8128,7 @@ extension TestConnectionOutput {
         let reader = responseReader
         var value = TestConnectionOutput()
         value.connectorId = try reader["ConnectorId"].readIfPresent()
+        value.sftpConnectionDetails = try reader["SftpConnectionDetails"].readIfPresent(with: TransferClientTypes.SftpConnectorConnectionDetails.read(from:))
         value.status = try reader["Status"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
@@ -9030,6 +9219,42 @@ enum StartFileTransferOutputError {
     }
 }
 
+enum StartRemoteDeleteOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartRemoteMoveOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartServerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9607,6 +9832,7 @@ extension TransferClientTypes.SftpConnectorConfig {
 
     static func write(value: TransferClientTypes.SftpConnectorConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["MaxConcurrentConnections"].write(value.maxConcurrentConnections)
         try writer["TrustedHostKeys"].writeList(value.trustedHostKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["UserSecretId"].write(value.userSecretId)
     }
@@ -9616,6 +9842,7 @@ extension TransferClientTypes.SftpConnectorConfig {
         var value = TransferClientTypes.SftpConnectorConfig()
         value.userSecretId = try reader["UserSecretId"].readIfPresent()
         value.trustedHostKeys = try reader["TrustedHostKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maxConcurrentConnections = try reader["MaxConcurrentConnections"].readIfPresent() ?? 1
         return value
     }
 }
@@ -10017,6 +10244,7 @@ extension TransferClientTypes.DescribedWebApp {
         value.webAppEndpoint = try reader["WebAppEndpoint"].readIfPresent()
         value.webAppUnits = try reader["WebAppUnits"].readIfPresent(with: TransferClientTypes.WebAppUnits.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.webAppEndpointPolicy = try reader["WebAppEndpointPolicy"].readIfPresent()
         return value
     }
 }
@@ -10442,6 +10670,16 @@ extension TransferClientTypes.ListedWorkflow {
         value.workflowId = try reader["WorkflowId"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.SftpConnectorConnectionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.SftpConnectorConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.SftpConnectorConnectionDetails()
+        value.hostKey = try reader["HostKey"].readIfPresent()
         return value
     }
 }

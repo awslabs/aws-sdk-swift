@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceEntitlementClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceEntitlementClient"
-    public static let version = "1.2.22"
+    public static let version = "1.3.20"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceEntitlementClient.MarketplaceEntitlementClientConfiguration
     let serviceName = "Marketplace Entitlement"
@@ -212,7 +212,7 @@ extension MarketplaceEntitlementClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultMarketplaceEntitlementServiceAuthSchemeResolver(),
@@ -266,7 +266,7 @@ extension MarketplaceEntitlementClient {
                 clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint,
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemeResolver ?? DefaultMarketplaceEntitlementServiceAuthSchemeResolver(),
@@ -360,7 +360,7 @@ extension MarketplaceEntitlementClient {
 extension MarketplaceEntitlementClient {
     /// Performs the `GetEntitlements` operation on the `MarketplaceEntitlement` service.
     ///
-    /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier or product dimensions.
+    /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier, AWS account ID, or product dimensions. The CustomerIdentifier parameter is on path for deprecation. Use CustomerAWSAccountID instead. These parameters are mutually exclusive. You can't specify both CustomerIdentifier and CustomerAWSAccountID in the same request.
     ///
     /// - Parameter GetEntitlementsInput : The GetEntitlementsRequest contains parameters for the GetEntitlements operation.
     ///

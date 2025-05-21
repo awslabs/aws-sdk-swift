@@ -355,8 +355,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSElasticBeanstalk](../../../../../swift/api/awselasticbeanstalk/latest)
 
-[AWSElasticInference](../../../../../swift/api/awselasticinference/latest)
-
 [AWSElasticLoadBalancing](../../../../../swift/api/awselasticloadbalancing/latest)
 
 [AWSElasticLoadBalancingv2](../../../../../swift/api/awselasticloadbalancingv2/latest)
@@ -392,6 +390,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSFreeTier](../../../../../swift/api/awsfreetier/latest)
 
 [AWSGameLift](../../../../../swift/api/awsgamelift/latest)
+
+[AWSGameLiftStreams](../../../../../swift/api/awsgameliftstreams/latest)
 
 [AWSGeoMaps](../../../../../swift/api/awsgeomaps/latest)
 
@@ -452,6 +452,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSIoTFleetWise](../../../../../swift/api/awsiotfleetwise/latest)
 
 [AWSIoTJobsDataPlane](../../../../../swift/api/awsiotjobsdataplane/latest)
+
+[AWSIoTManagedIntegrations](../../../../../swift/api/awsiotmanagedintegrations/latest)
 
 [AWSIoTSecureTunneling](../../../../../swift/api/awsiotsecuretunneling/latest)
 
@@ -667,8 +669,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSPricing](../../../../../swift/api/awspricing/latest)
 
-[AWSPrivateNetworks](../../../../../swift/api/awsprivatenetworks/latest)
-
 [AWSProton](../../../../../swift/api/awsproton/latest)
 
 [AWSQApps](../../../../../swift/api/awsqapps/latest)
@@ -752,6 +752,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSSM](../../../../../swift/api/awsssm/latest)
 
 [AWSSSMContacts](../../../../../swift/api/awsssmcontacts/latest)
+
+[AWSSSMGuiConnect](../../../../../swift/api/awsssmguiconnect/latest)
 
 [AWSSSMIncidents](../../../../../swift/api/awsssmincidents/latest)
 

@@ -95,7 +95,7 @@ class AWSHttpProtocolServiceClient(
                     ConfigProperty(
                         "httpClientEngine",
                         SmithyHTTPAPITypes.HttpClient,
-                        { it.format("AWSClientConfigDefaultsProvider.httpClientEngine()") },
+                        { it.format("AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)") },
                     )
                 }
                 "httpClientConfiguration" -> {
@@ -153,6 +153,9 @@ class AWSHttpProtocolServiceClient(
                         }
                         "responseChecksumValidation" -> {
                             writer.write("try AWSClientConfigDefaultsProvider.responseChecksumValidation(),")
+                        }
+                        "httpClientEngine" -> {
+                            writer.write("AWSClientConfigDefaultsProvider.httpClientEngine(),")
                         }
                         else -> {
                             writer.write("\$L,", property.default?.render(writer) ?: "nil")

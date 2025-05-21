@@ -78,6 +78,37 @@ extension PaginatorSequence where OperationStackInput == ListServiceDependentsIn
     }
 }
 extension ApplicationSignalsClient {
+    /// Paginate over `[ListServiceLevelObjectiveExclusionWindowsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListServiceLevelObjectiveExclusionWindowsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceLevelObjectiveExclusionWindowsOutput`
+    public func listServiceLevelObjectiveExclusionWindowsPaginated(input: ListServiceLevelObjectiveExclusionWindowsInput) -> ClientRuntime.PaginatorSequence<ListServiceLevelObjectiveExclusionWindowsInput, ListServiceLevelObjectiveExclusionWindowsOutput> {
+        return ClientRuntime.PaginatorSequence<ListServiceLevelObjectiveExclusionWindowsInput, ListServiceLevelObjectiveExclusionWindowsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServiceLevelObjectiveExclusionWindows(input:))
+    }
+}
+
+extension ListServiceLevelObjectiveExclusionWindowsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListServiceLevelObjectiveExclusionWindowsInput {
+        return ListServiceLevelObjectiveExclusionWindowsInput(
+            id: self.id,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListServiceLevelObjectiveExclusionWindowsInput, OperationStackOutput == ListServiceLevelObjectiveExclusionWindowsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listServiceLevelObjectiveExclusionWindowsPaginated`
+    /// to access the nested member `[ApplicationSignalsClientTypes.ExclusionWindow]`
+    /// - Returns: `[ApplicationSignalsClientTypes.ExclusionWindow]`
+    public func exclusionWindows() async throws -> [ApplicationSignalsClientTypes.ExclusionWindow] {
+        return try await self.asyncCompactMap { item in item.exclusionWindows }
+    }
+}
+extension ApplicationSignalsClient {
     /// Paginate over `[ListServiceOperationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -127,7 +158,9 @@ extension ApplicationSignalsClient {
 extension ListServicesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListServicesInput {
         return ListServicesInput(
+            awsAccountId: self.awsAccountId,
             endTime: self.endTime,
+            includeLinkedAccounts: self.includeLinkedAccounts,
             maxResults: self.maxResults,
             nextToken: token,
             startTime: self.startTime

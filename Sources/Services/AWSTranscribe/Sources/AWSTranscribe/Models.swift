@@ -423,6 +423,7 @@ extension TranscribeClientTypes {
         case viVn
         case woSn
         case zhCn
+        case zhHk
         case zhTw
         case zuZa
         case sdkUnknown(Swift.String)
@@ -530,6 +531,7 @@ extension TranscribeClientTypes {
                 .viVn,
                 .woSn,
                 .zhCn,
+                .zhHk,
                 .zhTw,
                 .zuZa
             ]
@@ -643,6 +645,7 @@ extension TranscribeClientTypes {
             case .viVn: return "vi-VN"
             case .woSn: return "wo-SN"
             case .zhCn: return "zh-CN"
+            case .zhHk: return "zh-HK"
             case .zhTw: return "zh-TW"
             case .zuZa: return "zu-ZA"
             case let .sdkUnknown(s): return s
@@ -1526,9 +1529,9 @@ extension TranscribeClientTypes {
     public struct ClinicalNoteGenerationSettings: Swift.Sendable {
         /// Specify one of the following templates to use for the clinical note summary. The default is HISTORY_AND_PHYSICAL.
         ///
-        /// * HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Sections include Chief Complaint, History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.
+        /// * HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Examples of sections include Chief Complaint, History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.
         ///
-        /// * GIRPP: Provides summaries based on the patients progress toward goals. Sections include Goal, Intervention, Response, Progress, and Plan.
+        /// * GIRPP: Provides summaries based on the patients progress toward goals. Examples of sections include Goal, Intervention, Response, Progress, and Plan.
         public var noteTemplate: TranscribeClientTypes.MedicalScribeNoteTemplate?
 
         public init(

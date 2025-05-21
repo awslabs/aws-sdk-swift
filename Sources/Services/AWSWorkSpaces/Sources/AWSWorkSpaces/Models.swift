@@ -3278,6 +3278,35 @@ public struct CreateWorkspacesOutput: Swift.Sendable {
 
 extension WorkSpacesClientTypes {
 
+    public enum PoolsRunningMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alwaysOn
+        case autoStop
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PoolsRunningMode] {
+            return [
+                .alwaysOn,
+                .autoStop
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alwaysOn: return "ALWAYS_ON"
+            case .autoStop: return "AUTO_STOP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     /// Describes the timeout settings for a pool of WorkSpaces.
     public struct TimeoutSettings: Swift.Sendable {
         /// Specifies the amount of time, in seconds, that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within the time set, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance.
@@ -3317,6 +3346,8 @@ public struct CreateWorkspacesPoolInput: Swift.Sendable {
     /// The name of the pool.
     /// This member is required.
     public var poolName: Swift.String?
+    /// The running mode for the pool.
+    public var runningMode: WorkSpacesClientTypes.PoolsRunningMode?
     /// The tags for the pool.
     public var tags: [WorkSpacesClientTypes.Tag]?
     /// Indicates the timeout settings of the pool.
@@ -3329,6 +3360,7 @@ public struct CreateWorkspacesPoolInput: Swift.Sendable {
         description: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         poolName: Swift.String? = nil,
+        runningMode: WorkSpacesClientTypes.PoolsRunningMode? = nil,
         tags: [WorkSpacesClientTypes.Tag]? = nil,
         timeoutSettings: WorkSpacesClientTypes.TimeoutSettings? = nil
     ) {
@@ -3338,6 +3370,7 @@ public struct CreateWorkspacesPoolInput: Swift.Sendable {
         self.description = description
         self.directoryId = directoryId
         self.poolName = poolName
+        self.runningMode = runningMode
         self.tags = tags
         self.timeoutSettings = timeoutSettings
     }
@@ -3577,9 +3610,12 @@ extension WorkSpacesClientTypes {
         /// The identifier of a pool.
         /// This member is required.
         public var poolId: Swift.String?
-        /// The name of the pool,
+        /// The name of the pool.
         /// This member is required.
         public var poolName: Swift.String?
+        /// The running mode of the pool.
+        /// This member is required.
+        public var runningMode: WorkSpacesClientTypes.PoolsRunningMode?
         /// The current state of the pool.
         /// This member is required.
         public var state: WorkSpacesClientTypes.WorkspacesPoolState?
@@ -3597,6 +3633,7 @@ extension WorkSpacesClientTypes {
             poolArn: Swift.String? = nil,
             poolId: Swift.String? = nil,
             poolName: Swift.String? = nil,
+            runningMode: WorkSpacesClientTypes.PoolsRunningMode? = .autoStop,
             state: WorkSpacesClientTypes.WorkspacesPoolState? = nil,
             timeoutSettings: WorkSpacesClientTypes.TimeoutSettings? = nil
         ) {
@@ -3610,6 +3647,7 @@ extension WorkSpacesClientTypes {
             self.poolArn = poolArn
             self.poolId = poolId
             self.poolName = poolName
+            self.runningMode = runningMode
             self.state = state
             self.timeoutSettings = timeoutSettings
         }
@@ -3772,8 +3810,6 @@ extension WorkSpacesClientTypes {
         public var enableInternetAccess: Swift.Bool?
         /// Specifies whether maintenance mode is enabled for WorkSpaces. For more information, see [WorkSpace Maintenance](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspace-maintenance.html).
         public var enableMaintenanceMode: Swift.Bool?
-        /// Specifies whether the directory is enabled for Amazon WorkDocs.
-        public var enableWorkDocs: Swift.Bool?
         /// Indicates the IAM role ARN of the instance.
         public var instanceIamRoleArn: Swift.String?
         /// Specifies whether WorkSpace users are local administrators on their WorkSpaces.
@@ -3784,7 +3820,6 @@ extension WorkSpacesClientTypes {
             defaultOu: Swift.String? = nil,
             enableInternetAccess: Swift.Bool? = nil,
             enableMaintenanceMode: Swift.Bool? = nil,
-            enableWorkDocs: Swift.Bool? = nil,
             instanceIamRoleArn: Swift.String? = nil,
             userEnabledAsLocalAdministrator: Swift.Bool? = nil
         ) {
@@ -3792,7 +3827,6 @@ extension WorkSpacesClientTypes {
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
             self.enableMaintenanceMode = enableMaintenanceMode
-            self.enableWorkDocs = enableWorkDocs
             self.instanceIamRoleArn = instanceIamRoleArn
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
         }
@@ -4930,6 +4964,35 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes {
 
+    public enum EndpointEncryptionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fipsValidated
+        case standardTls
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointEncryptionMode] {
+            return [
+                .fipsValidated,
+                .standardTls
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fipsValidated: return "FIPS_VALIDATED"
+            case .standardTls: return "STANDARD_TLS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     /// Specifies the configurations of the identity center.
     public struct IDCConfig: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the application.
@@ -5416,6 +5479,8 @@ extension WorkSpacesClientTypes {
         public var deviceTypeWeb: WorkSpacesClientTypes.AccessPropertyValue?
         /// Indicates whether users can use Windows clients to access their WorkSpaces.
         public var deviceTypeWindows: WorkSpacesClientTypes.AccessPropertyValue?
+        /// Indicates whether users can access their WorkSpaces through a WorkSpaces Thin Client.
+        public var deviceTypeWorkSpacesThinClient: WorkSpacesClientTypes.AccessPropertyValue?
         /// Indicates whether users can use zero client devices to access their WorkSpaces.
         public var deviceTypeZeroClient: WorkSpacesClientTypes.AccessPropertyValue?
 
@@ -5427,6 +5492,7 @@ extension WorkSpacesClientTypes {
             deviceTypeOsx: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeWeb: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeWindows: WorkSpacesClientTypes.AccessPropertyValue? = nil,
+            deviceTypeWorkSpacesThinClient: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeZeroClient: WorkSpacesClientTypes.AccessPropertyValue? = nil
         ) {
             self.deviceTypeAndroid = deviceTypeAndroid
@@ -5436,6 +5502,7 @@ extension WorkSpacesClientTypes {
             self.deviceTypeOsx = deviceTypeOsx
             self.deviceTypeWeb = deviceTypeWeb
             self.deviceTypeWindows = deviceTypeWindows
+            self.deviceTypeWorkSpacesThinClient = deviceTypeWorkSpacesThinClient
             self.deviceTypeZeroClient = deviceTypeZeroClient
         }
     }
@@ -5490,6 +5557,8 @@ extension WorkSpacesClientTypes {
         public var directoryType: WorkSpacesClientTypes.WorkspaceDirectoryType?
         /// The IP addresses of the DNS servers for the directory.
         public var dnsIpAddresses: [Swift.String]?
+        /// Endpoint encryption mode that allows you to configure the specified directory between Standard TLS and FIPS 140-2 validated mode.
+        public var endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode?
         /// The error message returned.
         public var errorMessage: Swift.String?
         /// The identifier of the IAM role. This is the role that allows Amazon WorkSpaces to make calls to other services, such as Amazon EC2, on your behalf.
@@ -5538,6 +5607,7 @@ extension WorkSpacesClientTypes {
             directoryName: Swift.String? = nil,
             directoryType: WorkSpacesClientTypes.WorkspaceDirectoryType? = nil,
             dnsIpAddresses: [Swift.String]? = nil,
+            endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode? = nil,
             errorMessage: Swift.String? = nil,
             iamRoleId: Swift.String? = nil,
             idcConfig: WorkSpacesClientTypes.IDCConfig? = nil,
@@ -5566,6 +5636,7 @@ extension WorkSpacesClientTypes {
             self.directoryName = directoryName
             self.directoryType = directoryType
             self.dnsIpAddresses = dnsIpAddresses
+            self.endpointEncryptionMode = endpointEncryptionMode
             self.errorMessage = errorMessage
             self.iamRoleId = iamRoleId
             self.idcConfig = idcConfig
@@ -5728,7 +5799,9 @@ extension WorkSpacesClientTypes {
         case domainJoined
         case environmentVariablesPathMissingEntries
         case firewallEnabled
+        case incompatibleMemoryIntegrity
         case incompatiblePartitioning
+        case incompatibleProtocol
         case insufficientDiskSpace
         case insufficientRearmCount
         case invalidIp
@@ -5743,6 +5816,7 @@ extension WorkSpacesClientTypes {
         case realtimeUniversalDisabled
         case remoteDesktopServicesDisabled
         case reservedStorageInUse
+        case restrictedDriveLetter
         case sixtyFourBitOs
         case stagedAppxPackage
         case sysprepFileMissing
@@ -5777,7 +5851,9 @@ extension WorkSpacesClientTypes {
                 .domainJoined,
                 .environmentVariablesPathMissingEntries,
                 .firewallEnabled,
+                .incompatibleMemoryIntegrity,
                 .incompatiblePartitioning,
+                .incompatibleProtocol,
                 .insufficientDiskSpace,
                 .insufficientRearmCount,
                 .invalidIp,
@@ -5792,6 +5868,7 @@ extension WorkSpacesClientTypes {
                 .realtimeUniversalDisabled,
                 .remoteDesktopServicesDisabled,
                 .reservedStorageInUse,
+                .restrictedDriveLetter,
                 .sixtyFourBitOs,
                 .stagedAppxPackage,
                 .sysprepFileMissing,
@@ -5832,7 +5909,9 @@ extension WorkSpacesClientTypes {
             case .domainJoined: return "DomainJoined"
             case .environmentVariablesPathMissingEntries: return "EnvironmentVariablesPathMissingEntries"
             case .firewallEnabled: return "FirewallEnabled"
+            case .incompatibleMemoryIntegrity: return "MemoryIntegrityIncompatibility"
             case .incompatiblePartitioning: return "IncompatiblePartitioning"
+            case .incompatibleProtocol: return "ProtocolOSIncompatibility"
             case .insufficientDiskSpace: return "InsufficientDiskSpace"
             case .insufficientRearmCount: return "InsufficientRearmCount"
             case .invalidIp: return "InvalidIp"
@@ -5847,6 +5926,7 @@ extension WorkSpacesClientTypes {
             case .realtimeUniversalDisabled: return "RealTimeUniversalDisabled"
             case .remoteDesktopServicesDisabled: return "RemoteDesktopServicesDisabled"
             case .reservedStorageInUse: return "ReservedStorageInUse"
+            case .restrictedDriveLetter: return "RestrictedDriveLetterInUse"
             case .sixtyFourBitOs: return "Requires64BitOS"
             case .stagedAppxPackage: return "StagedAppxPackage"
             case .sysprepFileMissing: return "SysPrepFileMissing"
@@ -6255,7 +6335,7 @@ public struct DescribeWorkspacesPoolsOutput: Swift.Sendable {
 }
 
 public struct DescribeWorkspacesPoolSessionsInput: Swift.Sendable {
-    /// The maximum number of items to return.
+    /// The maximum size of each page of results. The default value is 20 and the maximum value is 50.
     public var limit: Swift.Int?
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
     public var nextToken: Swift.String?
@@ -6909,6 +6989,28 @@ public struct ModifyClientPropertiesOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct ModifyEndpointEncryptionModeInput: Swift.Sendable {
+    /// The identifier of the directory.
+    /// This member is required.
+    public var directoryId: Swift.String?
+    /// The encryption mode used for endpoint connections when streaming to WorkSpaces Personal or WorkSpace Pools.
+    /// This member is required.
+    public var endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode?
+
+    public init(
+        directoryId: Swift.String? = nil,
+        endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode? = nil
+    ) {
+        self.directoryId = directoryId
+        self.endpointEncryptionMode = endpointEncryptionMode
+    }
+}
+
+public struct ModifyEndpointEncryptionModeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct ModifySamlPropertiesInput: Swift.Sendable {
     /// The SAML properties to delete as part of your request. Specify one of the following options:
     ///
@@ -7019,8 +7121,6 @@ extension WorkSpacesClientTypes {
         public var enableInternetAccess: Swift.Bool?
         /// Indicates whether maintenance mode is enabled for your WorkSpaces. For more information, see [WorkSpace Maintenance](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspace-maintenance.html).
         public var enableMaintenanceMode: Swift.Bool?
-        /// Indicates whether Amazon WorkDocs is enabled for your WorkSpaces. If WorkDocs is already enabled for a WorkSpaces directory and you disable it, new WorkSpaces launched in the directory will not have WorkDocs enabled. However, WorkDocs remains enabled for any existing WorkSpaces, unless you either disable users' access to WorkDocs or you delete the WorkDocs site. To disable users' access to WorkDocs, see [Disabling Users](https://docs.aws.amazon.com/workdocs/latest/adminguide/inactive-user.html) in the Amazon WorkDocs Administration Guide. To delete a WorkDocs site, see [Deleting a Site](https://docs.aws.amazon.com/workdocs/latest/adminguide/manage-sites.html) in the Amazon WorkDocs Administration Guide. If you enable WorkDocs on a directory that already has existing WorkSpaces, the existing WorkSpaces and any new WorkSpaces that are launched in the directory will have WorkDocs enabled.
-        public var enableWorkDocs: Swift.Bool?
         /// Indicates the IAM role ARN of the instance.
         public var instanceIamRoleArn: Swift.String?
         /// Indicates whether users are local administrators of their WorkSpaces.
@@ -7031,7 +7131,6 @@ extension WorkSpacesClientTypes {
             defaultOu: Swift.String? = nil,
             enableInternetAccess: Swift.Bool? = nil,
             enableMaintenanceMode: Swift.Bool? = nil,
-            enableWorkDocs: Swift.Bool? = nil,
             instanceIamRoleArn: Swift.String? = nil,
             userEnabledAsLocalAdministrator: Swift.Bool? = nil
         ) {
@@ -7039,7 +7138,6 @@ extension WorkSpacesClientTypes {
             self.defaultOu = defaultOu
             self.enableInternetAccess = enableInternetAccess
             self.enableMaintenanceMode = enableMaintenanceMode
-            self.enableWorkDocs = enableWorkDocs
             self.instanceIamRoleArn = instanceIamRoleArn
             self.userEnabledAsLocalAdministrator = userEnabledAsLocalAdministrator
         }
@@ -7298,8 +7396,6 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
     public var directoryId: Swift.String?
     /// Indicates whether self-service capabilities are enabled or disabled.
     public var enableSelfService: Swift.Bool?
-    /// Indicates whether Amazon WorkDocs is enabled or disabled. If you have enabled this parameter and WorkDocs is not available in the Region, you will receive an OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
-    public var enableWorkDocs: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the identity center instance.
     public var idcInstanceArn: Swift.String?
     /// The details about Microsoft Entra config.
@@ -7323,7 +7419,6 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
         activeDirectoryConfig: WorkSpacesClientTypes.ActiveDirectoryConfig? = nil,
         directoryId: Swift.String? = nil,
         enableSelfService: Swift.Bool? = nil,
-        enableWorkDocs: Swift.Bool? = nil,
         idcInstanceArn: Swift.String? = nil,
         microsoftEntraConfig: WorkSpacesClientTypes.MicrosoftEntraConfig? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -7337,7 +7432,6 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
         self.activeDirectoryConfig = activeDirectoryConfig
         self.directoryId = directoryId
         self.enableSelfService = enableSelfService
-        self.enableWorkDocs = enableWorkDocs
         self.idcInstanceArn = idcInstanceArn
         self.microsoftEntraConfig = microsoftEntraConfig
         self.subnetIds = subnetIds
@@ -7749,6 +7843,8 @@ public struct UpdateWorkspacesPoolInput: Swift.Sendable {
     /// The identifier of the specified pool to update.
     /// This member is required.
     public var poolId: Swift.String?
+    /// The desired running mode for the pool. The running mode can only be updated when the pool is in a stopped state.
+    public var runningMode: WorkSpacesClientTypes.PoolsRunningMode?
     /// Indicates the timeout settings of the specified pool.
     public var timeoutSettings: WorkSpacesClientTypes.TimeoutSettings?
 
@@ -7759,6 +7855,7 @@ public struct UpdateWorkspacesPoolInput: Swift.Sendable {
         description: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         poolId: Swift.String? = nil,
+        runningMode: WorkSpacesClientTypes.PoolsRunningMode? = nil,
         timeoutSettings: WorkSpacesClientTypes.TimeoutSettings? = nil
     ) {
         self.applicationSettings = applicationSettings
@@ -7767,6 +7864,7 @@ public struct UpdateWorkspacesPoolInput: Swift.Sendable {
         self.description = description
         self.directoryId = directoryId
         self.poolId = poolId
+        self.runningMode = runningMode
         self.timeoutSettings = timeoutSettings
     }
 }
@@ -8216,6 +8314,13 @@ extension ModifyClientPropertiesInput {
     }
 }
 
+extension ModifyEndpointEncryptionModeInput {
+
+    static func urlPathProvider(_ value: ModifyEndpointEncryptionModeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ModifySamlPropertiesInput {
 
     static func urlPathProvider(_ value: ModifySamlPropertiesInput) -> Swift.String? {
@@ -8566,6 +8671,7 @@ extension CreateWorkspacesPoolInput {
         try writer["Description"].write(value.description)
         try writer["DirectoryId"].write(value.directoryId)
         try writer["PoolName"].write(value.poolName)
+        try writer["RunningMode"].write(value.runningMode)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: WorkSpacesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TimeoutSettings"].write(value.timeoutSettings, with: WorkSpacesClientTypes.TimeoutSettings.write(value:to:))
     }
@@ -9004,6 +9110,15 @@ extension ModifyClientPropertiesInput {
     }
 }
 
+extension ModifyEndpointEncryptionModeInput {
+
+    static func write(value: ModifyEndpointEncryptionModeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+        try writer["EndpointEncryptionMode"].write(value.endpointEncryptionMode)
+    }
+}
+
 extension ModifySamlPropertiesInput {
 
     static func write(value: ModifySamlPropertiesInput?, to writer: SmithyJSON.Writer) throws {
@@ -9092,7 +9207,6 @@ extension RegisterWorkspaceDirectoryInput {
         try writer["ActiveDirectoryConfig"].write(value.activeDirectoryConfig, with: WorkSpacesClientTypes.ActiveDirectoryConfig.write(value:to:))
         try writer["DirectoryId"].write(value.directoryId)
         try writer["EnableSelfService"].write(value.enableSelfService)
-        try writer["EnableWorkDocs"].write(value.enableWorkDocs)
         try writer["IdcInstanceArn"].write(value.idcInstanceArn)
         try writer["MicrosoftEntraConfig"].write(value.microsoftEntraConfig, with: WorkSpacesClientTypes.MicrosoftEntraConfig.write(value:to:))
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9245,6 +9359,7 @@ extension UpdateWorkspacesPoolInput {
         try writer["Description"].write(value.description)
         try writer["DirectoryId"].write(value.directoryId)
         try writer["PoolId"].write(value.poolId)
+        try writer["RunningMode"].write(value.runningMode)
         try writer["TimeoutSettings"].write(value.timeoutSettings, with: WorkSpacesClientTypes.TimeoutSettings.write(value:to:))
     }
 }
@@ -9952,6 +10067,13 @@ extension ModifyClientPropertiesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyClientPropertiesOutput {
         return ModifyClientPropertiesOutput()
+    }
+}
+
+extension ModifyEndpointEncryptionModeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyEndpointEncryptionModeOutput {
+        return ModifyEndpointEncryptionModeOutput()
     }
 }
 
@@ -11232,6 +11354,22 @@ enum ModifyClientPropertiesOutputError {
     }
 }
 
+enum ModifyEndpointEncryptionModeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ModifySamlPropertiesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12321,6 +12459,7 @@ extension WorkSpacesClientTypes.WorkspacesPool {
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.WorkspacesPoolError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.applicationSettings = try reader["ApplicationSettings"].readIfPresent(with: WorkSpacesClientTypes.ApplicationSettingsResponse.read(from:))
         value.timeoutSettings = try reader["TimeoutSettings"].readIfPresent(with: WorkSpacesClientTypes.TimeoutSettings.read(from:))
+        value.runningMode = try reader["RunningMode"].readIfPresent() ?? WorkSpacesClientTypes.PoolsRunningMode.autoStop
         return value
     }
 }
@@ -12639,6 +12778,7 @@ extension WorkSpacesClientTypes.WorkspaceDirectory {
         value.selfservicePermissions = try reader["SelfservicePermissions"].readIfPresent(with: WorkSpacesClientTypes.SelfservicePermissions.read(from:))
         value.samlProperties = try reader["SamlProperties"].readIfPresent(with: WorkSpacesClientTypes.SamlProperties.read(from:))
         value.certificateBasedAuthProperties = try reader["CertificateBasedAuthProperties"].readIfPresent(with: WorkSpacesClientTypes.CertificateBasedAuthProperties.read(from:))
+        value.endpointEncryptionMode = try reader["EndpointEncryptionMode"].readIfPresent()
         value.microsoftEntraConfig = try reader["MicrosoftEntraConfig"].readIfPresent(with: WorkSpacesClientTypes.MicrosoftEntraConfig.read(from:))
         value.workspaceDirectoryName = try reader["WorkspaceDirectoryName"].readIfPresent()
         value.workspaceDirectoryDescription = try reader["WorkspaceDirectoryDescription"].readIfPresent()
@@ -12841,6 +12981,7 @@ extension WorkSpacesClientTypes.WorkspaceAccessProperties {
         try writer["DeviceTypeOsx"].write(value.deviceTypeOsx)
         try writer["DeviceTypeWeb"].write(value.deviceTypeWeb)
         try writer["DeviceTypeWindows"].write(value.deviceTypeWindows)
+        try writer["DeviceTypeWorkSpacesThinClient"].write(value.deviceTypeWorkSpacesThinClient)
         try writer["DeviceTypeZeroClient"].write(value.deviceTypeZeroClient)
     }
 
@@ -12855,6 +12996,7 @@ extension WorkSpacesClientTypes.WorkspaceAccessProperties {
         value.deviceTypeChromeOs = try reader["DeviceTypeChromeOs"].readIfPresent()
         value.deviceTypeZeroClient = try reader["DeviceTypeZeroClient"].readIfPresent()
         value.deviceTypeLinux = try reader["DeviceTypeLinux"].readIfPresent()
+        value.deviceTypeWorkSpacesThinClient = try reader["DeviceTypeWorkSpacesThinClient"].readIfPresent()
         return value
     }
 }
@@ -12864,7 +13006,6 @@ extension WorkSpacesClientTypes.DefaultWorkspaceCreationProperties {
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.DefaultWorkspaceCreationProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkSpacesClientTypes.DefaultWorkspaceCreationProperties()
-        value.enableWorkDocs = try reader["EnableWorkDocs"].readIfPresent()
         value.enableInternetAccess = try reader["EnableInternetAccess"].readIfPresent()
         value.defaultOu = try reader["DefaultOu"].readIfPresent()
         value.customSecurityGroupId = try reader["CustomSecurityGroupId"].readIfPresent()
@@ -13062,7 +13203,6 @@ extension WorkSpacesClientTypes.WorkspaceCreationProperties {
         try writer["DefaultOu"].write(value.defaultOu)
         try writer["EnableInternetAccess"].write(value.enableInternetAccess)
         try writer["EnableMaintenanceMode"].write(value.enableMaintenanceMode)
-        try writer["EnableWorkDocs"].write(value.enableWorkDocs)
         try writer["InstanceIamRoleArn"].write(value.instanceIamRoleArn)
         try writer["UserEnabledAsLocalAdministrator"].write(value.userEnabledAsLocalAdministrator)
     }

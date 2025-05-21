@@ -6031,7 +6031,7 @@ extension QAppsClientTypes.FormInputCardInput {
         var value = QAppsClientTypes.FormInputCardInput()
         value.title = try reader["title"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .formInput
+        value.type = try reader["type"].readIfPresent() ?? QAppsClientTypes.CardType.formInput
         value.metadata = try reader["metadata"].readIfPresent(with: QAppsClientTypes.FormInputCardMetadata.read(from:))
         value.computeMode = try reader["computeMode"].readIfPresent()
         return value
@@ -6055,7 +6055,7 @@ extension QAppsClientTypes.FileUploadCardInput {
         var value = QAppsClientTypes.FileUploadCardInput()
         value.title = try reader["title"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .fileUpload
+        value.type = try reader["type"].readIfPresent() ?? QAppsClientTypes.CardType.fileUpload
         value.filename = try reader["filename"].readIfPresent()
         value.fileId = try reader["fileId"].readIfPresent()
         value.allowOverride = try reader["allowOverride"].readIfPresent()
@@ -6080,7 +6080,7 @@ extension QAppsClientTypes.QPluginCardInput {
         var value = QAppsClientTypes.QPluginCardInput()
         value.title = try reader["title"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .qPlugin
+        value.type = try reader["type"].readIfPresent() ?? QAppsClientTypes.CardType.qPlugin
         value.prompt = try reader["prompt"].readIfPresent() ?? ""
         value.pluginId = try reader["pluginId"].readIfPresent() ?? ""
         value.actionIdentifier = try reader["actionIdentifier"].readIfPresent()
@@ -6105,9 +6105,9 @@ extension QAppsClientTypes.QQueryCardInput {
         var value = QAppsClientTypes.QQueryCardInput()
         value.title = try reader["title"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .qQuery
+        value.type = try reader["type"].readIfPresent() ?? QAppsClientTypes.CardType.qQuery
         value.prompt = try reader["prompt"].readIfPresent() ?? ""
-        value.outputSource = try reader["outputSource"].readIfPresent() ?? .approvedSources
+        value.outputSource = try reader["outputSource"].readIfPresent() ?? QAppsClientTypes.CardOutputSource.approvedSources
         value.attributeFilter = try reader["attributeFilter"].readIfPresent(with: QAppsClientTypes.AttributeFilter.read(from:))
         return value
     }
@@ -6129,7 +6129,7 @@ extension QAppsClientTypes.TextInputCardInput {
         var value = QAppsClientTypes.TextInputCardInput()
         value.title = try reader["title"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .textInput
+        value.type = try reader["type"].readIfPresent() ?? QAppsClientTypes.CardType.textInput
         value.placeholder = try reader["placeholder"].readIfPresent()
         value.defaultValue = try reader["defaultValue"].readIfPresent()
         return value

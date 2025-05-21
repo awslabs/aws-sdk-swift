@@ -15,8 +15,8 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.117.0"
-let crtVersion: Version = "0.45.0"
+let clientRuntimeVersion: Version = "0.131.0"
+let crtVersion: Version = "0.52.1"
 
 let excludeRuntimeUnitTests = false
 
@@ -162,7 +162,6 @@ let serviceTargets: [String] = [
     "AWSEMRcontainers",
     "AWSElastiCache",
     "AWSElasticBeanstalk",
-    "AWSElasticInference",
     "AWSElasticLoadBalancing",
     "AWSElasticLoadBalancingv2",
     "AWSElasticTranscoder",
@@ -181,6 +180,7 @@ let serviceTargets: [String] = [
     "AWSFraudDetector",
     "AWSFreeTier",
     "AWSGameLift",
+    "AWSGameLiftStreams",
     "AWSGeoMaps",
     "AWSGeoPlaces",
     "AWSGeoRoutes",
@@ -211,6 +211,7 @@ let serviceTargets: [String] = [
     "AWSIoTFleetHub",
     "AWSIoTFleetWise",
     "AWSIoTJobsDataPlane",
+    "AWSIoTManagedIntegrations",
     "AWSIoTSecureTunneling",
     "AWSIoTSiteWise",
     "AWSIoTThingsGraph",
@@ -318,7 +319,6 @@ let serviceTargets: [String] = [
     "AWSPipes",
     "AWSPolly",
     "AWSPricing",
-    "AWSPrivateNetworks",
     "AWSProton",
     "AWSQApps",
     "AWSQBusiness",
@@ -361,6 +361,7 @@ let serviceTargets: [String] = [
     "AWSSQS",
     "AWSSSM",
     "AWSSSMContacts",
+    "AWSSSMGuiConnect",
     "AWSSSMIncidents",
     "AWSSSMQuickSetup",
     "AWSSSO",

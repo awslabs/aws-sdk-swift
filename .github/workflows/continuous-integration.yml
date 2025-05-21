@@ -103,9 +103,6 @@ jobs:
         run: |
           cd aws-sdk-swift/AWSSDKSwiftCLI
           swift test
-          cd ../SPRCLI
-          unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
-          swift build
       - name: Prepare Protocol & Unit Tests
         run: |
           cd aws-sdk-swift
@@ -132,11 +129,14 @@ jobs:
 
   linux:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     container: swift:${{ matrix.version }}-${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
+        runner:
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
         os:
           - jammy
         version:
@@ -187,9 +187,6 @@ jobs:
         run: |
           cd aws-sdk-swift/AWSSDKSwiftCLI
           swift test
-          cd ../SPRCLI
-          unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
-          swift build
       - name: Prepare Protocol & Unit Tests
         run: |
           cd aws-sdk-swift
