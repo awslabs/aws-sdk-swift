@@ -29,11 +29,6 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
-public struct DeleteMultiRegionClustersOutput: Swift.Sendable {
-
-    public init() { }
-}
-
 public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
@@ -70,13 +65,17 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension DSQLClientTypes {
 
-    /// Cluster Status
+    /// The current status of a cluster.
     public enum ClusterStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case creating
         case deleted
         case deleting
         case failed
+        case idle
+        case inactive
+        case pendingDelete
+        case pendingSetup
         case updating
         case sdkUnknown(Swift.String)
 
@@ -87,6 +86,10 @@ extension DSQLClientTypes {
                 .deleted,
                 .deleting,
                 .failed,
+                .idle,
+                .inactive,
+                .pendingDelete,
+                .pendingSetup,
                 .updating
             ]
         }
@@ -103,6 +106,10 @@ extension DSQLClientTypes {
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .idle: return "IDLE"
+            case .inactive: return "INACTIVE"
+            case .pendingDelete: return "PENDING_DELETE"
+            case .pendingSetup: return "PENDING_SETUP"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -146,19 +153,19 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// Description of the error
+        /// The service exception for exceeding a quota.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// Service Quotas requirement to identify originating quota
+        /// The service exceeds a quota.
         /// This member is required.
         public internal(set) var quotaCode: Swift.String? = nil
-        /// Identifier of the resource affected
+        /// The resource ID exceeds a quota.
         /// This member is required.
         public internal(set) var resourceId: Swift.String? = nil
-        /// Type of the resource affected
+        /// The resource type exceeds a quota.
         /// This member is required.
         public internal(set) var resourceType: Swift.String? = nil
-        /// Service Quotas requirement to identify originating service
+        /// The request exceeds a service quota.
         /// This member is required.
         public internal(set) var serviceCode: Swift.String? = nil
     }
@@ -187,331 +194,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-public struct CreateClusterInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
-    public var clientToken: Swift.String?
-    /// If enabled, you can't delete your cluster. You must first disable this property before you can delete your cluster.
-    public var deletionProtectionEnabled: Swift.Bool?
-    /// A map of key and value pairs to use to tag your cluster.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        deletionProtectionEnabled: Swift.Bool? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.clientToken = clientToken
-        self.deletionProtectionEnabled = deletionProtectionEnabled
-        self.tags = tags
-    }
-}
-
-/// Output Mixin
-public struct CreateClusterOutput: Swift.Sendable {
-    /// The ARN of the created cluster.
-    /// This member is required.
-    public var arn: Swift.String?
-    /// The time of when created the cluster.
-    /// This member is required.
-    public var creationTime: Foundation.Date?
-    /// Whether deletion protection is enabled on this cluster.
-    /// This member is required.
-    public var deletionProtectionEnabled: Swift.Bool?
-    /// The ID of the created cluster.
-    /// This member is required.
-    public var identifier: Swift.String?
-    /// The status of the created cluster.
-    /// This member is required.
-    public var status: DSQLClientTypes.ClusterStatus?
-
-    public init(
-        arn: Swift.String? = nil,
-        creationTime: Foundation.Date? = nil,
-        deletionProtectionEnabled: Swift.Bool? = nil,
-        identifier: Swift.String? = nil,
-        status: DSQLClientTypes.ClusterStatus? = nil
-    ) {
-        self.arn = arn
-        self.creationTime = creationTime
-        self.deletionProtectionEnabled = deletionProtectionEnabled
-        self.identifier = identifier
-        self.status = status
-    }
-}
-
-extension DSQLClientTypes {
-
-    /// Properties of linked clusters.
-    public struct LinkedClusterProperties: Swift.Sendable {
-        /// Whether deletion protection is enabled.
-        public var deletionProtectionEnabled: Swift.Bool?
-        /// A map of key and value pairs the linked cluster is tagged with.
-        public var tags: [Swift.String: Swift.String]?
-
-        public init(
-            deletionProtectionEnabled: Swift.Bool? = true,
-            tags: [Swift.String: Swift.String]? = nil
-        ) {
-            self.deletionProtectionEnabled = deletionProtectionEnabled
-            self.tags = tags
-        }
-    }
-}
-
-public struct CreateMultiRegionClustersInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
-    public var clientToken: Swift.String?
-    /// A mapping of properties to use when creating linked clusters.
-    public var clusterProperties: [Swift.String: DSQLClientTypes.LinkedClusterProperties]?
-    /// An array of the Regions in which you want to create additional clusters.
-    /// This member is required.
-    public var linkedRegionList: [Swift.String]?
-    /// The witness Region of multi-Region clusters.
-    /// This member is required.
-    public var witnessRegion: Swift.String?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        clusterProperties: [Swift.String: DSQLClientTypes.LinkedClusterProperties]? = nil,
-        linkedRegionList: [Swift.String]? = nil,
-        witnessRegion: Swift.String? = nil
-    ) {
-        self.clientToken = clientToken
-        self.clusterProperties = clusterProperties
-        self.linkedRegionList = linkedRegionList
-        self.witnessRegion = witnessRegion
-    }
-}
-
-public struct CreateMultiRegionClustersOutput: Swift.Sendable {
-    /// An array that contains the ARNs of all linked clusters.
-    /// This member is required.
-    public var linkedClusterArns: [Swift.String]?
-
-    public init(
-        linkedClusterArns: [Swift.String]? = nil
-    ) {
-        self.linkedClusterArns = linkedClusterArns
-    }
-}
-
-/// The resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// Hypothetical identifier of the resource which does not exist
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// Hypothetical type of the resource which does not exist
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-    }
-}
-
-public struct DeleteClusterInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
-    public var clientToken: Swift.String?
-    /// The ID of the cluster to delete.
-    /// This member is required.
-    public var identifier: Swift.String?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        identifier: Swift.String? = nil
-    ) {
-        self.clientToken = clientToken
-        self.identifier = identifier
-    }
-}
-
-/// Output Mixin
-public struct DeleteClusterOutput: Swift.Sendable {
-    /// The ARN of the deleted cluster.
-    /// This member is required.
-    public var arn: Swift.String?
-    /// The time of when the cluster was created.
-    /// This member is required.
-    public var creationTime: Foundation.Date?
-    /// Specifies whether deletion protection was enabled on the cluster.
-    /// This member is required.
-    public var deletionProtectionEnabled: Swift.Bool?
-    /// The ID of the deleted cluster.
-    /// This member is required.
-    public var identifier: Swift.String?
-    /// The status of the cluster.
-    /// This member is required.
-    public var status: DSQLClientTypes.ClusterStatus?
-
-    public init(
-        arn: Swift.String? = nil,
-        creationTime: Foundation.Date? = nil,
-        deletionProtectionEnabled: Swift.Bool? = nil,
-        identifier: Swift.String? = nil,
-        status: DSQLClientTypes.ClusterStatus? = nil
-    ) {
-        self.arn = arn
-        self.creationTime = creationTime
-        self.deletionProtectionEnabled = deletionProtectionEnabled
-        self.identifier = identifier
-        self.status = status
-    }
-}
-
-public struct DeleteMultiRegionClustersInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
-    public var clientToken: Swift.String?
-    /// The ARNs of the clusters linked to the cluster you want to delete. also deletes these clusters as part of the operation.
-    /// This member is required.
-    public var linkedClusterArns: [Swift.String]?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        linkedClusterArns: [Swift.String]? = nil
-    ) {
-        self.clientToken = clientToken
-        self.linkedClusterArns = linkedClusterArns
-    }
-}
-
-public struct GetClusterInput: Swift.Sendable {
-    /// The ID of the cluster to retrieve.
-    /// This member is required.
-    public var identifier: Swift.String?
-
-    public init(
-        identifier: Swift.String? = nil
-    ) {
-        self.identifier = identifier
-    }
-}
-
-/// Output Mixin
-public struct GetClusterOutput: Swift.Sendable {
-    /// The ARN of the retrieved cluster.
-    /// This member is required.
-    public var arn: Swift.String?
-    /// The time of when the cluster was created.
-    /// This member is required.
-    public var creationTime: Foundation.Date?
-    /// Whether deletion protection is enabled in this cluster.
-    /// This member is required.
-    public var deletionProtectionEnabled: Swift.Bool?
-    /// The ID of the retrieved cluster.
-    /// This member is required.
-    public var identifier: Swift.String?
-    /// The ARNs of the clusters linked to the retrieved cluster.
-    public var linkedClusterArns: [Swift.String]?
-    /// The status of the retrieved cluster.
-    /// This member is required.
-    public var status: DSQLClientTypes.ClusterStatus?
-    /// The witness Region of the cluster. Applicable only for multi-Region clusters.
-    public var witnessRegion: Swift.String?
-
-    public init(
-        arn: Swift.String? = nil,
-        creationTime: Foundation.Date? = nil,
-        deletionProtectionEnabled: Swift.Bool? = nil,
-        identifier: Swift.String? = nil,
-        linkedClusterArns: [Swift.String]? = nil,
-        status: DSQLClientTypes.ClusterStatus? = nil,
-        witnessRegion: Swift.String? = nil
-    ) {
-        self.arn = arn
-        self.creationTime = creationTime
-        self.deletionProtectionEnabled = deletionProtectionEnabled
-        self.identifier = identifier
-        self.linkedClusterArns = linkedClusterArns
-        self.status = status
-        self.witnessRegion = witnessRegion
-    }
-}
-
-/// The request processing has failed because of an unknown error, exception or failure.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// Retry after seconds.
-        public internal(set) var retryAfterSeconds: Swift.Int? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServerException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { true }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        retryAfterSeconds: Swift.Int? = nil
-    ) {
-        self.properties.message = message
-        self.properties.retryAfterSeconds = retryAfterSeconds
-    }
-}
-
-/// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Description of the error
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// Service Quotas requirement to identify originating quota
-        public internal(set) var quotaCode: Swift.String? = nil
-        /// Advice to clients on when the call can be safely retried
-        public internal(set) var retryAfterSeconds: Swift.Int? = nil
-        /// Service Quotas requirement to identify originating service
-        public internal(set) var serviceCode: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { true }
-    public static var isThrottling: Swift.Bool { true }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        quotaCode: Swift.String? = nil,
-        retryAfterSeconds: Swift.Int? = nil,
-        serviceCode: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.quotaCode = quotaCode
-        self.properties.retryAfterSeconds = retryAfterSeconds
-        self.properties.serviceCode = serviceCode
-    }
-}
-
 extension DSQLClientTypes {
 
     /// Stores information about a field passed inside a request that resulted in an validation error.
@@ -535,7 +217,7 @@ extension DSQLClientTypes {
 
 extension DSQLClientTypes {
 
-    /// Reason the request failed validation
+    /// The reason for the validation exception.
     public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cannotParse
         case deletionProtectionEnabled
@@ -576,11 +258,11 @@ extension DSQLClientTypes {
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// List of fields that caused the error
+        /// A list of fields that didn't validate.
         public internal(set) var fieldList: [DSQLClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// Reason the request failed validation
+        /// The reason for the validation exception.
         /// This member is required.
         public internal(set) var reason: DSQLClientTypes.ValidationExceptionReason? = nil
     }
@@ -602,6 +284,281 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
+    }
+}
+
+extension DSQLClientTypes {
+
+    /// Defines the structure for multi-Region cluster configurations, containing the witness region and linked cluster settings.
+    public struct MultiRegionProperties: Swift.Sendable {
+        /// The set of linked clusters that form the multi-Region cluster configuration. Each linked cluster represents a database instance in a different Region.
+        public var clusters: [Swift.String]?
+        /// The that serves as the witness region for a multi-Region cluster. The witness region helps maintain cluster consistency and quorum.
+        public var witnessRegion: Swift.String?
+
+        public init(
+            clusters: [Swift.String]? = nil,
+            witnessRegion: Swift.String? = nil
+        ) {
+            self.clusters = clusters
+            self.witnessRegion = witnessRegion
+        }
+    }
+}
+
+public struct CreateClusterInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
+    public var clientToken: Swift.String?
+    /// If enabled, you can't delete your cluster. You must first disable this property before you can delete your cluster.
+    public var deletionProtectionEnabled: Swift.Bool?
+    /// The configuration settings when creating a multi-Region cluster, including the witness region and linked cluster properties.
+    public var multiRegionProperties: DSQLClientTypes.MultiRegionProperties?
+    /// A map of key and value pairs to use to tag your cluster.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        deletionProtectionEnabled: Swift.Bool? = nil,
+        multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.multiRegionProperties = multiRegionProperties
+        self.tags = tags
+    }
+}
+
+/// The output of a created cluster.
+public struct CreateClusterOutput: Swift.Sendable {
+    /// The ARN of the created cluster.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time of when created the cluster.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// Whether deletion protection is enabled on this cluster.
+    /// This member is required.
+    public var deletionProtectionEnabled: Swift.Bool?
+    /// The ID of the created cluster.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The multi-Region cluster configuration details that were set during cluster creation
+    public var multiRegionProperties: DSQLClientTypes.MultiRegionProperties?
+    /// The status of the created cluster.
+    /// This member is required.
+    public var status: DSQLClientTypes.ClusterStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        deletionProtectionEnabled: Swift.Bool? = nil,
+        identifier: Swift.String? = nil,
+        multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil,
+        status: DSQLClientTypes.ClusterStatus? = nil
+    ) {
+        self.arn = arn
+        self.creationTime = creationTime
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.identifier = identifier
+        self.multiRegionProperties = multiRegionProperties
+        self.status = status
+    }
+}
+
+/// The resource could not be found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The resource ID could not be found.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The resource type could not be found.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+public struct DeleteClusterInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
+    public var clientToken: Swift.String?
+    /// The ID of the cluster to delete.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.identifier = identifier
+    }
+}
+
+/// The output from a deleted cluster.
+public struct DeleteClusterOutput: Swift.Sendable {
+    /// The ARN of the deleted cluster.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time of when the cluster was created.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The ID of the deleted cluster.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The status of the cluster.
+    /// This member is required.
+    public var status: DSQLClientTypes.ClusterStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        identifier: Swift.String? = nil,
+        status: DSQLClientTypes.ClusterStatus? = nil
+    ) {
+        self.arn = arn
+        self.creationTime = creationTime
+        self.identifier = identifier
+        self.status = status
+    }
+}
+
+public struct GetClusterInput: Swift.Sendable {
+    /// The ID of the cluster to retrieve.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+/// The output of a cluster.
+public struct GetClusterOutput: Swift.Sendable {
+    /// The ARN of the retrieved cluster.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time of when the cluster was created.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// Whether deletion protection is enabled in this cluster.
+    /// This member is required.
+    public var deletionProtectionEnabled: Swift.Bool?
+    /// The ID of the retrieved cluster.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// Returns the current multi-Region cluster configuration, including witness region and linked cluster information.
+    public var multiRegionProperties: DSQLClientTypes.MultiRegionProperties?
+    /// The status of the retrieved cluster.
+    /// This member is required.
+    public var status: DSQLClientTypes.ClusterStatus?
+    /// Map of tags.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        deletionProtectionEnabled: Swift.Bool? = nil,
+        identifier: Swift.String? = nil,
+        multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil,
+        status: DSQLClientTypes.ClusterStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.arn = arn
+        self.creationTime = creationTime
+        self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.identifier = identifier
+        self.multiRegionProperties = multiRegionProperties
+        self.status = status
+        self.tags = tags
+    }
+}
+
+/// The request processing has failed because of an unknown error, exception or failure.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// Retry after seconds.
+        public internal(set) var retryAfterSeconds: Swift.Int? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        retryAfterSeconds: Swift.Int? = nil
+    ) {
+        self.properties.message = message
+        self.properties.retryAfterSeconds = retryAfterSeconds
+    }
+}
+
+/// The request was denied due to request throttling.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The message that the request was denied due to request throttling.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The request exceeds a request rate quota.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// The request exceeds a request rate quota. Retry after seconds.
+        public internal(set) var retryAfterSeconds: Swift.Int? = nil
+        /// The request exceeds a service quota.
+        public internal(set) var serviceCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { true }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        retryAfterSeconds: Swift.Int? = nil,
+        serviceCode: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.retryAfterSeconds = retryAfterSeconds
+        self.properties.serviceCode = serviceCode
     }
 }
 
@@ -689,19 +646,23 @@ public struct UpdateClusterInput: Swift.Sendable {
     /// The ID of the cluster you want to update.
     /// This member is required.
     public var identifier: Swift.String?
+    /// The new multi-Region cluster configuration settings to be applied during an update operation.
+    public var multiRegionProperties: DSQLClientTypes.MultiRegionProperties?
 
     public init(
         clientToken: Swift.String? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
-        identifier: Swift.String? = nil
+        identifier: Swift.String? = nil,
+        multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil
     ) {
         self.clientToken = clientToken
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.identifier = identifier
+        self.multiRegionProperties = multiRegionProperties
     }
 }
 
-/// Output Mixin
+/// The details of the cluster after it has been updated.
 public struct UpdateClusterOutput: Swift.Sendable {
     /// The ARN of the updated cluster.
     /// This member is required.
@@ -709,36 +670,23 @@ public struct UpdateClusterOutput: Swift.Sendable {
     /// The time of when the cluster was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
-    /// Whether deletion protection is enabled for the updated cluster.
-    /// This member is required.
-    public var deletionProtectionEnabled: Swift.Bool?
     /// The ID of the cluster to update.
     /// This member is required.
     public var identifier: Swift.String?
-    /// The ARNs of the clusters linked to the updated cluster. Applicable only for multi-Region clusters.
-    public var linkedClusterArns: [Swift.String]?
     /// The status of the updated cluster.
     /// This member is required.
     public var status: DSQLClientTypes.ClusterStatus?
-    /// The Region that receives all data you write to linked clusters.
-    public var witnessRegion: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
-        deletionProtectionEnabled: Swift.Bool? = nil,
         identifier: Swift.String? = nil,
-        linkedClusterArns: [Swift.String]? = nil,
-        status: DSQLClientTypes.ClusterStatus? = nil,
-        witnessRegion: Swift.String? = nil
+        status: DSQLClientTypes.ClusterStatus? = nil
     ) {
         self.arn = arn
         self.creationTime = creationTime
-        self.deletionProtectionEnabled = deletionProtectionEnabled
         self.identifier = identifier
-        self.linkedClusterArns = linkedClusterArns
         self.status = status
-        self.witnessRegion = witnessRegion
     }
 }
 
@@ -806,13 +754,6 @@ extension CreateClusterInput {
     }
 }
 
-extension CreateMultiRegionClustersInput {
-
-    static func urlPathProvider(_ value: CreateMultiRegionClustersInput) -> Swift.String? {
-        return "/multi-region-clusters"
-    }
-}
-
 extension DeleteClusterInput {
 
     static func urlPathProvider(_ value: DeleteClusterInput) -> Swift.String? {
@@ -827,33 +768,6 @@ extension DeleteClusterInput {
 
     static func queryItemProvider(_ value: DeleteClusterInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        if let clientToken = value.clientToken {
-            let clientTokenQueryItem = Smithy.URIQueryItem(name: "client-token".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-            items.append(clientTokenQueryItem)
-        }
-        return items
-    }
-}
-
-extension DeleteMultiRegionClustersInput {
-
-    static func urlPathProvider(_ value: DeleteMultiRegionClustersInput) -> Swift.String? {
-        return "/multi-region-clusters"
-    }
-}
-
-extension DeleteMultiRegionClustersInput {
-
-    static func queryItemProvider(_ value: DeleteMultiRegionClustersInput) throws -> [Smithy.URIQueryItem] {
-        var items = [Smithy.URIQueryItem]()
-        guard let linkedClusterArns = value.linkedClusterArns else {
-            let message = "Creating a URL Query Item failed. linkedClusterArns is required and must not be nil."
-            throw Smithy.ClientError.unknownError(message)
-        }
-        linkedClusterArns.forEach { queryItemValue in
-            let queryItem = Smithy.URIQueryItem(name: "linked-cluster-arns".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-            items.append(queryItem)
-        }
         if let clientToken = value.clientToken {
             let clientTokenQueryItem = Smithy.URIQueryItem(name: "client-token".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
@@ -967,18 +881,8 @@ extension CreateClusterInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["deletionProtectionEnabled"].write(value.deletionProtectionEnabled)
+        try writer["multiRegionProperties"].write(value.multiRegionProperties, with: DSQLClientTypes.MultiRegionProperties.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-}
-
-extension CreateMultiRegionClustersInput {
-
-    static func write(value: CreateMultiRegionClustersInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientToken"].write(value.clientToken)
-        try writer["clusterProperties"].writeMap(value.clusterProperties, valueWritingClosure: DSQLClientTypes.LinkedClusterProperties.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["linkedRegionList"].writeList(value.linkedRegionList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["witnessRegion"].write(value.witnessRegion)
     }
 }
 
@@ -996,6 +900,7 @@ extension UpdateClusterInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["deletionProtectionEnabled"].write(value.deletionProtectionEnabled)
+        try writer["multiRegionProperties"].write(value.multiRegionProperties, with: DSQLClientTypes.MultiRegionProperties.write(value:to:))
     }
 }
 
@@ -1010,19 +915,8 @@ extension CreateClusterOutput {
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletionProtectionEnabled = try reader["deletionProtectionEnabled"].readIfPresent() ?? false
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.multiRegionProperties = try reader["multiRegionProperties"].readIfPresent(with: DSQLClientTypes.MultiRegionProperties.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension CreateMultiRegionClustersOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMultiRegionClustersOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = CreateMultiRegionClustersOutput()
-        value.linkedClusterArns = try reader["linkedClusterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1036,17 +930,9 @@ extension DeleteClusterOutput {
         var value = DeleteClusterOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.deletionProtectionEnabled = try reader["deletionProtectionEnabled"].readIfPresent() ?? false
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
-    }
-}
-
-extension DeleteMultiRegionClustersOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMultiRegionClustersOutput {
-        return DeleteMultiRegionClustersOutput()
     }
 }
 
@@ -1061,9 +947,9 @@ extension GetClusterOutput {
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletionProtectionEnabled = try reader["deletionProtectionEnabled"].readIfPresent() ?? false
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
-        value.linkedClusterArns = try reader["linkedClusterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.multiRegionProperties = try reader["multiRegionProperties"].readIfPresent(with: DSQLClientTypes.MultiRegionProperties.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.witnessRegion = try reader["witnessRegion"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -1128,11 +1014,8 @@ extension UpdateClusterOutput {
         var value = UpdateClusterOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.deletionProtectionEnabled = try reader["deletionProtectionEnabled"].readIfPresent() ?? false
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
-        value.linkedClusterArns = try reader["linkedClusterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.witnessRegion = try reader["witnessRegion"].readIfPresent()
         return value
     }
 }
@@ -1158,44 +1041,13 @@ enum CreateClusterOutputError {
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum CreateMultiRegionClustersOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        if let error = try httpServiceError(baseError: baseError) { return error }
-        switch baseError.code {
-            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
-            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
 
 enum DeleteClusterOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        if let error = try httpServiceError(baseError: baseError) { return error }
-        switch baseError.code {
-            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
-            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum DeleteMultiRegionClustersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1316,6 +1168,7 @@ enum UpdateClusterOutputError {
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -1346,6 +1199,21 @@ extension ConflictException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: DSQLClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1404,21 +1272,6 @@ extension InternalServerException {
     }
 }
 
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: DSQLClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -1428,6 +1281,23 @@ extension AccessDeniedException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension DSQLClientTypes.MultiRegionProperties {
+
+    static func write(value: DSQLClientTypes.MultiRegionProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clusters"].writeList(value.clusters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["witnessRegion"].write(value.witnessRegion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DSQLClientTypes.MultiRegionProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DSQLClientTypes.MultiRegionProperties()
+        value.witnessRegion = try reader["witnessRegion"].readIfPresent()
+        value.clusters = try reader["clusters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -1451,15 +1321,6 @@ extension DSQLClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension DSQLClientTypes.LinkedClusterProperties {
-
-    static func write(value: DSQLClientTypes.LinkedClusterProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deletionProtectionEnabled"].write(value.deletionProtectionEnabled)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 

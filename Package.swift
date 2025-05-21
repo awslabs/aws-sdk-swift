@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.129.0"
+let clientRuntimeVersion: Version = "0.131.0"
 let crtVersion: Version = "0.52.1"
 
 let excludeRuntimeUnitTests = false
@@ -319,7 +319,6 @@ let serviceTargets: [String] = [
     "AWSPipes",
     "AWSPolly",
     "AWSPricing",
-    "AWSPrivateNetworks",
     "AWSProton",
     "AWSQApps",
     "AWSQBusiness",

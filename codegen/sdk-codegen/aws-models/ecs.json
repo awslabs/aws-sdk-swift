@@ -1813,7 +1813,7 @@
                 "configuration": {
                     "target": "com.amazonaws.ecs#ClusterConfiguration",
                     "traits": {
-                        "smithy.api#documentation": "<p>The execute command configuration for the cluster.</p>"
+                        "smithy.api#documentation": "<p>The execute command and managed storage configuration for the cluster.</p>"
                     }
                 },
                 "status": {
@@ -2217,7 +2217,7 @@
                 "reason": {
                     "target": "com.amazonaws.ecs#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>A short (255 max characters) human-readable string to provide additional details about\n\t\t\ta running or stopped container.</p>"
+                        "smithy.api#documentation": "<p>A short (1024 max characters) human-readable string to provide additional details about a\n\t\t\trunning or stopped container.</p>"
                     }
                 },
                 "networkBindings": {
@@ -4220,7 +4220,7 @@
                                             ],
                                             "environment": [],
                                             "essential": true,
-                                            "image": "ubuntu",
+                                            "image": "public.ecr.aws/docker/library/ubuntu:latest",
                                             "memory": 100,
                                             "mountPoints": [],
                                             "name": "wave",
@@ -4819,34 +4819,32 @@
                 "smithy.api#examples": [
                     {
                         "title": "To deregister a revision of a task definition",
-                        "documentation": "This example deregisters the first revision of the curler task definition",
+                        "documentation": "This example deregisters the first revision of the fargate-task task definition",
                         "input": {
-                            "taskDefinition": "curler:1"
+                            "taskDefinition": "fargate-task:1"
                         },
                         "output": {
                             "taskDefinition": {
                                 "status": "INACTIVE",
-                                "family": "curler",
+                                "family": "fargate-task",
                                 "volumes": [],
-                                "taskDefinitionArn": "arn:aws:ecs:us-west-2:123456789012:task-definition/curler:1",
+                                "taskDefinitionArn": "arn:aws:ecs:us-west-2:123456789012:task-definition/fargate-task:1",
                                 "containerDefinitions": [
                                     {
-                                        "environment": [],
-                                        "name": "curler",
-                                        "mountPoints": [],
-                                        "image": "curl:latest",
-                                        "cpu": 100,
-                                        "portMappings": [],
-                                        "entryPoint": [],
-                                        "memory": 256,
-                                        "command": [
-                                            "curl -v http://example.com/"
+                                        "memory": 128,
+                                        "cpu": 256,
+                                        "portMappings": [
+                                            {
+                                                "hostPort": 80,
+                                                "containerPort": 80,
+                                                "protocol": "tcp"
+                                            }
                                         ],
                                         "essential": true,
-                                        "volumesFrom": []
+                                        "name": "nginx",
+                                        "image": "public.ecr.aws/docker/library/nginx:latest"
                                     }
-                                ],
-                                "revision": 1
+                                ]
                             }
                         }
                     }
@@ -7198,7 +7196,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The specified parameter isn't valid. Review the available parameters for the API\n\t\t\trequest.</p>\n         <p>For more information about service event errors, see <a href=\"https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html\">Amazon ECS service event messages</a>. </p>",
+                "smithy.api#documentation": "<p>The specified parameter isn't valid. Review the available parameters for the API\n\t\t\trequest.</p>\n         <p>For more information about service event errors, see <a href=\"https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html\">Amazon ECS service\n\t\t\t\tevent messages</a>. </p>",
                 "smithy.api#error": "client"
             }
         },
@@ -8886,13 +8884,13 @@
                 "kmsKeyId": {
                     "target": "com.amazonaws.ecs#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specify a Key Management Service key ID to encrypt the managed storage.</p>\n         <p>The key must be a single Region key.</p>"
+                        "smithy.api#documentation": "<p>Specify a Key Management Service key ID to encrypt Amazon ECS managed storage.</p>\n         <p> When you specify a <code>kmsKeyId</code>, Amazon ECS uses the key to encrypt data volumes\n\t\t\tmanaged by Amazon ECS that are attached to tasks in the cluster. The following data volumes\n\t\t\tare managed by Amazon ECS: Amazon EBS. For more information about encryption of Amazon EBS volumes\n\t\t\tattached to Amazon ECS tasks, see <a href=\"https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-kms-encryption.html\">Encrypt data stored in Amazon EBS volumes for Amazon ECS</a> in the\n\t\t\t<i>Amazon Elastic Container Service Developer Guide</i>.</p>\n         <p>The key must be a single Region key.</p>"
                     }
                 },
                 "fargateEphemeralStorageKmsKeyId": {
                     "target": "com.amazonaws.ecs#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specify the Key Management Service key ID for the Fargate ephemeral storage.</p>\n         <p>The key must be a single Region key.</p>"
+                        "smithy.api#documentation": "<p>Specify the Key Management Service key ID for Fargate ephemeral storage.</p>\n         <p>When you specify a <code>fargateEphemeralStorageKmsKeyId</code>, Amazon Web Services Fargate uses\n\t\t\tthe key to encrypt data at rest in ephemeral storage. For more information about\n\t\t\tFargate ephemeral storage encryption, see <a href=\"https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-storage-encryption.html\">Customer managed keys for Amazon Web Services Fargate ephemeral storage for\n\t\t\t\tAmazon ECS</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.</p>\n         <p>The key must be a single Region key.</p>"
                     }
                 }
             },
@@ -10207,7 +10205,7 @@
                             "containerDefinitions": [
                                 {
                                     "name": "sleep",
-                                    "image": "busybox",
+                                    "image": "public.ecr.aws/docker/library/busybox:latest",
                                     "cpu": 10,
                                     "command": [
                                         "sleep",
@@ -10228,7 +10226,7 @@
                                         "environment": [],
                                         "name": "sleep",
                                         "mountPoints": [],
-                                        "image": "busybox",
+                                        "image": "public.ecr.aws/docker/library/busybox:latest",
                                         "cpu": 10,
                                         "portMappings": [],
                                         "command": [
@@ -11702,13 +11700,13 @@
                 "encrypted": {
                     "target": "com.amazonaws.ecs#BoxedBoolean",
                     "traits": {
-                        "smithy.api#documentation": "<p>Indicates whether the volume should be encrypted. If no value is specified, encryption\n\t\t\tis turned on by default. This parameter maps 1:1 with the <code>Encrypted</code>\n\t\t\tparameter of the <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html\">CreateVolume API</a> in\n\t\t\tthe <i>Amazon EC2 API Reference</i>.</p>"
+                        "smithy.api#documentation": "<p>Indicates whether the volume should be encrypted. If you turn on Region-level Amazon EBS\n\t\t\tencryption by default but set this value as <code>false</code>, the setting is\n\t\t\toverridden and the volume is encrypted with the KMS key specified for Amazon EBS encryption\n\t\t\tby default. This parameter maps 1:1 with the <code>Encrypted</code> parameter of the\n\t\t\t\t<a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html\">CreateVolume API</a> in the <i>Amazon EC2 API Reference</i>.</p>"
                     }
                 },
                 "kmsKeyId": {
                     "target": "com.amazonaws.ecs#EBSKMSKeyId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When\n\t\t\tencryption is turned on and no Amazon Web Services Key Management Service key is specified, the default Amazon Web Services managed key\n\t\t\tfor Amazon EBS volumes is used. This parameter maps 1:1 with the <code>KmsKeyId</code>\n\t\t\tparameter of the <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html\">CreateVolume API</a> in\n\t\t\tthe <i>Amazon EC2 API Reference</i>.</p>\n         <important>\n            <p>Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an\n\t\t\t\tID, alias, or ARN that is invalid, the action can appear to complete, but\n\t\t\t\teventually fails.</p>\n         </important>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When a key\n\t\t\tis specified using this parameter, it overrides Amazon EBS default encryption or any KMS key\n\t\t\tthat you specified for cluster-level managed storage encryption. This parameter maps 1:1\n\t\t\twith the <code>KmsKeyId</code> parameter of the <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html\">CreateVolume API</a> in\n\t\t\tthe <i>Amazon EC2 API Reference</i>. For more information about encrypting\n\t\t\tAmazon EBS volumes attached to tasks, see <a href=\"https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-kms-encryption.html\">Encrypt data stored in Amazon EBS volumes attached to Amazon ECS tasks</a>.</p>\n         <important>\n            <p>Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an\n\t\t\t\tID, alias, or ARN that is invalid, the action can appear to complete, but\n\t\t\t\teventually fails.</p>\n         </important>"
                     }
                 },
                 "volumeType": {
@@ -11726,7 +11724,13 @@
                 "snapshotId": {
                     "target": "com.amazonaws.ecs#EBSSnapshotId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The snapshot that Amazon ECS uses to create the volume. You must specify either a snapshot\n\t\t\tID or a volume size. This parameter maps 1:1 with the <code>SnapshotId</code> parameter\n\t\t\tof the <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html\">CreateVolume API</a> in\n\t\t\tthe <i>Amazon EC2 API Reference</i>.</p>"
+                        "smithy.api#documentation": "<p>The snapshot that Amazon ECS uses to create volumes for attachment to tasks maintained by\n\t\t\tthe service. You must specify either <code>snapshotId</code> or <code>sizeInGiB</code>\n\t\t\tin your volume configuration. This parameter maps 1:1 with the <code>SnapshotId</code>\n\t\t\tparameter of the <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html\">CreateVolume API</a> in\n\t\t\tthe <i>Amazon EC2 API Reference</i>.</p>"
+                    }
+                },
+                "volumeInitializationRate": {
+                    "target": "com.amazonaws.ecs#BoxedInteger",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The rate, in MiB/s, at which data is fetched from a snapshot of an existing EBS volume\n\t\t\tto create new volumes for attachment to the tasks maintained by the service. This\n\t\t\tproperty can be specified only if you specify a <code>snapshotId</code>. For more\n\t\t\tinformation, see <a href=\"https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html\">Initialize Amazon EBS volumes</a> in the <i>Amazon EBS User\n\t\t\t\tGuide</i>.</p>"
                     }
                 },
                 "iops": {
@@ -11757,7 +11761,7 @@
                 "filesystemType": {
                     "target": "com.amazonaws.ecs#TaskFilesystemType",
                     "traits": {
-                        "smithy.api#documentation": "<p>The filesystem type for the volume. For volumes created from a snapshot, you must\n\t\t\tspecify the same filesystem type that the volume was using when the snapshot was\n\t\t\tcreated. If there is a filesystem type mismatch, the task will fail to start.</p>\n         <p>The available Linux filesystem types are\u2028 <code>ext3</code>, <code>ext4</code>, and\n\t\t\t\t<code>xfs</code>. If no value is specified, the <code>xfs</code> filesystem type is\n\t\t\tused by default.</p>\n         <p>The available Windows filesystem types are <code>NTFS</code>.</p>"
+                        "smithy.api#documentation": "<p>The filesystem type for the volume. For volumes created from a snapshot, you must\n\t\t\tspecify the same filesystem type that the volume was using when the snapshot was\n\t\t\tcreated. If there is a filesystem type mismatch, the tasks will fail to start.</p>\n         <p>The available Linux filesystem types are\u2028 <code>ext3</code>, <code>ext4</code>, and\n\t\t\t\t<code>xfs</code>. If no value is specified, the <code>xfs</code> filesystem type is\n\t\t\tused by default.</p>\n         <p>The available Windows filesystem types are <code>NTFS</code>.</p>"
                     }
                 }
             },
@@ -12916,7 +12920,7 @@
                 "value": {
                     "target": "com.amazonaws.ecs#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The namespaced kernel parameter to set a <code>value</code> for.</p>\n         <p>Valid IPC namespace values: <code>\"kernel.msgmax\" | \"kernel.msgmnb\" | \"kernel.msgmni\"\n\t\t\t\t| \"kernel.sem\" | \"kernel.shmall\" | \"kernel.shmmax\" | \"kernel.shmmni\" |\n\t\t\t\t\"kernel.shm_rmid_forced\"</code>, and <code>Sysctls</code> that start with\n\t\t\t\t<code>\"fs.mqueue.*\"</code>\n         </p>\n         <p>Valid network namespace values: <code>Sysctls</code> that start with\n\t\t\t\t<code>\"net.*\"</code>\n         </p>\n         <p>All of these values are supported by Fargate.</p>"
+                        "smithy.api#documentation": "<p>The namespaced kernel parameter to set a <code>value</code> for.</p>\n         <p>Valid IPC namespace values: <code>\"kernel.msgmax\" | \"kernel.msgmnb\" | \"kernel.msgmni\"\n\t\t\t\t| \"kernel.sem\" | \"kernel.shmall\" | \"kernel.shmmax\" | \"kernel.shmmni\" |\n\t\t\t\t\"kernel.shm_rmid_forced\"</code>, and <code>Sysctls</code> that start with\n\t\t\t\t<code>\"fs.mqueue.*\"</code>\n         </p>\n         <p>Valid network namespace values: <code>Sysctls</code> that start with\n\t\t\t\t<code>\"net.*\"</code>. Only namespaced <code>Sysctls</code> that exist within the\n\t\t\tcontainer starting with \"net.* are accepted.</p>\n         <p>All of these values are supported by Fargate.</p>"
                     }
                 }
             },
@@ -13673,13 +13677,13 @@
                 "encrypted": {
                     "target": "com.amazonaws.ecs#BoxedBoolean",
                     "traits": {
-                        "smithy.api#documentation": "<p>Indicates whether the volume should be encrypted. If no value is specified, encryption\n\t\t\tis turned on by default. This parameter maps 1:1 with the <code>Encrypted</code>\n\t\t\tparameter of the <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html\">CreateVolume API</a> in\n\t\t\tthe <i>Amazon EC2 API Reference</i>.</p>"
+                        "smithy.api#documentation": "<p>Indicates whether the volume should be encrypted. If you turn on Region-level Amazon EBS\n\t\t\tencryption by default but set this value as <code>false</code>, the setting is\n\t\t\toverridden and the volume is encrypted with the KMS key specified for Amazon EBS encryption\n\t\t\tby default. This parameter maps 1:1 with the <code>Encrypted</code> parameter of the\n\t\t\t\t<a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html\">CreateVolume API</a> in the <i>Amazon EC2 API Reference</i>.</p>"
                     }
                 },
                 "kmsKeyId": {
                     "target": "com.amazonaws.ecs#EBSKMSKeyId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When\n\t\t\tencryption is turned on and no Amazon Web Services Key Management Service key is specified, the default Amazon Web Services managed key\n\t\t\tfor Amazon EBS volumes is used. This parameter maps 1:1 with the <code>KmsKeyId</code>\n\t\t\tparameter of the <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html\">CreateVolume API</a> in\n\t\t\tthe <i>Amazon EC2 API Reference</i>.</p>\n         <important>\n            <p>Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an\n\t\t\t\tID, alias, or ARN that is invalid, the action can appear to complete, but\n\t\t\t\teventually fails.</p>\n         </important>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When a key\n\t\t\tis specified using this parameter, it overrides Amazon EBS default encryption or any KMS key\n\t\t\tthat you specified for cluster-level managed storage encryption. This parameter maps 1:1\n\t\t\twith the <code>KmsKeyId</code> parameter of the <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html\">CreateVolume API</a> in\n\t\t\tthe <i>Amazon EC2 API Reference</i>. For more information about encrypting\n\t\t\tAmazon EBS volumes attached to a task, see <a href=\"https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-kms-encryption.html\">Encrypt data stored in Amazon EBS volumes attached to Amazon ECS tasks</a>.</p>\n         <important>\n            <p>Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an\n\t\t\t\tID, alias, or ARN that is invalid, the action can appear to complete, but\n\t\t\t\teventually fails.</p>\n         </important>"
                     }
                 },
                 "volumeType": {
@@ -13698,6 +13702,12 @@
                     "target": "com.amazonaws.ecs#EBSSnapshotId",
                     "traits": {
                         "smithy.api#documentation": "<p>The snapshot that Amazon ECS uses to create the volume. You must specify either a snapshot\n\t\t\tID or a volume size. This parameter maps 1:1 with the <code>SnapshotId</code> parameter\n\t\t\tof the <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html\">CreateVolume API</a> in\n\t\t\tthe <i>Amazon EC2 API Reference</i>.</p>"
+                    }
+                },
+                "volumeInitializationRate": {
+                    "target": "com.amazonaws.ecs#BoxedInteger",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The rate, in MiB/s, at which data is fetched from a snapshot of an existing Amazon EBS\n\t\t\tvolume to create a new volume for attachment to the task. This property can be specified\n\t\t\tonly if you specify a <code>snapshotId</code>. For more information, see <a href=\"https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html\">Initialize Amazon EBS volumes</a> in the <i>Amazon EBS User\n\t\t\t\tGuide</i>.</p>"
                     }
                 },
                 "iops": {

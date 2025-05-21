@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DSQLClient: ClientRuntime.Client {
     public static let clientName = "DSQLClient"
-    public static let version = "1.3.12"
+    public static let version = "1.3.21"
     let client: ClientRuntime.SdkHttpClient
     let config: DSQLClient.DSQLClientConfiguration
     let serviceName = "DSQL"
@@ -362,11 +362,20 @@ extension DSQLClient {
 extension DSQLClient {
     /// Performs the `CreateCluster` operation on the `DSQL` service.
     ///
-    /// Creates a cluster in Amazon Aurora DSQL.
+    /// The CreateCluster API allows you to create both single-region clusters and multi-Region clusters. With the addition of the multiRegionProperties parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation. Creating multi-Region clusters requires additional IAM permissions beyond those needed for single-Region clusters, as detailed in the Required permissions section below. Required permissions dsql:CreateCluster Required to create a cluster. Resources: arn:aws:dsql:region:account-id:cluster/* dsql:TagResource Permission to add tags to a resource. Resources: arn:aws:dsql:region:account-id:cluster/* dsql:PutMultiRegionProperties Permission to configure multi-region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/* dsql:AddPeerCluster When specifying multiRegionProperties.clusters, permission to add peer clusters. Resources:
+    ///
+    /// * Local cluster: arn:aws:dsql:region:account-id:cluster/*
+    ///
+    /// * Each peer cluster: exact ARN of each specified peer cluster
+    ///
+    ///
+    /// dsql:PutWitnessRegion When specifying multiRegionProperties.witnessRegion, permission to set a witness Region. This permission is checked both in the cluster Region and in the witness Region. Resources: arn:aws:dsql:region:account-id:cluster/* Condition Keys: dsql:WitnessRegion (matching the specified witness region)
+    ///
+    /// * The witness Region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
     ///
-    /// - Returns: `CreateClusterOutput` : Output Mixin
+    /// - Returns: `CreateClusterOutput` : The output of a created cluster.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -440,93 +449,13 @@ extension DSQLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateMultiRegionClusters` operation on the `DSQL` service.
-    ///
-    /// Creates multi-Region clusters in Amazon Aurora DSQL. Multi-Region clusters require a linked Region list, which is an array of the Regions in which you want to create linked clusters. Multi-Region clusters require a witness Region, which participates in quorum in failure scenarios.
-    ///
-    /// - Parameter CreateMultiRegionClustersInput : [no documentation found]
-    ///
-    /// - Returns: `CreateMultiRegionClustersOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ServiceQuotaExceededException` : The service limit was exceeded.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
-    public func createMultiRegionClusters(input: CreateMultiRegionClustersInput) async throws -> CreateMultiRegionClustersOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "createMultiRegionClusters")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "dsql")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateMultiRegionClustersInput, CreateMultiRegionClustersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateMultiRegionClustersInput, CreateMultiRegionClustersOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateMultiRegionClustersInput, CreateMultiRegionClustersOutput>(CreateMultiRegionClustersInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateMultiRegionClustersInput, CreateMultiRegionClustersOutput>())
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMultiRegionClustersInput, CreateMultiRegionClustersOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreateMultiRegionClustersInput, CreateMultiRegionClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateMultiRegionClustersInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMultiRegionClustersInput, CreateMultiRegionClustersOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMultiRegionClustersOutput>(CreateMultiRegionClustersOutput.httpOutput(from:), CreateMultiRegionClustersOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMultiRegionClustersInput, CreateMultiRegionClustersOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<CreateMultiRegionClustersOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DSQL", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateMultiRegionClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMultiRegionClustersOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMultiRegionClustersInput, CreateMultiRegionClustersOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMultiRegionClustersInput, CreateMultiRegionClustersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMultiRegionClustersInput, CreateMultiRegionClustersOutput>(serviceID: serviceName, version: DSQLClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DSQL")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateMultiRegionClusters")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `DeleteCluster` operation on the `DSQL` service.
     ///
     /// Deletes a cluster in Amazon Aurora DSQL.
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
     ///
-    /// - Returns: `DeleteClusterOutput` : Output Mixin
+    /// - Returns: `DeleteClusterOutput` : The output from a deleted cluster.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -598,91 +527,13 @@ extension DSQLClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMultiRegionClusters` operation on the `DSQL` service.
-    ///
-    /// Deletes a multi-Region cluster in Amazon Aurora DSQL.
-    ///
-    /// - Parameter DeleteMultiRegionClustersInput : [no documentation found]
-    ///
-    /// - Returns: `DeleteMultiRegionClustersOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
-    public func deleteMultiRegionClusters(input: DeleteMultiRegionClustersInput) async throws -> DeleteMultiRegionClustersOutput {
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .delete)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "deleteMultiRegionClusters")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "dsql")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteMultiRegionClustersInput, DeleteMultiRegionClustersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteMultiRegionClustersInput, DeleteMultiRegionClustersOutput>(keyPath: \.clientToken))
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteMultiRegionClustersInput, DeleteMultiRegionClustersOutput>(DeleteMultiRegionClustersInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMultiRegionClustersInput, DeleteMultiRegionClustersOutput>())
-        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteMultiRegionClustersInput, DeleteMultiRegionClustersOutput>(DeleteMultiRegionClustersInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMultiRegionClustersOutput>(DeleteMultiRegionClustersOutput.httpOutput(from:), DeleteMultiRegionClustersOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMultiRegionClustersInput, DeleteMultiRegionClustersOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMultiRegionClustersOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DSQL", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMultiRegionClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMultiRegionClustersOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMultiRegionClustersInput, DeleteMultiRegionClustersOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMultiRegionClustersInput, DeleteMultiRegionClustersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMultiRegionClustersInput, DeleteMultiRegionClustersOutput>(serviceID: serviceName, version: DSQLClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DSQL")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteMultiRegionClusters")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.execute(input: input)
-    }
-
     /// Performs the `GetCluster` operation on the `DSQL` service.
     ///
     /// Retrieves information about a cluster.
     ///
     /// - Parameter GetClusterInput : [no documentation found]
     ///
-    /// - Returns: `GetClusterOutput` : Output Mixin
+    /// - Returns: `GetClusterOutput` : The output of a cluster.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1134,11 +985,24 @@ extension DSQLClient {
 
     /// Performs the `UpdateCluster` operation on the `DSQL` service.
     ///
-    /// Updates a cluster.
+    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions. Note that updating multi-region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section. Required permissions dsql:UpdateCluster Permission to update a DSQL cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id  dsql:PutMultiRegionProperties Permission to configure multi-Region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id  dsql:GetCluster Permission to retrieve cluster information. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id  dsql:AddPeerCluster Permission to add peer clusters. Resources:
+    ///
+    /// * Local cluster: arn:aws:dsql:region:account-id:cluster/cluster-id
+    ///
+    /// * Each peer cluster: exact ARN of each specified peer cluster
+    ///
+    ///
+    /// dsql:RemovePeerCluster Permission to remove peer clusters. The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates. Resources: arn:aws:dsql:*:account-id:cluster/* dsql:PutWitnessRegion Permission to set a witness Region. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id  Condition Keys: dsql:WitnessRegion (matching the specified witness Region) This permission is checked both in the cluster Region and in the witness Region.
+    ///
+    /// * The witness region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.
+    ///
+    /// * When updating clusters with peer relationships, permissions are checked for both adding and removing peers.
+    ///
+    /// * The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates.
     ///
     /// - Parameter UpdateClusterInput : [no documentation found]
     ///
-    /// - Returns: `UpdateClusterOutput` : Output Mixin
+    /// - Returns: `UpdateClusterOutput` : The details of the cluster after it has been updated.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

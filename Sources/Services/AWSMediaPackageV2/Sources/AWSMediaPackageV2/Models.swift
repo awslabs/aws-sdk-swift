@@ -297,6 +297,7 @@ extension MediaPackageV2ClientTypes {
         case cencIvIncompatible
         case clipStartTimeWithStartOrEnd
         case containerTypeImmutable
+        case dashDvbAttributesWithoutDvbDashProfile
         case directModeWithTimingSource
         case drmSignalingMismatchSegmentEncryptionStatus
         case drmSystemsEncryptionMethodIncompatible
@@ -311,6 +312,9 @@ extension MediaPackageV2ClientTypes {
         case harvestJobIneligibleForCancellation
         case harvestJobS3DestinationMissingOrIncomplete
         case harvestJobUnableToWriteToS3Destination
+        case incompatibleDashCompactnessConfiguration
+        case incompatibleDashProfileDvbDashConfiguration
+        case incompatibleXmlEncoding
         case invalidHarvestJobDuration
         case invalidManifestFilter
         case invalidPaginationMaxResults
@@ -360,6 +364,7 @@ extension MediaPackageV2ClientTypes {
                 .cencIvIncompatible,
                 .clipStartTimeWithStartOrEnd,
                 .containerTypeImmutable,
+                .dashDvbAttributesWithoutDvbDashProfile,
                 .directModeWithTimingSource,
                 .drmSignalingMismatchSegmentEncryptionStatus,
                 .drmSystemsEncryptionMethodIncompatible,
@@ -374,6 +379,9 @@ extension MediaPackageV2ClientTypes {
                 .harvestJobIneligibleForCancellation,
                 .harvestJobS3DestinationMissingOrIncomplete,
                 .harvestJobUnableToWriteToS3Destination,
+                .incompatibleDashCompactnessConfiguration,
+                .incompatibleDashProfileDvbDashConfiguration,
+                .incompatibleXmlEncoding,
                 .invalidHarvestJobDuration,
                 .invalidManifestFilter,
                 .invalidPaginationMaxResults,
@@ -429,6 +437,7 @@ extension MediaPackageV2ClientTypes {
             case .cencIvIncompatible: return "CENC_IV_INCOMPATIBLE"
             case .clipStartTimeWithStartOrEnd: return "CLIP_START_TIME_WITH_START_OR_END"
             case .containerTypeImmutable: return "CONTAINER_TYPE_IMMUTABLE"
+            case .dashDvbAttributesWithoutDvbDashProfile: return "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE"
             case .directModeWithTimingSource: return "DIRECT_MODE_WITH_TIMING_SOURCE"
             case .drmSignalingMismatchSegmentEncryptionStatus: return "DRM_SIGNALING_MISMATCH_SEGMENT_ENCRYPTION_STATUS"
             case .drmSystemsEncryptionMethodIncompatible: return "DRM_SYSTEMS_ENCRYPTION_METHOD_INCOMPATIBLE"
@@ -443,6 +452,9 @@ extension MediaPackageV2ClientTypes {
             case .harvestJobIneligibleForCancellation: return "HARVEST_JOB_INELIGIBLE_FOR_CANCELLATION"
             case .harvestJobS3DestinationMissingOrIncomplete: return "HARVEST_JOB_S3_DESTINATION_MISSING_OR_INCOMPLETE"
             case .harvestJobUnableToWriteToS3Destination: return "HARVEST_JOB_UNABLE_TO_WRITE_TO_S3_DESTINATION"
+            case .incompatibleDashCompactnessConfiguration: return "INCOMPATIBLE_DASH_COMPACTNESS_CONFIGURATION"
+            case .incompatibleDashProfileDvbDashConfiguration: return "INCOMPATIBLE_DASH_PROFILE_DVB_DASH_CONFIGURATION"
+            case .incompatibleXmlEncoding: return "INCOMPATIBLE_XML_ENCODING"
             case .invalidHarvestJobDuration: return "INVALID_HARVEST_JOB_DURATION"
             case .invalidManifestFilter: return "INVALID_MANIFEST_FILTER"
             case .invalidPaginationMaxResults: return "INVALID_PAGINATION_MAX_RESULTS"
@@ -1109,6 +1121,63 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    /// The base URLs to use for retrieving segments. You can specify multiple locations and indicate the priority and weight for when each should be used, for use in mutli-CDN workflows.
+    public struct DashBaseUrl: Swift.Sendable {
+        /// For use with DVB-DASH profiles only. The priority of this location for servings segments. The lower the number, the higher the priority.
+        public var dvbPriority: Swift.Int?
+        /// For use with DVB-DASH profiles only. The weighting for source locations that have the same priority.
+        public var dvbWeight: Swift.Int?
+        /// The name of the source location.
+        public var serviceLocation: Swift.String?
+        /// A source location for segments.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            dvbPriority: Swift.Int? = nil,
+            dvbWeight: Swift.Int? = nil,
+            serviceLocation: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.dvbPriority = dvbPriority
+            self.dvbWeight = dvbWeight
+            self.serviceLocation = serviceLocation
+            self.url = url
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    public enum DashCompactness: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashCompactness] {
+            return [
+                .none,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     public enum DashDrmSignaling: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case individual
         case referenced
@@ -1132,6 +1201,68 @@ extension MediaPackageV2ClientTypes {
             case .referenced: return "REFERENCED"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// For use with DVB-DASH profiles only. The settings for error reporting from the playback device that you want Elemental MediaPackage to pass through to the manifest.
+    public struct DashDvbMetricsReporting: Swift.Sendable {
+        /// The number of playback devices per 1000 that will send error reports to the reporting URL. This represents the probability that a playback device will be a reporting player for this session.
+        public var probability: Swift.Int?
+        /// The URL where playback devices send error reports.
+        /// This member is required.
+        public var reportingUrl: Swift.String?
+
+        public init(
+            probability: Swift.Int? = nil,
+            reportingUrl: Swift.String? = nil
+        ) {
+            self.probability = probability
+            self.reportingUrl = reportingUrl
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// For use with DVB-DASH profiles only. The settings for font downloads that you want Elemental MediaPackage to pass through to the manifest.
+    public struct DashDvbFontDownload: Swift.Sendable {
+        /// The fontFamily name for subtitles, as described in [EBU-TT-D Subtitling Distribution Format](https://tech.ebu.ch/publications/tech3380).
+        public var fontFamily: Swift.String?
+        /// The mimeType of the resource that's at the font download URL. For information about font MIME types, see the [MPEG-DASH Profile for Transport of ISO BMFF Based DVB Services over IP Based Networks](https://dvb.org/wp-content/uploads/2021/06/A168r4_MPEG-DASH-Profile-for-Transport-of-ISO-BMFF-Based-DVB-Services_Draft-ts_103-285-v140_November_2021.pdf) document.
+        public var mimeType: Swift.String?
+        /// The URL for downloading fonts for subtitles.
+        public var url: Swift.String?
+
+        public init(
+            fontFamily: Swift.String? = nil,
+            mimeType: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.fontFamily = fontFamily
+            self.mimeType = mimeType
+            self.url = url
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// For endpoints that use the DVB-DASH profile only. The font download and error reporting information that you want MediaPackage to pass through to the manifest.
+    public struct DashDvbSettings: Swift.Sendable {
+        /// Playback device error reporting settings.
+        public var errorMetrics: [MediaPackageV2ClientTypes.DashDvbMetricsReporting]?
+        /// Subtitle font settings.
+        public var fontDownload: MediaPackageV2ClientTypes.DashDvbFontDownload?
+
+        public init(
+            errorMetrics: [MediaPackageV2ClientTypes.DashDvbMetricsReporting]? = nil,
+            fontDownload: MediaPackageV2ClientTypes.DashDvbFontDownload? = nil
+        ) {
+            self.errorMetrics = errorMetrics
+            self.fontDownload = fontDownload
         }
     }
 }
@@ -1207,6 +1338,63 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    public enum DashProfile: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dvbDash
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashProfile] {
+            return [
+                .dvbDash
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dvbDash: return "DVB_DASH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// Details about the content that you want MediaPackage to pass through in the manifest to the playback device.
+    public struct DashProgramInformation: Swift.Sendable {
+        /// A copyright statement about the content.
+        public var copyright: Swift.String?
+        /// The language code for this manifest.
+        public var languageCode: Swift.String?
+        /// An absolute URL that contains more information about this content.
+        public var moreInformationUrl: Swift.String?
+        /// Information about the content provider.
+        public var source: Swift.String?
+        /// The title for the manifest.
+        public var title: Swift.String?
+
+        public init(
+            copyright: Swift.String? = nil,
+            languageCode: Swift.String? = nil,
+            moreInformationUrl: Swift.String? = nil,
+            source: Swift.String? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.copyright = copyright
+            self.languageCode = languageCode
+            self.moreInformationUrl = moreInformationUrl
+            self.source = source
+            self.title = title
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// The SCTE configuration.
     public struct ScteDash: Swift.Sendable {
         /// Choose how ad markers are included in the packaged content. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Value description:
@@ -1246,6 +1434,66 @@ extension MediaPackageV2ClientTypes {
             case .numberWithTimeline: return "NUMBER_WITH_TIMELINE"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    public enum DashTtmlProfile: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ebuTtD101
+        case imsc1
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashTtmlProfile] {
+            return [
+                .ebuTtD101,
+                .imsc1
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ebuTtD101: return "EBU_TT_D_101"
+            case .imsc1: return "IMSC_1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// The settings for TTML subtitles.
+    public struct DashTtmlConfiguration: Swift.Sendable {
+        /// The profile that MediaPackage uses when signaling subtitles in the manifest. IMSC is the default profile. EBU-TT-D produces subtitles that are compliant with the EBU-TT-D TTML profile. MediaPackage passes through subtitle styles to the manifest. For more information about EBU-TT-D subtitles, see [EBU-TT-D Subtitling Distribution Format](https://tech.ebu.ch/publications/tech3380).
+        /// This member is required.
+        public var ttmlProfile: MediaPackageV2ClientTypes.DashTtmlProfile?
+
+        public init(
+            ttmlProfile: MediaPackageV2ClientTypes.DashTtmlProfile? = nil
+        ) {
+            self.ttmlProfile = ttmlProfile
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// The configuration for DASH subtitles.
+    public struct DashSubtitleConfiguration: Swift.Sendable {
+        /// Settings for TTML subtitles.
+        public var ttmlConfiguration: MediaPackageV2ClientTypes.DashTtmlConfiguration?
+
+        public init(
+            ttmlConfiguration: MediaPackageV2ClientTypes.DashTtmlConfiguration? = nil
+        ) {
+            self.ttmlConfiguration = ttmlConfiguration
         }
     }
 }
@@ -1308,8 +1556,14 @@ extension MediaPackageV2ClientTypes {
 
     /// Create a DASH manifest configuration.
     public struct CreateDashManifestConfiguration: Swift.Sendable {
+        /// The base URLs to use for retrieving segments.
+        public var baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]?
+        /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest. For information about compactness, see [DASH manifest compactness](https://docs.aws.amazon.com/mediapackage/latest/userguide/compacted.html) in the Elemental MediaPackage v2 User Guide.
+        public var compactness: MediaPackageV2ClientTypes.DashCompactness?
         /// Determines how the DASH manifest signals the DRM content.
         public var drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling?
+        /// For endpoints that use the DVB-DASH profile only. The font download and error reporting information that you want MediaPackage to pass through to the manifest.
+        public var dvbSettings: MediaPackageV2ClientTypes.DashDvbSettings?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
         public var filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration?
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint.
@@ -1323,39 +1577,57 @@ extension MediaPackageV2ClientTypes {
         public var minUpdatePeriodSeconds: Swift.Int?
         /// A list of triggers that controls when AWS Elemental MediaPackage separates the MPEG-DASH manifest into multiple periods. Type ADS to indicate that AWS Elemental MediaPackage must create periods in the output manifest that correspond to SCTE-35 ad markers in the input source. Leave this value empty to indicate that the manifest is contained all in one period. For more information about periods in the DASH manifest, see [Multi-period DASH in AWS Elemental MediaPackage](https://docs.aws.amazon.com/mediapackage/latest/userguide/multi-period.html).
         public var periodTriggers: [MediaPackageV2ClientTypes.DashPeriodTrigger]?
+        /// The profile that the output is compliant with.
+        public var profiles: [MediaPackageV2ClientTypes.DashProfile]?
+        /// Details about the content that you want MediaPackage to pass through in the manifest to the playback device.
+        public var programInformation: MediaPackageV2ClientTypes.DashProgramInformation?
         /// The SCTE configuration.
         public var scteDash: MediaPackageV2ClientTypes.ScteDash?
         /// Determines the type of variable used in the media URL of the SegmentTemplate tag in the manifest. Also specifies if segment timeline information is included in SegmentTimeline or SegmentTemplate. Value description:
         ///
         /// * NUMBER_WITH_TIMELINE - The $Number$ variable is used in the media URL. The value of this variable is the sequential number of the segment. A full SegmentTimeline object is presented in each SegmentTemplate.
         public var segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat?
+        /// The configuration for DASH subtitles.
+        public var subtitleConfiguration: MediaPackageV2ClientTypes.DashSubtitleConfiguration?
         /// The amount of time (in seconds) that the player should be from the end of the manifest.
         public var suggestedPresentationDelaySeconds: Swift.Int?
         /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
         public var utcTiming: MediaPackageV2ClientTypes.DashUtcTiming?
 
         public init(
+            baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]? = nil,
+            compactness: MediaPackageV2ClientTypes.DashCompactness? = nil,
             drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling? = nil,
+            dvbSettings: MediaPackageV2ClientTypes.DashDvbSettings? = nil,
             filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration? = nil,
             manifestName: Swift.String? = nil,
             manifestWindowSeconds: Swift.Int? = nil,
             minBufferTimeSeconds: Swift.Int? = nil,
             minUpdatePeriodSeconds: Swift.Int? = nil,
             periodTriggers: [MediaPackageV2ClientTypes.DashPeriodTrigger]? = nil,
+            profiles: [MediaPackageV2ClientTypes.DashProfile]? = nil,
+            programInformation: MediaPackageV2ClientTypes.DashProgramInformation? = nil,
             scteDash: MediaPackageV2ClientTypes.ScteDash? = nil,
             segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat? = nil,
+            subtitleConfiguration: MediaPackageV2ClientTypes.DashSubtitleConfiguration? = nil,
             suggestedPresentationDelaySeconds: Swift.Int? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
         ) {
+            self.baseUrls = baseUrls
+            self.compactness = compactness
             self.drmSignaling = drmSignaling
+            self.dvbSettings = dvbSettings
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.minBufferTimeSeconds = minBufferTimeSeconds
             self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
             self.periodTriggers = periodTriggers
+            self.profiles = profiles
+            self.programInformation = programInformation
             self.scteDash = scteDash
             self.segmentTemplateFormat = segmentTemplateFormat
+            self.subtitleConfiguration = subtitleConfiguration
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
             self.utcTiming = utcTiming
         }
@@ -2039,8 +2311,14 @@ extension MediaPackageV2ClientTypes {
 
     /// Retrieve the DASH manifest configuration.
     public struct GetDashManifestConfiguration: Swift.Sendable {
+        /// The base URL to use for retrieving segments.
+        public var baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]?
+        /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest.
+        public var compactness: MediaPackageV2ClientTypes.DashCompactness?
         /// Determines how the DASH manifest signals the DRM content.
         public var drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling?
+        /// For endpoints that use the DVB-DASH profile only. The font download and error reporting information that you want MediaPackage to pass through to the manifest.
+        public var dvbSettings: MediaPackageV2ClientTypes.DashDvbSettings?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
         public var filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration?
         /// A short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index.
@@ -2054,12 +2332,18 @@ extension MediaPackageV2ClientTypes {
         public var minUpdatePeriodSeconds: Swift.Int?
         /// A list of triggers that controls when AWS Elemental MediaPackage separates the MPEG-DASH manifest into multiple periods. Leave this value empty to indicate that the manifest is contained all in one period. For more information about periods in the DASH manifest, see [Multi-period DASH in AWS Elemental MediaPackage](https://docs.aws.amazon.com/mediapackage/latest/userguide/multi-period.html).
         public var periodTriggers: [MediaPackageV2ClientTypes.DashPeriodTrigger]?
+        /// The profile that the output is compliant with.
+        public var profiles: [MediaPackageV2ClientTypes.DashProfile]?
+        /// Details about the content that you want MediaPackage to pass through in the manifest to the playback device.
+        public var programInformation: MediaPackageV2ClientTypes.DashProgramInformation?
         /// The SCTE configuration.
         public var scteDash: MediaPackageV2ClientTypes.ScteDash?
         /// Determines the type of variable used in the media URL of the SegmentTemplate tag in the manifest. Also specifies if segment timeline information is included in SegmentTimeline or SegmentTemplate. Value description:
         ///
         /// * NUMBER_WITH_TIMELINE - The $Number$ variable is used in the media URL. The value of this variable is the sequential number of the segment. A full SegmentTimeline object is presented in each SegmentTemplate.
         public var segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat?
+        /// The configuration for DASH subtitles.
+        public var subtitleConfiguration: MediaPackageV2ClientTypes.DashSubtitleConfiguration?
         /// The amount of time (in seconds) that the player should be from the end of the manifest.
         public var suggestedPresentationDelaySeconds: Swift.Int?
         /// The egress domain URL for stream delivery from MediaPackage.
@@ -2069,28 +2353,40 @@ extension MediaPackageV2ClientTypes {
         public var utcTiming: MediaPackageV2ClientTypes.DashUtcTiming?
 
         public init(
+            baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]? = nil,
+            compactness: MediaPackageV2ClientTypes.DashCompactness? = nil,
             drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling? = nil,
+            dvbSettings: MediaPackageV2ClientTypes.DashDvbSettings? = nil,
             filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration? = nil,
             manifestName: Swift.String? = nil,
             manifestWindowSeconds: Swift.Int? = nil,
             minBufferTimeSeconds: Swift.Int? = nil,
             minUpdatePeriodSeconds: Swift.Int? = nil,
             periodTriggers: [MediaPackageV2ClientTypes.DashPeriodTrigger]? = nil,
+            profiles: [MediaPackageV2ClientTypes.DashProfile]? = nil,
+            programInformation: MediaPackageV2ClientTypes.DashProgramInformation? = nil,
             scteDash: MediaPackageV2ClientTypes.ScteDash? = nil,
             segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat? = nil,
+            subtitleConfiguration: MediaPackageV2ClientTypes.DashSubtitleConfiguration? = nil,
             suggestedPresentationDelaySeconds: Swift.Int? = nil,
             url: Swift.String? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
         ) {
+            self.baseUrls = baseUrls
+            self.compactness = compactness
             self.drmSignaling = drmSignaling
+            self.dvbSettings = dvbSettings
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.minBufferTimeSeconds = minBufferTimeSeconds
             self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
             self.periodTriggers = periodTriggers
+            self.profiles = profiles
+            self.programInformation = programInformation
             self.scteDash = scteDash
             self.segmentTemplateFormat = segmentTemplateFormat
+            self.subtitleConfiguration = subtitleConfiguration
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
             self.url = url
             self.utcTiming = utcTiming
@@ -5998,6 +6294,139 @@ extension MediaPackageV2ClientTypes.GetDashManifestConfiguration {
         value.scteDash = try reader["ScteDash"].readIfPresent(with: MediaPackageV2ClientTypes.ScteDash.read(from:))
         value.drmSignaling = try reader["DrmSignaling"].readIfPresent()
         value.utcTiming = try reader["UtcTiming"].readIfPresent(with: MediaPackageV2ClientTypes.DashUtcTiming.read(from:))
+        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.DashProfile>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.baseUrls = try reader["BaseUrls"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.DashBaseUrl.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.programInformation = try reader["ProgramInformation"].readIfPresent(with: MediaPackageV2ClientTypes.DashProgramInformation.read(from:))
+        value.dvbSettings = try reader["DvbSettings"].readIfPresent(with: MediaPackageV2ClientTypes.DashDvbSettings.read(from:))
+        value.compactness = try reader["Compactness"].readIfPresent()
+        value.subtitleConfiguration = try reader["SubtitleConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashSubtitleConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashSubtitleConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.DashSubtitleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TtmlConfiguration"].write(value.ttmlConfiguration, with: MediaPackageV2ClientTypes.DashTtmlConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashSubtitleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashSubtitleConfiguration()
+        value.ttmlConfiguration = try reader["TtmlConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashTtmlConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashTtmlConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.DashTtmlConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TtmlProfile"].write(value.ttmlProfile)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashTtmlConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashTtmlConfiguration()
+        value.ttmlProfile = try reader["TtmlProfile"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashDvbSettings {
+
+    static func write(value: MediaPackageV2ClientTypes.DashDvbSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ErrorMetrics"].writeList(value.errorMetrics, memberWritingClosure: MediaPackageV2ClientTypes.DashDvbMetricsReporting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FontDownload"].write(value.fontDownload, with: MediaPackageV2ClientTypes.DashDvbFontDownload.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashDvbSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashDvbSettings()
+        value.fontDownload = try reader["FontDownload"].readIfPresent(with: MediaPackageV2ClientTypes.DashDvbFontDownload.read(from:))
+        value.errorMetrics = try reader["ErrorMetrics"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.DashDvbMetricsReporting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashDvbMetricsReporting {
+
+    static func write(value: MediaPackageV2ClientTypes.DashDvbMetricsReporting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Probability"].write(value.probability)
+        try writer["ReportingUrl"].write(value.reportingUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashDvbMetricsReporting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashDvbMetricsReporting()
+        value.reportingUrl = try reader["ReportingUrl"].readIfPresent() ?? ""
+        value.probability = try reader["Probability"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashDvbFontDownload {
+
+    static func write(value: MediaPackageV2ClientTypes.DashDvbFontDownload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FontFamily"].write(value.fontFamily)
+        try writer["MimeType"].write(value.mimeType)
+        try writer["Url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashDvbFontDownload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashDvbFontDownload()
+        value.url = try reader["Url"].readIfPresent()
+        value.mimeType = try reader["MimeType"].readIfPresent()
+        value.fontFamily = try reader["FontFamily"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashProgramInformation {
+
+    static func write(value: MediaPackageV2ClientTypes.DashProgramInformation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Copyright"].write(value.copyright)
+        try writer["LanguageCode"].write(value.languageCode)
+        try writer["MoreInformationUrl"].write(value.moreInformationUrl)
+        try writer["Source"].write(value.source)
+        try writer["Title"].write(value.title)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashProgramInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashProgramInformation()
+        value.title = try reader["Title"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent()
+        value.copyright = try reader["Copyright"].readIfPresent()
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.moreInformationUrl = try reader["MoreInformationUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashBaseUrl {
+
+    static func write(value: MediaPackageV2ClientTypes.DashBaseUrl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DvbPriority"].write(value.dvbPriority)
+        try writer["DvbWeight"].write(value.dvbWeight)
+        try writer["ServiceLocation"].write(value.serviceLocation)
+        try writer["Url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.DashBaseUrl {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.DashBaseUrl()
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        value.serviceLocation = try reader["ServiceLocation"].readIfPresent()
+        value.dvbPriority = try reader["DvbPriority"].readIfPresent()
+        value.dvbWeight = try reader["DvbWeight"].readIfPresent()
         return value
     }
 }
@@ -6192,15 +6621,21 @@ extension MediaPackageV2ClientTypes.CreateDashManifestConfiguration {
 
     static func write(value: MediaPackageV2ClientTypes.CreateDashManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BaseUrls"].writeList(value.baseUrls, memberWritingClosure: MediaPackageV2ClientTypes.DashBaseUrl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Compactness"].write(value.compactness)
         try writer["DrmSignaling"].write(value.drmSignaling)
+        try writer["DvbSettings"].write(value.dvbSettings, with: MediaPackageV2ClientTypes.DashDvbSettings.write(value:to:))
         try writer["FilterConfiguration"].write(value.filterConfiguration, with: MediaPackageV2ClientTypes.FilterConfiguration.write(value:to:))
         try writer["ManifestName"].write(value.manifestName)
         try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
         try writer["MinBufferTimeSeconds"].write(value.minBufferTimeSeconds)
         try writer["MinUpdatePeriodSeconds"].write(value.minUpdatePeriodSeconds)
         try writer["PeriodTriggers"].writeList(value.periodTriggers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.DashPeriodTrigger>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Profiles"].writeList(value.profiles, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.DashProfile>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ProgramInformation"].write(value.programInformation, with: MediaPackageV2ClientTypes.DashProgramInformation.write(value:to:))
         try writer["ScteDash"].write(value.scteDash, with: MediaPackageV2ClientTypes.ScteDash.write(value:to:))
         try writer["SegmentTemplateFormat"].write(value.segmentTemplateFormat)
+        try writer["SubtitleConfiguration"].write(value.subtitleConfiguration, with: MediaPackageV2ClientTypes.DashSubtitleConfiguration.write(value:to:))
         try writer["SuggestedPresentationDelaySeconds"].write(value.suggestedPresentationDelaySeconds)
         try writer["UtcTiming"].write(value.utcTiming, with: MediaPackageV2ClientTypes.DashUtcTiming.write(value:to:))
     }

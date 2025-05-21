@@ -31,7 +31,7 @@ extension SageMakerClient {
                 return SmithyWaitersAPI.JMESUtils.compare(endpointStatus, ==, "Failed")
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the EndpointDeleted event on the describeEndpoint operation.
@@ -73,7 +73,7 @@ extension SageMakerClient {
                 return (error as? ClientRuntime.ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeEndpointInput, DescribeEndpointOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 3600.0)
     }
 
     /// Initiates waiting for the EndpointInService event on the describeEndpoint operation.
@@ -115,7 +115,7 @@ extension SageMakerClient {
                 return (error as? ClientRuntime.ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeImageInput, DescribeImageOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeImageInput, DescribeImageOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 3600.0)
     }
 
     /// Initiates waiting for the ImageCreated event on the describeImage operation.
@@ -153,7 +153,7 @@ extension SageMakerClient {
                 return (error as? ClientRuntime.ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeImageInput, DescribeImageOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeImageInput, DescribeImageOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 3600.0)
     }
 
     /// Initiates waiting for the ImageDeleted event on the describeImage operation.
@@ -195,7 +195,7 @@ extension SageMakerClient {
                 return (error as? ClientRuntime.ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeImageInput, DescribeImageOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeImageInput, DescribeImageOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 3600.0)
     }
 
     /// Initiates waiting for the ImageUpdated event on the describeImage operation.
@@ -237,7 +237,7 @@ extension SageMakerClient {
                 return (error as? ClientRuntime.ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 3600.0)
     }
 
     /// Initiates waiting for the ImageVersionCreated event on the describeImageVersion operation.
@@ -275,7 +275,7 @@ extension SageMakerClient {
                 return (error as? ClientRuntime.ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeImageVersionInput, DescribeImageVersionOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 3600.0)
     }
 
     /// Initiates waiting for the ImageVersionDeleted event on the describeImageVersion operation.
@@ -309,7 +309,7 @@ extension SageMakerClient {
                 return SmithyWaitersAPI.JMESUtils.compare(notebookInstanceStatus, ==, "Failed")
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the NotebookInstanceDeleted event on the describeNotebookInstance operation.
@@ -347,7 +347,7 @@ extension SageMakerClient {
                 return SmithyWaitersAPI.JMESUtils.compare(notebookInstanceStatus, ==, "Failed")
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the NotebookInstanceInService event on the describeNotebookInstance operation.
@@ -385,7 +385,7 @@ extension SageMakerClient {
                 return SmithyWaitersAPI.JMESUtils.compare(notebookInstanceStatus, ==, "Failed")
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>(acceptors: acceptors, minDelay: 30.0, maxDelay: 1800.0)
     }
 
     /// Initiates waiting for the NotebookInstanceStopped event on the describeNotebookInstance operation.
@@ -435,7 +435,7 @@ extension SageMakerClient {
                 return (error as? ClientRuntime.ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeProcessingJobInput, DescribeProcessingJobOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeProcessingJobInput, DescribeProcessingJobOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 3600.0)
     }
 
     /// Initiates waiting for the ProcessingJobCompletedOrStopped event on the describeProcessingJob operation.
@@ -485,7 +485,7 @@ extension SageMakerClient {
                 return (error as? ClientRuntime.ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeTrainingJobInput, DescribeTrainingJobOutput>(acceptors: acceptors, minDelay: 120.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeTrainingJobInput, DescribeTrainingJobOutput>(acceptors: acceptors, minDelay: 120.0, maxDelay: 21600.0)
     }
 
     /// Initiates waiting for the TrainingJobCompletedOrStopped event on the describeTrainingJob operation.
@@ -535,7 +535,7 @@ extension SageMakerClient {
                 return (error as? ClientRuntime.ServiceError)?.typeName == "ValidationException"
             }),
         ]
-        return try SmithyWaitersAPI.WaiterConfiguration<DescribeTransformJobInput, DescribeTransformJobOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 120.0)
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeTransformJobInput, DescribeTransformJobOutput>(acceptors: acceptors, minDelay: 60.0, maxDelay: 3600.0)
     }
 
     /// Initiates waiting for the TransformJobCompletedOrStopped event on the describeTransformJob operation.

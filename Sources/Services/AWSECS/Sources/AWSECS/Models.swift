@@ -680,9 +680,9 @@ extension ECSClientTypes {
 
     /// The managed storage configuration for the cluster.
     public struct ManagedStorageConfiguration: Swift.Sendable {
-        /// Specify the Key Management Service key ID for the Fargate ephemeral storage. The key must be a single Region key.
+        /// Specify the Key Management Service key ID for Fargate ephemeral storage. When you specify a fargateEphemeralStorageKmsKeyId, Amazon Web Services Fargate uses the key to encrypt data at rest in ephemeral storage. For more information about Fargate ephemeral storage encryption, see [Customer managed keys for Amazon Web Services Fargate ephemeral storage for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-storage-encryption.html) in the Amazon Elastic Container Service Developer Guide. The key must be a single Region key.
         public var fargateEphemeralStorageKmsKeyId: Swift.String?
-        /// Specify a Key Management Service key ID to encrypt the managed storage. The key must be a single Region key.
+        /// Specify a Key Management Service key ID to encrypt Amazon ECS managed storage. When you specify a kmsKeyId, Amazon ECS uses the key to encrypt data volumes managed by Amazon ECS that are attached to tasks in the cluster. The following data volumes are managed by Amazon ECS: Amazon EBS. For more information about encryption of Amazon EBS volumes attached to Amazon ECS tasks, see [Encrypt data stored in Amazon EBS volumes for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-kms-encryption.html) in the Amazon Elastic Container Service Developer Guide. The key must be a single Region key.
         public var kmsKeyId: Swift.String?
 
         public init(
@@ -925,7 +925,7 @@ extension ECSClientTypes {
         public var clusterArn: Swift.String?
         /// A user-generated string that you use to identify your cluster.
         public var clusterName: Swift.String?
-        /// The execute command configuration for the cluster.
+        /// The execute command and managed storage configuration for the cluster.
         public var configuration: ECSClientTypes.ClusterConfiguration?
         /// The default capacity provider strategy for the cluster. When services or tasks are run in the cluster with no launch type or capacity provider strategy specified, the default capacity provider strategy is used.
         public var defaultCapacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
@@ -1952,9 +1952,9 @@ extension ECSClientTypes {
 
     /// The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf. These settings are used to create each Amazon EBS volume, with one volume created for each task in the service. For information about the supported launch types and operating systems, see [Supported operating systems and launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volumes-configuration) in the Amazon Elastic Container Service Developer Guide. Many of these parameters map 1:1 with the Amazon EBS CreateVolume API request parameters.
     public struct ServiceManagedEBSVolumeConfiguration: Swift.Sendable {
-        /// Indicates whether the volume should be encrypted. If no value is specified, encryption is turned on by default. This parameter maps 1:1 with the Encrypted parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        /// Indicates whether the volume should be encrypted. If you turn on Region-level Amazon EBS encryption by default but set this value as false, the setting is overridden and the volume is encrypted with the KMS key specified for Amazon EBS encryption by default. This parameter maps 1:1 with the Encrypted parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
         public var encrypted: Swift.Bool?
-        /// The filesystem type for the volume. For volumes created from a snapshot, you must specify the same filesystem type that the volume was using when the snapshot was created. If there is a filesystem type mismatch, the task will fail to start. The available Linux filesystem types are  ext3, ext4, and xfs. If no value is specified, the xfs filesystem type is used by default. The available Windows filesystem types are NTFS.
+        /// The filesystem type for the volume. For volumes created from a snapshot, you must specify the same filesystem type that the volume was using when the snapshot was created. If there is a filesystem type mismatch, the tasks will fail to start. The available Linux filesystem types are  ext3, ext4, and xfs. If no value is specified, the xfs filesystem type is used by default. The available Windows filesystem types are NTFS.
         public var filesystemType: ECSClientTypes.TaskFilesystemType?
         /// The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type.
         ///
@@ -1967,7 +1967,7 @@ extension ECSClientTypes {
         ///
         /// This parameter is required for io1 and io2 volume types. The default for gp3 volumes is 3,000 IOPS. This parameter is not supported for st1, sc1, or standard volume types. This parameter maps 1:1 with the Iops parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
         public var iops: Swift.Int?
-        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When encryption is turned on and no Amazon Web Services Key Management Service key is specified, the default Amazon Web Services managed key for Amazon EBS volumes is used. This parameter maps 1:1 with the KmsKeyId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an ID, alias, or ARN that is invalid, the action can appear to complete, but eventually fails.
+        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When a key is specified using this parameter, it overrides Amazon EBS default encryption or any KMS key that you specified for cluster-level managed storage encryption. This parameter maps 1:1 with the KmsKeyId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information about encrypting Amazon EBS volumes attached to tasks, see [Encrypt data stored in Amazon EBS volumes attached to Amazon ECS tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-kms-encryption.html). Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an ID, alias, or ARN that is invalid, the action can appear to complete, but eventually fails.
         public var kmsKeyId: Swift.String?
         /// The ARN of the IAM role to associate with this volume. This is the Amazon ECS infrastructure IAM role that is used to manage your Amazon Web Services infrastructure. We recommend using the Amazon ECS-managed AmazonECSInfrastructureRolePolicyForVolumes IAM policy with this role. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
         /// This member is required.
@@ -1982,12 +1982,14 @@ extension ECSClientTypes {
         ///
         /// * standard: 1-1,024
         public var sizeInGiB: Swift.Int?
-        /// The snapshot that Amazon ECS uses to create the volume. You must specify either a snapshot ID or a volume size. This parameter maps 1:1 with the SnapshotId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        /// The snapshot that Amazon ECS uses to create volumes for attachment to tasks maintained by the service. You must specify either snapshotId or sizeInGiB in your volume configuration. This parameter maps 1:1 with the SnapshotId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
         public var snapshotId: Swift.String?
         /// The tags to apply to the volume. Amazon ECS applies service-managed tags by default. This parameter maps 1:1 with the TagSpecifications.N parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
         public var tagSpecifications: [ECSClientTypes.EBSTagSpecification]?
         /// The throughput to provision for a volume, in MiB/s, with a maximum of 1,000 MiB/s. This parameter maps 1:1 with the Throughput parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. This parameter is only supported for the gp3 volume type.
         public var throughput: Swift.Int?
+        /// The rate, in MiB/s, at which data is fetched from a snapshot of an existing EBS volume to create new volumes for attachment to the tasks maintained by the service. This property can be specified only if you specify a snapshotId. For more information, see [Initialize Amazon EBS volumes](https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html) in the Amazon EBS User Guide.
+        public var volumeInitializationRate: Swift.Int?
         /// The volume type. This parameter maps 1:1 with the VolumeType parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information, see [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) in the Amazon EC2 User Guide. The following are the supported volume types.
         ///
         /// * General Purpose SSD: gp2|gp3
@@ -2011,6 +2013,7 @@ extension ECSClientTypes {
             snapshotId: Swift.String? = nil,
             tagSpecifications: [ECSClientTypes.EBSTagSpecification]? = nil,
             throughput: Swift.Int? = nil,
+            volumeInitializationRate: Swift.Int? = nil,
             volumeType: Swift.String? = nil
         ) {
             self.encrypted = encrypted
@@ -2022,6 +2025,7 @@ extension ECSClientTypes {
             self.snapshotId = snapshotId
             self.tagSpecifications = tagSpecifications
             self.throughput = throughput
+            self.volumeInitializationRate = volumeInitializationRate
             self.volumeType = volumeType
         }
     }
@@ -4062,7 +4066,7 @@ extension ECSClientTypes {
     public struct SystemControl: Swift.Sendable {
         /// The namespaced kernel parameter to set a value for.
         public var namespace: Swift.String?
-        /// The namespaced kernel parameter to set a value for. Valid IPC namespace values: "kernel.msgmax" | "kernel.msgmnb" | "kernel.msgmni" | "kernel.sem" | "kernel.shmall" | "kernel.shmmax" | "kernel.shmmni" | "kernel.shm_rmid_forced", and Sysctls that start with "fs.mqueue.*" Valid network namespace values: Sysctls that start with "net.*" All of these values are supported by Fargate.
+        /// The namespaced kernel parameter to set a value for. Valid IPC namespace values: "kernel.msgmax" | "kernel.msgmnb" | "kernel.msgmni" | "kernel.sem" | "kernel.shmall" | "kernel.shmmax" | "kernel.shmmni" | "kernel.shm_rmid_forced", and Sysctls that start with "fs.mqueue.*" Valid network namespace values: Sysctls that start with "net.*". Only namespaced Sysctls that exist within the container starting with "net.* are accepted. All of these values are supported by Fargate.
         public var value: Swift.String?
 
         public init(
@@ -6645,7 +6649,7 @@ extension ECSClientTypes {
         public var networkBindings: [ECSClientTypes.NetworkBinding]?
         /// The network interfaces associated with the container.
         public var networkInterfaces: [ECSClientTypes.NetworkInterface]?
-        /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
+        /// A short (1024 max characters) human-readable string to provide additional details about a running or stopped container.
         public var reason: Swift.String?
         /// The ID of the Docker container.
         public var runtimeId: Swift.String?
@@ -8572,7 +8576,7 @@ extension ECSClientTypes {
 
     /// The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf. These settings are used to create each Amazon EBS volume, with one volume created for each task.
     public struct TaskManagedEBSVolumeConfiguration: Swift.Sendable {
-        /// Indicates whether the volume should be encrypted. If no value is specified, encryption is turned on by default. This parameter maps 1:1 with the Encrypted parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        /// Indicates whether the volume should be encrypted. If you turn on Region-level Amazon EBS encryption by default but set this value as false, the setting is overridden and the volume is encrypted with the KMS key specified for Amazon EBS encryption by default. This parameter maps 1:1 with the Encrypted parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
         public var encrypted: Swift.Bool?
         /// The Linux filesystem type for the volume. For volumes created from a snapshot, you must specify the same filesystem type that the volume was using when the snapshot was created. If there is a filesystem type mismatch, the task will fail to start. The available filesystem types are  ext3, ext4, and xfs. If no value is specified, the xfs filesystem type is used by default.
         public var filesystemType: ECSClientTypes.TaskFilesystemType?
@@ -8587,7 +8591,7 @@ extension ECSClientTypes {
         ///
         /// This parameter is required for io1 and io2 volume types. The default for gp3 volumes is 3,000 IOPS. This parameter is not supported for st1, sc1, or standard volume types. This parameter maps 1:1 with the Iops parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
         public var iops: Swift.Int?
-        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When encryption is turned on and no Amazon Web Services Key Management Service key is specified, the default Amazon Web Services managed key for Amazon EBS volumes is used. This parameter maps 1:1 with the KmsKeyId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an ID, alias, or ARN that is invalid, the action can appear to complete, but eventually fails.
+        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When a key is specified using this parameter, it overrides Amazon EBS default encryption or any KMS key that you specified for cluster-level managed storage encryption. This parameter maps 1:1 with the KmsKeyId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information about encrypting Amazon EBS volumes attached to a task, see [Encrypt data stored in Amazon EBS volumes attached to Amazon ECS tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-kms-encryption.html). Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an ID, alias, or ARN that is invalid, the action can appear to complete, but eventually fails.
         public var kmsKeyId: Swift.String?
         /// The ARN of the IAM role to associate with this volume. This is the Amazon ECS infrastructure IAM role that is used to manage your Amazon Web Services infrastructure. We recommend using the Amazon ECS-managed AmazonECSInfrastructureRolePolicyForVolumes IAM policy with this role. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
         /// This member is required.
@@ -8610,6 +8614,8 @@ extension ECSClientTypes {
         public var terminationPolicy: ECSClientTypes.TaskManagedEBSVolumeTerminationPolicy?
         /// The throughput to provision for a volume, in MiB/s, with a maximum of 1,000 MiB/s. This parameter maps 1:1 with the Throughput parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. This parameter is only supported for the gp3 volume type.
         public var throughput: Swift.Int?
+        /// The rate, in MiB/s, at which data is fetched from a snapshot of an existing Amazon EBS volume to create a new volume for attachment to the task. This property can be specified only if you specify a snapshotId. For more information, see [Initialize Amazon EBS volumes](https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html) in the Amazon EBS User Guide.
+        public var volumeInitializationRate: Swift.Int?
         /// The volume type. This parameter maps 1:1 with the VolumeType parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information, see [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) in the Amazon EC2 User Guide. The following are the supported volume types.
         ///
         /// * General Purpose SSD: gp2|gp3
@@ -8634,6 +8640,7 @@ extension ECSClientTypes {
             tagSpecifications: [ECSClientTypes.EBSTagSpecification]? = nil,
             terminationPolicy: ECSClientTypes.TaskManagedEBSVolumeTerminationPolicy? = nil,
             throughput: Swift.Int? = nil,
+            volumeInitializationRate: Swift.Int? = nil,
             volumeType: Swift.String? = nil
         ) {
             self.encrypted = encrypted
@@ -8646,6 +8653,7 @@ extension ECSClientTypes {
             self.tagSpecifications = tagSpecifications
             self.terminationPolicy = terminationPolicy
             self.throughput = throughput
+            self.volumeInitializationRate = volumeInitializationRate
             self.volumeType = volumeType
         }
     }
@@ -13501,6 +13509,7 @@ extension ECSClientTypes.ServiceManagedEBSVolumeConfiguration {
         try writer["snapshotId"].write(value.snapshotId)
         try writer["tagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: ECSClientTypes.EBSTagSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["throughput"].write(value.throughput)
+        try writer["volumeInitializationRate"].write(value.volumeInitializationRate)
         try writer["volumeType"].write(value.volumeType)
     }
 
@@ -13512,6 +13521,7 @@ extension ECSClientTypes.ServiceManagedEBSVolumeConfiguration {
         value.volumeType = try reader["volumeType"].readIfPresent()
         value.sizeInGiB = try reader["sizeInGiB"].readIfPresent()
         value.snapshotId = try reader["snapshotId"].readIfPresent()
+        value.volumeInitializationRate = try reader["volumeInitializationRate"].readIfPresent()
         value.iops = try reader["iops"].readIfPresent()
         value.throughput = try reader["throughput"].readIfPresent()
         value.tagSpecifications = try reader["tagSpecifications"].readListIfPresent(memberReadingClosure: ECSClientTypes.EBSTagSpecification.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -15078,6 +15088,7 @@ extension ECSClientTypes.TaskManagedEBSVolumeConfiguration {
         try writer["tagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: ECSClientTypes.EBSTagSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["terminationPolicy"].write(value.terminationPolicy, with: ECSClientTypes.TaskManagedEBSVolumeTerminationPolicy.write(value:to:))
         try writer["throughput"].write(value.throughput)
+        try writer["volumeInitializationRate"].write(value.volumeInitializationRate)
         try writer["volumeType"].write(value.volumeType)
     }
 }

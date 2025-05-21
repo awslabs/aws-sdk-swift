@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServiceQuotasClient: ClientRuntime.Client {
     public static let clientName = "ServiceQuotasClient"
-    public static let version = "1.3.12"
+    public static let version = "1.3.21"
     let client: ClientRuntime.SdkHttpClient
     let config: ServiceQuotasClient.ServiceQuotasClientConfiguration
     let serviceName = "Service Quotas"
@@ -428,6 +428,88 @@ extension ServiceQuotasClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceQuotas")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateServiceQuotaTemplate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateSupportCase` operation on the `ServiceQuotas` service.
+    ///
+    /// Creates a Support case for an existing quota increase request. This call only creates a Support case if the request has a Pending status.
+    ///
+    /// - Parameter CreateSupportCaseInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSupportCaseOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `DependencyAccessDeniedException` : You can't perform this action because a dependency does not have access.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `InvalidResourceStateException` : The resource is in an invalid state.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ResourceAlreadyExistsException` : The specified resource already exists.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
+    public func createSupportCase(input: CreateSupportCaseInput) async throws -> CreateSupportCaseOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createSupportCase")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "servicequotas")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateSupportCaseInput, CreateSupportCaseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSupportCaseInput, CreateSupportCaseOutput>(CreateSupportCaseInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSupportCaseInput, CreateSupportCaseOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSupportCaseInput, CreateSupportCaseOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSupportCaseOutput>(CreateSupportCaseOutput.httpOutput(from:), CreateSupportCaseOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSupportCaseInput, CreateSupportCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateSupportCaseOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Service Quotas", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSupportCaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateSupportCaseInput, CreateSupportCaseOutput>(xAmzTarget: "ServiceQuotasV20190624.CreateSupportCase"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateSupportCaseInput, CreateSupportCaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSupportCaseInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSupportCaseInput, CreateSupportCaseOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSupportCaseOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSupportCaseInput, CreateSupportCaseOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSupportCaseInput, CreateSupportCaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSupportCaseInput, CreateSupportCaseOutput>(serviceID: serviceName, version: ServiceQuotasClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceQuotas")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSupportCase")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
