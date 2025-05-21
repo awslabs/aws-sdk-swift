@@ -68,15 +68,14 @@ public final class IMDSClient: EC2InstanceMetadataProvider {
     }
 
     public func get(path: String) async throws -> String {
-        var attempt = 0
         var backoff: TimeInterval = 0.1
 
-        while attempt <= retries {
+        for attempt in 0...retries {
             do {
                 let (data, response) = try await fetchMetadataResponse(path: path)
                 return try await processMetadataResponse(path: path, data: data, response: response)
             } catch let error as IMDSError {
-                try await handleErrors(attempt: &attempt, backoff: &backoff, error: error)
+                try await handleErrors(backoff: &backoff, error: error)
             }
         }
         throw IMDSError.reachedMaxRetries // Never reached; added to make compiler happy.
@@ -132,16 +131,11 @@ public final class IMDSClient: EC2InstanceMetadataProvider {
     }
 
     private func handleErrors(
-        attempt: inout Int,
         backoff: inout TimeInterval,
         error: IMDSError
     ) async throws {
         switch error {
         case .metadata(.retryable), .token(.retryable), .networkError, .deserializationError:
-            attempt += 1
-            if attempt > retries {
-                throw IMDSError.reachedMaxRetries
-            }
             try? await Task.sleep(nanoseconds: UInt64(backoff * 1_000_000_000))
             backoff *= 2
         default:

@@ -65,7 +65,6 @@ public actor IMDSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             envVarName: "AWS_EC2_INSTANCE_PROFILE_NAME",
             configFieldName: "ec2_instance_profile_name",
             fileBasedConfig: fileBasedConfig,
-            profileName: nil,
             converter: { String($0) }
         ).value
         if let resolvedEC2InstanceProfileName,
@@ -95,8 +94,6 @@ public actor IMDSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
                     apiVersion = .legacy
                     return try await getIdentity(identityProperties: identityProperties)
                 }
-            } catch {
-                throw error
             }
         }
 
@@ -108,19 +105,17 @@ public actor IMDSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             if apiVersion == .unknown {
                 apiVersion = .extended
             }
-        } catch IMDSError.metadata(.nonRetryable(let message)) {
-            if message.contains("404") {
-                if apiVersion == .unknown {
-                    // Fallback to .legacy and recurse.
-                    apiVersion = .legacy
-                    return try await getIdentity(identityProperties: identityProperties)
-                } else if ec2InstanceProfileName == nil {
-                    // Remove profile name previously resolved from IMDS and recurse.
-                    resolvedProfile = nil
-                    return try await getIdentity(identityProperties: identityProperties)
-                } else {
-                    throw IMDSError.invalidProfileName
-                }
+        } catch IMDSError.metadata(.nonRetryable(let message)) where message.contains("404") {
+            if apiVersion == .unknown {
+                // Fallback to .legacy and recurse.
+                apiVersion = .legacy
+                return try await getIdentity(identityProperties: identityProperties)
+            } else if ec2InstanceProfileName == nil {
+                // Remove profile name previously resolved from IMDS and recurse.
+                resolvedProfile = nil
+                return try await getIdentity(identityProperties: identityProperties)
+            } else {
+                throw IMDSError.invalidProfileName
             }
         } catch {
             throw IMDSError.invalidProfileName
@@ -136,7 +131,6 @@ public actor IMDSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             envVarName: "AWS_EC2_METADATA_DISABLED",
             configFieldName: "disable_ec2_metadata",
             fileBasedConfig: fileBasedConfig,
-            profileName: nil,
             converter: { Bool($0.lowercased()) }
         ).value ?? false
         guard !imdsDisabled else {
