@@ -114,8 +114,8 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             )
         }
 
-        // Must fail if host isn't IP address & scheme is HTTP.
-        if resolvedURL.scheme == "http" && !isIPv4Address(host) {
+        // Must fail if host isn't IP address & scheme isn't HTTPS.
+        if resolvedURL.scheme != "https" && !isIPv4Address(host) {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                 "ECSAWSCredentialIdentityResolver: "
                 + "Resolved URL has HTTP scheme with host that isn't an IP address."
@@ -125,9 +125,9 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         }
 
         // Must fail if host is IP address and doesn't match one of the three conditions below.
-        guard host == "169.254.170.2"
-            || host == "169.254.170.23"
-            || host.split(separator: ".").first == "127" else {
+        guard host == "169.254.170.2" // ECS container host.
+            || host == "169.254.170.23" // EKS container host.
+            || host.split(separator: ".").first == "127" else { // Loopback CIDR.
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                 "ECSAWSCredentialIdentityResolver: "
                 + "The IP address in resolved URL is invalid. "
