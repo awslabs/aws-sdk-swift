@@ -10,7 +10,7 @@ import struct Foundation.TimeInterval
 
 // The period of time before the token expires, where token is refreshed regardless.
 // Prevents token expiration during in-flight requests.
-public let TOKEN_REFRESH_BUFFER: TimeInterval = 120
+private let TOKEN_REFRESH_BUFFER: TimeInterval = 120
 
 public struct IMDSToken: Sendable {
     public let value: String

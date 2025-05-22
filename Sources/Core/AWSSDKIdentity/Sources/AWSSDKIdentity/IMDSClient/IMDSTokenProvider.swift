@@ -12,7 +12,7 @@ import FoundationNetworking
 import Foundation
 
 // Header required for fetching the session token.
-let X_AWS_EC2_METADATA_TOKEN_TTL_SECONDS = "x-aws-ec2-metadata-token-ttl-seconds"
+private let X_AWS_EC2_METADATA_TOKEN_TTL_SECONDS = "x-aws-ec2-metadata-token-ttl-seconds"
 
 public actor IMDSTokenProvider {
     private var cachedToken: IMDSToken?

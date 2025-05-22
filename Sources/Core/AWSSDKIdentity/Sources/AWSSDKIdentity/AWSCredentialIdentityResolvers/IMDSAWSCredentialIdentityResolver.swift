@@ -196,12 +196,28 @@ private struct JSONCredentialResponse: Codable {
         let formatter = ISO8601DateFormatter()
 
         code = try container.decode(String.self, forKey: .code)
-        lastUpdated = formatter.date(from: try container.decode(String.self, forKey: .lastUpdated))!
+
+        let lastUpdatedString = try container.decode(String.self, forKey: .lastUpdated)
+        guard let lastUpdatedDate = formatter.date(from: lastUpdatedString) else {
+            throw DecodingError.dataCorruptedError(forKey: .lastUpdated,
+                in: container,
+                debugDescription: "Invalid ISO8601 date string: \(lastUpdatedString)")
+        }
+        lastUpdated = lastUpdatedDate
+
         type = try container.decode(String.self, forKey: .type)
         accessKeyID = try container.decode(String.self, forKey: .accessKeyID)
         secretAccessKey = try container.decode(String.self, forKey: .secretAccessKey)
         token = try container.decode(String.self, forKey: .token)
-        expiration = formatter.date(from: try container.decode(String.self, forKey: .expiration))!
+
+        let expirationString = try container.decode(String.self, forKey: .expiration)
+        guard let expirationDate = formatter.date(from: expirationString) else {
+            throw DecodingError.dataCorruptedError(forKey: .expiration,
+                in: container,
+                debugDescription: "Invalid ISO8601 date string: \(expirationString)")
+        }
+        expiration = expirationDate
+
         accountID = try container.decodeIfPresent(String.self, forKey: .accountID)
     }
 }
