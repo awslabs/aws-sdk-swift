@@ -7,17 +7,15 @@
 
 import ClientRuntime
 
-public class RegionPlugin: Plugin {
+public class RegionPlugin<Config: AWSRegionClientConfiguration>: Plugin {
     private var region: String
 
     public init(_ region: String) {
         self.region = region
     }
 
-    public func configureClient(clientConfiguration: ClientConfiguration) {
-        if var config = clientConfiguration as? AWSRegionClientConfiguration {
-            config.region = self.region
-            config.signingRegion = self.region
-        }
+    public func configureClient(clientConfiguration: inout Config) {
+        clientConfiguration.region = self.region
+        clientConfiguration.signingRegion = self.region
     }
 }
