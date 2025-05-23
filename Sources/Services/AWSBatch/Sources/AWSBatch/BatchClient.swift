@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BatchClient: ClientRuntime.Client {
     public static let clientName = "BatchClient"
-    public static let version = "1.3.22"
+    public static let version = "1.3.23"
     let client: ClientRuntime.SdkHttpClient
     let config: BatchClient.BatchClientConfiguration
     let serviceName = "Batch"
