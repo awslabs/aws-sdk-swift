@@ -12199,15 +12199,37 @@ extension GlueClientTypes {
 
     /// A structure that describes how data is partitioned on the target.
     public struct IntegrationPartition: Swift.Sendable {
+        /// Specifies the timestamp format of the source data. Valid values are:
+        ///
+        /// * epoch_sec - Unix epoch timestamp in seconds
+        ///
+        /// * epoch_milli - Unix epoch timestamp in milliseconds
+        ///
+        /// * iso - ISO 8601 formatted timestamp
+        ///
+        ///
+        /// Only specify ConversionSpec when using timestamp-based partition functions (year, month, day, or hour). Glue Zero-ETL uses this parameter to correctly transform source data into timestamp format before partitioning. Do not use high-cardinality columns with the identity partition function. High-cardinality columns include:
+        ///
+        /// * Primary keys
+        ///
+        /// * Timestamp fields (such as LastModifiedTimestamp, CreatedDate)
+        ///
+        /// * System-generated timestamps
+        ///
+        ///
+        /// Using high-cardinality columns with identity partitioning creates many small partitions, which can significantly degrade ingestion performance.
+        public var conversionSpec: Swift.String?
         /// The field name used to partition data on the target. Avoid using columns that have unique values for each row (for example, `LastModifiedTimestamp`, `SystemModTimeStamp`) as the partition column. These columns are not suitable for partitioning because they create a large number of small partitions, which can lead to performance issues.
         public var fieldName: Swift.String?
         /// Specifies the function used to partition data on the target. The only accepted value for this parameter is `'identity'` (string). The `'identity'` function ensures that the data partitioning on the target follows the same scheme as the source. In other words, the partitioning structure of the source data is preserved in the target destination.
         public var functionSpec: Swift.String?
 
         public init(
+            conversionSpec: Swift.String? = nil,
             fieldName: Swift.String? = nil,
             functionSpec: Swift.String? = nil
         ) {
+            self.conversionSpec = conversionSpec
             self.fieldName = fieldName
             self.functionSpec = functionSpec
         }
@@ -12270,7 +12292,7 @@ extension GlueClientTypes {
 }
 
 public struct CreateIntegrationTablePropertiesInput: Swift.Sendable {
-    /// The connection ARN of the source, or the database ARN of the target.
+    /// The Amazon Resource Name (ARN) of the target table for which to create integration table properties. Currently, this API only supports creating integration table properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for creating integration table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// A structure for the source table configuration. See the SourceTableConfig structure to see list of supported source properties.
@@ -18828,7 +18850,7 @@ public struct GetIntegrationResourcePropertyOutput: Swift.Sendable {
 }
 
 public struct GetIntegrationTablePropertiesInput: Swift.Sendable {
-    /// The connection ARN of the source, or the database ARN of the target.
+    /// The Amazon Resource Name (ARN) of the target table for which to retrieve integration table properties. Currently, this API only supports retrieving properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for retrieving integration table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The name of the table to be replicated.
@@ -18845,7 +18867,7 @@ public struct GetIntegrationTablePropertiesInput: Swift.Sendable {
 }
 
 public struct GetIntegrationTablePropertiesOutput: Swift.Sendable {
-    /// The connection ARN of the source, or the database ARN of the target.
+    /// The Amazon Resource Name (ARN) of the target table for which to retrieve integration table properties. Currently, this API only supports retrieving properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for retrieving integration table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release.
     public var resourceArn: Swift.String?
     /// A structure for the source table configuration.
     public var sourceTableConfig: GlueClientTypes.SourceTableConfig?
@@ -46172,6 +46194,7 @@ extension GlueClientTypes.IntegrationPartition {
 
     static func write(value: GlueClientTypes.IntegrationPartition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ConversionSpec"].write(value.conversionSpec)
         try writer["FieldName"].write(value.fieldName)
         try writer["FunctionSpec"].write(value.functionSpec)
     }
@@ -46181,6 +46204,7 @@ extension GlueClientTypes.IntegrationPartition {
         var value = GlueClientTypes.IntegrationPartition()
         value.fieldName = try reader["FieldName"].readIfPresent()
         value.functionSpec = try reader["FunctionSpec"].readIfPresent()
+        value.conversionSpec = try reader["ConversionSpec"].readIfPresent()
         return value
     }
 }
