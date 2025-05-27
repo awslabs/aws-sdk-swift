@@ -108,6 +108,78 @@ extension PaginatorSequence where OperationStackInput == GetAnomalySubscriptions
     }
 }
 extension CostExplorerClient {
+    /// Paginate over `[GetCostAndUsageComparisonsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCostAndUsageComparisonsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCostAndUsageComparisonsOutput`
+    public func getCostAndUsageComparisonsPaginated(input: GetCostAndUsageComparisonsInput) -> ClientRuntime.PaginatorSequence<GetCostAndUsageComparisonsInput, GetCostAndUsageComparisonsOutput> {
+        return ClientRuntime.PaginatorSequence<GetCostAndUsageComparisonsInput, GetCostAndUsageComparisonsOutput>(input: input, inputKey: \.nextPageToken, outputKey: \.nextPageToken, paginationFunction: self.getCostAndUsageComparisons(input:))
+    }
+}
+
+extension GetCostAndUsageComparisonsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetCostAndUsageComparisonsInput {
+        return GetCostAndUsageComparisonsInput(
+            baselineTimePeriod: self.baselineTimePeriod,
+            billingViewArn: self.billingViewArn,
+            comparisonTimePeriod: self.comparisonTimePeriod,
+            filter: self.filter,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metricForComparison: self.metricForComparison,
+            nextPageToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetCostAndUsageComparisonsInput, OperationStackOutput == GetCostAndUsageComparisonsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getCostAndUsageComparisonsPaginated`
+    /// to access the nested member `[CostExplorerClientTypes.CostAndUsageComparison]`
+    /// - Returns: `[CostExplorerClientTypes.CostAndUsageComparison]`
+    public func costAndUsageComparisons() async throws -> [CostExplorerClientTypes.CostAndUsageComparison] {
+        return try await self.asyncCompactMap { item in item.costAndUsageComparisons }
+    }
+}
+extension CostExplorerClient {
+    /// Paginate over `[GetCostComparisonDriversOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCostComparisonDriversInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCostComparisonDriversOutput`
+    public func getCostComparisonDriversPaginated(input: GetCostComparisonDriversInput) -> ClientRuntime.PaginatorSequence<GetCostComparisonDriversInput, GetCostComparisonDriversOutput> {
+        return ClientRuntime.PaginatorSequence<GetCostComparisonDriversInput, GetCostComparisonDriversOutput>(input: input, inputKey: \.nextPageToken, outputKey: \.nextPageToken, paginationFunction: self.getCostComparisonDrivers(input:))
+    }
+}
+
+extension GetCostComparisonDriversInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetCostComparisonDriversInput {
+        return GetCostComparisonDriversInput(
+            baselineTimePeriod: self.baselineTimePeriod,
+            billingViewArn: self.billingViewArn,
+            comparisonTimePeriod: self.comparisonTimePeriod,
+            filter: self.filter,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metricForComparison: self.metricForComparison,
+            nextPageToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetCostComparisonDriversInput, OperationStackOutput == GetCostComparisonDriversOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getCostComparisonDriversPaginated`
+    /// to access the nested member `[CostExplorerClientTypes.CostComparisonDriver]`
+    /// - Returns: `[CostExplorerClientTypes.CostComparisonDriver]`
+    public func costComparisonDrivers() async throws -> [CostExplorerClientTypes.CostComparisonDriver] {
+        return try await self.asyncCompactMap { item in item.costComparisonDrivers }
+    }
+}
+extension CostExplorerClient {
     /// Paginate over `[GetSavingsPlansCoverageOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
