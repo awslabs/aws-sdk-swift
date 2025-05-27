@@ -311,6 +311,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// If enabled, you can't delete your cluster. You must first disable this property before you can delete your cluster.
     public var deletionProtectionEnabled: Swift.Bool?
+    /// The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you.
+    public var kmsEncryptionKey: Swift.String?
     /// The configuration settings when creating a multi-Region cluster, including the witness region and linked cluster properties.
     public var multiRegionProperties: DSQLClientTypes.MultiRegionProperties?
     /// A map of key and value pairs to use to tag your cluster.
@@ -319,13 +321,104 @@ public struct CreateClusterInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
+        kmsEncryptionKey: Swift.String? = nil,
         multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.kmsEncryptionKey = kmsEncryptionKey
         self.multiRegionProperties = multiRegionProperties
         self.tags = tags
+    }
+}
+
+extension DSQLClientTypes {
+
+    public enum EncryptionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enabled
+        case enabling
+        case kmsKeyInaccessible
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionStatus] {
+            return [
+                .enabled,
+                .enabling,
+                .kmsKeyInaccessible,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enabled: return "ENABLED"
+            case .enabling: return "ENABLING"
+            case .kmsKeyInaccessible: return "KMS_KEY_INACCESSIBLE"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DSQLClientTypes {
+
+    public enum EncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsOwnedKmsKey
+        case customerManagedKmsKey
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionType] {
+            return [
+                .awsOwnedKmsKey,
+                .customerManagedKmsKey
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsOwnedKmsKey: return "AWS_OWNED_KMS_KEY"
+            case .customerManagedKmsKey: return "CUSTOMER_MANAGED_KMS_KEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DSQLClientTypes {
+
+    /// Configuration details about encryption for the cluster including the KMS key ARN, encryption type, and encryption status.
+    public struct EncryptionDetails: Swift.Sendable {
+        /// The status of encryption for the cluster.
+        /// This member is required.
+        public var encryptionStatus: DSQLClientTypes.EncryptionStatus?
+        /// The type of encryption that protects the data on your cluster.
+        /// This member is required.
+        public var encryptionType: DSQLClientTypes.EncryptionType?
+        /// The ARN of the KMS key that encrypts data in the cluster.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            encryptionStatus: DSQLClientTypes.EncryptionStatus? = nil,
+            encryptionType: DSQLClientTypes.EncryptionType? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.encryptionStatus = encryptionStatus
+            self.encryptionType = encryptionType
+            self.kmsKeyArn = kmsKeyArn
+        }
     }
 }
 
@@ -340,6 +433,8 @@ public struct CreateClusterOutput: Swift.Sendable {
     /// Whether deletion protection is enabled on this cluster.
     /// This member is required.
     public var deletionProtectionEnabled: Swift.Bool?
+    /// The encryption configuration for the cluster that was specified during the creation process, including the KMS key identifier and encryption state.
+    public var encryptionDetails: DSQLClientTypes.EncryptionDetails?
     /// The ID of the created cluster.
     /// This member is required.
     public var identifier: Swift.String?
@@ -353,6 +448,7 @@ public struct CreateClusterOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
+        encryptionDetails: DSQLClientTypes.EncryptionDetails? = nil,
         identifier: Swift.String? = nil,
         multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil,
         status: DSQLClientTypes.ClusterStatus? = nil
@@ -360,6 +456,7 @@ public struct CreateClusterOutput: Swift.Sendable {
         self.arn = arn
         self.creationTime = creationTime
         self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.encryptionDetails = encryptionDetails
         self.identifier = identifier
         self.multiRegionProperties = multiRegionProperties
         self.status = status
@@ -467,6 +564,8 @@ public struct GetClusterOutput: Swift.Sendable {
     /// Whether deletion protection is enabled in this cluster.
     /// This member is required.
     public var deletionProtectionEnabled: Swift.Bool?
+    /// The current encryption configuration details for the cluster.
+    public var encryptionDetails: DSQLClientTypes.EncryptionDetails?
     /// The ID of the retrieved cluster.
     /// This member is required.
     public var identifier: Swift.String?
@@ -482,6 +581,7 @@ public struct GetClusterOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
+        encryptionDetails: DSQLClientTypes.EncryptionDetails? = nil,
         identifier: Swift.String? = nil,
         multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil,
         status: DSQLClientTypes.ClusterStatus? = nil,
@@ -490,6 +590,7 @@ public struct GetClusterOutput: Swift.Sendable {
         self.arn = arn
         self.creationTime = creationTime
         self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.encryptionDetails = encryptionDetails
         self.identifier = identifier
         self.multiRegionProperties = multiRegionProperties
         self.status = status
@@ -646,6 +747,8 @@ public struct UpdateClusterInput: Swift.Sendable {
     /// The ID of the cluster you want to update.
     /// This member is required.
     public var identifier: Swift.String?
+    /// The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you.
+    public var kmsEncryptionKey: Swift.String?
     /// The new multi-Region cluster configuration settings to be applied during an update operation.
     public var multiRegionProperties: DSQLClientTypes.MultiRegionProperties?
 
@@ -653,11 +756,13 @@ public struct UpdateClusterInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         identifier: Swift.String? = nil,
+        kmsEncryptionKey: Swift.String? = nil,
         multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil
     ) {
         self.clientToken = clientToken
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.identifier = identifier
+        self.kmsEncryptionKey = kmsEncryptionKey
         self.multiRegionProperties = multiRegionProperties
     }
 }
@@ -881,6 +986,7 @@ extension CreateClusterInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["deletionProtectionEnabled"].write(value.deletionProtectionEnabled)
+        try writer["kmsEncryptionKey"].write(value.kmsEncryptionKey)
         try writer["multiRegionProperties"].write(value.multiRegionProperties, with: DSQLClientTypes.MultiRegionProperties.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -900,6 +1006,7 @@ extension UpdateClusterInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["deletionProtectionEnabled"].write(value.deletionProtectionEnabled)
+        try writer["kmsEncryptionKey"].write(value.kmsEncryptionKey)
         try writer["multiRegionProperties"].write(value.multiRegionProperties, with: DSQLClientTypes.MultiRegionProperties.write(value:to:))
     }
 }
@@ -914,6 +1021,7 @@ extension CreateClusterOutput {
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletionProtectionEnabled = try reader["deletionProtectionEnabled"].readIfPresent() ?? false
+        value.encryptionDetails = try reader["encryptionDetails"].readIfPresent(with: DSQLClientTypes.EncryptionDetails.read(from:))
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.multiRegionProperties = try reader["multiRegionProperties"].readIfPresent(with: DSQLClientTypes.MultiRegionProperties.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -946,6 +1054,7 @@ extension GetClusterOutput {
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletionProtectionEnabled = try reader["deletionProtectionEnabled"].readIfPresent() ?? false
+        value.encryptionDetails = try reader["encryptionDetails"].readIfPresent(with: DSQLClientTypes.EncryptionDetails.read(from:))
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.multiRegionProperties = try reader["multiRegionProperties"].readIfPresent(with: DSQLClientTypes.MultiRegionProperties.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -1298,6 +1407,18 @@ extension DSQLClientTypes.MultiRegionProperties {
         var value = DSQLClientTypes.MultiRegionProperties()
         value.witnessRegion = try reader["witnessRegion"].readIfPresent()
         value.clusters = try reader["clusters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DSQLClientTypes.EncryptionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DSQLClientTypes.EncryptionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DSQLClientTypes.EncryptionDetails()
+        value.encryptionType = try reader["encryptionType"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.encryptionStatus = try reader["encryptionStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
