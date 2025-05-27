@@ -33,7 +33,7 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             do {
                 return try await fetchCredentials(request: request)
             } catch {
-                if (attempt == 3) {
+                if attempt == 3 {
                     throw error
                 }
             }
