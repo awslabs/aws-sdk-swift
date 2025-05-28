@@ -14,11 +14,14 @@ import FoundationNetworking // For URLSession in Linux.
 
 public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private let urlSession: URLSession
+    private let maxRetries: Int
 
     public init(
-        urlSession: URLSession? = nil
+        urlSession: URLSession? = nil,
+        maxRetries: Int = 3
     ) {
         self.urlSession = urlSession ?? URLSession.shared
+        self.maxRetries = maxRetries
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
@@ -35,21 +38,14 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         }
 
         // 4. Send the URLRequest; retry 3 times max.
-        for attempt in 0...3 {
+        for _ in 0..<maxRetries {
             do {
                 return try await fetchCredentials(request: request)
             } catch {
-                if attempt == 3 {
-                    throw error
-                }
+                // no-op.
             }
         }
-
-        // Not reachable; added to quiet compiler.
-        throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-            "ECSAWSCredentialIdentityResolver: "
-            + "Failed to resolve credentials after 3 retries."
-        )
+        return try await fetchCredentials(request: request)
     }
 
     private func resolveURLAndOptionalAuthToken() throws -> (URL, String?) {
@@ -101,17 +97,13 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         }
 
         // 3. Validate resolved token.
-        guard let resolvedToken, isSingleLine(resolvedToken) else {
+        guard let resolvedToken, !resolvedToken.contains(where: { $0.isNewline }) else {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                 "ECSAWSCredentialIdentityResolver: "
                 + "Resolved auth token contains a newline character, making it invalid."
             )
         }
         return resolvedToken
-    }
-
-    private func isSingleLine(_ string: String) -> Bool {
-        return string.rangeOfCharacter(from: CharacterSet.newlines) == nil
     }
 
     private func validateResolvedURL(_ resolvedURL: URL) throws {
