@@ -150,7 +150,7 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private func fetchCredentials(request: URLRequest) async throws -> AWSCredentialIdentity {
         // If status code is 200, parse response payload into AWS credentials and return it.
         do {
-            let (data, response) = try await urlSession.data(for: request)
+            let (data, response) = try await urlSession.asyncData(for: request)
 
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
                 throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
@@ -214,6 +214,30 @@ private struct JSONCredentialResponse: Codable {
             expiration = formatter.date(from: expirationString)
         } else {
             expiration = nil
+        }
+    }
+}
+
+// URLSession.data(for:) isn't available in Linux; so this wrapper is used instead.
+extension URLSession {
+    func asyncData(for request: URLRequest) async throws -> (Data, URLResponse) {
+        return try await withCheckedThrowingContinuation { continuation in
+            let task = self.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                    return
+                }
+                guard let data = data, let response = response else {
+                    continuation.resume(throwing: NSError(
+                        domain: "URLSession",
+                        code: 0,
+                        userInfo: [NSLocalizedDescriptionKey: "No data or response returned"]
+                    ))
+                    return
+                }
+                continuation.resume(returning: (data, response))
+            }
+            task.resume()
         }
     }
 }
