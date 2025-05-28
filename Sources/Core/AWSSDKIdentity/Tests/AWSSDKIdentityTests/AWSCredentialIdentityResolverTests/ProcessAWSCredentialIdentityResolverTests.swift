@@ -21,8 +21,13 @@ class ProcessAWSCredentialIdentityResolverTests: XCTestCase {
     //  Xcode runs unit tests alphabetically, and the 2 tests below always ran after ECS resolver's unit tests.
     //  Removing CRT's ECS resolver instantiation from the ECS resolver tests revealed the bug & started failing 2 tests below.
     override class func setUp() {
+        let configPath = Bundle.module.path(forResource: "config", ofType: nil)!
+        let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
         super.setUp()
-        _ = try! ProfileAWSCredentialIdentityResolver()
+        _ = try! ProfileAWSCredentialIdentityResolver(
+            configFilePath: configPath,
+            credentialsFilePath: credentialsPath
+        )
     }
 
     func testGetCredentialsWithDefaultProfile() async throws {

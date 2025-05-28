@@ -170,7 +170,7 @@ private class MockURLProtocol: URLProtocol {
                 return
             }
         }
-        print("MockURLProtocol responding with JSON:", Self.responseJSON)
+
         // Return dummy JSON response.
         let data = try! JSONSerialization.data(withJSONObject: Self.responseJSON, options: [])
         let response = HTTPURLResponse(
