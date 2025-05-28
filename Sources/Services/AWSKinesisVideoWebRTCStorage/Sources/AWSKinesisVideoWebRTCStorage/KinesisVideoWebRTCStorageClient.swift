@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisVideoWebRTCStorageClient: ClientRuntime.Client {
     public static let clientName = "KinesisVideoWebRTCStorageClient"
-    public static let version = "1.3.20"
+    public static let version = "1.3.24"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfiguration
     let serviceName = "Kinesis Video WebRTC Storage"
