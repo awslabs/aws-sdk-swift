@@ -480,6 +480,86 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
+    public enum PaymentOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allUpfront
+        case noUpfront
+        case partialUpfront
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentOption] {
+            return [
+                .allUpfront,
+                .noUpfront,
+                .partialUpfront
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allUpfront: return "AllUpfront"
+            case .noUpfront: return "NoUpfront"
+            case .partialUpfront: return "PartialUpfront"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    public enum Term: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case oneYear
+        case threeYears
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Term] {
+            return [
+                .oneYear,
+                .threeYears
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .oneYear: return "OneYear"
+            case .threeYears: return "ThreeYears"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// The preferred configuration for Reserved Instances and Savings Plans commitment-based discounts, consisting of a payment option and a commitment duration.
+    public struct PreferredCommitment: Swift.Sendable {
+        /// The preferred upfront payment structure for commitments. If the value is null, it will default to AllUpfront (highest savings) where applicable.
+        public var paymentOption: CostOptimizationHubClientTypes.PaymentOption?
+        /// The preferred length of the commitment period. If the value is null, it will default to ThreeYears (highest savings) where applicable.
+        public var term: CostOptimizationHubClientTypes.Term?
+
+        public init(
+            paymentOption: CostOptimizationHubClientTypes.PaymentOption? = nil,
+            term: CostOptimizationHubClientTypes.Term? = nil
+        ) {
+            self.paymentOption = paymentOption
+            self.term = term
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
     public enum SavingsEstimationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afterDiscounts
         case beforeDiscounts
@@ -510,14 +590,18 @@ extension CostOptimizationHubClientTypes {
 public struct GetPreferencesOutput: Swift.Sendable {
     /// Retrieves the status of the "member account discount visibility" preference.
     public var memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility?
+    /// Retrieves the current preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length.
+    public var preferredCommitment: CostOptimizationHubClientTypes.PreferredCommitment?
     /// Retrieves the status of the "savings estimation mode" preference.
     public var savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode?
 
     public init(
         memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility? = nil,
+        preferredCommitment: CostOptimizationHubClientTypes.PreferredCommitment? = nil,
         savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode? = nil
     ) {
         self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
+        self.preferredCommitment = preferredCommitment
         self.savingsEstimationMode = savingsEstimationMode
     }
 }
@@ -1271,7 +1355,7 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
-    /// The MemoryDB reserved instances configuration used for recommendations. MemoryDB reserved instances are referred to as "MemoryDB reserved nodes" in customer-facing documentation.
+    /// The MemoryDB reserved instances configuration used for recommendations. While the API reference uses "MemoryDB reserved instances", the user guide and other documentation refer to them as "MemoryDB reserved nodes", as the terms are used interchangeably.
     public struct MemoryDbReservedInstancesConfiguration: Swift.Sendable {
         /// The account scope for which you want recommendations.
         public var accountScope: Swift.String?
@@ -1334,7 +1418,7 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
-    /// The MemoryDB reserved instances recommendation details. MemoryDB reserved instances are referred to as "MemoryDB reserved nodes" in customer-facing documentation.
+    /// The MemoryDB reserved instances recommendation details. While the API reference uses "MemoryDB reserved instances", the user guide and other documentation refer to them as "MemoryDB reserved nodes", as the terms are used interchangeably.
     public struct MemoryDbReservedInstances: Swift.Sendable {
         /// The MemoryDB reserved instances configuration used for recommendations.
         public var configuration: CostOptimizationHubClientTypes.MemoryDbReservedInstancesConfiguration?
@@ -2486,14 +2570,18 @@ public struct UpdateEnrollmentStatusOutput: Swift.Sendable {
 public struct UpdatePreferencesInput: Swift.Sendable {
     /// Sets the "member account discount visibility" preference.
     public var memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility?
+    /// Sets the preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length.
+    public var preferredCommitment: CostOptimizationHubClientTypes.PreferredCommitment?
     /// Sets the "savings estimation mode" preference.
     public var savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode?
 
     public init(
         memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility? = nil,
+        preferredCommitment: CostOptimizationHubClientTypes.PreferredCommitment? = nil,
         savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode? = nil
     ) {
         self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
+        self.preferredCommitment = preferredCommitment
         self.savingsEstimationMode = savingsEstimationMode
     }
 }
@@ -2501,14 +2589,18 @@ public struct UpdatePreferencesInput: Swift.Sendable {
 public struct UpdatePreferencesOutput: Swift.Sendable {
     /// Shows the status of the "member account discount visibility" preference.
     public var memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility?
+    /// Shows the updated preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length.
+    public var preferredCommitment: CostOptimizationHubClientTypes.PreferredCommitment?
     /// Shows the status of the "savings estimation mode" preference.
     public var savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode?
 
     public init(
         memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility? = nil,
+        preferredCommitment: CostOptimizationHubClientTypes.PreferredCommitment? = nil,
         savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode? = nil
     ) {
         self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
+        self.preferredCommitment = preferredCommitment
         self.savingsEstimationMode = savingsEstimationMode
     }
 }
@@ -2627,6 +2719,7 @@ extension UpdatePreferencesInput {
     static func write(value: UpdatePreferencesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["memberAccountDiscountVisibility"].write(value.memberAccountDiscountVisibility)
+        try writer["preferredCommitment"].write(value.preferredCommitment, with: CostOptimizationHubClientTypes.PreferredCommitment.write(value:to:))
         try writer["savingsEstimationMode"].write(value.savingsEstimationMode)
     }
 }
@@ -2639,6 +2732,7 @@ extension GetPreferencesOutput {
         let reader = responseReader
         var value = GetPreferencesOutput()
         value.memberAccountDiscountVisibility = try reader["memberAccountDiscountVisibility"].readIfPresent()
+        value.preferredCommitment = try reader["preferredCommitment"].readIfPresent(with: CostOptimizationHubClientTypes.PreferredCommitment.read(from:))
         value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent()
         return value
     }
@@ -2742,6 +2836,7 @@ extension UpdatePreferencesOutput {
         let reader = responseReader
         var value = UpdatePreferencesOutput()
         value.memberAccountDiscountVisibility = try reader["memberAccountDiscountVisibility"].readIfPresent()
+        value.preferredCommitment = try reader["preferredCommitment"].readIfPresent(with: CostOptimizationHubClientTypes.PreferredCommitment.read(from:))
         value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent()
         return value
     }
@@ -2931,6 +3026,23 @@ extension ResourceNotFoundException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.PreferredCommitment {
+
+    static func write(value: CostOptimizationHubClientTypes.PreferredCommitment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["paymentOption"].write(value.paymentOption)
+        try writer["term"].write(value.term)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.PreferredCommitment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.PreferredCommitment()
+        value.term = try reader["term"].readIfPresent()
+        value.paymentOption = try reader["paymentOption"].readIfPresent()
         return value
     }
 }

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeCommitClient: ClientRuntime.Client {
     public static let clientName = "CodeCommitClient"
-    public static let version = "1.3.24"
+    public static let version = "1.3.25"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeCommitClient.CodeCommitClientConfiguration
     let serviceName = "CodeCommit"
