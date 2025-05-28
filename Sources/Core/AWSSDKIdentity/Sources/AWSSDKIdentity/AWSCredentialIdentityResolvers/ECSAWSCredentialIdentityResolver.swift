@@ -13,7 +13,13 @@ import FoundationNetworking // For URLSession in Linux.
 #endif
 
 public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
-    public init() {}
+    private let urlSession: URLSession
+
+    public init(
+        urlSession: URLSession? = nil
+    ) {
+        self.urlSession = urlSession ?? URLSession.shared
+    }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
         // 1. Get URI configured via environment variables.
@@ -78,7 +84,9 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         if let tokenFilePath = ProcessInfo.processInfo.environment["AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE"] {
             do {
                 let fileHandle = try FileHandle(forReadingFrom: URL(fileURLWithPath: tokenFilePath))
-                resolvedToken = String(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)
+                resolvedToken = String(
+                    data: fileHandle.readDataToEndOfFile(), encoding: .utf8
+                )?.trimmingCharacters(in: .newlines)
             } catch {
                 throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                     "ECSAWSCredentialIdentityResolver: "
@@ -148,7 +156,7 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private func fetchCredentials(request: URLRequest) async throws -> AWSCredentialIdentity {
         // If status code is 200, parse response payload into AWS credentials and return it.
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
+            let (data, response) = try await urlSession.data(for: request)
 
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
                 throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
