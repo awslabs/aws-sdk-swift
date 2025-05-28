@@ -74,36 +74,38 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     }
 
     private func resolveAuthToken() throws -> String? {
-        let resolvedToken: String?
+        if let token = try readTokenFromFile() ?? readTokenFromEnvironment() {
+            try validateToken(token)
+            return token
+        }
+        return nil
+    }
 
-        // 1. Attempt to read from file first.
-        if let tokenFilePath = ProcessInfo.processInfo.environment["AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE"] {
-            do {
-                let fileHandle = try FileHandle(forReadingFrom: URL(fileURLWithPath: tokenFilePath))
-                resolvedToken = String(
-                    data: fileHandle.readDataToEndOfFile(), encoding: .utf8
-                )?.trimmingCharacters(in: .newlines)
-            } catch {
-                throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                    "ECSAWSCredentialIdentityResolver: "
-                    + "Failed to read authorization token file from configured path."
-                )
-            }
-        // 2. Attempt to read directly from env var.
-        } else if let token = ProcessInfo.processInfo.environment["AWS_CONTAINER_AUTHORIZATION_TOKEN"] {
-            resolvedToken = token
-        } else {
+    private func readTokenFromFile() throws -> String? {
+        guard let tokenFilePath = ProcessInfo.processInfo.environment["AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE"] else {
             return nil
         }
-
-        // 3. Validate resolved token.
-        guard let resolvedToken, !resolvedToken.contains(where: { $0.isNewline }) else {
+        do {
+            let fileHandle = try FileHandle(forReadingFrom: URL(fileURLWithPath: tokenFilePath))
+            let data = fileHandle.readDataToEndOfFile()
+            return String(data: data, encoding: .utf8)?.trimmingCharacters(in: .newlines)
+        } catch {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "ECSAWSCredentialIdentityResolver: "
-                + "Resolved auth token contains a newline character, making it invalid."
+                "ECSAWSCredentialIdentityResolver: Failed to read authorization token file from configured path."
             )
         }
-        return resolvedToken
+    }
+
+    private func readTokenFromEnvironment() -> String? {
+        ProcessInfo.processInfo.environment["AWS_CONTAINER_AUTHORIZATION_TOKEN"]
+    }
+
+    private func validateToken(_ token: String) throws {
+        guard !token.contains(where: { $0.isNewline }) else {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "ECSAWSCredentialIdentityResolver: Resolved auth token contains a newline character, making it invalid."
+            )
+        }
     }
 
     private func validateResolvedURL(_ resolvedURL: URL) throws {
@@ -157,7 +159,7 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
                 )
             }
 
-            // 5. Parse response into AWS credentials and return it.
+            // Parse response into AWS credentials and return it.
             let jsonCredentialResponse = try JSONDecoder().decode(
                 JSONCredentialResponse.self,
                 from: data
