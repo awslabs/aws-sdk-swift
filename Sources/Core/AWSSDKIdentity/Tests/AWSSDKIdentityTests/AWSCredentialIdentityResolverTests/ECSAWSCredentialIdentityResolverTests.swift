@@ -8,6 +8,10 @@
 import XCTest
 import protocol AWSClientRuntime.Environment
 import struct AWSSDKIdentity.ECSAWSCredentialIdentityResolver
+import Foundation
+#if os(Linux)
+import FoundationNetworking // For URLSession in Linux.
+#endif
 
 class ECSAWSCredentialIdentityResolverTests: XCTestCase {
     private var session: URLSession!
