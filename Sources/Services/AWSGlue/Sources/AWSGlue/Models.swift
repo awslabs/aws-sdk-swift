@@ -12199,15 +12199,37 @@ extension GlueClientTypes {
 
     /// A structure that describes how data is partitioned on the target.
     public struct IntegrationPartition: Swift.Sendable {
+        /// Specifies the timestamp format of the source data. Valid values are:
+        ///
+        /// * epoch_sec - Unix epoch timestamp in seconds
+        ///
+        /// * epoch_milli - Unix epoch timestamp in milliseconds
+        ///
+        /// * iso - ISO 8601 formatted timestamp
+        ///
+        ///
+        /// Only specify ConversionSpec when using timestamp-based partition functions (year, month, day, or hour). Glue Zero-ETL uses this parameter to correctly transform source data into timestamp format before partitioning. Do not use high-cardinality columns with the identity partition function. High-cardinality columns include:
+        ///
+        /// * Primary keys
+        ///
+        /// * Timestamp fields (such as LastModifiedTimestamp, CreatedDate)
+        ///
+        /// * System-generated timestamps
+        ///
+        ///
+        /// Using high-cardinality columns with identity partitioning creates many small partitions, which can significantly degrade ingestion performance.
+        public var conversionSpec: Swift.String?
         /// The field name used to partition data on the target. Avoid using columns that have unique values for each row (for example, `LastModifiedTimestamp`, `SystemModTimeStamp`) as the partition column. These columns are not suitable for partitioning because they create a large number of small partitions, which can lead to performance issues.
         public var fieldName: Swift.String?
         /// Specifies the function used to partition data on the target. The only accepted value for this parameter is `'identity'` (string). The `'identity'` function ensures that the data partitioning on the target follows the same scheme as the source. In other words, the partitioning structure of the source data is preserved in the target destination.
         public var functionSpec: Swift.String?
 
         public init(
+            conversionSpec: Swift.String? = nil,
             fieldName: Swift.String? = nil,
             functionSpec: Swift.String? = nil
         ) {
+            self.conversionSpec = conversionSpec
             self.fieldName = fieldName
             self.functionSpec = functionSpec
         }
@@ -12270,7 +12292,7 @@ extension GlueClientTypes {
 }
 
 public struct CreateIntegrationTablePropertiesInput: Swift.Sendable {
-    /// The connection ARN of the source, or the database ARN of the target.
+    /// The Amazon Resource Name (ARN) of the target table for which to create integration table properties. Currently, this API only supports creating integration table properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for creating integration table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// A structure for the source table configuration. See the SourceTableConfig structure to see list of supported source properties.
@@ -18828,7 +18850,7 @@ public struct GetIntegrationResourcePropertyOutput: Swift.Sendable {
 }
 
 public struct GetIntegrationTablePropertiesInput: Swift.Sendable {
-    /// The connection ARN of the source, or the database ARN of the target.
+    /// The Amazon Resource Name (ARN) of the target table for which to retrieve integration table properties. Currently, this API only supports retrieving properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for retrieving integration table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The name of the table to be replicated.
@@ -18845,7 +18867,7 @@ public struct GetIntegrationTablePropertiesInput: Swift.Sendable {
 }
 
 public struct GetIntegrationTablePropertiesOutput: Swift.Sendable {
-    /// The connection ARN of the source, or the database ARN of the target.
+    /// The Amazon Resource Name (ARN) of the target table for which to retrieve integration table properties. Currently, this API only supports retrieving properties for target tables, and the provided ARN should be the ARN of the target table in the Glue Data Catalog. Support for retrieving integration table properties for source connections (using the connection ARN) is not yet implemented and will be added in a future release.
     public var resourceArn: Swift.String?
     /// A structure for the source table configuration.
     public var sourceTableConfig: GlueClientTypes.SourceTableConfig?
@@ -22358,23 +22380,70 @@ public struct ListConnectionTypesInput: Swift.Sendable {
 
 extension GlueClientTypes {
 
+    /// Represents a variant of a connection type in Glue Data Catalog. Connection type variants provide specific configurations and behaviors for different implementations of the same general connection type.
+    public struct ConnectionTypeVariant: Swift.Sendable {
+        /// The unique identifier for the connection type variant. This name is used internally to identify the specific variant of a connection type.
+        public var connectionTypeVariantName: Swift.String?
+        /// A detailed description of the connection type variant, including its purpose, use cases, and any specific configuration requirements.
+        public var description: Swift.String?
+        /// The human-readable name for the connection type variant that is displayed in the Glue console.
+        public var displayName: Swift.String?
+        /// The URL of the logo associated with a connection type variant.
+        public var logoUrl: Swift.String?
+
+        public init(
+            connectionTypeVariantName: Swift.String? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            logoUrl: Swift.String? = nil
+        ) {
+            self.connectionTypeVariantName = connectionTypeVariantName
+            self.description = description
+            self.displayName = displayName
+            self.logoUrl = logoUrl
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// Brief information about a supported connection type returned by the ListConnectionTypes API.
     public struct ConnectionTypeBrief: Swift.Sendable {
         /// The supported authentication types, data interface types (compute environments), and data operations of the connector.
         public var capabilities: GlueClientTypes.Capabilities?
+        /// A list of categories that this connection type belongs to. Categories help users filter and find appropriate connection types based on their use cases.
+        public var categories: [Swift.String]?
         /// The name of the connection type.
         public var connectionType: GlueClientTypes.ConnectionType?
+        /// A list of variants available for this connection type. Different variants may provide specialized configurations for specific use cases or implementations of the same general connection type.
+        public var connectionTypeVariants: [GlueClientTypes.ConnectionTypeVariant]?
         /// A description of the connection type.
         public var description: Swift.String?
+        /// The human-readable name for the connection type that is displayed in the Glue console.
+        public var displayName: Swift.String?
+        /// The URL of the logo associated with a connection type.
+        public var logoUrl: Swift.String?
+        /// The name of the vendor or provider that created or maintains this connection type.
+        public var vendor: Swift.String?
 
         public init(
             capabilities: GlueClientTypes.Capabilities? = nil,
+            categories: [Swift.String]? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil,
-            description: Swift.String? = nil
+            connectionTypeVariants: [GlueClientTypes.ConnectionTypeVariant]? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            logoUrl: Swift.String? = nil,
+            vendor: Swift.String? = nil
         ) {
             self.capabilities = capabilities
+            self.categories = categories
             self.connectionType = connectionType
+            self.connectionTypeVariants = connectionTypeVariants
             self.description = description
+            self.displayName = displayName
+            self.logoUrl = logoUrl
+            self.vendor = vendor
         }
     }
 }
@@ -46125,6 +46194,7 @@ extension GlueClientTypes.IntegrationPartition {
 
     static func write(value: GlueClientTypes.IntegrationPartition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ConversionSpec"].write(value.conversionSpec)
         try writer["FieldName"].write(value.fieldName)
         try writer["FunctionSpec"].write(value.functionSpec)
     }
@@ -46134,6 +46204,7 @@ extension GlueClientTypes.IntegrationPartition {
         var value = GlueClientTypes.IntegrationPartition()
         value.fieldName = try reader["FieldName"].readIfPresent()
         value.functionSpec = try reader["FunctionSpec"].readIfPresent()
+        value.conversionSpec = try reader["ConversionSpec"].readIfPresent()
         return value
     }
 }
@@ -46861,8 +46932,26 @@ extension GlueClientTypes.ConnectionTypeBrief {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.ConnectionTypeBrief()
         value.connectionType = try reader["ConnectionType"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.vendor = try reader["Vendor"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.capabilities = try reader["Capabilities"].readIfPresent(with: GlueClientTypes.Capabilities.read(from:))
+        value.logoUrl = try reader["LogoUrl"].readIfPresent()
+        value.connectionTypeVariants = try reader["ConnectionTypeVariants"].readListIfPresent(memberReadingClosure: GlueClientTypes.ConnectionTypeVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.ConnectionTypeVariant {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionTypeVariant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConnectionTypeVariant()
+        value.connectionTypeVariantName = try reader["ConnectionTypeVariantName"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.logoUrl = try reader["LogoUrl"].readIfPresent()
         return value
     }
 }

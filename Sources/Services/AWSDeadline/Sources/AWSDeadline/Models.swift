@@ -3261,13 +3261,17 @@ extension DeadlineClientTypes {
         /// The Amazon EC2 market type.
         /// This member is required.
         public var instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions?
+        /// The storage profile ID.
+        public var storageProfileId: Swift.String?
 
         public init(
             instanceCapabilities: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities? = nil,
-            instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions? = nil
+            instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions? = nil,
+            storageProfileId: Swift.String? = nil
         ) {
             self.instanceCapabilities = instanceCapabilities
             self.instanceMarketOptions = instanceMarketOptions
+            self.storageProfileId = storageProfileId
         }
     }
 }
@@ -18216,6 +18220,7 @@ extension DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
         guard let value else { return }
         try writer["instanceCapabilities"].write(value.instanceCapabilities, with: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities.write(value:to:))
         try writer["instanceMarketOptions"].write(value.instanceMarketOptions, with: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions.write(value:to:))
+        try writer["storageProfileId"].write(value.storageProfileId)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
@@ -18223,6 +18228,7 @@ extension DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
         var value = DeadlineClientTypes.ServiceManagedEc2FleetConfiguration()
         value.instanceCapabilities = try reader["instanceCapabilities"].readIfPresent(with: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities.read(from:))
         value.instanceMarketOptions = try reader["instanceMarketOptions"].readIfPresent(with: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions.read(from:))
+        value.storageProfileId = try reader["storageProfileId"].readIfPresent()
         return value
     }
 }
