@@ -32302,6 +32302,38 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum TrackingServerMaintenanceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case maintenanceComplete
+        case maintenanceFailed
+        case maintenanceInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrackingServerMaintenanceStatus] {
+            return [
+                .maintenanceComplete,
+                .maintenanceFailed,
+                .maintenanceInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .maintenanceComplete: return "MaintenanceComplete"
+            case .maintenanceFailed: return "MaintenanceFailed"
+            case .maintenanceInProgress: return "MaintenanceInProgress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum TrackingServerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case created
         case createFailed
@@ -32395,6 +32427,8 @@ public struct DescribeMlflowTrackingServerOutput: Swift.Sendable {
     public var roleArn: Swift.String?
     /// The ARN of the described tracking server.
     public var trackingServerArn: Swift.String?
+    /// The current maintenance status of the described MLflow Tracking Server.
+    public var trackingServerMaintenanceStatus: SageMakerClientTypes.TrackingServerMaintenanceStatus?
     /// The name of the described tracking server.
     public var trackingServerName: Swift.String?
     /// The size of the described tracking server.
@@ -32417,6 +32451,7 @@ public struct DescribeMlflowTrackingServerOutput: Swift.Sendable {
         mlflowVersion: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         trackingServerArn: Swift.String? = nil,
+        trackingServerMaintenanceStatus: SageMakerClientTypes.TrackingServerMaintenanceStatus? = nil,
         trackingServerName: Swift.String? = nil,
         trackingServerSize: SageMakerClientTypes.TrackingServerSize? = nil,
         trackingServerStatus: SageMakerClientTypes.TrackingServerStatus? = nil,
@@ -32433,6 +32468,7 @@ public struct DescribeMlflowTrackingServerOutput: Swift.Sendable {
         self.mlflowVersion = mlflowVersion
         self.roleArn = roleArn
         self.trackingServerArn = trackingServerArn
+        self.trackingServerMaintenanceStatus = trackingServerMaintenanceStatus
         self.trackingServerName = trackingServerName
         self.trackingServerSize = trackingServerSize
         self.trackingServerStatus = trackingServerStatus
@@ -60874,6 +60910,7 @@ extension DescribeMlflowTrackingServerOutput {
         value.mlflowVersion = try reader["MlflowVersion"].readIfPresent()
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.trackingServerArn = try reader["TrackingServerArn"].readIfPresent()
+        value.trackingServerMaintenanceStatus = try reader["TrackingServerMaintenanceStatus"].readIfPresent()
         value.trackingServerName = try reader["TrackingServerName"].readIfPresent()
         value.trackingServerSize = try reader["TrackingServerSize"].readIfPresent()
         value.trackingServerStatus = try reader["TrackingServerStatus"].readIfPresent()

@@ -1625,13 +1625,17 @@ public struct CreateEventActionInput: Swift.Sendable {
     /// What occurs to start an action.
     /// This member is required.
     public var event: DataExchangeClientTypes.Event?
+    /// Key-value pairs that you can associate with the event action.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         action: DataExchangeClientTypes.Action? = nil,
-        event: DataExchangeClientTypes.Event? = nil
+        event: DataExchangeClientTypes.Event? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.action = action
         self.event = event
+        self.tags = tags
     }
 }
 
@@ -1646,6 +1650,8 @@ public struct CreateEventActionOutput: Swift.Sendable {
     public var event: DataExchangeClientTypes.Event?
     /// The unique identifier for the event action.
     public var id: Swift.String?
+    /// The tags for the event action.
+    public var tags: [Swift.String: Swift.String]?
     /// The date and time that the event action was last updated, in ISO 8601 format.
     public var updatedAt: Foundation.Date?
 
@@ -1655,6 +1661,7 @@ public struct CreateEventActionOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         event: DataExchangeClientTypes.Event? = nil,
         id: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.action = action
@@ -1662,6 +1669,7 @@ public struct CreateEventActionOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.event = event
         self.id = id
+        self.tags = tags
         self.updatedAt = updatedAt
     }
 }
@@ -3209,6 +3217,8 @@ public struct GetEventActionOutput: Swift.Sendable {
     public var event: DataExchangeClientTypes.Event?
     /// The unique identifier for the event action.
     public var id: Swift.String?
+    /// The tags for the event action.
+    public var tags: [Swift.String: Swift.String]?
     /// The date and time that the event action was last updated, in ISO 8601 format.
     public var updatedAt: Foundation.Date?
 
@@ -3218,6 +3228,7 @@ public struct GetEventActionOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         event: DataExchangeClientTypes.Event? = nil,
         id: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.action = action
@@ -3225,6 +3236,7 @@ public struct GetEventActionOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.event = event
         self.id = id
+        self.tags = tags
         self.updatedAt = updatedAt
     }
 }
@@ -5389,6 +5401,7 @@ extension CreateEventActionInput {
         guard let value else { return }
         try writer["Action"].write(value.action, with: DataExchangeClientTypes.Action.write(value:to:))
         try writer["Event"].write(value.event, with: DataExchangeClientTypes.Event.write(value:to:))
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -5571,6 +5584,7 @@ extension CreateEventActionOutput {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.event = try reader["Event"].readIfPresent(with: DataExchangeClientTypes.Event.read(from:))
         value.id = try reader["Id"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -5734,6 +5748,7 @@ extension GetEventActionOutput {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.event = try reader["Event"].readIfPresent(with: DataExchangeClientTypes.Event.read(from:))
         value.id = try reader["Id"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }

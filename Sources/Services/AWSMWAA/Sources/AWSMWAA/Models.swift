@@ -574,6 +574,35 @@ extension MWAAClientTypes {
 
 extension MWAAClientTypes {
 
+    public enum WorkerReplacementStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case forced
+        case graceful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkerReplacementStrategy] {
+            return [
+                .forced,
+                .graceful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .forced: return "FORCED"
+            case .graceful: return "GRACEFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MWAAClientTypes {
+
     /// Describes the status of the last update on the environment, and any errors that were encountered.
     public struct LastUpdate: Swift.Sendable {
         /// The day and time of the last update on the environment.
@@ -584,17 +613,21 @@ extension MWAAClientTypes {
         public var source: Swift.String?
         /// The status of the last update on the environment.
         public var status: MWAAClientTypes.UpdateStatus?
+        /// The worker replacement strategy used in the last update of the environment.
+        public var workerReplacementStrategy: MWAAClientTypes.WorkerReplacementStrategy?
 
         public init(
             createdAt: Foundation.Date? = nil,
             error: MWAAClientTypes.UpdateError? = nil,
             source: Swift.String? = nil,
-            status: MWAAClientTypes.UpdateStatus? = nil
+            status: MWAAClientTypes.UpdateStatus? = nil,
+            workerReplacementStrategy: MWAAClientTypes.WorkerReplacementStrategy? = nil
         ) {
             self.createdAt = createdAt
             self.error = error
             self.source = source
             self.status = status
+            self.workerReplacementStrategy = workerReplacementStrategy
         }
     }
 }
@@ -1440,6 +1473,12 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
     public var webserverAccessMode: MWAAClientTypes.WebserverAccessMode?
     /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
     public var weeklyMaintenanceWindowStart: Swift.String?
+    /// The worker replacement strategy to use when updating the environment. You can select one of the following strategies:
+    ///
+    /// * Forced - Stops and replaces Apache Airflow workers without waiting for tasks to complete before an update.
+    ///
+    /// * Graceful - Allows Apache Airflow workers to complete running tasks for up to 12 hours during an update before they're stopped and replaced.
+    public var workerReplacementStrategy: MWAAClientTypes.WorkerReplacementStrategy?
 
     public init(
         airflowConfigurationOptions: [Swift.String: Swift.String]? = nil,
@@ -1463,7 +1502,8 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         startupScriptS3ObjectVersion: Swift.String? = nil,
         startupScriptS3Path: Swift.String? = nil,
         webserverAccessMode: MWAAClientTypes.WebserverAccessMode? = nil,
-        weeklyMaintenanceWindowStart: Swift.String? = nil
+        weeklyMaintenanceWindowStart: Swift.String? = nil,
+        workerReplacementStrategy: MWAAClientTypes.WorkerReplacementStrategy? = nil
     ) {
         self.airflowConfigurationOptions = airflowConfigurationOptions
         self.airflowVersion = airflowVersion
@@ -1487,12 +1527,13 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         self.startupScriptS3Path = startupScriptS3Path
         self.webserverAccessMode = webserverAccessMode
         self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
+        self.workerReplacementStrategy = workerReplacementStrategy
     }
 }
 
 extension UpdateEnvironmentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWebservers: \(Swift.String(describing: maxWebservers)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWebservers: \(Swift.String(describing: minWebservers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
+        "UpdateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWebservers: \(Swift.String(describing: maxWebservers)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWebservers: \(Swift.String(describing: minWebservers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), workerReplacementStrategy: \(Swift.String(describing: workerReplacementStrategy)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateEnvironmentOutput: Swift.Sendable {
@@ -1738,6 +1779,7 @@ extension UpdateEnvironmentInput {
         try writer["StartupScriptS3Path"].write(value.startupScriptS3Path)
         try writer["WebserverAccessMode"].write(value.webserverAccessMode)
         try writer["WeeklyMaintenanceWindowStart"].write(value.weeklyMaintenanceWindowStart)
+        try writer["WorkerReplacementStrategy"].write(value.workerReplacementStrategy)
     }
 }
 
@@ -2194,6 +2236,7 @@ extension MWAAClientTypes.LastUpdate {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.error = try reader["Error"].readIfPresent(with: MWAAClientTypes.UpdateError.read(from:))
         value.source = try reader["Source"].readIfPresent()
+        value.workerReplacementStrategy = try reader["WorkerReplacementStrategy"].readIfPresent()
         return value
     }
 }
