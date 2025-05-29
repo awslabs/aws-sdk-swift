@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudTrailClient: ClientRuntime.Client {
     public static let clientName = "CloudTrailClient"
-    public static let version = "1.3.25"
+    public static let version = "1.3.26"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudTrailClient.CloudTrailClientConfiguration
     let serviceName = "CloudTrail"
@@ -2023,6 +2023,90 @@ extension CloudTrailClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetEventConfiguration` operation on the `CloudTrail` service.
+    ///
+    /// Retrieves the current event configuration settings for the specified event data store, including details about maximum event size and context key selectors configured for the event data store.
+    ///
+    /// - Parameter GetEventConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetEventConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `EventDataStoreARNInvalidException` : The specified event data store ARN is not valid or does not map to an event data store in your account.
+    /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
+    /// - `InvalidEventDataStoreCategoryException` : This exception is thrown when event categories of specified event data stores are not valid.
+    /// - `InvalidEventDataStoreStatusException` : The event data store is not in a status that supports the operation.
+    /// - `InvalidParameterCombinationException` : This exception is thrown when the combination of parameters provided is not valid.
+    /// - `InvalidParameterException` : The request includes a parameter that is not valid.
+    /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
+    /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
+    public func getEventConfiguration(input: GetEventConfigurationInput) async throws -> GetEventConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getEventConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cloudtrail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetEventConfigurationInput, GetEventConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEventConfigurationInput, GetEventConfigurationOutput>(GetEventConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventConfigurationInput, GetEventConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventConfigurationInput, GetEventConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventConfigurationOutput>(GetEventConfigurationOutput.httpOutput(from:), GetEventConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventConfigurationInput, GetEventConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetEventConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudTrail", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEventConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetEventConfigurationInput, GetEventConfigurationOutput>(xAmzTarget: "CloudTrail_20131101.GetEventConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetEventConfigurationInput, GetEventConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEventConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEventConfigurationInput, GetEventConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEventConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEventConfigurationInput, GetEventConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEventConfigurationInput, GetEventConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetEventConfigurationInput, GetEventConfigurationOutput>(serviceID: serviceName, version: CloudTrailClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudTrail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetEventConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetEventDataStore` operation on the `CloudTrail` service.
     ///
     /// Returns information about an event data store specified as either an ARN or the ID portion of the ARN.
@@ -3643,6 +3727,96 @@ extension CloudTrailClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutEventConfiguration` operation on the `CloudTrail` service.
+    ///
+    /// Updates the event configuration settings for the specified event data store. You can update the maximum event size and context key selectors.
+    ///
+    /// - Parameter PutEventConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutEventConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
+    /// - `EventDataStoreARNInvalidException` : The specified event data store ARN is not valid or does not map to an event data store in your account.
+    /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
+    /// - `InactiveEventDataStoreException` : The event data store is inactive.
+    /// - `InsufficientDependencyServiceAccessPermissionException` : This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
+    /// - `InsufficientIAMAccessPermissionException` : The task can't be completed because you are signed in with an account that lacks permissions to view or create a service-linked role. Sign in with an account that has the required permissions and then try again.
+    /// - `InvalidEventDataStoreCategoryException` : This exception is thrown when event categories of specified event data stores are not valid.
+    /// - `InvalidEventDataStoreStatusException` : The event data store is not in a status that supports the operation.
+    /// - `InvalidParameterCombinationException` : This exception is thrown when the combination of parameters provided is not valid.
+    /// - `InvalidParameterException` : The request includes a parameter that is not valid.
+    /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
+    /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Organization event data stores](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-organizations.html).
+    /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
+    /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
+    public func putEventConfiguration(input: PutEventConfigurationInput) async throws -> PutEventConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putEventConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cloudtrail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutEventConfigurationInput, PutEventConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutEventConfigurationInput, PutEventConfigurationOutput>(PutEventConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutEventConfigurationInput, PutEventConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEventConfigurationInput, PutEventConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEventConfigurationOutput>(PutEventConfigurationOutput.httpOutput(from:), PutEventConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEventConfigurationInput, PutEventConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutEventConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudTrail", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutEventConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutEventConfigurationInput, PutEventConfigurationOutput>(xAmzTarget: "CloudTrail_20131101.PutEventConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutEventConfigurationInput, PutEventConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutEventConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutEventConfigurationInput, PutEventConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutEventConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutEventConfigurationInput, PutEventConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutEventConfigurationInput, PutEventConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutEventConfigurationInput, PutEventConfigurationOutput>(serviceID: serviceName, version: CloudTrailClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudTrail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutEventConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutEventSelectors` operation on the `CloudTrail` service.
     ///
     /// Configures event selectors (also referred to as basic event selectors) or advanced event selectors for your trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. You can use AdvancedEventSelectors to log management events, data events for all resource types, and network activity events. You can use EventSelectors to log management events and data events for the following resource types:
@@ -3968,6 +4142,7 @@ extension CloudTrailClient {
     /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `DelegatedAdminAccountLimitExceededException` : This exception is thrown when the maximum number of CloudTrail delegated administrators is reached.
     /// - `InsufficientDependencyServiceAccessPermissionException` : This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
+    /// - `InsufficientIAMAccessPermissionException` : The task can't be completed because you are signed in with an account that lacks permissions to view or create a service-linked role. Sign in with an account that has the required permissions and then try again.
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `NotOrganizationManagementAccountException` : This exception is thrown when the account making the request is not the organization's management account.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
@@ -4390,6 +4565,7 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `EventDataStoreARNInvalidException` : The specified event data store ARN is not valid or does not map to an event data store in your account.
     /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
     /// - `InsufficientDependencyServiceAccessPermissionException` : This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
@@ -4743,6 +4919,7 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `EventDataStoreARNInvalidException` : The specified event data store ARN is not valid or does not map to an event data store in your account.
     /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
     /// - `InsufficientDependencyServiceAccessPermissionException` : This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.

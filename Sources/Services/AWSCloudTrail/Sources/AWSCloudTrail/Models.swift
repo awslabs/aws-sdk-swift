@@ -3278,6 +3278,139 @@ public struct GetDashboardOutput: Swift.Sendable {
     }
 }
 
+/// The event data store is not in a status that supports the operation.
+public struct InvalidEventDataStoreStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidEventDataStoreStatus" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetEventConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to retrieve event configuration settings.
+    public var eventDataStore: Swift.String?
+
+    public init(
+        eventDataStore: Swift.String? = nil
+    ) {
+        self.eventDataStore = eventDataStore
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum ModelType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case requestcontext
+        case tagcontext
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelType] {
+            return [
+                .requestcontext,
+                .tagcontext
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .requestcontext: return "RequestContext"
+            case .tagcontext: return "TagContext"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// An object that contains information types to be included in CloudTrail enriched events.
+    public struct ContextKeySelector: Swift.Sendable {
+        /// A list of keys defined by Type to be included in CloudTrail enriched events.
+        /// This member is required.
+        public var equals: [Swift.String]?
+        /// Specifies the type of the event record field in ContextKeySelector. Valid values include RequestContext, TagContext.
+        /// This member is required.
+        public var type: CloudTrailClientTypes.ModelType?
+
+        public init(
+            equals: [Swift.String]? = nil,
+            type: CloudTrailClientTypes.ModelType? = nil
+        ) {
+            self.equals = equals
+            self.type = type
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum MaxEventSize: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case large
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MaxEventSize] {
+            return [
+                .large,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .large: return "Large"
+            case .standard: return "Standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetEventConfigurationOutput: Swift.Sendable {
+    /// The list of context key selectors that are configured for the event data store.
+    public var contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]?
+    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which the event configuration settings are returned.
+    public var eventDataStoreArn: Swift.String?
+    /// The maximum allowed size for events stored in the specified event data store.
+    public var maxEventSize: CloudTrailClientTypes.MaxEventSize?
+
+    public init(
+        contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]? = nil,
+        eventDataStoreArn: Swift.String? = nil,
+        maxEventSize: CloudTrailClientTypes.MaxEventSize? = nil
+    ) {
+        self.contextKeySelectors = contextKeySelectors
+        self.eventDataStoreArn = eventDataStoreArn
+        self.maxEventSize = maxEventSize
+    }
+}
+
 public struct GetEventDataStoreInput: Swift.Sendable {
     /// The ARN (or ID suffix of the ARN) of the event data store about which you want information.
     /// This member is required.
@@ -5169,6 +5302,70 @@ public struct LookupEventsOutput: Swift.Sendable {
     }
 }
 
+/// The task can't be completed because you are signed in with an account that lacks permissions to view or create a service-linked role. Sign in with an account that has the required permissions and then try again.
+public struct InsufficientIAMAccessPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientIAMAccessPermission" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct PutEventConfigurationInput: Swift.Sendable {
+    /// A list of context key selectors that will be included to provide enriched event data.
+    /// This member is required.
+    public var contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]?
+    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to update event configuration settings.
+    public var eventDataStore: Swift.String?
+    /// The maximum allowed size for events to be stored in the specified event data store. If you are using context key selectors, MaxEventSize must be set to Large.
+    /// This member is required.
+    public var maxEventSize: CloudTrailClientTypes.MaxEventSize?
+
+    public init(
+        contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]? = nil,
+        eventDataStore: Swift.String? = nil,
+        maxEventSize: CloudTrailClientTypes.MaxEventSize? = nil
+    ) {
+        self.contextKeySelectors = contextKeySelectors
+        self.eventDataStore = eventDataStore
+        self.maxEventSize = maxEventSize
+    }
+}
+
+public struct PutEventConfigurationOutput: Swift.Sendable {
+    /// The list of context key selectors that are configured for the event data store.
+    public var contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]?
+    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which the event configuration settings were updated.
+    public var eventDataStoreArn: Swift.String?
+    /// The maximum allowed size for events stored in the specified event data store.
+    public var maxEventSize: CloudTrailClientTypes.MaxEventSize?
+
+    public init(
+        contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]? = nil,
+        eventDataStoreArn: Swift.String? = nil,
+        maxEventSize: CloudTrailClientTypes.MaxEventSize? = nil
+    ) {
+        self.contextKeySelectors = contextKeySelectors
+        self.eventDataStoreArn = eventDataStoreArn
+        self.maxEventSize = maxEventSize
+    }
+}
+
 public struct PutEventSelectorsInput: Swift.Sendable {
     /// Specifies the settings for advanced event selectors. You can use advanced event selectors to log management events, data events for all resource types, and network activity events. You can add advanced event selectors, and conditions for your advanced event selectors, up to a maximum of 500 values for all conditions and selectors on a trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. For more information about advanced event selectors, see [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html) and [Logging network activity events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html) in the CloudTrail User Guide.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
@@ -5426,30 +5623,6 @@ public struct RemoveTagsInput: Swift.Sendable {
 public struct RemoveTagsOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// The event data store is not in a status that supports the operation.
-public struct InvalidEventDataStoreStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Brief description of the exception returned by the request.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidEventDataStoreStatus" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
 }
 
 public struct RestoreEventDataStoreInput: Swift.Sendable {
@@ -6387,6 +6560,13 @@ extension GetDashboardInput {
     }
 }
 
+extension GetEventConfigurationInput {
+
+    static func urlPathProvider(_ value: GetEventConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetEventDataStoreInput {
 
     static func urlPathProvider(_ value: GetEventDataStoreInput) -> Swift.String? {
@@ -6516,6 +6696,13 @@ extension ListTrailsInput {
 extension LookupEventsInput {
 
     static func urlPathProvider(_ value: LookupEventsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutEventConfigurationInput {
+
+    static func urlPathProvider(_ value: PutEventConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6842,6 +7029,14 @@ extension GetDashboardInput {
     }
 }
 
+extension GetEventConfigurationInput {
+
+    static func write(value: GetEventConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventDataStore"].write(value.eventDataStore)
+    }
+}
+
 extension GetEventDataStoreInput {
 
     static func write(value: GetEventDataStoreInput?, to writer: SmithyJSON.Writer) throws {
@@ -7028,6 +7223,16 @@ extension LookupEventsInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension PutEventConfigurationInput {
+
+    static func write(value: PutEventConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContextKeySelectors"].writeList(value.contextKeySelectors, memberWritingClosure: CloudTrailClientTypes.ContextKeySelector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EventDataStore"].write(value.eventDataStore)
+        try writer["MaxEventSize"].write(value.maxEventSize)
     }
 }
 
@@ -7480,6 +7685,20 @@ extension GetDashboardOutput {
     }
 }
 
+extension GetEventConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEventConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEventConfigurationOutput()
+        value.contextKeySelectors = try reader["ContextKeySelectors"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.ContextKeySelector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventDataStoreArn = try reader["EventDataStoreArn"].readIfPresent()
+        value.maxEventSize = try reader["MaxEventSize"].readIfPresent()
+        return value
+    }
+}
+
 extension GetEventDataStoreOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEventDataStoreOutput {
@@ -7769,6 +7988,20 @@ extension LookupEventsOutput {
         var value = LookupEventsOutput()
         value.events = try reader["Events"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Event.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension PutEventConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutEventConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutEventConfigurationOutput()
+        value.contextKeySelectors = try reader["ContextKeySelectors"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.ContextKeySelector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventDataStoreArn = try reader["EventDataStoreArn"].readIfPresent()
+        value.maxEventSize = try reader["MaxEventSize"].readIfPresent()
         return value
     }
 }
@@ -8491,6 +8724,29 @@ enum GetDashboardOutputError {
     }
 }
 
+enum GetEventConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
+            case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
+            case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
+            case "InvalidEventDataStoreCategory": return try InvalidEventDataStoreCategoryException.makeError(baseError: baseError)
+            case "InvalidEventDataStoreStatus": return try InvalidEventDataStoreStatusException.makeError(baseError: baseError)
+            case "InvalidParameterCombinationError": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
+            case "NoManagementAccountSLRExists": return try NoManagementAccountSLRExistsException.makeError(baseError: baseError)
+            case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetEventDataStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8848,6 +9104,35 @@ enum LookupEventsOutputError {
     }
 }
 
+enum PutEventConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
+            case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
+            case "InactiveEventDataStore": return try InactiveEventDataStoreException.makeError(baseError: baseError)
+            case "InsufficientDependencyServiceAccessPermission": return try InsufficientDependencyServiceAccessPermissionException.makeError(baseError: baseError)
+            case "InsufficientIAMAccessPermission": return try InsufficientIAMAccessPermissionException.makeError(baseError: baseError)
+            case "InvalidEventDataStoreCategory": return try InvalidEventDataStoreCategoryException.makeError(baseError: baseError)
+            case "InvalidEventDataStoreStatus": return try InvalidEventDataStoreStatusException.makeError(baseError: baseError)
+            case "InvalidParameterCombinationError": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
+            case "NoManagementAccountSLRExists": return try NoManagementAccountSLRExistsException.makeError(baseError: baseError)
+            case "NotOrganizationMasterAccount": return try NotOrganizationMasterAccountException.makeError(baseError: baseError)
+            case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutEventSelectorsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8937,6 +9222,7 @@ enum RegisterOrganizationDelegatedAdminOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "DelegatedAdminAccountLimitExceeded": return try DelegatedAdminAccountLimitExceededException.makeError(baseError: baseError)
             case "InsufficientDependencyServiceAccessPermission": return try InsufficientDependencyServiceAccessPermissionException.makeError(baseError: baseError)
+            case "InsufficientIAMAccessPermission": return try InsufficientIAMAccessPermissionException.makeError(baseError: baseError)
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
             case "NotOrganizationManagementAccount": return try NotOrganizationManagementAccountException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
@@ -9044,6 +9330,7 @@ enum StartEventDataStoreIngestionOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
             case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
             case "InsufficientDependencyServiceAccessPermission": return try InsufficientDependencyServiceAccessPermissionException.makeError(baseError: baseError)
@@ -9143,6 +9430,7 @@ enum StopEventDataStoreIngestionOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
             case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
             case "InsufficientDependencyServiceAccessPermission": return try InsufficientDependencyServiceAccessPermissionException.makeError(baseError: baseError)
@@ -10180,6 +10468,19 @@ extension GenerateResponseException {
     }
 }
 
+extension InvalidEventDataStoreStatusException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventDataStoreStatusException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidEventDataStoreStatusException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ImportNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ImportNotFoundException {
@@ -10310,6 +10611,19 @@ extension InvalidEventCategoryException {
     }
 }
 
+extension InsufficientIAMAccessPermissionException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientIAMAccessPermissionException {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientIAMAccessPermissionException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidInsightSelectorsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInsightSelectorsException {
@@ -10367,19 +10681,6 @@ extension DelegatedAdminAccountLimitExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DelegatedAdminAccountLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = DelegatedAdminAccountLimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidEventDataStoreStatusException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventDataStoreStatusException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidEventDataStoreStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10614,6 +10915,23 @@ extension CloudTrailClientTypes.IngestionStatus {
         value.latestIngestionErrorCode = try reader["LatestIngestionErrorCode"].readIfPresent()
         value.latestIngestionAttemptTime = try reader["LatestIngestionAttemptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.latestIngestionAttemptEventID = try reader["LatestIngestionAttemptEventID"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.ContextKeySelector {
+
+    static func write(value: CloudTrailClientTypes.ContextKeySelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Equals"].writeList(value.equals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.ContextKeySelector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.ContextKeySelector()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.equals = try reader["Equals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

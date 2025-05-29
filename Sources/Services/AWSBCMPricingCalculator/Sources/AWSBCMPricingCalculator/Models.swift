@@ -2366,12 +2366,14 @@ extension BCMPricingCalculatorClientTypes {
 
     public enum RateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afterDiscounts
+        case afterDiscountsAndCommitments
         case beforeDiscounts
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RateType] {
             return [
                 .afterDiscounts,
+                .afterDiscountsAndCommitments,
                 .beforeDiscounts
             ]
         }
@@ -2384,6 +2386,7 @@ extension BCMPricingCalculatorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .afterDiscounts: return "AFTER_DISCOUNTS"
+            case .afterDiscountsAndCommitments: return "AFTER_DISCOUNTS_AND_COMMITMENTS"
             case .beforeDiscounts: return "BEFORE_DISCOUNTS"
             case let .sdkUnknown(s): return s
             }
@@ -2677,12 +2680,14 @@ extension BCMPricingCalculatorClientTypes {
 
     public enum WorkloadEstimateRateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afterDiscounts
+        case afterDiscountsAndCommitments
         case beforeDiscounts
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WorkloadEstimateRateType] {
             return [
                 .afterDiscounts,
+                .afterDiscountsAndCommitments,
                 .beforeDiscounts
             ]
         }
@@ -2695,6 +2700,7 @@ extension BCMPricingCalculatorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .afterDiscounts: return "AFTER_DISCOUNTS"
+            case .afterDiscountsAndCommitments: return "AFTER_DISCOUNTS_AND_COMMITMENTS"
             case .beforeDiscounts: return "BEFORE_DISCOUNTS"
             case let .sdkUnknown(s): return s
             }
