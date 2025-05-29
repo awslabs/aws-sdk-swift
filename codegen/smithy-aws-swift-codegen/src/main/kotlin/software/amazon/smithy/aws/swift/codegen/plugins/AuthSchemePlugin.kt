@@ -12,6 +12,7 @@ import software.amazon.smithy.swift.codegen.model.toOptional
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
 class AuthSchemePlugin(
@@ -31,6 +32,7 @@ class AuthSchemePlugin(
     ) {
         writer.openBlock("public class $pluginName: \$N {", "}", ClientRuntimeTypes.Core.Plugin) {
             writer.write("private var authSchemes: \$N", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional())
+            writer.write("private var authSchemePreference: \$N", SwiftTypes.OptionalString)
             writer.write("private var authSchemeResolver: \$N", SmithyHTTPAuthAPITypes.AuthSchemeResolver.toOptional())
             writer.write(
                 "private var awsCredentialIdentityResolver: \$N",
@@ -43,15 +45,17 @@ class AuthSchemePlugin(
 
             writer.write("")
             writer.openBlock(
-                "public init(authSchemes: \$N = nil, authSchemeResolver: \$N = nil, awsCredentialIdentityResolver: \$N = nil, bearerTokenIdentityResolver: \$N = nil) {",
+                "public init(authSchemes: \$N = nil, authSchemePreference: \$N = nil, authSchemeResolver: \$N = nil, awsCredentialIdentityResolver: \$N = nil, bearerTokenIdentityResolver: \$N = nil) {",
                 "}",
                 SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(),
+                SwiftTypes.OptionalString,
                 AuthSchemeResolverGenerator.getServiceSpecificAuthSchemeResolverName(ctx).toOptional(),
                 SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric().toOptional(),
                 SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric().toOptional(),
             ) {
                 writer.write("self.authSchemeResolver = authSchemeResolver")
                 writer.write("self.authSchemes = authSchemes")
+                writer.write("self.authSchemePreference = authSchemePreference")
                 writer.write("self.awsCredentialIdentityResolver = awsCredentialIdentityResolver")
                 writer.write("self.bearerTokenIdentityResolver = bearerTokenIdentityResolver")
             }
@@ -64,6 +68,9 @@ class AuthSchemePlugin(
                 writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
                     writer.openBlock("if (self.authSchemes != nil) {", "}") {
                         writer.write("config.authSchemes = self.authSchemes")
+                    }
+                    writer.openBlock("if (self.authSchemePreference != nil) {", "}") {
+                        writer.write("config.authSchemePreference = self.authSchemePreference")
                     }
                     writer.openBlock("if (self.authSchemeResolver != nil) {", "}") {
                         writer.write("config.authSchemeResolver = self.authSchemeResolver!")

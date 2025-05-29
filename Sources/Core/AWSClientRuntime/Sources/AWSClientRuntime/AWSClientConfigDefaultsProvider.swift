@@ -64,6 +64,21 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
         return resolvedAppID
     }
 
+    public static func authSchemePreference(_ preference: String? = nil) throws -> [String]? {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
+        let resolvedPreference: [String]?
+        if let authSchemePreference = preference {
+            resolvedPreference = AuthSchemeConfig.normalizeSchemes(authSchemePreference)
+        } else {
+            resolvedPreference = AuthSchemeConfig.authSchemePreference(
+                configValue: nil,
+                profileName: nil,
+                fileBasedConfig: fileBasedConfig
+            )
+        }
+        return resolvedPreference
+    }
+
     public static func requestChecksumCalculation(
         _ requestChecksumCalculation: AWSChecksumCalculationMode? = nil
     ) throws -> AWSChecksumCalculationMode {
