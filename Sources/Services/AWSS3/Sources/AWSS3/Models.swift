@@ -338,7 +338,7 @@ public struct AbortMultipartUploadInput: Swift.Sendable {
 
 extension S3ClientTypes {
 
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public enum RequestCharged: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case requester
         case sdkUnknown(Swift.String)
@@ -364,7 +364,7 @@ extension S3ClientTypes {
 }
 
 public struct AbortMultipartUploadOutput: Swift.Sendable {
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
@@ -888,7 +888,7 @@ public struct CompleteMultipartUploadOutput: Swift.Sendable {
     public var key: Swift.String?
     /// The URI that identifies the newly created object.
     public var location: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
@@ -1549,7 +1549,7 @@ public struct CopyObjectOutput: Swift.Sendable {
     public var copySourceVersionId: Swift.String?
     /// If the object expiration is configured, the response includes this header. Object expiration information is not returned in directory buckets and this header returns the value "NotImplemented" in all responses for directory buckets.
     public var expiration: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
@@ -1909,7 +1909,7 @@ extension S3ClientTypes {
     public struct CreateBucketConfiguration: Swift.Sendable {
         /// Specifies the information about the bucket that will be created. This functionality is only supported by directory buckets.
         public var bucket: S3ClientTypes.BucketInfo?
-        /// Specifies the location where the bucket will be created. Directory buckets - The location type is Availability Zone or Local Zone. To use the Local Zone location type, your account must be enabled for Dedicated Local Zones. Otherwise, you get an HTTP 403 Forbidden error with the error code AccessDenied. To learn more, see [Enable accounts for Dedicated Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/opt-in-directory-bucket-lz.html) in the Amazon S3 User Guide. This functionality is only supported by directory buckets.
+        /// Specifies the location where the bucket will be created. Directory buckets - The location type is Availability Zone or Local Zone. To use the Local Zone location type, your account must be enabled for Local Zones. Otherwise, you get an HTTP 403 Forbidden error with the error code AccessDenied. To learn more, see [Enable accounts for Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/opt-in-directory-bucket-lz.html) in the Amazon S3 User Guide. This functionality is only supported by directory buckets.
         public var location: S3ClientTypes.LocationInfo?
         /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. Configurations using the value EU will create a bucket in eu-west-1. For a list of the valid values for all of the Amazon Web Services Regions, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region). This functionality is not supported for directory buckets.
         public var locationConstraint: S3ClientTypes.BucketLocationConstraint?
@@ -2375,7 +2375,7 @@ public struct CreateMultipartUploadOutput: Swift.Sendable {
     public var checksumType: S3ClientTypes.ChecksumType?
     /// Object key for which the multipart upload was initiated.
     public var key: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
@@ -2869,7 +2869,7 @@ public struct DeleteObjectInput: Swift.Sendable {
 public struct DeleteObjectOutput: Swift.Sendable {
     /// Indicates whether the specified object version that was permanently deleted was (true) or was not (false) a delete marker before deletion. In a simple DELETE, this header indicates whether (true) or not (false) the current version of the object is a delete marker. To learn more about delete markers, see [Working with delete markers](https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeleteMarker.html). This functionality is not supported for directory buckets.
     public var deleteMarker: Swift.Bool?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// Returns the version ID of the delete marker created as a result of the DELETE operation. This functionality is not supported for directory buckets.
     public var versionId: Swift.String?
@@ -4099,7 +4099,7 @@ public struct DeleteObjectsOutput: Swift.Sendable {
     public var deleted: [S3ClientTypes.DeletedObject]?
     /// Container for a failed delete action that describes the object that Amazon S3 attempted to delete and the error it encountered.
     public var errors: [S3ClientTypes.Error]?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
@@ -4186,7 +4186,7 @@ public struct GetBucketAccelerateConfigurationInput: Swift.Sendable {
 }
 
 public struct GetBucketAccelerateConfigurationOutput: Swift.Sendable {
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// The accelerate configuration of the bucket.
     public var status: S3ClientTypes.BucketAccelerateStatus?
@@ -5446,7 +5446,7 @@ extension S3ClientTypes {
         public var abortIncompleteMultipartUpload: S3ClientTypes.AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
         public var expiration: S3ClientTypes.LifecycleExpiration?
-        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element. Tag filters are not supported for directory buckets.
+        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, ObjectSizeGreaterThan, ObjectSizeLessThan, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element. Tag filters are not supported for directory buckets.
         public var filter: S3ClientTypes.LifecycleRuleFilter?
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public var id: Swift.String?
@@ -7637,7 +7637,7 @@ public struct GetObjectOutput: Swift.Sendable {
     public var partsCount: Swift.Int?
     /// Amazon S3 can return this if your request involves a bucket that is either a source or destination in a replication rule. This functionality is not supported for directory buckets.
     public var replicationStatus: S3ClientTypes.ReplicationStatus?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// Provides information about object restoration action and expiration time of the restored object copy. This functionality is not supported for directory buckets. Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones.
     public var restore: Swift.String?
@@ -7778,7 +7778,7 @@ public struct GetObjectAclOutput: Swift.Sendable {
     public var grants: [S3ClientTypes.Grant]?
     /// Container for the bucket owner's display name and ID.
     public var owner: S3ClientTypes.Owner?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
@@ -7839,12 +7839,12 @@ public struct GetObjectAttributesInput: Swift.Sendable {
     /// The object key.
     /// This member is required.
     public var key: Swift.String?
-    /// Sets the maximum number of parts to return.
+    /// Sets the maximum number of parts to return. For more information, see [Uploading and copying objects using multipart upload in Amazon S3 ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html) in the Amazon Simple Storage Service user guide.
     public var maxParts: Swift.Int?
     /// Specifies the fields at the root level that you want returned in the response. Fields that you do not specify are not returned.
     /// This member is required.
     public var objectAttributes: [S3ClientTypes.ObjectAttributes]?
-    /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
+    /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed. For more information, see [Uploading and copying objects using multipart upload in Amazon S3 ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html) in the Amazon Simple Storage Service user guide.
     public var partNumberMarker: Swift.String?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
@@ -8015,7 +8015,7 @@ public struct GetObjectAttributesOutput: Swift.Sendable {
     public var objectParts: S3ClientTypes.GetObjectAttributesParts?
     /// The size of the object in bytes.
     public var objectSize: Swift.Int?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// Provides the storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html). Directory buckets - Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones.
     public var storageClass: S3ClientTypes.StorageClass?
@@ -8375,7 +8375,7 @@ public struct GetObjectTorrentInput: Swift.Sendable {
 public struct GetObjectTorrentOutput: Swift.Sendable {
     /// A Bencoded dictionary as defined by the BitTorrent specification
     public var body: Smithy.ByteStream?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
@@ -8724,7 +8724,7 @@ public struct HeadObjectOutput: Swift.Sendable {
     ///
     /// For more information, see [Replication](https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html). This functionality is not supported for directory buckets.
     public var replicationStatus: S3ClientTypes.ReplicationStatus?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// If the object is an archived object (an object whose storage class is GLACIER), the response includes this header if either the archive restoration is in progress (see [RestoreObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html) or an archive copy is already restored. If an archive copy is already restored, the header value indicates when Amazon S3 is scheduled to delete the object copy. For example: x-amz-restore: ongoing-request="false", expiry-date="Fri, 21 Dec 2012 00:00:00 GMT" If the object restoration is in progress, the header returns the value ongoing-request="true". For more information about archiving objects, see [Transitioning Objects: General Considerations](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html#lifecycle-transition-general-considerations). This functionality is not supported for directory buckets. Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones.
     public var restore: Swift.String?
@@ -9267,7 +9267,7 @@ public struct ListMultipartUploadsOutput: Swift.Sendable {
     public var nextUploadIdMarker: Swift.String?
     /// When a prefix is provided in the request, this field contains the specified prefix. The result contains only keys starting with the specified prefix. Directory buckets - For directory buckets, only prefixes that end in a delimiter (/) are supported.
     public var `prefix`: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be included in the list only if they have an upload ID lexicographically greater than the specified upload-id-marker. This functionality is not supported for directory buckets.
     public var uploadIdMarker: Swift.String?
@@ -9527,7 +9527,7 @@ public struct ListObjectsOutput: Swift.Sendable {
     public var nextMarker: Swift.String?
     /// Keys that begin with the indicated prefix.
     public var `prefix`: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
@@ -9640,7 +9640,7 @@ public struct ListObjectsV2Output: Swift.Sendable {
     public var nextContinuationToken: Swift.String?
     /// Keys that begin with the indicated prefix. Directory buckets - For directory buckets, only prefixes that end in a delimiter (/) are supported.
     public var `prefix`: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// If StartAfter was sent with the request, it is included in the response. This functionality is not supported for directory buckets.
     public var startAfter: Swift.String?
@@ -9859,7 +9859,7 @@ public struct ListObjectVersionsOutput: Swift.Sendable {
     public var nextVersionIdMarker: Swift.String?
     /// Selects objects that start with the value supplied by this parameter.
     public var `prefix`: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// Marks the last version of the key returned in a truncated response.
     public var versionIdMarker: Swift.String?
@@ -10028,7 +10028,7 @@ public struct ListPartsOutput: Swift.Sendable {
     public var partNumberMarker: Swift.String?
     /// Container for elements related to a particular part. A response can contain zero or more Part elements.
     public var parts: [S3ClientTypes.Part]?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// The class of storage used to store the uploaded object. Directory buckets - Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones.
     public var storageClass: S3ClientTypes.StorageClass?
@@ -10492,6 +10492,8 @@ public struct PutBucketOwnershipControlsInput: Swift.Sendable {
     /// The name of the Amazon S3 bucket whose OwnershipControls you want to set.
     /// This member is required.
     public var bucket: Swift.String?
+    /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm  header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
     /// The MD5 hash of the OwnershipControls request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
     public var contentMD5: Swift.String?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -10502,11 +10504,13 @@ public struct PutBucketOwnershipControlsInput: Swift.Sendable {
 
     public init(
         bucket: Swift.String? = nil,
+        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         ownershipControls: S3ClientTypes.OwnershipControls? = nil
     ) {
         self.bucket = bucket
+        self.checksumAlgorithm = checksumAlgorithm
         self.contentMD5 = contentMD5
         self.expectedBucketOwner = expectedBucketOwner
         self.ownershipControls = ownershipControls
@@ -11119,7 +11123,7 @@ public struct PutObjectOutput: Swift.Sendable {
     public var eTag: Swift.String?
     /// If the expiration is configured for the object (see [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html)) in the Amazon S3 User Guide, the response includes this header. It includes the expiry-date and rule-id key-value pairs that provide information about object expiration. The value of the rule-id is URL-encoded. Object expiration information is not returned in directory buckets and this header returns the value "NotImplemented" in all responses for directory buckets.
     public var expiration: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// The server-side encryption algorithm used when you store this object in Amazon S3.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
@@ -11246,7 +11250,7 @@ public struct PutObjectAclInput: Swift.Sendable {
 }
 
 public struct PutObjectAclOutput: Swift.Sendable {
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
@@ -11298,7 +11302,7 @@ public struct PutObjectLegalHoldInput: Swift.Sendable {
 }
 
 public struct PutObjectLegalHoldOutput: Swift.Sendable {
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
@@ -11345,7 +11349,7 @@ public struct PutObjectLockConfigurationInput: Swift.Sendable {
 }
 
 public struct PutObjectLockConfigurationOutput: Swift.Sendable {
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
@@ -11401,7 +11405,7 @@ public struct PutObjectRetentionInput: Swift.Sendable {
 }
 
 public struct PutObjectRetentionOutput: Swift.Sendable {
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
@@ -12110,7 +12114,7 @@ public struct RestoreObjectInput: Swift.Sendable {
 }
 
 public struct RestoreObjectOutput: Swift.Sendable {
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// Indicates the path in the provided S3 output location where Select results will be restored to.
     public var restoreOutputPath: Swift.String?
@@ -12472,7 +12476,7 @@ public struct UploadPartOutput: Swift.Sendable {
     public var checksumSHA256: Swift.String?
     /// Entity tag for the uploaded object.
     public var eTag: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
@@ -12670,7 +12674,7 @@ public struct UploadPartCopyOutput: Swift.Sendable {
     public var copyPartResult: S3ClientTypes.CopyPartResult?
     /// The version of the source object that was copied, if you have enabled versioning on the source bucket. This functionality is not supported when the source object is in a directory bucket.
     public var copySourceVersionId: Swift.String?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
@@ -12766,7 +12770,7 @@ public struct WriteGetObjectResponseInput: Swift.Sendable {
     public var partsCount: Swift.Int?
     /// Indicates if request involves bucket that is either a source or destination in a Replication rule. For more information about S3 Replication, see [Replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html).
     public var replicationStatus: S3ClientTypes.ReplicationStatus?
-    /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// Route prefix to the HTTP URL generated.
     /// This member is required.
@@ -15862,6 +15866,9 @@ extension PutBucketOwnershipControlsInput {
 
     static func headerProvider(_ value: PutBucketOwnershipControlsInput) -> SmithyHTTPAPI.Headers {
         var items = SmithyHTTPAPI.Headers()
+        if let checksumAlgorithm = value.checksumAlgorithm {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
+        }
         if let contentMD5 = value.contentMD5 {
             items.add(SmithyHTTPAPI.Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
