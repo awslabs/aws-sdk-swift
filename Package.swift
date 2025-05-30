@@ -541,7 +541,6 @@ private var runtimeTargets: [Target] {
                 .smithyEventStreamsAuthAPI,
                 .awsSDKCommon,
                 .awsSDKHTTPAuth,
-                .awsSDKIdentity,
                 .awsSDKChecksums,
                 .awsSDKPartitions,
             ],
