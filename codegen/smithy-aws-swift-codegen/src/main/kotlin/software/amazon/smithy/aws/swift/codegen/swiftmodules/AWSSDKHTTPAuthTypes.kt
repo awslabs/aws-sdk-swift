@@ -8,6 +8,7 @@ import software.amazon.smithy.swift.codegen.swiftmodules.SwiftSymbol
 object AWSSDKHTTPAuthTypes {
     val SigV4AuthScheme = runtimeSymbol("SigV4AuthScheme", SwiftDeclaration.STRUCT)
     val SigV4AAuthScheme = runtimeSymbol("SigV4AAuthScheme", SwiftDeclaration.STRUCT)
+    val SigV4S3ExpressAuthScheme = runtimeSymbol("SigV4S3ExpressAuthScheme", SwiftDeclaration.STRUCT)
 }
 
 private fun runtimeSymbol(
