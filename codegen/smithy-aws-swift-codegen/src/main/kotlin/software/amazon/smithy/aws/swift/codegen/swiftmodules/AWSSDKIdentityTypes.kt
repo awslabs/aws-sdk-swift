@@ -7,6 +7,7 @@ import software.amazon.smithy.swift.codegen.swiftmodules.SwiftSymbol
 
 object AWSSDKIdentityTypes {
     val DefaultBearerTokenIdentityResolverChain = runtimeSymbol("DefaultBearerTokenIdentityResolverChain", SwiftDeclaration.STRUCT)
+    val DefaultAWSCredentialIdentityResolverChain = runtimeSymbol("DefaultAWSCredentialIdentityResolverChain", SwiftDeclaration.CLASS)
 }
 
 private fun runtimeSymbol(

@@ -6,7 +6,6 @@
 //
 
 @_spi(FileBasedConfig) import AWSSDKCommon
-import AWSSDKIdentity
 import SmithyIdentity
 import SmithyIdentityAPI
 import struct ClientRuntime.DefaultSDKRuntimeConfiguration
@@ -23,19 +22,6 @@ import class ClientRuntime.ClientConfigDefaultsProvider
 
 /// Provides default configuration properties for AWS services.
 public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
-
-    public static func awsCredentialIdentityResolver(
-        _ awsCredentialIdentityResolver: (any AWSCredentialIdentityResolver)? = nil
-    ) throws -> any AWSCredentialIdentityResolver {
-        let resolvedAWSCredentialIdentityResolver: any AWSCredentialIdentityResolver
-        if let awsCredentialIdentityResolver {
-            resolvedAWSCredentialIdentityResolver = awsCredentialIdentityResolver
-        } else {
-            resolvedAWSCredentialIdentityResolver = DefaultAWSCredentialIdentityResolverChain()
-        }
-        return resolvedAWSCredentialIdentityResolver
-    }
-
     public static func region(_ region: String? = nil) async throws -> String? {
         let resolvedRegion: String?
         let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
