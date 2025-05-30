@@ -21,7 +21,9 @@ extension Context {
 
     /// Returns the signing config for the event stream message
     /// - Returns: `AWSSigningConfig` for the event stream message
-    public func makeEventStreamSigningConfig(date: Date = Date().withoutFractionalSeconds())
+    public func makeEventStreamSigningConfig(
+        date: Date = Date(timeIntervalSince1970: Date().timeIntervalSince1970.rounded(.down))  // round seconds down
+    )
     async throws -> AWSSigningConfig {
         let credentials = try await getIdentityResolvers()?
             .get(key: AttributeKey<any IdentityResolver>(name: "aws.auth#sigv4"))?

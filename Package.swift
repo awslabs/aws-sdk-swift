@@ -537,8 +537,6 @@ private var runtimeTargets: [Target] {
                 .clientRuntime,
                 .smithyRetriesAPI,
                 .smithyRetries,
-                .smithyEventStreamsAPI,
-                .smithyEventStreamsAuthAPI,
                 .awsSDKCommon,
                 .awsSDKHTTPAuth,
                 .awsSDKChecksums,

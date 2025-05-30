@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct Foundation.Date
 import class AwsCommonRuntimeKit.CredentialsProvider
 import ClientRuntime
 import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
