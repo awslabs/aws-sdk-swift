@@ -5,125 +5,241 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class AwsCommonRuntimeKit.CredentialsProvider
-import ClientRuntime
-import class Foundation.ProcessInfo
-import enum Smithy.ClientError
-import enum SmithyHTTPAPI.HTTPClientError
-import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
-import struct Foundation.URL
-import struct Foundation.URLComponents
+import Foundation
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
+import struct Smithy.Attributes
+#if os(Linux)
+import FoundationNetworking // For URLSession in Linux.
+#endif
 
-/// A credential identity resolver that sources credentials from ECS container metadata
-public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByCRT {
-    public let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
-    public let resolvedHost: String
-    public let resolvedPathAndQuery: String
-    public let resolvedAuthorizationToken: String?
+public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
+    private let urlSession: URLSession
+    private let maxRetries: Int
 
-    /// Creates a credential identity resolver that resolves credentials from ECS container metadata.
-    /// ECS creds provider can be used to access creds via either relative uri to a fixed endpoint http://169.254.170.2,
-    /// or via a full uri specified by environment variables:
-    /// - AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
-    /// - AWS_CONTAINER_CREDENTIALS_FULL_URI
-    /// - AWS_CONTAINER_AUTHORIZATION_TOKEN
-    ///
-    /// If both relative uri and absolute uri are set, relative uri has higher priority.
-    /// Token is used in auth header but only for absolute uri.
-    /// - Throws: CommonRuntimeError.crtError or InitializationError.missingURIs
     public init(
-        relativeURI: String? = nil,
-        absoluteURI: String? = nil,
-        authorizationToken: String? = nil
-    ) throws {
-        let env = ProcessEnvironment()
-
-        let resolvedRelativeURI = relativeURI ?? env.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
-        let resolvedAbsoluteURI = absoluteURI ?? env.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_FULL_URI")
-
-        guard resolvedRelativeURI != nil || isValidAbsoluteURI(resolvedAbsoluteURI) else {
-            throw ClientError.dataNotFound(
-                "Please configure either the relative or absolute URI environment variable!"
-            )
-        }
-
-        let defaultHost = "169.254.170.2"
-        var host = defaultHost
-        var pathAndQuery = resolvedRelativeURI ?? ""
-        var resolvedAuthToken: String?
-
-        if let relative = resolvedRelativeURI {
-            pathAndQuery = relative
-        } else if let absolute = resolvedAbsoluteURI, let absoluteURL = URL(string: absolute) {
-            let (absoluteHost, absolutePathAndQuery) = try retrieveHostPathAndQuery(from: absoluteURL)
-            host = absoluteHost
-            pathAndQuery = absolutePathAndQuery
-            resolvedAuthToken = try resolveToken(authorizationToken, env)
-        } else {
-            throw HTTPClientError.pathCreationFailed(
-                "Failed to retrieve either relative or absolute URI! URI may be malformed."
-            )
-        }
-
-        self.resolvedHost = host
-        self.resolvedPathAndQuery = pathAndQuery
-        self.resolvedAuthorizationToken = resolvedAuthToken
-        self.crtAWSCredentialIdentityResolver = try AwsCommonRuntimeKit.CredentialsProvider(source: .ecs(
-            bootstrap: SDKDefaultIO.shared.clientBootstrap,
-            authToken: resolvedAuthToken,
-            pathAndQuery: pathAndQuery,
-            host: host
-        ))
-    }
-}
-
-private func retrieveHostPathAndQuery(from url: URL) throws -> (String, String) {
-    guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-        let message = "Absolute URI is malformed! Could not instantiate URLComponents from URL."
-        throw HTTPClientError.pathCreationFailed(message)
-    }
-    guard let hostComponent = components.host else {
-        throw HTTPClientError.pathCreationFailed("Absolute URI is malformed! Could not retrieve host from URL.")
-    }
-    components.scheme = nil
-    components.host = nil
-    guard let pathQueryFragment = components.url else {
-        throw HTTPClientError.pathCreationFailed("Could not retrieve path from URL!")
-    }
-    return (hostComponent, pathQueryFragment.absoluteString)
-}
-
-private func isValidAbsoluteURI(_ uri: String?) -> Bool {
-    guard let validUri = uri, URL(string: validUri)?.host != nil else {
-        return false
-    }
-    return true
-}
-
-private func resolveToken(_ authorizationToken: String?, _ env: ProcessEnvironment) throws -> String? {
-    // Initialize token variable
-    var tokenFromFile: String?
-    if let tokenPath = env.environmentVariable(
-        key: "AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE"
+        urlSession: URLSession? = nil,
+        maxRetries: Int = 3
     ) {
+        self.urlSession = urlSession ?? URLSession.shared
+        self.maxRetries = maxRetries
+    }
+
+    public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
+        // 1. Get URI configured via environment variables.
+        let (resolvedURL, authToken) = try resolveURLAndOptionalAuthToken()
+
+        // 2. Validate resolved URL before proceeding.
+        try validateResolvedURL(resolvedURL)
+
+        // 3. Create URLRequest; add Authorization header if applicable.
+        var request = URLRequest(url: resolvedURL)
+        if let authToken {
+            request.addValue(authToken, forHTTPHeaderField: "Authorization")
+        }
+
+        // 4. Send the URLRequest; retry 3 times max.
+        var backoff: TimeInterval = 0.1
+        for _ in 0..<maxRetries {
+            do {
+                return try await fetchCredentials(request: request)
+            } catch {
+                try? await Task.sleep(nanoseconds: UInt64(backoff * 1_000_000_000))
+                backoff *= 2
+            }
+        }
+        return try await fetchCredentials(request: request)
+    }
+
+    private func resolveURLAndOptionalAuthToken() throws -> (URL, String?) {
+        var resolvedURI: String
+        var authToken: String?
+
+        if let relativeURI = ProcessInfo.processInfo.environment["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"] {
+            resolvedURI = "http://169.254.170.2" + relativeURI // Prefix it with ECS container host.
+        } else if let fullURI = ProcessInfo.processInfo.environment["AWS_CONTAINER_CREDENTIALS_FULL_URI"] {
+            resolvedURI = fullURI
+            authToken = try resolveAuthToken()
+        } else {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "ECSAWSCredentialIdentityResolver: Couldn't initialize. "
+                + "Neither AWS_CONTAINER_CREDENTIALS_RELATIVE_URI nor "
+                + "AWS_CONTAINER_CREDENTIALS_FULL_URI environment variables were set."
+            )
+        }
+        guard let resolvedURL = URL(string: resolvedURI) else {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "ECSAWSCredentialIdentityResolver: "
+                + "Could not create URL from resolved URI."
+            )
+        }
+        return (resolvedURL, authToken)
+    }
+
+    private func resolveAuthToken() throws -> String? {
+        if let token = try readTokenFromFile() ?? readTokenFromEnvironment() {
+            try validateToken(token)
+            return token
+        }
+        return nil
+    }
+
+    private func readTokenFromFile() throws -> String? {
+        guard let tokenFilePath = ProcessInfo.processInfo.environment["AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE"] else {
+            return nil
+        }
         do {
-            // Load the token from the file
-            let tokenFilePath = URL(fileURLWithPath: tokenPath)
-            tokenFromFile = try String(contentsOf: tokenFilePath, encoding: .utf8)
-                .trimmingCharacters(in: .whitespacesAndNewlines)
+            let fileHandle = try FileHandle(forReadingFrom: URL(fileURLWithPath: tokenFilePath))
+            let data = fileHandle.readDataToEndOfFile()
+            return String(data: data, encoding: .utf8)?.trimmingCharacters(in: .newlines)
         } catch {
-            throw ClientError.dataNotFound("Error reading the token file: \(error)")
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "ECSAWSCredentialIdentityResolver: Failed to read authorization token file from configured path."
+            )
         }
     }
 
-    // AWS_CONTAINER_AUTHORIZATION_TOKEN should only be used if AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE is not set
-    return authorizationToken ?? tokenFromFile ?? env.environmentVariable(key: "AWS_CONTAINER_AUTHORIZATION_TOKEN")
+    private func readTokenFromEnvironment() -> String? {
+        ProcessInfo.processInfo.environment["AWS_CONTAINER_AUTHORIZATION_TOKEN"]
+    }
+
+    private func validateToken(_ token: String) throws {
+        guard !token.contains(where: { $0.isNewline }) else {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "ECSAWSCredentialIdentityResolver: Resolved auth token contains a newline character, making it invalid."
+            )
+        }
+    }
+
+    private func validateResolvedURL(_ resolvedURL: URL) throws {
+        guard let host = resolvedURL.host else {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "ECSAWSCredentialIdentityResolver: "
+                + "Resolved URL does not have a host."
+            )
+        }
+
+        // Must fail if host isn't IP address & scheme isn't HTTPS.
+        if resolvedURL.scheme != "https" && !isIPv4Address(host) {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "ECSAWSCredentialIdentityResolver: "
+                + "Resolved URL has HTTP scheme with host that isn't an IP address."
+            )
+        } else if !isIPv4Address(host) {
+            return
+        }
+
+        // Must fail if host is IP address and doesn't match one of the three conditions below.
+        guard host == "169.254.170.2" // ECS container host.
+            || host == "169.254.170.23" // EKS container host.
+            || host.split(separator: ".").first == "127" else { // Loopback CIDR.
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "ECSAWSCredentialIdentityResolver: "
+                + "The IP address in resolved URL is invalid. "
+                + "It must be within loopback CIDR 127.0.0.0/8, "
+                + "or be the ECS container host 169.254.170.2, "
+                + "or be the EKS container host 169.254.170.23."
+            )
+        }
+    }
+
+    private func isIPv4Address(_ host: String) -> Bool {
+        // Regex pattern that checks string of pattern X.X.X.X where X is an integer between 0 and 255.
+        let pattern = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}"
+        + "([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
+        return host.range(of: pattern, options: .regularExpression) != nil
+    }
+
+    private func fetchCredentials(request: URLRequest) async throws -> AWSCredentialIdentity {
+        // If status code is 200, parse response payload into AWS credentials and return it.
+        do {
+            let (data, response) = try await urlSession.asyncData(for: request)
+
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                    "ECSAWSCredentialIdentityResolver: "
+                    + "Could not retrieve credentials from resolved URL."
+                )
+            }
+
+            // Parse response into AWS credentials and return it.
+            let jsonCredentialResponse = try JSONDecoder().decode(
+                JSONCredentialResponse.self,
+                from: data
+            )
+            return AWSCredentialIdentity(
+                accessKey: jsonCredentialResponse.accessKeyID,
+                secret: jsonCredentialResponse.secretAccessKey,
+                accountID: jsonCredentialResponse.accountID,
+                expiration: jsonCredentialResponse.expiration,
+                sessionToken: jsonCredentialResponse.sessionToken
+            )
+        } catch {
+            // Handle network errors (not HTTP status errors).
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "ECSAWSCredentialIdentityResolver: "
+                + "Failed to retrieve credentials: \(error)"
+            )
+        }
+    }
 }
 
-private struct ProcessEnvironment {
-    public init() {}
+// Serde utility for decoding JSON credential response from HTTP endpoint.
+private struct JSONCredentialResponse: Codable {
+    let accessKeyID: String
+    let secretAccessKey: String
+    let sessionToken: String?
+    let expiration: Date?
+    let accountID: String?
 
-    public func environmentVariable(key: String) -> String? {
-        return ProcessInfo.processInfo.environment[key]
+    enum CodingKeys: String, CodingKey {
+        case accessKeyID = "AccessKeyId"
+        case secretAccessKey = "SecretAccessKey"
+        case sessionToken = "Token"
+        case expiration = "Expiration"
+        case accountID = "AccountId"
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        // Required fields
+        accessKeyID = try container.decode(String.self, forKey: .accessKeyID)
+        secretAccessKey = try container.decode(String.self, forKey: .secretAccessKey)
+
+        // Optional fields
+        sessionToken = try container.decodeIfPresent(String.self, forKey: .sessionToken)
+        accountID = try container.decodeIfPresent(String.self, forKey: .accountID)
+
+        // Handle the Expiration field which is a string in ISO8601 format.
+        if let expirationString = try container.decodeIfPresent(String.self, forKey: .expiration) {
+            let formatter = ISO8601DateFormatter()
+            expiration = formatter.date(from: expirationString)
+        } else {
+            expiration = nil
+        }
+    }
+}
+
+// URLSession.data(for:) isn't available in Linux; so this wrapper is used instead.
+extension URLSession {
+    func asyncData(for request: URLRequest) async throws -> (Data, URLResponse) {
+        return try await withCheckedThrowingContinuation { continuation in
+            let task = self.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                    return
+                }
+                guard let data = data, let response = response else {
+                    continuation.resume(throwing: NSError(
+                        domain: "URLSession",
+                        code: 0,
+                        userInfo: [NSLocalizedDescriptionKey: "No data or response returned"]
+                    ))
+                    return
+                }
+                continuation.resume(returning: (data, response))
+            }
+            task.resume()
+        }
     }
 }
