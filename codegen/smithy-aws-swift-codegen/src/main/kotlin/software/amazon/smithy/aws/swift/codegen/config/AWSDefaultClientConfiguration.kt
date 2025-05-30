@@ -38,7 +38,7 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
                         "\$N()",
                         AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
                     )
-                }
+                },
             ),
             ConfigProperty(
                 "awsRetryMode",
