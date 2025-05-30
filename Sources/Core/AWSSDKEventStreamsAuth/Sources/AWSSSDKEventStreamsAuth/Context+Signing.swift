@@ -5,7 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct Foundation.Date
 import AWSSDKHTTPAuth
 import ClientRuntime
 import Smithy
