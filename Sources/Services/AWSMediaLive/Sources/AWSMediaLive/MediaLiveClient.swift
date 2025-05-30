@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaLiveClient: ClientRuntime.Client {
     public static let clientName = "MediaLiveClient"
-    public static let version = "1.3.26"
+    public static let version = "1.3.27"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaLiveClient.MediaLiveClientConfiguration
     let serviceName = "MediaLive"

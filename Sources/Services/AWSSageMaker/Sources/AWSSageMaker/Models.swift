@@ -9108,6 +9108,32 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum CapacityReservationPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityReservationsOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationPreference] {
+            return [
+                .capacityReservationsOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityReservationsOnly: return "capacity-reservations-only"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum NodeUnavailabilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityPercentage
         case instanceCount
@@ -15421,6 +15447,8 @@ extension SageMakerClientTypes {
         public var projectId: Swift.String?
         /// The location where Amazon S3 stores temporary execution data and other artifacts for the project that corresponds to the domain.
         public var projectS3Path: Swift.String?
+        /// The ARN of the application managed by SageMaker AI and SageMaker Unified Studio in the Amazon Web Services IAM Identity Center.
+        public var singleSignOnApplicationArn: Swift.String?
         /// Sets whether you can access the domain in Amazon SageMaker Studio: ENABLED You can access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it in both studio interfaces. DISABLED You can't access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it only in that studio interface. To migrate a domain to Amazon SageMaker Unified Studio, you specify the UnifiedStudioSettings data type when you use the UpdateDomain action.
         public var studioWebPortalAccess: SageMakerClientTypes.FeatureStatus?
 
@@ -15431,6 +15459,7 @@ extension SageMakerClientTypes {
             environmentId: Swift.String? = nil,
             projectId: Swift.String? = nil,
             projectS3Path: Swift.String? = nil,
+            singleSignOnApplicationArn: Swift.String? = nil,
             studioWebPortalAccess: SageMakerClientTypes.FeatureStatus? = nil
         ) {
             self.domainAccountId = domainAccountId
@@ -15439,6 +15468,7 @@ extension SageMakerClientTypes {
             self.environmentId = environmentId
             self.projectId = projectId
             self.projectS3Path = projectS3Path
+            self.singleSignOnApplicationArn = singleSignOnApplicationArn
             self.studioWebPortalAccess = studioWebPortalAccess
         }
     }
@@ -16044,6 +16074,25 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+    public struct ProductionVariantCapacityReservationConfig: Swift.Sendable {
+        /// Options that you can choose for the capacity reservation. SageMaker AI supports the following options: capacity-reservations-only SageMaker AI launches instances only into an ML capacity reservation. If no capacity is available, the instances fail to launch.
+        public var capacityReservationPreference: SageMakerClientTypes.CapacityReservationPreference?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the ML capacity reservation that SageMaker AI applies when it deploys the endpoint.
+        public var mlReservationArn: Swift.String?
+
+        public init(
+            capacityReservationPreference: SageMakerClientTypes.CapacityReservationPreference? = nil,
+            mlReservationArn: Swift.String? = nil
+        ) {
+            self.capacityReservationPreference = capacityReservationPreference
+            self.mlReservationArn = mlReservationArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Specifies configuration for a core dump from the model container when the process crashes.
     public struct ProductionVariantCoreDumpConfig: Swift.Sendable {
         /// The Amazon S3 bucket to send the core dump to.
@@ -16240,6 +16289,8 @@ extension SageMakerClientTypes {
     public struct ProductionVariant: Swift.Sendable {
         /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify the size of the EI instance to use for the production variant.
         public var acceleratorType: SageMakerClientTypes.ProductionVariantAcceleratorType?
+        /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+        public var capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationConfig?
         /// The timeout value, in seconds, for your inference container to pass health check by SageMaker Hosting. For more information about health check, see [How Your Container Should Respond to Health Check (Ping) Requests](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html#your-algorithms-inference-algo-ping-requests).
         public var containerStartupHealthCheckTimeoutInSeconds: Swift.Int?
         /// Specifies configuration for a core dump from the model container when the process crashes.
@@ -16307,6 +16358,7 @@ extension SageMakerClientTypes {
 
         public init(
             acceleratorType: SageMakerClientTypes.ProductionVariantAcceleratorType? = nil,
+            capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationConfig? = nil,
             containerStartupHealthCheckTimeoutInSeconds: Swift.Int? = nil,
             coreDumpConfig: SageMakerClientTypes.ProductionVariantCoreDumpConfig? = nil,
             enableSSMAccess: Swift.Bool? = nil,
@@ -16323,6 +16375,7 @@ extension SageMakerClientTypes {
             volumeSizeInGB: Swift.Int? = nil
         ) {
             self.acceleratorType = acceleratorType
+            self.capacityReservationConfig = capacityReservationConfig
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
             self.coreDumpConfig = coreDumpConfig
             self.enableSSMAccess = enableSSMAccess
@@ -29313,8 +29366,72 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The EC2 capacity reservations that are shared to an ML capacity reservation.
+    public struct Ec2CapacityReservation: Swift.Sendable {
+        /// The number of instances that are currently available in the EC2 capacity reservation.
+        public var availableInstanceCount: Swift.Int?
+        /// The unique identifier for an EC2 capacity reservation that's part of the ML capacity reservation.
+        public var ec2CapacityReservationId: Swift.String?
+        /// The number of instances that you allocated to the EC2 capacity reservation.
+        public var totalInstanceCount: Swift.Int?
+        /// The number of instances from the EC2 capacity reservation that are being used by the endpoint.
+        public var usedByCurrentEndpoint: Swift.Int?
+
+        public init(
+            availableInstanceCount: Swift.Int? = nil,
+            ec2CapacityReservationId: Swift.String? = nil,
+            totalInstanceCount: Swift.Int? = nil,
+            usedByCurrentEndpoint: Swift.Int? = nil
+        ) {
+            self.availableInstanceCount = availableInstanceCount
+            self.ec2CapacityReservationId = ec2CapacityReservationId
+            self.totalInstanceCount = totalInstanceCount
+            self.usedByCurrentEndpoint = usedByCurrentEndpoint
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details about an ML capacity reservation.
+    public struct ProductionVariantCapacityReservationSummary: Swift.Sendable {
+        /// The number of instances that are currently available in the ML capacity reservation.
+        public var availableInstanceCount: Swift.Int?
+        /// The option that you chose for the capacity reservation. SageMaker AI supports the following options: capacity-reservations-only SageMaker AI launches instances only into an ML capacity reservation. If no capacity is available, the instances fail to launch.
+        public var capacityReservationPreference: SageMakerClientTypes.CapacityReservationPreference?
+        /// The EC2 capacity reservations that are shared to this ML capacity reservation, if any.
+        public var ec2CapacityReservations: [SageMakerClientTypes.Ec2CapacityReservation]?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the ML capacity reservation that SageMaker AI applies when it deploys the endpoint.
+        public var mlReservationArn: Swift.String?
+        /// The number of instances that you allocated to the ML capacity reservation.
+        public var totalInstanceCount: Swift.Int?
+        /// The number of instances from the ML capacity reservation that are being used by the endpoint.
+        public var usedByCurrentEndpoint: Swift.Int?
+
+        public init(
+            availableInstanceCount: Swift.Int? = nil,
+            capacityReservationPreference: SageMakerClientTypes.CapacityReservationPreference? = nil,
+            ec2CapacityReservations: [SageMakerClientTypes.Ec2CapacityReservation]? = nil,
+            mlReservationArn: Swift.String? = nil,
+            totalInstanceCount: Swift.Int? = nil,
+            usedByCurrentEndpoint: Swift.Int? = nil
+        ) {
+            self.availableInstanceCount = availableInstanceCount
+            self.capacityReservationPreference = capacityReservationPreference
+            self.ec2CapacityReservations = ec2CapacityReservations
+            self.mlReservationArn = mlReservationArn
+            self.totalInstanceCount = totalInstanceCount
+            self.usedByCurrentEndpoint = usedByCurrentEndpoint
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Describes weight and capacities for a production variant associated with an endpoint. If you sent a request to the UpdateEndpointWeightsAndCapacities API and the endpoint status is Updating, you get different desired and current values.
     public struct ProductionVariantSummary: Swift.Sendable {
+        /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+        public var capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationSummary?
         /// The number of instances associated with the variant.
         public var currentInstanceCount: Swift.Int?
         /// The serverless configuration for the endpoint.
@@ -29340,6 +29457,7 @@ extension SageMakerClientTypes {
         public var variantStatus: [SageMakerClientTypes.ProductionVariantStatus]?
 
         public init(
+            capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationSummary? = nil,
             currentInstanceCount: Swift.Int? = nil,
             currentServerlessConfig: SageMakerClientTypes.ProductionVariantServerlessConfig? = nil,
             currentWeight: Swift.Float? = nil,
@@ -29352,6 +29470,7 @@ extension SageMakerClientTypes {
             variantName: Swift.String? = nil,
             variantStatus: [SageMakerClientTypes.ProductionVariantStatus]? = nil
         ) {
+            self.capacityReservationConfig = capacityReservationConfig
             self.currentInstanceCount = currentInstanceCount
             self.currentServerlessConfig = currentServerlessConfig
             self.currentWeight = currentWeight
@@ -71905,6 +72024,7 @@ extension SageMakerClientTypes.UnifiedStudioSettings {
         try writer["EnvironmentId"].write(value.environmentId)
         try writer["ProjectId"].write(value.projectId)
         try writer["ProjectS3Path"].write(value.projectS3Path)
+        try writer["SingleSignOnApplicationArn"].write(value.singleSignOnApplicationArn)
         try writer["StudioWebPortalAccess"].write(value.studioWebPortalAccess)
     }
 
@@ -71918,6 +72038,7 @@ extension SageMakerClientTypes.UnifiedStudioSettings {
         value.projectId = try reader["ProjectId"].readIfPresent()
         value.environmentId = try reader["EnvironmentId"].readIfPresent()
         value.projectS3Path = try reader["ProjectS3Path"].readIfPresent()
+        value.singleSignOnApplicationArn = try reader["SingleSignOnApplicationArn"].readIfPresent()
         return value
     }
 }
@@ -72116,6 +72237,35 @@ extension SageMakerClientTypes.ProductionVariantSummary {
         value.desiredServerlessConfig = try reader["DesiredServerlessConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantServerlessConfig.read(from:))
         value.managedInstanceScaling = try reader["ManagedInstanceScaling"].readIfPresent(with: SageMakerClientTypes.ProductionVariantManagedInstanceScaling.read(from:))
         value.routingConfig = try reader["RoutingConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantRoutingConfig.read(from:))
+        value.capacityReservationConfig = try reader["CapacityReservationConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantCapacityReservationSummary.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ProductionVariantCapacityReservationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantCapacityReservationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ProductionVariantCapacityReservationSummary()
+        value.mlReservationArn = try reader["MlReservationArn"].readIfPresent()
+        value.capacityReservationPreference = try reader["CapacityReservationPreference"].readIfPresent()
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent()
+        value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
+        value.usedByCurrentEndpoint = try reader["UsedByCurrentEndpoint"].readIfPresent()
+        value.ec2CapacityReservations = try reader["Ec2CapacityReservations"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Ec2CapacityReservation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.Ec2CapacityReservation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Ec2CapacityReservation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.Ec2CapacityReservation()
+        value.ec2CapacityReservationId = try reader["Ec2CapacityReservationId"].readIfPresent()
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent()
+        value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
+        value.usedByCurrentEndpoint = try reader["UsedByCurrentEndpoint"].readIfPresent()
         return value
     }
 }
@@ -72578,6 +72728,7 @@ extension SageMakerClientTypes.ProductionVariant {
     static func write(value: SageMakerClientTypes.ProductionVariant?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AcceleratorType"].write(value.acceleratorType)
+        try writer["CapacityReservationConfig"].write(value.capacityReservationConfig, with: SageMakerClientTypes.ProductionVariantCapacityReservationConfig.write(value:to:))
         try writer["ContainerStartupHealthCheckTimeoutInSeconds"].write(value.containerStartupHealthCheckTimeoutInSeconds)
         try writer["CoreDumpConfig"].write(value.coreDumpConfig, with: SageMakerClientTypes.ProductionVariantCoreDumpConfig.write(value:to:))
         try writer["EnableSSMAccess"].write(value.enableSSMAccess)
@@ -72612,6 +72763,24 @@ extension SageMakerClientTypes.ProductionVariant {
         value.managedInstanceScaling = try reader["ManagedInstanceScaling"].readIfPresent(with: SageMakerClientTypes.ProductionVariantManagedInstanceScaling.read(from:))
         value.routingConfig = try reader["RoutingConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantRoutingConfig.read(from:))
         value.inferenceAmiVersion = try reader["InferenceAmiVersion"].readIfPresent()
+        value.capacityReservationConfig = try reader["CapacityReservationConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantCapacityReservationConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ProductionVariantCapacityReservationConfig {
+
+    static func write(value: SageMakerClientTypes.ProductionVariantCapacityReservationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityReservationPreference"].write(value.capacityReservationPreference)
+        try writer["MlReservationArn"].write(value.mlReservationArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantCapacityReservationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ProductionVariantCapacityReservationConfig()
+        value.capacityReservationPreference = try reader["CapacityReservationPreference"].readIfPresent()
+        value.mlReservationArn = try reader["MlReservationArn"].readIfPresent()
         return value
     }
 }
