@@ -38,11 +38,13 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         }
 
         // 4. Send the URLRequest; retry 3 times max.
+        var backoff: TimeInterval = 0.1
         for _ in 0..<maxRetries {
             do {
                 return try await fetchCredentials(request: request)
             } catch {
-                // no-op.
+                try? await Task.sleep(nanoseconds: UInt64(backoff * 1_000_000_000))
+                backoff *= 2
             }
         }
         return try await fetchCredentials(request: request)
