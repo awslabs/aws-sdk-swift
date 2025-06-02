@@ -183,6 +183,140 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
+    /// The Aurora DB cluster storage configuration used for recommendations.
+    public struct AuroraDbClusterStorageConfiguration: Swift.Sendable {
+        /// The storage type to associate with the Aurora DB cluster.
+        public var storageType: Swift.String?
+
+        public init(
+            storageType: Swift.String? = nil
+        ) {
+            self.storageType = storageType
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Estimated discount details of the current and recommended resource configuration for a recommendation.
+    public struct EstimatedDiscounts: Swift.Sendable {
+        /// Estimated other discounts include all discounts that are not itemized. Itemized discounts include reservedInstanceDiscount and savingsPlansDiscount.
+        public var otherDiscount: Swift.Double?
+        /// Estimated reserved instance discounts.
+        public var reservedInstancesDiscount: Swift.Double?
+        /// Estimated Savings Plans discounts.
+        public var savingsPlansDiscount: Swift.Double?
+
+        public init(
+            otherDiscount: Swift.Double? = nil,
+            reservedInstancesDiscount: Swift.Double? = nil,
+            savingsPlansDiscount: Swift.Double? = nil
+        ) {
+            self.otherDiscount = otherDiscount
+            self.reservedInstancesDiscount = reservedInstancesDiscount
+            self.savingsPlansDiscount = savingsPlansDiscount
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Contains pricing information about the specified resource.
+    public struct ResourcePricing: Swift.Sendable {
+        /// The savings estimate incorporating all discounts with Amazon Web Services, such as Reserved Instances and Savings Plans.
+        public var estimatedCostAfterDiscounts: Swift.Double?
+        /// The savings estimate using Amazon Web Services public pricing without incorporating any discounts.
+        public var estimatedCostBeforeDiscounts: Swift.Double?
+        /// The estimated discounts for a recommendation.
+        public var estimatedDiscounts: CostOptimizationHubClientTypes.EstimatedDiscounts?
+        /// The estimated net unused amortized commitment for the recommendation.
+        public var estimatedNetUnusedAmortizedCommitments: Swift.Double?
+
+        public init(
+            estimatedCostAfterDiscounts: Swift.Double? = nil,
+            estimatedCostBeforeDiscounts: Swift.Double? = nil,
+            estimatedDiscounts: CostOptimizationHubClientTypes.EstimatedDiscounts? = nil,
+            estimatedNetUnusedAmortizedCommitments: Swift.Double? = nil
+        ) {
+            self.estimatedCostAfterDiscounts = estimatedCostAfterDiscounts
+            self.estimatedCostBeforeDiscounts = estimatedCostBeforeDiscounts
+            self.estimatedDiscounts = estimatedDiscounts
+            self.estimatedNetUnusedAmortizedCommitments = estimatedNetUnusedAmortizedCommitments
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Details about the usage.
+    public struct Usage: Swift.Sendable {
+        /// The operation value.
+        public var operation: Swift.String?
+        /// The product code.
+        public var productCode: Swift.String?
+        /// The usage unit.
+        public var unit: Swift.String?
+        /// The usage amount.
+        public var usageAmount: Swift.Double?
+        /// The usage type.
+        public var usageType: Swift.String?
+
+        public init(
+            operation: Swift.String? = nil,
+            productCode: Swift.String? = nil,
+            unit: Swift.String? = nil,
+            usageAmount: Swift.Double? = nil,
+            usageType: Swift.String? = nil
+        ) {
+            self.operation = operation
+            self.productCode = productCode
+            self.unit = unit
+            self.usageAmount = usageAmount
+            self.usageType = usageType
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Cost impact of the resource recommendation.
+    public struct ResourceCostCalculation: Swift.Sendable {
+        /// Pricing details of the resource recommendation.
+        public var pricing: CostOptimizationHubClientTypes.ResourcePricing?
+        /// Usage details of the resource recommendation.
+        public var usages: [CostOptimizationHubClientTypes.Usage]?
+
+        public init(
+            pricing: CostOptimizationHubClientTypes.ResourcePricing? = nil,
+            usages: [CostOptimizationHubClientTypes.Usage]? = nil
+        ) {
+            self.pricing = pricing
+            self.usages = usages
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Contains the details of an Aurora DB cluster storage.
+    public struct AuroraDbClusterStorage: Swift.Sendable {
+        /// The Aurora DB cluster storage configuration used for recommendations.
+        public var configuration: CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration?
+        /// Cost impact of the resource recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation?
+
+        public init(
+            configuration: CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration? = nil,
+            costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
+        ) {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
     /// Describes the Amazon Elastic Block Store performance configuration of the current and recommended resource configuration for a recommendation.
     public struct BlockStoragePerformanceConfiguration: Swift.Sendable {
         /// The number of I/O operations per second.
@@ -793,106 +927,6 @@ extension CostOptimizationHubClientTypes {
             self.attachmentState = attachmentState
             self.performance = performance
             self.storage = storage
-        }
-    }
-}
-
-extension CostOptimizationHubClientTypes {
-
-    /// Estimated discount details of the current and recommended resource configuration for a recommendation.
-    public struct EstimatedDiscounts: Swift.Sendable {
-        /// Estimated other discounts include all discounts that are not itemized. Itemized discounts include reservedInstanceDiscount and savingsPlansDiscount.
-        public var otherDiscount: Swift.Double?
-        /// Estimated reserved instance discounts.
-        public var reservedInstancesDiscount: Swift.Double?
-        /// Estimated Savings Plans discounts.
-        public var savingsPlansDiscount: Swift.Double?
-
-        public init(
-            otherDiscount: Swift.Double? = nil,
-            reservedInstancesDiscount: Swift.Double? = nil,
-            savingsPlansDiscount: Swift.Double? = nil
-        ) {
-            self.otherDiscount = otherDiscount
-            self.reservedInstancesDiscount = reservedInstancesDiscount
-            self.savingsPlansDiscount = savingsPlansDiscount
-        }
-    }
-}
-
-extension CostOptimizationHubClientTypes {
-
-    /// Contains pricing information about the specified resource.
-    public struct ResourcePricing: Swift.Sendable {
-        /// The savings estimate incorporating all discounts with Amazon Web Services, such as Reserved Instances and Savings Plans.
-        public var estimatedCostAfterDiscounts: Swift.Double?
-        /// The savings estimate using Amazon Web Services public pricing without incorporating any discounts.
-        public var estimatedCostBeforeDiscounts: Swift.Double?
-        /// The estimated discounts for a recommendation.
-        public var estimatedDiscounts: CostOptimizationHubClientTypes.EstimatedDiscounts?
-        /// The estimated net unused amortized commitment for the recommendation.
-        public var estimatedNetUnusedAmortizedCommitments: Swift.Double?
-
-        public init(
-            estimatedCostAfterDiscounts: Swift.Double? = nil,
-            estimatedCostBeforeDiscounts: Swift.Double? = nil,
-            estimatedDiscounts: CostOptimizationHubClientTypes.EstimatedDiscounts? = nil,
-            estimatedNetUnusedAmortizedCommitments: Swift.Double? = nil
-        ) {
-            self.estimatedCostAfterDiscounts = estimatedCostAfterDiscounts
-            self.estimatedCostBeforeDiscounts = estimatedCostBeforeDiscounts
-            self.estimatedDiscounts = estimatedDiscounts
-            self.estimatedNetUnusedAmortizedCommitments = estimatedNetUnusedAmortizedCommitments
-        }
-    }
-}
-
-extension CostOptimizationHubClientTypes {
-
-    /// Details about the usage.
-    public struct Usage: Swift.Sendable {
-        /// The operation value.
-        public var operation: Swift.String?
-        /// The product code.
-        public var productCode: Swift.String?
-        /// The usage unit.
-        public var unit: Swift.String?
-        /// The usage amount.
-        public var usageAmount: Swift.Double?
-        /// The usage type.
-        public var usageType: Swift.String?
-
-        public init(
-            operation: Swift.String? = nil,
-            productCode: Swift.String? = nil,
-            unit: Swift.String? = nil,
-            usageAmount: Swift.Double? = nil,
-            usageType: Swift.String? = nil
-        ) {
-            self.operation = operation
-            self.productCode = productCode
-            self.unit = unit
-            self.usageAmount = usageAmount
-            self.usageType = usageType
-        }
-    }
-}
-
-extension CostOptimizationHubClientTypes {
-
-    /// Cost impact of the resource recommendation.
-    public struct ResourceCostCalculation: Swift.Sendable {
-        /// Pricing details of the resource recommendation.
-        public var pricing: CostOptimizationHubClientTypes.ResourcePricing?
-        /// Usage details of the resource recommendation.
-        public var usages: [CostOptimizationHubClientTypes.Usage]?
-
-        public init(
-            pricing: CostOptimizationHubClientTypes.ResourcePricing? = nil,
-            usages: [CostOptimizationHubClientTypes.Usage]? = nil
-        ) {
-            self.pricing = pricing
-            self.usages = usages
         }
     }
 }
@@ -1868,6 +1902,8 @@ extension CostOptimizationHubClientTypes {
         case rdsdbinstance(CostOptimizationHubClientTypes.RdsDbInstance)
         /// The DB instance storage recommendation details.
         case rdsdbinstancestorage(CostOptimizationHubClientTypes.RdsDbInstanceStorage)
+        /// The Aurora DB cluster storage recommendation details.
+        case auroradbclusterstorage(CostOptimizationHubClientTypes.AuroraDbClusterStorage)
         /// The DynamoDB reserved capacity recommendation details.
         case dynamodbreservedcapacity(CostOptimizationHubClientTypes.DynamoDbReservedCapacity)
         /// The MemoryDB reserved instances recommendation details.
@@ -1879,6 +1915,7 @@ extension CostOptimizationHubClientTypes {
 extension CostOptimizationHubClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auroraDbClusterStorage
         case computeSavingsPlans
         case dynamoDbReservedCapacity
         case ebsVolume
@@ -1900,6 +1937,7 @@ extension CostOptimizationHubClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
+                .auroraDbClusterStorage,
                 .computeSavingsPlans,
                 .dynamoDbReservedCapacity,
                 .ebsVolume,
@@ -1927,6 +1965,7 @@ extension CostOptimizationHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .auroraDbClusterStorage: return "AuroraDbClusterStorage"
             case .computeSavingsPlans: return "ComputeSavingsPlans"
             case .dynamoDbReservedCapacity: return "DynamoDbReservedCapacity"
             case .ebsVolume: return "EbsVolume"
@@ -3083,6 +3122,8 @@ extension CostOptimizationHubClientTypes.ResourceDetails {
                 return .rdsdbinstance(try reader["rdsDbInstance"].read(with: CostOptimizationHubClientTypes.RdsDbInstance.read(from:)))
             case "rdsDbInstanceStorage":
                 return .rdsdbinstancestorage(try reader["rdsDbInstanceStorage"].read(with: CostOptimizationHubClientTypes.RdsDbInstanceStorage.read(from:)))
+            case "auroraDbClusterStorage":
+                return .auroradbclusterstorage(try reader["auroraDbClusterStorage"].read(with: CostOptimizationHubClientTypes.AuroraDbClusterStorage.read(from:)))
             case "dynamoDbReservedCapacity":
                 return .dynamodbreservedcapacity(try reader["dynamoDbReservedCapacity"].read(with: CostOptimizationHubClientTypes.DynamoDbReservedCapacity.read(from:)))
             case "memoryDbReservedInstances":
@@ -3178,12 +3219,12 @@ extension CostOptimizationHubClientTypes.DynamoDbReservedCapacityConfiguration {
     }
 }
 
-extension CostOptimizationHubClientTypes.RdsDbInstanceStorage {
+extension CostOptimizationHubClientTypes.AuroraDbClusterStorage {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.RdsDbInstanceStorage {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.AuroraDbClusterStorage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.RdsDbInstanceStorage()
-        value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.RdsDbInstanceStorageConfiguration.read(from:))
+        var value = CostOptimizationHubClientTypes.AuroraDbClusterStorage()
+        value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration.read(from:))
         value.costCalculation = try reader["costCalculation"].readIfPresent(with: CostOptimizationHubClientTypes.ResourceCostCalculation.read(from:))
         return value
     }
@@ -3235,6 +3276,27 @@ extension CostOptimizationHubClientTypes.Usage {
         value.operation = try reader["operation"].readIfPresent()
         value.productCode = try reader["productCode"].readIfPresent()
         value.unit = try reader["unit"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration()
+        value.storageType = try reader["storageType"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.RdsDbInstanceStorage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.RdsDbInstanceStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.RdsDbInstanceStorage()
+        value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.RdsDbInstanceStorageConfiguration.read(from:))
+        value.costCalculation = try reader["costCalculation"].readIfPresent(with: CostOptimizationHubClientTypes.ResourceCostCalculation.read(from:))
         return value
     }
 }

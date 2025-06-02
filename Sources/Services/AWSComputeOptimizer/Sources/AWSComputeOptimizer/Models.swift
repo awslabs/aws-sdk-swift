@@ -1482,6 +1482,7 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auroraDbClusterStorage
         case autoScalingGroup
         case ebsVolume
         case ec2Instance
@@ -1495,6 +1496,7 @@ extension ComputeOptimizerClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
+                .auroraDbClusterStorage,
                 .autoScalingGroup,
                 .ebsVolume,
                 .ec2Instance,
@@ -1514,6 +1516,7 @@ extension ComputeOptimizerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .auroraDbClusterStorage: return "AuroraDBClusterStorage"
             case .autoScalingGroup: return "AutoScalingGroup"
             case .ebsVolume: return "EbsVolume"
             case .ec2Instance: return "Ec2Instance"
@@ -3597,6 +3600,7 @@ extension ComputeOptimizerClientTypes {
 
     public enum ExportableRDSDBField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountId
+        case clusterWriter
         case currentDbInstanceClass
         case currentInstanceOnDemandHourlyPrice
         case currentInstancePerformanceRisk
@@ -3605,6 +3609,10 @@ extension ComputeOptimizerClientTypes {
         case currentStorageConfigurationMaxAllocatedStorage
         case currentStorageConfigurationStorageThroughput
         case currentStorageConfigurationStorageType
+        case currentStorageEstimatedClusterInstanceOnDemandMonthlyCost
+        case currentStorageEstimatedClusterStorageIoOnDemandMonthlyCost
+        case currentStorageEstimatedClusterStorageOnDemandMonthlyCost
+        case currentStorageEstimatedMonthlyVolumeIopsCostVariation
         case currentStorageOnDemandMonthlyPrice
         case dbClusterIdentifier
         case effectiveRecommendationPreferencesCpuVendorArchitectures
@@ -3635,10 +3643,14 @@ extension ComputeOptimizerClientTypes {
         case storageFinding
         case storageFindingReasonCodes
         case storageRecommendationOptionsAllocatedStorage
+        case storageRecommendationOptionsEstimatedClusterInstanceOnDemandMonthlyCost
+        case storageRecommendationOptionsEstimatedClusterStorageIoOnDemandMonthlyCost
+        case storageRecommendationOptionsEstimatedClusterStorageOnDemandMonthlyCost
         case storageRecommendationOptionsEstimatedMonthlySavingsCurrency
         case storageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
         case storageRecommendationOptionsEstimatedMonthlySavingsValue
         case storageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
+        case storageRecommendationOptionsEstimatedMonthlyVolumeIopsCostVariation
         case storageRecommendationOptionsIops
         case storageRecommendationOptionsMaxAllocatedStorage
         case storageRecommendationOptionsOnDemandMonthlyPrice
@@ -3665,12 +3677,16 @@ extension ComputeOptimizerClientTypes {
         case utilizationMetricsReadIopsEphemeralStorageMaximum
         case utilizationMetricsStorageNetworkReceiveThroughputMaximum
         case utilizationMetricsStorageNetworkTransmitThroughputMaximum
+        case utilizationMetricsVolumeBytesUsedAverage
+        case utilizationMetricsVolumeReadIopsAverage
+        case utilizationMetricsVolumeWriteIopsAverage
         case utilizationMetricsWriteIopsEphemeralStorageMaximum
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ExportableRDSDBField] {
             return [
                 .accountId,
+                .clusterWriter,
                 .currentDbInstanceClass,
                 .currentInstanceOnDemandHourlyPrice,
                 .currentInstancePerformanceRisk,
@@ -3679,6 +3695,10 @@ extension ComputeOptimizerClientTypes {
                 .currentStorageConfigurationMaxAllocatedStorage,
                 .currentStorageConfigurationStorageThroughput,
                 .currentStorageConfigurationStorageType,
+                .currentStorageEstimatedClusterInstanceOnDemandMonthlyCost,
+                .currentStorageEstimatedClusterStorageIoOnDemandMonthlyCost,
+                .currentStorageEstimatedClusterStorageOnDemandMonthlyCost,
+                .currentStorageEstimatedMonthlyVolumeIopsCostVariation,
                 .currentStorageOnDemandMonthlyPrice,
                 .dbClusterIdentifier,
                 .effectiveRecommendationPreferencesCpuVendorArchitectures,
@@ -3709,10 +3729,14 @@ extension ComputeOptimizerClientTypes {
                 .storageFinding,
                 .storageFindingReasonCodes,
                 .storageRecommendationOptionsAllocatedStorage,
+                .storageRecommendationOptionsEstimatedClusterInstanceOnDemandMonthlyCost,
+                .storageRecommendationOptionsEstimatedClusterStorageIoOnDemandMonthlyCost,
+                .storageRecommendationOptionsEstimatedClusterStorageOnDemandMonthlyCost,
                 .storageRecommendationOptionsEstimatedMonthlySavingsCurrency,
                 .storageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
                 .storageRecommendationOptionsEstimatedMonthlySavingsValue,
                 .storageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
+                .storageRecommendationOptionsEstimatedMonthlyVolumeIopsCostVariation,
                 .storageRecommendationOptionsIops,
                 .storageRecommendationOptionsMaxAllocatedStorage,
                 .storageRecommendationOptionsOnDemandMonthlyPrice,
@@ -3739,6 +3763,9 @@ extension ComputeOptimizerClientTypes {
                 .utilizationMetricsReadIopsEphemeralStorageMaximum,
                 .utilizationMetricsStorageNetworkReceiveThroughputMaximum,
                 .utilizationMetricsStorageNetworkTransmitThroughputMaximum,
+                .utilizationMetricsVolumeBytesUsedAverage,
+                .utilizationMetricsVolumeReadIopsAverage,
+                .utilizationMetricsVolumeWriteIopsAverage,
                 .utilizationMetricsWriteIopsEphemeralStorageMaximum
             ]
         }
@@ -3751,6 +3778,7 @@ extension ComputeOptimizerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accountId: return "AccountId"
+            case .clusterWriter: return "ClusterWriter"
             case .currentDbInstanceClass: return "CurrentDBInstanceClass"
             case .currentInstanceOnDemandHourlyPrice: return "CurrentInstanceOnDemandHourlyPrice"
             case .currentInstancePerformanceRisk: return "CurrentInstancePerformanceRisk"
@@ -3759,6 +3787,10 @@ extension ComputeOptimizerClientTypes {
             case .currentStorageConfigurationMaxAllocatedStorage: return "CurrentStorageConfigurationMaxAllocatedStorage"
             case .currentStorageConfigurationStorageThroughput: return "CurrentStorageConfigurationStorageThroughput"
             case .currentStorageConfigurationStorageType: return "CurrentStorageConfigurationStorageType"
+            case .currentStorageEstimatedClusterInstanceOnDemandMonthlyCost: return "CurrentStorageEstimatedClusterInstanceOnDemandMonthlyCost"
+            case .currentStorageEstimatedClusterStorageIoOnDemandMonthlyCost: return "CurrentStorageEstimatedClusterStorageIOOnDemandMonthlyCost"
+            case .currentStorageEstimatedClusterStorageOnDemandMonthlyCost: return "CurrentStorageEstimatedClusterStorageOnDemandMonthlyCost"
+            case .currentStorageEstimatedMonthlyVolumeIopsCostVariation: return "CurrentStorageEstimatedMonthlyVolumeIOPsCostVariation"
             case .currentStorageOnDemandMonthlyPrice: return "CurrentStorageOnDemandMonthlyPrice"
             case .dbClusterIdentifier: return "DBClusterIdentifier"
             case .effectiveRecommendationPreferencesCpuVendorArchitectures: return "EffectiveRecommendationPreferencesCpuVendorArchitectures"
@@ -3789,10 +3821,14 @@ extension ComputeOptimizerClientTypes {
             case .storageFinding: return "StorageFinding"
             case .storageFindingReasonCodes: return "StorageFindingReasonCodes"
             case .storageRecommendationOptionsAllocatedStorage: return "StorageRecommendationOptionsAllocatedStorage"
+            case .storageRecommendationOptionsEstimatedClusterInstanceOnDemandMonthlyCost: return "StorageRecommendationOptionsEstimatedClusterInstanceOnDemandMonthlyCost"
+            case .storageRecommendationOptionsEstimatedClusterStorageIoOnDemandMonthlyCost: return "StorageRecommendationOptionsEstimatedClusterStorageIOOnDemandMonthlyCost"
+            case .storageRecommendationOptionsEstimatedClusterStorageOnDemandMonthlyCost: return "StorageRecommendationOptionsEstimatedClusterStorageOnDemandMonthlyCost"
             case .storageRecommendationOptionsEstimatedMonthlySavingsCurrency: return "StorageRecommendationOptionsEstimatedMonthlySavingsCurrency"
             case .storageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "StorageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
             case .storageRecommendationOptionsEstimatedMonthlySavingsValue: return "StorageRecommendationOptionsEstimatedMonthlySavingsValue"
             case .storageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: return "StorageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
+            case .storageRecommendationOptionsEstimatedMonthlyVolumeIopsCostVariation: return "StorageRecommendationOptionsEstimatedMonthlyVolumeIOPsCostVariation"
             case .storageRecommendationOptionsIops: return "StorageRecommendationOptionsIOPS"
             case .storageRecommendationOptionsMaxAllocatedStorage: return "StorageRecommendationOptionsMaxAllocatedStorage"
             case .storageRecommendationOptionsOnDemandMonthlyPrice: return "StorageRecommendationOptionsOnDemandMonthlyPrice"
@@ -3819,6 +3855,9 @@ extension ComputeOptimizerClientTypes {
             case .utilizationMetricsReadIopsEphemeralStorageMaximum: return "UtilizationMetricsReadIOPSEphemeralStorageMaximum"
             case .utilizationMetricsStorageNetworkReceiveThroughputMaximum: return "UtilizationMetricsStorageNetworkReceiveThroughputMaximum"
             case .utilizationMetricsStorageNetworkTransmitThroughputMaximum: return "UtilizationMetricsStorageNetworkTransmitThroughputMaximum"
+            case .utilizationMetricsVolumeBytesUsedAverage: return "UtilizationMetricsVolumeBytesUsedAverage"
+            case .utilizationMetricsVolumeReadIopsAverage: return "UtilizationMetricsVolumeReadIOPsAverage"
+            case .utilizationMetricsVolumeWriteIopsAverage: return "UtilizationMetricsVolumeWriteIOPsAverage"
             case .utilizationMetricsWriteIopsEphemeralStorageMaximum: return "UtilizationMetricsWriteIOPSEphemeralStorageMaximum"
             case let .sdkUnknown(s): return s
             }
@@ -3866,9 +3905,9 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes a filter that returns a more specific list of Amazon RDS recommendations. Use this filter with the [GetECSServiceRecommendations] action.
+    /// Describes a filter that returns a more specific list of DB instance recommendations. Use this filter with the [GetECSServiceRecommendations] action.
     public struct RDSDBRecommendationFilter: Swift.Sendable {
-        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. You can filter your Amazon RDS recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your Amazon RDS recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all Amazon RDS service recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your Amazon RDS recommendations. Use this filter to find all of your Amazon RDS recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your Amazon RDS service recommendations with a tag key value of Owner or without any tag keys assigned.
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. You can filter your DB instance recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your DB instance recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all DB instance recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your DB instance recommendations. Use this filter to find all of your DB instance recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your DB instance recommendations with a tag key value of Owner or without any tag keys assigned.
         public var name: ComputeOptimizerClientTypes.RDSDBRecommendationFilterName?
         /// The value of the filter.
         public var values: [Swift.String]?
@@ -3884,13 +3923,13 @@ extension ComputeOptimizerClientTypes {
 }
 
 public struct ExportRDSDatabaseRecommendationsInput: Swift.Sendable {
-    /// The Amazon Web Services account IDs for the export Amazon RDS recommendations. If your account is the management account or the delegated administrator of an organization, use this parameter to specify the member account you want to export recommendations to. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
+    /// The Amazon Web Services account IDs for the export Amazon Aurora and RDS database recommendations. If your account is the management account or the delegated administrator of an organization, use this parameter to specify the member account you want to export recommendations to. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
     public var accountIds: [Swift.String]?
     /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
     public var fieldsToExport: [ComputeOptimizerClientTypes.ExportableRDSDBField]?
     /// The format of the export file. The CSV file is the only export file format currently supported.
     public var fileFormat: ComputeOptimizerClientTypes.FileFormat?
-    /// An array of objects to specify a filter that exports a more specific set of Amazon RDS recommendations.
+    /// An array of objects to specify a filter that exports a more specific set of Amazon Aurora and RDS recommendations.
     public var filters: [ComputeOptimizerClientTypes.RDSDBRecommendationFilter]?
     /// If your account is the management account or the delegated administrator of an organization, this parameter indicates whether to include recommendations for resources in all member accounts of the organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file. If this parameter or the account ID parameter is omitted, recommendations for member accounts aren't included in the export.
     public var includeMemberAccounts: Swift.Bool?
@@ -4803,6 +4842,7 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes {
 
     public enum RecommendationSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auroraDbClusterStorage
         case autoScalingGroup
         case ebsVolume
         case ec2Instance
@@ -4815,6 +4855,7 @@ extension ComputeOptimizerClientTypes {
 
         public static var allCases: [RecommendationSourceType] {
             return [
+                .auroraDbClusterStorage,
                 .autoScalingGroup,
                 .ebsVolume,
                 .ec2Instance,
@@ -4833,6 +4874,7 @@ extension ComputeOptimizerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .auroraDbClusterStorage: return "AuroraDBClusterStorage"
             case .autoScalingGroup: return "AutoScalingGroup"
             case .ebsVolume: return "EbsVolume"
             case .ec2Instance: return "Ec2Instance"
@@ -7244,7 +7286,7 @@ public struct GetRDSDatabaseRecommendationProjectedMetricsInput: Swift.Sendable 
     public var period: Swift.Int?
     /// Describes the recommendation preferences to return in the response of a [GetAutoScalingGroupRecommendations], [GetEC2InstanceRecommendations], [GetEC2RecommendationProjectedMetrics], [GetRDSDatabaseRecommendations], and [GetRDSDatabaseRecommendationProjectedMetrics] request.
     public var recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
-    /// The ARN that identifies the Amazon RDS. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName}
+    /// The ARN that identifies the Amazon Aurora or RDS database. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName}
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The timestamp of the first projected metrics data point to return.
@@ -7291,6 +7333,9 @@ extension ComputeOptimizerClientTypes {
         case readIopsEphemeralStorage
         case storageNetworkReceiveThroughput
         case storageNetworkTransmitThroughput
+        case volumeBytesUsed
+        case volumeReadIops
+        case volumeWriteIops
         case writeIopsEphemeralStorage
         case sdkUnknown(Swift.String)
 
@@ -7313,6 +7358,9 @@ extension ComputeOptimizerClientTypes {
                 .readIopsEphemeralStorage,
                 .storageNetworkReceiveThroughput,
                 .storageNetworkTransmitThroughput,
+                .volumeBytesUsed,
+                .volumeReadIops,
+                .volumeWriteIops,
                 .writeIopsEphemeralStorage
             ]
         }
@@ -7341,6 +7389,9 @@ extension ComputeOptimizerClientTypes {
             case .readIopsEphemeralStorage: return "ReadIOPSEphemeralStorage"
             case .storageNetworkReceiveThroughput: return "StorageNetworkReceiveThroughput"
             case .storageNetworkTransmitThroughput: return "StorageNetworkTransmitThroughput"
+            case .volumeBytesUsed: return "VolumeBytesUsed"
+            case .volumeReadIops: return "VolumeReadIOPs"
+            case .volumeWriteIops: return "VolumeWriteIOPs"
             case .writeIopsEphemeralStorage: return "WriteIOPSEphemeralStorage"
             case let .sdkUnknown(s): return s
             }
@@ -7350,7 +7401,7 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the projected metrics of an Amazon RDS recommendation option. To determine the performance difference between your current Amazon RDS and the recommended option, compare the metric data of your service against its projected metric data.
+    /// Describes the projected metrics of an Amazon Aurora and RDS database recommendation option. To determine the performance difference between your current Amazon Aurora and RDS database and the recommended option, compare the metric data of your service against its projected metric data.
     public struct RDSDatabaseProjectedMetric: Swift.Sendable {
         /// The name of the projected metric.
         public var name: ComputeOptimizerClientTypes.RDSDBMetricName?
@@ -7373,13 +7424,13 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the projected metrics of an Amazon RDS recommendation option. To determine the performance difference between your current Amazon RDS and the recommended option, compare the metric data of your service against its projected metric data.
+    /// Describes the projected metrics of an Amazon Aurora and RDS database recommendation option. To determine the performance difference between your current Amazon Aurora and RDS database and the recommended option, compare the metric data of your service against its projected metric data.
     public struct RDSDatabaseRecommendedOptionProjectedMetric: Swift.Sendable {
         /// An array of objects that describe the projected metric.
         public var projectedMetrics: [ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric]?
-        /// The rank identifier of the RDS instance recommendation option.
+        /// The rank identifier of the Amazon Aurora or RDS DB instance recommendation option.
         public var rank: Swift.Int
-        /// The recommended DB instance class for the Amazon RDS.
+        /// The recommended DB instance class for the Amazon Aurora or RDS database.
         public var recommendedDBInstanceClass: Swift.String?
 
         public init(
@@ -7406,17 +7457,17 @@ public struct GetRDSDatabaseRecommendationProjectedMetricsOutput: Swift.Sendable
 }
 
 public struct GetRDSDatabaseRecommendationsInput: Swift.Sendable {
-    /// Return the Amazon RDS recommendations to the specified Amazon Web Services account IDs. If your account is the management account or the delegated administrator of an organization, use this parameter to return the Amazon RDS recommendations to specific member accounts. You can only specify one account ID per request.
+    /// Return the Amazon Aurora and RDS database recommendations to the specified Amazon Web Services account IDs. If your account is the management account or the delegated administrator of an organization, use this parameter to return the Amazon Aurora and RDS database recommendations to specific member accounts. You can only specify one account ID per request.
     public var accountIds: [Swift.String]?
-    /// An array of objects to specify a filter that returns a more specific list of Amazon RDS recommendations.
+    /// An array of objects to specify a filter that returns a more specific list of Amazon Aurora and RDS database recommendations.
     public var filters: [ComputeOptimizerClientTypes.RDSDBRecommendationFilter]?
-    /// The maximum number of Amazon RDS recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
+    /// The maximum number of Amazon Aurora and RDS database recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
     public var maxResults: Swift.Int?
-    /// The token to advance to the next page of Amazon RDS recommendations.
+    /// The token to advance to the next page of Amazon Aurora and RDS database recommendations.
     public var nextToken: Swift.String?
     /// Describes the recommendation preferences to return in the response of a [GetAutoScalingGroupRecommendations], [GetEC2InstanceRecommendations], [GetEC2RecommendationProjectedMetrics], [GetRDSDatabaseRecommendations], and [GetRDSDatabaseRecommendationProjectedMetrics] request.
     public var recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
-    /// The ARN that identifies the Amazon RDS. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName} The following is the format of a DB Cluster ARN: arn:aws:rds:{region}:{accountId}:cluster:{resourceName}
+    /// The ARN that identifies the Amazon Aurora or RDS database. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName} The following is the format of a DB Cluster ARN: arn:aws:rds:{region}:{accountId}:cluster:{resourceName}
     public var resourceArns: [Swift.String]?
 
     public init(
@@ -7475,15 +7526,15 @@ extension ComputeOptimizerClientTypes {
 
     /// The configuration of the recommended RDS storage.
     public struct DBStorageConfiguration: Swift.Sendable {
-        /// The size of the RDS storage in gigabytes (GB).
+        /// The size of the DB storage in gigabytes (GB).
         public var allocatedStorage: Swift.Int
-        /// The provisioned IOPs of the RDS storage.
+        /// The provisioned IOPs of the DB storage.
         public var iops: Swift.Int?
-        /// The maximum limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the RDS instance.
+        /// The maximum limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance.
         public var maxAllocatedStorage: Swift.Int?
-        /// The storage throughput of the RDS storage.
+        /// The storage throughput of the DB storage.
         public var storageThroughput: Swift.Int?
-        /// The type of RDS storage.
+        /// The type of DB storage.
         public var storageType: Swift.String?
 
         public init(
@@ -7498,6 +7549,41 @@ extension ComputeOptimizerClientTypes {
             self.maxAllocatedStorage = maxAllocatedStorage
             self.storageThroughput = storageThroughput
             self.storageType = storageType
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum RDSEstimatedMonthlyVolumeIOPsCostVariation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RDSEstimatedMonthlyVolumeIOPsCostVariation] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "High"
+            case .low: return "Low"
+            case .medium: return "Medium"
+            case .none: return "None"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -7536,9 +7622,9 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the savings estimation mode used for calculating savings opportunity for Amazon RDS.
+    /// Describes the savings estimation mode used for calculating savings opportunity for DB instances.
     public struct RDSSavingsEstimationMode: Swift.Sendable {
-        /// Describes the source for calculating the savings opportunity for Amazon RDS.
+        /// Describes the source for calculating the savings opportunity for DB instances.
         public var source: ComputeOptimizerClientTypes.RDSSavingsEstimationModeSource?
 
         public init(
@@ -7551,15 +7637,15 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the effective recommendation preferences for Amazon RDS.
+    /// Describes the effective recommendation preferences for Amazon Aurora and RDS databases.
     public struct RDSEffectiveRecommendationPreferences: Swift.Sendable {
-        /// Describes the CPU vendor and architecture for Amazon RDS recommendations.
+        /// Describes the CPU vendor and architecture for DB instance recommendations.
         public var cpuVendorArchitectures: [ComputeOptimizerClientTypes.CpuVendorArchitecture]?
         /// Describes the activation status of the enhanced infrastructure metrics preference. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
         public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
-        /// The number of days the utilization metrics of the Amazon RDS are analyzed.
+        /// The number of days the utilization metrics of the DB instance are analyzed.
         public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
-        /// Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon RDS.
+        /// Describes the savings estimation mode preference applied for calculating savings opportunity for DB instances.
         public var savingsEstimationMode: ComputeOptimizerClientTypes.RDSSavingsEstimationMode?
 
         public init(
@@ -7736,7 +7822,7 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the utilization metric of an Amazon RDS. To determine the performance difference between your current Amazon RDS and the recommended option, compare the utilization metric data of your service against its projected utilization metric data.
+    /// Describes the utilization metric of an Amazon Aurora and RDS database. To determine the performance difference between your current DB instance and the recommended option, compare the utilization metric data of your service against its projected utilization metric data.
     public struct RDSDBUtilizationMetric: Swift.Sendable {
         /// The name of the utilization metric.
         public var name: ComputeOptimizerClientTypes.RDSDBMetricName?
@@ -7759,11 +7845,11 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the estimated monthly savings possible for Amazon RDS instances by adopting Compute Optimizer recommendations. This is based on Amazon RDS pricing after applying Savings Plans discounts.
+    /// Describes the estimated monthly savings possible for DB instances by adopting Compute Optimizer recommendations. This is based on DB instance pricing after applying Savings Plans discounts.
     public struct RDSInstanceEstimatedMonthlySavings: Swift.Sendable {
         /// The currency of the estimated monthly savings.
         public var currency: ComputeOptimizerClientTypes.Currency?
-        /// The value of the estimated monthly savings for Amazon RDS instances.
+        /// The value of the estimated monthly savings for DB instances.
         public var value: Swift.Double
 
         public init(
@@ -7778,11 +7864,11 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the savings opportunity for Amazon RDS instance recommendations after applying Savings Plans discounts. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+    /// Describes the savings opportunity for DB instance recommendations after applying Savings Plans discounts. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
     public struct RDSInstanceSavingsOpportunityAfterDiscounts: Swift.Sendable {
-        /// The estimated monthly savings possible by adopting Compute Optimizer’s Amazon RDS instance recommendations. This includes any applicable Savings Plans discounts.
+        /// The estimated monthly savings possible by adopting Compute Optimizer’s DB instance recommendations. This includes any applicable Savings Plans discounts.
         public var estimatedMonthlySavings: ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings?
-        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Amazon RDS instance recommendations. This includes any applicable Savings Plans discounts.
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s DB instance recommendations. This includes any applicable Savings Plans discounts.
         public var savingsOpportunityPercentage: Swift.Double
 
         public init(
@@ -7797,19 +7883,19 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the recommendation options for an Amazon RDS instance.
+    /// Describes the recommendation options for a DB instance.
     public struct RDSDBInstanceRecommendationOption: Swift.Sendable {
-        /// Describes the DB instance class recommendation option for your Amazon RDS instance.
+        /// Describes the DB instance class recommendation option for your Amazon Aurora or RDS database.
         public var dbInstanceClass: Swift.String?
-        /// The performance risk of the RDS instance recommendation option.
+        /// The performance risk of the DB instance recommendation option.
         public var performanceRisk: Swift.Double
-        /// An array of objects that describe the projected utilization metrics of the RDS instance recommendation option.
+        /// An array of objects that describe the projected utilization metrics of the DB instance recommendation option.
         public var projectedUtilizationMetrics: [ComputeOptimizerClientTypes.RDSDBUtilizationMetric]?
-        /// The rank identifier of the RDS instance recommendation option.
+        /// The rank identifier of the DB instance recommendation option.
         public var rank: Swift.Int
         /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
-        /// Describes the savings opportunity for Amazon RDS recommendations or for the recommendation option. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+        /// Describes the savings opportunity for Amazon Aurora and RDS database recommendations or for the recommendation option. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
         public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts?
 
         public init(
@@ -7833,6 +7919,7 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes {
 
     public enum RDSStorageFinding: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notOptimized
         case optimized
         case overProvisioned
         case underProvisioned
@@ -7840,6 +7927,7 @@ extension ComputeOptimizerClientTypes {
 
         public static var allCases: [RDSStorageFinding] {
             return [
+                .notOptimized,
                 .optimized,
                 .overProvisioned,
                 .underProvisioned
@@ -7853,6 +7941,7 @@ extension ComputeOptimizerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .notOptimized: return "NotOptimized"
             case .optimized: return "Optimized"
             case .overProvisioned: return "Overprovisioned"
             case .underProvisioned: return "Underprovisioned"
@@ -7865,6 +7954,8 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes {
 
     public enum RDSStorageFindingReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dbClusterStorageOptionAvailable
+        case dbClusterStorageSavingsAvailable
         case ebsVolumeAllocatedStorageUnderProvisioned
         case ebsVolumeIopsOverProvisioned
         case ebsVolumeThroughputOverProvisioned
@@ -7874,6 +7965,8 @@ extension ComputeOptimizerClientTypes {
 
         public static var allCases: [RDSStorageFindingReasonCode] {
             return [
+                .dbClusterStorageOptionAvailable,
+                .dbClusterStorageSavingsAvailable,
                 .ebsVolumeAllocatedStorageUnderProvisioned,
                 .ebsVolumeIopsOverProvisioned,
                 .ebsVolumeThroughputOverProvisioned,
@@ -7889,6 +7982,8 @@ extension ComputeOptimizerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .dbClusterStorageOptionAvailable: return "DBClusterStorageOptionAvailable"
+            case .dbClusterStorageSavingsAvailable: return "DBClusterStorageSavingsAvailable"
             case .ebsVolumeAllocatedStorageUnderProvisioned: return "EBSVolumeAllocatedStorageUnderprovisioned"
             case .ebsVolumeIopsOverProvisioned: return "EBSVolumeIOPSOverprovisioned"
             case .ebsVolumeThroughputOverProvisioned: return "EBSVolumeThroughputOverprovisioned"
@@ -7902,11 +7997,11 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the estimated monthly savings possible for Amazon RDS storage by adopting Compute Optimizer recommendations. This is based on Amazon RDS pricing after applying Savings Plans discounts.
+    /// Describes the estimated monthly savings possible for DB instance storage by adopting Compute Optimizer recommendations. This is based on DB instance pricing after applying Savings Plans discounts.
     public struct RDSStorageEstimatedMonthlySavings: Swift.Sendable {
         /// The currency of the estimated monthly savings.
         public var currency: ComputeOptimizerClientTypes.Currency?
-        /// The value of the estimated monthly savings for Amazon RDS storage.
+        /// The value of the estimated monthly savings for DB instance storage.
         public var value: Swift.Double
 
         public init(
@@ -7923,9 +8018,9 @@ extension ComputeOptimizerClientTypes {
 
     /// Describes the savings opportunity for Amazon RDS storage recommendations after applying Savings Plans discounts. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
     public struct RDSStorageSavingsOpportunityAfterDiscounts: Swift.Sendable {
-        /// The estimated monthly savings possible by adopting Compute Optimizer’s Amazon RDS storage recommendations. This includes any applicable Savings Plans discounts.
+        /// The estimated monthly savings possible by adopting Compute Optimizer’s DB instance storage recommendations. This includes any applicable Savings Plans discounts.
         public var estimatedMonthlySavings: ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings?
-        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Amazon RDS storage recommendations. This includes any applicable Savings Plans discounts.
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s DB instance storage recommendations. This includes any applicable Savings Plans discounts.
         public var savingsOpportunityPercentage: Swift.Double
 
         public init(
@@ -7940,23 +8035,27 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the recommendation options for Amazon RDS storage.
+    /// Describes the recommendation options for DB storage.
     public struct RDSDBStorageRecommendationOption: Swift.Sendable {
-        /// The rank identifier of the RDS storage recommendation option.
+        /// The projected level of variation in monthly I/O costs for the DB storage recommendation option.
+        public var estimatedMonthlyVolumeIOPsCostVariation: ComputeOptimizerClientTypes.RDSEstimatedMonthlyVolumeIOPsCostVariation?
+        /// The rank identifier of the DB storage recommendation option.
         public var rank: Swift.Int
         /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
-        /// Describes the savings opportunity for Amazon RDS storage recommendations or for the recommendation option. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+        /// Describes the savings opportunity for DB storage recommendations or for the recommendation option. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
         public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts?
         /// The recommended storage configuration.
         public var storageConfiguration: ComputeOptimizerClientTypes.DBStorageConfiguration?
 
         public init(
+            estimatedMonthlyVolumeIOPsCostVariation: ComputeOptimizerClientTypes.RDSEstimatedMonthlyVolumeIOPsCostVariation? = nil,
             rank: Swift.Int = 0,
             savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
             savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts? = nil,
             storageConfiguration: ComputeOptimizerClientTypes.DBStorageConfiguration? = nil
         ) {
+            self.estimatedMonthlyVolumeIOPsCostVariation = estimatedMonthlyVolumeIOPsCostVariation
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
             self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
@@ -7967,61 +8066,51 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes an Amazon RDS recommendation.
+    /// Describes an Amazon Aurora and RDS database recommendation.
     public struct RDSDBRecommendation: Swift.Sendable {
-        /// The Amazon Web Services account ID of the Amazon RDS.
+        /// The Amazon Web Services account ID of the Amazon Aurora or RDS database.
         public var accountId: Swift.String?
-        /// The DB instance class of the current RDS instance.
+        /// The DB instance class of the current Aurora or RDS DB instance.
         public var currentDBInstanceClass: Swift.String?
         /// The performance risk for the current DB instance.
         public var currentInstancePerformanceRisk: ComputeOptimizerClientTypes.RDSCurrentInstancePerformanceRisk?
-        /// The configuration of the current RDS storage.
+        /// The configuration of the current DB storage.
         public var currentStorageConfiguration: ComputeOptimizerClientTypes.DBStorageConfiguration?
+        /// The level of variation in monthly I/O costs for the current DB storage configuration.
+        public var currentStorageEstimatedMonthlyVolumeIOPsCostVariation: ComputeOptimizerClientTypes.RDSEstimatedMonthlyVolumeIOPsCostVariation?
         /// The identifier for DB cluster.
         public var dbClusterIdentifier: Swift.String?
-        /// Describes the effective recommendation preferences for Amazon RDS.
+        /// Describes the effective recommendation preferences for DB instances.
         public var effectiveRecommendationPreferences: ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences?
-        /// The engine of the RDS instance.
+        /// The engine of the DB instance.
         public var engine: Swift.String?
         /// The database engine version.
         public var engineVersion: Swift.String?
-        /// This indicates if the RDS instance is idle or not.
+        /// This indicates if the DB instance is idle or not.
         public var idle: ComputeOptimizerClientTypes.Idle?
-        /// The finding classification of an Amazon RDS instance. Findings for Amazon RDS instance include:
-        ///
-        /// * Underprovisioned — When Compute Optimizer detects that there’s not enough resource specifications, an Amazon RDS is considered under-provisioned.
-        ///
-        /// * Overprovisioned — When Compute Optimizer detects that there’s excessive resource specifications, an Amazon RDS is considered over-provisioned.
-        ///
-        /// * Optimized — When the specifications of your Amazon RDS instance meet the performance requirements of your workload, the service is considered optimized.
+        /// The finding classification of an Amazon Aurora and RDS DB instance. For more information about finding classifications, see [ Finding classifications for Aurora and RDS databases](https://docs.aws.amazon.com/compute-optimizer/latest/ug/view-rds-recommendations.html#rds-recommendations-findings) in the Compute Optimizer User Guide.
         public var instanceFinding: ComputeOptimizerClientTypes.RDSInstanceFinding?
-        /// The reason for the finding classification of an Amazon RDS instance.
+        /// The reason for the finding classification of a DB instance.
         public var instanceFindingReasonCodes: [ComputeOptimizerClientTypes.RDSInstanceFindingReasonCode]?
-        /// An array of objects that describe the recommendation options for the Amazon RDS instance.
+        /// An array of objects that describe the recommendation options for the RDS DB instance.
         public var instanceRecommendationOptions: [ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption]?
-        /// The timestamp of when the Amazon RDS recommendation was last generated.
+        /// The timestamp of when the DB instance recommendation was last generated.
         public var lastRefreshTimestamp: Foundation.Date?
-        /// The number of days the Amazon RDS utilization metrics were analyzed.
+        /// The number of days the DB instance utilization metrics were analyzed.
         public var lookbackPeriodInDays: Swift.Double
         /// The promotion tier for the Aurora instance.
         public var promotionTier: Swift.Int?
-        /// The ARN of the current Amazon RDS. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName}
+        /// The ARN of the current Amazon Aurora or RDS database. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName}
         public var resourceArn: Swift.String?
-        /// The finding classification of Amazon RDS storage. Findings for Amazon RDS instance include:
-        ///
-        /// * Underprovisioned — When Compute Optimizer detects that there’s not enough storage, an Amazon RDS is considered under-provisioned.
-        ///
-        /// * Overprovisioned — When Compute Optimizer detects that there’s excessive storage, an Amazon RDS is considered over-provisioned.
-        ///
-        /// * Optimized — When the storage of your Amazon RDS meet the performance requirements of your workload, the service is considered optimized.
+        /// The finding classification of Amazon RDS DB instance storage. For more information about finding classifications, see [ Finding classifications for Aurora and RDS databases](https://docs.aws.amazon.com/compute-optimizer/latest/ug/view-rds-recommendations.html#rds-recommendations-findings) in the Compute Optimizer User Guide.
         public var storageFinding: ComputeOptimizerClientTypes.RDSStorageFinding?
-        /// The reason for the finding classification of Amazon RDS storage.
+        /// The reason for the finding classification of RDS DB instance storage.
         public var storageFindingReasonCodes: [ComputeOptimizerClientTypes.RDSStorageFindingReasonCode]?
-        /// An array of objects that describe the recommendation options for Amazon RDS storage.
+        /// An array of objects that describe the recommendation options for DB instance storage.
         public var storageRecommendationOptions: [ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption]?
-        /// A list of tags assigned to your Amazon RDS recommendations.
+        /// A list of tags assigned to your DB instance recommendations.
         public var tags: [ComputeOptimizerClientTypes.Tag]?
-        /// An array of objects that describe the utilization metrics of the Amazon RDS.
+        /// An array of objects that describe the utilization metrics of the DB instance.
         public var utilizationMetrics: [ComputeOptimizerClientTypes.RDSDBUtilizationMetric]?
 
         public init(
@@ -8029,6 +8118,7 @@ extension ComputeOptimizerClientTypes {
             currentDBInstanceClass: Swift.String? = nil,
             currentInstancePerformanceRisk: ComputeOptimizerClientTypes.RDSCurrentInstancePerformanceRisk? = nil,
             currentStorageConfiguration: ComputeOptimizerClientTypes.DBStorageConfiguration? = nil,
+            currentStorageEstimatedMonthlyVolumeIOPsCostVariation: ComputeOptimizerClientTypes.RDSEstimatedMonthlyVolumeIOPsCostVariation? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             effectiveRecommendationPreferences: ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences? = nil,
             engine: Swift.String? = nil,
@@ -8051,6 +8141,7 @@ extension ComputeOptimizerClientTypes {
             self.currentDBInstanceClass = currentDBInstanceClass
             self.currentInstancePerformanceRisk = currentInstancePerformanceRisk
             self.currentStorageConfiguration = currentStorageConfiguration
+            self.currentStorageEstimatedMonthlyVolumeIOPsCostVariation = currentStorageEstimatedMonthlyVolumeIOPsCostVariation
             self.dbClusterIdentifier = dbClusterIdentifier
             self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.engine = engine
@@ -8075,9 +8166,9 @@ extension ComputeOptimizerClientTypes {
 public struct GetRDSDatabaseRecommendationsOutput: Swift.Sendable {
     /// An array of objects that describe errors of the request.
     public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
-    /// The token to advance to the next page of Amazon RDS recommendations.
+    /// The token to advance to the next page of Amazon Aurora and RDS database recommendations.
     public var nextToken: Swift.String?
-    /// An array of objects that describe the Amazon RDS recommendations.
+    /// An array of objects that describe the Amazon Aurora and RDS database recommendations.
     public var rdsDBRecommendations: [ComputeOptimizerClientTypes.RDSDBRecommendation]?
 
     public init(
@@ -11145,6 +11236,7 @@ extension ComputeOptimizerClientTypes.RDSDBRecommendation {
         value.storageFinding = try reader["storageFinding"].readIfPresent()
         value.instanceFindingReasonCodes = try reader["instanceFindingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.RDSInstanceFindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.currentInstancePerformanceRisk = try reader["currentInstancePerformanceRisk"].readIfPresent()
+        value.currentStorageEstimatedMonthlyVolumeIOPsCostVariation = try reader["currentStorageEstimatedMonthlyVolumeIOPsCostVariation"].readIfPresent()
         value.storageFindingReasonCodes = try reader["storageFindingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.RDSStorageFindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceRecommendationOptions = try reader["instanceRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.storageRecommendationOptions = try reader["storageRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -11201,6 +11293,7 @@ extension ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption {
         value.rank = try reader["rank"].readIfPresent() ?? 0
         value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
         value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts.read(from:))
+        value.estimatedMonthlyVolumeIOPsCostVariation = try reader["estimatedMonthlyVolumeIOPsCostVariation"].readIfPresent()
         return value
     }
 }

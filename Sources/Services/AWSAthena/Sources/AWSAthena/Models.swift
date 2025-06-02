@@ -333,6 +333,42 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes {
 
+    /// If you encrypt query and calculation results in Athena owned storage, this field indicates the encryption option (for example, SSE_KMS or CSE_KMS) and key information.
+    public struct ManagedQueryResultsEncryptionConfiguration: Swift.Sendable {
+        /// The ARN of an KMS key for encrypting managed query results.
+        /// This member is required.
+        public var kmsKey: Swift.String?
+
+        public init(
+            kmsKey: Swift.String? = nil
+        ) {
+            self.kmsKey = kmsKey
+        }
+    }
+}
+
+extension AthenaClientTypes {
+
+    /// The configuration for storing results in Athena owned storage, which includes whether this feature is enabled; whether encryption configuration, if any, is used for encrypting query results.
+    public struct ManagedQueryResultsConfiguration: Swift.Sendable {
+        /// If set to true, allows you to store query results in Athena owned storage. If set to false, workgroup member stores query results in location specified under ResultConfiguration$OutputLocation. The default is false. A workgroup cannot have the ResultConfiguration$OutputLocation parameter when you set this field to true.
+        /// This member is required.
+        public var enabled: Swift.Bool
+        /// If you encrypt query and calculation results in Athena owned storage, this field indicates the encryption option (for example, SSE_KMS or CSE_KMS) and key information.
+        public var encryptionConfiguration: AthenaClientTypes.ManagedQueryResultsEncryptionConfiguration?
+
+        public init(
+            enabled: Swift.Bool = false,
+            encryptionConfiguration: AthenaClientTypes.ManagedQueryResultsEncryptionConfiguration? = nil
+        ) {
+            self.enabled = enabled
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+    }
+}
+
+extension AthenaClientTypes {
+
     /// The database and data catalog context in which the query execution occurs.
     public struct QueryExecutionContext: Swift.Sendable {
         /// The name of the data catalog used in the query execution.
@@ -714,6 +750,8 @@ extension AthenaClientTypes {
         public var engineVersion: AthenaClientTypes.EngineVersion?
         /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur. The list of parameters is not returned in the response.
         public var executionParameters: [Swift.String]?
+        /// The configuration for storing results in Athena owned storage, which includes whether this feature is enabled; whether encryption configuration, if any, is used for encrypting query results.
+        public var managedQueryResultsConfiguration: AthenaClientTypes.ManagedQueryResultsConfiguration?
         /// The SQL query statements which the query execution ran.
         public var query: Swift.String?
         /// The database in which the query execution occurred.
@@ -726,7 +764,7 @@ extension AthenaClientTypes {
         public var resultConfiguration: AthenaClientTypes.ResultConfiguration?
         /// Specifies the query result reuse behavior that was used for the query.
         public var resultReuseConfiguration: AthenaClientTypes.ResultReuseConfiguration?
-        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, EXPLAIN, DESCRIBE, or SHOW TABLES.
+        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, or DESCRIBE TABLE.
         public var statementType: AthenaClientTypes.StatementType?
         /// Query execution statistics, such as the amount of data scanned, the amount of time that the query took to process, and the type of statement that was run.
         public var statistics: AthenaClientTypes.QueryExecutionStatistics?
@@ -740,6 +778,7 @@ extension AthenaClientTypes {
         public init(
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
             executionParameters: [Swift.String]? = nil,
+            managedQueryResultsConfiguration: AthenaClientTypes.ManagedQueryResultsConfiguration? = nil,
             query: Swift.String? = nil,
             queryExecutionContext: AthenaClientTypes.QueryExecutionContext? = nil,
             queryExecutionId: Swift.String? = nil,
@@ -754,6 +793,7 @@ extension AthenaClientTypes {
         ) {
             self.engineVersion = engineVersion
             self.executionParameters = executionParameters
+            self.managedQueryResultsConfiguration = managedQueryResultsConfiguration
             self.query = query
             self.queryExecutionContext = queryExecutionContext
             self.queryExecutionId = queryExecutionId
@@ -1478,6 +1518,8 @@ extension AthenaClientTypes {
         public var executionRole: Swift.String?
         /// Specifies whether the workgroup is IAM Identity Center supported.
         public var identityCenterConfiguration: AthenaClientTypes.IdentityCenterConfiguration?
+        /// The configuration for storing results in Athena owned storage, which includes whether this feature is enabled; whether encryption configuration, if any, is used for encrypting query results.
+        public var managedQueryResultsConfiguration: AthenaClientTypes.ManagedQueryResultsConfiguration?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public var publishCloudWatchMetricsEnabled: Swift.Bool?
         /// Specifies whether Amazon S3 access grants are enabled for query results.
@@ -1496,6 +1538,7 @@ extension AthenaClientTypes {
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
             executionRole: Swift.String? = nil,
             identityCenterConfiguration: AthenaClientTypes.IdentityCenterConfiguration? = nil,
+            managedQueryResultsConfiguration: AthenaClientTypes.ManagedQueryResultsConfiguration? = nil,
             publishCloudWatchMetricsEnabled: Swift.Bool? = nil,
             queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration? = nil,
             requesterPaysEnabled: Swift.Bool? = nil,
@@ -1509,6 +1552,7 @@ extension AthenaClientTypes {
             self.engineVersion = engineVersion
             self.executionRole = executionRole
             self.identityCenterConfiguration = identityCenterConfiguration
+            self.managedQueryResultsConfiguration = managedQueryResultsConfiguration
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.requesterPaysEnabled = requesterPaysEnabled
@@ -2403,6 +2447,35 @@ public struct GetQueryExecutionOutput: Swift.Sendable {
     }
 }
 
+extension AthenaClientTypes {
+
+    public enum QueryResultType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dataManifest
+        case dataRows
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryResultType] {
+            return [
+                .dataManifest,
+                .dataRows
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataManifest: return "DATA_MANIFEST"
+            case .dataRows: return "DATA_ROWS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetQueryResultsInput: Swift.Sendable {
     /// The maximum number of results (rows) to return in this request.
     public var maxResults: Swift.Int?
@@ -2411,15 +2484,19 @@ public struct GetQueryResultsInput: Swift.Sendable {
     /// The unique ID of the query execution.
     /// This member is required.
     public var queryExecutionId: Swift.String?
+    /// When you set this to DATA_ROWS or empty, GetQueryResults returns the query results in rows. If set to DATA_MANIFEST, it returns the manifest file in rows. Only the query types CREATE TABLE AS SELECT, UNLOAD, and INSERT can generate a manifest file. If you use DATA_MANIFEST for other query types, the query will fail.
+    public var queryResultType: AthenaClientTypes.QueryResultType?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        queryExecutionId: Swift.String? = nil
+        queryExecutionId: Swift.String? = nil,
+        queryResultType: AthenaClientTypes.QueryResultType? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queryExecutionId = queryExecutionId
+        self.queryResultType = queryResultType
     }
 }
 
@@ -4534,6 +4611,29 @@ public struct UpdatePreparedStatementOutput: Swift.Sendable {
 
 extension AthenaClientTypes {
 
+    /// Updates the configuration for managed query results.
+    public struct ManagedQueryResultsConfigurationUpdates: Swift.Sendable {
+        /// If set to true, specifies that Athena manages query results in Athena owned storage.
+        public var enabled: Swift.Bool?
+        /// If you encrypt query and calculation results in Athena owned storage, this field indicates the encryption option (for example, SSE_KMS or CSE_KMS) and key information.
+        public var encryptionConfiguration: AthenaClientTypes.ManagedQueryResultsEncryptionConfiguration?
+        /// If set to true, it removes workgroup from Athena owned storage. The existing query results are cleaned up after 24hrs. You must provide query results in location specified under ResultConfiguration$OutputLocation.
+        public var removeEncryptionConfiguration: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            encryptionConfiguration: AthenaClientTypes.ManagedQueryResultsEncryptionConfiguration? = nil,
+            removeEncryptionConfiguration: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+            self.encryptionConfiguration = encryptionConfiguration
+            self.removeEncryptionConfiguration = removeEncryptionConfiguration
+        }
+    }
+}
+
+extension AthenaClientTypes {
+
     /// The information about the updates in the query results, such as output location and encryption configuration for the query results.
     public struct ResultConfigurationUpdates: Swift.Sendable {
         /// The ACL configuration for the query results.
@@ -4593,6 +4693,8 @@ extension AthenaClientTypes {
         public var engineVersion: AthenaClientTypes.EngineVersion?
         /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public var executionRole: Swift.String?
+        /// Updates configuration information for managed query results in the workgroup.
+        public var managedQueryResultsConfigurationUpdates: AthenaClientTypes.ManagedQueryResultsConfigurationUpdates?
         /// Indicates whether this workgroup enables publishing metrics to Amazon CloudWatch.
         public var publishCloudWatchMetricsEnabled: Swift.Bool?
         /// Specifies whether Amazon S3 access grants are enabled for query results.
@@ -4614,6 +4716,7 @@ extension AthenaClientTypes {
             enforceWorkGroupConfiguration: Swift.Bool? = nil,
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
             executionRole: Swift.String? = nil,
+            managedQueryResultsConfigurationUpdates: AthenaClientTypes.ManagedQueryResultsConfigurationUpdates? = nil,
             publishCloudWatchMetricsEnabled: Swift.Bool? = nil,
             queryResultsS3AccessGrantsConfiguration: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration? = nil,
             removeBytesScannedCutoffPerQuery: Swift.Bool? = nil,
@@ -4628,6 +4731,7 @@ extension AthenaClientTypes {
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
             self.engineVersion = engineVersion
             self.executionRole = executionRole
+            self.managedQueryResultsConfigurationUpdates = managedQueryResultsConfigurationUpdates
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.removeBytesScannedCutoffPerQuery = removeBytesScannedCutoffPerQuery
@@ -5517,6 +5621,7 @@ extension GetQueryResultsInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["QueryExecutionId"].write(value.queryExecutionId)
+        try writer["QueryResultType"].write(value.queryResultType)
     }
 }
 
@@ -7863,6 +7968,7 @@ extension AthenaClientTypes.QueryExecution {
         value.queryExecutionId = try reader["QueryExecutionId"].readIfPresent()
         value.query = try reader["Query"].readIfPresent()
         value.statementType = try reader["StatementType"].readIfPresent()
+        value.managedQueryResultsConfiguration = try reader["ManagedQueryResultsConfiguration"].readIfPresent(with: AthenaClientTypes.ManagedQueryResultsConfiguration.read(from:))
         value.resultConfiguration = try reader["ResultConfiguration"].readIfPresent(with: AthenaClientTypes.ResultConfiguration.read(from:))
         value.resultReuseConfiguration = try reader["ResultReuseConfiguration"].readIfPresent(with: AthenaClientTypes.ResultReuseConfiguration.read(from:))
         value.queryExecutionContext = try reader["QueryExecutionContext"].readIfPresent(with: AthenaClientTypes.QueryExecutionContext.read(from:))
@@ -8066,6 +8172,38 @@ extension AthenaClientTypes.EncryptionConfiguration {
         var value = AthenaClientTypes.EncryptionConfiguration()
         value.encryptionOption = try reader["EncryptionOption"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKey = try reader["KmsKey"].readIfPresent()
+        return value
+    }
+}
+
+extension AthenaClientTypes.ManagedQueryResultsConfiguration {
+
+    static func write(value: AthenaClientTypes.ManagedQueryResultsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: AthenaClientTypes.ManagedQueryResultsEncryptionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.ManagedQueryResultsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AthenaClientTypes.ManagedQueryResultsConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: AthenaClientTypes.ManagedQueryResultsEncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension AthenaClientTypes.ManagedQueryResultsEncryptionConfiguration {
+
+    static func write(value: AthenaClientTypes.ManagedQueryResultsEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKey"].write(value.kmsKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.ManagedQueryResultsEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AthenaClientTypes.ManagedQueryResultsEncryptionConfiguration()
+        value.kmsKey = try reader["KmsKey"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8464,6 +8602,7 @@ extension AthenaClientTypes.WorkGroupConfiguration {
         try writer["EngineVersion"].write(value.engineVersion, with: AthenaClientTypes.EngineVersion.write(value:to:))
         try writer["ExecutionRole"].write(value.executionRole)
         try writer["IdentityCenterConfiguration"].write(value.identityCenterConfiguration, with: AthenaClientTypes.IdentityCenterConfiguration.write(value:to:))
+        try writer["ManagedQueryResultsConfiguration"].write(value.managedQueryResultsConfiguration, with: AthenaClientTypes.ManagedQueryResultsConfiguration.write(value:to:))
         try writer["PublishCloudWatchMetricsEnabled"].write(value.publishCloudWatchMetricsEnabled)
         try writer["QueryResultsS3AccessGrantsConfiguration"].write(value.queryResultsS3AccessGrantsConfiguration, with: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration.write(value:to:))
         try writer["RequesterPaysEnabled"].write(value.requesterPaysEnabled)
@@ -8474,6 +8613,7 @@ extension AthenaClientTypes.WorkGroupConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AthenaClientTypes.WorkGroupConfiguration()
         value.resultConfiguration = try reader["ResultConfiguration"].readIfPresent(with: AthenaClientTypes.ResultConfiguration.read(from:))
+        value.managedQueryResultsConfiguration = try reader["ManagedQueryResultsConfiguration"].readIfPresent(with: AthenaClientTypes.ManagedQueryResultsConfiguration.read(from:))
         value.enforceWorkGroupConfiguration = try reader["EnforceWorkGroupConfiguration"].readIfPresent()
         value.publishCloudWatchMetricsEnabled = try reader["PublishCloudWatchMetricsEnabled"].readIfPresent()
         value.bytesScannedCutoffPerQuery = try reader["BytesScannedCutoffPerQuery"].readIfPresent()
@@ -8668,12 +8808,23 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates {
         try writer["EnforceWorkGroupConfiguration"].write(value.enforceWorkGroupConfiguration)
         try writer["EngineVersion"].write(value.engineVersion, with: AthenaClientTypes.EngineVersion.write(value:to:))
         try writer["ExecutionRole"].write(value.executionRole)
+        try writer["ManagedQueryResultsConfigurationUpdates"].write(value.managedQueryResultsConfigurationUpdates, with: AthenaClientTypes.ManagedQueryResultsConfigurationUpdates.write(value:to:))
         try writer["PublishCloudWatchMetricsEnabled"].write(value.publishCloudWatchMetricsEnabled)
         try writer["QueryResultsS3AccessGrantsConfiguration"].write(value.queryResultsS3AccessGrantsConfiguration, with: AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration.write(value:to:))
         try writer["RemoveBytesScannedCutoffPerQuery"].write(value.removeBytesScannedCutoffPerQuery)
         try writer["RemoveCustomerContentEncryptionConfiguration"].write(value.removeCustomerContentEncryptionConfiguration)
         try writer["RequesterPaysEnabled"].write(value.requesterPaysEnabled)
         try writer["ResultConfigurationUpdates"].write(value.resultConfigurationUpdates, with: AthenaClientTypes.ResultConfigurationUpdates.write(value:to:))
+    }
+}
+
+extension AthenaClientTypes.ManagedQueryResultsConfigurationUpdates {
+
+    static func write(value: AthenaClientTypes.ManagedQueryResultsConfigurationUpdates?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: AthenaClientTypes.ManagedQueryResultsEncryptionConfiguration.write(value:to:))
+        try writer["RemoveEncryptionConfiguration"].write(value.removeEncryptionConfiguration)
     }
 }
 
