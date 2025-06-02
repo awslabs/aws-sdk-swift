@@ -21,7 +21,6 @@ import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentityAPI.Identity
 import protocol SmithyHTTPAuthAPI.Signer
 import struct AwsCommonRuntimeKit.SigningConfig
-import struct ClientRuntime.Date
 import struct Smithy.AttributeKey
 import struct Smithy.Attributes
 import struct Smithy.SwiftLogger
@@ -166,7 +165,7 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
         awsCredentialIdentityResolver: any AWSCredentialIdentityResolver,
         signingName: Swift.String,
         signingRegion: Swift.String,
-        date: ClientRuntime.Date,
+        date: Date,
         expiration: TimeInterval,
         signingAlgorithm: SigningAlgorithm
     ) async -> URL? {

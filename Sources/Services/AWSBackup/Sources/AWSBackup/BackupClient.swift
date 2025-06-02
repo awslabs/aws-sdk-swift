@@ -11,6 +11,7 @@ import Foundation
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
+import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BackupClient: ClientRuntime.Client {
     public static let clientName = "BackupClient"
-    public static let version = "1.3.22"
+    public static let version = "1.3.28"
     let client: ClientRuntime.SdkHttpClient
     let config: BackupClient.BackupClientConfiguration
     let serviceName = "Backup"
@@ -200,7 +201,7 @@ extension BackupClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -254,7 +255,7 @@ extension BackupClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -312,7 +313,7 @@ extension BackupClient {
                 nil,
                 nil,
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 nil,
                 try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
@@ -5816,7 +5817,7 @@ extension BackupClient {
 
     /// Performs the `ListTags` operation on the `Backup` service.
     ///
-    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault.
+    /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault. This operation returns results depending on the resource type used in the value for resourceArn. For example, recovery points of Amazon DynamoDB with Advanced Settings have an ARN (Amazon Resource Name) that begins with arn:aws:backup. Recovery points (backups) of DynamoDB without Advanced Settings enabled have an ARN that begins with arn:aws:dynamodb. When this operation is called and when you include values of resourceArn that have an ARN other than arn:aws:backup, it may return one of the exceptions listed below. To prevent this exception, include only values representing resource types that are fully managed by Backup. These have an ARN that begins arn:aws:backup and they are noted in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table.
     ///
     /// - Parameter ListTagsInput : [no documentation found]
     ///
@@ -6515,7 +6516,25 @@ extension BackupClient {
 
     /// Performs the `StopBackupJob` operation on the `Backup` service.
     ///
-    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, Amazon FSx for NetApp ONTAP, Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora, and Amazon Neptune.
+    /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services:
+    ///
+    /// * Amazon Aurora
+    ///
+    /// * Amazon DocumentDB (with MongoDB compatibility)
+    ///
+    /// * Amazon FSx for Lustre
+    ///
+    /// * Amazon FSx for NetApp ONTAP
+    ///
+    /// * Amazon FSx for OpenZFS
+    ///
+    /// * Amazon FSx for Windows File Server
+    ///
+    /// * Amazon Neptune
+    ///
+    /// * SAP HANA databases on Amazon EC2 instances
+    ///
+    /// * Amazon RDS
     ///
     /// - Parameter StopBackupJobInput : [no documentation found]
     ///
@@ -6590,7 +6609,7 @@ extension BackupClient {
 
     /// Performs the `TagResource` operation on the `Backup` service.
     ///
-    /// Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN). This API is supported for recovery points for resource types including Aurora, Amazon DocumentDB. Amazon EBS, Amazon FSx, Neptune, and Amazon RDS.
+    /// Assigns a set of key-value pairs to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///

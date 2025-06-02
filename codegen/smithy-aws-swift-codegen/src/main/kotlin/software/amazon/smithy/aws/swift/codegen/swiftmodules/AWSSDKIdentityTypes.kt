@@ -12,6 +12,7 @@ object AWSSDKIdentityTypes {
     val S3ExpressIdentityResolver = runtimeSymbol("S3ExpressIdentityResolver", SwiftDeclaration.PROTOCOL)
     val S3ExpressCreateSessionClient = runtimeSymbol("S3ExpressCreateSessionClient", SwiftDeclaration.PROTOCOL)
     val AWSIdentityPropertyKeys = runtimeSymbol("AWSIdentityPropertyKeys", SwiftDeclaration.ENUM)
+    val DefaultAWSCredentialIdentityResolverChain = runtimeSymbol("DefaultAWSCredentialIdentityResolverChain", SwiftDeclaration.CLASS)
 }
 
 private fun runtimeSymbol(

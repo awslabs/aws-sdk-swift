@@ -530,7 +530,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// The ID for a subnet that you want to associate with the firewall. This is used with [CreateFirewall] and [AssociateSubnets]. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
+    /// The ID for a subnet that's used in an association with a firewall. This is used in [CreateFirewall], [AssociateSubnets], and [CreateVpcEndpointAssociation]. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
     public struct SubnetMapping: Swift.Sendable {
         /// The subnet's IP address type. You can't change the IP address type after you create the subnet.
         public var ipAddressType: NetworkFirewallClientTypes.IPAddressType?
@@ -638,11 +638,15 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// The configuration and status for a single subnet that you've specified for use by the Network Firewall firewall. This is part of the [FirewallStatus].
+    /// The definition and status of the firewall endpoint for a single subnet. In each configured subnet, Network Firewall instantiates a firewall endpoint to handle network traffic. This data type is used for any firewall endpoint type:
+    ///
+    /// * For Firewall.SubnetMappings, this Attachment is part of the FirewallStatus sync states information. You define firewall subnets using CreateFirewall and AssociateSubnets.
+    ///
+    /// * For VpcEndpointAssociation, this Attachment is part of the VpcEndpointAssociationStatus sync states information. You define these subnets using CreateVpcEndpointAssociation.
     public struct Attachment: Swift.Sendable {
         /// The identifier of the firewall endpoint that Network Firewall has instantiated in the subnet. You use this to identify the firewall endpoint in the VPC route tables, when you redirect the VPC traffic through the endpoint.
         public var endpointId: Swift.String?
-        /// The current status of the firewall endpoint in the subnet. This value reflects both the instantiation of the endpoint in the VPC subnet and the sync states that are reported in the Config settings. When this value is READY, the endpoint is available and configured properly to handle network traffic. When the endpoint isn't available for traffic, this value will reflect its state, for example CREATING or DELETING.
+        /// The current status of the firewall endpoint instantiation in the subnet. When this value is READY, the endpoint is available to handle network traffic. Otherwise, this value reflects its state, for example CREATING or DELETING.
         public var status: NetworkFirewallClientTypes.AttachmentStatus?
         /// If Network Firewall fails to create or delete the firewall endpoint in the subnet, it populates this with the reason for the error or failure and how to resolve it. A FAILED status indicates a non-recoverable state, and a ERROR status indicates an issue that you can fix. Depending on the error, it can take as many as 15 minutes to populate this field. For more information about the causes for failiure or errors and solutions available for this field, see [Troubleshooting firewall endpoint failures](https://docs.aws.amazon.com/network-firewall/latest/developerguide/firewall-troubleshooting-endpoint-failures.html) in the Network Firewall Developer Guide.
         public var statusMessage: Swift.String?
@@ -659,6 +663,40 @@ extension NetworkFirewallClientTypes {
             self.status = status
             self.statusMessage = statusMessage
             self.subnetId = subnetId
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The status of the firewall endpoint defined by a VpcEndpointAssociation.
+    public struct AZSyncState: Swift.Sendable {
+        /// The definition and status of the firewall endpoint for a single subnet. In each configured subnet, Network Firewall instantiates a firewall endpoint to handle network traffic. This data type is used for any firewall endpoint type:
+        ///
+        /// * For Firewall.SubnetMappings, this Attachment is part of the FirewallStatus sync states information. You define firewall subnets using CreateFirewall and AssociateSubnets.
+        ///
+        /// * For VpcEndpointAssociation, this Attachment is part of the VpcEndpointAssociationStatus sync states information. You define these subnets using CreateVpcEndpointAssociation.
+        public var attachment: NetworkFirewallClientTypes.Attachment?
+
+        public init(
+            attachment: NetworkFirewallClientTypes.Attachment? = nil
+        ) {
+            self.attachment = attachment
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// High-level information about an Availability Zone where the firewall has an endpoint defined.
+    public struct AvailabilityZoneMetadata: Swift.Sendable {
+        /// The IP address type of the Firewall subnet in the Availability Zone. You can't change the IP address type after you create the subnet.
+        public var ipAddressType: NetworkFirewallClientTypes.IPAddressType?
+
+        public init(
+            ipAddressType: NetworkFirewallClientTypes.IPAddressType? = nil
+        ) {
+            self.ipAddressType = ipAddressType
         }
     }
 }
@@ -986,7 +1024,7 @@ public struct CreateFirewallInput: Swift.Sendable {
 
 extension NetworkFirewallClientTypes {
 
-    /// The firewall defines the configuration settings for an Network Firewall firewall. These settings include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource. The status of the firewall, for example whether it's ready to filter network traffic, is provided in the corresponding [FirewallStatus]. You can retrieve both objects by calling [DescribeFirewall].
+    /// A firewall defines the behavior of a firewall, the main VPC where the firewall is used, the Availability Zones where the firewall can be used, and one subnet to use for a firewall endpoint within each of the Availability Zones. The Availability Zones are defined implicitly in the subnet specifications. In addition to the firewall endpoints that you define in this Firewall specification, you can create firewall endpoints in VpcEndpointAssociation resources for any VPC, in any Availability Zone where the firewall is already in use. The status of the firewall, for example whether it's ready to filter network traffic, is provided in the corresponding [FirewallStatus]. You can retrieve both the firewall and firewall status by calling [DescribeFirewall].
     public struct Firewall: Swift.Sendable {
         /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
         public var deleteProtection: Swift.Bool
@@ -1008,9 +1046,11 @@ extension NetworkFirewallClientTypes {
         public var firewallPolicyArn: Swift.String?
         /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public var firewallPolicyChangeProtection: Swift.Bool
+        /// The number of VpcEndpointAssociation resources that use this firewall.
+        public var numberOfAssociations: Swift.Int?
         /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public var subnetChangeProtection: Swift.Bool
-        /// The public subnets that Network Firewall is using for the firewall. Each subnet must belong to a different Availability Zone.
+        /// The primary public subnets that Network Firewall is using for the firewall. Network Firewall creates a firewall endpoint in each subnet. Create a subnet mapping for each Availability Zone where you want to use the firewall. These subnets are all defined for a single, primary VPC, and each must belong to a different Availability Zone. Each of these subnets establishes the availability of the firewall in its Availability Zone. In addition to these subnets, you can define other endpoints for the firewall in VpcEndpointAssociation resources. You can define these additional endpoints for any VPC, and for any of the Availability Zones where the firewall resource already has a subnet mapping. VPC endpoint associations give you the ability to protect multiple VPCs using a single firewall, and to define multiple firewall endpoints for a VPC in a single Availability Zone.
         /// This member is required.
         public var subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]?
         ///
@@ -1029,6 +1069,7 @@ extension NetworkFirewallClientTypes {
             firewallName: Swift.String? = nil,
             firewallPolicyArn: Swift.String? = nil,
             firewallPolicyChangeProtection: Swift.Bool = false,
+            numberOfAssociations: Swift.Int? = nil,
             subnetChangeProtection: Swift.Bool = false,
             subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
             tags: [NetworkFirewallClientTypes.Tag]? = nil,
@@ -1043,6 +1084,7 @@ extension NetworkFirewallClientTypes {
             self.firewallName = firewallName
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
+            self.numberOfAssociations = numberOfAssociations
             self.subnetChangeProtection = subnetChangeProtection
             self.subnetMappings = subnetMappings
             self.tags = tags
@@ -1136,7 +1178,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// The status of the firewall endpoint and firewall policy configuration for a single VPC subnet. For each VPC subnet that you associate with a firewall, Network Firewall does the following:
+    /// The status of the firewall endpoint and firewall policy configuration for a single VPC subnet. This is part of the [FirewallStatus]. For each VPC subnet that you associate with a firewall, Network Firewall does the following:
     ///
     /// * Instantiates a firewall endpoint in the subnet, ready to take traffic.
     ///
@@ -1145,9 +1187,9 @@ extension NetworkFirewallClientTypes {
     ///
     /// When you update a firewall, for example to add a subnet association or change a rule group in the firewall policy, the affected sync states reflect out-of-sync or not ready status until the changes are complete.
     public struct SyncState: Swift.Sendable {
-        /// The attachment status of the firewall's association with a single VPC subnet. For each configured subnet, Network Firewall creates the attachment by instantiating the firewall endpoint in the subnet so that it's ready to take traffic. This is part of the [FirewallStatus].
+        /// The configuration and status for a single firewall subnet. For each configured subnet, Network Firewall creates the attachment by instantiating the firewall endpoint in the subnet so that it's ready to take traffic.
         public var attachment: NetworkFirewallClientTypes.Attachment?
-        /// The configuration status of the firewall endpoint in a single VPC subnet. Network Firewall provides each endpoint with the rules that are configured in the firewall policy. Each time you add a subnet or modify the associated firewall policy, Network Firewall synchronizes the rules in the endpoint, so it can properly filter network traffic. This is part of the [FirewallStatus].
+        /// The configuration status of the firewall endpoint in a single VPC subnet. Network Firewall provides each endpoint with the rules that are configured in the firewall policy. Each time you add a subnet or modify the associated firewall policy, Network Firewall synchronizes the rules in the endpoint, so it can properly filter network traffic.
         public var config: [Swift.String: NetworkFirewallClientTypes.PerObjectStatus]?
 
         public init(
@@ -1162,17 +1204,17 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN.
+    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN. The firewall status indicates a combined status. It indicates whether all subnets are up-to-date with the latest firewall configurations, which is based on the sync states config values, and also whether all subnets have their endpoints fully enabled, based on their sync states attachment values.
     public struct FirewallStatus: Swift.Sendable {
-        /// Describes the capacity usage of the resources contained in a firewall's reference sets. Network Firewall calclulates the capacity usage by taking an aggregated count of all of the resources used by all of the reference sets in a firewall.
+        /// Describes the capacity usage of the resources contained in a firewall's reference sets. Network Firewall calculates the capacity usage by taking an aggregated count of all of the resources used by all of the reference sets in a firewall.
         public var capacityUsageSummary: NetworkFirewallClientTypes.CapacityUsageSummary?
-        /// The configuration sync state for the firewall. This summarizes the sync states reported in the Config settings for all of the Availability Zones where you have configured the firewall. When you create a firewall or update its configuration, for example by adding a rule group to its firewall policy, Network Firewall distributes the configuration changes to all zones where the firewall is in use. This summary indicates whether the configuration changes have been applied everywhere. This status must be IN_SYNC for the firewall to be ready for use, but it doesn't indicate that the firewall is ready. The Status setting indicates firewall readiness.
+        /// The configuration sync state for the firewall. This summarizes the Config settings in the SyncStates for this firewall status object. When you create a firewall or update its configuration, for example by adding a rule group to its firewall policy, Network Firewall distributes the configuration changes to all Availability Zones that have subnets defined for the firewall. This summary indicates whether the configuration changes have been applied everywhere. This status must be IN_SYNC for the firewall to be ready for use, but it doesn't indicate that the firewall is ready. The Status setting indicates firewall readiness. It's based on this setting and the readiness of the firewall endpoints to take traffic.
         /// This member is required.
         public var configurationSyncStateSummary: NetworkFirewallClientTypes.ConfigurationSyncState?
-        /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you've configured it. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the AttachmentStatus values for all of the configured subnets are READY.
+        /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you have it configured. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the AttachmentStatus values for all of the configured subnets are READY.
         /// This member is required.
         public var status: NetworkFirewallClientTypes.FirewallStatusValue?
-        /// The subnets that you've configured for use by the Network Firewall firewall. This contains one array element per Availability Zone where you've configured a subnet. These objects provide details of the information that is summarized in the ConfigurationSyncStateSummary and Status, broken down by zone and configuration object.
+        /// Status for the subnets that you've configured in the firewall. This contains one array element per Availability Zone where you've configured a subnet in the firewall. These objects provide detailed information for the settings ConfigurationSyncStateSummary and Status.
         public var syncStates: [Swift.String: NetworkFirewallClientTypes.SyncState]?
 
         public init(
@@ -1192,7 +1234,7 @@ extension NetworkFirewallClientTypes {
 public struct CreateFirewallOutput: Swift.Sendable {
     /// The configuration settings for the firewall. These settings include the firewall policy and the subnets in your VPC to use for the firewall endpoints.
     public var firewall: NetworkFirewallClientTypes.Firewall?
-    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN.
+    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN. The firewall status indicates a combined status. It indicates whether all subnets are up-to-date with the latest firewall configurations, which is based on the sync states config values, and also whether all subnets have their endpoints fully enabled, based on their sync states attachment values.
     public var firewallStatus: NetworkFirewallClientTypes.FirewallStatus?
 
     public init(
@@ -2733,6 +2775,121 @@ public struct CreateTLSInspectionConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct CreateVpcEndpointAssociationInput: Swift.Sendable {
+    /// A description of the VPC endpoint association.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    /// This member is required.
+    public var firewallArn: Swift.String?
+    /// The ID for a subnet that's used in an association with a firewall. This is used in [CreateFirewall], [AssociateSubnets], and [CreateVpcEndpointAssociation]. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
+    /// This member is required.
+    public var subnetMapping: NetworkFirewallClientTypes.SubnetMapping?
+    /// The key:value pairs to associate with the resource.
+    public var tags: [NetworkFirewallClientTypes.Tag]?
+    /// The unique identifier of the VPC where you want to create a firewall endpoint.
+    /// This member is required.
+    public var vpcId: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        subnetMapping: NetworkFirewallClientTypes.SubnetMapping? = nil,
+        tags: [NetworkFirewallClientTypes.Tag]? = nil,
+        vpcId: Swift.String? = nil
+    ) {
+        self.description = description
+        self.firewallArn = firewallArn
+        self.subnetMapping = subnetMapping
+        self.tags = tags
+        self.vpcId = vpcId
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A VPC endpoint association defines a single subnet to use for a firewall endpoint for a Firewall. You can define VPC endpoint associations only in the Availability Zones that already have a subnet mapping defined in the Firewall resource. You can retrieve the list of Availability Zones that are available for use by calling DescribeFirewallMetadata. To manage firewall endpoints, first, in the Firewall specification, you specify a single VPC and one subnet for each of the Availability Zones where you want to use the firewall. Then you can define additional endpoints as VPC endpoint associations. You can use VPC endpoint associations to expand the protections of the firewall as follows:
+    ///
+    /// * Protect multiple VPCs with a single firewall - You can use the firewall to protect other VPCs, either in your account or in accounts where the firewall is shared. You can only specify Availability Zones that already have a firewall endpoint defined in the Firewall subnet mappings.
+    ///
+    /// * Define multiple firewall endpoints for a VPC in an Availability Zone - You can create additional firewall endpoints for the VPC that you have defined in the firewall, in any Availability Zone that already has an endpoint defined in the Firewall subnet mappings. You can create multiple VPC endpoint associations for any other VPC where you use the firewall.
+    ///
+    ///
+    /// You can use Resource Access Manager to share a Firewall that you own with other accounts, which gives them the ability to use the firewall to create VPC endpoint associations. For information about sharing a firewall, see PutResourcePolicy in this guide and see [Sharing Network Firewall resources](https://docs.aws.amazon.com/network-firewall/latest/developerguide/sharing.html) in the Network Firewall Developer Guide. The status of the VPC endpoint association, which indicates whether it's ready to filter network traffic, is provided in the corresponding [VpcEndpointAssociationStatus]. You can retrieve both the association and its status by calling [DescribeVpcEndpointAssociation].
+    public struct VpcEndpointAssociation: Swift.Sendable {
+        /// A description of the VPC endpoint association.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        /// This member is required.
+        public var firewallArn: Swift.String?
+        /// The ID for a subnet that's used in an association with a firewall. This is used in [CreateFirewall], [AssociateSubnets], and [CreateVpcEndpointAssociation]. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
+        /// This member is required.
+        public var subnetMapping: NetworkFirewallClientTypes.SubnetMapping?
+        /// The key:value pairs to associate with the resource.
+        public var tags: [NetworkFirewallClientTypes.Tag]?
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        /// This member is required.
+        public var vpcEndpointAssociationArn: Swift.String?
+        /// The unique identifier of the VPC endpoint association.
+        public var vpcEndpointAssociationId: Swift.String?
+        /// The unique identifier of the VPC for the endpoint association.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            firewallArn: Swift.String? = nil,
+            subnetMapping: NetworkFirewallClientTypes.SubnetMapping? = nil,
+            tags: [NetworkFirewallClientTypes.Tag]? = nil,
+            vpcEndpointAssociationArn: Swift.String? = nil,
+            vpcEndpointAssociationId: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.description = description
+            self.firewallArn = firewallArn
+            self.subnetMapping = subnetMapping
+            self.tags = tags
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+            self.vpcEndpointAssociationId = vpcEndpointAssociationId
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Detailed information about the current status of a [VpcEndpointAssociation]. You can retrieve this by calling [DescribeVpcEndpointAssociation] and providing the VPC endpoint association ARN.
+    public struct VpcEndpointAssociationStatus: Swift.Sendable {
+        /// The list of the Availability Zone sync states for all subnets that are defined by the firewall.
+        public var associationSyncState: [Swift.String: NetworkFirewallClientTypes.AZSyncState]?
+        /// The readiness of the configured firewall endpoint to handle network traffic.
+        /// This member is required.
+        public var status: NetworkFirewallClientTypes.FirewallStatusValue?
+
+        public init(
+            associationSyncState: [Swift.String: NetworkFirewallClientTypes.AZSyncState]? = nil,
+            status: NetworkFirewallClientTypes.FirewallStatusValue? = nil
+        ) {
+            self.associationSyncState = associationSyncState
+            self.status = status
+        }
+    }
+}
+
+public struct CreateVpcEndpointAssociationOutput: Swift.Sendable {
+    /// The configuration settings for the VPC endpoint association. These settings include the firewall and the VPC and subnet to use for the firewall endpoint.
+    public var vpcEndpointAssociation: NetworkFirewallClientTypes.VpcEndpointAssociation?
+    /// Detailed information about the current status of a [VpcEndpointAssociation]. You can retrieve this by calling [DescribeVpcEndpointAssociation] and providing the VPC endpoint association ARN.
+    public var vpcEndpointAssociationStatus: NetworkFirewallClientTypes.VpcEndpointAssociationStatus?
+
+    public init(
+        vpcEndpointAssociation: NetworkFirewallClientTypes.VpcEndpointAssociation? = nil,
+        vpcEndpointAssociationStatus: NetworkFirewallClientTypes.VpcEndpointAssociationStatus? = nil
+    ) {
+        self.vpcEndpointAssociation = vpcEndpointAssociation
+        self.vpcEndpointAssociationStatus = vpcEndpointAssociationStatus
+    }
+}
+
 /// The operation you requested isn't supported by Network Firewall.
 public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2772,9 +2929,9 @@ public struct DeleteFirewallInput: Swift.Sendable {
 }
 
 public struct DeleteFirewallOutput: Swift.Sendable {
-    /// The firewall defines the configuration settings for an Network Firewall firewall. These settings include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource. The status of the firewall, for example whether it's ready to filter network traffic, is provided in the corresponding [FirewallStatus]. You can retrieve both objects by calling [DescribeFirewall].
+    /// A firewall defines the behavior of a firewall, the main VPC where the firewall is used, the Availability Zones where the firewall can be used, and one subnet to use for a firewall endpoint within each of the Availability Zones. The Availability Zones are defined implicitly in the subnet specifications. In addition to the firewall endpoints that you define in this Firewall specification, you can create firewall endpoints in VpcEndpointAssociation resources for any VPC, in any Availability Zone where the firewall is already in use. The status of the firewall, for example whether it's ready to filter network traffic, is provided in the corresponding [FirewallStatus]. You can retrieve both the firewall and firewall status by calling [DescribeFirewall].
     public var firewall: NetworkFirewallClientTypes.Firewall?
-    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN.
+    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN. The firewall status indicates a combined status. It indicates whether all subnets are up-to-date with the latest firewall configurations, which is based on the sync states config values, and also whether all subnets have their endpoints fully enabled, based on their sync states attachment values.
     public var firewallStatus: NetworkFirewallClientTypes.FirewallStatus?
 
     public init(
@@ -2911,6 +3068,33 @@ public struct DeleteTLSInspectionConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteVpcEndpointAssociationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    /// This member is required.
+    public var vpcEndpointAssociationArn: Swift.String?
+
+    public init(
+        vpcEndpointAssociationArn: Swift.String? = nil
+    ) {
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+    }
+}
+
+public struct DeleteVpcEndpointAssociationOutput: Swift.Sendable {
+    /// The configuration settings for the VPC endpoint association. These settings include the firewall and the VPC and subnet to use for the firewall endpoint.
+    public var vpcEndpointAssociation: NetworkFirewallClientTypes.VpcEndpointAssociation?
+    /// Detailed information about the current status of a [VpcEndpointAssociation]. You can retrieve this by calling [DescribeVpcEndpointAssociation] and providing the VPC endpoint association ARN.
+    public var vpcEndpointAssociationStatus: NetworkFirewallClientTypes.VpcEndpointAssociationStatus?
+
+    public init(
+        vpcEndpointAssociation: NetworkFirewallClientTypes.VpcEndpointAssociation? = nil,
+        vpcEndpointAssociationStatus: NetworkFirewallClientTypes.VpcEndpointAssociationStatus? = nil
+    ) {
+        self.vpcEndpointAssociation = vpcEndpointAssociation
+        self.vpcEndpointAssociationStatus = vpcEndpointAssociationStatus
+    }
+}
+
 public struct DescribeFirewallInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     public var firewallArn: Swift.String?
@@ -2929,7 +3113,7 @@ public struct DescribeFirewallInput: Swift.Sendable {
 public struct DescribeFirewallOutput: Swift.Sendable {
     /// The configuration settings for the firewall. These settings include the firewall policy and the subnets in your VPC to use for the firewall endpoints.
     public var firewall: NetworkFirewallClientTypes.Firewall?
-    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN.
+    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN. The firewall status indicates a combined status. It indicates whether all subnets are up-to-date with the latest firewall configurations, which is based on the sync states config values, and also whether all subnets have their endpoints fully enabled, based on their sync states attachment values.
     public var firewallStatus: NetworkFirewallClientTypes.FirewallStatus?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
@@ -2942,6 +3126,44 @@ public struct DescribeFirewallOutput: Swift.Sendable {
         self.firewall = firewall
         self.firewallStatus = firewallStatus
         self.updateToken = updateToken
+    }
+}
+
+public struct DescribeFirewallMetadataInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+
+    public init(
+        firewallArn: Swift.String? = nil
+    ) {
+        self.firewallArn = firewallArn
+    }
+}
+
+public struct DescribeFirewallMetadataOutput: Swift.Sendable {
+    /// A description of the firewall.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall policy.
+    public var firewallPolicyArn: Swift.String?
+    /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you have it configured. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the AttachmentStatus values for all of the configured subnets are READY.
+    public var status: NetworkFirewallClientTypes.FirewallStatusValue?
+    /// The Availability Zones that the firewall currently supports. This includes all Availability Zones for which the firewall has a subnet defined.
+    public var supportedAvailabilityZones: [Swift.String: NetworkFirewallClientTypes.AvailabilityZoneMetadata]?
+
+    public init(
+        description: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallPolicyArn: Swift.String? = nil,
+        status: NetworkFirewallClientTypes.FirewallStatusValue? = nil,
+        supportedAvailabilityZones: [Swift.String: NetworkFirewallClientTypes.AvailabilityZoneMetadata]? = nil
+    ) {
+        self.description = description
+        self.firewallArn = firewallArn
+        self.firewallPolicyArn = firewallPolicyArn
+        self.status = status
+        self.supportedAvailabilityZones = supportedAvailabilityZones
     }
 }
 
@@ -2990,15 +3212,23 @@ public struct DescribeFlowOperationInput: Swift.Sendable {
     /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
     /// This member is required.
     public var flowOperationId: Swift.String?
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    public var vpcEndpointAssociationArn: Swift.String?
+    /// A unique identifier for the primary endpoint associated with a firewall.
+    public var vpcEndpointId: Swift.String?
 
     public init(
         availabilityZone: Swift.String? = nil,
         firewallArn: Swift.String? = nil,
-        flowOperationId: Swift.String? = nil
+        flowOperationId: Swift.String? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
     ) {
         self.availabilityZone = availabilityZone
         self.firewallArn = firewallArn
         self.flowOperationId = flowOperationId
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -3133,6 +3363,10 @@ public struct DescribeFlowOperationOutput: Swift.Sendable {
     public var flowRequestTimestamp: Foundation.Date?
     /// If the asynchronous operation fails, Network Firewall populates this with the reason for the error or failure. Options include Flow operation error and Flow timeout.
     public var statusMessage: Swift.String?
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    public var vpcEndpointAssociationArn: Swift.String?
+    /// A unique identifier for the primary endpoint associated with a firewall.
+    public var vpcEndpointId: Swift.String?
 
     public init(
         availabilityZone: Swift.String? = nil,
@@ -3142,7 +3376,9 @@ public struct DescribeFlowOperationOutput: Swift.Sendable {
         flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus? = nil,
         flowOperationType: NetworkFirewallClientTypes.FlowOperationType? = nil,
         flowRequestTimestamp: Foundation.Date? = nil,
-        statusMessage: Swift.String? = nil
+        statusMessage: Swift.String? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
     ) {
         self.availabilityZone = availabilityZone
         self.firewallArn = firewallArn
@@ -3152,6 +3388,8 @@ public struct DescribeFlowOperationOutput: Swift.Sendable {
         self.flowOperationType = flowOperationType
         self.flowRequestTimestamp = flowRequestTimestamp
         self.statusMessage = statusMessage
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -3459,6 +3697,33 @@ public struct DescribeTLSInspectionConfigurationOutput: Swift.Sendable {
         self.tlsInspectionConfiguration = tlsInspectionConfiguration
         self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
         self.updateToken = updateToken
+    }
+}
+
+public struct DescribeVpcEndpointAssociationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    /// This member is required.
+    public var vpcEndpointAssociationArn: Swift.String?
+
+    public init(
+        vpcEndpointAssociationArn: Swift.String? = nil
+    ) {
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+    }
+}
+
+public struct DescribeVpcEndpointAssociationOutput: Swift.Sendable {
+    /// The configuration settings for the VPC endpoint association. These settings include the firewall and the VPC and subnet to use for the firewall endpoint.
+    public var vpcEndpointAssociation: NetworkFirewallClientTypes.VpcEndpointAssociation?
+    /// Detailed information about the current status of a [VpcEndpointAssociation]. You can retrieve this by calling [DescribeVpcEndpointAssociation] and providing the VPC endpoint association ARN.
+    public var vpcEndpointAssociationStatus: NetworkFirewallClientTypes.VpcEndpointAssociationStatus?
+
+    public init(
+        vpcEndpointAssociation: NetworkFirewallClientTypes.VpcEndpointAssociation? = nil,
+        vpcEndpointAssociationStatus: NetworkFirewallClientTypes.VpcEndpointAssociationStatus? = nil
+    ) {
+        self.vpcEndpointAssociation = vpcEndpointAssociation
+        self.vpcEndpointAssociationStatus = vpcEndpointAssociationStatus
     }
 }
 
@@ -3795,19 +4060,27 @@ public struct ListFlowOperationResultsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
     public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    public var vpcEndpointAssociationArn: Swift.String?
+    /// A unique identifier for the primary endpoint associated with a firewall.
+    public var vpcEndpointId: Swift.String?
 
     public init(
         availabilityZone: Swift.String? = nil,
         firewallArn: Swift.String? = nil,
         flowOperationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
     ) {
         self.availabilityZone = availabilityZone
         self.firewallArn = firewallArn
         self.flowOperationId = flowOperationId
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -3828,6 +4101,10 @@ public struct ListFlowOperationResultsOutput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// If the asynchronous operation fails, Network Firewall populates this with the reason for the error or failure. Options include Flow operation error and Flow timeout.
     public var statusMessage: Swift.String?
+    ///
+    public var vpcEndpointAssociationArn: Swift.String?
+    ///
+    public var vpcEndpointId: Swift.String?
 
     public init(
         availabilityZone: Swift.String? = nil,
@@ -3837,7 +4114,9 @@ public struct ListFlowOperationResultsOutput: Swift.Sendable {
         flowRequestTimestamp: Foundation.Date? = nil,
         flows: [NetworkFirewallClientTypes.Flow]? = nil,
         nextToken: Swift.String? = nil,
-        statusMessage: Swift.String? = nil
+        statusMessage: Swift.String? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
     ) {
         self.availabilityZone = availabilityZone
         self.firewallArn = firewallArn
@@ -3847,6 +4126,8 @@ public struct ListFlowOperationResultsOutput: Swift.Sendable {
         self.flows = flows
         self.nextToken = nextToken
         self.statusMessage = statusMessage
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -3862,19 +4143,27 @@ public struct ListFlowOperationsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
     public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    public var vpcEndpointAssociationArn: Swift.String?
+    /// A unique identifier for the primary endpoint associated with a firewall.
+    public var vpcEndpointId: Swift.String?
 
     public init(
         availabilityZone: Swift.String? = nil,
         firewallArn: Swift.String? = nil,
         flowOperationType: NetworkFirewallClientTypes.FlowOperationType? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
     ) {
         self.availabilityZone = availabilityZone
         self.firewallArn = firewallArn
         self.flowOperationType = flowOperationType
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -4096,6 +4385,55 @@ public struct ListTLSInspectionConfigurationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListVpcEndpointAssociationsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the firewall. If you don't specify this, Network Firewall retrieves all VPC endpoint associations that you have defined.
+    public var firewallArn: Swift.String?
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        firewallArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.firewallArn = firewallArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// High-level information about a VPC endpoint association, returned by ListVpcEndpointAssociations. You can use the information provided in the metadata to retrieve and manage a VPC endpoint association.
+    public struct VpcEndpointAssociationMetadata: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        public var vpcEndpointAssociationArn: Swift.String?
+
+        public init(
+            vpcEndpointAssociationArn: Swift.String? = nil
+        ) {
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        }
+    }
+}
+
+public struct ListVpcEndpointAssociationsOutput: Swift.Sendable {
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+    /// The VPC endpoint assocation metadata objects for the firewall that you specified. If you didn't specify a firewall, this is all VPC endpoint associations that you have defined. Depending on your setting for max results and the number of firewalls you have, a single call might not be the full list.
+    public var vpcEndpointAssociations: [NetworkFirewallClientTypes.VpcEndpointAssociationMetadata]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        vpcEndpointAssociations: [NetworkFirewallClientTypes.VpcEndpointAssociationMetadata]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.vpcEndpointAssociations = vpcEndpointAssociations
+    }
+}
+
 /// Unable to send logs to a configured logging destination.
 public struct LogDestinationPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -4120,7 +4458,7 @@ public struct LogDestinationPermissionException: ClientRuntime.ModeledError, AWS
 }
 
 public struct PutResourcePolicyInput: Swift.Sendable {
-    /// The IAM policy statement that lists the accounts that you want to share your rule group or firewall policy with and the operations that you want the accounts to be able to perform. For a rule group resource, you can specify the following operations in the Actions section of the statement:
+    /// The IAM policy statement that lists the accounts that you want to share your Network Firewall resources with and the operations that you want the accounts to be able to perform. For a rule group resource, you can specify the following operations in the Actions section of the statement:
     ///
     /// * network-firewall:CreateFirewallPolicy
     ///
@@ -4136,10 +4474,19 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     /// * network-firewall:ListFirewallPolicies
     ///
     ///
-    /// In the Resource section of the statement, you specify the ARNs for the rule groups and firewall policies that you want to share with the account that you specified in Arn.
+    /// For a firewall resource, you can specify the following operations in the Actions section of the statement:
+    ///
+    /// * network-firewall:CreateVpcEndpointAssociation
+    ///
+    /// * network-firewall:DescribeFirewallMetadata
+    ///
+    /// * network-firewall:ListFirewalls
+    ///
+    ///
+    /// In the Resource section of the statement, you specify the ARNs for the Network Firewall resources that you want to share with the account that you specified in Arn.
     /// This member is required.
     public var policy: Swift.String?
-    /// The Amazon Resource Name (ARN) of the account that you want to share rule groups and firewall policies with.
+    /// The Amazon Resource Name (ARN) of the account that you want to share your Network Firewall resources with.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -4200,17 +4547,25 @@ public struct StartFlowCaptureInput: Swift.Sendable {
     public var flowFilters: [NetworkFirewallClientTypes.FlowFilter]?
     /// The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds. You provide this for start commands. We recommend setting this value to at least 1 minute (60 seconds) to reduce chance of capturing flows that are not yet established.
     public var minimumFlowAgeInSeconds: Swift.Int?
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    public var vpcEndpointAssociationArn: Swift.String?
+    /// A unique identifier for the primary endpoint associated with a firewall.
+    public var vpcEndpointId: Swift.String?
 
     public init(
         availabilityZone: Swift.String? = nil,
         firewallArn: Swift.String? = nil,
         flowFilters: [NetworkFirewallClientTypes.FlowFilter]? = nil,
-        minimumFlowAgeInSeconds: Swift.Int? = nil
+        minimumFlowAgeInSeconds: Swift.Int? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
     ) {
         self.availabilityZone = availabilityZone
         self.firewallArn = firewallArn
         self.flowFilters = flowFilters
         self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -4244,17 +4599,25 @@ public struct StartFlowFlushInput: Swift.Sendable {
     public var flowFilters: [NetworkFirewallClientTypes.FlowFilter]?
     /// The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds. You provide this for start commands.
     public var minimumFlowAgeInSeconds: Swift.Int?
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    public var vpcEndpointAssociationArn: Swift.String?
+    /// A unique identifier for the primary endpoint associated with a firewall.
+    public var vpcEndpointId: Swift.String?
 
     public init(
         availabilityZone: Swift.String? = nil,
         firewallArn: Swift.String? = nil,
         flowFilters: [NetworkFirewallClientTypes.FlowFilter]? = nil,
-        minimumFlowAgeInSeconds: Swift.Int? = nil
+        minimumFlowAgeInSeconds: Swift.Int? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
     ) {
         self.availabilityZone = availabilityZone
         self.firewallArn = firewallArn
         self.flowFilters = flowFilters
         self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -4876,6 +5239,13 @@ extension CreateTLSInspectionConfigurationInput {
     }
 }
 
+extension CreateVpcEndpointAssociationInput {
+
+    static func urlPathProvider(_ value: CreateVpcEndpointAssociationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteFirewallInput {
 
     static func urlPathProvider(_ value: DeleteFirewallInput) -> Swift.String? {
@@ -4911,9 +5281,23 @@ extension DeleteTLSInspectionConfigurationInput {
     }
 }
 
+extension DeleteVpcEndpointAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteVpcEndpointAssociationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeFirewallInput {
 
     static func urlPathProvider(_ value: DescribeFirewallInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeFirewallMetadataInput {
+
+    static func urlPathProvider(_ value: DescribeFirewallMetadataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4963,6 +5347,13 @@ extension DescribeRuleGroupMetadataInput {
 extension DescribeTLSInspectionConfigurationInput {
 
     static func urlPathProvider(_ value: DescribeTLSInspectionConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeVpcEndpointAssociationInput {
+
+    static func urlPathProvider(_ value: DescribeVpcEndpointAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5033,6 +5424,13 @@ extension ListTagsForResourceInput {
 extension ListTLSInspectionConfigurationsInput {
 
     static func urlPathProvider(_ value: ListTLSInspectionConfigurationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListVpcEndpointAssociationsInput {
+
+    static func urlPathProvider(_ value: ListVpcEndpointAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5232,6 +5630,18 @@ extension CreateTLSInspectionConfigurationInput {
     }
 }
 
+extension CreateVpcEndpointAssociationInput {
+
+    static func write(value: CreateVpcEndpointAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["SubnetMapping"].write(value.subnetMapping, with: NetworkFirewallClientTypes.SubnetMapping.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkFirewallClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcId"].write(value.vpcId)
+    }
+}
+
 extension DeleteFirewallInput {
 
     static func write(value: DeleteFirewallInput?, to writer: SmithyJSON.Writer) throws {
@@ -5277,12 +5687,28 @@ extension DeleteTLSInspectionConfigurationInput {
     }
 }
 
+extension DeleteVpcEndpointAssociationInput {
+
+    static func write(value: DeleteVpcEndpointAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+    }
+}
+
 extension DescribeFirewallInput {
 
     static func write(value: DescribeFirewallInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["FirewallArn"].write(value.firewallArn)
         try writer["FirewallName"].write(value.firewallName)
+    }
+}
+
+extension DescribeFirewallMetadataInput {
+
+    static func write(value: DescribeFirewallMetadataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FirewallArn"].write(value.firewallArn)
     }
 }
 
@@ -5302,6 +5728,8 @@ extension DescribeFlowOperationInput {
         try writer["AvailabilityZone"].write(value.availabilityZone)
         try writer["FirewallArn"].write(value.firewallArn)
         try writer["FlowOperationId"].write(value.flowOperationId)
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
     }
 }
 
@@ -5349,6 +5777,14 @@ extension DescribeTLSInspectionConfigurationInput {
         guard let value else { return }
         try writer["TLSInspectionConfigurationArn"].write(value.tlsInspectionConfigurationArn)
         try writer["TLSInspectionConfigurationName"].write(value.tlsInspectionConfigurationName)
+    }
+}
+
+extension DescribeVpcEndpointAssociationInput {
+
+    static func write(value: DescribeVpcEndpointAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
     }
 }
 
@@ -5414,6 +5850,8 @@ extension ListFlowOperationResultsInput {
         try writer["FlowOperationId"].write(value.flowOperationId)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
     }
 }
 
@@ -5426,6 +5864,8 @@ extension ListFlowOperationsInput {
         try writer["FlowOperationType"].write(value.flowOperationType)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
     }
 }
 
@@ -5460,6 +5900,16 @@ extension ListTLSInspectionConfigurationsInput {
     }
 }
 
+extension ListVpcEndpointAssociationsInput {
+
+    static func write(value: ListVpcEndpointAssociationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension PutResourcePolicyInput {
 
     static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -5487,6 +5937,8 @@ extension StartFlowCaptureInput {
         try writer["FirewallArn"].write(value.firewallArn)
         try writer["FlowFilters"].writeList(value.flowFilters, memberWritingClosure: NetworkFirewallClientTypes.FlowFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MinimumFlowAgeInSeconds"].write(value.minimumFlowAgeInSeconds)
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
     }
 }
 
@@ -5498,6 +5950,8 @@ extension StartFlowFlushInput {
         try writer["FirewallArn"].write(value.firewallArn)
         try writer["FlowFilters"].writeList(value.flowFilters, memberWritingClosure: NetworkFirewallClientTypes.FlowFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MinimumFlowAgeInSeconds"].write(value.minimumFlowAgeInSeconds)
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
     }
 }
 
@@ -5722,6 +6176,19 @@ extension CreateTLSInspectionConfigurationOutput {
     }
 }
 
+extension CreateVpcEndpointAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateVpcEndpointAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateVpcEndpointAssociationOutput()
+        value.vpcEndpointAssociation = try reader["VpcEndpointAssociation"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociation.read(from:))
+        value.vpcEndpointAssociationStatus = try reader["VpcEndpointAssociationStatus"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociationStatus.read(from:))
+        return value
+    }
+}
+
 extension DeleteFirewallOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFirewallOutput {
@@ -5778,6 +6245,19 @@ extension DeleteTLSInspectionConfigurationOutput {
     }
 }
 
+extension DeleteVpcEndpointAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVpcEndpointAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteVpcEndpointAssociationOutput()
+        value.vpcEndpointAssociation = try reader["VpcEndpointAssociation"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociation.read(from:))
+        value.vpcEndpointAssociationStatus = try reader["VpcEndpointAssociationStatus"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociationStatus.read(from:))
+        return value
+    }
+}
+
 extension DescribeFirewallOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeFirewallOutput {
@@ -5788,6 +6268,22 @@ extension DescribeFirewallOutput {
         value.firewall = try reader["Firewall"].readIfPresent(with: NetworkFirewallClientTypes.Firewall.read(from:))
         value.firewallStatus = try reader["FirewallStatus"].readIfPresent(with: NetworkFirewallClientTypes.FirewallStatus.read(from:))
         value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeFirewallMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeFirewallMetadataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeFirewallMetadataOutput()
+        value.description = try reader["Description"].readIfPresent()
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.firewallPolicyArn = try reader["FirewallPolicyArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.supportedAvailabilityZones = try reader["SupportedAvailabilityZones"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.AvailabilityZoneMetadata.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -5821,6 +6317,8 @@ extension DescribeFlowOperationOutput {
         value.flowOperationType = try reader["FlowOperationType"].readIfPresent()
         value.flowRequestTimestamp = try reader["FlowRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.vpcEndpointAssociationArn = try reader["VpcEndpointAssociationArn"].readIfPresent()
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
         return value
     }
 }
@@ -5892,6 +6390,19 @@ extension DescribeTLSInspectionConfigurationOutput {
         value.tlsInspectionConfiguration = try reader["TLSInspectionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.TLSInspectionConfiguration.read(from:))
         value.tlsInspectionConfigurationResponse = try reader["TLSInspectionConfigurationResponse"].readIfPresent(with: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse.read(from:))
         value.updateToken = try reader["UpdateToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DescribeVpcEndpointAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeVpcEndpointAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeVpcEndpointAssociationOutput()
+        value.vpcEndpointAssociation = try reader["VpcEndpointAssociation"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociation.read(from:))
+        value.vpcEndpointAssociationStatus = try reader["VpcEndpointAssociationStatus"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociationStatus.read(from:))
         return value
     }
 }
@@ -5983,6 +6494,8 @@ extension ListFlowOperationResultsOutput {
         value.flows = try reader["Flows"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Flow.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.vpcEndpointAssociationArn = try reader["VpcEndpointAssociationArn"].readIfPresent()
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
         return value
     }
 }
@@ -6035,6 +6548,19 @@ extension ListTLSInspectionConfigurationsOutput {
         var value = ListTLSInspectionConfigurationsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.tlsInspectionConfigurations = try reader["TLSInspectionConfigurations"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListVpcEndpointAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListVpcEndpointAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListVpcEndpointAssociationsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.vpcEndpointAssociations = try reader["VpcEndpointAssociations"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.VpcEndpointAssociationMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6355,6 +6881,26 @@ enum CreateTLSInspectionConfigurationOutputError {
     }
 }
 
+enum CreateVpcEndpointAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InsufficientCapacityException": return try InsufficientCapacityException.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidOperationException": return try InvalidOperationException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteFirewallOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6448,7 +6994,42 @@ enum DeleteTLSInspectionConfigurationOutputError {
     }
 }
 
+enum DeleteVpcEndpointAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidOperationException": return try InvalidOperationException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeFirewallOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeFirewallMetadataOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6568,6 +7149,23 @@ enum DescribeRuleGroupMetadataOutputError {
 }
 
 enum DescribeTLSInspectionConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeVpcEndpointAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6737,6 +7335,22 @@ enum ListTagsForResourceOutputError {
 }
 
 enum ListTLSInspectionConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListVpcEndpointAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7229,6 +7843,7 @@ extension NetworkFirewallClientTypes.Firewall {
         value.firewallId = try reader["FirewallId"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.EncryptionConfiguration.read(from:))
+        value.numberOfAssociations = try reader["NumberOfAssociations"].readIfPresent()
         value.enabledAnalysisTypes = try reader["EnabledAnalysisTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.EnabledAnalysisType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7450,6 +8065,53 @@ extension NetworkFirewallClientTypes.TlsCertificateData {
         value.certificateSerial = try reader["CertificateSerial"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.VpcEndpointAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.VpcEndpointAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.VpcEndpointAssociation()
+        value.vpcEndpointAssociationId = try reader["VpcEndpointAssociationId"].readIfPresent()
+        value.vpcEndpointAssociationArn = try reader["VpcEndpointAssociationArn"].readIfPresent() ?? ""
+        value.firewallArn = try reader["FirewallArn"].readIfPresent() ?? ""
+        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
+        value.subnetMapping = try reader["SubnetMapping"].readIfPresent(with: NetworkFirewallClientTypes.SubnetMapping.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.VpcEndpointAssociationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.VpcEndpointAssociationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.VpcEndpointAssociationStatus()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.associationSyncState = try reader["AssociationSyncState"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.AZSyncState.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.AZSyncState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AZSyncState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.AZSyncState()
+        value.attachment = try reader["Attachment"].readIfPresent(with: NetworkFirewallClientTypes.Attachment.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.AvailabilityZoneMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AvailabilityZoneMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.AvailabilityZoneMetadata()
+        value.ipAddressType = try reader["IPAddressType"].readIfPresent()
         return value
     }
 }
@@ -8263,6 +8925,16 @@ extension NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata {
         var value = NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata()
         value.name = try reader["Name"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.VpcEndpointAssociationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.VpcEndpointAssociationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.VpcEndpointAssociationMetadata()
+        value.vpcEndpointAssociationArn = try reader["VpcEndpointAssociationArn"].readIfPresent()
         return value
     }
 }

@@ -156,7 +156,7 @@ class AWSHttpProtocolServiceClient(
                             writer.write("region,")
                         }
                         "awsCredentialIdentityResolver" -> {
-                            writer.write("try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),")
+                            writer.write("\$N(),", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
                         }
                         "retryStrategyOptions" -> {
                             writer.write("try AWSClientConfigDefaultsProvider.retryStrategyOptions(),")

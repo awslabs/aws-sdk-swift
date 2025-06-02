@@ -730,6 +730,8 @@ extension PCSClientTypes {
         case deleted
         case deleteFailed
         case deleting
+        case suspended
+        case suspending
         case updateFailed
         case updating
         case sdkUnknown(Swift.String)
@@ -742,6 +744,8 @@ extension PCSClientTypes {
                 .deleted,
                 .deleteFailed,
                 .deleting,
+                .suspended,
+                .suspending,
                 .updateFailed,
                 .updating
             ]
@@ -760,6 +764,8 @@ extension PCSClientTypes {
             case .deleted: return "DELETED"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
+            case .suspended: return "SUSPENDED"
+            case .suspending: return "SUSPENDING"
             case .updateFailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -816,7 +822,7 @@ extension PCSClientTypes {
         public var slurmConfiguration: PCSClientTypes.ComputeNodeGroupSlurmConfiguration?
         /// Additional configuration when you specify SPOT as the purchaseOption for the CreateComputeNodeGroup API action.
         public var spotOptions: PCSClientTypes.SpotOptions?
-        /// The provisioning status of the compute node group. The provisioning status doesn't indicate the overall health of the compute node group.
+        /// The provisioning status of the compute node group. The provisioning status doesn't indicate the overall health of the compute node group. The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see [Frequently asked questions about Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions_faq.html) in the PCS User Guide.
         /// This member is required.
         public var status: PCSClientTypes.ComputeNodeGroupStatus?
         /// The list of subnet IDs where instances are provisioned by the compute node group. The subnets must be in the same VPC as the cluster.
@@ -970,7 +976,7 @@ extension PCSClientTypes {
         /// The name that identifies the compute node group.
         /// This member is required.
         public var name: Swift.String?
-        /// The provisioning status of the compute node group. The provisioning status doesn't indicate the overall health of the compute node group.
+        /// The provisioning status of the compute node group. The provisioning status doesn't indicate the overall health of the compute node group. The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see [Frequently asked questions about Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions_faq.html) in the PCS User Guide.
         /// This member is required.
         public var status: PCSClientTypes.ComputeNodeGroupStatus?
 
@@ -1444,6 +1450,8 @@ extension PCSClientTypes {
         case creating
         case deleteFailed
         case deleting
+        case suspended
+        case suspending
         case updateFailed
         case updating
         case sdkUnknown(Swift.String)
@@ -1455,6 +1463,8 @@ extension PCSClientTypes {
                 .creating,
                 .deleteFailed,
                 .deleting,
+                .suspended,
+                .suspending,
                 .updateFailed,
                 .updating
             ]
@@ -1472,6 +1482,8 @@ extension PCSClientTypes {
             case .creating: return "CREATING"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
+            case .suspended: return "SUSPENDED"
+            case .suspending: return "SUSPENDING"
             case .updateFailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -1520,7 +1532,7 @@ extension PCSClientTypes {
         public var size: PCSClientTypes.Size?
         /// Additional options related to the Slurm scheduler.
         public var slurmConfiguration: PCSClientTypes.ClusterSlurmConfiguration?
-        /// The provisioning status of the cluster. The provisioning status doesn't indicate the overall health of the cluster.
+        /// The provisioning status of the cluster. The provisioning status doesn't indicate the overall health of the cluster. The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see [Frequently asked questions about Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions_faq.html) in the PCS User Guide.
         /// This member is required.
         public var status: PCSClientTypes.ClusterStatus?
 
@@ -1643,7 +1655,7 @@ extension PCSClientTypes {
         /// The name that identifies the cluster.
         /// This member is required.
         public var name: Swift.String?
-        /// The provisioning status of the cluster. The provisioning status doesn't indicate the overall health of the cluster.
+        /// The provisioning status of the cluster. The provisioning status doesn't indicate the overall health of the cluster. The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see [Frequently asked questions about Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions_faq.html) in the PCS User Guide.
         /// This member is required.
         public var status: PCSClientTypes.ClusterStatus?
 
@@ -1733,6 +1745,8 @@ extension PCSClientTypes {
         case creating
         case deleteFailed
         case deleting
+        case suspended
+        case suspending
         case updateFailed
         case updating
         case sdkUnknown(Swift.String)
@@ -1744,6 +1758,8 @@ extension PCSClientTypes {
                 .creating,
                 .deleteFailed,
                 .deleting,
+                .suspended,
+                .suspending,
                 .updateFailed,
                 .updating
             ]
@@ -1761,6 +1777,8 @@ extension PCSClientTypes {
             case .creating: return "CREATING"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
+            case .suspended: return "SUSPENDED"
+            case .suspending: return "SUSPENDING"
             case .updateFailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -1796,7 +1814,7 @@ extension PCSClientTypes {
         /// The name that identifies the queue.
         /// This member is required.
         public var name: Swift.String?
-        /// The provisioning status of the queue. The provisioning status doesn't indicate the overall health of the queue.
+        /// The provisioning status of the queue. The provisioning status doesn't indicate the overall health of the queue. The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see [Frequently asked questions about Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions_faq.html) in the PCS User Guide.
         /// This member is required.
         public var status: PCSClientTypes.QueueStatus?
 
@@ -1931,7 +1949,7 @@ extension PCSClientTypes {
         /// The name that identifies the queue.
         /// This member is required.
         public var name: Swift.String?
-        /// The provisioning status of the queue. The provisioning status doesn't indicate the overall health of the queue.
+        /// The provisioning status of the queue. The provisioning status doesn't indicate the overall health of the queue. The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see [Frequently asked questions about Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions_faq.html) in the PCS User Guide.
         /// This member is required.
         public var status: PCSClientTypes.QueueStatus?
 

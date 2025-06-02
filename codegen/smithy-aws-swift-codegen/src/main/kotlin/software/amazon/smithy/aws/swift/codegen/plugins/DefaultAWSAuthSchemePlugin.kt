@@ -1,7 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.plugins
 
 import software.amazon.smithy.aws.swift.codegen.AWSAuthUtils
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.traits.HttpBearerAuthTrait
@@ -47,8 +46,8 @@ class DefaultAWSAuthSchemePlugin(
                     )
                     writer.write("config.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
                     writer.write(
-                        "config.awsCredentialIdentityResolver = try \$N.awsCredentialIdentityResolver()",
-                        AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
+                        "config.awsCredentialIdentityResolver = \$N()",
+                        AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
                     )
                     if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
                         writer.write(

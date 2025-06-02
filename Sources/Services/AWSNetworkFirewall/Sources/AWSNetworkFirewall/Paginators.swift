@@ -158,7 +158,9 @@ extension ListFlowOperationResultsInput: ClientRuntime.PaginateToken {
             firewallArn: self.firewallArn,
             flowOperationId: self.flowOperationId,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            vpcEndpointAssociationArn: self.vpcEndpointAssociationArn,
+            vpcEndpointId: self.vpcEndpointId
         )}
 }
 
@@ -191,7 +193,9 @@ extension ListFlowOperationsInput: ClientRuntime.PaginateToken {
             firewallArn: self.firewallArn,
             flowOperationType: self.flowOperationType,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            vpcEndpointAssociationArn: self.vpcEndpointAssociationArn,
+            vpcEndpointId: self.vpcEndpointId
         )}
 }
 
@@ -295,5 +299,36 @@ extension PaginatorSequence where OperationStackInput == ListTLSInspectionConfig
     /// - Returns: `[NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata]`
     public func tlsInspectionConfigurations() async throws -> [NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata] {
         return try await self.asyncCompactMap { item in item.tlsInspectionConfigurations }
+    }
+}
+extension NetworkFirewallClient {
+    /// Paginate over `[ListVpcEndpointAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListVpcEndpointAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVpcEndpointAssociationsOutput`
+    public func listVpcEndpointAssociationsPaginated(input: ListVpcEndpointAssociationsInput) -> ClientRuntime.PaginatorSequence<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVpcEndpointAssociations(input:))
+    }
+}
+
+extension ListVpcEndpointAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListVpcEndpointAssociationsInput {
+        return ListVpcEndpointAssociationsInput(
+            firewallArn: self.firewallArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListVpcEndpointAssociationsInput, OperationStackOutput == ListVpcEndpointAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listVpcEndpointAssociationsPaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.VpcEndpointAssociationMetadata]`
+    /// - Returns: `[NetworkFirewallClientTypes.VpcEndpointAssociationMetadata]`
+    public func vpcEndpointAssociations() async throws -> [NetworkFirewallClientTypes.VpcEndpointAssociationMetadata] {
+        return try await self.asyncCompactMap { item in item.vpcEndpointAssociations }
     }
 }

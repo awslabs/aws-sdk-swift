@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct Foundation.Date
 import class AwsCommonRuntimeKit.CredentialsProvider
 import ClientRuntime
 import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
@@ -38,7 +39,7 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
             { return (try EnvironmentAWSCredentialIdentityResolver()) },
             { return (try ProfileAWSCredentialIdentityResolver()) },
             { return (try STSWebIdentityAWSCredentialIdentityResolver()) },
-            { return (try ECSAWSCredentialIdentityResolver()) },
+            { return (ECSAWSCredentialIdentityResolver()) },
             { return (try IMDSAWSCredentialIdentityResolver()) }
         ]
     }

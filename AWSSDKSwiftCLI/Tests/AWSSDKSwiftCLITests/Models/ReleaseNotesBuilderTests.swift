@@ -97,7 +97,7 @@ class ReleaseNotesBuilderTests: CLITestCase {
 
         **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
         """
-        XCTAssertEqual(releaseNotes, expected)
+        XCTAssertEqual(releaseNotes, ReleaseNotesBuilder.macOSVersionBumpAnnouncement + "\n" + expected)
     }
 
     func testNoServiceFeatureSectionPresent() throws {
@@ -117,7 +117,7 @@ class ReleaseNotesBuilderTests: CLITestCase {
 
         **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
         """
-        XCTAssertEqual(releaseNotes, expected)
+        XCTAssertEqual(releaseNotes, ReleaseNotesBuilder.macOSVersionBumpAnnouncement + "\n" + expected)
     }
 
     func testNoServiceDocSectionPresent() throws {
@@ -138,7 +138,7 @@ class ReleaseNotesBuilderTests: CLITestCase {
 
         **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
         """
-        XCTAssertEqual(releaseNotes, expected)
+        XCTAssertEqual(releaseNotes, ReleaseNotesBuilder.macOSVersionBumpAnnouncement + "\n" + expected)
     }
 
     func testNoSDKChangeSectionPresent() throws {
@@ -158,7 +158,7 @@ class ReleaseNotesBuilderTests: CLITestCase {
 
         **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
         """
-        XCTAssertEqual(releaseNotes, expected)
+        XCTAssertEqual(releaseNotes, ReleaseNotesBuilder.macOSVersionBumpAnnouncement + "\n" + expected)
     }
 
     func testNoSectionsPresentAndIrrelevantCommitsAreFiltered() throws {
@@ -173,7 +173,7 @@ class ReleaseNotesBuilderTests: CLITestCase {
 
         **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
         """
-        XCTAssertEqual(releaseNotes, expected)
+        XCTAssertEqual(releaseNotes, ReleaseNotesBuilder.macOSVersionBumpAnnouncement + "\n" + expected)
     }
 
     func testNullReleaseNotesFieldGetsHandledWithoutError() throws {
@@ -190,7 +190,7 @@ class ReleaseNotesBuilderTests: CLITestCase {
 
         **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
         """
-        XCTAssertEqual(releaseNotes, expected)
+        XCTAssertEqual(releaseNotes, ReleaseNotesBuilder.macOSVersionBumpAnnouncement + "\n" + expected)
     }
 
     private func setUpBuildRequestAndMappingJSONs(_ buildRequest: String, _ mapping: String) {
