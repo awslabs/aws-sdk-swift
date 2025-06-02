@@ -29,7 +29,8 @@ extension GetQueryResultsInput: ClientRuntime.PaginateToken {
         return GetQueryResultsInput(
             maxResults: self.maxResults,
             nextToken: token,
-            queryExecutionId: self.queryExecutionId
+            queryExecutionId: self.queryExecutionId,
+            queryResultType: self.queryResultType
         )}
 }
 extension AthenaClient {

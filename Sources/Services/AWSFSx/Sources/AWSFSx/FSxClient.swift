@@ -10,6 +10,7 @@
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
+import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FSxClient: ClientRuntime.Client {
     public static let clientName = "FSxClient"
-    public static let version = "1.3.25"
+    public static let version = "1.3.28"
     let client: ClientRuntime.SdkHttpClient
     let config: FSxClient.FSxClientConfiguration
     let serviceName = "FSx"
@@ -199,7 +200,7 @@ extension FSxClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -253,7 +254,7 @@ extension FSxClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -311,7 +312,7 @@ extension FSxClient {
                 nil,
                 nil,
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 nil,
                 try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
@@ -544,7 +545,7 @@ extension FSxClient {
     /// - `InvalidDestinationKmsKey` : The Key Management Service (KMS) key of the destination backup is not valid.
     /// - `InvalidRegion` : The Region provided for SourceRegion is not valid or is in a different Amazon Web Services partition.
     /// - `InvalidSourceKmsKey` : The Key Management Service (KMS) key of the source backup is not valid.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     /// - `SourceBackupUnavailable` : The request was rejected because the lifecycle status of the source backup isn't AVAILABLE.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func copyBackup(input: CopyBackupInput) async throws -> CopyBackupOutput {
@@ -625,7 +626,7 @@ extension FSxClient {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     public func copySnapshotAndUpdateVolume(input: CopySnapshotAndUpdateVolumeInput) async throws -> CopySnapshotAndUpdateVolumeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -731,7 +732,7 @@ extension FSxClient {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
     public func createBackup(input: CreateBackupInput) async throws -> CreateBackupOutput {
@@ -813,7 +814,7 @@ extension FSxClient {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func createDataRepositoryAssociation(input: CreateDataRepositoryAssociationInput) async throws -> CreateDataRepositoryAssociationOutput {
         let context = Smithy.ContextBuilder()
@@ -898,7 +899,7 @@ extension FSxClient {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func createDataRepositoryTask(input: CreateDataRepositoryTaskInput) async throws -> CreateDataRepositoryTaskOutput {
         let context = Smithy.ContextBuilder()
@@ -988,7 +989,7 @@ extension FSxClient {
     /// - `InvalidNetworkSettings` : One or more network settings specified in the request are invalid.
     /// - `InvalidPerUnitStorageThroughput` : An invalid value for PerUnitStorageThroughput was provided. Please create your file system again, using a valid value.
     /// - `MissingFileCacheConfiguration` : A cache configuration is required for this operation.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     public func createFileCache(input: CreateFileCacheInput) async throws -> CreateFileCacheOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1091,7 +1092,7 @@ extension FSxClient {
     /// - `InvalidNetworkSettings` : One or more network settings specified in the request are invalid.
     /// - `InvalidPerUnitStorageThroughput` : An invalid value for PerUnitStorageThroughput was provided. Please create your file system again, using a valid value.
     /// - `MissingFileSystemConfiguration` : A file system configuration is required for this operation.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     public func createFileSystem(input: CreateFileSystemInput) async throws -> CreateFileSystemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1182,7 +1183,7 @@ extension FSxClient {
     /// - `InvalidNetworkSettings` : One or more network settings specified in the request are invalid.
     /// - `InvalidPerUnitStorageThroughput` : An invalid value for PerUnitStorageThroughput was provided. Please create your file system again, using a valid value.
     /// - `MissingFileSystemConfiguration` : A file system configuration is required for this operation.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     public func createFileSystemFromBackup(input: CreateFileSystemFromBackupInput) async throws -> CreateFileSystemFromBackupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1267,7 +1268,7 @@ extension FSxClient {
     /// __Possible Exceptions:__
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
     public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = Smithy.ContextBuilder()
@@ -1349,7 +1350,7 @@ extension FSxClient {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func createStorageVirtualMachine(input: CreateStorageVirtualMachineInput) async throws -> CreateStorageVirtualMachineOutput {
         let context = Smithy.ContextBuilder()
@@ -1431,7 +1432,7 @@ extension FSxClient {
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `MissingVolumeConfiguration` : A volume configuration is required for this operation.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func createVolume(input: CreateVolumeInput) async throws -> CreateVolumeOutput {
@@ -1515,7 +1516,7 @@ extension FSxClient {
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `MissingVolumeConfiguration` : A volume configuration is required for this operation.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     /// - `StorageVirtualMachineNotFound` : No FSx for ONTAP SVMs were found based upon the supplied parameters.
     public func createVolumeFromBackup(input: CreateVolumeFromBackupInput) async throws -> CreateVolumeFromBackupOutput {
         let context = Smithy.ContextBuilder()
@@ -1678,7 +1679,7 @@ extension FSxClient {
     /// - `DataRepositoryAssociationNotFound` : No data repository associations were found based upon the supplied parameters.
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     public func deleteDataRepositoryAssociation(input: DeleteDataRepositoryAssociationInput) async throws -> DeleteDataRepositoryAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1758,7 +1759,7 @@ extension FSxClient {
     /// - `FileCacheNotFound` : No caches were found based upon supplied parameters.
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     public func deleteFileCache(input: DeleteFileCacheInput) async throws -> DeleteFileCacheOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1838,7 +1839,7 @@ extension FSxClient {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     public func deleteFileSystem(input: DeleteFileSystemInput) async throws -> DeleteFileSystemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2074,7 +2075,7 @@ extension FSxClient {
     /// - `BadRequest` : A generic error indicating a failure with a client request.
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     /// - `VolumeNotFound` : No Amazon FSx volumes were found based upon the supplied parameters.
     public func deleteVolume(input: DeleteVolumeInput) async throws -> DeleteVolumeOutput {
         let context = Smithy.ContextBuilder()
@@ -3107,7 +3108,7 @@ extension FSxClient {
     /// - `FileSystemNotFound` : No Amazon FSx file systems were found based upon supplied parameters.
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     public func releaseFileSystemNfsV3Locks(input: ReleaseFileSystemNfsV3LocksInput) async throws -> ReleaseFileSystemNfsV3LocksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3501,7 +3502,7 @@ extension FSxClient {
     /// - `DataRepositoryAssociationNotFound` : No data repository associations were found based upon the supplied parameters.
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     public func updateDataRepositoryAssociation(input: UpdateDataRepositoryAssociationInput) async throws -> UpdateDataRepositoryAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3582,7 +3583,7 @@ extension FSxClient {
     /// - `IncompatibleParameterError` : The error returned when a second request is received with the same client request token but different parameters settings. A client request token should always uniquely identify a single request.
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `MissingFileCacheConfiguration` : A cache configuration is required for this operation.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func updateFileCache(input: UpdateFileCacheInput) async throws -> UpdateFileCacheOutput {
         let context = Smithy.ContextBuilder()
@@ -3658,6 +3659,8 @@ extension FSxClient {
     ///
     /// * DailyAutomaticBackupStartTime
     ///
+    /// * DiskIopsConfiguration
+    ///
     /// * SelfManagedActiveDirectoryConfiguration
     ///
     /// * StorageCapacity
@@ -3665,8 +3668,6 @@ extension FSxClient {
     /// * StorageType
     ///
     /// * ThroughputCapacity
-    ///
-    /// * DiskIopsConfiguration
     ///
     /// * WeeklyMaintenanceStartTime
     ///
@@ -3685,6 +3686,8 @@ extension FSxClient {
     ///
     /// * LogConfiguration
     ///
+    /// * LustreReadCacheConfiguration
+    ///
     /// * LustreRootSquashConfiguration
     ///
     /// * MetadataConfiguration
@@ -3692,6 +3695,8 @@ extension FSxClient {
     /// * PerUnitStorageThroughput
     ///
     /// * StorageCapacity
+    ///
+    /// * ThroughputCapacity
     ///
     /// * WeeklyMaintenanceStartTime
     ///
@@ -3758,7 +3763,7 @@ extension FSxClient {
     /// - `InternalServerError` : A generic error indicating a server-side failure.
     /// - `InvalidNetworkSettings` : One or more network settings specified in the request are invalid.
     /// - `MissingFileSystemConfiguration` : A file system configuration is required for this operation.
-    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+    /// - `ServiceLimitExceeded` : An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
     /// - `UnsupportedOperation` : The requested operation is not supported for this resource or API.
     public func updateFileSystem(input: UpdateFileSystemInput) async throws -> UpdateFileSystemOutput {
         let context = Smithy.ContextBuilder()

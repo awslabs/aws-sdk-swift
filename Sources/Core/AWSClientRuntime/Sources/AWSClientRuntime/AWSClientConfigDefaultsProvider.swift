@@ -5,17 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-@_spi(FileBasedConfig) import AWSSDKCommon
-import AWSSDKIdentity
-import SmithyIdentity
-import SmithyIdentityAPI
-import struct ClientRuntime.DefaultSDKRuntimeConfiguration
-import enum ClientRuntime.DefaultRetryErrorInfoProvider
-import protocol SmithyHTTPAPI.HTTPClient
-import class ClientRuntime.HttpClientConfiguration
-import protocol ClientRuntime.IdempotencyTokenGenerator
-import enum ClientRuntime.ClientLogMode
-import struct SmithyRetries.DefaultRetryStrategy
+@_spi(FileBasedConfig) import class AWSSDKCommon.CRTFileBasedConfiguration
 import struct SmithyRetries.ExponentialBackoffStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -23,19 +13,6 @@ import class ClientRuntime.ClientConfigDefaultsProvider
 
 /// Provides default configuration properties for AWS services.
 public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
-
-    public static func awsCredentialIdentityResolver(
-        _ awsCredentialIdentityResolver: (any AWSCredentialIdentityResolver)? = nil
-    ) throws -> any AWSCredentialIdentityResolver {
-        let resolvedAWSCredentialIdentityResolver: any AWSCredentialIdentityResolver
-        if let awsCredentialIdentityResolver {
-            resolvedAWSCredentialIdentityResolver = awsCredentialIdentityResolver
-        } else {
-            resolvedAWSCredentialIdentityResolver = DefaultAWSCredentialIdentityResolverChain()
-        }
-        return resolvedAWSCredentialIdentityResolver
-    }
-
     public static func region(_ region: String? = nil) async throws -> String? {
         let resolvedRegion: String?
         let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()

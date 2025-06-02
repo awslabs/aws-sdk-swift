@@ -4921,11 +4921,13 @@ public struct DescribeInsightInput: Swift.Sendable {
 extension EKSClientTypes {
 
     public enum Category: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case misconfiguration
         case upgradeReadiness
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Category] {
             return [
+                .misconfiguration,
                 .upgradeReadiness
             ]
         }
@@ -4937,6 +4939,7 @@ extension EKSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .misconfiguration: return "MISCONFIGURATION"
             case .upgradeReadiness: return "UPGRADE_READINESS"
             case let .sdkUnknown(s): return s
             }
@@ -5651,7 +5654,11 @@ extension EKSClientTypes {
 
     /// The criteria to use for the insights.
     public struct InsightsFilter: Swift.Sendable {
-        /// The categories to use to filter insights.
+        /// The categories to use to filter insights. The following lists the available categories:
+        ///
+        /// * UPGRADE_READINESS: Amazon EKS identifies issues that could impact your ability to upgrade to new versions of Kubernetes. These are called upgrade insights.
+        ///
+        /// * MISCONFIGURATION: Amazon EKS identifies misconfiguration in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. These are called configuration insights.
         public var categories: [EKSClientTypes.Category]?
         /// The Kubernetes versions to use to filter the insights.
         public var kubernetesVersions: [Swift.String]?
