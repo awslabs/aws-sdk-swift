@@ -31,7 +31,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil,
         source: STSWebIdentitySource
-    ) throws {
+    ) {
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
         self.source = source

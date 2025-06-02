@@ -38,9 +38,9 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
         resolverFactories = [
             { return (try EnvironmentAWSCredentialIdentityResolver()) },
             { return (try ProfileAWSCredentialIdentityResolver()) },
-            { return (try STSWebIdentityAWSCredentialIdentityResolver(source: .env)) },
-            { return (try STSWebIdentityAWSCredentialIdentityResolver(source: .configFile)) },
-            { return (try ECSAWSCredentialIdentityResolver()) },
+            { return ( STSWebIdentityAWSCredentialIdentityResolver(source: .env)) },
+            { return ( STSWebIdentityAWSCredentialIdentityResolver(source: .configFile)) },
+            { return ( ECSAWSCredentialIdentityResolver()) },
             { return (try IMDSAWSCredentialIdentityResolver()) }
         ]
     }
