@@ -129,7 +129,7 @@ class PresignableUrlIntegration(
 
         writer.openBlock("extension $inputType {", "}") {
             writer.openBlock(
-                "public func presignURL(config: \$L, expiration: \$N) async throws -> \$T {",
+                "${ctx.settings.visibility} func presignURL(config: \$L, expiration: \$N) async throws -> \$T {",
                 "}",
                 serviceConfig.typeName,
                 FoundationTypes.TimeInterval,

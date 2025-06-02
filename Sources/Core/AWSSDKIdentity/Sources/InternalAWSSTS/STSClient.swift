@@ -68,7 +68,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class STSClient: ClientRuntime.Client {
+internal class STSClient: ClientRuntime.Client {
     public static let clientName = "STSClient"
     public static let version = "1.3.28"
     let client: ClientRuntime.SdkHttpClient
