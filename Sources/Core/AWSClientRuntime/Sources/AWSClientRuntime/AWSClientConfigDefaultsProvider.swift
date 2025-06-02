@@ -5,16 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-@_spi(FileBasedConfig) import AWSSDKCommon
-import SmithyIdentity
-import SmithyIdentityAPI
-import struct ClientRuntime.DefaultSDKRuntimeConfiguration
-import enum ClientRuntime.DefaultRetryErrorInfoProvider
-import protocol SmithyHTTPAPI.HTTPClient
-import class ClientRuntime.HttpClientConfiguration
-import protocol ClientRuntime.IdempotencyTokenGenerator
-import enum ClientRuntime.ClientLogMode
-import struct SmithyRetries.DefaultRetryStrategy
+@_spi(FileBasedConfig) import class AWSSDKCommon.CRTFileBasedConfiguration
 import struct SmithyRetries.ExponentialBackoffStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
