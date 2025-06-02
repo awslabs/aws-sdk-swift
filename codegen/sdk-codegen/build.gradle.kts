@@ -145,7 +145,7 @@ fun discoverServices(): List<AwsService> {
             require(services.size == 1) { "Expected one service per aws model, but found ${services.size} in ${file.absolutePath}: ${services.map { it.id }}" }
             val service = services.first()
             file to service
-        }.map { (file, service) ->
+        }.flatMap { (file, service) ->
             val serviceApi = service.getTrait(software.amazon.smithy.aws.traits.ServiceTrait::class.java).orNull()
                 ?: error { "Expected aws.api#service trait attached to model ${file.absolutePath}" }
             val (name, version, _) = file.name.split(".")
@@ -153,7 +153,7 @@ fun discoverServices(): List<AwsService> {
 
             logger.info("discovered service: ${serviceApi.sdkId}")
 
-            AwsService(
+            val publicService = AwsService(
                 name = service.id.toString(),
                 packageName = packageName,
                 packageVersion = packageVersion,
@@ -161,6 +161,22 @@ fun discoverServices(): List<AwsService> {
                 projectionName = name + "." + version.toLowerCase(),
                 sdkId = serviceApi.sdkId,
                 gitRepo = "https://github.com/awslabs/aws-sdk-swift")
+
+            // Codegen internal STS client for use by credential resolvers.
+            if (serviceApi.sdkId == "STS") {
+                val internalProjection = AwsService(
+                    name = service.id.toString(),
+                    packageName = "InternalAWSSTS",
+                    packageVersion = packageVersion,
+                    modelFile = file,
+                    projectionName = "${name}.${version.toLowerCase()}_internal",
+                    sdkId = serviceApi.sdkId,
+                    gitRepo = "https://github.com/awslabs/aws-sdk-swift"
+                )
+                listOf(publicService, internalProjection)
+            } else {
+                listOf(publicService)
+            }
         }
 }
 val discoveredServices: List<AwsService> by lazy { discoverServices() }
@@ -168,11 +184,15 @@ val discoveredServices: List<AwsService> by lazy { discoverServices() }
 val packageVersion = rootProject.file("Package.version.next").readText(Charset.forName("UTF-8")).trim()
 
 val AwsService.outputDir: String
-    get() = project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen").absolutePath
+    get() = when (this.packageName) {
+        "InternalAWSSTS" -> project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen/Sources").absolutePath
+        else -> project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen").absolutePath
+    }
 
 val AwsService.sourcesDir: String
-    get(){
-        return rootProject.file("Sources/Services/$packageName").absolutePath
+    get() = when (this.packageName) {
+        "InternalAWSSTS" -> rootProject.file("Sources/Core/AWSSDKIdentity/Sources").absolutePath
+        else -> rootProject.file("Sources/Services/$packageName").absolutePath
     }
 
 /**
