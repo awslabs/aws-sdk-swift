@@ -16,6 +16,13 @@ public class AwsQueryCompatibleErrorDetails {
         self.type = type
     }
 
+    /**
+     * Parses the `x-amzn-query-error` header value in format `code;type`.
+     *
+     * - Parameter value: The raw header value (e.g., "InvalidParameterValue;Sender")
+     * - Returns: Parsed error details if valid, `nil` if value is `nil`
+     * - Throws: `ParseError` if the value is malformed, has empty code, or empty type
+     */
     public static func parse(_ value: String?) throws -> AwsQueryCompatibleErrorDetails? {
         guard let value else {
             return nil
@@ -31,7 +38,6 @@ public enum ParseError: Error, CustomDebugStringConvertible {
     case malformedErrorString
     case emptyCode
     case emptyType
-    case missingQueryErrorData
 
     public var debugDescription: String {
         switch self {
@@ -41,8 +47,6 @@ public enum ParseError: Error, CustomDebugStringConvertible {
             return "code is empty"
         case .emptyType:
             return "type is empty"
-        case .missingQueryErrorData:
-            return "x-amzn-query-error header not found"
         }
     }
 }
