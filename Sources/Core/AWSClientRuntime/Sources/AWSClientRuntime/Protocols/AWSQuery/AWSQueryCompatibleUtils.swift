@@ -20,7 +20,7 @@ public enum AWSQueryCompatibleUtils {
         noErrorWrapping: Bool,
         errorDetails: String?
     ) throws -> RpcV2CborError {
-        let errorCode = try AwsQueryCompatibleErrorDetails.parse(errorDetails).code
+        let errorCode = try AwsQueryCompatibleErrorDetails.parse(errorDetails)?.code
         return try RpcV2CborError(
             httpResponse: httpResponse,
             responseReader: responseReader,
@@ -36,7 +36,7 @@ public enum AWSQueryCompatibleUtils {
         noErrorWrapping: Bool,
         errorDetails: String?
     ) throws -> AWSJSONError {
-        let errorCode = try AwsQueryCompatibleErrorDetails.parse(errorDetails).code
+        let errorCode = try AwsQueryCompatibleErrorDetails.parse(errorDetails)?.code
         return try AWSJSONError(
             httpResponse: httpResponse,
             responseReader: responseReader,
