@@ -2,30 +2,34 @@ package software.amazon.smithy.aws.swift.codegen.customization.credentialresolve
 
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
-import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.model.transform.ModelTransformer
 import software.amazon.smithy.swift.codegen.SwiftSettings
+import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import java.util.function.Predicate
 
-class InternalSTSModelIntegration: SwiftIntegration {
-    private val ops = listOf(
-        "com.amazonaws.sts#AssumeRole",
-        "com.amazonaws.sts#AssumeRoleWithWebIdentity"
-    )
+class InternalSTSModelIntegration : SwiftIntegration {
+    private val ops =
+        listOf(
+            "com.amazonaws.sts#AssumeRole",
+            "com.amazonaws.sts#AssumeRoleWithWebIdentity",
+        )
 
-    override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
-        return settings.moduleName == "InternalAWSSTS"
-    }
+    override fun enabledForService(
+        model: Model,
+        settings: SwiftSettings,
+    ): Boolean = settings.moduleName == "InternalAWSSTS"
 
-    override fun preprocessModel(model: Model?, settings: SwiftSettings?): Model {
-        return ModelTransformer.create().removeShapesIf(
+    override fun preprocessModel(
+        model: Model?,
+        settings: SwiftSettings?,
+    ): Model =
+        ModelTransformer.create().removeShapesIf(
             model,
             Predicate { shape ->
                 when (shape) {
                     is OperationShape -> shape.id.toString() !in ops
                     else -> false
                 }
-            }
+            },
         )
-    }
 }
