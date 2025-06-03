@@ -27,8 +27,8 @@ class AwsQueryCompatibleErrorDetailsTests: XCTestCase {
             type: "Sender"
         )
         let actual = try AwsQueryCompatibleErrorDetails.parse("com.test.ErrorCode;Sender")
-        XCTAssertEqual(expected?.code, actual.code)
-        XCTAssertEqual(expected?.type, actual.type)
+        XCTAssertEqual(expected.code, actual?.code)
+        XCTAssertEqual(expected.type, actual?.type)
     }
 
     func testParseErrorServer() throws {
@@ -37,7 +37,7 @@ class AwsQueryCompatibleErrorDetailsTests: XCTestCase {
             type: "Receiver"
         )
         let actual = try AwsQueryCompatibleErrorDetails.parse("com.test.ErrorCode;Receiver")
-        XCTAssertEqual(expected?.code, actual.code)
-        XCTAssertEqual(expected?.type, actual.type)
+        XCTAssertEqual(expected.code, actual?.code)
+        XCTAssertEqual(expected.type, actual?.type)
     }
 }
