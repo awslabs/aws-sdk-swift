@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Inspector2Client: ClientRuntime.Client {
     public static let clientName = "Inspector2Client"
-    public static let version = "1.3.28"
+    public static let version = "1.3.29"
     let client: ClientRuntime.SdkHttpClient
     let config: Inspector2Client.Inspector2ClientConfiguration
     let serviceName = "Inspector2"
