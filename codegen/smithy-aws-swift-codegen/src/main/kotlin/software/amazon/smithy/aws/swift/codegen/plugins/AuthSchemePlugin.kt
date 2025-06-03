@@ -29,7 +29,7 @@ class AuthSchemePlugin(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
     ) {
-        writer.openBlock("public class $pluginName: \$N {", "}", ClientRuntimeTypes.Core.Plugin) {
+        writer.openBlock("${ctx.settings.visibility} class $pluginName: \$N {", "}", ClientRuntimeTypes.Core.Plugin) {
             writer.write("private var authSchemes: \$N", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional())
             writer.write("private var authSchemeResolver: \$N", SmithyHTTPAuthAPITypes.AuthSchemeResolver.toOptional())
             writer.write(

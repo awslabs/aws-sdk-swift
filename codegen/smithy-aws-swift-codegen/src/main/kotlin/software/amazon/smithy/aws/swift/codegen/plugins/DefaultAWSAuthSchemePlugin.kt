@@ -30,7 +30,7 @@ class DefaultAWSAuthSchemePlugin(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
     ) {
-        writer.openBlock("public class DefaultAWSAuthSchemePlugin: \$N {", "}", ClientRuntimeTypes.Core.Plugin) {
+        writer.openBlock("${ctx.settings.visibility} class DefaultAWSAuthSchemePlugin: \$N {", "}", ClientRuntimeTypes.Core.Plugin) {
             writer.write("")
             writer.write("public init() {}")
             writer.write("")
