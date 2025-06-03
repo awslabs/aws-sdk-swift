@@ -16,9 +16,9 @@ public class AwsQueryCompatibleErrorDetails {
         self.type = type
     }
 
-    public static func parse(_ value: String?) throws -> AwsQueryCompatibleErrorDetails {
+    public static func parse(_ value: String?) throws -> AwsQueryCompatibleErrorDetails? {
         guard let value else {
-            throw ParseError.missingQueryErrorData
+            return nil
         }
         return try parseImpl(value)
     }
