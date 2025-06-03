@@ -18,7 +18,7 @@ import struct SmithyIdentity.BearerTokenIdentity
 import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class STSClientEndpointPlugin: Plugin {
+internal class STSClientEndpointPlugin: Plugin {
     private var endpointResolver: EndpointResolver
 
     public init(endpointResolver: EndpointResolver) {
@@ -36,7 +36,7 @@ public class STSClientEndpointPlugin: Plugin {
     }
 }
 
-public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
+internal class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
     public init() {}
 
@@ -50,7 +50,7 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     }
 }
 
-public class STSClientAuthSchemePlugin: ClientRuntime.Plugin {
+internal class STSClientAuthSchemePlugin: ClientRuntime.Plugin {
     private var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
     private var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver?
     private var awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)?
