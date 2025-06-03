@@ -612,7 +612,7 @@ private var runtimeTestTargets: [Target] {
         ),
         .testTarget(
             name: "AWSSDKEventStreamsAuthTests",
-            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams, .smithyTestUtils],
+            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", "AWSSDKIdentity", .smithyStreams, .smithyTestUtils],
             path: "Sources/Core/AWSSDKEventStreamsAuth/Tests/AWSSDKEventStreamsAuthTests"
         ),
         .testTarget(
