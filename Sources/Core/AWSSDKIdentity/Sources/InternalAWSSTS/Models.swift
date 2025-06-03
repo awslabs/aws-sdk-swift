@@ -9,20 +9,10 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
-import class AWSClientRuntime.AWSClientConfigDefaultsProvider
-import class AWSClientRuntime.AmzSdkRequestMiddleware
-import class ClientRuntime.OrchestratorBuilder
-import class ClientRuntime.OrchestratorTelemetry
-import class Smithy.Context
-import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyFormURL.Writer
-import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyXML.Reader
-import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum ClientRuntime.ErrorFault
-import enum ClientRuntime.OrchestratorMetricsAttributesKeys
-import enum Smithy.ClientError
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
@@ -31,22 +21,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
-import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
-import struct AWSClientRuntime.UserAgentMiddleware
-import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
-import struct ClientRuntime.ContentLengthMiddleware
-import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
-import struct ClientRuntime.LoggerMiddleware
-import struct ClientRuntime.SignerMiddleware
-import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
-import struct Smithy.Attributes
-import struct SmithyRetries.DefaultRetryStrategy
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension STSClientTypes {
@@ -334,6 +310,29 @@ public struct AssumeRoleOutput: Swift.Sendable {
     }
 }
 
+/// The request could not be fulfilled because the identity provider (IDP) that was asked to verify the incoming identity token could not be reached. This is often a transient error caused by network conditions. Retry the request a limited number of times so that you don't exceed the request rate. If the error persists, the identity provider might be down or not responding.
+public struct IDPCommunicationErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IDPCommunicationError" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The identity provider (IdP) reported that authentication failed. This might be because the claim is invalid. If this error is returned for the AssumeRoleWithWebIdentity operation, it can also mean that the claim has expired or has been explicitly revoked.
 public struct IDPRejectedClaimException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -366,121 +365,6 @@ public struct InvalidIdentityTokenException: ClientRuntime.ModeledError, AWSClie
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidIdentityToken" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-public struct AssumeRoleWithSAMLInput: Swift.Sendable {
-    /// The duration, in seconds, of the role session. Your role session lasts for the duration that you specify for the DurationSeconds parameter, or until the time specified in the SAML authentication response's SessionNotOnOrAfter value, whichever is shorter. You can provide a DurationSeconds value from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see [View the Maximum Session Duration Setting for a Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session) in the IAM User Guide. By default, the value is set to 3600 seconds. The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see [Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html) in the IAM User Guide.
-    public var durationSeconds: Swift.Int?
-    /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. For more information about role session permissions, see [Session policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session). An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
-    public var policy: Swift.String?
-    /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide.
-    public var policyArns: [STSClientTypes.PolicyDescriptorType]?
-    /// The Amazon Resource Name (ARN) of the SAML provider in IAM that describes the IdP.
-    /// This member is required.
-    public var principalArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the role that the caller is assuming.
-    /// This member is required.
-    public var roleArn: Swift.String?
-    /// The base64 encoded SAML authentication response provided by the IdP. For more information, see [Configuring a Relying Party and Adding Claims](https://docs.aws.amazon.com/IAM/latest/UserGuide/create-role-saml-IdP-tasks.html) in the IAM User Guide.
-    /// This member is required.
-    public var samlAssertion: Swift.String?
-
-    public init(
-        durationSeconds: Swift.Int? = nil,
-        policy: Swift.String? = nil,
-        policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
-        principalArn: Swift.String? = nil,
-        roleArn: Swift.String? = nil,
-        samlAssertion: Swift.String? = nil
-    ) {
-        self.durationSeconds = durationSeconds
-        self.policy = policy
-        self.policyArns = policyArns
-        self.principalArn = principalArn
-        self.roleArn = roleArn
-        self.samlAssertion = samlAssertion
-    }
-}
-
-extension AssumeRoleWithSAMLInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "AssumeRoleWithSAMLInput(durationSeconds: \(Swift.String(describing: durationSeconds)), policy: \(Swift.String(describing: policy)), policyArns: \(Swift.String(describing: policyArns)), principalArn: \(Swift.String(describing: principalArn)), roleArn: \(Swift.String(describing: roleArn)), samlAssertion: \"CONTENT_REDACTED\")"}
-}
-
-/// Contains the response to a successful [AssumeRoleWithSAML] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
-public struct AssumeRoleWithSAMLOutput: Swift.Sendable {
-    /// The identifiers for the temporary security credentials that the operation returns.
-    public var assumedRoleUser: STSClientTypes.AssumedRoleUser?
-    /// The value of the Recipient attribute of the SubjectConfirmationData element of the SAML assertion.
-    public var audience: Swift.String?
-    /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
-    public var credentials: STSClientTypes.Credentials?
-    /// The value of the Issuer element of the SAML assertion.
-    public var issuer: Swift.String?
-    /// A hash value based on the concatenation of the following:
-    ///
-    /// * The Issuer response value.
-    ///
-    /// * The Amazon Web Services account ID.
-    ///
-    /// * The friendly name (the last part of the ARN) of the SAML provider in IAM.
-    ///
-    ///
-    /// The combination of NameQualifier and Subject can be used to uniquely identify a user. The following pseudocode shows how the hash value is calculated: BASE64 ( SHA1 ( "https://example.com/saml" + "123456789012" + "/MySAMLIdP" ) )
-    public var nameQualifier: Swift.String?
-    /// A percentage value that indicates the packed size of the session policies and session tags combined passed in the request. The request fails if the packed size is greater than 100 percent, which means the policies and tags exceeded the allowed space.
-    public var packedPolicySize: Swift.Int?
-    /// The value in the SourceIdentity attribute in the SAML assertion. The source identity value persists across [chained role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-role-chaining) sessions. You can require users to set a source identity value when they assume a role. You do this by using the sts:SourceIdentity condition key in a role trust policy. That way, actions that are taken with the role are associated with that user. After the source identity is set, the value cannot be changed. It is present in the request for all actions that are taken by the role and persists across [chained role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#id_roles_terms-and-concepts) sessions. You can configure your SAML identity provider to use an attribute associated with your users, like user name or email, as the source identity when calling AssumeRoleWithSAML. You do this by adding an attribute to the SAML assertion. For more information about using source identity, see [Monitor and control actions taken with assumed roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
-    public var sourceIdentity: Swift.String?
-    /// The value of the NameID element in the Subject element of the SAML assertion.
-    public var subject: Swift.String?
-    /// The format of the name ID, as defined by the Format attribute in the NameID element of the SAML assertion. Typical examples of the format are transient or persistent. If the format includes the prefix urn:oasis:names:tc:SAML:2.0:nameid-format, that prefix is removed. For example, urn:oasis:names:tc:SAML:2.0:nameid-format:transient is returned as transient. If the format includes any other prefix, the format is returned with no modifications.
-    public var subjectType: Swift.String?
-
-    public init(
-        assumedRoleUser: STSClientTypes.AssumedRoleUser? = nil,
-        audience: Swift.String? = nil,
-        credentials: STSClientTypes.Credentials? = nil,
-        issuer: Swift.String? = nil,
-        nameQualifier: Swift.String? = nil,
-        packedPolicySize: Swift.Int? = nil,
-        sourceIdentity: Swift.String? = nil,
-        subject: Swift.String? = nil,
-        subjectType: Swift.String? = nil
-    ) {
-        self.assumedRoleUser = assumedRoleUser
-        self.audience = audience
-        self.credentials = credentials
-        self.issuer = issuer
-        self.nameQualifier = nameQualifier
-        self.packedPolicySize = packedPolicySize
-        self.sourceIdentity = sourceIdentity
-        self.subject = subject
-        self.subjectType = subjectType
-    }
-}
-
-/// The request could not be fulfilled because the identity provider (IDP) that was asked to verify the incoming identity token could not be reached. This is often a transient error caused by network conditions. Retry the request a limited number of times so that you don't exceed the request rate. If the error persists, the identity provider might be down or not responding.
-public struct IDPCommunicationErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "IDPCommunicationError" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -574,247 +458,6 @@ public struct AssumeRoleWithWebIdentityOutput: Swift.Sendable {
     }
 }
 
-public struct AssumeRootInput: Swift.Sendable {
-    /// The duration, in seconds, of the privileged session. The value can range from 0 seconds up to the maximum session duration of 900 seconds (15 minutes). If you specify a value higher than this setting, the operation fails. By default, the value is set to 900 seconds.
-    public var durationSeconds: Swift.Int?
-    /// The member account principal ARN or account ID.
-    /// This member is required.
-    public var targetPrincipal: Swift.String?
-    /// The identity based policy that scopes the session to the privileged tasks that can be performed. You can use one of following Amazon Web Services managed policies to scope root session actions.
-    ///
-    /// * [IAMAuditRootUserCredentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMAuditRootUserCredentials)
-    ///
-    /// * [IAMCreateRootUserPassword](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMCreateRootUserPassword)
-    ///
-    /// * [IAMDeleteRootUserCredentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMDeleteRootUserCredentials)
-    ///
-    /// * [S3UnlockBucketPolicy](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-S3UnlockBucketPolicy)
-    ///
-    /// * [SQSUnlockQueuePolicy](https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-SQSUnlockQueuePolicy)
-    /// This member is required.
-    public var taskPolicyArn: STSClientTypes.PolicyDescriptorType?
-
-    public init(
-        durationSeconds: Swift.Int? = nil,
-        targetPrincipal: Swift.String? = nil,
-        taskPolicyArn: STSClientTypes.PolicyDescriptorType? = nil
-    ) {
-        self.durationSeconds = durationSeconds
-        self.targetPrincipal = targetPrincipal
-        self.taskPolicyArn = taskPolicyArn
-    }
-}
-
-public struct AssumeRootOutput: Swift.Sendable {
-    /// The temporary security credentials, which include an access key ID, a secret access key, and a security token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
-    public var credentials: STSClientTypes.Credentials?
-    /// The source identity specified by the principal that is calling the AssumeRoot operation. You can use the aws:SourceIdentity condition key to control access based on the value of source identity. For more information about using source identity, see [Monitor and control actions taken with assumed roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
-    public var sourceIdentity: Swift.String?
-
-    public init(
-        credentials: STSClientTypes.Credentials? = nil,
-        sourceIdentity: Swift.String? = nil
-    ) {
-        self.credentials = credentials
-        self.sourceIdentity = sourceIdentity
-    }
-}
-
-/// The error returned if the message passed to DecodeAuthorizationMessage was invalid. This can happen if the token contains invalid characters, such as line breaks, or if the message has expired.
-public struct InvalidAuthorizationMessageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidAuthorizationMessageException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-public struct DecodeAuthorizationMessageInput: Swift.Sendable {
-    /// The encoded message that was returned with the response.
-    /// This member is required.
-    public var encodedMessage: Swift.String?
-
-    public init(
-        encodedMessage: Swift.String? = nil
-    ) {
-        self.encodedMessage = encodedMessage
-    }
-}
-
-/// A document that contains additional information about the authorization status of a request from an encoded message that is returned in response to an Amazon Web Services request.
-public struct DecodeAuthorizationMessageOutput: Swift.Sendable {
-    /// The API returns a response with the decoded message.
-    public var decodedMessage: Swift.String?
-
-    public init(
-        decodedMessage: Swift.String? = nil
-    ) {
-        self.decodedMessage = decodedMessage
-    }
-}
-
-public struct GetAccessKeyInfoInput: Swift.Sendable {
-    /// The identifier of an access key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper- or lowercase letter or digit.
-    /// This member is required.
-    public var accessKeyId: Swift.String?
-
-    public init(
-        accessKeyId: Swift.String? = nil
-    ) {
-        self.accessKeyId = accessKeyId
-    }
-}
-
-public struct GetAccessKeyInfoOutput: Swift.Sendable {
-    /// The number used to identify the Amazon Web Services account.
-    public var account: Swift.String?
-
-    public init(
-        account: Swift.String? = nil
-    ) {
-        self.account = account
-    }
-}
-
-public struct GetCallerIdentityInput: Swift.Sendable {
-
-    public init() { }
-}
-
-/// Contains the response to a successful [GetCallerIdentity] request, including information about the entity making the request.
-public struct GetCallerIdentityOutput: Swift.Sendable {
-    /// The Amazon Web Services account ID number of the account that owns or contains the calling entity.
-    public var account: Swift.String?
-    /// The Amazon Web Services ARN associated with the calling entity.
-    public var arn: Swift.String?
-    /// The unique identifier of the calling entity. The exact value depends on the type of entity that is making the call. The values returned are those listed in the aws:userid column in the [Principal table](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_variables.html#principaltable) found on the Policy Variables reference page in the IAM User Guide.
-    public var userId: Swift.String?
-
-    public init(
-        account: Swift.String? = nil,
-        arn: Swift.String? = nil,
-        userId: Swift.String? = nil
-    ) {
-        self.account = account
-        self.arn = arn
-        self.userId = userId
-    }
-}
-
-public struct GetFederationTokenInput: Swift.Sendable {
-    /// The duration, in seconds, that the session should last. Acceptable durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using root user credentials are restricted to a maximum of 3,600 seconds (one hour). If the specified duration is longer than one hour, the session obtained by using root user credentials defaults to one hour.
-    public var durationSeconds: Swift.Int?
-    /// The name of the federated user. The name is used as an identifier for the temporary security credentials (such as Bob). For example, you can reference the federated user name in a resource-based policy, such as in an Amazon S3 bucket policy. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
-    /// This member is required.
-    public var name: Swift.String?
-    /// An IAM policy in JSON format that you want to use as an inline session policy. You must pass an inline or managed [session policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) to this operation. You can pass a single JSON policy document to use as an inline session policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as managed session policies. This parameter is optional. However, if you do not pass any session policies, then the resulting federated user session has no permissions. When you pass session policies, the session permissions are the intersection of the IAM user policies and the session policies that you pass. This gives you a way to further restrict the permissions for a federated user. You cannot use session policies to grant more permissions than those that are defined in the permissions policy of the IAM user. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The resulting credentials can be used to access a resource that has a resource-based policy. If that policy specifically references the federated user session in the Principal element of the policy, the session has the permissions allowed by the policy. These permissions are granted in addition to the permissions that are granted by the session policies. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
-    public var policy: Swift.String?
-    /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as a managed session policy. The policies must exist in the same account as the IAM user that is requesting federated access. You must pass an inline or managed [session policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) to this operation. You can pass a single JSON policy document to use as an inline session policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as managed session policies. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. You can provide up to 10 managed policy ARNs. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. This parameter is optional. However, if you do not pass any session policies, then the resulting federated user session has no permissions. When you pass session policies, the session permissions are the intersection of the IAM user policies and the session policies that you pass. This gives you a way to further restrict the permissions for a federated user. You cannot use session policies to grant more permissions than those that are defined in the permissions policy of the IAM user. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The resulting credentials can be used to access a resource that has a resource-based policy. If that policy specifically references the federated user session in the Principal element of the policy, the session has the permissions allowed by the policy. These permissions are granted in addition to the permissions that are granted by the session policies. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
-    public var policyArns: [STSClientTypes.PolicyDescriptorType]?
-    /// A list of session tags. Each session tag consists of a key name and an associated value. For more information about session tags, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. This parameter is optional. You can pass up to 50 session tags. The plaintext session tag keys can’t exceed 128 characters and the values can’t exceed 256 characters. For these and additional limits, see [IAM and STS Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length) in the IAM User Guide. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. You can pass a session tag with the same key as a tag that is already attached to the user you are federating. When you do, session tags override a user tag with the same key. Tag key–value pairs are not case sensitive, but case is preserved. This means that you cannot have separate Department and department tag keys. Assume that the role has the Department=Marketing tag and you pass the department=engineering session tag. Department and department are not saved as separate tags, and the session tag passed in the request takes precedence over the role tag.
-    public var tags: [STSClientTypes.Tag]?
-
-    public init(
-        durationSeconds: Swift.Int? = nil,
-        name: Swift.String? = nil,
-        policy: Swift.String? = nil,
-        policyArns: [STSClientTypes.PolicyDescriptorType]? = nil,
-        tags: [STSClientTypes.Tag]? = nil
-    ) {
-        self.durationSeconds = durationSeconds
-        self.name = name
-        self.policy = policy
-        self.policyArns = policyArns
-        self.tags = tags
-    }
-}
-
-extension STSClientTypes {
-
-    /// Identifiers for the federated user that is associated with the credentials.
-    public struct FederatedUser: Swift.Sendable {
-        /// The ARN that specifies the federated user that is associated with the credentials. For more information about ARNs and how to use them in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
-        /// This member is required.
-        public var arn: Swift.String?
-        /// The string that identifies the federated user associated with the credentials, similar to the unique ID of an IAM user.
-        /// This member is required.
-        public var federatedUserId: Swift.String?
-
-        public init(
-            arn: Swift.String? = nil,
-            federatedUserId: Swift.String? = nil
-        ) {
-            self.arn = arn
-            self.federatedUserId = federatedUserId
-        }
-    }
-}
-
-/// Contains the response to a successful [GetFederationToken] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
-public struct GetFederationTokenOutput: Swift.Sendable {
-    /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
-    public var credentials: STSClientTypes.Credentials?
-    /// Identifiers for the federated user associated with the credentials (such as arn:aws:sts::123456789012:federated-user/Bob or 123456789012:Bob). You can use the federated user's ARN in your resource-based policies, such as an Amazon S3 bucket policy.
-    public var federatedUser: STSClientTypes.FederatedUser?
-    /// A percentage value that indicates the packed size of the session policies and session tags combined passed in the request. The request fails if the packed size is greater than 100 percent, which means the policies and tags exceeded the allowed space.
-    public var packedPolicySize: Swift.Int?
-
-    public init(
-        credentials: STSClientTypes.Credentials? = nil,
-        federatedUser: STSClientTypes.FederatedUser? = nil,
-        packedPolicySize: Swift.Int? = nil
-    ) {
-        self.credentials = credentials
-        self.federatedUser = federatedUser
-        self.packedPolicySize = packedPolicySize
-    }
-}
-
-public struct GetSessionTokenInput: Swift.Sendable {
-    /// The duration, in seconds, that the credentials should remain valid. Acceptable durations for IAM user sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions for Amazon Web Services account owners are restricted to a maximum of 3,600 seconds (one hour). If the duration is longer than one hour, the session for Amazon Web Services account owners defaults to one hour.
-    public var durationSeconds: Swift.Int?
-    /// The identification number of the MFA device that is associated with the IAM user who is making the GetSessionToken call. Specify this value if the IAM user has a policy that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). You can find the device for an IAM user by going to the Amazon Web Services Management Console and viewing the user's security credentials. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
-    public var serialNumber: Swift.String?
-    /// The value provided by the MFA device, if MFA is required. If any policy requires the IAM user to submit an MFA code, specify this value. If MFA authentication is required, the user must provide a code when requesting a set of temporary security credentials. A user who fails to provide the code receives an "access denied" response when requesting resources that require MFA authentication. The format for this parameter, as described by its regex pattern, is a sequence of six numeric digits.
-    public var tokenCode: Swift.String?
-
-    public init(
-        durationSeconds: Swift.Int? = nil,
-        serialNumber: Swift.String? = nil,
-        tokenCode: Swift.String? = nil
-    ) {
-        self.durationSeconds = durationSeconds
-        self.serialNumber = serialNumber
-        self.tokenCode = tokenCode
-    }
-}
-
-/// Contains the response to a successful [GetSessionToken] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
-public struct GetSessionTokenOutput: Swift.Sendable {
-    /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
-    public var credentials: STSClientTypes.Credentials?
-
-    public init(
-        credentials: STSClientTypes.Credentials? = nil
-    ) {
-        self.credentials = credentials
-    }
-}
-
 extension AssumeRoleInput {
 
     static func urlPathProvider(_ value: AssumeRoleInput) -> Swift.String? {
@@ -822,58 +465,9 @@ extension AssumeRoleInput {
     }
 }
 
-extension AssumeRoleWithSAMLInput {
-
-    static func urlPathProvider(_ value: AssumeRoleWithSAMLInput) -> Swift.String? {
-        return "/"
-    }
-}
-
 extension AssumeRoleWithWebIdentityInput {
 
     static func urlPathProvider(_ value: AssumeRoleWithWebIdentityInput) -> Swift.String? {
-        return "/"
-    }
-}
-
-extension AssumeRootInput {
-
-    static func urlPathProvider(_ value: AssumeRootInput) -> Swift.String? {
-        return "/"
-    }
-}
-
-extension DecodeAuthorizationMessageInput {
-
-    static func urlPathProvider(_ value: DecodeAuthorizationMessageInput) -> Swift.String? {
-        return "/"
-    }
-}
-
-extension GetAccessKeyInfoInput {
-
-    static func urlPathProvider(_ value: GetAccessKeyInfoInput) -> Swift.String? {
-        return "/"
-    }
-}
-
-extension GetCallerIdentityInput {
-
-    static func urlPathProvider(_ value: GetCallerIdentityInput) -> Swift.String? {
-        return "/"
-    }
-}
-
-extension GetFederationTokenInput {
-
-    static func urlPathProvider(_ value: GetFederationTokenInput) -> Swift.String? {
-        return "/"
-    }
-}
-
-extension GetSessionTokenInput {
-
-    static func urlPathProvider(_ value: GetSessionTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -899,21 +493,6 @@ extension AssumeRoleInput {
     }
 }
 
-extension AssumeRoleWithSAMLInput {
-
-    static func write(value: AssumeRoleWithSAMLInput?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DurationSeconds"].write(value.durationSeconds)
-        try writer["Policy"].write(value.policy)
-        try writer["PolicyArns"].writeList(value.policyArns, memberWritingClosure: STSClientTypes.PolicyDescriptorType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PrincipalArn"].write(value.principalArn)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["SAMLAssertion"].write(value.samlAssertion)
-        try writer["Action"].write("AssumeRoleWithSAML")
-        try writer["Version"].write("2011-06-15")
-    }
-}
-
 extension AssumeRoleWithWebIdentityInput {
 
     static func write(value: AssumeRoleWithWebIdentityInput?, to writer: SmithyFormURL.Writer) throws {
@@ -930,74 +509,6 @@ extension AssumeRoleWithWebIdentityInput {
     }
 }
 
-extension AssumeRootInput {
-
-    static func write(value: AssumeRootInput?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DurationSeconds"].write(value.durationSeconds)
-        try writer["TargetPrincipal"].write(value.targetPrincipal)
-        try writer["TaskPolicyArn"].write(value.taskPolicyArn, with: STSClientTypes.PolicyDescriptorType.write(value:to:))
-        try writer["Action"].write("AssumeRoot")
-        try writer["Version"].write("2011-06-15")
-    }
-}
-
-extension DecodeAuthorizationMessageInput {
-
-    static func write(value: DecodeAuthorizationMessageInput?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["EncodedMessage"].write(value.encodedMessage)
-        try writer["Action"].write("DecodeAuthorizationMessage")
-        try writer["Version"].write("2011-06-15")
-    }
-}
-
-extension GetAccessKeyInfoInput {
-
-    static func write(value: GetAccessKeyInfoInput?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AccessKeyId"].write(value.accessKeyId)
-        try writer["Action"].write("GetAccessKeyInfo")
-        try writer["Version"].write("2011-06-15")
-    }
-}
-
-extension GetCallerIdentityInput {
-
-    static func write(value: GetCallerIdentityInput?, to writer: SmithyFormURL.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-        try writer["Action"].write("GetCallerIdentity")
-        try writer["Version"].write("2011-06-15")
-    }
-}
-
-extension GetFederationTokenInput {
-
-    static func write(value: GetFederationTokenInput?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DurationSeconds"].write(value.durationSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Policy"].write(value.policy)
-        try writer["PolicyArns"].writeList(value.policyArns, memberWritingClosure: STSClientTypes.PolicyDescriptorType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: STSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Action"].write("GetFederationToken")
-        try writer["Version"].write("2011-06-15")
-    }
-}
-
-extension GetSessionTokenInput {
-
-    static func write(value: GetSessionTokenInput?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DurationSeconds"].write(value.durationSeconds)
-        try writer["SerialNumber"].write(value.serialNumber)
-        try writer["TokenCode"].write(value.tokenCode)
-        try writer["Action"].write("GetSessionToken")
-        try writer["Version"].write("2011-06-15")
-    }
-}
-
 extension AssumeRoleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssumeRoleOutput {
@@ -1009,26 +520,6 @@ extension AssumeRoleOutput {
         value.credentials = try reader["Credentials"].readIfPresent(with: STSClientTypes.Credentials.read(from:))
         value.packedPolicySize = try reader["PackedPolicySize"].readIfPresent()
         value.sourceIdentity = try reader["SourceIdentity"].readIfPresent()
-        return value
-    }
-}
-
-extension AssumeRoleWithSAMLOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssumeRoleWithSAMLOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let reader = responseReader["AssumeRoleWithSAMLResult"]
-        var value = AssumeRoleWithSAMLOutput()
-        value.assumedRoleUser = try reader["AssumedRoleUser"].readIfPresent(with: STSClientTypes.AssumedRoleUser.read(from:))
-        value.audience = try reader["Audience"].readIfPresent()
-        value.credentials = try reader["Credentials"].readIfPresent(with: STSClientTypes.Credentials.read(from:))
-        value.issuer = try reader["Issuer"].readIfPresent()
-        value.nameQualifier = try reader["NameQualifier"].readIfPresent()
-        value.packedPolicySize = try reader["PackedPolicySize"].readIfPresent()
-        value.sourceIdentity = try reader["SourceIdentity"].readIfPresent()
-        value.subject = try reader["Subject"].readIfPresent()
-        value.subjectType = try reader["SubjectType"].readIfPresent()
         return value
     }
 }
@@ -1051,83 +542,6 @@ extension AssumeRoleWithWebIdentityOutput {
     }
 }
 
-extension AssumeRootOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssumeRootOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let reader = responseReader["AssumeRootResult"]
-        var value = AssumeRootOutput()
-        value.credentials = try reader["Credentials"].readIfPresent(with: STSClientTypes.Credentials.read(from:))
-        value.sourceIdentity = try reader["SourceIdentity"].readIfPresent()
-        return value
-    }
-}
-
-extension DecodeAuthorizationMessageOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DecodeAuthorizationMessageOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let reader = responseReader["DecodeAuthorizationMessageResult"]
-        var value = DecodeAuthorizationMessageOutput()
-        value.decodedMessage = try reader["DecodedMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension GetAccessKeyInfoOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccessKeyInfoOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let reader = responseReader["GetAccessKeyInfoResult"]
-        var value = GetAccessKeyInfoOutput()
-        value.account = try reader["Account"].readIfPresent()
-        return value
-    }
-}
-
-extension GetCallerIdentityOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCallerIdentityOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let reader = responseReader["GetCallerIdentityResult"]
-        var value = GetCallerIdentityOutput()
-        value.account = try reader["Account"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.userId = try reader["UserId"].readIfPresent()
-        return value
-    }
-}
-
-extension GetFederationTokenOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFederationTokenOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let reader = responseReader["GetFederationTokenResult"]
-        var value = GetFederationTokenOutput()
-        value.credentials = try reader["Credentials"].readIfPresent(with: STSClientTypes.Credentials.read(from:))
-        value.federatedUser = try reader["FederatedUser"].readIfPresent(with: STSClientTypes.FederatedUser.read(from:))
-        value.packedPolicySize = try reader["PackedPolicySize"].readIfPresent()
-        return value
-    }
-}
-
-extension GetSessionTokenOutput {
-
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionTokenOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let reader = responseReader["GetSessionTokenResult"]
-        var value = GetSessionTokenOutput()
-        value.credentials = try reader["Credentials"].readIfPresent(with: STSClientTypes.Credentials.read(from:))
-        return value
-    }
-}
-
 enum AssumeRoleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1137,25 +551,6 @@ enum AssumeRoleOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExpiredTokenException": return try ExpiredTokenException.makeError(baseError: baseError)
-            case "MalformedPolicyDocument": return try MalformedPolicyDocumentException.makeError(baseError: baseError)
-            case "PackedPolicyTooLarge": return try PackedPolicyTooLargeException.makeError(baseError: baseError)
-            case "RegionDisabledException": return try RegionDisabledException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum AssumeRoleWithSAMLOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "ExpiredTokenException": return try ExpiredTokenException.makeError(baseError: baseError)
-            case "IDPRejectedClaim": return try IDPRejectedClaimException.makeError(baseError: baseError)
-            case "InvalidIdentityToken": return try InvalidIdentityTokenException.makeError(baseError: baseError)
             case "MalformedPolicyDocument": return try MalformedPolicyDocumentException.makeError(baseError: baseError)
             case "PackedPolicyTooLarge": return try PackedPolicyTooLargeException.makeError(baseError: baseError)
             case "RegionDisabledException": return try RegionDisabledException.makeError(baseError: baseError)
@@ -1178,91 +573,6 @@ enum AssumeRoleWithWebIdentityOutputError {
             case "InvalidIdentityToken": return try InvalidIdentityTokenException.makeError(baseError: baseError)
             case "MalformedPolicyDocument": return try MalformedPolicyDocumentException.makeError(baseError: baseError)
             case "PackedPolicyTooLarge": return try PackedPolicyTooLargeException.makeError(baseError: baseError)
-            case "RegionDisabledException": return try RegionDisabledException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum AssumeRootOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "ExpiredTokenException": return try ExpiredTokenException.makeError(baseError: baseError)
-            case "RegionDisabledException": return try RegionDisabledException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum DecodeAuthorizationMessageOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "InvalidAuthorizationMessageException": return try InvalidAuthorizationMessageException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum GetAccessKeyInfoOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum GetCallerIdentityOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum GetFederationTokenOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
-            case "MalformedPolicyDocument": return try MalformedPolicyDocumentException.makeError(baseError: baseError)
-            case "PackedPolicyTooLarge": return try PackedPolicyTooLargeException.makeError(baseError: baseError)
-            case "RegionDisabledException": return try RegionDisabledException.makeError(baseError: baseError)
-            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-        }
-    }
-}
-
-enum GetSessionTokenOutputError {
-
-    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-        if let error = baseError.customError() { return error }
-        switch baseError.code {
             case "RegionDisabledException": return try RegionDisabledException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -1360,19 +670,6 @@ extension IDPCommunicationErrorException {
     }
 }
 
-extension InvalidAuthorizationMessageException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidAuthorizationMessageException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidAuthorizationMessageException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension STSClientTypes.Credentials {
 
     static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.Credentials {
@@ -1392,17 +689,6 @@ extension STSClientTypes.AssumedRoleUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = STSClientTypes.AssumedRoleUser()
         value.assumedRoleId = try reader["AssumedRoleId"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension STSClientTypes.FederatedUser {
-
-    static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.FederatedUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = STSClientTypes.FederatedUser()
-        value.federatedUserId = try reader["FederatedUserId"].readIfPresent() ?? ""
         value.arn = try reader["Arn"].readIfPresent() ?? ""
         return value
     }
@@ -1431,77 +717,6 @@ extension STSClientTypes.ProvidedContext {
         guard let value else { return }
         try writer["ContextAssertion"].write(value.contextAssertion)
         try writer["ProviderArn"].write(value.providerArn)
-    }
-}
-
-extension GetCallerIdentityInput {
-    internal func presign(config: STSClient.STSClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
-        let serviceName = "STS"
-        let input = self
-        let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
-            throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
-        }
-        let context = Smithy.ContextBuilder()
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "getCallerIdentity")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
-                      .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withFlowType(value: .PRESIGN_REQUEST)
-                      .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
-                      .withRegion(value: config.region)
-                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
-                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
-                      .withSigningName(value: "sts")
-                      .withSigningRegion(value: config.signingRegion)
-                      .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCallerIdentityInput, GetCallerIdentityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
-        config.interceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        config.httpInterceptorProviders.forEach { provider in
-            builder.interceptors.add(provider.create())
-        }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(GetCallerIdentityInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutput>(GetCallerIdentityOutput.httpOutput(from:), GetCallerIdentityOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(clientLogMode: config.clientLogMode))
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<GetCallerIdentityOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("STS", config.ignoreConfiguredEndpointURLs)
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
-        }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCallerIdentityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetCallerIdentityInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(contentType: "application/x-www-form-urlencoded"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCallerIdentityOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(serviceID: serviceName, version: STSClient.version, config: config))
-        var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "STS")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCallerIdentity")
-        let op = builder.attributes(context)
-            .telemetry(ClientRuntime.OrchestratorTelemetry(
-                telemetryProvider: config.telemetryProvider,
-                metricsAttributes: metricsAttributes,
-                meterScope: serviceName,
-                tracerScope: serviceName
-            ))
-            .executeRequest(client)
-            .build()
-        return try await op.presignRequest(input: input)
     }
 }
 

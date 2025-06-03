@@ -34,8 +34,6 @@ public struct DefaultSTSAuthSchemeResolver: STSAuthSchemeResolver {
             throw Smithy.ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
         }
         switch serviceParams.operation {
-            case "assumeRoleWithSAML":
-                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "assumeRoleWithWebIdentity":
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             default:
