@@ -11,7 +11,6 @@ import ClientRuntime
 import AWSClientRuntime
 import SmithyHTTPAPI
 
-/// Extension to SQSTests for AWS Query Compatible mock tests
 final class QueryCompatibleTests: XCTestCase {
 
     // Test Case 1: Parse Code field from header
