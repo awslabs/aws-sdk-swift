@@ -18,6 +18,7 @@ import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Foundation.Date
 import struct Smithy.Attributes
 
+// swiftlint:disable type_name
 /// A credential identity resolver that resolves credentials from the following shared config file properties:
 ///  - `aws_access_key_id`
 ///  - `aws_secret_access_key`
@@ -57,7 +58,8 @@ public struct SharedConfigStaticAWSCredentialIdentityResolver: AWSCredentialIden
 
         guard let secretKey = profileSection.string(for: "aws_secret_access_key") else {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "SharedConfigStaticAWSCredentialsResolver: No aws_secret_access_key in profile \"\(resolvedProfileName)\"."
+                "SharedConfigStaticAWSCredentialsResolver: "
+                + "No aws_secret_access_key in profile \"\(resolvedProfileName)\"."
             )
         }
 
@@ -71,3 +73,4 @@ public struct SharedConfigStaticAWSCredentialIdentityResolver: AWSCredentialIden
         )
     }
 }
+// swiftlint:enable type_name
