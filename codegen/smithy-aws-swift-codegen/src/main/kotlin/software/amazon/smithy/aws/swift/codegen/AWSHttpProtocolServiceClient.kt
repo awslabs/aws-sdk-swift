@@ -60,7 +60,7 @@ class AWSHttpProtocolServiceClient(
                 "authSchemePreference" -> {
                     ConfigProperty(
                         "authSchemePreference",
-                        SwiftTypes.OptionalString,
+                        SwiftTypes.OptionalStringArray,
                         { "nil" },
                     )
                 }
