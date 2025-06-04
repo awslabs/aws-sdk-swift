@@ -27,11 +27,20 @@ import struct Smithy.Attributes
 public struct SharedConfigStaticAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private let configFilePath: String?
     private let credentialsFilePath: String?
+    private let profileName: String?
 
+    /// Creates a credentials provider that gets static credentials from the shared AWS config files.
+    ///
+    /// - Parameters:
+    ///   - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
+    ///   - configFilePath: The path to the configuration file to use. If not provided it will be resolved internally via the `AWS_CONFIG_FILE` environment variable or defaulted  to `~/.aws/config` if not configured.
+    ///   - credentialsFilePath: The path to the shared credentials file to use. If not provided it will be resolved internally via the `AWS_SHARED_CREDENTIALS_FILE` environment variable or defaulted `~/.aws/credentials` if not configured.
     public init(
+        profileName: String? = nil,
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil
     ) {
+        self.profileName = profileName
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
     }
@@ -42,7 +51,7 @@ public struct SharedConfigStaticAWSCredentialIdentityResolver: AWSCredentialIden
             credentialsFilePath: credentialsFilePath
         )
 
-        let resolvedProfileName = ProcessInfo.processInfo.environment["AWS_PROFILE"] ?? "default"
+        let resolvedProfileName = profileName ?? ProcessInfo.processInfo.environment["AWS_PROFILE"] ?? "default"
 
         guard let profileSection = fileBasedConfig.section(for: resolvedProfileName, type: .profile) else {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
