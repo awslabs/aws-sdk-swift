@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppRunnerClient: ClientRuntime.Client {
     public static let clientName = "AppRunnerClient"
-    public static let version = "1.3.29"
+    public static let version = "1.3.30"
     let client: ClientRuntime.SdkHttpClient
     let config: AppRunnerClient.AppRunnerClientConfiguration
     let serviceName = "AppRunner"
