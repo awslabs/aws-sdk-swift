@@ -169,6 +169,7 @@ let serviceTargets: [String] = [
     "AWSEntityResolution",
     "AWSEventBridge",
     "AWSEvidently",
+    "AWSEvs",
     "AWSFMS",
     "AWSFSx",
     "AWSFinspace",

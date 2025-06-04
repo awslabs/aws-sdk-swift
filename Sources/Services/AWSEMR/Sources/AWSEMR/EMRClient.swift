@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EMRClient: ClientRuntime.Client {
     public static let clientName = "EMRClient"
-    public static let version = "1.3.29"
+    public static let version = "1.3.30"
     let client: ClientRuntime.SdkHttpClient
     let config: EMRClient.EMRClientConfiguration
     let serviceName = "EMR"

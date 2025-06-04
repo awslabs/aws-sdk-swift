@@ -2990,6 +2990,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6B20048xlarge
         case mlR5d12xlarge
         case mlR5d16xlarge
         case mlR5d24xlarge
@@ -3102,6 +3103,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6B20048xlarge,
                 .mlR5d12xlarge,
                 .mlR5d16xlarge,
                 .mlR5d24xlarge,
@@ -3220,6 +3222,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
             case .mlR5d16xlarge: return "ml.r5d.16xlarge"
             case .mlR5d24xlarge: return "ml.r5d.24xlarge"
@@ -35557,6 +35560,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6B20048xlarge
         case mlTrn132xlarge
         case mlTrn248xlarge
         case sdkUnknown(Swift.String)
@@ -35567,6 +35571,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6B20048xlarge,
                 .mlTrn132xlarge,
                 .mlTrn248xlarge
             ]
@@ -35583,6 +35588,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
             case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
