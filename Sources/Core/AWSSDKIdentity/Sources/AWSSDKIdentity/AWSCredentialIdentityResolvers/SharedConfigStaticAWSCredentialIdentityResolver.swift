@@ -18,6 +18,11 @@ import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Foundation.Date
 import struct Smithy.Attributes
 
+/// A credential identity resolver that resolves credentials from the following shared config file properties:
+///  - `aws_access_key_id`
+///  - `aws_secret_access_key`
+///  - `aws_session_token` (optional)
+///  The profile used is either the value of environment variable `AWS_PROFILE` or `"default"` if `AWS_PROFILE` is not set.
 public struct SharedConfigStaticAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private let configFilePath: String?
     private let credentialsFilePath: String?
