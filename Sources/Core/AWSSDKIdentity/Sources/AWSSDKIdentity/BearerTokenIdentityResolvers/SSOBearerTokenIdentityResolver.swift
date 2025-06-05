@@ -162,7 +162,11 @@ struct SSOToken: Decodable {
         dateFormatter.formatOptions = [.withInternetDateTime]
         let expiresAtString = try container.decode(String.self, forKey: .expiresAt)
         guard let expiresAtDate = dateFormatter.date(from: expiresAtString) else {
-            throw DecodingError.dataCorruptedError(forKey: .expiresAt, in: container, debugDescription: "Invalid RFC3339 date string")
+            throw DecodingError.dataCorruptedError(
+                forKey: .expiresAt,
+                in: container,
+                debugDescription: "Invalid RFC3339 date string"
+            )
         }
         expiresAt = expiresAtDate
 
@@ -173,7 +177,10 @@ struct SSOToken: Decodable {
         refreshToken = try container.decodeIfPresent(String.self, forKey: .refreshToken)
         region = try container.decodeIfPresent(String.self, forKey: .region)
 
-        if let registrationExpiresAtString = try container.decodeIfPresent(String.self, forKey: .registrationExpiresAt) {
+        if let registrationExpiresAtString = try container.decodeIfPresent(
+            String.self,
+            forKey: .registrationExpiresAt
+        ) {
             registrationExpiresAt = dateFormatter.date(from: registrationExpiresAtString)
         } else {
             registrationExpiresAt = nil

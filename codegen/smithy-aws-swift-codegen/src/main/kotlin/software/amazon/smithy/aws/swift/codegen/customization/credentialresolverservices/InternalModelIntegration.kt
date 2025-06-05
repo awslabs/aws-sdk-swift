@@ -43,10 +43,11 @@ class InternalModelIntegration : SwiftIntegration {
         )
     }
 
-    private fun validOpsForSdk(sdkId: String?): List<String> = when (sdkId) {
-        "STS" -> stsOps
-        "SSO" -> ssoOps
-        "SSO OIDC" -> ssoOIDCOps
-        else -> emptyList()
-    }
+    private fun validOpsForSdk(sdkId: String?): List<String> =
+        when (sdkId) {
+            "STS" -> stsOps
+            "SSO" -> ssoOps
+            "SSO OIDC" -> ssoOIDCOps
+            else -> emptyList()
+        }
 }
