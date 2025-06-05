@@ -15,17 +15,18 @@ public actor DefaultS3ExpressIdentityResolver: S3ExpressIdentityResolver {
     public init() {}
 
     public func getIdentity(identityProperties: Attributes?) async throws -> S3ExpressIdentity {
-        guard let identityProperties else { fatalError() }
-        let identityCachedElement = getCachedIdentity(identityProperties: identityProperties)
+        guard let identityProperties else { throw S3ExpressClientError.missingIdentityProperties }
+        let identityCachedElement = try getCachedIdentity(identityProperties: identityProperties)
         return try await identityCachedElement.accessIdentity()
     }
 
-    private func getCachedIdentity(identityProperties: Attributes) -> S3ExpressIdentityCachedElement {
-        let cacheKey = S3ExpressIdentityCachedElement.CacheKey(identityProperties: identityProperties)
+    private func getCachedIdentity(identityProperties: Attributes) throws -> S3ExpressIdentityCachedElement {
+        let cacheKey = try S3ExpressIdentityCachedElement.CacheKey(identityProperties: identityProperties)
         if let identityCachedElement = cache[cacheKey] {
             return identityCachedElement
         } else {
-            let newIdentityCachedElement = S3ExpressIdentityCachedElement(resolver: self, identityProperties: identityProperties)
+            let newIdentityCachedElement =
+                try S3ExpressIdentityCachedElement(resolver: self, identityProperties: identityProperties)
             cache[cacheKey] = newIdentityCachedElement
             return newIdentityCachedElement
         }

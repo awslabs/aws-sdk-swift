@@ -17,8 +17,10 @@ final actor S3ExpressIdentityCachedElement {
         static let uuid = UUID().uuidString
         let bucket: String
 
-        init(identityProperties: Attributes) {
-            guard let bucket = identityProperties.get(key: AWSIdentityPropertyKeys.bucket) else { fatalError() }
+        init(identityProperties: Attributes) throws {
+            guard let bucket = identityProperties.get(key: AWSIdentityPropertyKeys.bucket) else {
+                throw S3ExpressClientError.bucketNotProvided
+            }
             self.bucket = bucket
         }
     }
@@ -34,13 +36,15 @@ final actor S3ExpressIdentityCachedElement {
 
     private weak var resolver: DefaultS3ExpressIdentityResolver?
     private let identityProperties: Attributes
+    private let cacheKey: CacheKey
     private var retrieveTask: Task<S3ExpressIdentity, Error>
     private var refreshTask: Task<Void, Error>?
     private var status: Status
 
-    init(resolver: DefaultS3ExpressIdentityResolver, identityProperties: Attributes) {
+    init(resolver: DefaultS3ExpressIdentityResolver, identityProperties: Attributes) throws {
         self.resolver = resolver
         self.identityProperties = identityProperties
+        self.cacheKey = try CacheKey(identityProperties: identityProperties)
         self.status = .initial
         self.retrieveTask = Self.newRetrieveTask(identityProperties: identityProperties)
         Task {
@@ -72,9 +76,15 @@ final actor S3ExpressIdentityCachedElement {
         // Note that this task does not capture self, so that the task can be assigned to
         // the retrieveTask property without causing a reference cycle.
         return Task {
-            guard let clientConfig = identityProperties.get(key: IdentityPropertyKeys.clientConfig) else { fatalError() }
-            guard let client = identityProperties.get(key: AWSIdentityPropertyKeys.s3ExpressClient) else { fatalError() }
-            guard let bucket = identityProperties.get(key: AWSIdentityPropertyKeys.bucket) else { fatalError() }
+            guard let clientConfig = identityProperties.get(key: IdentityPropertyKeys.clientConfig) else {
+                throw S3ExpressClientError.clientConfigNotProvided
+            }
+            guard let client = identityProperties.get(key: AWSIdentityPropertyKeys.s3ExpressClient) else {
+                throw S3ExpressClientError.clientNotProvided
+            }
+            guard let bucket = identityProperties.get(key: AWSIdentityPropertyKeys.bucket) else {
+                throw S3ExpressClientError.bucketNotProvided
+            }
             return try await client.createSession(clientConfig: clientConfig, bucket: bucket)
         }
     }
@@ -139,8 +149,6 @@ final actor S3ExpressIdentityCachedElement {
     }
 
     private func removeSelfFromCache() async {
-        guard let resolver else { return }
-        let cacheKey = CacheKey(identityProperties: identityProperties)
-        await resolver.remove(element: self, cacheKey: cacheKey)
+        await resolver?.remove(element: self, cacheKey: cacheKey)
     }
 }

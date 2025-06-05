@@ -15,6 +15,7 @@ import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toGeneric
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 
 class S3ExpressIntegration : SwiftIntegration {
@@ -44,7 +45,12 @@ class S3ExpressIntegration : SwiftIntegration {
                     SwiftTypes.String,
                     AWSSDKIdentityTypes.S3ExpressIdentity,
                 ) {
-                    writer.write("guard let config = clientConfig as? S3Client.Config else { fatalError() }")
+                    writer.openBlock(
+                        "guard let config = clientConfig as? S3Client.Config else {",
+                        "}",
+                    ) {
+                        writer.write("throw \$N.clientConfigNotProvided", AWSSDKIdentityTypes.S3ExpressClientError)
+                    }
                     writer.write("let client = S3Client(config: config)")
                     writer.write("let input = CreateSessionInput(bucket: bucket)")
                     writer.write("let output = try await client.createSession(input: input)")
