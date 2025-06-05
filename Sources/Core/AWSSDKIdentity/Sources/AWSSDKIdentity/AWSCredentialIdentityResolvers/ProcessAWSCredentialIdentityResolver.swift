@@ -9,7 +9,10 @@
 import class Foundation.ISO8601DateFormatter
 import class Foundation.JSONDecoder
 import class Foundation.Pipe
+#if os(macOS) || os(Linux)
+// Foundation.Process is not available in non-mac apple platforms for security reasons.
 import class Foundation.Process
+#endif
 import class Foundation.ProcessInfo
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Foundation.Data
@@ -54,6 +57,7 @@ public struct ProcessAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         self.profileName = profileName
     }
 
+    #if os(macOS) || os(Linux)
     public func getIdentity(identityProperties: Smithy.Attributes? = nil) async throws -> AWSCredentialIdentity {
         let externalProcess = try fetchExternalProcessFromSharedConfig()
         let (process, pipe) = setupProcessAndOutputPipe(externalProcess: externalProcess)
@@ -124,6 +128,13 @@ public struct ProcessAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
             )
         }
     }
+    #else
+    public func getIdentity(identityProperties: Smithy.Attributes? = nil) async throws -> AWSCredentialIdentity {
+        throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+            "ProcessAWSCredentialsResolver: not supported in this environment."
+        )
+    }
+    #endif
 }
 
 // Serde utility for decoding JSON credential output from external process.
