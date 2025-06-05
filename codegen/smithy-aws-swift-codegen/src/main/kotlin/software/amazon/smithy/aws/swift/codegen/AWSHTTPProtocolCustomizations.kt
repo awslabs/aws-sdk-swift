@@ -50,7 +50,7 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
             writer.write("  .withSigningRegion(value: config.signingRegion)")
         }
         if (ctx.service.isS3) {
-            writer.write("  .withClientConfig(value: config)")  // this is used in S3 Express
+            writer.write("  .withClientConfig(value: config)") // this is used in S3 Express
         }
     }
 

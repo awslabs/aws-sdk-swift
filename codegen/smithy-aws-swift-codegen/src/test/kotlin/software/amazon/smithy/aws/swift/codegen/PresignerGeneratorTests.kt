@@ -21,7 +21,6 @@ extension GetFooInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
-                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getFoo")
@@ -96,7 +95,6 @@ extension PostFooInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
-                      .withClientConfig(value: config)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "postFoo")
@@ -174,7 +172,6 @@ extension PutFooInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
-                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putFoo")
@@ -252,7 +249,6 @@ extension PutObjectInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
-                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObject")
@@ -274,6 +270,7 @@ extension PutObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
