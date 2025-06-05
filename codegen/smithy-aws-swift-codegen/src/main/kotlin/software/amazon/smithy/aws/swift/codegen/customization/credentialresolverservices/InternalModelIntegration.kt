@@ -32,7 +32,7 @@ class InternalModelIntegration : SwiftIntegration {
         settings: SwiftSettings?,
     ): Model {
         val validOps = validOpsForSdk(settings?.sdkId)
-        ModelTransformer.create().removeShapesIf(
+        return ModelTransformer.create().removeShapesIf(
             model,
             Predicate { shape ->
                 when (shape) {
