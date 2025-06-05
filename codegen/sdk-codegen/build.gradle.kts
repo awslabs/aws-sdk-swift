@@ -196,7 +196,7 @@ val AwsService.outputDir: String
 
 val AwsService.sourcesDir: String
     get() = when (this.packageName) {
-        "InternalAWSSTS" -> rootProject.file("Sources/Core/AWSSDKIdentity/Sources").absolutePath
+        "Internal${this.packageName}" -> rootProject.file("Sources/Core/AWSSDKIdentity/Sources").absolutePath
         else -> rootProject.file("Sources/Services/$packageName").absolutePath
     }
 
