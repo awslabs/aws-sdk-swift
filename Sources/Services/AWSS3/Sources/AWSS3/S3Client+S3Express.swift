@@ -12,7 +12,7 @@ import protocol ClientRuntime.DefaultClientConfiguration
 import struct AWSSDKIdentity.S3ExpressIdentity
 
 
-public struct S3ExpressCreateSessionClient: AWSSDKIdentity.S3ExpressCreateSessionClient {
+public struct S3ExpressCreateSessionClient: AWSSDKIdentity.S3ExpressCreateSessionClient, Swift.Sendable {
 
     public func createSession(clientConfig: ClientRuntime.DefaultClientConfiguration, bucket: Swift.String) async throws -> AWSSDKIdentity.S3ExpressIdentity {
         guard let config = clientConfig as? S3Client.Config else { fatalError() }

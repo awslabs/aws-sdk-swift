@@ -30,7 +30,12 @@ class S3ExpressIntegration : SwiftIntegration {
     ) {
         delegator.useFileWriter("Sources/AWSS3/S3Client+S3Express.swift") { writer ->
             writer.write("")
-            writer.openBlock("public struct S3ExpressCreateSessionClient: \$N {", "}", AWSSDKIdentityTypes.S3ExpressCreateSessionClient) {
+            writer.openBlock(
+                "public struct S3ExpressCreateSessionClient: \$N, \$N {",
+                "}",
+                AWSSDKIdentityTypes.S3ExpressCreateSessionClient,
+                SwiftTypes.Protocols.Sendable,
+            ) {
                 writer.write("")
                 writer.openBlock(
                     "public func createSession(clientConfig: \$N, bucket: \$N) async throws -> \$N {",

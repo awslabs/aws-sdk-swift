@@ -15,6 +15,7 @@ import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
 import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
+import class AWSSDKIdentity.DefaultS3ExpressIdentityResolver
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
@@ -37,6 +38,7 @@ import enum Smithy.ClientError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
+import protocol AWSSDKIdentity.S3ExpressIdentityResolver
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
@@ -58,6 +60,7 @@ import struct AWSClientRuntime.FlexibleChecksumsResponseMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AAuthScheme
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
+import struct AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.BlobStreamBodyMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -106,6 +109,7 @@ public class S3Client: ClientRuntime.Client {
 extension S3Client {
 
     public class S3ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+        public var s3ExpressIdentityResolver: any AWSSDKIdentity.S3ExpressIdentityResolver
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -139,6 +143,7 @@ extension S3Client {
         internal let logger: Smithy.LogAgent
 
         private init(
+            _ s3ExpressIdentityResolver: any AWSSDKIdentity.S3ExpressIdentityResolver,
             _ useFIPS: Swift.Bool?,
             _ useDualStack: Swift.Bool?,
             _ appID: Swift.String?,
@@ -170,6 +175,7 @@ extension S3Client {
             _ interceptorProviders: [ClientRuntime.InterceptorProvider],
             _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
         ) {
+            self.s3ExpressIdentityResolver = s3ExpressIdentityResolver
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
@@ -204,6 +210,7 @@ extension S3Client {
         }
 
         public convenience init(
+            s3ExpressIdentityResolver: (any AWSSDKIdentity.S3ExpressIdentityResolver)? = nil,
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -236,6 +243,7 @@ extension S3Client {
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) throws {
             self.init(
+                s3ExpressIdentityResolver ?? AWSSDKIdentity.DefaultS3ExpressIdentityResolver(),
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
@@ -251,7 +259,7 @@ extension S3Client {
                 useArnRegion,
                 disableMultiRegionAccessPoints,
                 accelerate,
-                disableS3ExpressSessionAuth,
+                try disableS3ExpressSessionAuth ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.disableS3ExpressSessionAuth(),
                 useGlobalEndpoint,
                 try endpointResolver ?? DefaultEndpointResolver(),
                 telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
@@ -261,7 +269,7 @@ extension S3Client {
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()],
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()],
                 authSchemeResolver ?? DefaultS3AuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -270,6 +278,7 @@ extension S3Client {
         }
 
         public convenience init(
+            s3ExpressIdentityResolver: (any AWSSDKIdentity.S3ExpressIdentityResolver)? = nil,
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -302,6 +311,7 @@ extension S3Client {
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) async throws {
             self.init(
+                s3ExpressIdentityResolver ?? AWSSDKIdentity.DefaultS3ExpressIdentityResolver(),
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
@@ -317,7 +327,7 @@ extension S3Client {
                 useArnRegion,
                 disableMultiRegionAccessPoints,
                 accelerate,
-                disableS3ExpressSessionAuth,
+                try disableS3ExpressSessionAuth ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.disableS3ExpressSessionAuth(),
                 useGlobalEndpoint,
                 try endpointResolver ?? DefaultEndpointResolver(),
                 telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
@@ -327,7 +337,7 @@ extension S3Client {
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()],
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()],
                 authSchemeResolver ?? DefaultS3AuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -337,6 +347,7 @@ extension S3Client {
 
         public convenience required init() async throws {
             try await self.init(
+                s3ExpressIdentityResolver: nil,
                 useFIPS: nil,
                 useDualStack: nil,
                 appID: nil,
@@ -372,6 +383,7 @@ extension S3Client {
 
         public convenience init(region: Swift.String) throws {
             self.init(
+                AWSSDKIdentity.DefaultS3ExpressIdentityResolver(),
                 nil,
                 nil,
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
@@ -387,7 +399,7 @@ extension S3Client {
                 nil,
                 nil,
                 nil,
-                nil,
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.disableS3ExpressSessionAuth(),
                 nil,
                 try DefaultEndpointResolver(),
                 ClientRuntime.DefaultTelemetry.provider,
@@ -397,7 +409,7 @@ extension S3Client {
                 AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
                 AWSClientConfigDefaultsProvider.httpClientEngine(),
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()],
+                [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()],
                 DefaultS3AuthSchemeResolver(),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
@@ -467,6 +479,7 @@ extension S3Client {
     /// - `NoSuchUpload` : The specified multipart upload does not exist.
     public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "abortMultipartUpload")
@@ -480,6 +493,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -593,6 +607,7 @@ extension S3Client {
     /// - Returns: `CompleteMultipartUploadOutput` : [no documentation found]
     public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "completeMultipartUpload")
@@ -606,6 +621,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -726,6 +742,7 @@ extension S3Client {
     /// - `ObjectNotInActiveTierError` : The source object of the COPY action is not in the active tier and is only stored in Amazon S3 Glacier.
     public func copyObject(input: CopyObjectInput) async throws -> CopyObjectOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "copyObject")
@@ -739,6 +756,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -831,6 +849,7 @@ extension S3Client {
     /// - `BucketAlreadyOwnedByYou` : The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
     public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createBucket")
@@ -844,6 +863,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -920,6 +940,7 @@ extension S3Client {
     /// - Returns: `CreateBucketMetadataTableConfigurationOutput` : [no documentation found]
     public func createBucketMetadataTableConfiguration(input: CreateBucketMetadataTableConfigurationInput) async throws -> CreateBucketMetadataTableConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createBucketMetadataTableConfiguration")
@@ -933,6 +954,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -1061,6 +1083,7 @@ extension S3Client {
     /// - Returns: `CreateMultipartUploadOutput` : [no documentation found]
     public func createMultipartUpload(input: CreateMultipartUploadInput) async throws -> CreateMultipartUploadOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createMultipartUpload")
@@ -1074,6 +1097,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -1145,6 +1169,7 @@ extension S3Client {
     /// - `NoSuchBucket` : The specified bucket does not exist.
     public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "createSession")
@@ -1158,6 +1183,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -1233,6 +1259,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketOutput` : [no documentation found]
     public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucket")
@@ -1246,6 +1273,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -1308,6 +1336,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketAnalyticsConfigurationOutput` : [no documentation found]
     public func deleteBucketAnalyticsConfiguration(input: DeleteBucketAnalyticsConfigurationInput) async throws -> DeleteBucketAnalyticsConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketAnalyticsConfiguration")
@@ -1321,6 +1350,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -1382,6 +1412,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketCorsOutput` : [no documentation found]
     public func deleteBucketCors(input: DeleteBucketCorsInput) async throws -> DeleteBucketCorsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketCors")
@@ -1395,6 +1426,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -1470,6 +1502,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketEncryptionOutput` : [no documentation found]
     public func deleteBucketEncryption(input: DeleteBucketEncryptionInput) async throws -> DeleteBucketEncryptionOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketEncryption")
@@ -1483,6 +1516,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -1546,6 +1580,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketIntelligentTieringConfigurationOutput` : [no documentation found]
     public func deleteBucketIntelligentTieringConfiguration(input: DeleteBucketIntelligentTieringConfigurationInput) async throws -> DeleteBucketIntelligentTieringConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketIntelligentTieringConfiguration")
@@ -1559,6 +1594,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -1621,6 +1657,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketInventoryConfigurationOutput` : [no documentation found]
     public func deleteBucketInventoryConfiguration(input: DeleteBucketInventoryConfigurationInput) async throws -> DeleteBucketInventoryConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketInventoryConfiguration")
@@ -1634,6 +1671,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -1705,6 +1743,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketLifecycleOutput` : [no documentation found]
     public func deleteBucketLifecycle(input: DeleteBucketLifecycleInput) async throws -> DeleteBucketLifecycleOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketLifecycle")
@@ -1718,6 +1757,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -1779,6 +1819,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketMetadataTableConfigurationOutput` : [no documentation found]
     public func deleteBucketMetadataTableConfiguration(input: DeleteBucketMetadataTableConfigurationInput) async throws -> DeleteBucketMetadataTableConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketMetadataTableConfiguration")
@@ -1792,6 +1833,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -1857,6 +1899,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketMetricsConfigurationOutput` : [no documentation found]
     public func deleteBucketMetricsConfiguration(input: DeleteBucketMetricsConfigurationInput) async throws -> DeleteBucketMetricsConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketMetricsConfiguration")
@@ -1870,6 +1913,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -1931,6 +1975,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketOwnershipControlsOutput` : [no documentation found]
     public func deleteBucketOwnershipControls(input: DeleteBucketOwnershipControlsInput) async throws -> DeleteBucketOwnershipControlsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketOwnershipControls")
@@ -1944,6 +1989,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -2012,6 +2058,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketPolicyOutput` : [no documentation found]
     public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketPolicy")
@@ -2025,6 +2072,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -2086,6 +2134,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketReplicationOutput` : [no documentation found]
     public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketReplication")
@@ -2099,6 +2148,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -2160,6 +2210,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketTaggingOutput` : [no documentation found]
     public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketTagging")
@@ -2173,6 +2224,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -2234,6 +2286,7 @@ extension S3Client {
     /// - Returns: `DeleteBucketWebsiteOutput` : [no documentation found]
     public func deleteBucketWebsite(input: DeleteBucketWebsiteInput) async throws -> DeleteBucketWebsiteOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteBucketWebsite")
@@ -2247,6 +2300,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -2336,6 +2390,7 @@ extension S3Client {
     /// - Returns: `DeleteObjectOutput` : [no documentation found]
     public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteObject")
@@ -2349,6 +2404,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -2410,6 +2466,7 @@ extension S3Client {
     /// - Returns: `DeleteObjectTaggingOutput` : [no documentation found]
     public func deleteObjectTagging(input: DeleteObjectTaggingInput) async throws -> DeleteObjectTaggingOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteObjectTagging")
@@ -2423,6 +2480,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -2518,6 +2576,7 @@ extension S3Client {
     /// - Returns: `DeleteObjectsOutput` : [no documentation found]
     public func deleteObjects(input: DeleteObjectsInput) async throws -> DeleteObjectsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deleteObjects")
@@ -2531,6 +2590,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -2600,6 +2660,7 @@ extension S3Client {
     /// - Returns: `DeletePublicAccessBlockOutput` : [no documentation found]
     public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .delete)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "deletePublicAccessBlock")
@@ -2613,6 +2674,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -2672,6 +2734,7 @@ extension S3Client {
     /// - Returns: `GetBucketAccelerateConfigurationOutput` : [no documentation found]
     public func getBucketAccelerateConfiguration(input: GetBucketAccelerateConfigurationInput) async throws -> GetBucketAccelerateConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketAccelerateConfiguration")
@@ -2685,6 +2748,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -2744,6 +2808,7 @@ extension S3Client {
     /// - Returns: `GetBucketAclOutput` : [no documentation found]
     public func getBucketAcl(input: GetBucketAclInput) async throws -> GetBucketAclOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketAcl")
@@ -2757,6 +2822,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -2820,6 +2886,7 @@ extension S3Client {
     /// - Returns: `GetBucketAnalyticsConfigurationOutput` : [no documentation found]
     public func getBucketAnalyticsConfiguration(input: GetBucketAnalyticsConfigurationInput) async throws -> GetBucketAnalyticsConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketAnalyticsConfiguration")
@@ -2833,6 +2900,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -2894,6 +2962,7 @@ extension S3Client {
     /// - Returns: `GetBucketCorsOutput` : [no documentation found]
     public func getBucketCors(input: GetBucketCorsInput) async throws -> GetBucketCorsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketCors")
@@ -2907,6 +2976,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -2982,6 +3052,7 @@ extension S3Client {
     /// - Returns: `GetBucketEncryptionOutput` : [no documentation found]
     public func getBucketEncryption(input: GetBucketEncryptionInput) async throws -> GetBucketEncryptionOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketEncryption")
@@ -2995,6 +3066,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -3058,6 +3130,7 @@ extension S3Client {
     /// - Returns: `GetBucketIntelligentTieringConfigurationOutput` : [no documentation found]
     public func getBucketIntelligentTieringConfiguration(input: GetBucketIntelligentTieringConfigurationInput) async throws -> GetBucketIntelligentTieringConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketIntelligentTieringConfiguration")
@@ -3071,6 +3144,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -3133,6 +3207,7 @@ extension S3Client {
     /// - Returns: `GetBucketInventoryConfigurationOutput` : [no documentation found]
     public func getBucketInventoryConfiguration(input: GetBucketInventoryConfigurationInput) async throws -> GetBucketInventoryConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketInventoryConfiguration")
@@ -3146,6 +3221,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -3233,6 +3309,7 @@ extension S3Client {
     /// - Returns: `GetBucketLifecycleConfigurationOutput` : [no documentation found]
     public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketLifecycleConfiguration")
@@ -3246,6 +3323,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -3307,6 +3385,7 @@ extension S3Client {
     /// - Returns: `GetBucketLocationOutput` : [no documentation found]
     public func getBucketLocation(input: GetBucketLocationInput) async throws -> GetBucketLocationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketLocation")
@@ -3320,6 +3399,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -3381,6 +3461,7 @@ extension S3Client {
     /// - Returns: `GetBucketLoggingOutput` : [no documentation found]
     public func getBucketLogging(input: GetBucketLoggingInput) async throws -> GetBucketLoggingOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketLogging")
@@ -3394,6 +3475,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -3455,6 +3537,7 @@ extension S3Client {
     /// - Returns: `GetBucketMetadataTableConfigurationOutput` : [no documentation found]
     public func getBucketMetadataTableConfiguration(input: GetBucketMetadataTableConfigurationInput) async throws -> GetBucketMetadataTableConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketMetadataTableConfiguration")
@@ -3468,6 +3551,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -3533,6 +3617,7 @@ extension S3Client {
     /// - Returns: `GetBucketMetricsConfigurationOutput` : [no documentation found]
     public func getBucketMetricsConfiguration(input: GetBucketMetricsConfigurationInput) async throws -> GetBucketMetricsConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketMetricsConfiguration")
@@ -3546,6 +3631,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -3605,6 +3691,7 @@ extension S3Client {
     /// - Returns: `GetBucketNotificationConfigurationOutput` : A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket.
     public func getBucketNotificationConfiguration(input: GetBucketNotificationConfigurationInput) async throws -> GetBucketNotificationConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketNotificationConfiguration")
@@ -3618,6 +3705,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -3679,6 +3767,7 @@ extension S3Client {
     /// - Returns: `GetBucketOwnershipControlsOutput` : [no documentation found]
     public func getBucketOwnershipControls(input: GetBucketOwnershipControlsInput) async throws -> GetBucketOwnershipControlsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketOwnershipControls")
@@ -3692,6 +3781,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -3758,6 +3848,7 @@ extension S3Client {
     /// - Returns: `GetBucketPolicyOutput` : [no documentation found]
     public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketPolicy")
@@ -3771,6 +3862,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -3836,6 +3928,7 @@ extension S3Client {
     /// - Returns: `GetBucketPolicyStatusOutput` : [no documentation found]
     public func getBucketPolicyStatus(input: GetBucketPolicyStatusInput) async throws -> GetBucketPolicyStatusOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketPolicyStatus")
@@ -3849,6 +3942,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -3910,6 +4004,7 @@ extension S3Client {
     /// - Returns: `GetBucketReplicationOutput` : [no documentation found]
     public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketReplication")
@@ -3923,6 +4018,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -3982,6 +4078,7 @@ extension S3Client {
     /// - Returns: `GetBucketRequestPaymentOutput` : [no documentation found]
     public func getBucketRequestPayment(input: GetBucketRequestPaymentInput) async throws -> GetBucketRequestPaymentOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketRequestPayment")
@@ -3995,6 +4092,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -4066,6 +4164,7 @@ extension S3Client {
     /// - Returns: `GetBucketTaggingOutput` : [no documentation found]
     public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketTagging")
@@ -4079,6 +4178,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -4142,6 +4242,7 @@ extension S3Client {
     /// - Returns: `GetBucketVersioningOutput` : [no documentation found]
     public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketVersioning")
@@ -4155,6 +4256,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -4216,6 +4318,7 @@ extension S3Client {
     /// - Returns: `GetBucketWebsiteOutput` : [no documentation found]
     public func getBucketWebsite(input: GetBucketWebsiteInput) async throws -> GetBucketWebsiteOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getBucketWebsite")
@@ -4229,6 +4332,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -4325,6 +4429,7 @@ extension S3Client {
     /// - `NoSuchKey` : The specified key does not exist.
     public func getObject(input: GetObjectInput) async throws -> GetObjectOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObject")
@@ -4338,6 +4443,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -4408,6 +4514,7 @@ extension S3Client {
     /// - `NoSuchKey` : The specified key does not exist.
     public func getObjectAcl(input: GetObjectAclInput) async throws -> GetObjectAclOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectAcl")
@@ -4421,6 +4528,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -4550,6 +4658,7 @@ extension S3Client {
     /// - `NoSuchKey` : The specified key does not exist.
     public func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectAttributes")
@@ -4563,6 +4672,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -4622,6 +4732,7 @@ extension S3Client {
     /// - Returns: `GetObjectLegalHoldOutput` : [no documentation found]
     public func getObjectLegalHold(input: GetObjectLegalHoldInput) async throws -> GetObjectLegalHoldOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectLegalHold")
@@ -4635,6 +4746,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -4694,6 +4806,7 @@ extension S3Client {
     /// - Returns: `GetObjectLockConfigurationOutput` : [no documentation found]
     public func getObjectLockConfiguration(input: GetObjectLockConfigurationInput) async throws -> GetObjectLockConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectLockConfiguration")
@@ -4707,6 +4820,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -4766,6 +4880,7 @@ extension S3Client {
     /// - Returns: `GetObjectRetentionOutput` : [no documentation found]
     public func getObjectRetention(input: GetObjectRetentionInput) async throws -> GetObjectRetentionOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectRetention")
@@ -4779,6 +4894,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -4842,6 +4958,7 @@ extension S3Client {
     /// - Returns: `GetObjectTaggingOutput` : [no documentation found]
     public func getObjectTagging(input: GetObjectTaggingInput) async throws -> GetObjectTaggingOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectTagging")
@@ -4855,6 +4972,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -4914,6 +5032,7 @@ extension S3Client {
     /// - Returns: `GetObjectTorrentOutput` : [no documentation found]
     public func getObjectTorrent(input: GetObjectTorrentInput) async throws -> GetObjectTorrentOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObjectTorrent")
@@ -4927,6 +5046,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -4991,6 +5111,7 @@ extension S3Client {
     /// - Returns: `GetPublicAccessBlockOutput` : [no documentation found]
     public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getPublicAccessBlock")
@@ -5004,6 +5125,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -5073,6 +5195,7 @@ extension S3Client {
     /// - `NotFound` : The specified content does not exist.
     public func headBucket(input: HeadBucketInput) async throws -> HeadBucketOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .head)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "headBucket")
@@ -5086,6 +5209,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -5188,6 +5312,7 @@ extension S3Client {
     /// - `NotFound` : The specified content does not exist.
     public func headObject(input: HeadObjectInput) async throws -> HeadObjectOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .head)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "headObject")
@@ -5201,6 +5326,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -5264,6 +5390,7 @@ extension S3Client {
     /// - Returns: `ListBucketAnalyticsConfigurationsOutput` : [no documentation found]
     public func listBucketAnalyticsConfigurations(input: ListBucketAnalyticsConfigurationsInput) async throws -> ListBucketAnalyticsConfigurationsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listBucketAnalyticsConfigurations")
@@ -5277,6 +5404,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -5340,6 +5468,7 @@ extension S3Client {
     /// - Returns: `ListBucketIntelligentTieringConfigurationsOutput` : [no documentation found]
     public func listBucketIntelligentTieringConfigurations(input: ListBucketIntelligentTieringConfigurationsInput) async throws -> ListBucketIntelligentTieringConfigurationsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listBucketIntelligentTieringConfigurations")
@@ -5353,6 +5482,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -5415,6 +5545,7 @@ extension S3Client {
     /// - Returns: `ListBucketInventoryConfigurationsOutput` : [no documentation found]
     public func listBucketInventoryConfigurations(input: ListBucketInventoryConfigurationsInput) async throws -> ListBucketInventoryConfigurationsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listBucketInventoryConfigurations")
@@ -5428,6 +5559,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -5491,6 +5623,7 @@ extension S3Client {
     /// - Returns: `ListBucketMetricsConfigurationsOutput` : [no documentation found]
     public func listBucketMetricsConfigurations(input: ListBucketMetricsConfigurationsInput) async throws -> ListBucketMetricsConfigurationsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listBucketMetricsConfigurations")
@@ -5504,6 +5637,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -5561,6 +5695,7 @@ extension S3Client {
     /// - Returns: `ListBucketsOutput` : [no documentation found]
     public func listBuckets(input: ListBucketsInput) async throws -> ListBucketsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listBuckets")
@@ -5574,6 +5709,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -5630,6 +5766,7 @@ extension S3Client {
     /// - Returns: `ListDirectoryBucketsOutput` : [no documentation found]
     public func listDirectoryBuckets(input: ListDirectoryBucketsInput) async throws -> ListDirectoryBucketsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listDirectoryBuckets")
@@ -5643,6 +5780,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -5730,6 +5868,7 @@ extension S3Client {
     /// - Returns: `ListMultipartUploadsOutput` : [no documentation found]
     public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listMultipartUploads")
@@ -5743,6 +5882,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -5808,6 +5948,7 @@ extension S3Client {
     /// - Returns: `ListObjectVersionsOutput` : [no documentation found]
     public func listObjectVersions(input: ListObjectVersionsInput) async throws -> ListObjectVersionsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listObjectVersions")
@@ -5821,6 +5962,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -5893,6 +6035,7 @@ extension S3Client {
     /// - `NoSuchBucket` : The specified bucket does not exist.
     public func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listObjects")
@@ -5906,6 +6049,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -5997,6 +6141,7 @@ extension S3Client {
     /// - `NoSuchBucket` : The specified bucket does not exist.
     public func listObjectsV2(input: ListObjectsV2Input) async throws -> ListObjectsV2Output {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listObjectsV2")
@@ -6010,6 +6155,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -6086,6 +6232,7 @@ extension S3Client {
     /// - Returns: `ListPartsOutput` : [no documentation found]
     public func listParts(input: ListPartsInput) async throws -> ListPartsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listParts")
@@ -6099,6 +6246,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -6167,6 +6315,7 @@ extension S3Client {
     /// - Returns: `PutBucketAccelerateConfigurationOutput` : [no documentation found]
     public func putBucketAccelerateConfiguration(input: PutBucketAccelerateConfigurationInput) async throws -> PutBucketAccelerateConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketAccelerateConfiguration")
@@ -6180,6 +6329,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -6317,6 +6467,7 @@ extension S3Client {
     /// - Returns: `PutBucketAclOutput` : [no documentation found]
     public func putBucketAcl(input: PutBucketAclInput) async throws -> PutBucketAclOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketAcl")
@@ -6330,6 +6481,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -6430,6 +6582,7 @@ extension S3Client {
     /// - Returns: `PutBucketAnalyticsConfigurationOutput` : [no documentation found]
     public func putBucketAnalyticsConfiguration(input: PutBucketAnalyticsConfigurationInput) async throws -> PutBucketAnalyticsConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketAnalyticsConfiguration")
@@ -6443,6 +6596,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -6518,6 +6672,7 @@ extension S3Client {
     /// - Returns: `PutBucketCorsOutput` : [no documentation found]
     public func putBucketCors(input: PutBucketCorsInput) async throws -> PutBucketCorsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketCors")
@@ -6531,6 +6686,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -6630,6 +6786,7 @@ extension S3Client {
     /// - Returns: `PutBucketEncryptionOutput` : [no documentation found]
     public func putBucketEncryption(input: PutBucketEncryptionInput) async throws -> PutBucketEncryptionOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketEncryption")
@@ -6643,6 +6800,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -6713,6 +6871,7 @@ extension S3Client {
     /// - Returns: `PutBucketIntelligentTieringConfigurationOutput` : [no documentation found]
     public func putBucketIntelligentTieringConfiguration(input: PutBucketIntelligentTieringConfigurationInput) async throws -> PutBucketIntelligentTieringConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketIntelligentTieringConfiguration")
@@ -6726,6 +6885,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -6791,6 +6951,7 @@ extension S3Client {
     /// - Returns: `PutBucketInventoryConfigurationOutput` : [no documentation found]
     public func putBucketInventoryConfiguration(input: PutBucketInventoryConfigurationInput) async throws -> PutBucketInventoryConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketInventoryConfiguration")
@@ -6804,6 +6965,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -6896,6 +7058,7 @@ extension S3Client {
     /// - Returns: `PutBucketLifecycleConfigurationOutput` : [no documentation found]
     public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketLifecycleConfiguration")
@@ -6909,6 +7072,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -6987,6 +7151,7 @@ extension S3Client {
     /// - Returns: `PutBucketLoggingOutput` : [no documentation found]
     public func putBucketLogging(input: PutBucketLoggingInput) async throws -> PutBucketLoggingOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketLogging")
@@ -7000,6 +7165,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -7076,6 +7242,7 @@ extension S3Client {
     /// - Returns: `PutBucketMetricsConfigurationOutput` : [no documentation found]
     public func putBucketMetricsConfiguration(input: PutBucketMetricsConfigurationInput) async throws -> PutBucketMetricsConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketMetricsConfiguration")
@@ -7089,6 +7256,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -7151,6 +7319,7 @@ extension S3Client {
     /// - Returns: `PutBucketNotificationConfigurationOutput` : [no documentation found]
     public func putBucketNotificationConfiguration(input: PutBucketNotificationConfigurationInput) async throws -> PutBucketNotificationConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketNotificationConfiguration")
@@ -7164,6 +7333,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -7228,6 +7398,7 @@ extension S3Client {
     /// - Returns: `PutBucketOwnershipControlsOutput` : [no documentation found]
     public func putBucketOwnershipControls(input: PutBucketOwnershipControlsInput) async throws -> PutBucketOwnershipControlsOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketOwnershipControls")
@@ -7241,6 +7412,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -7313,6 +7485,7 @@ extension S3Client {
     /// - Returns: `PutBucketPolicyOutput` : [no documentation found]
     public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketPolicy")
@@ -7326,6 +7499,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -7391,6 +7565,7 @@ extension S3Client {
     /// - Returns: `PutBucketReplicationOutput` : [no documentation found]
     public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketReplication")
@@ -7404,6 +7579,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -7469,6 +7645,7 @@ extension S3Client {
     /// - Returns: `PutBucketRequestPaymentOutput` : [no documentation found]
     public func putBucketRequestPayment(input: PutBucketRequestPaymentInput) async throws -> PutBucketRequestPaymentOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketRequestPayment")
@@ -7482,6 +7659,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -7558,6 +7736,7 @@ extension S3Client {
     /// - Returns: `PutBucketTaggingOutput` : [no documentation found]
     public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketTagging")
@@ -7571,6 +7750,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -7638,6 +7818,7 @@ extension S3Client {
     /// - Returns: `PutBucketVersioningOutput` : [no documentation found]
     public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketVersioning")
@@ -7651,6 +7832,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -7758,6 +7940,7 @@ extension S3Client {
     /// - Returns: `PutBucketWebsiteOutput` : [no documentation found]
     public func putBucketWebsite(input: PutBucketWebsiteInput) async throws -> PutBucketWebsiteOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putBucketWebsite")
@@ -7771,6 +7954,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -7891,6 +8075,7 @@ extension S3Client {
     /// - `TooManyParts` : You have attempted to add more parts than the maximum of 10000 that are allowed for this object. You can use the CopyObject operation to copy this object to another and then add more data to the newly copied object.
     public func putObject(input: PutObjectInput) async throws -> PutObjectOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObject")
@@ -7904,6 +8089,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -8037,6 +8223,7 @@ extension S3Client {
     /// - `NoSuchKey` : The specified key does not exist.
     public func putObjectAcl(input: PutObjectAclInput) async throws -> PutObjectAclOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObjectAcl")
@@ -8050,6 +8237,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -8111,6 +8299,7 @@ extension S3Client {
     /// - Returns: `PutObjectLegalHoldOutput` : [no documentation found]
     public func putObjectLegalHold(input: PutObjectLegalHoldInput) async throws -> PutObjectLegalHoldOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObjectLegalHold")
@@ -8124,6 +8313,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -8191,6 +8381,7 @@ extension S3Client {
     /// - Returns: `PutObjectLockConfigurationOutput` : [no documentation found]
     public func putObjectLockConfiguration(input: PutObjectLockConfigurationInput) async throws -> PutObjectLockConfigurationOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObjectLockConfiguration")
@@ -8204,6 +8395,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -8265,6 +8457,7 @@ extension S3Client {
     /// - Returns: `PutObjectRetentionOutput` : [no documentation found]
     public func putObjectRetention(input: PutObjectRetentionInput) async throws -> PutObjectRetentionOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObjectRetention")
@@ -8278,6 +8471,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -8354,6 +8548,7 @@ extension S3Client {
     /// - Returns: `PutObjectTaggingOutput` : [no documentation found]
     public func putObjectTagging(input: PutObjectTaggingInput) async throws -> PutObjectTaggingOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObjectTagging")
@@ -8367,6 +8562,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -8436,6 +8632,7 @@ extension S3Client {
     /// - Returns: `PutPublicAccessBlockOutput` : [no documentation found]
     public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putPublicAccessBlock")
@@ -8449,6 +8646,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -8577,6 +8775,7 @@ extension S3Client {
     /// - `ObjectAlreadyInActiveTierError` : This action is not allowed against this storage tier.
     public func restoreObject(input: RestoreObjectInput) async throws -> RestoreObjectOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "restoreObject")
@@ -8590,6 +8789,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -8675,6 +8875,7 @@ extension S3Client {
     /// - Returns: `SelectObjectContentOutput` : [no documentation found]
     public func selectObjectContent(input: SelectObjectContentInput) async throws -> SelectObjectContentOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "selectObjectContent")
@@ -8688,6 +8889,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -8795,6 +8997,7 @@ extension S3Client {
     /// - Returns: `UploadPartOutput` : [no documentation found]
     public func uploadPart(input: UploadPartInput) async throws -> UploadPartOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadPart")
@@ -8808,6 +9011,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -8932,6 +9136,7 @@ extension S3Client {
     /// - Returns: `UploadPartCopyOutput` : [no documentation found]
     public func uploadPartCopy(input: UploadPartCopyInput) async throws -> UploadPartCopyOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadPartCopy")
@@ -8945,6 +9150,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
@@ -9002,6 +9208,7 @@ extension S3Client {
     /// - Returns: `WriteGetObjectResponseOutput` : [no documentation found]
     public func writeGetObjectResponse(input: WriteGetObjectResponseInput) async throws -> WriteGetObjectResponseOutput {
         let context = Smithy.ContextBuilder()
+                      .withClientConfig(value: config)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "writeGetObjectResponse")
@@ -9015,6 +9222,7 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
