@@ -154,6 +154,7 @@ extension KMSClient {
 extension ListKeyRotationsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListKeyRotationsInput {
         return ListKeyRotationsInput(
+            includeKeyMaterial: self.includeKeyMaterial,
             keyId: self.keyId,
             limit: self.limit,
             marker: token
