@@ -753,13 +753,17 @@ public struct CancelJobRunInput: Swift.Sendable {
     /// The ID of the job run to cancel.
     /// This member is required.
     public var jobRunId: Swift.String?
+    /// The duration (in seconds) to wait before forcefully terminating the job after cancellation is requested.
+    public var shutdownGracePeriodInSeconds: Swift.Int?
 
     public init(
         applicationId: Swift.String? = nil,
-        jobRunId: Swift.String? = nil
+        jobRunId: Swift.String? = nil,
+        shutdownGracePeriodInSeconds: Swift.Int? = nil
     ) {
         self.applicationId = applicationId
         self.jobRunId = jobRunId
+        self.shutdownGracePeriodInSeconds = shutdownGracePeriodInSeconds
     }
 }
 
@@ -1950,6 +1954,18 @@ extension CancelJobRunInput {
             return nil
         }
         return "/applications/\(applicationId.urlPercentEncoding())/jobruns/\(jobRunId.urlPercentEncoding())"
+    }
+}
+
+extension CancelJobRunInput {
+
+    static func queryItemProvider(_ value: CancelJobRunInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let shutdownGracePeriodInSeconds = value.shutdownGracePeriodInSeconds {
+            let shutdownGracePeriodInSecondsQueryItem = Smithy.URIQueryItem(name: "shutdownGracePeriodInSeconds".urlPercentEncoding(), value: Swift.String(shutdownGracePeriodInSeconds).urlPercentEncoding())
+            items.append(shutdownGracePeriodInSecondsQueryItem)
+        }
+        return items
     }
 }
 

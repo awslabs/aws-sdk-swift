@@ -1497,14 +1497,24 @@ extension TranscribeClientTypes {
 extension TranscribeClientTypes {
 
     public enum MedicalScribeNoteTemplate: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case behavioralSoap
+        case birp
+        case dap
         case girpp
         case historyAndPhysical
+        case physicalSoap
+        case sirp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MedicalScribeNoteTemplate] {
             return [
+                .behavioralSoap,
+                .birp,
+                .dap,
                 .girpp,
-                .historyAndPhysical
+                .historyAndPhysical,
+                .physicalSoap,
+                .sirp
             ]
         }
 
@@ -1515,8 +1525,13 @@ extension TranscribeClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .behavioralSoap: return "BEHAVIORAL_SOAP"
+            case .birp: return "BIRP"
+            case .dap: return "DAP"
             case .girpp: return "GIRPP"
             case .historyAndPhysical: return "HISTORY_AND_PHYSICAL"
+            case .physicalSoap: return "PHYSICAL_SOAP"
+            case .sirp: return "SIRP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1532,6 +1547,16 @@ extension TranscribeClientTypes {
         /// * HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Examples of sections include Chief Complaint, History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.
         ///
         /// * GIRPP: Provides summaries based on the patients progress toward goals. Examples of sections include Goal, Intervention, Response, Progress, and Plan.
+        ///
+        /// * BIRP: Focuses on the patient's behavioral patterns and responses. Examples of sections include Behavior, Intervention, Response, and Plan.
+        ///
+        /// * SIRP: Emphasizes the situational context of therapy. Examples of sections include Situation, Intervention, Response, and Plan.
+        ///
+        /// * DAP: Provides a simplified format for clinical documentation. Examples of sections include Data, Assessment, and Plan.
+        ///
+        /// * BEHAVIORAL_SOAP: Behavioral health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan.
+        ///
+        /// * PHYSICAL_SOAP: Physical health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan.
         public var noteTemplate: TranscribeClientTypes.MedicalScribeNoteTemplate?
 
         public init(
