@@ -41,9 +41,8 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
         identityProperties: Smithy.Attributes?
     ) async throws -> SmithyIdentity.BearerTokenIdentity {
         let fileBasedConfig = try CRTFileBasedConfiguration(configFilePath: configFilePath)
-        return BearerTokenIdentity(token: try await resolveSSOAccessToken(
-            fileBasedConfig: fileBasedConfig
-        ))
+        let resolvedSSOToken = try await resolveSSOAccessToken(fileBasedConfig: fileBasedConfig)
+        return BearerTokenIdentity(token: resolvedSSOToken)
     }
 
     private func resolveSSOAccessToken(fileBasedConfig: CRTFileBasedConfiguration) async throws -> String {

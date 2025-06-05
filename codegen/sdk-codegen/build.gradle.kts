@@ -167,10 +167,10 @@ fun discoverServices(): List<AwsService> {
             )
 
             // Codegen internal STS client for use by credential resolvers.
-            if (serviceApi.sdkId == "STS") {
+            if (serviceApi.sdkId in setOf("STS", "SSO", "SSO OIDC")) {
                 val internalProjection = AwsService(
                     name = service.id.toString(),
-                    packageName = "InternalAWSSTS",
+                    packageName = "Internal$packageName",
                     packageVersion = packageVersion,
                     modelFile = file,
                     projectionName = "${name}.${version.toLowerCase()}_internal",
