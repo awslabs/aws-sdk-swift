@@ -6,7 +6,7 @@
 //
 
 import struct AWSSDKIdentity.SSOBearerTokenIdentityResolver
-import func AWSSDKIdentity.loadTokenFile
+@testable import func AWSSDKIdentity.loadToken
 import struct Smithy.Attributes
 import XCTest
 
@@ -14,12 +14,12 @@ class SSOBearerTokenIdentityResolverTests: XCTestCase {
     let configPath = Bundle.module.path(forResource: "sso_tests", ofType: nil)!
     let expectedAccessToken = "ACCESS_TOKEN_STRING"
 
-    func testLoadTokenFile() throws {
+    func testLoadToken() throws {
         // Load the test token file under Resources/
         let testTokenFileURL = Bundle.module.url(
             forResource: "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3", withExtension: "json"
         )
-        let tokenString = try loadTokenFile(fileURL: testTokenFileURL!)
+        let tokenString = try loadToken(fileURL: testTokenFileURL!).accessToken
         XCTAssertEqual(expectedAccessToken, tokenString)
     }
 
