@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlobalAcceleratorClient: ClientRuntime.Client {
     public static let clientName = "GlobalAcceleratorClient"
-    public static let version = "1.3.30"
+    public static let version = "1.3.31"
     let client: ClientRuntime.SdkHttpClient
     let config: GlobalAcceleratorClient.GlobalAcceleratorClientConfiguration
     let serviceName = "Global Accelerator"
