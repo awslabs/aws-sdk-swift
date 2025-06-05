@@ -22514,7 +22514,6 @@ extension GetObjectInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
-                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObject")
@@ -22536,6 +22535,7 @@ extension GetObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -22665,7 +22665,6 @@ extension PutObjectInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
-                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObject")
@@ -22687,6 +22686,7 @@ extension PutObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -22757,7 +22757,6 @@ extension UploadPartInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
-                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadPart")
@@ -22779,6 +22778,7 @@ extension UploadPartInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -22828,7 +22828,6 @@ extension GetObjectInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
-                      .withClientConfig(value: config)
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObject")
@@ -22850,6 +22849,7 @@ extension GetObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -22902,7 +22902,6 @@ extension PutObjectInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
-                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObject")
@@ -22924,6 +22923,7 @@ extension PutObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -22980,7 +22980,6 @@ extension UploadPartInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
-                      .withClientConfig(value: config)
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadPart")
@@ -23002,6 +23001,7 @@ extension UploadPartInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in

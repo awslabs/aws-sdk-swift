@@ -49,6 +49,9 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
             writer.write("  .withSigningName(value: \$S)", signingName)
             writer.write("  .withSigningRegion(value: config.signingRegion)")
         }
+        if (ctx.service.isS3) {
+            writer.write("  .withClientConfig(value: config)")  // this is used in S3 Express
+        }
     }
 
     override fun renderEventStreamAttributes(
