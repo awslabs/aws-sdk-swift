@@ -2777,7 +2777,7 @@ public struct DecryptOutput: Swift.Sendable {
     public var encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that was used to decrypt the ciphertext.
     public var keyId: Swift.String?
-    /// The identifier of the key material used to decrypt the ciphertext. This field is present only when the operation uses a symmetric encryption KMS key.
+    /// The identifier of the key material used to decrypt the ciphertext. This field is present only when the operation uses a symmetric encryption KMS key. This field is omitted if the request includes the Recipient parameter.
     public var keyMaterialId: Swift.String?
     /// Decrypted plaintext data. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. If the response includes the CiphertextForRecipient field, the Plaintext field is null or empty.
     public var plaintext: Foundation.Data?
@@ -3202,19 +3202,15 @@ public struct EncryptOutput: Swift.Sendable {
     public var encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that was used to encrypt the plaintext.
     public var keyId: Swift.String?
-    /// The identifier of the key material used to encrypt the ciphertext. This field is present only when the operation uses a symmetric encryption KMS key.
-    public var keyMaterialId: Swift.String?
 
     public init(
         ciphertextBlob: Foundation.Data? = nil,
         encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
-        keyId: Swift.String? = nil,
-        keyMaterialId: Swift.String? = nil
+        keyId: Swift.String? = nil
     ) {
         self.ciphertextBlob = ciphertextBlob
         self.encryptionAlgorithm = encryptionAlgorithm
         self.keyId = keyId
-        self.keyMaterialId = keyMaterialId
     }
 }
 
@@ -3295,7 +3291,7 @@ public struct GenerateDataKeyOutput: Swift.Sendable {
     public var ciphertextForRecipient: Foundation.Data?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that encrypted the data key.
     public var keyId: Swift.String?
-    /// The identifier of the key material used to encrypt the data key.
+    /// The identifier of the key material used to encrypt the data key. This field is omitted if the request includes the Recipient parameter.
     public var keyMaterialId: Swift.String?
     /// The plaintext data key. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. Use this data key to encrypt your data outside of KMS. Then, remove it from memory as soon as possible. If the response includes the CiphertextForRecipient field, the Plaintext field is null or empty.
     public var plaintext: Foundation.Data?
@@ -3369,7 +3365,7 @@ public struct GenerateDataKeyPairOutput: Swift.Sendable {
     public var ciphertextForRecipient: Foundation.Data?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that encrypted the private key.
     public var keyId: Swift.String?
-    /// The identifier of the key material used to encrypt the private key.
+    /// The identifier of the key material used to encrypt the private key. This field is omitted if the request includes the Recipient parameter.
     public var keyMaterialId: Swift.String?
     /// The type of data key pair that was generated.
     public var keyPairSpec: KMSClientTypes.DataKeyPairSpec?
@@ -6565,7 +6561,6 @@ extension EncryptOutput {
         value.ciphertextBlob = try reader["CiphertextBlob"].readIfPresent()
         value.encryptionAlgorithm = try reader["EncryptionAlgorithm"].readIfPresent()
         value.keyId = try reader["KeyId"].readIfPresent()
-        value.keyMaterialId = try reader["KeyMaterialId"].readIfPresent()
         return value
     }
 }
