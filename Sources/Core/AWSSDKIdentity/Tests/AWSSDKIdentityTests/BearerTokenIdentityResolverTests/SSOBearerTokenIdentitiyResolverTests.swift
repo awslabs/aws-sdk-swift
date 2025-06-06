@@ -5,8 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct AWSSDKIdentity.SSOBearerTokenIdentityResolver
-@testable import func AWSSDKIdentity.loadToken
+@testable import struct AWSSDKIdentity.SSOBearerTokenIdentityResolver
 import struct Smithy.Attributes
 import XCTest
 
@@ -19,12 +18,14 @@ class SSOBearerTokenIdentityResolverTests: XCTestCase {
         let testTokenFileURL = Bundle.module.url(
             forResource: "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3", withExtension: "json"
         )
-        let tokenString = try loadToken(fileURL: testTokenFileURL!).accessToken
+        let tokenString = SSOBearerTokenIdentityResolver().loadToken(
+            fileURL: testTokenFileURL!
+        ).accessToken
         XCTAssertEqual(expectedAccessToken, tokenString)
     }
 
     func testCreateSSOBearerTokenIdentityResolverLegacyProfile() async throws {
-        _ = try SSOBearerTokenIdentityResolver(
+        _ = SSOBearerTokenIdentityResolver(
             profileName: "user",
             configFilePath: configPath
         )
@@ -32,7 +33,7 @@ class SSOBearerTokenIdentityResolverTests: XCTestCase {
     }
 
     func testCreateSSOBearerTokenIdentityResolverTokenProviderProfile() async throws {
-        _ = try SSOBearerTokenIdentityResolver(
+        _ = SSOBearerTokenIdentityResolver(
             profileName: "dev",
             configFilePath: configPath
         )

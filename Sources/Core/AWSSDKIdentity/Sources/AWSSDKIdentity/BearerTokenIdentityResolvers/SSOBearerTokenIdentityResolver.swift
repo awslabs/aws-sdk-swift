@@ -14,6 +14,7 @@ import struct Foundation.Data
 import struct Foundation.Date
 import struct Foundation.TimeInterval
 import class Foundation.JSONDecoder
+import class Foundation.JSONEncoder
 import struct Smithy.Attributes
 import AwsCommonRuntimeKit
 import enum Smithy.ClientError
@@ -32,7 +33,7 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     public init(
         profileName: String? = nil,
         configFilePath: String? = nil
-    ) throws {
+    ) {
         self.profileName = profileName
         self.configFilePath = configFilePath
     }
@@ -46,13 +47,17 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     }
 
     private func resolveSSOAccessToken(fileBasedConfig: CRTFileBasedConfiguration) async throws -> String {
-        let cachedToken = try loadCachedSSOToken(fileBasedConfig: fileBasedConfig)
+        let (ssoSessionName, cachedToken) = try loadCachedSSOToken(fileBasedConfig: fileBasedConfig)
 
         if !cachedToken.needsRefresh() {
             return cachedToken.accessToken
         }
         if cachedToken.canRefresh() {
-            return try await refreshAndCacheToken(token: cachedToken).accessToken
+            return try await refreshAndCacheToken(
+                token: cachedToken,
+                fileBasedConfig: fileBasedConfig,
+                ssoSessionName: ssoSessionName
+            ).accessToken
         }
         if cachedToken.tokenIsExpired() {
             throw ClientError.dataNotFound("Cached SSO token is expired and cannot be refreshed.")
@@ -62,7 +67,7 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
 
     private func loadCachedSSOToken(
         fileBasedConfig: CRTFileBasedConfiguration
-    ) throws -> SSOToken {
+    ) throws -> (ssoSessionName: String, SSOToken) {
         // Get sso session name connected to given profile name; or to default profile name, if no profile name was given.
         let ssoSessionName = fileBasedConfig.getSection(
             name: profileName ?? FileBasedConfiguration.defaultProfileName, sectionType: .profile
@@ -72,43 +77,86 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
         guard let ssoSessionName else {
             throw ClientError.dataNotFound("Failed to retrieve name of sso-session name in the config file.")
         }
+
+        // Get the access token file URL
+        let tokenFileURL = try getSSOTokenFileURL(ssoSessionName: ssoSessionName)
+
+        // Load SSO token.
+        let cachedToken = try loadToken(fileURL: tokenFileURL)
+        return (ssoSessionName, cachedToken)
+    }
+
+    private func getSSOTokenFileURL(
+        ssoSessionName: String
+    ) throws -> URL {
         let tokenFileName = try ssoSessionName.data(using: .utf8)!.computeSHA1().encodeToHexString() + ".json"
 
         // Get the access token file URL
-        let homeDir = getHomeDirectoryURL()
-        let relativePath = ".aws/sso/cache/\(tokenFileName)"
-        let tokenFileURL = homeDir.appendingPathComponent(relativePath)
-
-        // Load SSO token.
-        return try loadToken(fileURL: tokenFileURL)
-    }
-
-    private func getHomeDirectoryURL() -> URL {
         #if os(macOS) || os(Linux)
         // On macOS, use homeDirectoryForCurrentUser
-        return FileManager.default.homeDirectoryForCurrentUser
+        let homeDir = FileManager.default.homeDirectoryForCurrentUser
         #else
         // On iOS, tvOS, and watchOS, use NSHomeDirectory()
-        return URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
+        let homeDir = URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
         #endif
+        let relativePath = ".aws/sso/cache/\(tokenFileName)"
+        return homeDir.appendingPathComponent(relativePath)
     }
 
-    private func refreshAndCacheToken(token: SSOToken) async throws -> SSOToken {
+    internal func loadToken(fileURL: URL) throws -> SSOToken {
+        do {
+            let data = try Data(contentsOf: fileURL)
+            let decoder = JSONDecoder()
+            let token = try decoder.decode(SSOToken.self, from: data)
+            return token
+        } catch {
+            throw ClientError.dataNotFound("Failed to load SSO token.")
+        }
+    }
+
+    private func refreshAndCacheToken(
+        token: SSOToken,
+        fileBasedConfig: CRTFileBasedConfiguration,
+        ssoSessionName: String
+    ) async throws -> SSOToken {
+        let ssoRegion = fileBasedConfig.getSection(
+            name: profileName ?? FileBasedConfiguration.defaultProfileName, sectionType: .ssoSession
+        )?.getProperty(name: "sso_region")?.value
+
+        guard let ssoRegion else {
+            throw ClientError.dataNotFound("The sso-sesion section must contain sso_region property.")
+        }
+
+        let ssoOIDC = try SSOOIDCClient(region: ssoRegion)
+
+        let output = try await ssoOIDC.createToken(input: CreateTokenInput(
+            clientId: token.clientId,
+            clientSecret: token.clientSecret,
+            grantType: "refresh_token",
+            refreshToken: token.refreshToken
+        ))
+
+        guard let newAccessToken = output.accessToken else {
+            throw ClientError.dataNotFound("Missing access token in CreateTokenOutput.")
+        }
+
         let refreshedToken = SSOToken(
-            accessToken: "",
+            accessToken: newAccessToken,
             clientId: token.clientId,
             clientSecret: token.clientId,
-            expiresAt: Date(),
-            refreshToken: "",
-            region: "",
+            expiresAt: Date().addingTimeInterval(Double(output.expiresIn)),
+            refreshToken: output.refreshToken,
+            region: token.region,
             registrationExpiresAt: token.registrationExpiresAt,
-            startUrl: ""
+            startUrl: token.startUrl
         )
+
+        try refreshedToken.save(to: try getSSOTokenFileURL(ssoSessionName: ssoSessionName))
         return refreshedToken
     }
 }
 
-struct SSOToken: Decodable {
+struct SSOToken: Codable {
     let accessToken: String
     let clientId: String?
     let clientSecret: String?
@@ -189,6 +237,24 @@ struct SSOToken: Decodable {
         startUrl = try container.decodeIfPresent(String.self, forKey: .startUrl)
     }
 
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime]
+
+        try container.encode(accessToken, forKey: .accessToken)
+        try container.encode(dateFormatter.string(from: expiresAt), forKey: .expiresAt)
+
+        try container.encodeIfPresent(clientId, forKey: .clientId)
+        try container.encodeIfPresent(clientSecret, forKey: .clientSecret)
+        try container.encodeIfPresent(refreshToken, forKey: .refreshToken)
+        try container.encodeIfPresent(region, forKey: .region)
+        if let registrationExpiresAt = registrationExpiresAt {
+            try container.encode(dateFormatter.string(from: registrationExpiresAt), forKey: .registrationExpiresAt)
+        }
+        try container.encodeIfPresent(startUrl, forKey: .startUrl)
+    }
+
     // Returns true if token is expired or will expire within 5 minutes.
     func needsRefresh() -> Bool {
         let fiveMinutesFromNow = Date().addingTimeInterval(REFRESH_BUFFER)
@@ -203,15 +269,11 @@ struct SSOToken: Decodable {
     func tokenIsExpired() -> Bool {
         return Date() > expiresAt
     }
-}
 
-func loadToken(fileURL: URL) throws -> SSOToken {
-    do {
-        let data = try Data(contentsOf: fileURL)
-        let decoder = JSONDecoder()
-        let token = try decoder.decode(SSOToken.self, from: data)
-        return token
-    } catch {
-        throw ClientError.dataNotFound("Failed to load SSO token.")
+    func save(to fileURL: URL) throws {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        let data = try encoder.encode(self)
+        try data.write(to: fileURL, options: [.atomic])
     }
 }
