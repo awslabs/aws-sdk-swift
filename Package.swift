@@ -528,7 +528,7 @@ private var clientRuntimeDependency: Package.Dependency {
 }
 
 private var crtDependency: Package.Dependency {
-    .package(url: "https://github.com/awslabs/aws-crt-swift", exact: crtVersion)
+    .package(url: "https://github.com/awslabs/aws-crt-swift", from: crtVersion)
 }
 
 private var doccDependencyOrNil: Package.Dependency? {
