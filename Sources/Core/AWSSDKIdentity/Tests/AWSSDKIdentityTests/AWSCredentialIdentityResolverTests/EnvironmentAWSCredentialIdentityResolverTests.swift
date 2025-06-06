@@ -21,7 +21,7 @@ class EnvironmentAWSCredentialIdentityResolverTests: XCTestCase {
             unsetenv("AWS_ACCOUNT_ID")
         }
 
-        let subject = try EnvironmentAWSCredentialIdentityResolver()
+        let subject = EnvironmentAWSCredentialIdentityResolver()
         let credentials = try await subject.getIdentity()
         
         XCTAssertEqual(credentials.accessKey, "some_access_key_a")
