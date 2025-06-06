@@ -16,7 +16,7 @@ import PackageDescription
 // MARK: - Dynamic Content
 
 let clientRuntimeVersion: Version = "0.134.0"
-let crtVersion: Version = "0.53.0"
+let crtVersion: Version = "0.52.1"
 
 let excludeRuntimeUnitTests = false
 
@@ -516,7 +516,7 @@ private func productForService(_ service: String) -> Product {
 private var clientRuntimeDependency: Package.Dependency {
     let previewPath = "./smithy-swift"
     let developmentPath = "../smithy-swift"
-    let gitURL = "https://github.com/smithy-lang/smithy-swift"
+    let gitURL = "https://github.com/sbSteveK/smithy-swift.git"
     let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
     if isPreviewBuild {
         return .package(path: previewPath)
