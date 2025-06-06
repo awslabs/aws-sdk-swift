@@ -115,6 +115,12 @@ class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
         // Delete token file
         try? deleteTokenFile()
 
+        // Unset env variables set for the test.
+        unsetenv("AWS_REGION")
+        unsetenv("AWS_ROLE_ARN")
+        unsetenv("AWS_ROLE_SESSION_NAME")
+        unsetenv("AWS_WEB_IDENTITY_TOKEN_FILE")
+
         try await super.tearDown()
     }
 
@@ -196,12 +202,11 @@ class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
     }
 
     private func constructSTSConfigWithWebIdentityAWSCredentialIdentityResolver() async throws {
-        let webIdentityAWSCredentialIdentityResolver = try STSWebIdentityAWSCredentialIdentityResolver(
-            region: region,
-            roleArn: roleArn,
-            roleSessionName: roleSessionName,
-            tokenFilePath: oidcTokenFilePath
-        )
+        setenv("AWS_REGION", region, 1)
+        setenv("AWS_ROLE_ARN", roleArn, 1)
+        setenv("AWS_ROLE_SESSION_NAME", roleSessionName, 1)
+        setenv("AWS_WEB_IDENTITY_TOKEN_FILE", oidcTokenFilePath, 1)
+        let webIdentityAWSCredentialIdentityResolver = try STSWebIdentityAWSCredentialIdentityResolver(source: .env)
         stsConfig = try await STSClient.STSClientConfiguration(
             awsCredentialIdentityResolver: webIdentityAWSCredentialIdentityResolver,
             region: region

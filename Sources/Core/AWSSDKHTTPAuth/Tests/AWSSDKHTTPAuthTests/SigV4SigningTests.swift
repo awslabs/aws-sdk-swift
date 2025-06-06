@@ -16,7 +16,6 @@ import AwsCommonRuntimeKit
 @_spi(SmithyTimestamps) import SmithyTimestamps
 import SmithyEventStreams
 import SmithyEventStreamsAPI
-import AWSSDKIdentity
 import AWSSDKHTTPAuth
 
 class Sigv4SigningTests: XCTestCase {

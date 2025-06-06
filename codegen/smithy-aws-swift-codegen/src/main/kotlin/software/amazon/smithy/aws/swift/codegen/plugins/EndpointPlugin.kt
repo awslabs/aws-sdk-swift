@@ -24,7 +24,7 @@ class EndpointPlugin(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
     ) {
-        writer.openBlock("public class $pluginName: Plugin {", "}") {
+        writer.openBlock("${ctx.settings.visibility} class $pluginName: Plugin {", "}") {
             writer.write("private var endpointResolver: \$L", EndpointTypes.EndpointResolver)
             writer.write("")
             writer.openBlock("public init(endpointResolver: \$L) {", "}", EndpointTypes.EndpointResolver) {
