@@ -7,8 +7,8 @@ import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import java.util.function.Predicate
 
-class InternalSTSModelIntegration : SwiftIntegration {
-    private val ops =
+class InternalModelIntegration : SwiftIntegration {
+    private val stsOps =
         listOf(
             "com.amazonaws.sts#AssumeRole",
             "com.amazonaws.sts#AssumeRoleWithWebIdentity",
@@ -17,13 +17,14 @@ class InternalSTSModelIntegration : SwiftIntegration {
     override fun enabledForService(
         model: Model,
         settings: SwiftSettings,
-    ): Boolean = settings.moduleName == "InternalAWSSTS"
+    ): Boolean = settings.visibility == "internal"
 
     override fun preprocessModel(
         model: Model?,
         settings: SwiftSettings?,
-    ): Model =
-        ModelTransformer.create().removeShapesIf(
+    ): Model {
+        val ops = neededOpsForService(settings?.sdkId)
+        return ModelTransformer.create().removeShapesIf(
             model,
             Predicate { shape ->
                 when (shape) {
@@ -32,4 +33,10 @@ class InternalSTSModelIntegration : SwiftIntegration {
                 }
             },
         )
+    }
+
+    private fun neededOpsForService(sdkId: String?): List<String> = when (sdkId) {
+        "STS" -> stsOps
+        else -> emptyList()
+    }
 }

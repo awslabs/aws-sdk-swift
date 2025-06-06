@@ -166,11 +166,11 @@ fun discoverServices(): List<AwsService> {
                 visibility = "public"
             )
 
-            // Codegen internal STS client for use by credential resolvers.
-            if (serviceApi.sdkId == "STS") {
+            // Codegen internal service client for use by credential resolvers.
+            if (serviceApi.sdkId in setOf("STS")) {
                 val internalProjection = AwsService(
                     name = service.id.toString(),
-                    packageName = "InternalAWSSTS",
+                    packageName = "Internal$packageName",
                     packageVersion = packageVersion,
                     modelFile = file,
                     projectionName = "${name}.${version.toLowerCase()}_internal",
@@ -189,14 +189,14 @@ val discoveredServices: List<AwsService> by lazy { discoverServices() }
 val packageVersion = rootProject.file("Package.version.next").readText(Charset.forName("UTF-8")).trim()
 
 val AwsService.outputDir: String
-    get() = when (this.packageName) {
-        "InternalAWSSTS" -> project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen/Sources").absolutePath
+    get() = when (this.visibility) {
+        "internal" -> project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen/Sources").absolutePath
         else -> project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen").absolutePath
     }
 
 val AwsService.sourcesDir: String
-    get() = when (this.packageName) {
-        "InternalAWSSTS" -> rootProject.file("Sources/Core/AWSSDKIdentity/Sources").absolutePath
+    get() = when (this.visibility) {
+        "internal" -> rootProject.file("Sources/Core/AWSSDKIdentity/Sources").absolutePath
         else -> rootProject.file("Sources/Services/$packageName").absolutePath
     }
 
