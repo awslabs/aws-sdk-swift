@@ -16,7 +16,7 @@ import PackageDescription
 // MARK: - Dynamic Content
 
 let clientRuntimeVersion: Version = "0.134.0"
-let crtVersion: Version = "0.52.1"
+let crtVersion: Version = "0.53.0"
 
 let excludeRuntimeUnitTests = false
 
@@ -449,18 +449,32 @@ extension Target.Dependency {
     // Smithy modules
     static var clientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
     static var smithy: Self { .product(name: "Smithy", package: "smithy-swift") }
-    static var smithyChecksumsAPI: Self { .product(name: "SmithyChecksumsAPI", package: "smithy-swift") }
+    static var smithyChecksumsAPI: Self {
+        .product(name: "SmithyChecksumsAPI", package: "smithy-swift")
+    }
     static var smithyChecksums: Self { .product(name: "SmithyChecksums", package: "smithy-swift") }
-    static var smithyEventStreams: Self { .product(name: "SmithyEventStreams", package: "smithy-swift") }
-    static var smithyEventStreamsAPI: Self { .product(name: "SmithyEventStreamsAPI", package: "smithy-swift") }
-    static var smithyEventStreamsAuthAPI: Self { .product(name: "SmithyEventStreamsAuthAPI", package: "smithy-swift") }
+    static var smithyEventStreams: Self {
+        .product(name: "SmithyEventStreams", package: "smithy-swift")
+    }
+    static var smithyEventStreamsAPI: Self {
+        .product(name: "SmithyEventStreamsAPI", package: "smithy-swift")
+    }
+    static var smithyEventStreamsAuthAPI: Self {
+        .product(name: "SmithyEventStreamsAuthAPI", package: "smithy-swift")
+    }
     static var smithyHTTPAPI: Self { .product(name: "SmithyHTTPAPI", package: "smithy-swift") }
     static var smithyHTTPAuth: Self { .product(name: "SmithyHTTPAuth", package: "smithy-swift") }
     static var smithyIdentity: Self { .product(name: "SmithyIdentity", package: "smithy-swift") }
-    static var smithyIdentityAPI: Self { .product(name: "SmithyIdentityAPI", package: "smithy-swift") }
+    static var smithyIdentityAPI: Self {
+        .product(name: "SmithyIdentityAPI", package: "smithy-swift")
+    }
     static var smithyRetries: Self { .product(name: "SmithyRetries", package: "smithy-swift") }
-    static var smithyRetriesAPI: Self { .product(name: "SmithyRetriesAPI", package: "smithy-swift") }
-    static var smithyWaitersAPI: Self { .product(name: "SmithyWaitersAPI", package: "smithy-swift") }
+    static var smithyRetriesAPI: Self {
+        .product(name: "SmithyRetriesAPI", package: "smithy-swift")
+    }
+    static var smithyWaitersAPI: Self {
+        .product(name: "SmithyWaitersAPI", package: "smithy-swift")
+    }
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
     static var smithyStreams: Self { .product(name: "SmithyStreams", package: "smithy-swift") }
 }
@@ -473,25 +487,24 @@ let package = Package(
         .macOS(.v10_15),
         .iOS(.v13),
         .tvOS(.v13),
-        .watchOS(.v6)
+        .watchOS(.v6),
     ],
     products:
-        runtimeProducts +
-        serviceTargets.map(productForService(_:)),
-    dependencies:
-        [clientRuntimeDependency, crtDependency, doccDependencyOrNil].compactMap { $0 },
+        runtimeProducts + serviceTargets.map(productForService(_:)),
+    dependencies: [clientRuntimeDependency, crtDependency, doccDependencyOrNil].compactMap { $0 },
     targets:
-        runtimeTargets +
-        runtimeTestTargets +
-        serviceTargets.map(target(_:)) +
-        serviceTargets.map(unitTestTarget(_:))
+        runtimeTargets + runtimeTestTargets + serviceTargets.map(target(_:))
+        + serviceTargets.map(unitTestTarget(_:))
 )
 
 // MARK: Products
 
 private var runtimeProducts: [Product] {
-    ["AWSClientRuntime", "AWSSDKCommon", "AWSSDKEventStreamsAuth", "AWSSDKHTTPAuth", "AWSSDKIdentity", "AWSSDKChecksums"]
-        .map { .library(name: $0, targets: [$0]) }
+    [
+        "AWSClientRuntime", "AWSSDKCommon", "AWSSDKEventStreamsAuth", "AWSSDKHTTPAuth",
+        "AWSSDKIdentity", "AWSSDKChecksums",
+    ]
+    .map { .library(name: $0, targets: [$0]) }
 }
 
 private func productForService(_ service: String) -> Product {
@@ -519,8 +532,11 @@ private var crtDependency: Package.Dependency {
 }
 
 private var doccDependencyOrNil: Package.Dependency? {
-    guard ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_ENABLE_DOCC"] != nil else { return nil }
-    return .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")}
+    guard ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_ENABLE_DOCC"] != nil else {
+        return nil
+    }
+    return .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
+}
 
 // MARK: Targets
 
@@ -545,7 +561,7 @@ private var runtimeTargets: [Target] {
             ],
             path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
-                .process("Resources"),
+                .process("Resources")
             ]
         ),
         .target(
@@ -555,22 +571,33 @@ private var runtimeTargets: [Target] {
         ),
         .target(
             name: "AWSSDKEventStreamsAuth",
-            dependencies: [.smithyEventStreamsAPI, .smithyEventStreamsAuthAPI, .smithyEventStreams, .crt, .clientRuntime, "AWSSDKHTTPAuth"],
+            dependencies: [
+                .smithyEventStreamsAPI, .smithyEventStreamsAuthAPI, .smithyEventStreams, .crt,
+                .clientRuntime, "AWSSDKHTTPAuth",
+            ],
             path: "Sources/Core/AWSSDKEventStreamsAuth/Sources"
         ),
         .target(
             name: "AWSSDKHTTPAuth",
-            dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKIdentity", "AWSSDKChecksums"],
+            dependencies: [
+                .crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKIdentity", "AWSSDKChecksums",
+            ],
             path: "Sources/Core/AWSSDKHTTPAuth/Sources"
         ),
         .target(
             name: "AWSSDKIdentity",
-            dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon],
+            dependencies: [
+                .crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI,
+                .awsSDKCommon,
+            ],
             path: "Sources/Core/AWSSDKIdentity/Sources"
         ),
         .target(
             name: "AWSSDKChecksums",
-            dependencies: [.crt, .smithy, .clientRuntime, .smithyChecksumsAPI, .smithyChecksums, .smithyHTTPAPI],
+            dependencies: [
+                .crt, .smithy, .clientRuntime, .smithyChecksumsAPI, .smithyChecksums,
+                .smithyHTTPAPI,
+            ],
             path: "Sources/Core/AWSSDKChecksums/Sources"
         ),
         .target(
@@ -591,12 +618,17 @@ private var runtimeTestTargets: [Target] {
         ),
         .testTarget(
             name: "AWSSDKEventStreamsAuthTests",
-            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams, .smithyTestUtils],
+            dependencies: [
+                "AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams, .smithyTestUtils,
+            ],
             path: "Sources/Core/AWSSDKEventStreamsAuth/Tests/AWSSDKEventStreamsAuthTests"
         ),
         .testTarget(
             name: "AWSSDKHTTPAuthTests",
-            dependencies: ["AWSSDKHTTPAuth", "AWSClientRuntime", "AWSSDKEventStreamsAuth", .crt, .clientRuntime, .smithyTestUtils],
+            dependencies: [
+                "AWSSDKHTTPAuth", "AWSClientRuntime", "AWSSDKEventStreamsAuth", .crt,
+                .clientRuntime, .smithyTestUtils,
+            ],
             path: "Sources/Core/AWSSDKHTTPAuth/Tests/AWSSDKHTTPAuthTests"
         ),
         .testTarget(
@@ -639,7 +671,9 @@ private func unitTestTarget(_ service: String) -> Target {
     let testName = "\(service)Tests"
     return .testTarget(
         name: "\(testName)",
-        dependencies: [.clientRuntime, .awsClientRuntime, .byName(name: service), .smithyTestUtils],
+        dependencies: [
+            .clientRuntime, .awsClientRuntime, .byName(name: service), .smithyTestUtils,
+        ],
         path: "Sources/Services/\(service)/Tests/\(testName)"
     )
 }
