@@ -32,7 +32,7 @@ class AuthSchemePlugin(
     ) {
         writer.openBlock("public class $pluginName: \$N {", "}", ClientRuntimeTypes.Core.Plugin) {
             writer.write("private var authSchemes: \$N", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional())
-            writer.write("private var authSchemePreference: \$N", SwiftTypes.OptionalStringArray)
+            writer.write("private var authSchemePreference: [String]?")
             writer.write("private var authSchemeResolver: \$N", SmithyHTTPAuthAPITypes.AuthSchemeResolver.toOptional())
             writer.write(
                 "private var awsCredentialIdentityResolver: \$N",
@@ -45,10 +45,10 @@ class AuthSchemePlugin(
 
             writer.write("")
             writer.openBlock(
-                "public init(authSchemes: \$N = nil, authSchemePreference: \$N = nil, authSchemeResolver: \$N = nil, awsCredentialIdentityResolver: \$N = nil, bearerTokenIdentityResolver: \$N = nil) {",
+                "public init(authSchemes: \$N = nil, authSchemePreference: \$T = nil, authSchemeResolver: \$N = nil, awsCredentialIdentityResolver: \$N = nil, bearerTokenIdentityResolver: \$N = nil) {",
                 "}",
                 SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(),
-                SwiftTypes.OptionalStringArray,
+                SwiftTypes.StringList.toOptional(),
                 AuthSchemeResolverGenerator.getServiceSpecificAuthSchemeResolverName(ctx).toOptional(),
                 SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric().toOptional(),
                 SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric().toOptional(),
