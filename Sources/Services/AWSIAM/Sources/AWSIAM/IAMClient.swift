@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IAMClient: ClientRuntime.Client {
     public static let clientName = "IAMClient"
-    public static let version = "1.3.32"
+    public static let version = "1.3.33"
     let client: ClientRuntime.SdkHttpClient
     let config: IAMClient.IAMClientConfiguration
     let serviceName = "IAM"

@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RekognitionClient: ClientRuntime.Client {
     public static let clientName = "RekognitionClient"
-    public static let version = "1.3.32"
+    public static let version = "1.3.33"
     let client: ClientRuntime.SdkHttpClient
     let config: RekognitionClient.RekognitionClientConfiguration
     let serviceName = "Rekognition"
