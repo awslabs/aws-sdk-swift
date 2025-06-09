@@ -17,7 +17,6 @@ class AuthSchemeConfigTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Create a test configuration file for auth scheme tests
         fileBasedConfig = try! CRTFileBasedConfiguration(
             configFilePath: Bundle.module.path(forResource: "auth_scheme_config_tests", ofType: nil)!,
             credentialsFilePath: nil
@@ -25,12 +24,11 @@ class AuthSchemeConfigTests: XCTestCase {
     }
     
     override func tearDown() {
-        // Clean up any environment variables
         unsetenv(envVarName)
         super.tearDown()
     }
     
-    // MARK: - authSchemePreference Tests
+    // authSchemePreference Tests
     
     func test_authSchemePreference_returnsConfigValueWhenProvided() {
         let expected = ["sigv4", "sigv4a"]
@@ -104,7 +102,7 @@ class AuthSchemeConfigTests: XCTestCase {
         XCTAssertNil(result)
     }
     
-    // MARK: - normalizeSchemes Tests
+    // normalizeSchemes Tests
     
     func test_normalizeSchemes_handlesSingleScheme() {
         let result = AuthSchemeConfig.normalizeSchemes("sigv4")
@@ -151,20 +149,7 @@ class AuthSchemeConfigTests: XCTestCase {
         XCTAssertEqual(result, [])
     }
     
-    // MARK: - authSchemePreference Tests with environment and config
-    
-    func test_authSchemePreference_normalizesConfigValue() {
-        // Note: This test doesn't make sense anymore since configValue is now [String]?
-        // If you want to test normalization of array input, you might do something like:
-        let input = ["sigv4  ", "  sigv4a  ", "  bearer"]
-        let result = AuthSchemeConfig.authSchemePreference(
-            configValue: input,
-            profileName: nil,
-            fileBasedConfig: fileBasedConfig
-        )
-        // The actual behavior depends on whether FieldResolver normalizes array elements
-        XCTAssertEqual(result, ["sigv4  ", "  sigv4a  ", "  bearer"])
-    }
+    // authSchemePreference Tests with environment and config
     
     func test_authSchemePreference_normalizesEnvironmentValue() {
         setenv(envVarName, "sigv4  ,  sigv4a", 1)
