@@ -70,10 +70,5 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
                 true,
             ),
             ConfigProperty("ignoreConfiguredEndpointURLs", SwiftTypes.Bool.toOptional()),
-            ConfigProperty(
-                "authSchemePreference",
-                SwiftTypes.StringList.toOptional(),
-                { "nil" }
-            )
         )
 }

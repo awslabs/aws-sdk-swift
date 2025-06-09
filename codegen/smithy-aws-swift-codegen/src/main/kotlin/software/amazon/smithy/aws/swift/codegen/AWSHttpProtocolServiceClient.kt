@@ -57,13 +57,6 @@ class AWSHttpProtocolServiceClient(
                         AWSAuthUtils(ctx).authSchemesDefaultProvider,
                     )
                 }
-                "authSchemePreference" -> {
-                    ConfigProperty(
-                        "authSchemePreference",
-                        SwiftTypes.StringList.toOptional(),
-                        { "nil" },
-                    )
-                }
                 "bearerTokenIdentityResolver" -> {
                     if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
                         ConfigProperty(
