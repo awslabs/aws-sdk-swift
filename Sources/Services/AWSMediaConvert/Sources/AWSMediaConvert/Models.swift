@@ -5316,7 +5316,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specifies the type of the audio selector.
+    /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. Language code: Select audio by language using ISO 639-2 or ISO 639-3 three-letter language codes. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers.
     public enum AudioSelectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allPcm
         case hlsRenditionGroup
@@ -5377,7 +5377,7 @@ extension MediaConvertClientTypes {
         public var programSelection: Swift.Int?
         /// Use these settings to reorder the audio channels of one input to match those of another input. This allows you to combine the two files into a single output, one after the other.
         public var remixSettings: MediaConvertClientTypes.RemixSettings?
-        /// Specifies the type of the audio selector.
+        /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. Language code: Select audio by language using ISO 639-2 or ISO 639-3 three-letter language codes. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers.
         public var selectorType: MediaConvertClientTypes.AudioSelectorType?
         /// Identify a track from the input audio to include in this selector by entering the track index number. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
         public var tracks: [Swift.Int]?
@@ -12700,6 +12700,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// When enabled, a C2PA compliant manifest will be generated, signed and embeded in the output. For more information on C2PA, see https://c2pa.org/specifications/specifications/2.1/index.html
+    public enum Mp4C2paManifest: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclude
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Mp4C2paManifest] {
+            return [
+                .exclude,
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclude: return "EXCLUDE"
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// When enabled, file composition times will start at zero, composition times in the 'ctts' (composition time to sample) box for B-frames will be negative, and a 'cslg' (composition shift least greatest) box will be included per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
     public enum Mp4CslgAtom: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case exclude
@@ -12794,6 +12824,10 @@ extension MediaConvertClientTypes {
     public struct Mp4Settings: Swift.Sendable {
         /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public var audioDuration: MediaConvertClientTypes.CmfcAudioDuration?
+        /// When enabled, a C2PA compliant manifest will be generated, signed and embeded in the output. For more information on C2PA, see https://c2pa.org/specifications/specifications/2.1/index.html
+        public var c2paManifest: MediaConvertClientTypes.Mp4C2paManifest?
+        /// Specify the name or ARN of the AWS Secrets Manager secret that contains your C2PA public certificate chain in PEM format. Provide a valid secret name or ARN. Note that your MediaConvert service role must allow access to this secret. The public certificate chain is added to the COSE header (x5chain) for signature validation. Include the signer's certificate and all intermediate certificates. Do not include the root certificate. For details on COSE, see: https://opensource.contentauthenticity.org/docs/manifest/signing-manifests
+        public var certificateSecret: Swift.String?
         /// When enabled, file composition times will start at zero, composition times in the 'ctts' (composition time to sample) box for B-frames will be negative, and a 'cslg' (composition shift least greatest) box will be included per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
         public var cslgAtom: MediaConvertClientTypes.Mp4CslgAtom?
         /// Ignore this setting unless compliance to the CTTS box version specification matters in your workflow. Specify a value of 1 to set your CTTS box version to 1 and make your output compliant with the specification. When you specify a value of 1, you must also set CSLG atom to the value INCLUDE. Keep the default value 0 to set your CTTS box version to 0. This can provide backward compatibility for some players and packagers.
@@ -12804,21 +12838,29 @@ extension MediaConvertClientTypes {
         public var moovPlacement: MediaConvertClientTypes.Mp4MoovPlacement?
         /// Overrides the "Major Brand" field in the output file. Usually not necessary to specify.
         public var mp4MajorBrand: Swift.String?
+        /// Specify the ID or ARN of the AWS KMS key used to sign the C2PA manifest in your MP4 output. Provide a valid KMS key ARN. Note that your MediaConvert service role must allow access to this key.
+        public var signingKmsKey: Swift.String?
 
         public init(
             audioDuration: MediaConvertClientTypes.CmfcAudioDuration? = nil,
+            c2paManifest: MediaConvertClientTypes.Mp4C2paManifest? = nil,
+            certificateSecret: Swift.String? = nil,
             cslgAtom: MediaConvertClientTypes.Mp4CslgAtom? = nil,
             cttsVersion: Swift.Int? = nil,
             freeSpaceBox: MediaConvertClientTypes.Mp4FreeSpaceBox? = nil,
             moovPlacement: MediaConvertClientTypes.Mp4MoovPlacement? = nil,
-            mp4MajorBrand: Swift.String? = nil
+            mp4MajorBrand: Swift.String? = nil,
+            signingKmsKey: Swift.String? = nil
         ) {
             self.audioDuration = audioDuration
+            self.c2paManifest = c2paManifest
+            self.certificateSecret = certificateSecret
             self.cslgAtom = cslgAtom
             self.cttsVersion = cttsVersion
             self.freeSpaceBox = freeSpaceBox
             self.moovPlacement = moovPlacement
             self.mp4MajorBrand = mp4MajorBrand
+            self.signingKmsKey = signingKmsKey
         }
     }
 }
@@ -27315,22 +27357,28 @@ extension MediaConvertClientTypes.Mp4Settings {
     static func write(value: MediaConvertClientTypes.Mp4Settings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["audioDuration"].write(value.audioDuration)
+        try writer["c2paManifest"].write(value.c2paManifest)
+        try writer["certificateSecret"].write(value.certificateSecret)
         try writer["cslgAtom"].write(value.cslgAtom)
         try writer["cttsVersion"].write(value.cttsVersion)
         try writer["freeSpaceBox"].write(value.freeSpaceBox)
         try writer["moovPlacement"].write(value.moovPlacement)
         try writer["mp4MajorBrand"].write(value.mp4MajorBrand)
+        try writer["signingKmsKey"].write(value.signingKmsKey)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Mp4Settings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.Mp4Settings()
         value.audioDuration = try reader["audioDuration"].readIfPresent()
+        value.c2paManifest = try reader["c2paManifest"].readIfPresent()
+        value.certificateSecret = try reader["certificateSecret"].readIfPresent()
         value.cslgAtom = try reader["cslgAtom"].readIfPresent()
         value.cttsVersion = try reader["cttsVersion"].readIfPresent()
         value.freeSpaceBox = try reader["freeSpaceBox"].readIfPresent()
         value.moovPlacement = try reader["moovPlacement"].readIfPresent()
         value.mp4MajorBrand = try reader["mp4MajorBrand"].readIfPresent()
+        value.signingKmsKey = try reader["signingKmsKey"].readIfPresent()
         return value
     }
 }

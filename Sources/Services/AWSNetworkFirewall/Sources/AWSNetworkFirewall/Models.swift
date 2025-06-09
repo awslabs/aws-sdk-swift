@@ -3527,15 +3527,19 @@ extension NetworkFirewallClientTypes {
 }
 
 public struct DescribeLoggingConfigurationOutput: Swift.Sendable {
+    /// A boolean that reflects whether or not the firewall monitoring dashboard is enabled on a firewall. Returns TRUE when the firewall monitoring dashboard is enabled on the firewall. Returns FALSE when the firewall monitoring dashboard is not enabled on the firewall.
+    public var enableMonitoringDashboard: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the firewall.
     public var firewallArn: Swift.String?
     /// Defines how Network Firewall performs logging for a [Firewall].
     public var loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration?
 
     public init(
+        enableMonitoringDashboard: Swift.Bool? = nil,
         firewallArn: Swift.String? = nil,
         loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration? = nil
     ) {
+        self.enableMonitoringDashboard = enableMonitoringDashboard
         self.firewallArn = firewallArn
         self.loggingConfiguration = loggingConfiguration
     }
@@ -4994,6 +4998,8 @@ public struct UpdateFirewallPolicyChangeProtectionOutput: Swift.Sendable {
 }
 
 public struct UpdateLoggingConfigurationInput: Swift.Sendable {
+    /// A boolean that lets you enable or disable the detailed firewall monitoring dashboard on the firewall. The monitoring dashboard provides comprehensive visibility into your firewall's flow logs and alert logs. After you enable detailed monitoring, you can access these dashboards directly from the Monitoring page of the Network Firewall console. Specify TRUE to enable the the detailed monitoring dashboard on the firewall. Specify FALSE to disable the the detailed monitoring dashboard on the firewall.
+    public var enableMonitoringDashboard: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -5002,10 +5008,12 @@ public struct UpdateLoggingConfigurationInput: Swift.Sendable {
     public var loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration?
 
     public init(
+        enableMonitoringDashboard: Swift.Bool? = nil,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration? = nil
     ) {
+        self.enableMonitoringDashboard = enableMonitoringDashboard
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.loggingConfiguration = loggingConfiguration
@@ -5013,6 +5021,8 @@ public struct UpdateLoggingConfigurationInput: Swift.Sendable {
 }
 
 public struct UpdateLoggingConfigurationOutput: Swift.Sendable {
+    /// A boolean that reflects whether or not the firewall monitoring dashboard is enabled on a firewall. Returns TRUE when the firewall monitoring dashboard is enabled on the firewall. Returns FALSE when the firewall monitoring dashboard is not enabled on the firewall.
+    public var enableMonitoringDashboard: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the firewall.
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
@@ -5021,10 +5031,12 @@ public struct UpdateLoggingConfigurationOutput: Swift.Sendable {
     public var loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration?
 
     public init(
+        enableMonitoringDashboard: Swift.Bool? = nil,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration? = nil
     ) {
+        self.enableMonitoringDashboard = enableMonitoringDashboard
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.loggingConfiguration = loggingConfiguration
@@ -6046,6 +6058,7 @@ extension UpdateLoggingConfigurationInput {
 
     static func write(value: UpdateLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["EnableMonitoringDashboard"].write(value.enableMonitoringDashboard)
         try writer["FirewallArn"].write(value.firewallArn)
         try writer["FirewallName"].write(value.firewallName)
         try writer["LoggingConfiguration"].write(value.loggingConfiguration, with: NetworkFirewallClientTypes.LoggingConfiguration.write(value:to:))
@@ -6330,6 +6343,7 @@ extension DescribeLoggingConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeLoggingConfigurationOutput()
+        value.enableMonitoringDashboard = try reader["EnableMonitoringDashboard"].readIfPresent()
         value.firewallArn = try reader["FirewallArn"].readIfPresent()
         value.loggingConfiguration = try reader["LoggingConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.LoggingConfiguration.read(from:))
         return value
@@ -6721,6 +6735,7 @@ extension UpdateLoggingConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateLoggingConfigurationOutput()
+        value.enableMonitoringDashboard = try reader["EnableMonitoringDashboard"].readIfPresent()
         value.firewallArn = try reader["FirewallArn"].readIfPresent()
         value.firewallName = try reader["FirewallName"].readIfPresent()
         value.loggingConfiguration = try reader["LoggingConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.LoggingConfiguration.read(from:))

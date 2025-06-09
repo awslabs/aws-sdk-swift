@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.132.0"
+let clientRuntimeVersion: Version = "0.134.0"
 let crtVersion: Version = "0.52.1"
 
 let excludeRuntimeUnitTests = false
@@ -169,6 +169,7 @@ let serviceTargets: [String] = [
     "AWSEntityResolution",
     "AWSEventBridge",
     "AWSEvidently",
+    "AWSEvs",
     "AWSFMS",
     "AWSFSx",
     "AWSFinspace",
@@ -537,11 +538,8 @@ private var runtimeTargets: [Target] {
                 .clientRuntime,
                 .smithyRetriesAPI,
                 .smithyRetries,
-                .smithyEventStreamsAPI,
-                .smithyEventStreamsAuthAPI,
                 .awsSDKCommon,
                 .awsSDKHTTPAuth,
-                .awsSDKIdentity,
                 .awsSDKChecksums,
                 .awsSDKPartitions,
             ],

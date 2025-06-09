@@ -1348,10 +1348,10 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 public struct GetExecutionFlowSnapshotInput: Swift.Sendable {
-    /// The unique identifier of the async execution.
+    /// The unique identifier of the flow execution.
     /// This member is required.
     public var executionIdentifier: Swift.String?
-    /// The unique identifier of the flow alias used for the async execution.
+    /// The unique identifier of the flow alias used for the flow execution.
     /// This member is required.
     public var flowAliasIdentifier: Swift.String?
     /// The unique identifier of the flow.
@@ -1372,19 +1372,19 @@ public struct GetExecutionFlowSnapshotInput: Swift.Sendable {
 public struct GetExecutionFlowSnapshotOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the customer managed KMS key that's used to encrypt the flow snapshot.
     public var customerEncryptionKeyArn: Swift.String?
-    /// The flow definition used for the async execution, including the nodes, connections, and configuration at the time when the execution started. The definition returns as a string that follows the structure of a [FlowDefinition](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_FlowDefinition.html) object.
+    /// The flow definition used for the flow execution, including the nodes, connections, and configuration at the time when the execution started. The definition returns as a string that follows the structure of a [FlowDefinition](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_FlowDefinition.html) object.
     /// This member is required.
     public var definition: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM service role that's used by the async execution.
+    /// The Amazon Resource Name (ARN) of the IAM service role that's used by the flow execution.
     /// This member is required.
     public var executionRoleArn: Swift.String?
-    /// The unique identifier of the flow alias used for the async execution.
+    /// The unique identifier of the flow alias used for the flow execution.
     /// This member is required.
     public var flowAliasIdentifier: Swift.String?
     /// The unique identifier of the flow.
     /// This member is required.
     public var flowIdentifier: Swift.String?
-    /// The version of the flow used for the async execution.
+    /// The version of the flow used for the flow execution.
     /// This member is required.
     public var flowVersion: Swift.String?
 
@@ -1406,7 +1406,7 @@ public struct GetExecutionFlowSnapshotOutput: Swift.Sendable {
 }
 
 public struct GetFlowExecutionInput: Swift.Sendable {
-    /// The unique identifier of the async execution to retrieve.
+    /// The unique identifier of the flow execution to retrieve.
     /// This member is required.
     public var executionIdentifier: Swift.String?
     /// The unique identifier of the flow alias used for the execution.
@@ -1455,7 +1455,7 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains information about an error that occurred during an async execution. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Contains information about an error that occurred during an flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public struct FlowExecutionError: Swift.Sendable {
         /// The error code for the type of error that occurred.
         public var error: BedrockAgentRuntimeClientTypes.FlowExecutionErrorType?
@@ -1515,11 +1515,11 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 public struct GetFlowExecutionOutput: Swift.Sendable {
-    /// The timestamp when the async execution ended. This field is only populated when the execution has completed, failed, timed out, or been aborted.
+    /// The timestamp when the flow execution ended. This field is only populated when the execution has completed, failed, timed out, or been aborted.
     public var endedAt: Foundation.Date?
-    /// A list of errors that occurred during the async execution. Each error includes an error code, message, and the node where the error occurred, if applicable.
+    /// A list of errors that occurred during the flow execution. Each error includes an error code, message, and the node where the error occurred, if applicable.
     public var errors: [BedrockAgentRuntimeClientTypes.FlowExecutionError]?
-    /// The Amazon Resource Name (ARN) that uniquely identifies the async execution.
+    /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution.
     /// This member is required.
     public var executionArn: Swift.String?
     /// The unique identifier of the flow alias used for the execution.
@@ -1531,10 +1531,10 @@ public struct GetFlowExecutionOutput: Swift.Sendable {
     /// The version of the flow used for the execution.
     /// This member is required.
     public var flowVersion: Swift.String?
-    /// The timestamp when the async execution started.
+    /// The timestamp when the flow execution started.
     /// This member is required.
     public var startedAt: Foundation.Date?
-    /// The current status of the async execution. Async executions time out after 24 hours.
+    /// The current status of the flow execution. Flow executions time out after 24 hours.
     /// This member is required.
     public var status: BedrockAgentRuntimeClientTypes.FlowExecutionStatus?
 
@@ -1592,7 +1592,7 @@ public struct ListFlowExecutionEventsInput: Swift.Sendable {
     /// The type of events to retrieve. Specify Node for node-level events or Flow for flow-level events.
     /// This member is required.
     public var eventType: BedrockAgentRuntimeClientTypes.FlowExecutionEventType?
-    /// The unique identifier of the async execution.
+    /// The unique identifier of the flow execution.
     /// This member is required.
     public var executionIdentifier: Swift.String?
     /// The unique identifier of the flow alias used for the execution.
@@ -1625,7 +1625,7 @@ public struct ListFlowExecutionEventsInput: Swift.Sendable {
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Represents a condition that was satisfied during a condition node evaluation in a flow's async execution. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Represents a condition that was satisfied during a condition node evaluation in a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public struct SatisfiedCondition: Swift.Sendable {
         /// The name of the condition that was satisfied.
         /// This member is required.
@@ -1647,7 +1647,7 @@ extension BedrockAgentRuntimeClientTypes.SatisfiedCondition: Swift.CustomDebugSt
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains information about a condition evaluation result during an async execution. This event is generated when a condition node in the flow evaluates its conditions. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Contains information about a condition evaluation result during a flow execution. This event is generated when a condition node in the flow evaluates its conditions. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public struct ConditionResultEvent: Swift.Sendable {
         /// The name of the condition node that evaluated the conditions.
         /// This member is required.
@@ -1711,7 +1711,7 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains information about a failure that occurred at the flow level during an async execution. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Contains information about a failure that occurred at the flow level during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public struct FlowFailureEvent: Swift.Sendable {
         /// The error code that identifies the type of failure that occurred.
         /// This member is required.
@@ -1743,7 +1743,7 @@ extension BedrockAgentRuntimeClientTypes.FlowFailureEvent: Swift.CustomDebugStri
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains the content of an async execution input or output field. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Contains the content of an flow execution input or output field. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public enum FlowExecutionContent: Swift.Sendable {
         /// The document content of the field, which can contain text or structured data.
         case document(Smithy.Document)
@@ -1753,7 +1753,7 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Represents an input field provided to a flow during an async execution. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Represents an input field provided to a flow during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public struct FlowInputField: Swift.Sendable {
         /// The content of the input field, which can contain text or structured data.
         /// This member is required.
@@ -1780,7 +1780,7 @@ extension BedrockAgentRuntimeClientTypes.FlowInputField: Swift.CustomDebugString
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains information about the inputs provided to the flow at the start of async execution. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Contains information about the inputs provided to the flow at the start of a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public struct FlowExecutionInputEvent: Swift.Sendable {
         /// A list of input fields provided to the flow.
         /// This member is required.
@@ -1812,7 +1812,7 @@ extension BedrockAgentRuntimeClientTypes.FlowExecutionInputEvent: Swift.CustomDe
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Represents an output field produced by a flow during an async execution. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Represents an output field produced by a flow during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public struct FlowOutputField: Swift.Sendable {
         /// The content of the output field, which can contain text or structured data.
         /// This member is required.
@@ -1839,7 +1839,7 @@ extension BedrockAgentRuntimeClientTypes.FlowOutputField: Swift.CustomDebugStrin
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains information about the outputs produced by the flow during an async execution. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Contains information about the outputs produced by the flow during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public struct FlowExecutionOutputEvent: Swift.Sendable {
         /// A list of output fields produced by the flow.
         /// This member is required.
@@ -1906,7 +1906,7 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains information about a failure that occurred at a specific node during a flow's async execution. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Contains information about a failure that occurred at a specific node during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public struct NodeFailureEvent: Swift.Sendable {
         /// The error code that identifies the type of failure that occurred at the node.
         /// This member is required.
@@ -1943,7 +1943,7 @@ extension BedrockAgentRuntimeClientTypes.NodeFailureEvent: Swift.CustomDebugStri
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains the content of a flow node's input or output field for an async execution. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Contains the content of a flow node's input or output field for a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public enum NodeExecutionContent: Swift.Sendable {
         /// The document content of the field, which can contain text or structured data.
         case document(Smithy.Document)
@@ -1953,7 +1953,7 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Represents an input field provided to a node during a flow's async execution.
+    /// Represents an input field provided to a node during a flow execution.
     public struct NodeInputField: Swift.Sendable {
         /// The content of the input field, which can contain text or structured data.
         /// This member is required.
@@ -1980,7 +1980,7 @@ extension BedrockAgentRuntimeClientTypes.NodeInputField: Swift.CustomDebugString
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains information about the inputs provided to a specific node during a flow's async execution. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Contains information about the inputs provided to a specific node during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public struct NodeInputEvent: Swift.Sendable {
         /// A list of input fields provided to the node.
         /// This member is required.
@@ -2012,7 +2012,7 @@ extension BedrockAgentRuntimeClientTypes.NodeInputEvent: Swift.CustomDebugString
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Represents an output field produced by a node during a flow's async execution. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Represents an output field produced by a node during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public struct NodeOutputField: Swift.Sendable {
         /// The content of the output field, which can contain text or structured data.
         /// This member is required.
@@ -2039,7 +2039,7 @@ extension BedrockAgentRuntimeClientTypes.NodeOutputField: Swift.CustomDebugStrin
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains information about the outputs produced by a specific node during a flow's async execution. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Contains information about the outputs produced by a specific node during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public struct NodeOutputEvent: Swift.Sendable {
         /// A list of output fields produced by the node.
         /// This member is required.
@@ -2071,7 +2071,7 @@ extension BedrockAgentRuntimeClientTypes.NodeOutputEvent: Swift.CustomDebugStrin
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Represents an event that occurred during an async execution. This is a union type that can contain one of several event types, such as node input and output events; flow input and output events; condition node result events, or failure events. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Represents an event that occurred during an flow execution. This is a union type that can contain one of several event types, such as node input and output events; flow input and output events; condition node result events, or failure events. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public enum FlowExecutionEvent: Swift.Sendable {
         /// Contains information about the inputs provided to the flow at the start of execution.
         case flowinputevent(BedrockAgentRuntimeClientTypes.FlowExecutionInputEvent)
@@ -2081,7 +2081,7 @@ extension BedrockAgentRuntimeClientTypes {
         case nodeinputevent(BedrockAgentRuntimeClientTypes.NodeInputEvent)
         /// Contains information about the outputs produced by a specific node during execution.
         case nodeoutputevent(BedrockAgentRuntimeClientTypes.NodeOutputEvent)
-        /// Contains information about a condition evaluation result during the async execution. This event is generated when a condition node in the flow evaluates its conditions.
+        /// Contains information about a condition evaluation result during the flow execution. This event is generated when a condition node in the flow evaluates its conditions.
         case conditionresultevent(BedrockAgentRuntimeClientTypes.ConditionResultEvent)
         /// Contains information about a failure that occurred at a specific node during execution.
         case nodefailureevent(BedrockAgentRuntimeClientTypes.NodeFailureEvent)
@@ -2092,7 +2092,7 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 public struct ListFlowExecutionEventsOutput: Swift.Sendable {
-    /// A list of events that occurred during the async execution. Events can include node inputs and outputs, flow inputs and outputs, condition results, and failure events.
+    /// A list of events that occurred during the flow execution. Events can include node inputs and outputs, flow inputs and outputs, condition results, and failure events.
     /// This member is required.
     public var flowExecutionEvents: [BedrockAgentRuntimeClientTypes.FlowExecutionEvent]?
     /// A token to retrieve the next set of results. This value is returned if more results are available.
@@ -2113,7 +2113,7 @@ public struct ListFlowExecutionsInput: Swift.Sendable {
     /// The unique identifier of the flow to list executions for.
     /// This member is required.
     public var flowIdentifier: Swift.String?
-    /// The maximum number of async executions to return in a single response. If more executions exist than the specified maxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// The maximum number of flow executions to return in a single response. If more executions exist than the specified maxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// A token to retrieve the next set of results. This value is returned in the response if more results are available.
     public var nextToken: Swift.String?
@@ -2133,14 +2133,14 @@ public struct ListFlowExecutionsInput: Swift.Sendable {
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains summary information about a flow's async execution, including its status, timestamps, and identifiers. Asynchronous flows is in preview release for Amazon Bedrock and is subject to change.
+    /// Contains summary information about a flow execution, including its status, timestamps, and identifiers. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     public struct FlowExecutionSummary: Swift.Sendable {
-        /// The timestamp when the async execution was created.
+        /// The timestamp when the flow execution was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
-        /// The timestamp when the async execution ended. This field is only populated when the execution has completed, failed, timed out, or been aborted.
+        /// The timestamp when the flow execution ended. This field is only populated when the execution has completed, failed, timed out, or been aborted.
         public var endedAt: Foundation.Date?
-        /// The Amazon Resource Name (ARN) that uniquely identifies the async execution.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution.
         /// This member is required.
         public var executionArn: Swift.String?
         /// The unique identifier of the flow alias used for the execution.
@@ -2152,7 +2152,7 @@ extension BedrockAgentRuntimeClientTypes {
         /// The version of the flow used for the execution.
         /// This member is required.
         public var flowVersion: Swift.String?
-        /// The current status of the async execution. Async executions time out after 24 hours.
+        /// The current status of the flow execution. Flow executions time out after 24 hours.
         /// This member is required.
         public var status: BedrockAgentRuntimeClientTypes.FlowExecutionStatus?
 
@@ -2177,7 +2177,7 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 public struct ListFlowExecutionsOutput: Swift.Sendable {
-    /// A list of async execution summaries. Each summary includes the execution ARN, flow identifier, flow alias identifier, flow version, status, and timestamps.
+    /// A list of flow execution summaries. Each summary includes the execution ARN, flow identifier, flow alias identifier, flow version, status, and timestamps.
     /// This member is required.
     public var flowExecutionSummaries: [BedrockAgentRuntimeClientTypes.FlowExecutionSummary]?
     /// A token to retrieve the next set of results. This value is returned if more results are available.
@@ -2396,18 +2396,18 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 public struct StartFlowExecutionInput: Swift.Sendable {
-    /// The unique identifier of the flow alias to use for the async execution.
+    /// The unique identifier of the flow alias to use for the flow execution.
     /// This member is required.
     public var flowAliasIdentifier: Swift.String?
-    /// The unique name for the async execution. If you don't provide one, a system-generated name is used.
+    /// The unique name for the flow execution. If you don't provide one, a system-generated name is used.
     public var flowExecutionName: Swift.String?
     /// The unique identifier of the flow to execute.
     /// This member is required.
     public var flowIdentifier: Swift.String?
-    /// The input data required for the async execution. This must match the input schema defined in the flow.
+    /// The input data required for the flow execution. This must match the input schema defined in the flow.
     /// This member is required.
     public var inputs: [BedrockAgentRuntimeClientTypes.FlowInput]?
-    /// The performance settings for the foundation model used in the async execution.
+    /// The performance settings for the foundation model used in the flow execution.
     public var modelPerformanceConfiguration: BedrockAgentRuntimeClientTypes.ModelPerformanceConfiguration?
 
     public init(
@@ -2426,7 +2426,7 @@ public struct StartFlowExecutionInput: Swift.Sendable {
 }
 
 public struct StartFlowExecutionOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) that uniquely identifies the async execution.
+    /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution.
     public var executionArn: Swift.String?
 
     public init(
@@ -2437,7 +2437,7 @@ public struct StartFlowExecutionOutput: Swift.Sendable {
 }
 
 public struct StopFlowExecutionInput: Swift.Sendable {
-    /// The unique identifier of the async execution to stop.
+    /// The unique identifier of the flow execution to stop.
     /// This member is required.
     public var executionIdentifier: Swift.String?
     /// The unique identifier of the flow alias used for the execution.
@@ -2459,9 +2459,9 @@ public struct StopFlowExecutionInput: Swift.Sendable {
 }
 
 public struct StopFlowExecutionOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) that uniquely identifies the async execution that was stopped.
+    /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution that was stopped.
     public var executionArn: Swift.String?
-    /// The updated status of the async execution after the stop request. This will typically be ABORTED if the execution was successfully stopped.
+    /// The updated status of the flow execution after the stop request. This will typically be ABORTED if the execution was successfully stopped.
     /// This member is required.
     public var status: BedrockAgentRuntimeClientTypes.FlowExecutionStatus?
 
@@ -3274,6 +3274,25 @@ extension BedrockAgentRuntimeClientTypes {
             performanceConfig: BedrockAgentRuntimeClientTypes.PerformanceConfiguration? = nil
         ) {
             self.performanceConfig = performanceConfig
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Specifies parameters that control how the service populates the agent prompt for an InvokeAgent or InvokeInlineAgent request. You can control which aspects of previous invocations in the same agent session the service uses to populate the agent prompt. This gives you more granular control over the contextual history that is used to process the current request.
+    public struct PromptCreationConfigurations: Swift.Sendable {
+        /// If true, the service removes any content between <thinking> tags from previous conversations in an agent session. The service will only remove content from already processed turns. This helps you remove content which might not be useful for current and subsequent invocations. This can reduce the input token count and potentially save costs. The default value is false.
+        public var excludePreviousThinkingSteps: Swift.Bool
+        /// The number of previous conversations from the ongoing agent session to include in the conversation history of the agent prompt, during the current invocation. This gives you more granular control over the context that the model is made aware of, and helps the model remove older context which is no longer useful during the ongoing agent session.
+        public var previousConversationTurnsToInclude: Swift.Int?
+
+        public init(
+            excludePreviousThinkingSteps: Swift.Bool = false,
+            previousConversationTurnsToInclude: Swift.Int? = nil
+        ) {
+            self.excludePreviousThinkingSteps = excludePreviousThinkingSteps
+            self.previousConversationTurnsToInclude = previousConversationTurnsToInclude
         }
     }
 }
@@ -9150,6 +9169,8 @@ public struct InvokeAgentInput: Swift.Sendable {
     public var inputText: Swift.String?
     /// The unique identifier of the agent memory.
     public var memoryId: Swift.String?
+    /// Specifies parameters that control how the service populates the agent prompt for an InvokeAgent request. You can control which aspects of previous invocations in the same agent session the service uses to populate the agent prompt. This gives you more granular control over the contextual history that is used to process the current request.
+    public var promptCreationConfigurations: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations?
     /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -9168,6 +9189,7 @@ public struct InvokeAgentInput: Swift.Sendable {
         endSession: Swift.Bool? = nil,
         inputText: Swift.String? = nil,
         memoryId: Swift.String? = nil,
+        promptCreationConfigurations: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations? = nil,
         sessionId: Swift.String? = nil,
         sessionState: BedrockAgentRuntimeClientTypes.SessionState? = nil,
         sourceArn: Swift.String? = nil,
@@ -9180,6 +9202,7 @@ public struct InvokeAgentInput: Swift.Sendable {
         self.endSession = endSession
         self.inputText = inputText
         self.memoryId = memoryId
+        self.promptCreationConfigurations = promptCreationConfigurations
         self.sessionId = sessionId
         self.sessionState = sessionState
         self.sourceArn = sourceArn
@@ -9189,7 +9212,7 @@ public struct InvokeAgentInput: Swift.Sendable {
 
 extension InvokeAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeAgentInput(agentAliasId: \(Swift.String(describing: agentAliasId)), agentId: \(Swift.String(describing: agentId)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), memoryId: \(Swift.String(describing: memoryId)), sessionId: \(Swift.String(describing: sessionId)), sessionState: \(Swift.String(describing: sessionState)), sourceArn: \(Swift.String(describing: sourceArn)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), inputText: \"CONTENT_REDACTED\")"}
+        "InvokeAgentInput(agentAliasId: \(Swift.String(describing: agentAliasId)), agentId: \(Swift.String(describing: agentId)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), memoryId: \(Swift.String(describing: memoryId)), promptCreationConfigurations: \(Swift.String(describing: promptCreationConfigurations)), sessionId: \(Swift.String(describing: sessionId)), sessionState: \(Swift.String(describing: sessionState)), sourceArn: \(Swift.String(describing: sourceArn)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), inputText: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeInlineAgentInput: Swift.Sendable {
@@ -9231,6 +9254,8 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
     public var knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]?
     /// Specifies the type of orchestration strategy for the agent. This is set to DEFAULT orchestration type, by default.
     public var orchestrationType: BedrockAgentRuntimeClientTypes.OrchestrationType?
+    /// Specifies parameters that control how the service populates the agent prompt for an InvokeInlineAgent request. You can control which aspects of previous invocations in the same agent session the service uses to populate the agent prompt. This gives you more granular control over the contextual history that is used to process the current request.
+    public var promptCreationConfigurations: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations?
     /// Configurations for advanced prompts used to override the default prompts to enhance the accuracy of the inline agent.
     public var promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration?
     /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
@@ -9258,6 +9283,7 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
         instruction: Swift.String? = nil,
         knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]? = nil,
         orchestrationType: BedrockAgentRuntimeClientTypes.OrchestrationType? = nil,
+        promptCreationConfigurations: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations? = nil,
         promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration? = nil,
         sessionId: Swift.String? = nil,
         streamingConfigurations: BedrockAgentRuntimeClientTypes.StreamingConfigurations? = nil
@@ -9280,6 +9306,7 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
         self.instruction = instruction
         self.knowledgeBases = knowledgeBases
         self.orchestrationType = orchestrationType
+        self.promptCreationConfigurations = promptCreationConfigurations
         self.promptOverrideConfiguration = promptOverrideConfiguration
         self.sessionId = sessionId
         self.streamingConfigurations = streamingConfigurations
@@ -9288,7 +9315,7 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
 
 extension InvokeInlineAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeInlineAgentInput(actionGroups: \(Swift.String(describing: actionGroups)), agentCollaboration: \(Swift.String(describing: agentCollaboration)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), collaboratorConfigurations: \(Swift.String(describing: collaboratorConfigurations)), collaborators: \(Swift.String(describing: collaborators)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), inlineSessionState: \(Swift.String(describing: inlineSessionState)), knowledgeBases: \(Swift.String(describing: knowledgeBases)), orchestrationType: \(Swift.String(describing: orchestrationType)), sessionId: \(Swift.String(describing: sessionId)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), agentName: \"CONTENT_REDACTED\", inputText: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "InvokeInlineAgentInput(actionGroups: \(Swift.String(describing: actionGroups)), agentCollaboration: \(Swift.String(describing: agentCollaboration)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), collaboratorConfigurations: \(Swift.String(describing: collaboratorConfigurations)), collaborators: \(Swift.String(describing: collaborators)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), inlineSessionState: \(Swift.String(describing: inlineSessionState)), knowledgeBases: \(Swift.String(describing: knowledgeBases)), orchestrationType: \(Swift.String(describing: orchestrationType)), promptCreationConfigurations: \(Swift.String(describing: promptCreationConfigurations)), sessionId: \(Swift.String(describing: sessionId)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), agentName: \"CONTENT_REDACTED\", inputText: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateInvocationInput {
@@ -9831,6 +9858,7 @@ extension InvokeAgentInput {
         try writer["endSession"].write(value.endSession)
         try writer["inputText"].write(value.inputText)
         try writer["memoryId"].write(value.memoryId)
+        try writer["promptCreationConfigurations"].write(value.promptCreationConfigurations, with: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations.write(value:to:))
         try writer["sessionState"].write(value.sessionState, with: BedrockAgentRuntimeClientTypes.SessionState.write(value:to:))
         try writer["streamingConfigurations"].write(value.streamingConfigurations, with: BedrockAgentRuntimeClientTypes.StreamingConfigurations.write(value:to:))
     }
@@ -9869,6 +9897,7 @@ extension InvokeInlineAgentInput {
         try writer["instruction"].write(value.instruction)
         try writer["knowledgeBases"].writeList(value.knowledgeBases, memberWritingClosure: BedrockAgentRuntimeClientTypes.KnowledgeBase.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["orchestrationType"].write(value.orchestrationType)
+        try writer["promptCreationConfigurations"].write(value.promptCreationConfigurations, with: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations.write(value:to:))
         try writer["promptOverrideConfiguration"].write(value.promptOverrideConfiguration, with: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration.write(value:to:))
         try writer["streamingConfigurations"].write(value.streamingConfigurations, with: BedrockAgentRuntimeClientTypes.StreamingConfigurations.write(value:to:))
     }
@@ -13852,6 +13881,15 @@ extension BedrockAgentRuntimeClientTypes.StreamingConfigurations {
         guard let value else { return }
         try writer["applyGuardrailInterval"].write(value.applyGuardrailInterval)
         try writer["streamFinalResponse"].write(value.streamFinalResponse)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.PromptCreationConfigurations {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["excludePreviousThinkingSteps"].write(value.excludePreviousThinkingSteps)
+        try writer["previousConversationTurnsToInclude"].write(value.previousConversationTurnsToInclude)
     }
 }
 

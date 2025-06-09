@@ -369,6 +369,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSEvidently](../../../../../swift/api/awsevidently/latest)
 
+[AWSEvs](../../../../../swift/api/awsevs/latest)
+
 [AWSFMS](../../../../../swift/api/awsfms/latest)
 
 [AWSFSx](../../../../../swift/api/awsfsx/latest)

@@ -541,7 +541,7 @@ public struct CreateAgentActionGroupInput: Swift.Sendable {
     ///
     /// * To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.
     ///
-    /// * To allow your agent to use an Anthropic computer use tool, specify one of the following values. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    /// * To allow your agent to use an Anthropic computer use tool, specify one of the following values. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
     ///
     /// * ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.
     ///
@@ -549,7 +549,7 @@ public struct CreateAgentActionGroupInput: Swift.Sendable {
     ///
     /// * ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
     public var parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature?
-    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
     public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
 
     public init(
@@ -611,7 +611,7 @@ extension BedrockAgentClientTypes {
         public var description: Swift.String?
         /// Defines functions that each define parameters that the agent needs to invoke from the user. Each function represents an action in an action group.
         public var functionSchema: BedrockAgentClientTypes.FunctionSchema?
-        /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+        /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
         public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
         /// If this field is set as AMAZON.UserInput, the agent can request the user for additional information when trying to complete a task. The description, apiSchema, and actionGroupExecutor fields must be blank for this action group. During orchestration, if the agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
         public var parentActionSignature: BedrockAgentClientTypes.ActionGroupSignature?
@@ -835,7 +835,7 @@ public struct UpdateAgentActionGroupInput: Swift.Sendable {
     ///
     /// * To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.
     ///
-    /// * To allow your agent to use an Anthropic computer use tool, specify one of the following values. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    /// * To allow your agent to use an Anthropic computer use tool, specify one of the following values. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
     ///
     /// * ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.
     ///
@@ -849,7 +849,7 @@ public struct UpdateAgentActionGroupInput: Swift.Sendable {
     ///
     /// During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
     public var parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature?
-    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html).
+    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
     public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
 
     public init(
@@ -1253,7 +1253,7 @@ extension BedrockAgentClientTypes {
         public var promptCreationMode: BedrockAgentClientTypes.CreationMode?
         /// Specifies whether to allow the agent to carry out the step specified in the promptType. If you set this value to DISABLED, the agent skips that step. The default state for each promptType is as follows.
         ///
-        /// * PRE_PROCESSING – ENABLED
+        /// * PRE_PROCESSING – DISABLED
         ///
         /// * ORCHESTRATION – ENABLED
         ///
@@ -1533,6 +1533,38 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// Enum representing the invocation state of an agent alias
+    public enum AliasInvocationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Agent is actively processing requests
+        case acceptInvocations
+        /// Agent is paused and will not accept new requests
+        case rejectInvocations
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AliasInvocationState] {
+            return [
+                .acceptInvocations,
+                .rejectInvocations
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .acceptInvocations: return "ACCEPT_INVOCATIONS"
+            case .rejectInvocations: return "REJECT_INVOCATIONS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Contains details about an alias of an agent.
     public struct AgentAlias: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the alias of the agent.
@@ -1564,6 +1596,8 @@ extension BedrockAgentClientTypes {
         /// The unique identifier of the agent.
         /// This member is required.
         public var agentId: Swift.String?
+        /// The invocation state for the agent alias. If the agent alias is running, the value is ACCEPT_INVOCATIONS. If the agent alias is paused, the value is REJECT_INVOCATIONS. Use the UpdateAgentAlias operation to change the invocation state.
+        public var aliasInvocationState: BedrockAgentClientTypes.AliasInvocationState?
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
         public var clientToken: Swift.String?
         /// The time at which the alias of the agent was created.
@@ -1587,6 +1621,7 @@ extension BedrockAgentClientTypes {
             agentAliasName: Swift.String? = nil,
             agentAliasStatus: BedrockAgentClientTypes.AgentAliasStatus? = nil,
             agentId: Swift.String? = nil,
+            aliasInvocationState: BedrockAgentClientTypes.AliasInvocationState? = nil,
             clientToken: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
@@ -1600,6 +1635,7 @@ extension BedrockAgentClientTypes {
             self.agentAliasName = agentAliasName
             self.agentAliasStatus = agentAliasStatus
             self.agentId = agentId
+            self.aliasInvocationState = aliasInvocationState
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.description = description
@@ -1623,6 +1659,8 @@ extension BedrockAgentClientTypes {
         /// The status of the alias.
         /// This member is required.
         public var agentAliasStatus: BedrockAgentClientTypes.AgentAliasStatus?
+        /// The invocation state for the agent alias. If the agent alias is running, the value is ACCEPT_INVOCATIONS. If the agent alias is paused, the value is REJECT_INVOCATIONS. Use the UpdateAgentAlias operation to change the invocation state.
+        public var aliasInvocationState: BedrockAgentClientTypes.AliasInvocationState?
         /// The time at which the alias of the agent was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -1638,6 +1676,7 @@ extension BedrockAgentClientTypes {
             agentAliasId: Swift.String? = nil,
             agentAliasName: Swift.String? = nil,
             agentAliasStatus: BedrockAgentClientTypes.AgentAliasStatus? = nil,
+            aliasInvocationState: BedrockAgentClientTypes.AliasInvocationState? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             routingConfiguration: [BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem]? = nil,
@@ -1646,6 +1685,7 @@ extension BedrockAgentClientTypes {
             self.agentAliasId = agentAliasId
             self.agentAliasName = agentAliasName
             self.agentAliasStatus = agentAliasStatus
+            self.aliasInvocationState = aliasInvocationState
             self.createdAt = createdAt
             self.description = description
             self.routingConfiguration = routingConfiguration
@@ -2824,6 +2864,8 @@ public struct UpdateAgentAliasInput: Swift.Sendable {
     /// The unique identifier of the agent.
     /// This member is required.
     public var agentId: Swift.String?
+    /// The invocation state for the agent alias. To pause the agent alias, set the value to REJECT_INVOCATIONS. To start the agent alias running again, set the value to ACCEPT_INVOCATIONS. Use the GetAgentAlias, or ListAgentAliases, operation to get the invocation state of an agent alias.
+    public var aliasInvocationState: BedrockAgentClientTypes.AliasInvocationState?
     /// Specifies a new description for the alias.
     public var description: Swift.String?
     /// Contains details about the routing configuration of the alias.
@@ -2833,12 +2875,14 @@ public struct UpdateAgentAliasInput: Swift.Sendable {
         agentAliasId: Swift.String? = nil,
         agentAliasName: Swift.String? = nil,
         agentId: Swift.String? = nil,
+        aliasInvocationState: BedrockAgentClientTypes.AliasInvocationState? = nil,
         description: Swift.String? = nil,
         routingConfiguration: [BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem]? = nil
     ) {
         self.agentAliasId = agentAliasId
         self.agentAliasName = agentAliasName
         self.agentId = agentId
+        self.aliasInvocationState = aliasInvocationState
         self.description = description
         self.routingConfiguration = routingConfiguration
     }
@@ -11459,7 +11503,7 @@ extension BedrockAgentClientTypes {
     ///
     /// * LoopInput - The entry point node for the loop. This node receives inputs from nodes outside the loop and from previous loop iterations.
     ///
-    /// * Body nodes - These can be
+    /// * Body nodes - The processing nodes that execute within each loop iteration. These can be nodes for handling data in your flow, such as a prompt or Lambda function nodes. Some node types aren't supported inside a DoWhile loop body. For more information, see [LoopIncompatibleNodeTypeFlowValidationDetails](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_LoopIncompatibleNodeTypeFlowValidationDetails.html).
     ///
     /// * LoopController - The node that evaluates whether the loop should continue or exit based on a condition.
     ///
@@ -13240,6 +13284,7 @@ extension UpdateAgentAliasInput {
     static func write(value: UpdateAgentAliasInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentAliasName"].write(value.agentAliasName)
+        try writer["aliasInvocationState"].write(value.aliasInvocationState)
         try writer["description"].write(value.description)
         try writer["routingConfiguration"].writeList(value.routingConfiguration, memberWritingClosure: BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -16172,6 +16217,7 @@ extension BedrockAgentClientTypes.AgentAlias {
         value.agentAliasHistoryEvents = try reader["agentAliasHistoryEvents"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentAliasHistoryEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.agentAliasStatus = try reader["agentAliasStatus"].readIfPresent() ?? .sdkUnknown("")
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aliasInvocationState = try reader["aliasInvocationState"].readIfPresent()
         return value
     }
 }
@@ -19527,6 +19573,7 @@ extension BedrockAgentClientTypes.AgentAliasSummary {
         value.agentAliasStatus = try reader["agentAliasStatus"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.aliasInvocationState = try reader["aliasInvocationState"].readIfPresent()
         return value
     }
 }

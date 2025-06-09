@@ -178,6 +178,80 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    public enum FallbackBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case match
+        case noMatch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FallbackBehavior] {
+            return [
+                .match,
+                .noMatch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .match: return "MATCH"
+            case .noMatch: return "NO_MATCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. This configuration is used for [GeoMatchStatement], [AsnMatchStatement], and [RateBasedStatement]. For [IPSetReferenceStatement], use [IPSetForwardedIPConfig] instead. WAF only evaluates the first IP address found in the specified HTTP header.
+    public struct ForwardedIPConfig: Swift.Sendable {
+        /// The match status to assign to the web request if the request doesn't have a valid IP address in the specified position. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. You can specify the following fallback behaviors:
+        ///
+        /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
+        ///
+        /// * NO_MATCH - Treat the web request as not matching the rule statement.
+        /// This member is required.
+        public var fallbackBehavior: WAFV2ClientTypes.FallbackBehavior?
+        /// The name of the HTTP header to use for the IP address. For example, to use the X-Forwarded-For (XFF) header, set this to X-Forwarded-For. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all.
+        /// This member is required.
+        public var headerName: Swift.String?
+
+        public init(
+            fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil,
+            headerName: Swift.String? = nil
+        ) {
+            self.fallbackBehavior = fallbackBehavior
+            self.headerName = headerName
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A rule statement that inspects web traffic based on the Autonomous System Number (ASN) associated with the request's IP address. For additional details, see [ASN match rule statement](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-asn-match.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+    public struct AsnMatchStatement: Swift.Sendable {
+        /// Contains one or more Autonomous System Numbers (ASNs). ASNs are unique identifiers assigned to large internet networks managed by organizations such as internet service providers, enterprises, universities, or government agencies.
+        /// This member is required.
+        public var asnList: [Swift.Int]?
+        /// The configuration for inspecting IP addresses to match against an ASN in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name.
+        public var forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig?
+
+        public init(
+            asnList: [Swift.Int]? = nil,
+            forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig? = nil
+        ) {
+            self.asnList = asnList
+            self.forwardedIPConfig = forwardedIPConfig
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     public enum OversizeHandling: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `continue`
         case match
@@ -332,7 +406,7 @@ extension WAFV2ClientTypes {
 
     /// Inspect a string containing the list of the request's header names, ordered as they appear in the web request that WAF receives for inspection. WAF generates the string and then uses that as the field to match component in its inspection. WAF separates the header names in the string using colons and no added spaces, for example host:user-agent:accept:authorization:referer.
     public struct HeaderOrder: Swift.Sendable {
-        /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
+        /// What WAF should do if the headers determined by your match scope are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
         ///
         /// * CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.
         ///
@@ -383,7 +457,7 @@ extension WAFV2ClientTypes {
         /// The parts of the headers to match with the rule inspection criteria. If you specify ALL, WAF inspects both keys and values. All does not require a match to be found in the keys and a match to be found in the values. It requires a match to be found in the keys or the values or both. To require a match in the keys and in the values, use a logical AND statement to combine two match rules, one that inspects the keys and another that inspects the values.
         /// This member is required.
         public var matchScope: WAFV2ClientTypes.MapMatchScope?
-        /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
+        /// What WAF should do if the headers determined by your match scope are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
         ///
         /// * CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.
         ///
@@ -401,35 +475,6 @@ extension WAFV2ClientTypes {
             self.matchPattern = matchPattern
             self.matchScope = matchScope
             self.oversizeHandling = oversizeHandling
-        }
-    }
-}
-
-extension WAFV2ClientTypes {
-
-    public enum FallbackBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case match
-        case noMatch
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FallbackBehavior] {
-            return [
-                .match,
-                .noMatch
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .match: return "MATCH"
-            case .noMatch: return "NO_MATCH"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -1760,31 +1805,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. This configuration is used for [GeoMatchStatement] and [RateBasedStatement]. For [IPSetReferenceStatement], use [IPSetForwardedIPConfig] instead. WAF only evaluates the first IP address found in the specified HTTP header.
-    public struct ForwardedIPConfig: Swift.Sendable {
-        /// The match status to assign to the web request if the request doesn't have a valid IP address in the specified position. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. You can specify the following fallback behaviors:
-        ///
-        /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
-        ///
-        /// * NO_MATCH - Treat the web request as not matching the rule statement.
-        /// This member is required.
-        public var fallbackBehavior: WAFV2ClientTypes.FallbackBehavior?
-        /// The name of the HTTP header to use for the IP address. For example, to use the X-Forwarded-For (XFF) header, set this to X-Forwarded-For. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all.
-        /// This member is required.
-        public var headerName: Swift.String?
-
-        public init(
-            fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil,
-            headerName: Swift.String? = nil
-        ) {
-            self.fallbackBehavior = fallbackBehavior
-            self.headerName = headerName
-        }
-    }
-}
-
-extension WAFV2ClientTypes {
-
     /// A rule statement that labels web requests by country and region and that matches against web requests based on country code. A geo match rule labels every request that it inspects regardless of whether it finds a match.
     ///
     /// * To manage requests only by country, you can use this statement by itself and specify the countries that you want to match against in the CountryCodes array.
@@ -2658,6 +2678,15 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    /// Specifies an Autonomous System Number (ASN) derived from the request's originating or forwarded IP address as an aggregate key for a rate-based rule. Each distinct ASN contributes to the aggregation instance. If you use a single ASN as your custom key, then each ASN fully defines an aggregation instance.
+    public struct RateLimitAsn: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     /// Specifies a cookie as an aggregate key for a rate-based rule. Each distinct value in the cookie contributes to the aggregation instance. If you use a single cookie as your custom key, then each value fully defines an aggregation instance.
     public struct RateLimitCookie: Swift.Sendable {
         /// The name of the cookie to use.
@@ -2838,6 +2867,8 @@ extension WAFV2ClientTypes {
 
     /// Specifies a single custom aggregate key for a rate-base rule. Web requests that are missing any of the components specified in the aggregation keys are omitted from the rate-based rule evaluation and handling.
     public struct RateBasedStatementCustomKey: Swift.Sendable {
+        /// Use an Autonomous System Number (ASN) derived from the request's originating or forwarded IP address as an aggregate key. Each distinct ASN contributes to the aggregation instance.
+        public var asn: WAFV2ClientTypes.RateLimitAsn?
         /// Use the value of a cookie in the request as an aggregate key. Each distinct value in the cookie contributes to the aggregation instance. If you use a single cookie as your custom key, then each value fully defines an aggregation instance.
         public var cookie: WAFV2ClientTypes.RateLimitCookie?
         /// Use the first IP address in an HTTP header as an aggregate key. Each distinct forwarded IP address contributes to the aggregation instance. When you specify an IP or forwarded IP in the custom key settings, you must also specify at least one other key to use. You can aggregate on only the forwarded IP address by specifying FORWARDED_IP in your rate-based statement's AggregateKeyType. With this option, you must specify the header to use in the rate-based rule's ForwardedIPConfig property.
@@ -2862,6 +2893,7 @@ extension WAFV2ClientTypes {
         public var uriPath: WAFV2ClientTypes.RateLimitUriPath?
 
         public init(
+            asn: WAFV2ClientTypes.RateLimitAsn? = nil,
             cookie: WAFV2ClientTypes.RateLimitCookie? = nil,
             forwardedIP: WAFV2ClientTypes.RateLimitForwardedIP? = nil,
             header: WAFV2ClientTypes.RateLimitHeader? = nil,
@@ -2874,6 +2906,7 @@ extension WAFV2ClientTypes {
             queryString: WAFV2ClientTypes.RateLimitQueryString? = nil,
             uriPath: WAFV2ClientTypes.RateLimitUriPath? = nil
         ) {
+            self.asn = asn
             self.cookie = cookie
             self.forwardedIP = forwardedIP
             self.header = header
@@ -7371,6 +7404,8 @@ extension WAFV2ClientTypes {
     public struct Statement: Swift.Sendable {
         /// A logical rule statement used to combine other rule statements with AND logic. You provide more than one [Statement] within the AndStatement.
         public var andStatement: WAFV2ClientTypes.AndStatement?
+        /// A rule statement that inspects web traffic based on the Autonomous System Number (ASN) associated with the request's IP address. For additional details, see [ASN match rule statement](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-asn-match.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+        public var asnMatchStatement: WAFV2ClientTypes.AsnMatchStatement?
         /// A rule statement that defines a string match search for WAF to apply to web requests. The byte match statement provides the bytes to search for, the location in requests that you want WAF to search, and other settings. The bytes to search for are typically a string that corresponds with ASCII characters. In the WAF console and the developer guide, this is called a string match statement.
         public var byteMatchStatement: WAFV2ClientTypes.ByteMatchStatement?
         /// A rule statement that labels web requests by country and region and that matches against web requests based on country code. A geo match rule labels every request that it inspects regardless of whether it finds a match.
@@ -7452,6 +7487,7 @@ extension WAFV2ClientTypes {
 
         public init(
             andStatement: WAFV2ClientTypes.AndStatement? = nil,
+            asnMatchStatement: WAFV2ClientTypes.AsnMatchStatement? = nil,
             byteMatchStatement: WAFV2ClientTypes.ByteMatchStatement? = nil,
             geoMatchStatement: WAFV2ClientTypes.GeoMatchStatement? = nil,
             ipSetReferenceStatement: WAFV2ClientTypes.IPSetReferenceStatement? = nil,
@@ -7468,6 +7504,7 @@ extension WAFV2ClientTypes {
             xssMatchStatement: WAFV2ClientTypes.XssMatchStatement? = nil
         ) {
             self.andStatement = andStatement
+            self.asnMatchStatement = asnMatchStatement
             self.byteMatchStatement = byteMatchStatement
             self.geoMatchStatement = geoMatchStatement
             self.ipSetReferenceStatement = ipSetReferenceStatement
@@ -12050,6 +12087,7 @@ extension WAFV2ClientTypes.Statement {
     static func write(value: WAFV2ClientTypes.Statement?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AndStatement"].write(value.andStatement, with: WAFV2ClientTypes.AndStatement.write(value:to:))
+        try writer["AsnMatchStatement"].write(value.asnMatchStatement, with: WAFV2ClientTypes.AsnMatchStatement.write(value:to:))
         try writer["ByteMatchStatement"].write(value.byteMatchStatement, with: WAFV2ClientTypes.ByteMatchStatement.write(value:to:))
         try writer["GeoMatchStatement"].write(value.geoMatchStatement, with: WAFV2ClientTypes.GeoMatchStatement.write(value:to:))
         try writer["IPSetReferenceStatement"].write(value.ipSetReferenceStatement, with: WAFV2ClientTypes.IPSetReferenceStatement.write(value:to:))
@@ -12084,6 +12122,41 @@ extension WAFV2ClientTypes.Statement {
         value.managedRuleGroupStatement = try reader["ManagedRuleGroupStatement"].readIfPresent(with: WAFV2ClientTypes.ManagedRuleGroupStatement.read(from:))
         value.labelMatchStatement = try reader["LabelMatchStatement"].readIfPresent(with: WAFV2ClientTypes.LabelMatchStatement.read(from:))
         value.regexMatchStatement = try reader["RegexMatchStatement"].readIfPresent(with: WAFV2ClientTypes.RegexMatchStatement.read(from:))
+        value.asnMatchStatement = try reader["AsnMatchStatement"].readIfPresent(with: WAFV2ClientTypes.AsnMatchStatement.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.AsnMatchStatement {
+
+    static func write(value: WAFV2ClientTypes.AsnMatchStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AsnList"].writeList(value.asnList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ForwardedIPConfig"].write(value.forwardedIPConfig, with: WAFV2ClientTypes.ForwardedIPConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AsnMatchStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.AsnMatchStatement()
+        value.asnList = try reader["AsnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.forwardedIPConfig = try reader["ForwardedIPConfig"].readIfPresent(with: WAFV2ClientTypes.ForwardedIPConfig.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ForwardedIPConfig {
+
+    static func write(value: WAFV2ClientTypes.ForwardedIPConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FallbackBehavior"].write(value.fallbackBehavior)
+        try writer["HeaderName"].write(value.headerName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ForwardedIPConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ForwardedIPConfig()
+        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
+        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12574,6 +12647,7 @@ extension WAFV2ClientTypes.RateBasedStatementCustomKey {
 
     static func write(value: WAFV2ClientTypes.RateBasedStatementCustomKey?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ASN"].write(value.asn, with: WAFV2ClientTypes.RateLimitAsn.write(value:to:))
         try writer["Cookie"].write(value.cookie, with: WAFV2ClientTypes.RateLimitCookie.write(value:to:))
         try writer["ForwardedIP"].write(value.forwardedIP, with: WAFV2ClientTypes.RateLimitForwardedIP.write(value:to:))
         try writer["HTTPMethod"].write(value.httpMethod, with: WAFV2ClientTypes.RateLimitHTTPMethod.write(value:to:))
@@ -12601,7 +12675,21 @@ extension WAFV2ClientTypes.RateBasedStatementCustomKey {
         value.uriPath = try reader["UriPath"].readIfPresent(with: WAFV2ClientTypes.RateLimitUriPath.read(from:))
         value.ja3Fingerprint = try reader["JA3Fingerprint"].readIfPresent(with: WAFV2ClientTypes.RateLimitJA3Fingerprint.read(from:))
         value.ja4Fingerprint = try reader["JA4Fingerprint"].readIfPresent(with: WAFV2ClientTypes.RateLimitJA4Fingerprint.read(from:))
+        value.asn = try reader["ASN"].readIfPresent(with: WAFV2ClientTypes.RateLimitAsn.read(from:))
         return value
+    }
+}
+
+extension WAFV2ClientTypes.RateLimitAsn {
+
+    static func write(value: WAFV2ClientTypes.RateLimitAsn?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitAsn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return WAFV2ClientTypes.RateLimitAsn()
     }
 }
 
@@ -12766,23 +12854,6 @@ extension WAFV2ClientTypes.RateLimitHeader {
         var value = WAFV2ClientTypes.RateLimitHeader()
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ForwardedIPConfig {
-
-    static func write(value: WAFV2ClientTypes.ForwardedIPConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FallbackBehavior"].write(value.fallbackBehavior)
-        try writer["HeaderName"].write(value.headerName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ForwardedIPConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ForwardedIPConfig()
-        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
-        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
