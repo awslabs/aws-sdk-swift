@@ -35,7 +35,12 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
     private var cachedCredentials: AWSCredentialIdentity?
 
     public init() {
-        resolverFactories = [ { return (try EnvironmentAWSCredentialIdentityResolver()) }, { return (try ProfileAWSCredentialIdentityResolver()) }, { return (try STSWebIdentityAWSCredentialIdentityResolver()) }, { return (ECSAWSCredentialIdentityResolver()) }, { return (try IMDSAWSCredentialIdentityResolver()) }
+        resolverFactories = [
+            { return (try EnvironmentAWSCredentialIdentityResolver()) },
+            { return (try ProfileAWSCredentialIdentityResolver()) },
+            { return (try STSWebIdentityAWSCredentialIdentityResolver()) },
+            { return (ECSAWSCredentialIdentityResolver()) },
+            { return (try IMDSAWSCredentialIdentityResolver()) }
         ]
     }
 

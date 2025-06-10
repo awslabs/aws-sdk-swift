@@ -32,9 +32,9 @@ public protocol S3AuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
 
 private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
 
-    public let authSchemePreference: [String]?
+    public let authSchemePreference: [String]
 
-    public init(authSchemePreference: [String]? = nil) {
+    public init(authSchemePreference: [String] = []) {
         self.authSchemePreference = authSchemePreference
     }
 
