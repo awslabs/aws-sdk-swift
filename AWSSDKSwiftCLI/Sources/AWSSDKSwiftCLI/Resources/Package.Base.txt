@@ -223,6 +223,7 @@ private func target(_ service: String) -> Target {
             .awsSDKHTTPAuth,
             .awsSDKEventStreamsAuth,
             .awsSDKChecksums,
+            "InternalAWSSTS",
         ],
         path: "Sources/Services/\(service)/Sources/\(service)"
     )
