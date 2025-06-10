@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BillingconductorClient: ClientRuntime.Client {
     public static let clientName = "BillingconductorClient"
-    public static let version = "1.3.33"
+    public static let version = "1.3.34"
     let client: ClientRuntime.SdkHttpClient
     let config: BillingconductorClient.BillingconductorClientConfiguration
     let serviceName = "billingconductor"

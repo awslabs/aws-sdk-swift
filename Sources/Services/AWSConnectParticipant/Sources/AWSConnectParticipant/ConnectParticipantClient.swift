@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectParticipantClient: ClientRuntime.Client {
     public static let clientName = "ConnectParticipantClient"
-    public static let version = "1.3.33"
+    public static let version = "1.3.34"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectParticipantClient.ConnectParticipantClientConfiguration
     let serviceName = "ConnectParticipant"
