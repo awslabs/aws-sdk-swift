@@ -8,7 +8,7 @@
 @_spi(FileBasedConfig) import AWSSDKCommon
 
 enum AuthSchemeConfig {
-    
+
     /// Determines the auth scheme prioritization to be used from the given config, if any.
     /// - Parameters:
     ///   - configValue: The auth scheme priority list passed at client construction, or `nil` if none was passed.
@@ -32,7 +32,7 @@ enum AuthSchemeConfig {
             }
         ).value
     }
-    
+
     static func normalizeSchemes(_ input: String) -> [String] {
         return input
             .split(separator: ",")
