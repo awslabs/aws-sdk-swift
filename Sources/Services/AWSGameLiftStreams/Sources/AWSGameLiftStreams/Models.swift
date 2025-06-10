@@ -204,7 +204,7 @@ extension GameLiftStreamsClientTypes {
     public struct LocationConfiguration: Swift.Sendable {
         /// The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session.
         public var alwaysOnCapacity: Swift.Int?
-        /// A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions and quotas](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
+        /// A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
         /// This member is required.
         public var locationName: Swift.String?
         /// The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes).
@@ -223,7 +223,7 @@ extension GameLiftStreamsClientTypes {
 }
 
 public struct AddStreamGroupLocationsInput: Swift.Sendable {
-    /// A stream group to add the specified locations to. This value is a Amazon Resource Name (ARN) that uniquely identifies the stream group resource. Format example: sg-1AB2C3De4.
+    /// A stream group to add the specified locations to. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     /// This member is required.
     public var identifier: Swift.String?
     /// A set of one or more locations and the streaming capacity for each location.
@@ -284,7 +284,7 @@ extension GameLiftStreamsClientTypes {
         public var alwaysOnCapacity: Swift.Int?
         /// This value is the amount of allocated capacity that is not currently streaming. It represents the stream group's availability to respond to new stream requests, but not including on-demand capacity.
         public var idleCapacity: Swift.Int?
-        /// A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions and quotas](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
+        /// A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
         public var locationName: Swift.String?
         /// The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes).
         public var onDemandCapacity: Swift.Int?
@@ -322,7 +322,7 @@ extension GameLiftStreamsClientTypes {
 }
 
 public struct AddStreamGroupLocationsOutput: Swift.Sendable {
-    /// This value is the Amazon Resource Name (ARN) that uniquely identifies the stream group resource. Format example: sg-1AB2C3De4.
+    /// This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     /// This member is required.
     public var identifier: Swift.String?
     /// This value is set of locations, including their name, current status, and capacities. A location can be in one of the following states:
@@ -507,7 +507,7 @@ extension GameLiftStreamsClientTypes {
 }
 
 public struct CreateApplicationInput: Swift.Sendable {
-    /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths. The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide.
+    /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths. The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see [Application log bucket permission policy](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/applications.html#application-bucket-permission-template) in the Amazon GameLift Streams Developer Guide.
     public var applicationLogOutputUri: Swift.String?
     /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log paths. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html) and get the LogFileLocationUri.
     public var applicationLogPaths: [Swift.String]?
@@ -597,7 +597,7 @@ extension GameLiftStreamsClientTypes {
 
     /// Represents the status of the replication of an application to a location. An application cannot be streamed from a location until it has finished replicating there.
     public struct ReplicationStatus: Swift.Sendable {
-        /// A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions and quotas](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
+        /// A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
         public var location: Swift.String?
         /// The current status of the replication process.
         public var status: GameLiftStreamsClientTypes.ReplicationStatusType?
@@ -619,7 +619,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
     public var applicationLogPaths: [Swift.String]?
     /// The original Amazon S3 location of uploaded stream content for the application.
     public var applicationSourceUri: Swift.String?
-    /// An Amazon Resource Name (ARN) that's assigned to an application resource and uniquely identifies it across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:application/[resource ID].
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that's assigned to an application resource and uniquely identifies it across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:application/[resource ID].
     /// This member is required.
     public var arn: Swift.String?
     /// A newly created application is not associated to any stream groups. This value is empty.
@@ -630,7 +630,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The path and file name of the executable file that launches the content for streaming.
     public var executablePath: Swift.String?
-    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    /// A unique ID value that is assigned to the resource when it's created. Format example: a-9ZY8X7Wv6.
     public var id: Swift.String?
     /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
     public var lastUpdatedAt: Foundation.Date?
@@ -702,7 +702,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
 }
 
 public struct DeleteApplicationInput: Swift.Sendable {
-    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -714,7 +714,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
 }
 
 public struct GetApplicationInput: Swift.Sendable {
-    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -732,10 +732,10 @@ public struct GetApplicationOutput: Swift.Sendable {
     public var applicationLogPaths: [Swift.String]?
     /// The original Amazon S3 location of uploaded stream content for the application.
     public var applicationSourceUri: Swift.String?
-    /// An Amazon Resource Name (ARN) that's assigned to an application resource and uniquely identifies it across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:application/[resource ID].
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that's assigned to an application resource and uniquely identifies it across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:application/[resource ID].
     /// This member is required.
     public var arn: Swift.String?
-    /// A set of stream groups that this application is associated with. You can use any of these stream groups to stream your application. This value is a set of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identify stream group resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4.
+    /// A set of stream groups that this application is associated with. You can use any of these stream groups to stream your application. This value is a set of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identify stream group resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4.
     public var associatedStreamGroups: [Swift.String]?
     /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
     public var createdAt: Foundation.Date?
@@ -743,7 +743,7 @@ public struct GetApplicationOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The path and file name of the executable file that launches the content for streaming.
     public var executablePath: Swift.String?
-    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    /// A unique ID value that is assigned to the resource when it's created. Format example: a-9ZY8X7Wv6.
     public var id: Swift.String?
     /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
     public var lastUpdatedAt: Foundation.Date?
@@ -840,7 +840,7 @@ extension GameLiftStreamsClientTypes {
         public var createdAt: Foundation.Date?
         /// A human-readable label for the application. You can edit this value.
         public var description: Swift.String?
-        /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+        /// An ID that uniquely identifies the application resource. Example ID: a-9ZY8X7Wv6.
         public var id: Swift.String?
         /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public var lastUpdatedAt: Foundation.Date?
@@ -910,13 +910,13 @@ public struct ListApplicationsOutput: Swift.Sendable {
 }
 
 public struct UpdateApplicationInput: Swift.Sendable {
-    /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths. The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide.
+    /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths. The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see [Application log bucket permission policy](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/applications.html#application-bucket-permission-template) in the Amazon GameLift Streams Developer Guide.
     public var applicationLogOutputUri: Swift.String?
     /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log paths. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html) and get the LogFileLocationUri.
     public var applicationLogPaths: [Swift.String]?
     /// A human-readable label for the application.
     public var description: Swift.String?
-    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -940,10 +940,10 @@ public struct UpdateApplicationOutput: Swift.Sendable {
     public var applicationLogPaths: [Swift.String]?
     /// The original Amazon S3 location of uploaded stream content for the application.
     public var applicationSourceUri: Swift.String?
-    /// An Amazon Resource Name (ARN) that's assigned to an application resource and uniquely identifies it across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:application/[resource ID].
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that's assigned to an application resource and uniquely identifies it across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:application/[resource ID].
     /// This member is required.
     public var arn: Swift.String?
-    /// A set of stream groups that this application is associated with. You can use any of these stream groups to stream your application. This value is a set of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identify stream group resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4.
+    /// A set of stream groups that this application is associated with. You can use any of these stream groups to stream your application. This value is a set of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identify stream group resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4.
     public var associatedStreamGroups: [Swift.String]?
     /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
     public var createdAt: Foundation.Date?
@@ -951,7 +951,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The path and file name of the executable file that launches the content for streaming.
     public var executablePath: Swift.String?
-    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    /// A unique ID value that is assigned to the resource when it's created. Format example: a-9ZY8X7Wv6.
     public var id: Swift.String?
     /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
     public var lastUpdatedAt: Foundation.Date?
@@ -1023,10 +1023,10 @@ public struct UpdateApplicationOutput: Swift.Sendable {
 }
 
 public struct AssociateApplicationsInput: Swift.Sendable {
-    /// A set of applications to associate with the stream group. This value is a set of either [Amazon Resource Names (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    /// A set of applications to associate with the stream group. This value is a set of either [Amazon Resource Names (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or IDs that uniquely identify application resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     /// This member is required.
     public var applicationIdentifiers: [Swift.String]?
-    /// A stream group to associate to the applications. This value is a [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+    /// A stream group to associate to the applications. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -1040,9 +1040,9 @@ public struct AssociateApplicationsInput: Swift.Sendable {
 }
 
 public struct AssociateApplicationsOutput: Swift.Sendable {
-    /// A set of applications that are associated to the stream group. This value is a set of either [Amazon Resource Names (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    /// A set of applications that are associated to the stream group. This value is a set of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identify application resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
     public var applicationArns: [Swift.String]?
-    /// A stream group that is associated to the applications. This value is a [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+    /// A stream group that is associated to the applications. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4.
     public var arn: Swift.String?
 
     public init(
@@ -1098,7 +1098,7 @@ extension GameLiftStreamsClientTypes {
 public struct CreateStreamGroupInput: Swift.Sendable {
     /// A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field.
     public var clientToken: Swift.String?
-    /// The unique identifier of the Amazon GameLift Streams application that you want to associate to a stream group as the default application. The application must be in READY status. By setting the default application identifier, you will optimize startup performance of this application in your stream group. Once set, this application cannot be disassociated from the stream group, unlike applications that are associated using AssociateApplications. If not set when creating a stream group, you will need to call AssociateApplications later, before you can start streaming.
+    /// The unique identifier of the Amazon GameLift Streams application that you want to associate to a stream group as the default application. The application must be in READY status. By setting the default application identifier, you will optimize startup performance of this application in your stream group. Once set, this application cannot be disassociated from the stream group, unlike applications that are associated using AssociateApplications. If not set when creating a stream group, you will need to call AssociateApplications later, before you can start streaming. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     public var defaultApplicationIdentifier: Swift.String?
     /// A descriptive label for the stream group.
     /// This member is required.
@@ -1207,9 +1207,9 @@ extension GameLiftStreamsClientTypes {
 
     /// Represents the default Amazon GameLift Streams application that a stream group hosts.
     public struct DefaultApplication: Swift.Sendable {
-        /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the application resource. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6.
+        /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
         public var arn: Swift.String?
-        /// An ID that uniquely identifies the application resource. For example: a-9ZY8X7Wv6.
+        /// An ID that uniquely identifies the application resource. Example ID: a-9ZY8X7Wv6.
         public var id: Swift.String?
 
         public init(
@@ -1293,10 +1293,10 @@ extension GameLiftStreamsClientTypes {
 }
 
 public struct CreateStreamGroupOutput: Swift.Sendable {
-    /// An Amazon Resource Name (ARN) that is assigned to the stream group resource and that uniquely identifies the group across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamgroup/[resource ID].
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that is assigned to the stream group resource and that uniquely identifies the group across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamgroup/[resource ID].
     /// This member is required.
     public var arn: Swift.String?
-    /// A set of applications that this stream group is associated to. You can stream any of these applications by using this stream group. This value is a set of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identify application resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6.
+    /// A set of applications that this stream group is associated to. You can stream any of these applications by using this stream group. This value is a set of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identify application resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
     public var associatedApplications: [Swift.String]?
     /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
     public var createdAt: Foundation.Date?
@@ -1446,13 +1446,13 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
 public struct CreateStreamSessionConnectionInput: Swift.Sendable {
     /// A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field.
     public var clientToken: Swift.String?
-    /// [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4. The stream group that you want to run this stream session with. The stream group must be in ACTIVE status and have idle stream capacity.
+    /// [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4. The stream group that you want to run this stream session with. The stream group must be in ACTIVE status and have idle stream capacity.
     /// This member is required.
     public var identifier: Swift.String?
     /// A WebRTC ICE offer string to use when initializing a WebRTC connection. The offer is a very long JSON string. Provide the string as a text value in quotes. The offer must be newly generated, not the same offer provided to StartStreamSession.
     /// This member is required.
     public var signalRequest: Swift.String?
-    /// [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream session resource. Format example: 1AB2C3De4. The stream session must be in PENDING_CLIENT_RECONNECTION or ACTIVE status.
+    /// [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567. Example ID: ABC123def4567. The stream session must be in PENDING_CLIENT_RECONNECTION or ACTIVE status.
     /// This member is required.
     public var streamSessionIdentifier: Swift.String?
 
@@ -1491,7 +1491,7 @@ extension CreateStreamSessionConnectionOutput: Swift.CustomDebugStringConvertibl
 }
 
 public struct DeleteStreamGroupInput: Swift.Sendable {
-    /// The unique ID value of the stream group resource to delete. Format example: sg-1AB2C3De4.
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -1503,10 +1503,10 @@ public struct DeleteStreamGroupInput: Swift.Sendable {
 }
 
 public struct DisassociateApplicationsInput: Swift.Sendable {
-    /// A set of applications that you want to disassociate from the stream group. This value is a set of either [Amazon Resource Names (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    /// A set of applications that you want to disassociate from the stream group. This value is a set of either [Amazon Resource Names (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or IDs that uniquely identify application resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     /// This member is required.
     public var applicationIdentifiers: [Swift.String]?
-    /// A stream group to disassociate these applications from. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+    /// A stream group to disassociate these applications from. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -1520,9 +1520,9 @@ public struct DisassociateApplicationsInput: Swift.Sendable {
 }
 
 public struct DisassociateApplicationsOutput: Swift.Sendable {
-    /// A set of applications that are disassociated from this stream group. This value is a set of either [Amazon Resource Names (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    /// A set of applications that are disassociated from this stream group. This value is a set of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identify application resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
     public var applicationArns: [Swift.String]?
-    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4.
     public var arn: Swift.String?
 
     public init(
@@ -1570,7 +1570,7 @@ extension GameLiftStreamsClientTypes {
 
     /// Provides details about the stream session's exported files.
     public struct ExportFilesMetadata: Swift.Sendable {
-        /// The S3 bucket URI where Amazon GameLift Streams uploaded the set of compressed exported files for a stream session. Amazon GameLift Streams generates a ZIP file name based on the stream session metadata. Alternatively, you can provide a custom file name with a .zip file extension. Example 1: If you provide an S3 URI called s3://MyBucket/MyGame_Session1.zip, then Amazon GameLift Streams will save the files at that location. Example 2: If you provide an S3 URI called s3://MyBucket/MyGameSessions_ExportedFiles/, then Amazon GameLift Streams will save the files at s3://MyBucket/MyGameSessions_ExportedFiles/YYYYMMDD-HHMMSS-appId-sg-Id-sessionId.zip or another similar name.
+        /// The S3 bucket URI where Amazon GameLift Streams uploaded the set of compressed exported files for a stream session. Amazon GameLift Streams generates a ZIP file name based on the stream session metadata. Alternatively, you can provide a custom file name with a .zip file extension. Example 1: If you provide an S3 URI called s3://amzn-s3-demo-destination-bucket/MyGame_Session1.zip, then Amazon GameLift Streams will save the files at that location. Example 2: If you provide an S3 URI called s3://amzn-s3-demo-destination-bucket/MyGameSessions_ExportedFiles/, then Amazon GameLift Streams will save the files at s3://amzn-s3-demo-destination-bucket/MyGameSessions_ExportedFiles/YYYYMMDD-HHMMSS-appId-sg-Id-sessionId.zip or another similar name.
         public var outputUri: Swift.String?
         /// The result of the [ExportStreamSessionFiles](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_ExportStreamSessionFiles.html) operation.
         public var status: GameLiftStreamsClientTypes.ExportFilesStatus?
@@ -1590,13 +1590,13 @@ extension GameLiftStreamsClientTypes {
 }
 
 public struct ExportStreamSessionFilesInput: Swift.Sendable {
-    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     /// This member is required.
     public var identifier: Swift.String?
-    /// The S3 bucket URI where Amazon GameLift Streams uploads the set of compressed exported files for this stream session. Amazon GameLift Streams generates a ZIP file name based on the stream session metadata. Alternatively, you can provide a custom file name with a .zip file extension. Example 1: If you provide an S3 URI called s3://MyBucket/MyGame_Session1.zip, then Amazon GameLift Streams will save the files at that location. Example 2: If you provide an S3 URI called s3://MyBucket/MyGameSessions_ExportedFiles/, then Amazon GameLift Streams will save the files at s3://MyBucket/MyGameSessions_ExportedFiles/YYYYMMDD-HHMMSS-appId-sg-Id-sessionId.zip or another similar name.
+    /// The S3 bucket URI where Amazon GameLift Streams uploads the set of compressed exported files for this stream session. Amazon GameLift Streams generates a ZIP file name based on the stream session metadata. Alternatively, you can provide a custom file name with a .zip file extension. Example 1: If you provide an S3 URI called s3://amzn-s3-demo-destination-bucket/MyGame_Session1.zip, then Amazon GameLift Streams will save the files at that location. Example 2: If you provide an S3 URI called s3://amzn-s3-demo-destination-bucket/MyGameSessions_ExportedFiles/, then Amazon GameLift Streams will save the files at s3://amzn-s3-demo-destination-bucket/MyGameSessions_ExportedFiles/YYYYMMDD-HHMMSS-appId-sg-Id-sessionId.zip or another similar name.
     /// This member is required.
     public var outputUri: Swift.String?
-    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream session resource. Format example: 1AB2C3De4.
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567. Example ID: ABC123def4567.
     /// This member is required.
     public var streamSessionIdentifier: Swift.String?
 
@@ -1617,10 +1617,10 @@ public struct ExportStreamSessionFilesOutput: Swift.Sendable {
 }
 
 public struct GetStreamSessionInput: Swift.Sendable {
-    /// The stream group that runs this stream session. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+    /// The stream group that runs this stream session. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     /// This member is required.
     public var identifier: Swift.String?
-    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream session resource. Format example: 1AB2C3De4.
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567. Example ID: ABC123def4567.
     /// This member is required.
     public var streamSessionIdentifier: Swift.String?
 
@@ -1746,9 +1746,9 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     public var additionalEnvironmentVariables: [Swift.String: Swift.String]?
     /// A list of CLI arguments that are sent to the streaming server when a stream session launches. You can use this to configure the application or stream session details. You can also provide custom arguments that Amazon GameLift Streams passes to your game client. AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data using environment variables; while AdditionalLaunchArgs passes data using command-line arguments.
     public var additionalLaunchArgs: [Swift.String]?
-    /// The application streaming in this session. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the application resource. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6.
+    /// The application streaming in this session. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
     public var applicationArn: Swift.String?
-    /// The Amazon Resource Name (ARN) assigned to the stream session resource. When combined with the stream group ARN, this value uniquely identifies it across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamsession/[resource ID].
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that's assigned to a stream session resource. When combined with the stream group resource ID, this value uniquely identifies the stream session across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamsession/[stream group resource ID]/[stream session resource ID].
     public var arn: Swift.String?
     /// The maximum length of time (in seconds) that Amazon GameLift Streams keeps the stream session open. At this point, Amazon GameLift Streams ends the stream session regardless of any existing client connections.
     public var connectionTimeoutSeconds: Swift.Int?
@@ -1760,7 +1760,7 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     public var exportFilesMetadata: GameLiftStreamsClientTypes.ExportFilesMetadata?
     /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
     public var lastUpdatedAt: Foundation.Date?
-    /// The location where Amazon GameLift Streams is hosting the stream session. A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions and quotas](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
+    /// The location where Amazon GameLift Streams is hosting the stream session. A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
     public var location: Swift.String?
     /// Access location for log files that your content generates during a stream session. These log files are uploaded to cloud storage location at the end of a stream session. The Amazon GameLift Streams application resource defines which log files to upload.
     public var logFileLocationUri: Swift.String?
@@ -1776,7 +1776,7 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     public var status: GameLiftStreamsClientTypes.StreamSessionStatus?
     /// A short description of the reason the stream session is in ERROR status.
     public var statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason?
-    /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session.
+    /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
     public var streamGroupId: Swift.String?
     /// An opaque, unique identifier for an end-user, defined by the developer.
     public var userId: Swift.String?
@@ -1842,7 +1842,7 @@ public struct ListStreamSessionsInput: Swift.Sendable {
     ///
     /// * PENDING: Either the stream session is still in progress, or uploading the exported files to the S3 bucket is in progress.
     public var exportFilesStatus: GameLiftStreamsClientTypes.ExportFilesStatus?
-    /// The unique identifier of a Amazon GameLift Streams stream group to retrieve the stream session for. You can use either the stream group ID or the Amazon Resource Name (ARN).
+    /// The unique identifier of a Amazon GameLift Streams stream group to retrieve the stream session for. You can use either the stream group ID or the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html).
     /// This member is required.
     public var identifier: Swift.String?
     /// The number of results to return. Use this parameter with NextToken to return results in sequential pages. Default value is 25.
@@ -1871,9 +1871,9 @@ extension GameLiftStreamsClientTypes {
 
     /// Describes a Amazon GameLift Streams stream session. To retrieve additional details for the stream session, call [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html).
     public struct StreamSessionSummary: Swift.Sendable {
-        /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+        /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
         public var applicationArn: Swift.String?
-        /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream session resource. Format example: 1AB2C3De4. .
+        /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567.
         public var arn: Swift.String?
         /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public var createdAt: Foundation.Date?
@@ -1881,7 +1881,7 @@ extension GameLiftStreamsClientTypes {
         public var exportFilesMetadata: GameLiftStreamsClientTypes.ExportFilesMetadata?
         /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public var lastUpdatedAt: Foundation.Date?
-        /// The location where Amazon GameLift Streams is hosting the stream session. A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions and quotas](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
+        /// The location where Amazon GameLift Streams is hosting the stream session. A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
         public var location: Swift.String?
         /// The data transfer protocol in use with the stream session.
         public var `protocol`: GameLiftStreamsClientTypes.ModelProtocol?
@@ -1982,7 +1982,7 @@ public struct ListStreamSessionsByAccountOutput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The ([Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html) that you want to retrieve tags for. To get a Amazon GameLift Streams resource ARN, call a List or Get operation for the resource.
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that you want to retrieve tags for. To get an Amazon GameLift Streams resource ARN, call a List or Get operation for the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -2005,10 +2005,10 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct RemoveStreamGroupLocationsInput: Swift.Sendable {
-    /// A stream group to remove the specified locations from. This value is a Amazon Resource Name (ARN) that uniquely identifies the stream group resource. Format example: sg-1AB2C3De4.
+    /// A stream group to remove the specified locations from. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     /// This member is required.
     public var identifier: Swift.String?
-    /// A set of locations to remove this stream group. A set of location names. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions and quotas](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
+    /// A set of locations to remove this stream group. A set of location names. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
     /// This member is required.
     public var locations: [Swift.String]?
 
@@ -2026,7 +2026,7 @@ public struct StartStreamSessionInput: Swift.Sendable {
     public var additionalEnvironmentVariables: [Swift.String: Swift.String]?
     /// A list of CLI arguments that are sent to the streaming server when a stream session launches. You can use this to configure the application or stream session details. You can also provide custom arguments that Amazon GameLift Streams passes to your game client. AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data using environment variables; while AdditionalLaunchArgs passes data using command-line arguments.
     public var additionalLaunchArgs: [Swift.String]?
-    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
     /// This member is required.
     public var applicationIdentifier: Swift.String?
     /// A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field.
@@ -2035,17 +2035,17 @@ public struct StartStreamSessionInput: Swift.Sendable {
     public var connectionTimeoutSeconds: Swift.Int?
     /// A human-readable label for the stream session. You can update this value later.
     public var description: Swift.String?
-    /// The stream group to run this stream session with. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+    /// The stream group to run this stream session with. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     /// This member is required.
     public var identifier: Swift.String?
-    /// A list of locations, in order of priority, where you want Amazon GameLift Streams to start a stream from. Amazon GameLift Streams selects the location with the next available capacity to start a single stream session in. If this value is empty, Amazon GameLift Streams attempts to start a stream session in the primary location. This value is A set of location names. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions and quotas](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
+    /// A list of locations, in order of priority, where you want Amazon GameLift Streams to start a stream from. Amazon GameLift Streams selects the location with the next available capacity to start a single stream session in. If this value is empty, Amazon GameLift Streams attempts to start a stream session in the primary location. This value is A set of location names. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
     public var locations: [Swift.String]?
     /// The data transport protocol to use for the stream session.
     /// This member is required.
     public var `protocol`: GameLiftStreamsClientTypes.ModelProtocol?
     /// The maximum length of time (in seconds) that Amazon GameLift Streams keeps the stream session open. At this point, Amazon GameLift Streams ends the stream session regardless of any existing client connections. Default value is 43200.
     public var sessionLengthSeconds: Swift.Int?
-    /// A WebRTC ICE offer string to use when initializing a WebRTC connection. The offer is a very long JSON string. Provide the string as a text value in quotes.
+    /// A WebRTC ICE offer string to use when initializing a WebRTC connection. Typically, the offer is a very long JSON string. Provide the string as a text value in quotes. Amazon GameLift Streams also supports setting the field to "NO_CLIENT_CONNECTION". This will create a session without needing any browser request or Web SDK integration. The session starts up as usual and waits for a reconnection from a browser, which is accomplished using [CreateStreamSessionConnection](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_CreateStreamSessionConnection.html).
     /// This member is required.
     public var signalRequest: Swift.String?
     /// An opaque, unique identifier for an end-user, defined by the developer.
@@ -2090,9 +2090,9 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     public var additionalEnvironmentVariables: [Swift.String: Swift.String]?
     /// A list of CLI arguments that are sent to the streaming server when a stream session launches. You can use this to configure the application or stream session details. You can also provide custom arguments that Amazon GameLift Streams passes to your game client. AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data using environment variables; while AdditionalLaunchArgs passes data using command-line arguments.
     public var additionalLaunchArgs: [Swift.String]?
-    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the application resource. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6.
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
     public var applicationArn: Swift.String?
-    /// The Amazon Resource Name (ARN) assigned to the stream session resource. When combined with the stream group ARN, this value uniquely identifies it across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamsession/[resource ID].
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that's assigned to a stream session resource. When combined with the stream group resource ID, this value uniquely identifies the stream session across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamsession/[stream group resource ID]/[stream session resource ID].
     public var arn: Swift.String?
     /// The maximum length of time (in seconds) that Amazon GameLift Streams keeps the stream session open. At this point, Amazon GameLift Streams ends the stream session regardless of any existing client connections.
     public var connectionTimeoutSeconds: Swift.Int?
@@ -2104,7 +2104,7 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     public var exportFilesMetadata: GameLiftStreamsClientTypes.ExportFilesMetadata?
     /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
     public var lastUpdatedAt: Foundation.Date?
-    /// The location where Amazon GameLift Streams is streaming your application from. A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions and quotas](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
+    /// The location where Amazon GameLift Streams is streaming your application from. A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
     public var location: Swift.String?
     /// Access location for log files that your content generates during a stream session. These log files are uploaded to cloud storage location at the end of a stream session. The Amazon GameLift Streams application resource defines which log files to upload.
     public var logFileLocationUri: Swift.String?
@@ -2120,7 +2120,7 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     public var status: GameLiftStreamsClientTypes.StreamSessionStatus?
     /// A short description of the reason the stream session is in ERROR status.
     public var statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason?
-    /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session.
+    /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
     public var streamGroupId: Swift.String?
     /// An opaque, unique identifier for an end-user, defined by the developer.
     public var userId: Swift.String?
@@ -2178,7 +2178,7 @@ extension StartStreamSessionOutput: Swift.CustomDebugStringConvertible {
 }
 
 public struct GetStreamGroupInput: Swift.Sendable {
-    /// The unique ID value of the stream group resource to retrieve. Format example: sg-1AB2C3De4.
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -2190,10 +2190,10 @@ public struct GetStreamGroupInput: Swift.Sendable {
 }
 
 public struct GetStreamGroupOutput: Swift.Sendable {
-    /// An Amazon Resource Name (ARN) that is assigned to the stream group resource and that uniquely identifies the group across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamgroup/[resource ID].
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that is assigned to the stream group resource and that uniquely identifies the group across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamgroup/[resource ID].
     /// This member is required.
     public var arn: Swift.String?
-    /// A set of applications that this stream group is associated to. You can stream any of these applications by using this stream group. This value is a set of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identify application resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6.
+    /// A set of applications that this stream group is associated to. You can stream any of these applications by using this stream group. This value is a set of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identify application resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
     public var associatedApplications: [Swift.String]?
     /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
     public var createdAt: Foundation.Date?
@@ -2359,7 +2359,7 @@ extension GameLiftStreamsClientTypes {
 
     /// Describes a Amazon GameLift Streams stream group resource for hosting content streams. To retrieve additional stream group details, call [GetStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamGroup.html).
     public struct StreamGroupSummary: Swift.Sendable {
-        /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+        /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4.
         /// This member is required.
         public var arn: Swift.String?
         /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
@@ -2368,7 +2368,7 @@ extension GameLiftStreamsClientTypes {
         public var defaultApplication: GameLiftStreamsClientTypes.DefaultApplication?
         /// A descriptive label for the stream group.
         public var description: Swift.String?
-        /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+        /// An ID that uniquely identifies the stream group resource. Example ID: sg-1AB2C3De4.
         public var id: Swift.String?
         /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public var lastUpdatedAt: Foundation.Date?
@@ -2504,7 +2504,7 @@ public struct ListStreamGroupsOutput: Swift.Sendable {
 public struct UpdateStreamGroupInput: Swift.Sendable {
     /// A descriptive label for the stream group.
     public var description: Swift.String?
-    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+    /// An [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
     /// This member is required.
     public var identifier: Swift.String?
     /// A set of one or more locations and the streaming capacity for each location.
@@ -2522,10 +2522,10 @@ public struct UpdateStreamGroupInput: Swift.Sendable {
 }
 
 public struct UpdateStreamGroupOutput: Swift.Sendable {
-    /// An Amazon Resource Name (ARN) that is assigned to the stream group resource and that uniquely identifies the group across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamgroup/[resource ID].
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that is assigned to the stream group resource and that uniquely identifies the group across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamgroup/[resource ID].
     /// This member is required.
     public var arn: Swift.String?
-    /// A set of applications that this stream group is associated with. You can stream any of these applications with the stream group. This value is a set of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identify application resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6.
+    /// A set of applications that this stream group is associated with. You can stream any of these applications with the stream group. This value is a set of [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identify application resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
     public var associatedApplications: [Swift.String]?
     /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
     public var createdAt: Foundation.Date?
@@ -2673,7 +2673,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html) of the Amazon GameLift Streams resource that you want to apply tags to.
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) of the Amazon GameLift Streams resource that you want to apply tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// A list of tags, in the form of key-value pairs, to assign to the specified Amazon GameLift Streams resource.
@@ -2695,10 +2695,10 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct TerminateStreamSessionInput: Swift.Sendable {
-    /// [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4. The stream group that runs this stream session.
+    /// [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4. The stream group that runs this stream session.
     /// This member is required.
     public var identifier: Swift.String?
-    /// [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the stream session resource. Format example: 1AB2C3De4.
+    /// [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567. Example ID: ABC123def4567.
     /// This member is required.
     public var streamSessionIdentifier: Swift.String?
 
@@ -2712,7 +2712,7 @@ public struct TerminateStreamSessionInput: Swift.Sendable {
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html) of the Amazon GameLift Streams resource that you want to remove tags from.
+    /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) of the Amazon GameLift Streams resource that you want to remove tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// A list of tag keys to remove from the specified Amazon GameLift Streams resource.

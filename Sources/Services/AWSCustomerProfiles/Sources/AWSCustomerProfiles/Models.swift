@@ -2031,6 +2031,8 @@ extension CustomerProfilesClientTypes {
         public var displayName: Swift.String?
         /// Indicates whether the calculated attribute's value is based on partial data. If the data is partial, it is set to true.
         public var isDataPartial: Swift.String?
+        /// The timestamp of the newest object included in the calculated attribute calculation.
+        public var lastObjectTimestamp: Foundation.Date?
         /// The profile id belonging to this calculated attribute value.
         public var profileId: Swift.String?
         /// The value of the calculated attribute.
@@ -2040,12 +2042,14 @@ extension CustomerProfilesClientTypes {
             calculatedAttributeName: Swift.String? = nil,
             displayName: Swift.String? = nil,
             isDataPartial: Swift.String? = nil,
+            lastObjectTimestamp: Foundation.Date? = nil,
             profileId: Swift.String? = nil,
             value: Swift.String? = nil
         ) {
             self.calculatedAttributeName = calculatedAttributeName
             self.displayName = displayName
             self.isDataPartial = isDataPartial
+            self.lastObjectTimestamp = lastObjectTimestamp
             self.profileId = profileId
             self.value = value
         }
@@ -2234,7 +2238,7 @@ extension CustomerProfilesClientTypes {
 
     /// The standard profile of a customer.
     public struct Profile: Swift.Sendable {
-        /// An account number that you have given to the customer.
+        /// An account number that you have assigned to the customer.
         public var accountNumber: Swift.String?
         /// Any additional information relevant to the customer’s profile.
         public var additionalInformation: Swift.String?
@@ -2372,6 +2376,41 @@ public struct BatchGetProfileOutput: Swift.Sendable {
 
 extension CustomerProfilesClientTypes {
 
+    public enum ReadinessStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case preparing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReadinessStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .preparing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .preparing: return "PREPARING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
     /// The details of a single calculated attribute definition.
     public struct ListCalculatedAttributeDefinitionItem: Swift.Sendable {
         /// The unique name of the calculated attribute.
@@ -2384,8 +2423,12 @@ extension CustomerProfilesClientTypes {
         public var displayName: Swift.String?
         /// The timestamp of when the calculated attribute definition was most recently edited.
         public var lastUpdatedAt: Foundation.Date?
+        /// Status of the Calculated Attribute creation (whether all historical data has been indexed.)
+        public var status: CustomerProfilesClientTypes.ReadinessStatus?
         /// The tags used to organize, track, or control access for this resource.
         public var tags: [Swift.String: Swift.String]?
+        /// Whether historical data ingested before the Calculated Attribute was created should be included in calculations.
+        public var useHistoricalData: Swift.Bool?
 
         public init(
             calculatedAttributeName: Swift.String? = nil,
@@ -2393,21 +2436,25 @@ extension CustomerProfilesClientTypes {
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
-            tags: [Swift.String: Swift.String]? = nil
+            status: CustomerProfilesClientTypes.ReadinessStatus? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            useHistoricalData: Swift.Bool? = nil
         ) {
             self.calculatedAttributeName = calculatedAttributeName
             self.createdAt = createdAt
             self.description = description
             self.displayName = displayName
             self.lastUpdatedAt = lastUpdatedAt
+            self.status = status
             self.tags = tags
+            self.useHistoricalData = useHistoricalData
         }
     }
 }
 
 extension CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListCalculatedAttributeDefinitionItem(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "ListCalculatedAttributeDefinitionItem(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), useHistoricalData: \(Swift.String(describing: useHistoricalData)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension CustomerProfilesClientTypes {
@@ -2450,6 +2497,8 @@ extension CustomerProfilesClientTypes {
         public var displayName: Swift.String?
         /// Indicates whether the calculated attribute’s value is based on partial data. If data is partial, it is set to true.
         public var isDataPartial: Swift.String?
+        /// The timestamp of the newest object included in the calculated attribute calculation.
+        public var lastObjectTimestamp: Foundation.Date?
         /// The value of the calculated attribute.
         public var value: Swift.String?
 
@@ -2457,11 +2506,13 @@ extension CustomerProfilesClientTypes {
             calculatedAttributeName: Swift.String? = nil,
             displayName: Swift.String? = nil,
             isDataPartial: Swift.String? = nil,
+            lastObjectTimestamp: Foundation.Date? = nil,
             value: Swift.String? = nil
         ) {
             self.calculatedAttributeName = calculatedAttributeName
             self.displayName = displayName
             self.isDataPartial = isDataPartial
+            self.lastObjectTimestamp = lastObjectTimestamp
             self.value = value
         }
     }
@@ -2563,21 +2614,52 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes {
 
-    /// The relative time period over which data is included in the aggregation.
-    public struct Range: Swift.Sendable {
-        /// The unit of time.
+    /// A structure letting customers specify a relative time window over which over which data is included in the Calculated Attribute. Use positive numbers to indicate that the endpoint is in the past, and negative numbers to indicate it is in the future. ValueRange overrides Value.
+    public struct ValueRange: Swift.Sendable {
+        /// The end time of when to include objects. Use positive numbers to indicate that the starting point is in the past, and negative numbers to indicate it is in the future.
         /// This member is required.
-        public var unit: CustomerProfilesClientTypes.Unit?
-        /// The amount of time of the specified unit.
+        public var end: Swift.Int?
+        /// The start time of when to include objects. Use positive numbers to indicate that the starting point is in the past, and negative numbers to indicate it is in the future.
         /// This member is required.
-        public var value: Swift.Int?
+        public var start: Swift.Int?
 
         public init(
-            unit: CustomerProfilesClientTypes.Unit? = nil,
-            value: Swift.Int? = nil
+            end: Swift.Int? = nil,
+            start: Swift.Int? = nil
         ) {
+            self.end = end
+            self.start = start
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// The relative time period over which data is included in the aggregation.
+    public struct Range: Swift.Sendable {
+        /// The format the timestamp field in your JSON object is specified. This value should be one of EPOCHMILLI (for Unix epoch timestamps with second/millisecond level precision) or ISO_8601 (following ISO_8601 format with second/millisecond level precision, with an optional offset of Z or in the format HH:MM or HHMM.). E.g. if your object type is MyType and source JSON is {"generatedAt": {"timestamp": "2001-07-04T12:08:56.235-0700"}}, then TimestampFormat should be "ISO_8601".
+        public var timestampFormat: Swift.String?
+        /// An expression specifying the field in your JSON object from which the date should be parsed. The expression should follow the structure of \"{ObjectTypeName.}\". E.g. if your object type is MyType and source JSON is {"generatedAt": {"timestamp": "1737587945945"}}, then TimestampSource should be "{MyType.generatedAt.timestamp}".
+        public var timestampSource: Swift.String?
+        /// The unit of time.
+        public var unit: CustomerProfilesClientTypes.Unit?
+        /// The amount of time of the specified unit.
+        public var value: Swift.Int?
+        /// A structure letting customers specify a relative time window over which over which data is included in the Calculated Attribute. Use positive numbers to indicate that the endpoint is in the past, and negative numbers to indicate it is in the future. ValueRange overrides Value.
+        public var valueRange: CustomerProfilesClientTypes.ValueRange?
+
+        public init(
+            timestampFormat: Swift.String? = nil,
+            timestampSource: Swift.String? = nil,
+            unit: CustomerProfilesClientTypes.Unit? = .days,
+            value: Swift.Int? = 0,
+            valueRange: CustomerProfilesClientTypes.ValueRange? = nil
+        ) {
+            self.timestampFormat = timestampFormat
+            self.timestampSource = timestampSource
             self.unit = unit
             self.value = value
+            self.valueRange = valueRange
         }
     }
 }
@@ -2859,6 +2941,8 @@ public struct CreateCalculatedAttributeDefinitionInput: Swift.Sendable {
     public var statistic: CustomerProfilesClientTypes.Statistic?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
+    /// Whether historical data ingested before the Calculated Attribute was created should be included in calculations.
+    public var useHistoricalData: Swift.Bool?
 
     public init(
         attributeDetails: CustomerProfilesClientTypes.AttributeDetails? = nil,
@@ -2869,7 +2953,8 @@ public struct CreateCalculatedAttributeDefinitionInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         filter: CustomerProfilesClientTypes.Filter? = nil,
         statistic: CustomerProfilesClientTypes.Statistic? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        useHistoricalData: Swift.Bool? = nil
     ) {
         self.attributeDetails = attributeDetails
         self.calculatedAttributeName = calculatedAttributeName
@@ -2880,12 +2965,32 @@ public struct CreateCalculatedAttributeDefinitionInput: Swift.Sendable {
         self.filter = filter
         self.statistic = statistic
         self.tags = tags
+        self.useHistoricalData = useHistoricalData
     }
 }
 
 extension CreateCalculatedAttributeDefinitionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCalculatedAttributeDefinitionInput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), filter: \(Swift.String(describing: filter)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
+        "CreateCalculatedAttributeDefinitionInput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), filter: \(Swift.String(describing: filter)), tags: \(Swift.String(describing: tags)), useHistoricalData: \(Swift.String(describing: useHistoricalData)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Information indicating if the Calculated Attribute is ready for use by confirming all historical data has been processed and reflected.
+    public struct Readiness: Swift.Sendable {
+        /// Any customer messaging.
+        public var message: Swift.String?
+        /// Approximately how far the Calculated Attribute creation is from completion.
+        public var progressPercentage: Swift.Int?
+
+        public init(
+            message: Swift.String? = nil,
+            progressPercentage: Swift.Int? = nil
+        ) {
+            self.message = message
+            self.progressPercentage = progressPercentage
+        }
+    }
 }
 
 public struct CreateCalculatedAttributeDefinitionOutput: Swift.Sendable {
@@ -2905,10 +3010,16 @@ public struct CreateCalculatedAttributeDefinitionOutput: Swift.Sendable {
     public var filter: CustomerProfilesClientTypes.Filter?
     /// The timestamp of when the calculated attribute definition was most recently edited.
     public var lastUpdatedAt: Foundation.Date?
+    /// Information indicating if the Calculated Attribute is ready for use by confirming all historical data has been processed and reflected.
+    public var readiness: CustomerProfilesClientTypes.Readiness?
     /// The aggregation operation to perform for the calculated attribute.
     public var statistic: CustomerProfilesClientTypes.Statistic?
+    /// Status of the Calculated Attribute creation (whether all historical data has been indexed.)
+    public var status: CustomerProfilesClientTypes.ReadinessStatus?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
+    /// Whether historical data ingested before the Calculated Attribute was created should be included in calculations.
+    public var useHistoricalData: Swift.Bool?
 
     public init(
         attributeDetails: CustomerProfilesClientTypes.AttributeDetails? = nil,
@@ -2919,8 +3030,11 @@ public struct CreateCalculatedAttributeDefinitionOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         filter: CustomerProfilesClientTypes.Filter? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
+        readiness: CustomerProfilesClientTypes.Readiness? = nil,
         statistic: CustomerProfilesClientTypes.Statistic? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        status: CustomerProfilesClientTypes.ReadinessStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        useHistoricalData: Swift.Bool? = nil
     ) {
         self.attributeDetails = attributeDetails
         self.calculatedAttributeName = calculatedAttributeName
@@ -2930,14 +3044,17 @@ public struct CreateCalculatedAttributeDefinitionOutput: Swift.Sendable {
         self.displayName = displayName
         self.filter = filter
         self.lastUpdatedAt = lastUpdatedAt
+        self.readiness = readiness
         self.statistic = statistic
+        self.status = status
         self.tags = tags
+        self.useHistoricalData = useHistoricalData
     }
 }
 
 extension CreateCalculatedAttributeDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), filter: \(Swift.String(describing: filter)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
+        "CreateCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), filter: \(Swift.String(describing: filter)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), readiness: \(Swift.String(describing: readiness)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), useHistoricalData: \(Swift.String(describing: useHistoricalData)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
 }
 
 extension CustomerProfilesClientTypes {
@@ -3356,6 +3473,141 @@ public struct CreateDomainOutput: Swift.Sendable {
     }
 }
 
+extension CustomerProfilesClientTypes {
+
+    public enum LayoutType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case profileExplorer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LayoutType] {
+            return [
+                .profileExplorer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .profileExplorer: return "PROFILE_EXPLORER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDomainLayoutInput: Swift.Sendable {
+    /// The description of the layout
+    /// This member is required.
+    public var description: Swift.String?
+    /// The display name of the layout
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
+    public var isDefault: Swift.Bool?
+    /// A customizable layout that can be used to view data under a Customer Profiles domain.
+    /// This member is required.
+    public var layout: Swift.String?
+    /// The unique name of the layout.
+    /// This member is required.
+    public var layoutDefinitionName: Swift.String?
+    /// The type of layout that can be used to view data under a Customer Profiles domain.
+    /// This member is required.
+    public var layoutType: CustomerProfilesClientTypes.LayoutType?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        isDefault: Swift.Bool? = false,
+        layout: Swift.String? = nil,
+        layoutDefinitionName: Swift.String? = nil,
+        layoutType: CustomerProfilesClientTypes.LayoutType? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.description = description
+        self.displayName = displayName
+        self.domainName = domainName
+        self.isDefault = isDefault
+        self.layout = layout
+        self.layoutDefinitionName = layoutDefinitionName
+        self.layoutType = layoutType
+        self.tags = tags
+    }
+}
+
+extension CreateDomainLayoutInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDomainLayoutInput(displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), isDefault: \(Swift.String(describing: isDefault)), layoutDefinitionName: \(Swift.String(describing: layoutDefinitionName)), layoutType: \(Swift.String(describing: layoutType)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", layout: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateDomainLayoutOutput: Swift.Sendable {
+    /// The timestamp of when the layout was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the layout
+    /// This member is required.
+    public var description: Swift.String?
+    /// The display name of the layout
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
+    public var isDefault: Swift.Bool
+    /// The timestamp of when the layout was most recently updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// A customizable layout that can be used to view data under Customer Profiles domain.
+    /// This member is required.
+    public var layout: Swift.String?
+    /// The unique name of the layout.
+    /// This member is required.
+    public var layoutDefinitionName: Swift.String?
+    /// The type of layout that can be used to view data under customer profiles domain.
+    /// This member is required.
+    public var layoutType: CustomerProfilesClientTypes.LayoutType?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+    /// The version used to create layout.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        isDefault: Swift.Bool = false,
+        lastUpdatedAt: Foundation.Date? = nil,
+        layout: Swift.String? = nil,
+        layoutDefinitionName: Swift.String? = nil,
+        layoutType: CustomerProfilesClientTypes.LayoutType? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.displayName = displayName
+        self.isDefault = isDefault
+        self.lastUpdatedAt = lastUpdatedAt
+        self.layout = layout
+        self.layoutDefinitionName = layoutDefinitionName
+        self.layoutType = layoutType
+        self.tags = tags
+        self.version = version
+    }
+}
+
+extension CreateDomainLayoutOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDomainLayoutOutput(createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), isDefault: \(Swift.String(describing: isDefault)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), layoutDefinitionName: \(Swift.String(describing: layoutDefinitionName)), layoutType: \(Swift.String(describing: layoutType)), tags: \(Swift.String(describing: tags)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", layout: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateEventStreamInput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
@@ -3770,7 +4022,7 @@ public struct CreateIntegrationWorkflowOutput: Swift.Sendable {
 }
 
 public struct CreateProfileInput: Swift.Sendable {
-    /// An account number that you have given to the customer.
+    /// An account number that you have assigned to the customer.
     public var accountNumber: Swift.String?
     /// Any additional information relevant to the customer’s profile.
     public var additionalInformation: Swift.String?
@@ -4440,6 +4692,35 @@ public struct DeleteDomainOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteDomainLayoutInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique name of the layout.
+    /// This member is required.
+    public var layoutDefinitionName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        layoutDefinitionName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.layoutDefinitionName = layoutDefinitionName
+    }
+}
+
+public struct DeleteDomainLayoutOutput: Swift.Sendable {
+    /// A message that indicates the delete request is done.
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.message = message
+    }
+}
+
 public struct DeleteEventStreamInput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
@@ -4789,10 +5070,19 @@ extension CustomerProfilesClientTypes {
 extension CustomerProfilesClientTypes {
 
     public enum StandardIdentifier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case airBooking
+        case airPreference
+        case airSegment
         case asset
         case `case`
         case communicationRecord
+        case hotelPreference
+        case hotelReservation
+        case hotelStayRevenue
         case lookupOnly
+        case loyalty
+        case loyaltyPromotion
+        case loyaltyTransaction
         case newOnly
         case order
         case profile
@@ -4802,10 +5092,19 @@ extension CustomerProfilesClientTypes {
 
         public static var allCases: [StandardIdentifier] {
             return [
+                .airBooking,
+                .airPreference,
+                .airSegment,
                 .asset,
                 .case,
                 .communicationRecord,
+                .hotelPreference,
+                .hotelReservation,
+                .hotelStayRevenue,
                 .lookupOnly,
+                .loyalty,
+                .loyaltyPromotion,
+                .loyaltyTransaction,
                 .newOnly,
                 .order,
                 .profile,
@@ -4821,10 +5120,19 @@ extension CustomerProfilesClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .airBooking: return "AIR_BOOKING"
+            case .airPreference: return "AIR_PREFERENCE"
+            case .airSegment: return "AIR_SEGMENT"
             case .asset: return "ASSET"
             case .case: return "CASE"
             case .communicationRecord: return "COMMUNICATION_RECORD"
+            case .hotelPreference: return "HOTEL_PREFERENCE"
+            case .hotelReservation: return "HOTEL_RESERVATION"
+            case .hotelStayRevenue: return "HOTEL_STAY_REVENUE"
             case .lookupOnly: return "LOOKUP_ONLY"
+            case .loyalty: return "LOYALTY"
+            case .loyaltyPromotion: return "LOYALTY_PROMOTION"
+            case .loyaltyTransaction: return "LOYALTY_TRANSACTION"
             case .newOnly: return "NEW_ONLY"
             case .order: return "ORDER"
             case .profile: return "PROFILE"
@@ -4978,10 +5286,16 @@ public struct GetCalculatedAttributeDefinitionOutput: Swift.Sendable {
     public var filter: CustomerProfilesClientTypes.Filter?
     /// The timestamp of when the calculated attribute definition was most recently edited.
     public var lastUpdatedAt: Foundation.Date?
+    /// Information indicating if the Calculated Attribute is ready for use by confirming all historical data has been processed and reflected.
+    public var readiness: CustomerProfilesClientTypes.Readiness?
     /// The aggregation operation to perform for the calculated attribute.
     public var statistic: CustomerProfilesClientTypes.Statistic?
+    /// Status of the Calculated Attribute creation (whether all historical data has been indexed).
+    public var status: CustomerProfilesClientTypes.ReadinessStatus?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
+    /// Whether historical data ingested before the Calculated Attribute was created should be included in calculations.
+    public var useHistoricalData: Swift.Bool?
 
     public init(
         attributeDetails: CustomerProfilesClientTypes.AttributeDetails? = nil,
@@ -4992,8 +5306,11 @@ public struct GetCalculatedAttributeDefinitionOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         filter: CustomerProfilesClientTypes.Filter? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
+        readiness: CustomerProfilesClientTypes.Readiness? = nil,
         statistic: CustomerProfilesClientTypes.Statistic? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        status: CustomerProfilesClientTypes.ReadinessStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        useHistoricalData: Swift.Bool? = nil
     ) {
         self.attributeDetails = attributeDetails
         self.calculatedAttributeName = calculatedAttributeName
@@ -5003,14 +5320,17 @@ public struct GetCalculatedAttributeDefinitionOutput: Swift.Sendable {
         self.displayName = displayName
         self.filter = filter
         self.lastUpdatedAt = lastUpdatedAt
+        self.readiness = readiness
         self.statistic = statistic
+        self.status = status
         self.tags = tags
+        self.useHistoricalData = useHistoricalData
     }
 }
 
 extension GetCalculatedAttributeDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), filter: \(Swift.String(describing: filter)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
+        "GetCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), filter: \(Swift.String(describing: filter)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), readiness: \(Swift.String(describing: readiness)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), useHistoricalData: \(Swift.String(describing: useHistoricalData)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetCalculatedAttributeForProfileInput: Swift.Sendable {
@@ -5042,6 +5362,8 @@ public struct GetCalculatedAttributeForProfileOutput: Swift.Sendable {
     public var displayName: Swift.String?
     /// Indicates whether the calculated attribute’s value is based on partial data. If data is partial, it is set to true.
     public var isDataPartial: Swift.String?
+    /// The timestamp of the newest object included in the calculated attribute calculation.
+    public var lastObjectTimestamp: Foundation.Date?
     /// The value of the calculated attribute.
     public var value: Swift.String?
 
@@ -5049,11 +5371,13 @@ public struct GetCalculatedAttributeForProfileOutput: Swift.Sendable {
         calculatedAttributeName: Swift.String? = nil,
         displayName: Swift.String? = nil,
         isDataPartial: Swift.String? = nil,
+        lastObjectTimestamp: Foundation.Date? = nil,
         value: Swift.String? = nil
     ) {
         self.calculatedAttributeName = calculatedAttributeName
         self.displayName = displayName
         self.isDataPartial = isDataPartial
+        self.lastObjectTimestamp = lastObjectTimestamp
         self.value = value
     }
 }
@@ -5145,6 +5469,83 @@ public struct GetDomainOutput: Swift.Sendable {
         self.stats = stats
         self.tags = tags
     }
+}
+
+public struct GetDomainLayoutInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique name of the layout.
+    /// This member is required.
+    public var layoutDefinitionName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        layoutDefinitionName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.layoutDefinitionName = layoutDefinitionName
+    }
+}
+
+public struct GetDomainLayoutOutput: Swift.Sendable {
+    /// The timestamp of when the layout was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the layout
+    /// This member is required.
+    public var description: Swift.String?
+    /// The display name of the layout
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
+    public var isDefault: Swift.Bool
+    /// The timestamp of when the layout was most recently updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// A customizable layout that can be used to view data under a Customer Profiles domain.
+    /// This member is required.
+    public var layout: Swift.String?
+    /// The unique name of the layout.
+    /// This member is required.
+    public var layoutDefinitionName: Swift.String?
+    /// The type of layout that can be used to view data under a Customer Profiles domain.
+    /// This member is required.
+    public var layoutType: CustomerProfilesClientTypes.LayoutType?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+    /// The version used to create layout.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        isDefault: Swift.Bool = false,
+        lastUpdatedAt: Foundation.Date? = nil,
+        layout: Swift.String? = nil,
+        layoutDefinitionName: Swift.String? = nil,
+        layoutType: CustomerProfilesClientTypes.LayoutType? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.displayName = displayName
+        self.isDefault = isDefault
+        self.lastUpdatedAt = lastUpdatedAt
+        self.layout = layout
+        self.layoutDefinitionName = layoutDefinitionName
+        self.layoutType = layoutType
+        self.tags = tags
+        self.version = version
+    }
+}
+
+extension GetDomainLayoutOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetDomainLayoutOutput(createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), isDefault: \(Swift.String(describing: isDefault)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), layoutDefinitionName: \(Swift.String(describing: layoutDefinitionName)), layoutType: \(Swift.String(describing: layoutType)), tags: \(Swift.String(describing: tags)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", layout: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetEventStreamInput: Swift.Sendable {
@@ -6581,6 +6982,95 @@ public struct ListCalculatedAttributesForProfileOutput: Swift.Sendable {
 
     public init(
         items: [CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDomainLayoutsInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The maximum number of objects returned per page.
+    public var maxResults: Swift.Int?
+    /// Identifies the next page of results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// The layout object that contains LayoutDefinitionName, Description, DisplayName, IsDefault, LayoutType, Tags, CreatedAt, LastUpdatedAt
+    public struct LayoutItem: Swift.Sendable {
+        /// The timestamp of when the layout was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the layout
+        /// This member is required.
+        public var description: Swift.String?
+        /// The display name of the layout
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// If set to true for a layout, this layout will be used by default to view data. If set to false, then layout will not be used by default but it can be used to view data by explicit selection on UI.
+        public var isDefault: Swift.Bool
+        /// The timestamp of when the layout was most recently updated.
+        /// This member is required.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The unique name of the layout.
+        /// This member is required.
+        public var layoutDefinitionName: Swift.String?
+        /// The type of layout that can be used to view data under customer profiles domain.
+        /// This member is required.
+        public var layoutType: CustomerProfilesClientTypes.LayoutType?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            isDefault: Swift.Bool = false,
+            lastUpdatedAt: Foundation.Date? = nil,
+            layoutDefinitionName: Swift.String? = nil,
+            layoutType: CustomerProfilesClientTypes.LayoutType? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.isDefault = isDefault
+            self.lastUpdatedAt = lastUpdatedAt
+            self.layoutDefinitionName = layoutDefinitionName
+            self.layoutType = layoutType
+            self.tags = tags
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.LayoutItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "LayoutItem(createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), isDefault: \(Swift.String(describing: isDefault)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), layoutDefinitionName: \(Swift.String(describing: layoutDefinitionName)), layoutType: \(Swift.String(describing: layoutType)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListDomainLayoutsOutput: Swift.Sendable {
+    /// Contains summary information about an EventStream.
+    public var items: [CustomerProfilesClientTypes.LayoutItem]?
+    /// Identifies the next page of results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [CustomerProfilesClientTypes.LayoutItem]? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.items = items
@@ -8100,10 +8590,16 @@ public struct UpdateCalculatedAttributeDefinitionOutput: Swift.Sendable {
     public var displayName: Swift.String?
     /// The timestamp of when the calculated attribute definition was most recently edited.
     public var lastUpdatedAt: Foundation.Date?
+    /// Information indicating if the Calculated Attribute is ready for use by confirming all historical data has been processed and reflected.
+    public var readiness: CustomerProfilesClientTypes.Readiness?
     /// The aggregation operation to perform for the calculated attribute.
     public var statistic: CustomerProfilesClientTypes.Statistic?
+    /// Status of the Calculated Attribute creation (whether all historical data has been indexed.)
+    public var status: CustomerProfilesClientTypes.ReadinessStatus?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String]?
+    /// Whether historical data ingested before the Calculated Attribute was created should be included in calculations.
+    public var useHistoricalData: Swift.Bool?
 
     public init(
         attributeDetails: CustomerProfilesClientTypes.AttributeDetails? = nil,
@@ -8113,8 +8609,11 @@ public struct UpdateCalculatedAttributeDefinitionOutput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
+        readiness: CustomerProfilesClientTypes.Readiness? = nil,
         statistic: CustomerProfilesClientTypes.Statistic? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        status: CustomerProfilesClientTypes.ReadinessStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        useHistoricalData: Swift.Bool? = nil
     ) {
         self.attributeDetails = attributeDetails
         self.calculatedAttributeName = calculatedAttributeName
@@ -8123,14 +8622,17 @@ public struct UpdateCalculatedAttributeDefinitionOutput: Swift.Sendable {
         self.description = description
         self.displayName = displayName
         self.lastUpdatedAt = lastUpdatedAt
+        self.readiness = readiness
         self.statistic = statistic
+        self.status = status
         self.tags = tags
+        self.useHistoricalData = useHistoricalData
     }
 }
 
 extension UpdateCalculatedAttributeDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
+        "UpdateCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), readiness: \(Swift.String(describing: readiness)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), useHistoricalData: \(Swift.String(describing: useHistoricalData)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateDomainInput: Swift.Sendable {
@@ -8213,6 +8715,100 @@ public struct UpdateDomainOutput: Swift.Sendable {
         self.ruleBasedMatching = ruleBasedMatching
         self.tags = tags
     }
+}
+
+public struct UpdateDomainLayoutInput: Swift.Sendable {
+    /// The description of the layout
+    public var description: Swift.String?
+    /// The display name of the layout
+    public var displayName: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
+    public var isDefault: Swift.Bool?
+    /// A customizable layout that can be used to view data under a Customer Profiles domain.
+    public var layout: Swift.String?
+    /// The unique name of the layout.
+    /// This member is required.
+    public var layoutDefinitionName: Swift.String?
+    /// The type of layout that can be used to view data under a Customer Profiles domain.
+    public var layoutType: CustomerProfilesClientTypes.LayoutType?
+
+    public init(
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        isDefault: Swift.Bool? = false,
+        layout: Swift.String? = nil,
+        layoutDefinitionName: Swift.String? = nil,
+        layoutType: CustomerProfilesClientTypes.LayoutType? = nil
+    ) {
+        self.description = description
+        self.displayName = displayName
+        self.domainName = domainName
+        self.isDefault = isDefault
+        self.layout = layout
+        self.layoutDefinitionName = layoutDefinitionName
+        self.layoutType = layoutType
+    }
+}
+
+extension UpdateDomainLayoutInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateDomainLayoutInput(displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), isDefault: \(Swift.String(describing: isDefault)), layoutDefinitionName: \(Swift.String(describing: layoutDefinitionName)), layoutType: \(Swift.String(describing: layoutType)), description: \"CONTENT_REDACTED\", layout: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateDomainLayoutOutput: Swift.Sendable {
+    /// The timestamp of when the layout was created.
+    public var createdAt: Foundation.Date?
+    /// The description of the layout
+    public var description: Swift.String?
+    /// The display name of the layout
+    public var displayName: Swift.String?
+    /// If set to true for a layout, this layout will be used by default to view data. If set to false, then the layout will not be used by default, but it can be used to view data by explicitly selecting it in the console.
+    public var isDefault: Swift.Bool
+    /// The timestamp of when the layout was most recently updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// A customizable layout that can be used to view data under a Customer Profiles domain.
+    public var layout: Swift.String?
+    /// The unique name of the layout.
+    public var layoutDefinitionName: Swift.String?
+    /// The type of layout that can be used to view data under a Customer Profiles domain.
+    public var layoutType: CustomerProfilesClientTypes.LayoutType?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+    /// The version used to create layout.
+    public var version: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        isDefault: Swift.Bool = false,
+        lastUpdatedAt: Foundation.Date? = nil,
+        layout: Swift.String? = nil,
+        layoutDefinitionName: Swift.String? = nil,
+        layoutType: CustomerProfilesClientTypes.LayoutType? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.displayName = displayName
+        self.isDefault = isDefault
+        self.lastUpdatedAt = lastUpdatedAt
+        self.layout = layout
+        self.layoutDefinitionName = layoutDefinitionName
+        self.layoutType = layoutType
+        self.tags = tags
+        self.version = version
+    }
+}
+
+extension UpdateDomainLayoutOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateDomainLayoutOutput(createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), isDefault: \(Swift.String(describing: isDefault)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), layoutDefinitionName: \(Swift.String(describing: layoutDefinitionName)), layoutType: \(Swift.String(describing: layoutType)), tags: \(Swift.String(describing: tags)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", layout: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateEventTriggerInput: Swift.Sendable {
@@ -8363,7 +8959,7 @@ extension CustomerProfilesClientTypes.UpdateAddress: Swift.CustomDebugStringConv
 }
 
 public struct UpdateProfileInput: Swift.Sendable {
-    /// An account number that you have given to the customer.
+    /// An account number that you have assigned to the customer.
     public var accountNumber: Swift.String?
     /// Any additional information relevant to the customer’s profile.
     public var additionalInformation: Swift.String?
@@ -8546,6 +9142,19 @@ extension CreateDomainInput {
     }
 }
 
+extension CreateDomainLayoutInput {
+
+    static func urlPathProvider(_ value: CreateDomainLayoutInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let layoutDefinitionName = value.layoutDefinitionName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/layouts/\(layoutDefinitionName.urlPercentEncoding())"
+    }
+}
+
 extension CreateEventStreamInput {
 
     static func urlPathProvider(_ value: CreateEventStreamInput) -> Swift.String? {
@@ -8648,6 +9257,19 @@ extension DeleteDomainInput {
             return nil
         }
         return "/domains/\(domainName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDomainLayoutInput {
+
+    static func urlPathProvider(_ value: DeleteDomainLayoutInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let layoutDefinitionName = value.layoutDefinitionName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/layouts/\(layoutDefinitionName.urlPercentEncoding())"
     }
 }
 
@@ -8812,6 +9434,19 @@ extension GetDomainInput {
             return nil
         }
         return "/domains/\(domainName.urlPercentEncoding())"
+    }
+}
+
+extension GetDomainLayoutInput {
+
+    static func urlPathProvider(_ value: GetDomainLayoutInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let layoutDefinitionName = value.layoutDefinitionName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/layouts/\(layoutDefinitionName.urlPercentEncoding())"
     }
 }
 
@@ -9105,6 +9740,32 @@ extension ListCalculatedAttributesForProfileInput {
 extension ListCalculatedAttributesForProfileInput {
 
     static func queryItemProvider(_ value: ListCalculatedAttributesForProfileInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDomainLayoutsInput {
+
+    static func urlPathProvider(_ value: ListDomainLayoutsInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/layouts"
+    }
+}
+
+extension ListDomainLayoutsInput {
+
+    static func queryItemProvider(_ value: ListDomainLayoutsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -9582,6 +10243,19 @@ extension UpdateDomainInput {
     }
 }
 
+extension UpdateDomainLayoutInput {
+
+    static func urlPathProvider(_ value: UpdateDomainLayoutInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let layoutDefinitionName = value.layoutDefinitionName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/layouts/\(layoutDefinitionName.urlPercentEncoding())"
+    }
+}
+
 extension UpdateEventTriggerInput {
 
     static func urlPathProvider(_ value: UpdateEventTriggerInput) -> Swift.String? {
@@ -9643,6 +10317,7 @@ extension CreateCalculatedAttributeDefinitionInput {
         try writer["Filter"].write(value.filter, with: CustomerProfilesClientTypes.Filter.write(value:to:))
         try writer["Statistic"].write(value.statistic)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["UseHistoricalData"].write(value.useHistoricalData)
     }
 }
 
@@ -9655,6 +10330,19 @@ extension CreateDomainInput {
         try writer["DefaultExpirationDays"].write(value.defaultExpirationDays)
         try writer["Matching"].write(value.matching, with: CustomerProfilesClientTypes.MatchingRequest.write(value:to:))
         try writer["RuleBasedMatching"].write(value.ruleBasedMatching, with: CustomerProfilesClientTypes.RuleBasedMatchingRequest.write(value:to:))
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateDomainLayoutInput {
+
+    static func write(value: CreateDomainLayoutInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["DisplayName"].write(value.displayName)
+        try writer["IsDefault"].write(value.isDefault)
+        try writer["Layout"].write(value.layout)
+        try writer["LayoutType"].write(value.layoutType)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -9954,6 +10642,18 @@ extension UpdateDomainInput {
     }
 }
 
+extension UpdateDomainLayoutInput {
+
+    static func write(value: UpdateDomainLayoutInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["DisplayName"].write(value.displayName)
+        try writer["IsDefault"].write(value.isDefault)
+        try writer["Layout"].write(value.layout)
+        try writer["LayoutType"].write(value.layoutType)
+    }
+}
+
 extension UpdateEventTriggerInput {
 
     static func write(value: UpdateEventTriggerInput?, to writer: SmithyJSON.Writer) throws {
@@ -10052,8 +10752,11 @@ extension CreateCalculatedAttributeDefinitionOutput {
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.filter = try reader["Filter"].readIfPresent(with: CustomerProfilesClientTypes.Filter.read(from:))
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.readiness = try reader["Readiness"].readIfPresent(with: CustomerProfilesClientTypes.Readiness.read(from:))
         value.statistic = try reader["Statistic"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.useHistoricalData = try reader["UseHistoricalData"].readIfPresent()
         return value
     }
 }
@@ -10074,6 +10777,27 @@ extension CreateDomainOutput {
         value.matching = try reader["Matching"].readIfPresent(with: CustomerProfilesClientTypes.MatchingResponse.read(from:))
         value.ruleBasedMatching = try reader["RuleBasedMatching"].readIfPresent(with: CustomerProfilesClientTypes.RuleBasedMatchingResponse.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateDomainLayoutOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDomainLayoutOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDomainLayoutOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.displayName = try reader["DisplayName"].readIfPresent() ?? ""
+        value.isDefault = try reader["IsDefault"].readIfPresent() ?? false
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.layout = try reader["Layout"].readIfPresent() ?? ""
+        value.layoutDefinitionName = try reader["LayoutDefinitionName"].readIfPresent() ?? ""
+        value.layoutType = try reader["LayoutType"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.version = try reader["Version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10193,6 +10917,18 @@ extension DeleteDomainOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteDomainOutput()
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteDomainLayoutOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDomainLayoutOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDomainLayoutOutput()
         value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
@@ -10338,8 +11074,11 @@ extension GetCalculatedAttributeDefinitionOutput {
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.filter = try reader["Filter"].readIfPresent(with: CustomerProfilesClientTypes.Filter.read(from:))
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.readiness = try reader["Readiness"].readIfPresent(with: CustomerProfilesClientTypes.Readiness.read(from:))
         value.statistic = try reader["Statistic"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.useHistoricalData = try reader["UseHistoricalData"].readIfPresent()
         return value
     }
 }
@@ -10354,6 +11093,7 @@ extension GetCalculatedAttributeForProfileOutput {
         value.calculatedAttributeName = try reader["CalculatedAttributeName"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.isDataPartial = try reader["IsDataPartial"].readIfPresent()
+        value.lastObjectTimestamp = try reader["LastObjectTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.value = try reader["Value"].readIfPresent()
         return value
     }
@@ -10376,6 +11116,27 @@ extension GetDomainOutput {
         value.ruleBasedMatching = try reader["RuleBasedMatching"].readIfPresent(with: CustomerProfilesClientTypes.RuleBasedMatchingResponse.read(from:))
         value.stats = try reader["Stats"].readIfPresent(with: CustomerProfilesClientTypes.DomainStats.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetDomainLayoutOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDomainLayoutOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDomainLayoutOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.displayName = try reader["DisplayName"].readIfPresent() ?? ""
+        value.isDefault = try reader["IsDefault"].readIfPresent() ?? false
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.layout = try reader["Layout"].readIfPresent() ?? ""
+        value.layoutDefinitionName = try reader["LayoutDefinitionName"].readIfPresent() ?? ""
+        value.layoutType = try reader["LayoutType"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.version = try reader["Version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10677,6 +11438,19 @@ extension ListCalculatedAttributesForProfileOutput {
     }
 }
 
+extension ListDomainLayoutsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDomainLayoutsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDomainLayoutsOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.LayoutItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListDomainsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDomainsOutput {
@@ -10972,8 +11746,11 @@ extension UpdateCalculatedAttributeDefinitionOutput {
         value.description = try reader["Description"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.readiness = try reader["Readiness"].readIfPresent(with: CustomerProfilesClientTypes.Readiness.read(from:))
         value.statistic = try reader["Statistic"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.useHistoricalData = try reader["UseHistoricalData"].readIfPresent()
         return value
     }
 }
@@ -10994,6 +11771,27 @@ extension UpdateDomainOutput {
         value.matching = try reader["Matching"].readIfPresent(with: CustomerProfilesClientTypes.MatchingResponse.read(from:))
         value.ruleBasedMatching = try reader["RuleBasedMatching"].readIfPresent(with: CustomerProfilesClientTypes.RuleBasedMatchingResponse.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension UpdateDomainLayoutOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDomainLayoutOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDomainLayoutOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.isDefault = try reader["IsDefault"].readIfPresent() ?? false
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.layout = try reader["Layout"].readIfPresent()
+        value.layoutDefinitionName = try reader["LayoutDefinitionName"].readIfPresent()
+        value.layoutType = try reader["LayoutType"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.version = try reader["Version"].readIfPresent()
         return value
     }
 }
@@ -11103,6 +11901,24 @@ enum CreateCalculatedAttributeDefinitionOutputError {
 }
 
 enum CreateDomainOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDomainLayoutOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -11265,6 +12081,24 @@ enum DeleteCalculatedAttributeDefinitionOutputError {
 }
 
 enum DeleteDomainOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDomainLayoutOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -11517,6 +12351,24 @@ enum GetCalculatedAttributeForProfileOutputError {
 }
 
 enum GetDomainOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDomainLayoutOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -11823,6 +12675,24 @@ enum ListCalculatedAttributeDefinitionsOutputError {
 }
 
 enum ListCalculatedAttributesForProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDomainLayoutsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12247,6 +13117,24 @@ enum UpdateDomainOutputError {
     }
 }
 
+enum UpdateDomainLayoutOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateEventTriggerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12370,6 +13258,7 @@ extension CustomerProfilesClientTypes.CalculatedAttributeValue {
         value.isDataPartial = try reader["IsDataPartial"].readIfPresent()
         value.profileId = try reader["ProfileId"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
+        value.lastObjectTimestamp = try reader["LastObjectTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -12570,15 +13459,38 @@ extension CustomerProfilesClientTypes.Range {
 
     static func write(value: CustomerProfilesClientTypes.Range?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["TimestampFormat"].write(value.timestampFormat)
+        try writer["TimestampSource"].write(value.timestampSource)
         try writer["Unit"].write(value.unit)
         try writer["Value"].write(value.value)
+        try writer["ValueRange"].write(value.valueRange, with: CustomerProfilesClientTypes.ValueRange.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Range {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CustomerProfilesClientTypes.Range()
         value.value = try reader["Value"].readIfPresent() ?? 0
-        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
+        value.unit = try reader["Unit"].readIfPresent() ?? CustomerProfilesClientTypes.Unit.days
+        value.valueRange = try reader["ValueRange"].readIfPresent(with: CustomerProfilesClientTypes.ValueRange.read(from:))
+        value.timestampSource = try reader["TimestampSource"].readIfPresent()
+        value.timestampFormat = try reader["TimestampFormat"].readIfPresent()
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.ValueRange {
+
+    static func write(value: CustomerProfilesClientTypes.ValueRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["End"].write(value.end)
+        try writer["Start"].write(value.start)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ValueRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ValueRange()
+        value.start = try reader["Start"].readIfPresent() ?? 0
+        value.end = try reader["End"].readIfPresent() ?? 0
         return value
     }
 }
@@ -12645,6 +13557,17 @@ extension CustomerProfilesClientTypes.FilterAttributeDimension {
         var value = CustomerProfilesClientTypes.FilterAttributeDimension()
         value.dimensionType = try reader["DimensionType"].readIfPresent() ?? .sdkUnknown("")
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.Readiness {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Readiness {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.Readiness()
+        value.progressPercentage = try reader["ProgressPercentage"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -13400,6 +14323,8 @@ extension CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem {
         value.description = try reader["Description"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.useHistoricalData = try reader["UseHistoricalData"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -13414,6 +14339,24 @@ extension CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem {
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.isDataPartial = try reader["IsDataPartial"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
+        value.lastObjectTimestamp = try reader["LastObjectTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.LayoutItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.LayoutItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.LayoutItem()
+        value.layoutDefinitionName = try reader["LayoutDefinitionName"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.displayName = try reader["DisplayName"].readIfPresent() ?? ""
+        value.isDefault = try reader["IsDefault"].readIfPresent() ?? false
+        value.layoutType = try reader["LayoutType"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

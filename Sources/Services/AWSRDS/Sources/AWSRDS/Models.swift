@@ -4821,6 +4821,8 @@ extension RDSClientTypes {
         public var engineMode: Swift.String?
         /// The version of the database engine.
         public var engineVersion: Swift.String?
+        /// Contains a user-supplied global database cluster identifier. This identifier is the unique key that identifies a global database cluster.
+        public var globalClusterIdentifier: Swift.String?
         /// Indicates whether write forwarding is enabled for a secondary cluster in an Aurora global database. Because write forwarding takes time to enable, check the value of GlobalWriteForwardingStatus to confirm that the request has completed before using the write forwarding feature for this cluster.
         public var globalWriteForwardingRequested: Swift.Bool?
         /// The status of write forwarding for a secondary cluster in an Aurora global database.
@@ -4953,6 +4955,7 @@ extension RDSClientTypes {
             engineLifecycleSupport: Swift.String? = nil,
             engineMode: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
+            globalClusterIdentifier: Swift.String? = nil,
             globalWriteForwardingRequested: Swift.Bool? = nil,
             globalWriteForwardingStatus: RDSClientTypes.WriteForwardingStatus? = nil,
             hostedZoneId: Swift.String? = nil,
@@ -5036,6 +5039,7 @@ extension RDSClientTypes {
             self.engineLifecycleSupport = engineLifecycleSupport
             self.engineMode = engineMode
             self.engineVersion = engineVersion
+            self.globalClusterIdentifier = globalClusterIdentifier
             self.globalWriteForwardingRequested = globalWriteForwardingRequested
             self.globalWriteForwardingStatus = globalWriteForwardingStatus
             self.hostedZoneId = hostedZoneId
@@ -6360,7 +6364,7 @@ extension RDSClientTypes {
         public var dbSubnetGroupName: Swift.String?
         /// Provides the status of the DB subnet group.
         public var subnetGroupStatus: Swift.String?
-        /// Contains a list of Subnet elements.
+        /// Contains a list of Subnet elements. The list of subnets shown here might not reflect the current state of your VPC. For the most up-to-date information, we recommend checking your VPC configuration directly.
         public var subnets: [RDSClientTypes.Subnet]?
         /// The network type of the DB subnet group. Valid values:
         ///
@@ -8211,13 +8215,13 @@ public struct UnsupportedDBEngineVersionFault: ClientRuntime.ModeledError, AWSCl
 }
 
 public struct CreateDBShardGroupInput: Swift.Sendable {
-    /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
+    /// Specifies whether to create standby standby DB data access shard for the DB shard group. Valid values are the following:
     ///
-    /// * 0 - Creates a DB shard group without a standby DB shard group. This is the default value.
+    /// * 0 - Creates a DB shard group without a standby DB data access shard. This is the default value.
     ///
-    /// * 1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).
+    /// * 1 - Creates a DB shard group with a standby DB data access shard in a different Availability Zone (AZ).
     ///
-    /// * 2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
+    /// * 2 - Creates a DB shard group with two standby DB data access shard in two different AZs.
     public var computeRedundancy: Swift.Int?
     /// The name of the primary DB cluster for the DB shard group.
     /// This member is required.
@@ -12832,7 +12836,7 @@ extension RDSClientTypes {
     public struct ConnectionPoolConfigurationInfo: Swift.Sendable {
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions.
         public var connectionBorrowTimeout: Swift.Int?
-        /// One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. This setting is empty by default. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.
+        /// One or more SQL statements for the proxy to run when opening each new database connection. The setting is typically used with SET statements to make sure that each connection has identical settings. The query added here must be valid. For including multiple variables in a single SET statement, use a comma separator. This is an optional field. For example: SET variable1=value1, variable2=value2
         public var initQuery: Swift.String?
         /// The maximum size of the connection pool for each target in a target group. The value is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group.
         public var maxConnectionsPercent: Swift.Int?
@@ -17907,9 +17911,9 @@ extension RDSClientTypes {
     public struct ConnectionPoolConfiguration: Swift.Sendable {
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. This setting only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120 Constraints:
         ///
-        /// * Must be between 0 and 3600.
+        /// * Must be between 0 and 300.
         public var connectionBorrowTimeout: Swift.Int?
-        /// Add an initialization query, or modify the current one. You can specify one or more SQL statements for the proxy to run when opening each new database connection. The setting is typically used with SET statements to make sure that each connection has identical settings. Make sure that the query you add is valid. To include multiple variables in a single SET statement, use comma separators. For example: SET variable1=value1, variable2=value2 For multiple statements, use semicolons as the separator. Default: no initialization query
+        /// Add an initialization query, or modify the current one. You can specify one or more SQL statements for the proxy to run when opening each new database connection. The setting is typically used with SET statements to make sure that each connection has identical settings. Make sure the query added here is valid. This is an optional field, so you can choose to leave it empty. For including multiple variables in a single SET statement, use a comma separator. For example: SET variable1=value1, variable2=value2 Default: no initialization query
         public var initQuery: Swift.String?
         /// The maximum size of the connection pool for each target in a target group. The value is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group. If you specify MaxIdleConnectionsPercent, then you must also include a value for this parameter. Default: 10 for RDS for Microsoft SQL Server, and 100 for all other engines Constraints:
         ///
@@ -32703,6 +32707,7 @@ extension RDSClientTypes.DBCluster {
         value.crossAccountClone = try reader["CrossAccountClone"].readIfPresent()
         value.domainMemberships = try reader["DomainMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.DomainMembership.read(from:), memberNodeInfo: "DomainMembership", isFlattened: false)
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.globalClusterIdentifier = try reader["GlobalClusterIdentifier"].readIfPresent()
         value.globalWriteForwardingStatus = try reader["GlobalWriteForwardingStatus"].readIfPresent()
         value.globalWriteForwardingRequested = try reader["GlobalWriteForwardingRequested"].readIfPresent()
         value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.ClusterPendingModifiedValues.read(from:))
