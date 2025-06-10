@@ -35,8 +35,9 @@ class InternalModelIntegration : SwiftIntegration {
         )
     }
 
-    private fun neededOpsForService(sdkId: String?): List<String> = when (sdkId) {
-        "STS" -> stsOps
-        else -> emptyList()
-    }
+    private fun neededOpsForService(sdkId: String?): List<String> =
+        when (sdkId) {
+            "STS" -> stsOps
+            else -> emptyList()
+        }
 }

@@ -8,6 +8,8 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.aws.swift.codegen.customization.RulesBasedAuthSchemeResolverGenerator
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKEventStreamsAuthTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalClientTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
@@ -58,7 +60,13 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
     }
 
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
-        AuthSchemeResolverGenerator().render(ctx)
+        AuthSchemeResolverGenerator { authOptionName, writer ->
+            writer.write(
+                "$authOptionName.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
+                AWSSDKIdentityTypes.InternalClientKeys,
+                InternalClientTypes.IdentityProvidingSTSClient,
+            )
+        }.render(ctx)
         // Generate rules-based auth scheme resolver for services that depend on endpoint resolver for auth scheme resolution
         if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
             RulesBasedAuthSchemeResolverGenerator().render(ctx)
