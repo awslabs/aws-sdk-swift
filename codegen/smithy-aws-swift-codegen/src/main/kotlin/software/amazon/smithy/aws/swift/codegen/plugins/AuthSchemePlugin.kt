@@ -45,7 +45,7 @@ class AuthSchemePlugin(
 
             writer.write("")
             writer.openBlock(
-                "public init(authSchemes: \$N = nil, authSchemePreference: \$T = nil, authSchemeResolver: \$N = nil, awsCredentialIdentityResolver: \$N = nil, bearerTokenIdentityResolver: \$N = nil) {",
+                "public init(authSchemes: \$N = nil, authSchemePreference: \$N = nil, authSchemeResolver: \$N = nil, awsCredentialIdentityResolver: \$N = nil, bearerTokenIdentityResolver: \$N = nil) {",
                 "}",
                 SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(),
                 SwiftTypes.StringList.toOptional(),
