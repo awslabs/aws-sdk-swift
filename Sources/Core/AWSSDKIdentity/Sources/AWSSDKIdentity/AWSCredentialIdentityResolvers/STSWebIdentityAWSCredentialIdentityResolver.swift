@@ -38,7 +38,9 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
-        guard let identityProperties, let internalSTSClient = identityProperties.get(key: AWSSDKIdentity.InternalServiceClientKeys.internalSTSClient) else {
+        guard let identityProperties, let internalSTSClient = identityProperties.get(
+            key: InternalClientKeys.internalSTSClientKey
+        ) else {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                 "STSWebIdentityAWSCredentialIdentityResolver: "
                 + "Missing IdentityProvidingSTSClient in identity properties."
