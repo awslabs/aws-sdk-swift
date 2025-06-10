@@ -57,25 +57,38 @@ public struct ProcessAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         self.profileName = profileName
     }
 
-    #if os(macOS) || os(Linux)
+    #if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
+    public func getIdentity(identityProperties: Smithy.Attributes? = nil) async throws -> AWSCredentialIdentity {
+        throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+            "ProcessAWSCredentialsResolver: not supported in this environment."
+        )
+    }
+    #else
     public func getIdentity(identityProperties: Smithy.Attributes? = nil) async throws -> AWSCredentialIdentity {
         let externalProcess = try fetchExternalProcessFromSharedConfig()
         let (process, pipe) = setupProcessAndOutputPipe(externalProcess: externalProcess)
 
-        do {
-            try process.run()
-            process.waitUntilExit()
-            guard process.terminationStatus == 0 else {
-                throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                    "ProcessAWSCredentialsResolver: credential_process exited with status \(process.terminationStatus)."
-                )
+        return try await withCheckedThrowingContinuation { continuation in
+            Task.detached(priority: .userInitiated) {
+                do {
+                    try process.run()
+                    process.waitUntilExit()
+                    guard process.terminationStatus == 0 else {
+                        throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                            "ProcessAWSCredentialsResolver: credential_process exited with status \(process.terminationStatus)."
+                        )
+                    }
+                    let jsonData = pipe.fileHandleForReading.readDataToEndOfFile()
+                    let creds = try decodeCredentials(from: jsonData)
+                    continuation.resume(returning: creds)
+                } catch let error as AWSCredentialIdentityResolverError {
+                    throw error
+                } catch {
+                    continuation.resume(throwing: AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                        "ProcessAWSCredentialsResolver: failed to fetch credentials."
+                    ))
+                }
             }
-            let jsonData = pipe.fileHandleForReading.readDataToEndOfFile()
-            return try decodeCredentials(from: jsonData)
-        } catch {
-            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "ProcessAWSCredentialsResolver: credential_process threw an error."
-            )
         }
     }
 
@@ -127,12 +140,6 @@ public struct ProcessAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                 "ProcessAWSCredentialsResolver: Failed to decode response from credential_process."
             )
         }
-    }
-    #else
-    public func getIdentity(identityProperties: Smithy.Attributes? = nil) async throws -> AWSCredentialIdentity {
-        throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-            "ProcessAWSCredentialsResolver: not supported in this environment."
-        )
     }
     #endif
 }

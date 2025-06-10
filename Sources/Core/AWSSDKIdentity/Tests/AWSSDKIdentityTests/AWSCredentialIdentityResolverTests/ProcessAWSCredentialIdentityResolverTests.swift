@@ -14,7 +14,7 @@ class ProcessAWSCredentialIdentityResolverTests: XCTestCase {
     let configPath = Bundle.module.path(forResource: "config_with_process", ofType: nil)!
     let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
 
-    #if os(macOS) || os(Linux)
+    #if !os(iOS) && !os(tvOS) && !os(watchOS) && !os(visionOS)
     func testGetCredentialsWithDefaultProfile() async throws {
         let subject = try ProcessAWSCredentialIdentityResolver(
             configFilePath: configPath,

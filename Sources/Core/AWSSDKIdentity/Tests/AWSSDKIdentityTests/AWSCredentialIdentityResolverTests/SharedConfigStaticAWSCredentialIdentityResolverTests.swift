@@ -12,20 +12,31 @@ class SharedConfigStaticAWSCredentialIdentityResolverTests: XCTestCase {
     let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
 
     override func setUp() async throws {
-        setenv("AWS_PROFILE", "shared-config-static-creds-resolver", 1)
+        setenv("AWS_PROFILE", "shared-config-static-creds-resolver-env", 1)
     }
 
     override func tearDown() async throws {
         unsetenv("AWS_PROFILE")
     }
 
-    func testGetIdentity() async throws {
+    func testGetIdentityWithEnvProfileName() async throws {
         let resolver = SharedConfigStaticAWSCredentialIdentityResolver(
             credentialsFilePath: credentialsPath
         )
         let creds = try await resolver.getIdentity()
-        XCTAssertEqual(creds.accessKey, "access_key")
-        XCTAssertEqual(creds.secret, "secret")
-        XCTAssertEqual(creds.sessionToken, "session")
+        XCTAssertEqual(creds.accessKey, "access_key1")
+        XCTAssertEqual(creds.secret, "secret1")
+        XCTAssertEqual(creds.sessionToken, "session1")
+    }
+
+    func testGetIdentityWithInCodeProfileName() async throws {
+        let resolver = SharedConfigStaticAWSCredentialIdentityResolver(
+            profileName: "shared-config-static-creds-resolver-incode",
+            credentialsFilePath: credentialsPath
+        )
+        let creds = try await resolver.getIdentity()
+        XCTAssertEqual(creds.accessKey, "access_key2")
+        XCTAssertEqual(creds.secret, "secret2")
+        XCTAssertEqual(creds.sessionToken, "session2")
     }
 }
