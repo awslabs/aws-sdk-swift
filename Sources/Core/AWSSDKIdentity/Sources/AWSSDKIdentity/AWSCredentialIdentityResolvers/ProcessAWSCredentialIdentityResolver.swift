@@ -75,7 +75,8 @@ public struct ProcessAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                     process.waitUntilExit()
                     guard process.terminationStatus == 0 else {
                         throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                            "ProcessAWSCredentialsResolver: credential_process exited with status \(process.terminationStatus)."
+                            "ProcessAWSCredentialsResolver: "
+                            + "credential_process exited with status \(process.terminationStatus)."
                         )
                     }
                     let jsonData = pipe.fileHandleForReading.readDataToEndOfFile()
