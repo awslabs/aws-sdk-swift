@@ -23,7 +23,7 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
         val path = "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSTS/IdentityProvidingSTSClient.swift"
         delegator.useFileWriter(path) { writer ->
             writer.openBlock(
-                "package struct IdentityProvidingSTSClient: \$N, \$N {"
+                "package struct IdentityProvidingSTSClient: \$N, \$N {",
                 "}",
                 AWSSDKIdentityTypes.IdentityProvidingSTSClient,
                 SwiftTypes.Protocols.Sendable,
@@ -40,7 +40,7 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
                     writer.indent()
                     writer.openBlock(
                         "out = try await sts.assumeRoleWithWebIdentity(input: AssumeRoleWithWebIdentityInput(",
-                        "))"
+                        "))",
                     ) {
                         writer.write("roleArn: roleARN, roleSessionName: roleSessionName, webIdentityToken: webIdentityToken")
                     }
@@ -59,20 +59,27 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
                         "throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(",
                         ")",
                     ) {
-                        writer.write("\"STSWebIdentityAWSCredentialIdentityResolver: Failed to retrieve credentials from STS with web identity token.\"")
+                        writer.write(
+                            "\"STSWebIdentityAWSCredentialIdentityResolver: " +
+                                "Failed to retrieve credentials from STS with web identity token.\"",
+                        )
                     }
                     writer.dedent()
                     writer.write("}")
 
                     writer.openBlock(
-                        "guard let creds = out.credentials, let access = creds.accessKeyId, let secret = creds.secretAccessKey else {",
-                        "}"
+                        "guard let creds = out.credentials, let access = creds.accessKeyId, " +
+                            "let secret = creds.secretAccessKey else {",
+                        "}",
                     ) {
                         writer.openBlock(
-                            "throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials("
+                            "throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(",
                             ")",
                         ) {
-                            writer.write("\"STSWebIdentityAWSCredentialIdentityResolver: Failed to retrieve credentials from STS with web identity token.\"")
+                            writer.write(
+                                "\"STSWebIdentityAWSCredentialIdentityResolver: " +
+                                    "Failed to retrieve credentials from STS with web identity token.\"",
+                            )
                         }
                     }
 
@@ -80,7 +87,10 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
                         "return AWSCredentialIdentity(",
                         ")",
                     ) {
-                        writer.write("accessKey: access, secret: secret, expiration: creds.expiration, sessionToken: creds.sessionToken")
+                        writer.write(
+                            "accessKey: access, secret: secret, " +
+                                "expiration: creds.expiration, sessionToken: creds.sessionToken",
+                        )
                     }
                 }
             }
