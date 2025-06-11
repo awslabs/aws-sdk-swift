@@ -60,13 +60,23 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
     }
 
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
-        AuthSchemeResolverGenerator { authOptionName, writer ->
-            writer.write(
-                "$authOptionName.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
-                AWSSDKIdentityTypes.InternalClientKeys,
-                InternalClientTypes.IdentityProvidingSTSClient,
-            )
-        }.render(ctx)
+        AuthSchemeResolverGenerator(
+            // Skip auth option customization w/ internal service clients for protocol test codegen.
+            // Internal service clients are contained in aws-sdk-swift targets that ARE NOT vended externally
+            //  via a product, meaning service clients generated outside of aws-sdk-swift CANNOT depend on
+            //  the internal service clients. Not to mention it's not even needed for protocol tests.
+            if (ctx.settings.forProtocolTests) {
+                null
+            } else {
+                { authOptionName, writer ->
+                    writer.write(
+                        "$authOptionName.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
+                        AWSSDKIdentityTypes.InternalClientKeys,
+                        InternalClientTypes.IdentityProvidingSTSClient,
+                    )
+                }
+            }
+        ).render(ctx)
         // Generate rules-based auth scheme resolver for services that depend on endpoint resolver for auth scheme resolution
         if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
             RulesBasedAuthSchemeResolverGenerator().render(ctx)
