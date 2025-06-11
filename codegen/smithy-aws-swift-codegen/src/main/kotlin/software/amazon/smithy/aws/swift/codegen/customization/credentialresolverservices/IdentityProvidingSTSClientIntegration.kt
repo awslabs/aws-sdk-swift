@@ -56,8 +56,9 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
                     writer.write("} catch {")
                     writer.indent()
                     writer.openBlock(
-                        "throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(",
+                        "throw \$N.failedToResolveAWSCredentials(",
                         ")",
+                        AWSSDKIdentityTypes.AWSCredentialIdentityResolverError,
                     ) {
                         writer.write(
                             "\"STSWebIdentityAWSCredentialIdentityResolver: " +

@@ -30,3 +30,4 @@ software.amazon.smithy.swift.codegen.protocols.rpcv2cbor.CborValidateResponseHea
 software.amazon.smithy.aws.swift.codegen.customization.rds.AuthTokenGeneratorIntegration
 software.amazon.smithy.aws.swift.codegen.customization.dsql.AuthTokenGeneratorIntegration
 software.amazon.smithy.aws.swift.codegen.customization.credentialresolverservices.InternalModelIntegration
+software.amazon.smithy.aws.swift.codegen.customization.credentialresolverservices.IdentityProvidingSTSClientIntegration
