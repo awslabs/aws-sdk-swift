@@ -8,7 +8,7 @@
 /// Protocol that allows InternalAWSSTSClient to be used by the STSWebIdentityAWSCredentialIdentityResolver without a direct dependency on it.
 ///
 /// The `IdentityProvidingSTSClient` type that conforms to this protocol is code-generated along with the Internal STS client.
-public protocol IdentityProvidingSTSClient {
+public protocol IdentityProvidingSTSClient: Sendable {
     func getCredentialsWithWebIdentity(
         region: String,
         roleARN: String,
