@@ -20,7 +20,7 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
         protocolGenerationContext: ProtocolGenerator.GenerationContext,
         delegator: SwiftDelegator,
     ) {
-        val path = "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSTS/IdentityProvidingSTSClient.swift"
+        val path = "Sources/InternalAWSSTS/IdentityProvidingSTSClient.swift"
         delegator.useFileWriter(path) { writer ->
             writer.openBlock(
                 "package struct IdentityProvidingSTSClient: \$N, \$N {",
