@@ -537,8 +537,6 @@ private var runtimeTargets: [Target] {
                 .clientRuntime,
                 .smithyRetriesAPI,
                 .smithyRetries,
-                .smithyEventStreamsAPI,
-                .smithyEventStreamsAuthAPI,
                 .awsSDKCommon,
                 .awsSDKHTTPAuth,
                 .awsSDKChecksums,
@@ -566,28 +564,32 @@ private var runtimeTargets: [Target] {
         ),
         .target(
             name: "AWSSDKIdentity",
+            dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon],
+            path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity"
+        ),
+        .target(
+            name: "InternalAWSSTS",
             dependencies: [
-                .crt,
-                .smithy,
                 .clientRuntime,
-                .smithyIdentity,
-                .smithyIdentityAPI,
-                .smithyHTTPAPI,
-                .awsSDKCommon,
-                "AWSClientRuntime",
+                .awsClientRuntime,
                 .smithyRetriesAPI,
                 .smithyRetries,
+                .smithy,
+                .smithyIdentity,
+                .smithyIdentityAPI,
                 .smithyEventStreamsAPI,
                 .smithyEventStreamsAuthAPI,
                 .smithyEventStreams,
                 .smithyChecksumsAPI,
                 .smithyChecksums,
                 .smithyWaitersAPI,
+                .awsSDKCommon,
+                .awsSDKIdentity,
                 .awsSDKHTTPAuth,
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
             ],
-            path: "Sources/Core/AWSSDKIdentity/Sources"
+            path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSTS"
         ),
         .target(
             name: "AWSSDKChecksums",
@@ -651,6 +653,7 @@ private func target(_ service: String) -> Target {
             .awsSDKHTTPAuth,
             .awsSDKEventStreamsAuth,
             .awsSDKChecksums,
+            "InternalAWSSTS",
         ],
         path: "Sources/Services/\(service)/Sources/\(service)"
     )
