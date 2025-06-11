@@ -19,6 +19,7 @@ extension Target.Dependency {
     static var awsSDKHTTPAuth: Self { .product(name: "AWSSDKHTTPAuth", package: "aws-sdk-swift") }
     static var awsSDKIdentity: Self { .product(name: "AWSSDKIdentity", package: "aws-sdk-swift") }
     static var awsSDKChecksums: Self { .product(name: "AWSSDKChecksums", package: "aws-sdk-swift") }
+    static var internalAWSSTS: Self { .product(name: "InternalAWSSTS", package: "aws-sdk-swift") }
 
     // smithy-swift modules
     static var clientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
@@ -120,6 +121,7 @@ private var protocolTestTargets: [Target] {
                 .awsSDKHTTPAuth,
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
+                .internalAWSSTS,
             ],
             path: "\(protocolTest.sourcePath)/swift-codegen/Sources/\(protocolTest.name)"
         )
