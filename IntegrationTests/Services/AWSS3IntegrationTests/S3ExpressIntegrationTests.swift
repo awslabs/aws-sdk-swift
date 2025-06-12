@@ -1,23 +1,14 @@
 //
-//  S3ExpressIntegrationTests.swift
-//  IntegrationTests
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
-//  Created by Elkins, Josh on 6/5/25.
+// SPDX-License-Identifier: Apache-2.0
 //
 
 import XCTest
 import AWSS3
 
-final class S3ExpressIntegrationTests: XCTestCase {
-
-    // Random identifiers for buckets that will be created in the test
-    let ids = (0..<3).map { _ in String(UUID().uuidString.prefix(8)).lowercased() }
-
-    // Region in which to run the test
-    let region = "us-west-2"
-
-    // Availability zone where the buckets should be created
-    let azID = "usw2-az1"
+final class S3ExpressIntegrationTests: S3ExpressXCTestCase {
 
     // This test:
     // - Creates multiple S3Express ("directory") buckets
@@ -27,57 +18,39 @@ final class S3ExpressIntegrationTests: XCTestCase {
     // - Deletes each S3Express bucket
     func test_s3Express_operationalTest() async throws {
         let key = "text"
-        let originalContents = "Hello, World!"
+        let originalContents = Data("Hello, World!".utf8)
 
-        // Create client
-        let config = try await S3Client.S3ClientConfiguration(
-            region: region,
-        )
-        let client = S3Client(config: config)
-
-        // Create the S3Express-enabled directory buckets
-        for id in ids {
-            let input = CreateBucketInput(
-                bucket: bucket(id: id),
-                createBucketConfiguration: .init(
-                    bucket: .init(dataRedundancy: .singleavailabilityzone, type: .directory),
-                    location: .init(name: azID, type: .availabilityzone)
-                )
-            )
-            let _ = try await client.createBucket(input: input)
+        // Create the S3Express-enabled directory buckets & save the names for later use
+        var buckets = [String]()
+        for _ in 0..<3 {
+            let baseName = String(UUID().uuidString.prefix(8)).lowercased()
+            let newBucket = try await createS3ExpressBucket(baseName: baseName)
+            buckets.append(newBucket)
         }
 
         // add object to each bucket
-        for id in ids {
-            let input = PutObjectInput(body: .data(.init(originalContents.utf8)), bucket: bucket(id: id), key: key)
+        for bucket in buckets {
+            let input = PutObjectInput(body: .data(.init(originalContents)), bucket: bucket, key: key)
             let _ = try await client.putObject(input: input)
         }
 
         // Get the object from each bucket and check its contents match original
-        for id in ids {
-            let input = GetObjectInput(bucket: bucket(id: id), key: key)
+        for bucket in buckets {
+            let input = GetObjectInput(bucket: bucket, key: key)
             let output = try await client.getObject(input: input)
 
-            let data = try await output.body!.readData()!
-            let retrieved = String(data: data, encoding: .utf8)!
-            XCTAssertEqual(retrieved, originalContents, "Expected \"\(originalContents)\", received \"\(retrieved)\"")
+            let retrieved = try await output.body!.readData()!
+            XCTAssertEqual(retrieved, originalContents)
         }
 
         // Delete the object from each bucket
-        for id in ids {
-            let input = DeleteObjectInput(bucket: bucket(id: id), key: key)
-            _ = try await client.deleteObject(input: input)
+        for bucket in buckets {
+            try await deleteObject(bucket: bucket, key: key)
         }
 
         // Delete each directory bucket
-        for id in ids {
-            let input = DeleteBucketInput(bucket: bucket(id: id))
-            _ = try await client.deleteBucket(input: input)
+        for bucket in buckets {
+            try await deleteBucket(bucket: bucket)
         }
-    }
-
-    // Helper method to create a S3Express-compliant bucket name
-    private func bucket(id: String) -> String {
-        "a\(id)--\(azID)--x-s3"
     }
 }
