@@ -87,7 +87,7 @@ class PresignerGenerator : SwiftIntegration {
 
         writer.openBlock("extension $inputType {", "}") {
             writer.openBlock(
-                "public func presign(config: \$L, expiration: \$N) async throws -> \$T {",
+                "${ctx.settings.visibility} func presign(config: \$L, expiration: \$N) async throws -> \$T {",
                 "}",
                 serviceConfig.typeName,
                 FoundationTypes.TimeInterval,

@@ -57,5 +57,15 @@ class AWSSwiftDependency {
                 "AWSClientRuntime",
                 SwiftDependency.DistributionMethod.SPR,
             )
+        val INTERNAL_AWS_STS =
+            SwiftDependency(
+                "InternalAWSSTS",
+                "main",
+                "0.0.1",
+                "aws-sdk-swift",
+                "../../../aws-sdk-swift",
+                "InternalAWSSTS",
+                SwiftDependency.DistributionMethod.SPR,
+            )
     }
 }

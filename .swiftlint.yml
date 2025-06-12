@@ -4,7 +4,7 @@ included:
   - Sources/Core/AWSSDKCommon/Sources
   - Sources/Core/AWSSDKEventStreamsAuth/Sources
   - Sources/Core/AWSSDKHTTPAuth/Sources
-  - Sources/Core/AWSSDKIdentity/Sources
+  - Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity
 
 analyzer_rules:
   - unused_import
