@@ -38,30 +38,31 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
+        guard let identityProperties, let internalSTSClient = identityProperties.get(
+            key: InternalClientKeys.internalSTSClientKey
+        ) else {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "STSWebIdentityAWSCredentialIdentityResolver: "
+                + "Missing IdentityProvidingSTSClient in identity properties."
+            )
+        }
         let (region, roleARN, tokenFilePath, roleSessionName) = try resolveConfiguration()
         var token = try readToken(from: tokenFilePath)
-        let sts = try STSClient(region: region)
-
-        var input = AssumeRoleWithWebIdentityInput(
-            roleArn: roleARN,
-            roleSessionName: roleSessionName,
-            webIdentityToken: token
-        )
 
         var backoff = 0.1
         for _ in 0..<maxRetries {
             do {
-                return try extractIdentity(from: try await sts.assumeRoleWithWebIdentity(input: input))
-            } catch is ExpiredTokenException {
-                try? await Task.sleep(nanoseconds: UInt64(backoff * 1_000_000_000))
-                backoff *= 2
-                token = try readToken(from: tokenFilePath) // Re-read token.
-                input = AssumeRoleWithWebIdentityInput(
-                    roleArn: roleARN,
+                return try await internalSTSClient.getCredentialsWithWebIdentity(
+                    region: region,
+                    roleARN: roleARN,
                     roleSessionName: roleSessionName,
                     webIdentityToken: token
                 )
-            } catch is IDPCommunicationErrorException {
+            } catch IdentityProvidingSTSClientError.expiredTokenException {
+                try? await Task.sleep(nanoseconds: UInt64(backoff * 1_000_000_000))
+                backoff *= 2
+                token = try readToken(from: tokenFilePath) // Re-read token.
+            } catch IdentityProvidingSTSClientError.idpCommunicationErrorException {
                 try? await Task.sleep(nanoseconds: UInt64(backoff * 1_000_000_000))
                 backoff *= 2
             } catch {
@@ -71,7 +72,12 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
             }
         }
 
-        return try extractIdentity(from: try await sts.assumeRoleWithWebIdentity(input: input))
+        return try await internalSTSClient.getCredentialsWithWebIdentity(
+            region: region,
+            roleARN: roleARN,
+            roleSessionName: roleSessionName,
+            webIdentityToken: token
+        )
     }
 
     private func resolveConfiguration() throws -> (String, String, String, String) {
@@ -133,21 +139,6 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         }
         return try String(contentsOfFile: resolvedPath, encoding: .utf8)
             .trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    private func extractIdentity(from output: AssumeRoleWithWebIdentityOutput) throws -> AWSCredentialIdentity {
-        guard let accessKey = output.credentials?.accessKeyId,
-              let secretKey = output.credentials?.secretAccessKey else {
-            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "STSWebIdentityAWSCredentialIdentityResolver: STS response missing credentials."
-            )
-        }
-        return AWSCredentialIdentity(
-            accessKey: accessKey,
-            secret: secretKey,
-            expiration: output.credentials?.expiration,
-            sessionToken: output.credentials?.sessionToken
-        )
     }
 }
 

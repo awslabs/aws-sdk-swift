@@ -25,25 +25,25 @@ class InternalModelIntegration : SwiftIntegration {
     override fun enabledForService(
         model: Model,
         settings: SwiftSettings,
-    ): Boolean = settings.sdkId in setOf("STS", "SSO", "SSO OIDC")
+    ): Boolean = settings.visibility == "internal"
 
     override fun preprocessModel(
         model: Model?,
         settings: SwiftSettings?,
     ): Model {
-        val validOps = validOpsForSdk(settings?.sdkId)
+        val ops = neededOpsForService(settings?.sdkId)
         return ModelTransformer.create().removeShapesIf(
             model,
             Predicate { shape ->
                 when (shape) {
-                    is OperationShape -> shape.id.toString() !in validOps
+                    is OperationShape -> shape.id.toString() !in ops
                     else -> false
                 }
             },
         )
     }
 
-    private fun validOpsForSdk(sdkId: String?): List<String> =
+    private fun neededOpsForService(sdkId: String?): List<String> =
         when (sdkId) {
             "STS" -> stsOps
             "SSO" -> ssoOps

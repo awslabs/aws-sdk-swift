@@ -39,51 +39,74 @@ private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
         }
         switch serviceParams.operation {
             case "onlyHttpApiKeyAuth":
-                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth"))
+                var httpApiKeyAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth")
+                httpApiKeyAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                validAuthOptions.append(httpApiKeyAuthOption)
             case "onlyHttpApiKeyAuthOptional":
-                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth"))
+                var httpApiKeyAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth")
+                httpApiKeyAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                validAuthOptions.append(httpApiKeyAuthOption)
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "onlyHttpBearerAuth":
-                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth"))
+                var httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
+                httpBearerAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                validAuthOptions.append(httpBearerAuthOption)
             case "onlyHttpBearerAuthOptional":
-                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth"))
+                var httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
+                httpBearerAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                validAuthOptions.append(httpBearerAuthOption)
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "onlyHttpApiKeyAndBearerAuth":
-                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth"))
-                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth"))
+                var httpApiKeyAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth")
+                httpApiKeyAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                validAuthOptions.append(httpApiKeyAuthOption)
+                var httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
+                httpBearerAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                validAuthOptions.append(httpBearerAuthOption)
             case "onlyHttpApiKeyAndBearerAuthReversed":
-                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth"))
-                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth"))
+                var httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
+                httpBearerAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                validAuthOptions.append(httpBearerAuthOption)
+                var httpApiKeyAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpApiKeyAuth")
+                httpApiKeyAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                validAuthOptions.append(httpApiKeyAuthOption)
             case "onlySigv4Auth":
-                var sigV4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
-                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "weather")
+                var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "weather")
                 guard let region = serviceParams.region else {
                     throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
-                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
-                validAuthOptions.append(sigV4Option)
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
+                sigv4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                validAuthOptions.append(sigv4Option)
             case "onlySigv4AuthOptional":
-                var sigV4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
-                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "weather")
+                var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "weather")
                 guard let region = serviceParams.region else {
                     throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
-                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
-                validAuthOptions.append(sigV4Option)
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
+                sigv4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                validAuthOptions.append(sigv4Option)
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "onlyCustomAuth":
-                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "com.test#customAuth"))
+                var customAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "com.test#customAuth")
+                customAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                validAuthOptions.append(customAuthOption)
             case "onlyCustomAuthOptional":
-                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "com.test#customAuth"))
+                var customAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "com.test#customAuth")
+                customAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                validAuthOptions.append(customAuthOption)
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             default:
-                var sigV4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
-                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "weather")
+                var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "weather")
                 guard let region = serviceParams.region else {
                     throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
-                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
-                validAuthOptions.append(sigV4Option)
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
+                sigv4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                validAuthOptions.append(sigv4Option)
         }
         return validAuthOptions
     }
@@ -112,11 +135,13 @@ public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
                     var sigV4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
                     sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: param.signingName)
                     sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: param.signingRegion)
+                    sigV4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
                     validAuthOptions.append(sigV4Option)
                 case .sigV4A(let param):
                     var sigV4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4a")
                     sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: param.signingName)
                     sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: param.signingRegionSet?[0])
+                    sigV4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
                     validAuthOptions.append(sigV4Option)
                 default:
                     throw Smithy.ClientError.authError("Unknown auth scheme name: \(scheme.name)")
