@@ -13,5 +13,5 @@ public protocol IdentityProvidingSSOOIDCClient: Sendable {
         clientID: String,
         clientSecret: String,
         refreshToken: String
-    ) async throws -> (refreshToken: String, BearerTokenIdentity)
+    ) async throws -> (refreshToken: String?, BearerTokenIdentity)
 }

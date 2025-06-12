@@ -146,18 +146,23 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
             throw ClientError.dataNotFound("The sso-sesion section must contain sso_region property.")
         }
 
-        guard let clientID = token.clientId, let clientSecret = token.clientSecret, let refreshToken = token.refreshToken else {
-            logger.debug("SSOBearerTokenIdentityResolver: Failed to refresh token.")
-            // Just return original token.
-            return token
-        }
-
         let (newRefreshToken, newAccessToken) = try await ssoOIDCClient.createToken(
             region: ssoRegion,
-            clientID: clientID,
-            clientSecret: clientSecret,
-            refreshToken: refreshToken
+            // 3 fields below are guaranteed to be non-nil for execution flow to reach here.
+            clientID: token.clientId!,
+            clientSecret: token.clientSecret!,
+            refreshToken: token.refreshToken!
         )
+
+        guard !newAccessToken.token.isEmpty else {
+            if token.tokenIsExpired() {
+                throw ClientError.dataNotFound("Expired SSO token failed to refresh.")
+            } else {
+                logger.debug("SSOBearerTokenIdentityResolver: Failed to refresh token.")
+                // Just return original token.
+                return token
+            }
+        }
 
         let refreshedToken = SSOToken(
             accessToken: newAccessToken.token,

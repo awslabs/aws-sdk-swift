@@ -74,6 +74,16 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
                         AWSSDKIdentityTypes.InternalClientKeys,
                         InternalClientTypes.IdentityProvidingSTSClient,
                     )
+                    writer.write(
+                        "$authOptionName.identityProperties.set(key: \$N.internalSSOClientKey, value: \$N())",
+                        AWSSDKIdentityTypes.InternalClientKeys,
+                        InternalClientTypes.IdentityProvidingSSOClient,
+                    )
+                    writer.write(
+                        "$authOptionName.identityProperties.set(key: \$N.internalSSOOIDCClientKey, value: \$N())",
+                        AWSSDKIdentityTypes.InternalClientKeys,
+                        InternalClientTypes.IdentityProvidingSSOOIDCClient,
+                    )
                 }
             },
         ).render(ctx)
