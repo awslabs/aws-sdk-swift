@@ -13,7 +13,7 @@ import protocol ClientRuntime.DefaultClientConfiguration
 /// The `S3ExpressCreateSessionClient` concrete type, which conforms to this protocol,
 /// is code-generated into the `AWSS3` module along with the S3 client.
 public protocol S3ExpressCreateSessionClient: Sendable {
-    
+
     /// Uses standard AWS credentials to obtain bucket-specific S3 Express-specific credentials
     /// from the AWS S3 `CreateSession` operation.
     /// - Parameters:
