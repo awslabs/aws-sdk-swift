@@ -13,11 +13,29 @@ import SmithyHTTPAPI
 import SmithyHTTPAuthAPI
 import SmithyTestUtil
 import AWSSDKIdentity
+import AWSSDKHTTPAuth
 
+// These tests confirm that the disableS3ExpressSessionAuth option
+// works as expected and that the SDK selects the correct auth option
+// based on bucket name.
+//
+// This test makes no connections to S3, either for the GetObject operation
+// being tested, or to obtain S3 Express credentials.
+//
+// Tests set up an initial S3 client config and GetObject input params.
+// An interceptor is used to determine that the correct auth scheme was
+// selected based on the inputs.
+//
+// The ProtocolTestClient is used in place of a live HTTP client
+// to prevent real HTTP requests from being made.
 final class S3ExpressConfigTests: XCTestCase {
-    let ordinaryBucket = "testbucket"
-    let s3ExpressBucket = "testbucket--use1-az1--x-s3"  // fits the S3 Express / directory bucket name pattern
     let region = "us-east-1"
+
+    // This bucket name maps to a "general purpose" (i.e. non-S3 Express) bucket.
+    let ordinaryBucket = "testbucket"
+
+    // This bucket name fits the S3 Express / directory bucket name pattern
+    let s3ExpressBucket = "testbucket--use1-az1--x-s3"
 
     var config: S3Client.S3ClientConfiguration!
 
@@ -30,8 +48,8 @@ final class S3ExpressConfigTests: XCTestCase {
         )
     }
 
-    func test_config_usesSigV4ForOrdinaryBucketByDefault() async throws {
-        self.config.addInterceptorProvider(CheckSigV4SignatureProvider())
+    func test_config_usesSigV4ForGeneralPurposeBucketByDefault() async throws {
+        self.config.addInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4AuthScheme()))
         let client = S3Client(config: config)
         let input = GetObjectInput(bucket: ordinaryBucket, key: "text")
         do {
@@ -41,9 +59,9 @@ final class S3ExpressConfigTests: XCTestCase {
         }
     }
 
-    func test_config_usesSigV4ForOrdinaryBucketWhenS3ExpressEnabled() async throws {
+    func test_config_usesSigV4ForGeneralPurposeBucketWhenS3ExpressEnabled() async throws {
         self.config.disableS3ExpressSessionAuth = false
-        self.config.addInterceptorProvider(CheckSigV4SignatureProvider())
+        self.config.addInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4AuthScheme()))
         let client = S3Client(config: config)
         let input = GetObjectInput(bucket: ordinaryBucket, key: "text")
         do {
@@ -53,8 +71,8 @@ final class S3ExpressConfigTests: XCTestCase {
         }
     }
 
-    func test_config_enablesS3ExpressByDefault() async throws {
-        self.config.addInterceptorProvider(CheckS3ExpressSignatureProvider())
+    func test_config_enablesS3ExpressByDefaultForS3ExpressBucket() async throws {
+        self.config.addInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4S3ExpressAuthScheme()))
         let client = S3Client(config: config)
         let input = GetObjectInput(bucket: s3ExpressBucket, key: "text")
         do {
@@ -64,9 +82,9 @@ final class S3ExpressConfigTests: XCTestCase {
         }
     }
 
-    func test_config_enablesS3ExpressExplicitly() async throws {
+    func test_config_enablesS3ExpressExplicitlyForS3ExpressBucket() async throws {
         self.config.disableS3ExpressSessionAuth = false
-        self.config.addInterceptorProvider(CheckS3ExpressSignatureProvider())
+        self.config.addInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4S3ExpressAuthScheme()))
         let client = S3Client(config: config)
         let input = GetObjectInput(bucket: s3ExpressBucket, key: "text")
         do {
@@ -76,9 +94,9 @@ final class S3ExpressConfigTests: XCTestCase {
         }
     }
 
-    func test_config_disablesS3Express() async throws {
+    func test_config_disablesS3ExpressForS3ExpressBucket() async throws {
         self.config.disableS3ExpressSessionAuth = true
-        self.config.addInterceptorProvider(CheckSigV4SignatureProvider())
+        self.config.addInterceptorProvider(CheckSelectedAuthSchemeProvider(expected: SigV4AuthScheme()))
         let client = S3Client(config: config)
         let input = GetObjectInput(bucket: s3ExpressBucket, key: "text")
         do {
@@ -89,50 +107,44 @@ final class S3ExpressConfigTests: XCTestCase {
     }
 }
 
-class CheckSigV4Signature<InputType, OutputType>: Interceptor {
+class CheckSelectedAuthScheme<InputType, OutputType>: Interceptor {
     typealias RequestType = HTTPRequest
     typealias ResponseType = HTTPResponse
 
-    func readBeforeSigning(context: some AfterSerialization<InputType, RequestType>) async throws {
-        // Get the auth scheme and check that it's sigv4
-        guard let schemeID = context.getAttributes().selectedAuthScheme?.schemeID else {
-            XCTFail("No auth scheme selected"); return
-        }
-        XCTAssertEqual(schemeID, "aws.auth#sigv4")
-    }
-}
+    let expectedAuthScheme: AuthScheme
 
-class CheckSigV4SignatureProvider: HttpInterceptorProvider {
-    func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
-        return CheckSigV4Signature()
+    init(expected expectedAuthScheme: AuthScheme) {
+        self.expectedAuthScheme = expectedAuthScheme
     }
-}
-
-class CheckS3ExpressSignature<InputType, OutputType>: Interceptor {
-    typealias RequestType = HTTPRequest
-    typealias ResponseType = HTTPResponse
 
     func readBeforeSigning(context: some AfterSerialization<InputType, RequestType>) async throws {
-        // Get the auth scheme and check that it's sigv4-s3express
-        guard let schemeID = context.getAttributes().selectedAuthScheme?.schemeID else {
+        // Get the auth scheme and check that it matches expected
+        guard let selectedAuthScheme = context.getAttributes().selectedAuthScheme else {
             XCTFail("No auth scheme selected"); return
         }
-        XCTAssertEqual(schemeID, "aws.auth#sigv4-s3express")
+        XCTAssertEqual(selectedAuthScheme.schemeID, expectedAuthScheme.schemeID)
     }
 }
 
-class CheckS3ExpressSignatureProvider: HttpInterceptorProvider {
+class CheckSelectedAuthSchemeProvider: HttpInterceptorProvider {
+
+    let expectedAuthScheme: AuthScheme
+
+    init(expected expectedAuthScheme: AuthScheme) {
+        self.expectedAuthScheme = expectedAuthScheme
+    }
+
     func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
-        return CheckS3ExpressSignature()
+        return CheckSelectedAuthScheme(expected: expectedAuthScheme)
     }
 }
 
-// Real S3 credentials are not needed for this test so a mock credential resolver is used to prevent
-// obtaining credentials from S3.
+// Real S3 credentials are not needed for this test so a mock credential resolver
+// is used to prevent obtaining credentials from live S3.
 //
-// The mock also prevents the interceptors above from having to screen out the CreateSession call before
-// the GetObject.
-actor MockS3ExpressIdentityResolver: S3ExpressIdentityResolver {
+// The mock also prevents the interceptors above from needing logic to ignore the
+// CreateSession call before the GetObject.
+private actor MockS3ExpressIdentityResolver: S3ExpressIdentityResolver {
 
     func getIdentity(identityProperties: Smithy.Attributes?) async throws -> AWSSDKIdentity.S3ExpressIdentity {
         return S3ExpressIdentity(

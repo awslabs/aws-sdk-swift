@@ -20,6 +20,8 @@ public actor DefaultS3ExpressIdentityResolver: S3ExpressIdentityResolver {
         return try await identityCachedElement.accessIdentity()
     }
 
+    // Gets the cached identity if one is in the cache.
+    // If no identity is cached for the current request, create one, put it in the cache, and return it.
     private func getCachedIdentity(identityProperties: Attributes) throws -> S3ExpressIdentityCachedElement {
         let cacheKey = try S3ExpressIdentityCachedElement.CacheKey(identityProperties: identityProperties)
         if let identityCachedElement = cache[cacheKey] {
@@ -32,8 +34,9 @@ public actor DefaultS3ExpressIdentityResolver: S3ExpressIdentityResolver {
         }
     }
 
+    // Check that the identity of the element is as expected, then remove that element from the cache.
+    // The identity check ensures that the new element is not removed if a refresh has taken place.
     func remove(element: S3ExpressIdentityCachedElement, cacheKey: S3ExpressIdentityCachedElement.CacheKey) {
-        // Check that the identity of the element is as expected, then remove that element from the cache.
         guard cache[cacheKey] === element else { return }
         cache.removeValue(forKey: cacheKey)
     }
