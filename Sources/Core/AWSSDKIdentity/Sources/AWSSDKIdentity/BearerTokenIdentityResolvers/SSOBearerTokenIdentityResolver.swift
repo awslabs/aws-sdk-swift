@@ -20,12 +20,14 @@ import AwsCommonRuntimeKit
 import enum Smithy.ClientError
 import func Foundation.NSHomeDirectory
 @_spi(FileBasedConfig) import AWSSDKCommon
+import struct Smithy.SwiftLogger
 
 /// The bearer token identity resolver that resolves token identity using the config file & the cached SSO token.
 /// This resolver does not handle creation of the SSO token; it must be created by the user beforehand (e.g., using AWS CLI, etc.).
 public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     private let profileName: String?
     private let configFilePath: String?
+    private let logger: SwiftLogger = SwiftLogger(label: "SSOBearerTokenIdentityResolver")
 
     /// - Parameters:
     ///    - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
@@ -41,12 +43,27 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     public func getIdentity(
         identityProperties: Smithy.Attributes?
     ) async throws -> SmithyIdentity.BearerTokenIdentity {
+        guard let identityProperties, let internalSSOOIDCClient = identityProperties.get(
+            key: InternalClientKeys.internalSSOOIDCClientKey
+        ) else {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "SSOBearerTokenIdentityResolver: "
+                + "Missing IdentityProvidingSSOOIDCClient in identity properties."
+            )
+        }
+
         let fileBasedConfig = try CRTFileBasedConfiguration(configFilePath: configFilePath)
-        let resolvedSSOToken = try await resolveSSOAccessToken(fileBasedConfig: fileBasedConfig)
+        let resolvedSSOToken = try await resolveSSOAccessToken(
+            fileBasedConfig: fileBasedConfig,
+            ssoOIDCClient: internalSSOOIDCClient
+        )
         return BearerTokenIdentity(token: resolvedSSOToken)
     }
 
-    private func resolveSSOAccessToken(fileBasedConfig: CRTFileBasedConfiguration) async throws -> String {
+    private func resolveSSOAccessToken(
+        fileBasedConfig: CRTFileBasedConfiguration,
+        ssoOIDCClient: IdentityProvidingSSOOIDCClient
+    ) async throws -> String {
         let (ssoSessionName, cachedToken) = try loadCachedSSOToken(fileBasedConfig: fileBasedConfig)
 
         if !cachedToken.needsRefresh() {
@@ -56,7 +73,8 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
             return try await refreshAndCacheToken(
                 token: cachedToken,
                 fileBasedConfig: fileBasedConfig,
-                ssoSessionName: ssoSessionName
+                ssoSessionName: ssoSessionName,
+                ssoOIDCClient: ssoOIDCClient
             ).accessToken
         }
         if cachedToken.tokenIsExpired() {
@@ -117,35 +135,36 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     private func refreshAndCacheToken(
         token: SSOToken,
         fileBasedConfig: CRTFileBasedConfiguration,
-        ssoSessionName: String
+        ssoSessionName: String,
+        ssoOIDCClient: IdentityProvidingSSOOIDCClient
     ) async throws -> SSOToken {
         let ssoRegion = fileBasedConfig.getSection(
-            name: profileName ?? FileBasedConfiguration.defaultProfileName, sectionType: .ssoSession
+            name: ssoSessionName, sectionType: .ssoSession
         )?.getProperty(name: "sso_region")?.value
 
         guard let ssoRegion else {
             throw ClientError.dataNotFound("The sso-sesion section must contain sso_region property.")
         }
 
-        let ssoOIDC = try SSOOIDCClient(region: ssoRegion)
-
-        let output = try await ssoOIDC.createToken(input: CreateTokenInput(
-            clientId: token.clientId,
-            clientSecret: token.clientSecret,
-            grantType: "refresh_token",
-            refreshToken: token.refreshToken
-        ))
-
-        guard let newAccessToken = output.accessToken else {
-            throw ClientError.dataNotFound("Missing access token in CreateTokenOutput.")
+        guard let clientID = token.clientId, let clientSecret = token.clientSecret, let refreshToken = token.refreshToken else {
+            logger.debug("SSOBearerTokenIdentityResolver: Failed to refresh token.")
+            // Just return original token.
+            return token
         }
 
+        let (newRefreshToken, newAccessToken) = try await ssoOIDCClient.createToken(
+            region: ssoRegion,
+            clientID: clientID,
+            clientSecret: clientSecret,
+            refreshToken: refreshToken
+        )
+
         let refreshedToken = SSOToken(
-            accessToken: newAccessToken,
+            accessToken: newAccessToken.token,
             clientId: token.clientId,
             clientSecret: token.clientId,
-            expiresAt: Date().addingTimeInterval(Double(output.expiresIn)),
-            refreshToken: output.refreshToken,
+            expiresAt: newAccessToken.expiration!,
+            refreshToken: newRefreshToken,
             region: token.region,
             registrationExpiresAt: token.registrationExpiresAt,
             startUrl: token.startUrl

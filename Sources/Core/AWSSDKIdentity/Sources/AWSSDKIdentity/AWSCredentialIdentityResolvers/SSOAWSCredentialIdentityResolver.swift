@@ -5,15 +5,19 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class AwsCommonRuntimeKit.CredentialsProvider
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
+import struct Smithy.Attributes
 import ClientRuntime
-import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
 @_spi(FileBasedConfig) import AWSSDKCommon
+import class Foundation.ProcessInfo
+import enum Smithy.ClientError
 
 /// A credential identity resolver that resolves credentials using GetRoleCredentialsRequest to the AWS Single Sign-On Service to maintain short-lived sessions.
 /// [Details link](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html)
-public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByCRT {
-    public let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
+public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
+    private let configFilePath: String?
+    private let credentialsFilePath: String?
+    private let profileName: String?
 
     /// - Parameters:
     ///   - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
@@ -24,15 +28,72 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByC
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil
     ) throws {
+        self.profileName = profileName
+        self.configFilePath = configFilePath
+        self.credentialsFilePath = credentialsFilePath
+    }
+
+    public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
+        guard let identityProperties, let internalSSOClient = identityProperties.get(
+            key: InternalClientKeys.internalSSOClientKey
+        ) else {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "SSOAWSCredentialIdentityResolver: "
+                + "Missing IdentityProvidingSSOClient in identity properties."
+            )
+        }
+
         let fileBasedConfig = try CRTFileBasedConfiguration(
             configFilePath: configFilePath,
             credentialsFilePath: credentialsFilePath
         )
-        self.crtAWSCredentialIdentityResolver = try AwsCommonRuntimeKit.CredentialsProvider(source: .sso(
-            bootstrap: SDKDefaultIO.shared.clientBootstrap,
-            tlsContext: SDKDefaultIO.shared.tlsContext,
-            fileBasedConfiguration: fileBasedConfig,
-            profileFileNameOverride: profileName
-        ))
+        let resolvedProfileName = self.profileName ?? ProcessInfo.processInfo.environment["AWS_PROFIE"] ?? "default"
+        let (accountID, roleName, region) = try fetchSSOConfigFromSharedConfigFile(
+            profileName: resolvedProfileName,
+            fileBasedConfig: fileBasedConfig
+        )
+
+        let ssoToken = try await SSOBearerTokenIdentityResolver(
+            profileName: resolvedProfileName,
+            configFilePath: configFilePath
+        ).getIdentity(identityProperties: identityProperties)
+
+        return try await internalSSOClient.getCredentialsWithSSOToken(
+            region: region,
+            accessToken: ssoToken.token,
+            accountID: accountID,
+            roleName: roleName
+        )
+    }
+
+    private func fetchSSOConfigFromSharedConfigFile(
+        profileName: String,
+        fileBasedConfig: CRTFileBasedConfiguration
+    ) throws -> (accountID: String, roleName: String, region: String) {
+        // Get `sso_account_id` and `sso_role_name` properties.
+        guard let ssoSessionName = fileBasedConfig.getSection(
+            name: profileName, sectionType: .profile
+        )?.getProperty(name: "sso_session")?.value else {
+            throw ClientError.dataNotFound("Failed to retrieve sso_session from \(profileName) profile.")
+        }
+        guard let ssoAccountID = fileBasedConfig.getSection(
+            name: profileName, sectionType: .profile
+        )?.getProperty(name: "sso_account_id")?.value else {
+            throw ClientError.dataNotFound("Failed to retrieve from sso_account_id \(profileName) profile.")
+        }
+        guard let ssoRoleName = fileBasedConfig.getSection(
+            name: profileName, sectionType: .profile
+        )?.getProperty(name: "sso_role_name")?.value else {
+            throw ClientError.dataNotFound("Failed to retrieve sso_role_name from \(profileName) profile.")
+        }
+
+        // Get `sso_region` property from sso-session section referenced by the profile section..
+        guard let ssoRegion = fileBasedConfig.getSection(
+            name: ssoSessionName, sectionType: .ssoSession
+        )?.getProperty(name: "sso_region")?.value else {
+            throw ClientError.dataNotFound("Failed to retrieve sso_region from \(ssoSessionName) sso-sesion section.")
+        }
+
+        return (ssoAccountID, ssoRoleName, ssoRegion)
     }
 }
