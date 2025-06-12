@@ -15,6 +15,7 @@ import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
@@ -24,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
@@ -106,13 +108,29 @@ extension ControlCatalogClientTypes {
 
     /// An optional filter that narrows the results to a specific objective.
     public struct CommonControlFilter: Swift.Sendable {
-        /// The objective that's used as filter criteria. You can use this parameter to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t currently supported.
+        /// The objective that's used as filter criteria. You can use this parameter to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t supported.
         public var objectives: [ControlCatalogClientTypes.ObjectiveResourceFilter]?
 
         public init(
             objectives: [ControlCatalogClientTypes.ObjectiveResourceFilter]? = nil
         ) {
             self.objectives = objectives
+        }
+    }
+}
+
+extension ControlCatalogClientTypes {
+
+    /// A structure that contains details about a common control mapping. In particular, it returns the Amazon Resource Name (ARN) of the common control.
+    public struct CommonControlMappingDetails: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) that identifies the common control in the mapping.
+        /// This member is required.
+        public var commonControlArn: Swift.String?
+
+        public init(
+            commonControlArn: Swift.String? = nil
+        ) {
+            self.commonControlArn = commonControlArn
         }
     }
 }
@@ -187,7 +205,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 public struct ListCommonControlsInput: Swift.Sendable {
-    /// An optional filter that narrows the results to a specific objective. This filter allows you to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t currently supported.
+    /// An optional filter that narrows the results to a specific objective. This filter allows you to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t supported.
     public var commonControlFilter: ControlCatalogClientTypes.CommonControlFilter?
     /// The maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
@@ -421,7 +439,7 @@ extension ControlCatalogClientTypes {
 
 extension ControlCatalogClientTypes {
 
-    /// Returns information about the control, including the scope of the control, if enabled, and the Regions in which the control currently is available for deployment. For more information about scope, see [Global services](https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/global-services.html). If you are applying controls through an Amazon Web Services Control Tower landing zone environment, remember that the values returned in the RegionConfiguration API operation are not related to the governed Regions in your landing zone. For example, if you are governing Regions A,B,and C while the control is available in Regions A, B, C, and D, you'd see a response with DeployableRegions of A, B, C, and D for a control with REGIONAL scope, even though you may not intend to deploy the control in Region D, because you do not govern it through your landing zone.
+    /// Returns information about the control, including the scope of the control, if enabled, and the Regions in which the control is available for deployment. For more information about scope, see [Global services](https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/global-services.html). If you are applying controls through an Amazon Web Services Control Tower landing zone environment, remember that the values returned in the RegionConfiguration API operation are not related to the governed Regions in your landing zone. For example, if you are governing Regions A,B,and C while the control is available in Regions A, B, C, and D, you'd see a response with DeployableRegions of A, B, C, and D for a control with REGIONAL scope, even though you may not intend to deploy the control in Region D, because you do not govern it through your landing zone.
     public struct RegionConfiguration: Swift.Sendable {
         /// Regions in which the control is available to be deployed.
         public var deployableRegions: [Swift.String]?
@@ -475,6 +493,8 @@ extension ControlCatalogClientTypes {
 }
 
 public struct GetControlOutput: Swift.Sendable {
+    /// A list of alternative identifiers for the control. These are human-readable designators, such as SH.S3.1. Several aliases can refer to the same control across different Amazon Web Services services or compliance frameworks.
+    public var aliases: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the control.
     /// This member is required.
     public var arn: Swift.String?
@@ -486,6 +506,8 @@ public struct GetControlOutput: Swift.Sendable {
     /// A description of what the control does.
     /// This member is required.
     public var description: Swift.String?
+    /// A list of Amazon Web Services resource types that are governed by this control. This information helps you understand which controls can govern certain types of resources, and conversely, which resources are affected when the control is implemented. The resources are represented as Amazon Web Services CloudFormation resource types. If GovernedResources cannot be represented by available CloudFormation resource types, it’s returned as an empty list.
+    public var governedResources: [Swift.String]?
     /// Returns information about the control, as an ImplementationDetails object that shows the underlying implementation type for a control.
     public var implementation: ControlCatalogClientTypes.ImplementationDetails?
     /// The display name of the control.
@@ -493,27 +515,31 @@ public struct GetControlOutput: Swift.Sendable {
     public var name: Swift.String?
     /// Returns an array of ControlParameter objects that specify the parameters a control supports. An empty list is returned for controls that don’t support parameters.
     public var parameters: [ControlCatalogClientTypes.ControlParameter]?
-    /// Returns information about the control, including the scope of the control, if enabled, and the Regions in which the control currently is available for deployment. For more information about scope, see [Global services](https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/global-services.html). If you are applying controls through an Amazon Web Services Control Tower landing zone environment, remember that the values returned in the RegionConfiguration API operation are not related to the governed Regions in your landing zone. For example, if you are governing Regions A,B,and C while the control is available in Regions A, B, C, and D, you'd see a response with DeployableRegions of A, B, C, and D for a control with REGIONAL scope, even though you may not intend to deploy the control in Region D, because you do not govern it through your landing zone.
+    /// Returns information about the control, including the scope of the control, if enabled, and the Regions in which the control is available for deployment. For more information about scope, see [Global services](https://docs.aws.amazon.com/whitepapers/latest/aws-fault-isolation-boundaries/global-services.html). If you are applying controls through an Amazon Web Services Control Tower landing zone environment, remember that the values returned in the RegionConfiguration API operation are not related to the governed Regions in your landing zone. For example, if you are governing Regions A,B,and C while the control is available in Regions A, B, C, and D, you'd see a response with DeployableRegions of A, B, C, and D for a control with REGIONAL scope, even though you may not intend to deploy the control in Region D, because you do not govern it through your landing zone.
     /// This member is required.
     public var regionConfiguration: ControlCatalogClientTypes.RegionConfiguration?
     /// An enumerated type, with the following possible values:
     public var severity: ControlCatalogClientTypes.ControlSeverity?
 
     public init(
+        aliases: [Swift.String]? = nil,
         arn: Swift.String? = nil,
         behavior: ControlCatalogClientTypes.ControlBehavior? = nil,
         createTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        governedResources: [Swift.String]? = nil,
         implementation: ControlCatalogClientTypes.ImplementationDetails? = nil,
         name: Swift.String? = nil,
         parameters: [ControlCatalogClientTypes.ControlParameter]? = nil,
         regionConfiguration: ControlCatalogClientTypes.RegionConfiguration? = nil,
         severity: ControlCatalogClientTypes.ControlSeverity? = nil
     ) {
+        self.aliases = aliases
         self.arn = arn
         self.behavior = behavior
         self.createTime = createTime
         self.description = description
+        self.governedResources = governedResources
         self.implementation = implementation
         self.name = name
         self.parameters = parameters
@@ -522,16 +548,54 @@ public struct GetControlOutput: Swift.Sendable {
     }
 }
 
+extension ControlCatalogClientTypes {
+
+    /// A structure that defines filtering criteria for control implementations. You can use this filter to find controls that are implemented by specific Amazon Web Services services or with specific service identifiers.
+    public struct ImplementationFilter: Swift.Sendable {
+        /// A list of service-specific identifiers that can serve as filters. For example, you can filter for controls with specific Amazon Web Services Config Rule IDs or Security Hub Control IDs.
+        public var identifiers: [Swift.String]?
+        /// A list of implementation types that can serve as filters. For example, you can filter for controls implemented as Amazon Web Services Config Rules by specifying AWS::Config::ConfigRule as a type.
+        public var types: [Swift.String]?
+
+        public init(
+            identifiers: [Swift.String]? = nil,
+            types: [Swift.String]? = nil
+        ) {
+            self.identifiers = identifiers
+            self.types = types
+        }
+    }
+}
+
+extension ControlCatalogClientTypes {
+
+    /// A structure that defines filtering criteria for the ListControls operation. You can use this filter to narrow down the list of controls based on their implementation details.
+    public struct ControlFilter: Swift.Sendable {
+        /// A filter that narrows the results to controls with specific implementation types or identifiers. This field allows you to find controls that are implemented by specific Amazon Web Services services or with specific service identifiers.
+        public var implementations: ControlCatalogClientTypes.ImplementationFilter?
+
+        public init(
+            implementations: ControlCatalogClientTypes.ImplementationFilter? = nil
+        ) {
+            self.implementations = implementations
+        }
+    }
+}
+
 public struct ListControlsInput: Swift.Sendable {
+    /// An optional filter that narrows the results to controls with specific implementation types or identifiers. If you don't provide a filter, the operation returns all available controls.
+    public var filter: ControlCatalogClientTypes.ControlFilter?
     /// The maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
     /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
+        filter: ControlCatalogClientTypes.ControlFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -561,6 +625,8 @@ extension ControlCatalogClientTypes {
 
     /// Overview of information about a control.
     public struct ControlSummary: Swift.Sendable {
+        /// A list of alternative identifiers for the control. These are human-readable designators, such as SH.S3.1. Several aliases can refer to the same control across different Amazon Web Services services or compliance frameworks.
+        public var aliases: [Swift.String]?
         /// The Amazon Resource Name (ARN) of the control.
         /// This member is required.
         public var arn: Swift.String?
@@ -571,6 +637,8 @@ extension ControlCatalogClientTypes {
         /// A description of the control, as it may appear in the console. Describes the functionality of the control.
         /// This member is required.
         public var description: Swift.String?
+        /// A list of Amazon Web Services resource types that are governed by this control. This information helps you understand which controls can govern certain types of resources, and conversely, which resources are affected when the control is implemented. The resources are represented as Amazon Web Services CloudFormation resource types. If GovernedResources cannot be represented by available CloudFormation resource types, it’s returned as an empty list.
+        public var governedResources: [Swift.String]?
         /// An object of type ImplementationSummary that describes how the control is implemented.
         public var implementation: ControlCatalogClientTypes.ImplementationSummary?
         /// The display name of the control.
@@ -580,18 +648,22 @@ extension ControlCatalogClientTypes {
         public var severity: ControlCatalogClientTypes.ControlSeverity?
 
         public init(
+            aliases: [Swift.String]? = nil,
             arn: Swift.String? = nil,
             behavior: ControlCatalogClientTypes.ControlBehavior? = nil,
             createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            governedResources: [Swift.String]? = nil,
             implementation: ControlCatalogClientTypes.ImplementationSummary? = nil,
             name: Swift.String? = nil,
             severity: ControlCatalogClientTypes.ControlSeverity? = nil
         ) {
+            self.aliases = aliases
             self.arn = arn
             self.behavior = behavior
             self.createTime = createTime
             self.description = description
+            self.governedResources = governedResources
             self.implementation = implementation
             self.name = name
             self.severity = severity
@@ -684,6 +756,152 @@ public struct ListDomainsOutput: Swift.Sendable {
 
 extension ControlCatalogClientTypes {
 
+    public enum MappingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case commonControl
+        case framework
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MappingType] {
+            return [
+                .commonControl,
+                .framework
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .commonControl: return "COMMON_CONTROL"
+            case .framework: return "FRAMEWORK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ControlCatalogClientTypes {
+
+    /// A structure that defines filtering criteria for the ListControlMappings operation. You can use this filter to narrow down the list of control mappings based on control ARNs, common control ARNs, or mapping types.
+    public struct ControlMappingFilter: Swift.Sendable {
+        /// A list of common control ARNs to filter the mappings. When specified, only mappings associated with these common controls are returned.
+        public var commonControlArns: [Swift.String]?
+        /// A list of control ARNs to filter the mappings. When specified, only mappings associated with these controls are returned.
+        public var controlArns: [Swift.String]?
+        /// A list of mapping types to filter the mappings. When specified, only mappings of these types are returned.
+        public var mappingTypes: [ControlCatalogClientTypes.MappingType]?
+
+        public init(
+            commonControlArns: [Swift.String]? = nil,
+            controlArns: [Swift.String]? = nil,
+            mappingTypes: [ControlCatalogClientTypes.MappingType]? = nil
+        ) {
+            self.commonControlArns = commonControlArns
+            self.controlArns = controlArns
+            self.mappingTypes = mappingTypes
+        }
+    }
+}
+
+public struct ListControlMappingsInput: Swift.Sendable {
+    /// An optional filter that narrows the results to specific control mappings based on control ARNs, common control ARNs, or mapping types.
+    public var filter: ControlCatalogClientTypes.ControlMappingFilter?
+    /// The maximum number of results on a page or for an API request call.
+    public var maxResults: Swift.Int?
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: ControlCatalogClientTypes.ControlMappingFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ControlCatalogClientTypes {
+
+    /// A structure that contains details about a framework mapping, including the framework name and specific item within the framework that the control maps to.
+    public struct FrameworkMappingDetails: Swift.Sendable {
+        /// The specific item or requirement within the framework that the control maps to.
+        /// This member is required.
+        public var item: Swift.String?
+        /// The name of the compliance framework that the control maps to.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            item: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.item = item
+            self.name = name
+        }
+    }
+}
+
+extension ControlCatalogClientTypes {
+
+    /// A structure that contains the details of a mapping relationship, which can be either to a framework or to a common control.
+    public enum Mapping: Swift.Sendable {
+        /// The framework mapping details when the mapping type relates to a compliance framework.
+        case framework(ControlCatalogClientTypes.FrameworkMappingDetails)
+        /// The common control mapping details when the mapping type relates to a common control.
+        case commoncontrol(ControlCatalogClientTypes.CommonControlMappingDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ControlCatalogClientTypes {
+
+    /// A structure that contains information about a control mapping, including the control ARN, mapping type, and mapping details.
+    public struct ControlMapping: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) that identifies the control in the mapping.
+        /// This member is required.
+        public var controlArn: Swift.String?
+        /// The details of the mapping relationship, containing either framework or common control information.
+        /// This member is required.
+        public var mapping: ControlCatalogClientTypes.Mapping?
+        /// The type of mapping relationship between the control and other entities. Indicates whether the mapping is to a framework or common control.
+        /// This member is required.
+        public var mappingType: ControlCatalogClientTypes.MappingType?
+
+        public init(
+            controlArn: Swift.String? = nil,
+            mapping: ControlCatalogClientTypes.Mapping? = nil,
+            mappingType: ControlCatalogClientTypes.MappingType? = nil
+        ) {
+            self.controlArn = controlArn
+            self.mapping = mapping
+            self.mappingType = mappingType
+        }
+    }
+}
+
+public struct ListControlMappingsOutput: Swift.Sendable {
+    /// The list of control mappings that the ListControlMappings API returns.
+    /// This member is required.
+    public var controlMappings: [ControlCatalogClientTypes.ControlMapping]?
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        controlMappings: [ControlCatalogClientTypes.ControlMapping]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.controlMappings = controlMappings
+        self.nextToken = nextToken
+    }
+}
+
+extension ControlCatalogClientTypes {
+
     /// The domain resource that's being used as a filter.
     public struct DomainResourceFilter: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the domain.
@@ -701,7 +919,7 @@ extension ControlCatalogClientTypes {
 
     /// An optional filter that narrows the list of objectives to a specific domain.
     public struct ObjectiveFilter: Swift.Sendable {
-        /// The domain that's used as filter criteria. You can use this parameter to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isn’t currently supported.
+        /// The domain that's used as filter criteria. You can use this parameter to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isn’t supported.
         public var domains: [ControlCatalogClientTypes.DomainResourceFilter]?
 
         public init(
@@ -717,7 +935,7 @@ public struct ListObjectivesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
-    /// An optional filter that narrows the results to a specific domain. This filter allows you to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isn’t currently supported.
+    /// An optional filter that narrows the results to a specific domain. This filter allows you to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isn’t supported.
     public var objectiveFilter: ControlCatalogClientTypes.ObjectiveFilter?
 
     public init(
@@ -818,6 +1036,29 @@ extension ListCommonControlsInput {
     }
 }
 
+extension ListControlMappingsInput {
+
+    static func urlPathProvider(_ value: ListControlMappingsInput) -> Swift.String? {
+        return "/list-control-mappings"
+    }
+}
+
+extension ListControlMappingsInput {
+
+    static func queryItemProvider(_ value: ListControlMappingsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListControlsInput {
 
     static func urlPathProvider(_ value: ListControlsInput) -> Swift.String? {
@@ -903,6 +1144,22 @@ extension ListCommonControlsInput {
     }
 }
 
+extension ListControlMappingsInput {
+
+    static func write(value: ListControlMappingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].write(value.filter, with: ControlCatalogClientTypes.ControlMappingFilter.write(value:to:))
+    }
+}
+
+extension ListControlsInput {
+
+    static func write(value: ListControlsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].write(value.filter, with: ControlCatalogClientTypes.ControlFilter.write(value:to:))
+    }
+}
+
 extension ListObjectivesInput {
 
     static func write(value: ListObjectivesInput?, to writer: SmithyJSON.Writer) throws {
@@ -918,10 +1175,12 @@ extension GetControlOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetControlOutput()
+        value.aliases = try reader["Aliases"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.behavior = try reader["Behavior"].readIfPresent() ?? .sdkUnknown("")
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent() ?? ""
+        value.governedResources = try reader["GovernedResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.implementation = try reader["Implementation"].readIfPresent(with: ControlCatalogClientTypes.ImplementationDetails.read(from:))
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.ControlParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -939,6 +1198,19 @@ extension ListCommonControlsOutput {
         let reader = responseReader
         var value = ListCommonControlsOutput()
         value.commonControls = try reader["CommonControls"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.CommonControlSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListControlMappingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListControlMappingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListControlMappingsOutput()
+        value.controlMappings = try reader["ControlMappings"].readListIfPresent(memberReadingClosure: ControlCatalogClientTypes.ControlMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -1002,6 +1274,23 @@ enum GetControlOutputError {
 }
 
 enum ListCommonControlsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListControlMappingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1204,18 +1493,69 @@ extension ControlCatalogClientTypes.AssociatedDomainSummary {
     }
 }
 
+extension ControlCatalogClientTypes.ControlMapping {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ControlMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlCatalogClientTypes.ControlMapping()
+        value.controlArn = try reader["ControlArn"].readIfPresent() ?? ""
+        value.mappingType = try reader["MappingType"].readIfPresent() ?? .sdkUnknown("")
+        value.mapping = try reader["Mapping"].readIfPresent(with: ControlCatalogClientTypes.Mapping.read(from:))
+        return value
+    }
+}
+
+extension ControlCatalogClientTypes.Mapping {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.Mapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Framework":
+                return .framework(try reader["Framework"].read(with: ControlCatalogClientTypes.FrameworkMappingDetails.read(from:)))
+            case "CommonControl":
+                return .commoncontrol(try reader["CommonControl"].read(with: ControlCatalogClientTypes.CommonControlMappingDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ControlCatalogClientTypes.CommonControlMappingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.CommonControlMappingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlCatalogClientTypes.CommonControlMappingDetails()
+        value.commonControlArn = try reader["CommonControlArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ControlCatalogClientTypes.FrameworkMappingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.FrameworkMappingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlCatalogClientTypes.FrameworkMappingDetails()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.item = try reader["Item"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ControlCatalogClientTypes.ControlSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.ControlSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlCatalogClientTypes.ControlSummary()
         value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.aliases = try reader["Aliases"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent() ?? ""
         value.behavior = try reader["Behavior"].readIfPresent()
         value.severity = try reader["Severity"].readIfPresent()
         value.implementation = try reader["Implementation"].readIfPresent(with: ControlCatalogClientTypes.ImplementationSummary.read(from:))
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.governedResources = try reader["GovernedResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -1273,6 +1613,33 @@ extension ControlCatalogClientTypes.ObjectiveResourceFilter {
     static func write(value: ControlCatalogClientTypes.ObjectiveResourceFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
+    }
+}
+
+extension ControlCatalogClientTypes.ControlMappingFilter {
+
+    static func write(value: ControlCatalogClientTypes.ControlMappingFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CommonControlArns"].writeList(value.commonControlArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ControlArns"].writeList(value.controlArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MappingTypes"].writeList(value.mappingTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlCatalogClientTypes.MappingType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ControlCatalogClientTypes.ControlFilter {
+
+    static func write(value: ControlCatalogClientTypes.ControlFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Implementations"].write(value.implementations, with: ControlCatalogClientTypes.ImplementationFilter.write(value:to:))
+    }
+}
+
+extension ControlCatalogClientTypes.ImplementationFilter {
+
+    static func write(value: ControlCatalogClientTypes.ImplementationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Identifiers"].writeList(value.identifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
