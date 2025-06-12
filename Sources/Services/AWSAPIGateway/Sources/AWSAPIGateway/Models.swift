@@ -1521,7 +1521,7 @@ public struct CreateDomainNameOutput: Swift.Sendable {
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
-    /// The ARN of the domain name. Supported only for private custom domain names.
+    /// The ARN of the domain name.
     public var domainNameArn: Swift.String?
     /// The identifier for the domain name resource. Supported only for private custom domain names.
     public var domainNameId: Swift.String?
@@ -1957,7 +1957,7 @@ extension APIGatewayClientTypes {
         public var requestParameters: [Swift.String: Swift.String]?
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
         public var requestTemplates: [Swift.String: Swift.String]?
-        /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+        /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
         public var timeoutInMillis: Swift.Int
         /// Specifies the TLS configuration for an integration.
         public var tlsConfig: APIGatewayClientTypes.TlsConfig?
@@ -4191,7 +4191,7 @@ public struct GetDomainNameOutput: Swift.Sendable {
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
-    /// The ARN of the domain name. Supported only for private custom domain names.
+    /// The ARN of the domain name.
     public var domainNameArn: Swift.String?
     /// The identifier for the domain name resource. Supported only for private custom domain names.
     public var domainNameId: Swift.String?
@@ -4403,7 +4403,7 @@ extension APIGatewayClientTypes {
         public var distributionHostedZoneId: Swift.String?
         /// The custom domain name as an API host name, for example, my-api.example.com.
         public var domainName: Swift.String?
-        /// The ARN of the domain name. Supported only for private custom domain names.
+        /// The ARN of the domain name.
         public var domainNameArn: Swift.String?
         /// The identifier for the domain name resource. Supported only for private custom domain names.
         public var domainNameId: Swift.String?
@@ -4714,7 +4714,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
     public var requestParameters: [Swift.String: Swift.String]?
     /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
     public var requestTemplates: [Swift.String: Swift.String]?
-    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
     public var timeoutInMillis: Swift.Int
     /// Specifies the TLS configuration for an integration.
     public var tlsConfig: APIGatewayClientTypes.TlsConfig?
@@ -6602,7 +6602,7 @@ public struct PutIntegrationInput: Swift.Sendable {
     /// The string identifier of the associated RestApi.
     /// This member is required.
     public var restApiId: Swift.String?
-    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
     public var timeoutInMillis: Swift.Int?
     /// Specifies the TLS configuration for an integration.
     public var tlsConfig: APIGatewayClientTypes.TlsConfig?
@@ -6675,7 +6675,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
     public var requestParameters: [Swift.String: Swift.String]?
     /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
     public var requestTemplates: [Swift.String: Swift.String]?
-    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
     public var timeoutInMillis: Swift.Int
     /// Specifies the TLS configuration for an integration.
     public var tlsConfig: APIGatewayClientTypes.TlsConfig?
@@ -7758,7 +7758,7 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
-    /// The ARN of the domain name. Supported only for private custom domain names.
+    /// The ARN of the domain name.
     public var domainNameArn: Swift.String?
     /// The identifier for the domain name resource. Supported only for private custom domain names.
     public var domainNameId: Swift.String?
@@ -7941,7 +7941,7 @@ public struct UpdateIntegrationOutput: Swift.Sendable {
     public var requestParameters: [Swift.String: Swift.String]?
     /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
     public var requestTemplates: [Swift.String: Swift.String]?
-    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
     public var timeoutInMillis: Swift.Int
     /// Specifies the TLS configuration for an integration.
     public var tlsConfig: APIGatewayClientTypes.TlsConfig?

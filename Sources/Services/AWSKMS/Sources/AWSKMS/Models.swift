@@ -1596,6 +1596,9 @@ extension KMSClientTypes {
         case hmac256
         case hmac384
         case hmac512
+        case mlDsa44
+        case mlDsa65
+        case mlDsa87
         case rsa2048
         case rsa3072
         case rsa4096
@@ -1613,6 +1616,9 @@ extension KMSClientTypes {
                 .hmac256,
                 .hmac384,
                 .hmac512,
+                .mlDsa44,
+                .mlDsa65,
+                .mlDsa87,
                 .rsa2048,
                 .rsa3072,
                 .rsa4096,
@@ -1636,6 +1642,9 @@ extension KMSClientTypes {
             case .hmac256: return "HMAC_256"
             case .hmac384: return "HMAC_384"
             case .hmac512: return "HMAC_512"
+            case .mlDsa44: return "ML_DSA_44"
+            case .mlDsa65: return "ML_DSA_65"
+            case .mlDsa87: return "ML_DSA_87"
             case .rsa2048: return "RSA_2048"
             case .rsa3072: return "RSA_3072"
             case .rsa4096: return "RSA_4096"
@@ -1799,6 +1808,17 @@ public struct CreateKeyInput: Swift.Sendable {
     ///
     ///
     ///
+    /// * Asymmetric ML-DSA key pairs (signing and verification)
+    ///
+    /// * ML_DSA_44
+    ///
+    /// * ML_DSA_65
+    ///
+    /// * ML_DSA_87
+    ///
+    ///
+    ///
+    ///
     /// * SM2 key pairs (encryption and decryption -or- signing and verification -or- deriving shared secrets)
     ///
     /// * SM2 (China Regions only)
@@ -1813,7 +1833,9 @@ public struct CreateKeyInput: Swift.Sendable {
     ///
     /// * For asymmetric KMS keys with NIST-recommended elliptic curve key pairs, specify SIGN_VERIFY or KEY_AGREEMENT.
     ///
-    /// * For asymmetric KMS keys with ECC_SECG_P256K1 key pairs specify SIGN_VERIFY.
+    /// * For asymmetric KMS keys with ECC_SECG_P256K1 key pairs, specify SIGN_VERIFY.
+    ///
+    /// * For asymmetric KMS keys with ML-DSA key pairs, specify SIGN_VERIFY.
     ///
     /// * For asymmetric KMS keys with SM2 key pairs (China Regions only), specify ENCRYPT_DECRYPT, SIGN_VERIFY, or KEY_AGREEMENT.
     public var keyUsage: KMSClientTypes.KeyUsageType?
@@ -2140,6 +2162,7 @@ extension KMSClientTypes {
         case ecdsaSha256
         case ecdsaSha384
         case ecdsaSha512
+        case mlDsaShake256
         case rsassaPkcs1V15Sha256
         case rsassaPkcs1V15Sha384
         case rsassaPkcs1V15Sha512
@@ -2154,6 +2177,7 @@ extension KMSClientTypes {
                 .ecdsaSha256,
                 .ecdsaSha384,
                 .ecdsaSha512,
+                .mlDsaShake256,
                 .rsassaPkcs1V15Sha256,
                 .rsassaPkcs1V15Sha384,
                 .rsassaPkcs1V15Sha512,
@@ -2174,6 +2198,7 @@ extension KMSClientTypes {
             case .ecdsaSha256: return "ECDSA_SHA_256"
             case .ecdsaSha384: return "ECDSA_SHA_384"
             case .ecdsaSha512: return "ECDSA_SHA_512"
+            case .mlDsaShake256: return "ML_DSA_SHAKE_256"
             case .rsassaPkcs1V15Sha256: return "RSASSA_PKCS1_V1_5_SHA_256"
             case .rsassaPkcs1V15Sha384: return "RSASSA_PKCS1_V1_5_SHA_384"
             case .rsassaPkcs1V15Sha512: return "RSASSA_PKCS1_V1_5_SHA_512"
@@ -3337,7 +3362,7 @@ public struct GenerateDataKeyPairInput: Swift.Sendable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
     /// This member is required.
     public var keyId: Swift.String?
-    /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC KMS keys only to sign and verify, are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions.
+    /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), the rule that permits you to use ECC KMS keys only to sign and verify, and the rule that permits you to use ML-DSA key pairs to sign and verify only are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions.
     /// This member is required.
     public var keyPairSpec: KMSClientTypes.DataKeyPairSpec?
     /// A signed [attestation document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc) from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To call DeriveSharedSecret for an Amazon Web Services Nitro Enclaves, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) to generate the attestation document and then use the Recipient parameter from any Amazon Web Services SDK to provide the attestation document for the enclave. When you use this parameter, instead of returning a plaintext copy of the private data key, KMS encrypts the plaintext private data key under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The CiphertextBlob field in the response contains a copy of the private data key encrypted under the KMS key specified by the KeyId parameter. The PrivateKeyPlaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
@@ -3365,7 +3390,7 @@ public struct GenerateDataKeyPairOutput: Swift.Sendable {
     public var ciphertextForRecipient: Foundation.Data?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that encrypted the private key.
     public var keyId: Swift.String?
-    /// The identifier of the key material used to encrypt the private key. This field is omitted if the request includes the Recipient parameter.
+    /// The identifier of the key material used to encrypt the private key.
     public var keyMaterialId: Swift.String?
     /// The type of data key pair that was generated.
     public var keyPairSpec: KMSClientTypes.DataKeyPairSpec?
@@ -3421,7 +3446,7 @@ public struct GenerateDataKeyPairWithoutPlaintextInput: Swift.Sendable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
     /// This member is required.
     public var keyId: Swift.String?
-    /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC KMS keys only to sign and verify, are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions.
+    /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), the rule that permits you to use ECC KMS keys only to sign and verify, and the rule that permits you to use ML-DSA key pairs to sign and verify only are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions.
     /// This member is required.
     public var keyPairSpec: KMSClientTypes.DataKeyPairSpec?
 
@@ -4642,12 +4667,14 @@ extension KMSClientTypes {
 
     public enum MessageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case digest
+        case externalMu
         case raw
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MessageType] {
             return [
                 .digest,
+                .externalMu,
                 .raw
             ]
         }
@@ -4660,6 +4687,7 @@ extension KMSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .digest: return "DIGEST"
+            case .externalMu: return "EXTERNAL_MU"
             case .raw: return "RAW"
             case let .sdkUnknown(s): return s
             }
@@ -5043,13 +5071,15 @@ public struct SignInput: Swift.Sendable {
     /// Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide a message digest. If you provide a message digest, use the DIGEST value of MessageType to prevent the digest from being hashed again while signing.
     /// This member is required.
     public var message: Foundation.Data?
-    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. Use the DIGEST value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When the value of MessageTypeis DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm in that Sign uses is based on the SigningAlgorithm value.
+    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm. Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm that Sign uses is based on the SigningAlgorithm value.
     ///
     /// * Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.
     ///
     /// * Signing algorithms that end in SHA_384 use the SHA_384 hashing algorithm.
     ///
     /// * Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm.
+    ///
+    /// * Signing algorithms that end in SHAKE_256 use the SHAKE_256 hashing algorithm.
     ///
     /// * SM2DSA uses the SM3 hashing algorithm. For details, see [Offline verification with SM2 key pairs](https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification).
     public var messageType: KMSClientTypes.MessageType?
@@ -5301,13 +5331,15 @@ public struct VerifyInput: Swift.Sendable {
     /// Specifies the message that was signed. You can submit a raw message of up to 4096 bytes, or a hash digest of the message. If you submit a digest, use the MessageType parameter with a value of DIGEST. If the message specified here is different from the message that was signed, the signature verification fails. A message and its hash digest are considered to be the same message.
     /// This member is required.
     public var message: Foundation.Data?
-    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. Use the DIGEST value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the verification operation can be compromised. When the value of MessageTypeis DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm in that Verify uses is based on the SigningAlgorithm value.
+    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm. Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm that Verify uses is based on the SigningAlgorithm value.
     ///
     /// * Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.
     ///
     /// * Signing algorithms that end in SHA_384 use the SHA_384 hashing algorithm.
     ///
     /// * Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm.
+    ///
+    /// * Signing algorithms that end in SHAKE_256 use the SHAKE_256 hashing algorithm.
     ///
     /// * SM2DSA uses the SM3 hashing algorithm. For details, see [Offline verification with SM2 key pairs](https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification).
     public var messageType: KMSClientTypes.MessageType?
