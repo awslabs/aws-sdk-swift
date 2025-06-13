@@ -167,7 +167,7 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
         let refreshedToken = SSOToken(
             accessToken: newAccessToken.token,
             clientId: token.clientId,
-            clientSecret: token.clientId,
+            clientSecret: token.clientSecret,
             expiresAt: newAccessToken.expiration!,
             refreshToken: newRefreshToken,
             region: token.region,
