@@ -65,7 +65,10 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
             // Internal service clients are contained in aws-sdk-swift targets that ARE NOT vended externally
             //  via a product, meaning service clients generated outside of aws-sdk-swift CANNOT depend on
             //  the internal service clients. Not to mention it's not even needed for protocol tests.
-            if (ctx.settings.forProtocolTests) {
+            //
+            // Also skip auth option customization for internal service clients themselves.
+            // SSO::getRoleCredentials, SSOOIDC::createToken, and STS::assumeRoleWithWebIdentity are all noAuth.
+            if (ctx.settings.forProtocolTests || ctx.settings.visibility == "internal") {
                 null
             } else {
                 { authOptionName, writer ->

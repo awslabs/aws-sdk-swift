@@ -35,7 +35,7 @@ class IdentityProvidingSSOClientIntegration : SwiftIntegration {
                 ) {
                     writer.write("let sso = try SSOClient(region: region)")
                     writer.write("let input = GetRoleCredentialsInput(accessToken: accessToken, accountId: accountID, roleName: roleName)")
-                    writer.write("let out = let out = try await sso.getRoleCredentials(input: input)")
+                    writer.write("let out = try await sso.getRoleCredentials(input: input)")
                     writer.openBlock(
                         "guard let accessKey = out.roleCredentials?.accessKeyId, let secretKey = out.roleCredentials?.secretAccessKey else {",
                         "}",

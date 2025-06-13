@@ -37,13 +37,13 @@ internal struct DefaultSSOOIDCAuthSchemeResolver: SSOOIDCAuthSchemeResolver {
             case "createToken":
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             default:
-                var sigV4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
-                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "sso-oauth")
+                var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "sso-oauth")
                 guard let region = serviceParams.region else {
                     throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
-                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
-                validAuthOptions.append(sigV4Option)
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
+                validAuthOptions.append(sigv4Option)
         }
         return validAuthOptions
     }
