@@ -69,9 +69,7 @@ class AuthSchemePlugin(
                     writer.openBlock("if (self.authSchemes != nil) {", "}") {
                         writer.write("config.authSchemes = self.authSchemes")
                     }
-                    writer.openBlock("if (self.authSchemePreference != nil) {", "}") {
-                        writer.write("config.authSchemePreference = self.authSchemePreference")
-                    }
+                    writer.write("config.authSchemePreference = self.authSchemePreference")
                     writer.openBlock("if (self.authSchemeResolver != nil) {", "}") {
                         writer.write("config.authSchemeResolver = self.authSchemeResolver!")
                     }
