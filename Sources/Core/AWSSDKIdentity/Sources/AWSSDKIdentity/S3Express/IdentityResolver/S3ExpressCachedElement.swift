@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import enum ClientRuntime.IdentityPropertyKeys
+@_spi(ClientConfigWrapper) import enum ClientRuntime.IdentityPropertyKeys
 import struct Foundation.Date
 import struct Foundation.TimeInterval
 import struct Foundation.UUID
@@ -76,7 +76,7 @@ final actor S3ExpressIdentityCachedElement {
         // Note that this task does not capture self, so that the task can be assigned to
         // the retrieveTask property without causing a reference cycle.
         return Task {
-            guard let clientConfig = identityProperties.get(key: IdentityPropertyKeys.clientConfig) else {
+            guard let wrapper = identityProperties.get(key: IdentityPropertyKeys.clientConfigWrapper) else {
                 throw S3ExpressClientError.clientConfigNotProvided
             }
             guard let client = identityProperties.get(key: AWSIdentityPropertyKeys.s3ExpressClient) else {
@@ -85,7 +85,7 @@ final actor S3ExpressIdentityCachedElement {
             guard let bucket = identityProperties.get(key: AWSIdentityPropertyKeys.bucket) else {
                 throw S3ExpressClientError.bucketNotProvided
             }
-            return try await client.createSession(clientConfig: clientConfig, bucket: bucket)
+            return try await client.createSession(clientConfig: wrapper.clientConfig, bucket: bucket)
         }
     }
 
