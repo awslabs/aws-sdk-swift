@@ -621,6 +621,685 @@ public struct UpdateMarketplaceModelEndpointOutput: Swift.Sendable {
     }
 }
 
+/// The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The name of the resource with too many tags.
+        public internal(set) var resourceName: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyTagsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceName: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceName = resourceName
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// The Amazon S3 data source of the model to import. For the [CreateCustomModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateCustomModel.html) API operation, you must specify the Amazon S3 URI for the Amazon-managed Amazon S3 bucket containing your model artifacts. SageMaker AI creates this bucket when you run your first SageMaker AI training job.
+    public struct S3DataSource: Swift.Sendable {
+        /// The URI of the Amazon S3 data source.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// The data source of the model to import.
+    public enum ModelDataSource: Swift.Sendable {
+        /// The Amazon S3 data source of the model to import.
+        case s3datasource(BedrockClientTypes.S3DataSource)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateCustomModelInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientRequestToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the customer managed KMS key to encrypt the custom model. If you don't provide a KMS key, Amazon Bedrock uses an Amazon Web Services-managed KMS key to encrypt the model. If you provide a customer managed KMS key, your Amazon Bedrock service role must have permissions to use it. For more information see [Encryption of imported models](https://docs.aws.amazon.com/bedrock/latest/userguide/encryption-import-model.html).
+    public var modelKmsKeyArn: Swift.String?
+    /// A unique name for the custom model.
+    /// This member is required.
+    public var modelName: Swift.String?
+    /// The data source for the model. The Amazon S3 URI in the model source must be for the Amazon-managed Amazon S3 bucket containing your model artifacts. SageMaker AI creates this bucket when you run your first SageMaker AI training job.
+    /// This member is required.
+    public var modelSourceConfig: BedrockClientTypes.ModelDataSource?
+    /// A list of key-value pairs to associate with the custom model resource. You can use these tags to organize and identify your resources. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
+    public var modelTags: [BedrockClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock assumes to perform tasks on your behalf. This role must have permissions to access the Amazon S3 bucket containing your model artifacts and the KMS key (if specified). For more information, see [Setting up an IAM service role for importing models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-import-iam-role.html) in the Amazon Bedrock User Guide.
+    public var roleArn: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        modelKmsKeyArn: Swift.String? = nil,
+        modelName: Swift.String? = nil,
+        modelSourceConfig: BedrockClientTypes.ModelDataSource? = nil,
+        modelTags: [BedrockClientTypes.Tag]? = nil,
+        roleArn: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.modelKmsKeyArn = modelKmsKeyArn
+        self.modelName = modelName
+        self.modelSourceConfig = modelSourceConfig
+        self.modelTags = modelTags
+        self.roleArn = roleArn
+    }
+}
+
+public struct CreateCustomModelOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the new custom model.
+    /// This member is required.
+    public var modelArn: Swift.String?
+
+    public init(
+        modelArn: Swift.String? = nil
+    ) {
+        self.modelArn = modelArn
+    }
+}
+
+public struct DeleteCustomModelInput: Swift.Sendable {
+    /// Name of the model to delete.
+    /// This member is required.
+    public var modelIdentifier: Swift.String?
+
+    public init(
+        modelIdentifier: Swift.String? = nil
+    ) {
+        self.modelIdentifier = modelIdentifier
+    }
+}
+
+public struct DeleteCustomModelOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetCustomModelInput: Swift.Sendable {
+    /// Name or Amazon Resource Name (ARN) of the custom model.
+    /// This member is required.
+    public var modelIdentifier: Swift.String?
+
+    public init(
+        modelIdentifier: Swift.String? = nil
+    ) {
+        self.modelIdentifier = modelIdentifier
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Details about a teacher model used for model customization.
+    public struct TeacherModelConfig: Swift.Sendable {
+        /// The maximum number of tokens requested when the customization job invokes the teacher model.
+        public var maxResponseLengthForInference: Swift.Int?
+        /// The identifier of the teacher model.
+        /// This member is required.
+        public var teacherModelIdentifier: Swift.String?
+
+        public init(
+            maxResponseLengthForInference: Swift.Int? = nil,
+            teacherModelIdentifier: Swift.String? = nil
+        ) {
+            self.maxResponseLengthForInference = maxResponseLengthForInference
+            self.teacherModelIdentifier = teacherModelIdentifier
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Settings for distilling a foundation model into a smaller and more efficient model.
+    public struct DistillationConfig: Swift.Sendable {
+        /// The teacher model configuration.
+        /// This member is required.
+        public var teacherModelConfig: BedrockClientTypes.TeacherModelConfig?
+
+        public init(
+            teacherModelConfig: BedrockClientTypes.TeacherModelConfig? = nil
+        ) {
+            self.teacherModelConfig = teacherModelConfig
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A model customization configuration
+    public enum CustomizationConfig: Swift.Sendable {
+        /// The Distillation configuration for the custom model.
+        case distillationconfig(BedrockClientTypes.DistillationConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum CustomizationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case continuedPreTraining
+        case distillation
+        case fineTuning
+        case imported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomizationType] {
+            return [
+                .continuedPreTraining,
+                .distillation,
+                .fineTuning,
+                .imported
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .continuedPreTraining: return "CONTINUED_PRE_TRAINING"
+            case .distillation: return "DISTILLATION"
+            case .fineTuning: return "FINE_TUNING"
+            case .imported: return "IMPORTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum ModelStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelStatus] {
+            return [
+                .active,
+                .creating,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .creating: return "Creating"
+            case .failed: return "Failed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// S3 Location of the output data.
+    public struct OutputDataConfig: Swift.Sendable {
+        /// The S3 URI where the output data is stored.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A storage location for invocation logs.
+    public enum InvocationLogSource: Swift.Sendable {
+        /// The URI of an invocation log in a bucket.
+        case s3uri(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A mapping of a metadata key to a value that it should or should not equal.
+    public struct RequestMetadataBaseFilters: Swift.Sendable {
+        /// Include results where the key equals the value.
+        public var equals: [Swift.String: Swift.String]?
+        /// Include results where the key does not equal the value.
+        public var notEquals: [Swift.String: Swift.String]?
+
+        public init(
+            equals: [Swift.String: Swift.String]? = nil,
+            notEquals: [Swift.String: Swift.String]? = nil
+        ) {
+            self.equals = equals
+            self.notEquals = notEquals
+        }
+    }
+}
+
+extension BedrockClientTypes.RequestMetadataBaseFilters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RequestMetadataBaseFilters(equals: \"CONTENT_REDACTED\", notEquals: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
+    /// Rules for filtering invocation logs. A filter can be a mapping of a metadata key to a value that it should or should not equal (a base filter), or a list of base filters that are all applied with AND or OR logical operators
+    public enum RequestMetadataFilters: Swift.Sendable {
+        /// Include results where the key equals the value.
+        case equals([Swift.String: Swift.String])
+        /// Include results where the key does not equal the value.
+        case notequals([Swift.String: Swift.String])
+        /// Include results where all of the based filters match.
+        case andall([BedrockClientTypes.RequestMetadataBaseFilters])
+        /// Include results where any of the base filters match.
+        case orall([BedrockClientTypes.RequestMetadataBaseFilters])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Settings for using invocation logs to customize a model.
+    public struct InvocationLogsConfig: Swift.Sendable {
+        /// The source of the invocation logs.
+        /// This member is required.
+        public var invocationLogSource: BedrockClientTypes.InvocationLogSource?
+        /// Rules for filtering invocation logs based on request metadata.
+        public var requestMetadataFilters: BedrockClientTypes.RequestMetadataFilters?
+        /// Whether to use the model's response for training, or just the prompt. The default value is False.
+        public var usePromptResponse: Swift.Bool
+
+        public init(
+            invocationLogSource: BedrockClientTypes.InvocationLogSource? = nil,
+            requestMetadataFilters: BedrockClientTypes.RequestMetadataFilters? = nil,
+            usePromptResponse: Swift.Bool = false
+        ) {
+            self.invocationLogSource = invocationLogSource
+            self.requestMetadataFilters = requestMetadataFilters
+            self.usePromptResponse = usePromptResponse
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// S3 Location of the training data.
+    public struct TrainingDataConfig: Swift.Sendable {
+        /// Settings for using invocation logs to customize a model.
+        public var invocationLogsConfig: BedrockClientTypes.InvocationLogsConfig?
+        /// The S3 URI where the training data is stored.
+        public var s3Uri: Swift.String?
+
+        public init(
+            invocationLogsConfig: BedrockClientTypes.InvocationLogsConfig? = nil,
+            s3Uri: Swift.String? = nil
+        ) {
+            self.invocationLogsConfig = invocationLogsConfig
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Metrics associated with the custom job.
+    public struct TrainingMetrics: Swift.Sendable {
+        /// Loss metric associated with the custom job.
+        public var trainingLoss: Swift.Float?
+
+        public init(
+            trainingLoss: Swift.Float? = nil
+        ) {
+            self.trainingLoss = trainingLoss
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Information about a validator.
+    public struct Validator: Swift.Sendable {
+        /// The S3 URI where the validation data is stored.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Array of up to 10 validators.
+    public struct ValidationDataConfig: Swift.Sendable {
+        /// Information about the validators.
+        /// This member is required.
+        public var validators: [BedrockClientTypes.Validator]?
+
+        public init(
+            validators: [BedrockClientTypes.Validator]? = nil
+        ) {
+            self.validators = validators
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// The metric for the validator.
+    public struct ValidatorMetric: Swift.Sendable {
+        /// The validation loss associated with this validator.
+        public var validationLoss: Swift.Float?
+
+        public init(
+            validationLoss: Swift.Float? = nil
+        ) {
+            self.validationLoss = validationLoss
+        }
+    }
+}
+
+public struct GetCustomModelOutput: Swift.Sendable {
+    /// Amazon Resource Name (ARN) of the base model.
+    public var baseModelArn: Swift.String?
+    /// Creation time of the model.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The customization configuration for the custom model.
+    public var customizationConfig: BedrockClientTypes.CustomizationConfig?
+    /// The type of model customization.
+    public var customizationType: BedrockClientTypes.CustomizationType?
+    /// A failure message for any issues that occurred when creating the custom model. This is included for only a failed CreateCustomModel operation.
+    public var failureMessage: Swift.String?
+    /// Hyperparameter values associated with this model. For details on the format for different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
+    public var hyperParameters: [Swift.String: Swift.String]?
+    /// Job Amazon Resource Name (ARN) associated with this model. For models that you create with the [CreateCustomModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateCustomModel.html) API operation, this is NULL.
+    public var jobArn: Swift.String?
+    /// Job name associated with this model.
+    public var jobName: Swift.String?
+    /// Amazon Resource Name (ARN) associated with this model.
+    /// This member is required.
+    public var modelArn: Swift.String?
+    /// The custom model is encrypted at rest using this key.
+    public var modelKmsKeyArn: Swift.String?
+    /// Model name associated with this model.
+    /// This member is required.
+    public var modelName: Swift.String?
+    /// The current status of the custom model. Possible values include:
+    ///
+    /// * Creating - The model is being created and validated.
+    ///
+    /// * Active - The model has been successfully created and is ready for use.
+    ///
+    /// * Failed - The model creation process failed. Check the failureMessage field for details.
+    public var modelStatus: BedrockClientTypes.ModelStatus?
+    /// Output data configuration associated with this custom model.
+    public var outputDataConfig: BedrockClientTypes.OutputDataConfig?
+    /// Contains information about the training dataset.
+    public var trainingDataConfig: BedrockClientTypes.TrainingDataConfig?
+    /// Contains training metrics from the job creation.
+    public var trainingMetrics: BedrockClientTypes.TrainingMetrics?
+    /// Contains information about the validation dataset.
+    public var validationDataConfig: BedrockClientTypes.ValidationDataConfig?
+    /// The validation metrics from the job creation.
+    public var validationMetrics: [BedrockClientTypes.ValidatorMetric]?
+
+    public init(
+        baseModelArn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        customizationConfig: BedrockClientTypes.CustomizationConfig? = nil,
+        customizationType: BedrockClientTypes.CustomizationType? = nil,
+        failureMessage: Swift.String? = nil,
+        hyperParameters: [Swift.String: Swift.String]? = nil,
+        jobArn: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        modelArn: Swift.String? = nil,
+        modelKmsKeyArn: Swift.String? = nil,
+        modelName: Swift.String? = nil,
+        modelStatus: BedrockClientTypes.ModelStatus? = nil,
+        outputDataConfig: BedrockClientTypes.OutputDataConfig? = nil,
+        trainingDataConfig: BedrockClientTypes.TrainingDataConfig? = nil,
+        trainingMetrics: BedrockClientTypes.TrainingMetrics? = nil,
+        validationDataConfig: BedrockClientTypes.ValidationDataConfig? = nil,
+        validationMetrics: [BedrockClientTypes.ValidatorMetric]? = nil
+    ) {
+        self.baseModelArn = baseModelArn
+        self.creationTime = creationTime
+        self.customizationConfig = customizationConfig
+        self.customizationType = customizationType
+        self.failureMessage = failureMessage
+        self.hyperParameters = hyperParameters
+        self.jobArn = jobArn
+        self.jobName = jobName
+        self.modelArn = modelArn
+        self.modelKmsKeyArn = modelKmsKeyArn
+        self.modelName = modelName
+        self.modelStatus = modelStatus
+        self.outputDataConfig = outputDataConfig
+        self.trainingDataConfig = trainingDataConfig
+        self.trainingMetrics = trainingMetrics
+        self.validationDataConfig = validationDataConfig
+        self.validationMetrics = validationMetrics
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum SortModelsBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creationTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortModelsBy] {
+            return [
+                .creationTime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creationTime: return "CreationTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "Ascending"
+            case .descending: return "Descending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListCustomModelsInput: Swift.Sendable {
+    /// Return custom models only if the base model Amazon Resource Name (ARN) matches this parameter.
+    public var baseModelArnEquals: Swift.String?
+    /// Return custom models created after the specified time.
+    public var creationTimeAfter: Foundation.Date?
+    /// Return custom models created before the specified time.
+    public var creationTimeBefore: Foundation.Date?
+    /// Return custom models only if the foundation model Amazon Resource Name (ARN) matches this parameter.
+    public var foundationModelArnEquals: Swift.String?
+    /// Return custom models depending on if the current account owns them (true) or if they were shared with the current account (false).
+    public var isOwned: Swift.Bool?
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// The status of them model to filter results by. Possible values include:
+    ///
+    /// * Creating - Include only models that are currently being created and validated.
+    ///
+    /// * Active - Include only models that have been successfully created and are ready for use.
+    ///
+    /// * Failed - Include only models where the creation process failed.
+    ///
+    ///
+    /// If you don't specify a status, the API returns models in all states.
+    public var modelStatus: BedrockClientTypes.ModelStatus?
+    /// Return custom models only if the job name contains these characters.
+    public var nameContains: Swift.String?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// The field to sort by in the returned list of models.
+    public var sortBy: BedrockClientTypes.SortModelsBy?
+    /// The sort order of the results.
+    public var sortOrder: BedrockClientTypes.SortOrder?
+
+    public init(
+        baseModelArnEquals: Swift.String? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        foundationModelArnEquals: Swift.String? = nil,
+        isOwned: Swift.Bool? = nil,
+        maxResults: Swift.Int? = nil,
+        modelStatus: BedrockClientTypes.ModelStatus? = nil,
+        nameContains: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: BedrockClientTypes.SortModelsBy? = nil,
+        sortOrder: BedrockClientTypes.SortOrder? = nil
+    ) {
+        self.baseModelArnEquals = baseModelArnEquals
+        self.creationTimeAfter = creationTimeAfter
+        self.creationTimeBefore = creationTimeBefore
+        self.foundationModelArnEquals = foundationModelArnEquals
+        self.isOwned = isOwned
+        self.maxResults = maxResults
+        self.modelStatus = modelStatus
+        self.nameContains = nameContains
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Summary information for a custom model.
+    public struct CustomModelSummary: Swift.Sendable {
+        /// The base model Amazon Resource Name (ARN).
+        /// This member is required.
+        public var baseModelArn: Swift.String?
+        /// The base model name.
+        /// This member is required.
+        public var baseModelName: Swift.String?
+        /// Creation time of the model.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// Specifies whether to carry out continued pre-training of a model or whether to fine-tune it. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html).
+        public var customizationType: BedrockClientTypes.CustomizationType?
+        /// The Amazon Resource Name (ARN) of the custom model.
+        /// This member is required.
+        public var modelArn: Swift.String?
+        /// The name of the custom model.
+        /// This member is required.
+        public var modelName: Swift.String?
+        /// The current status of the custom model. Possible values include:
+        ///
+        /// * Creating - The model is being created and validated.
+        ///
+        /// * Active - The model has been successfully created and is ready for use.
+        ///
+        /// * Failed - The model creation process failed.
+        public var modelStatus: BedrockClientTypes.ModelStatus?
+        /// The unique identifier of the account that owns the model.
+        public var ownerAccountId: Swift.String?
+
+        public init(
+            baseModelArn: Swift.String? = nil,
+            baseModelName: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            customizationType: BedrockClientTypes.CustomizationType? = nil,
+            modelArn: Swift.String? = nil,
+            modelName: Swift.String? = nil,
+            modelStatus: BedrockClientTypes.ModelStatus? = nil,
+            ownerAccountId: Swift.String? = nil
+        ) {
+            self.baseModelArn = baseModelArn
+            self.baseModelName = baseModelName
+            self.creationTime = creationTime
+            self.customizationType = customizationType
+            self.modelArn = modelArn
+            self.modelName = modelName
+            self.modelStatus = modelStatus
+            self.ownerAccountId = ownerAccountId
+        }
+    }
+}
+
+public struct ListCustomModelsOutput: Swift.Sendable {
+    /// Model summaries.
+    public var modelSummaries: [BedrockClientTypes.CustomModelSummary]?
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        modelSummaries: [BedrockClientTypes.CustomModelSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.modelSummaries = modelSummaries
+        self.nextToken = nextToken
+    }
+}
+
 public struct BatchDeleteEvaluationJobInput: Swift.Sendable {
     /// A list of one or more evaluation job Amazon Resource Names (ARNs) you want to delete.
     /// This member is required.
@@ -1797,35 +2476,6 @@ extension BedrockClientTypes {
     }
 }
 
-extension BedrockClientTypes {
-
-    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ascending
-        case descending
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SortOrder] {
-            return [
-                .ascending,
-                .descending
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .ascending: return "Ascending"
-            case .descending: return "Descending"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 public struct ListEvaluationJobsInput: Swift.Sendable {
     /// A filter to only list evaluation jobs that are either model evaluations or knowledge base evaluations.
     public var applicationTypeEquals: BedrockClientTypes.ApplicationType?
@@ -2028,33 +2678,6 @@ extension StopEvaluationJobInput: Swift.CustomDebugStringConvertible {
 public struct StopEvaluationJobOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The name of the resource with too many tags.
-        public internal(set) var resourceName: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "TooManyTagsException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceName: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceName = resourceName
-    }
 }
 
 extension BedrockClientTypes {
@@ -4749,32 +5372,6 @@ public struct ListModelCopyJobsOutput: Swift.Sendable {
     }
 }
 
-extension BedrockClientTypes {
-
-    /// The Amazon S3 data source of the imported job.
-    public struct S3DataSource: Swift.Sendable {
-        /// The URI of the Amazon S3 data source.
-        /// This member is required.
-        public var s3Uri: Swift.String?
-
-        public init(
-            s3Uri: Swift.String? = nil
-        ) {
-            self.s3Uri = s3Uri
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// Data source for the imported model.
-    public enum ModelDataSource: Swift.Sendable {
-        /// The Amazon S3 data source of the imported model.
-        case s3datasource(BedrockClientTypes.S3DataSource)
-        case sdkUnknown(Swift.String)
-    }
-}
-
 public struct CreateModelImportJobInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientRequestToken: Swift.String?
@@ -5029,32 +5626,6 @@ public struct GetModelImportJobOutput: Swift.Sendable {
         self.roleArn = roleArn
         self.status = status
         self.vpcConfig = vpcConfig
-    }
-}
-
-extension BedrockClientTypes {
-
-    public enum SortModelsBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case creationTime
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SortModelsBy] {
-            return [
-                .creationTime
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .creationTime: return "CreationTime"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -5781,358 +6352,6 @@ public struct StopModelInvocationJobOutput: Swift.Sendable {
     public init() { }
 }
 
-public struct DeleteCustomModelInput: Swift.Sendable {
-    /// Name of the model to delete.
-    /// This member is required.
-    public var modelIdentifier: Swift.String?
-
-    public init(
-        modelIdentifier: Swift.String? = nil
-    ) {
-        self.modelIdentifier = modelIdentifier
-    }
-}
-
-public struct DeleteCustomModelOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct GetCustomModelInput: Swift.Sendable {
-    /// Name or Amazon Resource Name (ARN) of the custom model.
-    /// This member is required.
-    public var modelIdentifier: Swift.String?
-
-    public init(
-        modelIdentifier: Swift.String? = nil
-    ) {
-        self.modelIdentifier = modelIdentifier
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// Details about a teacher model used for model customization.
-    public struct TeacherModelConfig: Swift.Sendable {
-        /// The maximum number of tokens requested when the customization job invokes the teacher model.
-        public var maxResponseLengthForInference: Swift.Int?
-        /// The identifier of the teacher model.
-        /// This member is required.
-        public var teacherModelIdentifier: Swift.String?
-
-        public init(
-            maxResponseLengthForInference: Swift.Int? = nil,
-            teacherModelIdentifier: Swift.String? = nil
-        ) {
-            self.maxResponseLengthForInference = maxResponseLengthForInference
-            self.teacherModelIdentifier = teacherModelIdentifier
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// Settings for distilling a foundation model into a smaller and more efficient model.
-    public struct DistillationConfig: Swift.Sendable {
-        /// The teacher model configuration.
-        /// This member is required.
-        public var teacherModelConfig: BedrockClientTypes.TeacherModelConfig?
-
-        public init(
-            teacherModelConfig: BedrockClientTypes.TeacherModelConfig? = nil
-        ) {
-            self.teacherModelConfig = teacherModelConfig
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// A model customization configuration
-    public enum CustomizationConfig: Swift.Sendable {
-        /// The Distillation configuration for the custom model.
-        case distillationconfig(BedrockClientTypes.DistillationConfig)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension BedrockClientTypes {
-
-    public enum CustomizationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case continuedPreTraining
-        case distillation
-        case fineTuning
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CustomizationType] {
-            return [
-                .continuedPreTraining,
-                .distillation,
-                .fineTuning
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .continuedPreTraining: return "CONTINUED_PRE_TRAINING"
-            case .distillation: return "DISTILLATION"
-            case .fineTuning: return "FINE_TUNING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// S3 Location of the output data.
-    public struct OutputDataConfig: Swift.Sendable {
-        /// The S3 URI where the output data is stored.
-        /// This member is required.
-        public var s3Uri: Swift.String?
-
-        public init(
-            s3Uri: Swift.String? = nil
-        ) {
-            self.s3Uri = s3Uri
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// A storage location for invocation logs.
-    public enum InvocationLogSource: Swift.Sendable {
-        /// The URI of an invocation log in a bucket.
-        case s3uri(Swift.String)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// A mapping of a metadata key to a value that it should or should not equal.
-    public struct RequestMetadataBaseFilters: Swift.Sendable {
-        /// Include results where the key equals the value.
-        public var equals: [Swift.String: Swift.String]?
-        /// Include results where the key does not equal the value.
-        public var notEquals: [Swift.String: Swift.String]?
-
-        public init(
-            equals: [Swift.String: Swift.String]? = nil,
-            notEquals: [Swift.String: Swift.String]? = nil
-        ) {
-            self.equals = equals
-            self.notEquals = notEquals
-        }
-    }
-}
-
-extension BedrockClientTypes.RequestMetadataBaseFilters: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "RequestMetadataBaseFilters(equals: \"CONTENT_REDACTED\", notEquals: \"CONTENT_REDACTED\")"}
-}
-
-extension BedrockClientTypes {
-
-    /// Rules for filtering invocation logs. A filter can be a mapping of a metadata key to a value that it should or should not equal (a base filter), or a list of base filters that are all applied with AND or OR logical operators
-    public enum RequestMetadataFilters: Swift.Sendable {
-        /// Include results where the key equals the value.
-        case equals([Swift.String: Swift.String])
-        /// Include results where the key does not equal the value.
-        case notequals([Swift.String: Swift.String])
-        /// Include results where all of the based filters match.
-        case andall([BedrockClientTypes.RequestMetadataBaseFilters])
-        /// Include results where any of the base filters match.
-        case orall([BedrockClientTypes.RequestMetadataBaseFilters])
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// Settings for using invocation logs to customize a model.
-    public struct InvocationLogsConfig: Swift.Sendable {
-        /// The source of the invocation logs.
-        /// This member is required.
-        public var invocationLogSource: BedrockClientTypes.InvocationLogSource?
-        /// Rules for filtering invocation logs based on request metadata.
-        public var requestMetadataFilters: BedrockClientTypes.RequestMetadataFilters?
-        /// Whether to use the model's response for training, or just the prompt. The default value is False.
-        public var usePromptResponse: Swift.Bool
-
-        public init(
-            invocationLogSource: BedrockClientTypes.InvocationLogSource? = nil,
-            requestMetadataFilters: BedrockClientTypes.RequestMetadataFilters? = nil,
-            usePromptResponse: Swift.Bool = false
-        ) {
-            self.invocationLogSource = invocationLogSource
-            self.requestMetadataFilters = requestMetadataFilters
-            self.usePromptResponse = usePromptResponse
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// S3 Location of the training data.
-    public struct TrainingDataConfig: Swift.Sendable {
-        /// Settings for using invocation logs to customize a model.
-        public var invocationLogsConfig: BedrockClientTypes.InvocationLogsConfig?
-        /// The S3 URI where the training data is stored.
-        public var s3Uri: Swift.String?
-
-        public init(
-            invocationLogsConfig: BedrockClientTypes.InvocationLogsConfig? = nil,
-            s3Uri: Swift.String? = nil
-        ) {
-            self.invocationLogsConfig = invocationLogsConfig
-            self.s3Uri = s3Uri
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// Metrics associated with the custom job.
-    public struct TrainingMetrics: Swift.Sendable {
-        /// Loss metric associated with the custom job.
-        public var trainingLoss: Swift.Float?
-
-        public init(
-            trainingLoss: Swift.Float? = nil
-        ) {
-            self.trainingLoss = trainingLoss
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// Information about a validator.
-    public struct Validator: Swift.Sendable {
-        /// The S3 URI where the validation data is stored.
-        /// This member is required.
-        public var s3Uri: Swift.String?
-
-        public init(
-            s3Uri: Swift.String? = nil
-        ) {
-            self.s3Uri = s3Uri
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// Array of up to 10 validators.
-    public struct ValidationDataConfig: Swift.Sendable {
-        /// Information about the validators.
-        /// This member is required.
-        public var validators: [BedrockClientTypes.Validator]?
-
-        public init(
-            validators: [BedrockClientTypes.Validator]? = nil
-        ) {
-            self.validators = validators
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// The metric for the validator.
-    public struct ValidatorMetric: Swift.Sendable {
-        /// The validation loss associated with this validator.
-        public var validationLoss: Swift.Float?
-
-        public init(
-            validationLoss: Swift.Float? = nil
-        ) {
-            self.validationLoss = validationLoss
-        }
-    }
-}
-
-public struct GetCustomModelOutput: Swift.Sendable {
-    /// Amazon Resource Name (ARN) of the base model.
-    /// This member is required.
-    public var baseModelArn: Swift.String?
-    /// Creation time of the model.
-    /// This member is required.
-    public var creationTime: Foundation.Date?
-    /// The customization configuration for the custom model.
-    public var customizationConfig: BedrockClientTypes.CustomizationConfig?
-    /// The type of model customization.
-    public var customizationType: BedrockClientTypes.CustomizationType?
-    /// Hyperparameter values associated with this model. For details on the format for different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
-    public var hyperParameters: [Swift.String: Swift.String]?
-    /// Job Amazon Resource Name (ARN) associated with this model.
-    /// This member is required.
-    public var jobArn: Swift.String?
-    /// Job name associated with this model.
-    public var jobName: Swift.String?
-    /// Amazon Resource Name (ARN) associated with this model.
-    /// This member is required.
-    public var modelArn: Swift.String?
-    /// The custom model is encrypted at rest using this key.
-    public var modelKmsKeyArn: Swift.String?
-    /// Model name associated with this model.
-    /// This member is required.
-    public var modelName: Swift.String?
-    /// Output data configuration associated with this custom model.
-    /// This member is required.
-    public var outputDataConfig: BedrockClientTypes.OutputDataConfig?
-    /// Contains information about the training dataset.
-    /// This member is required.
-    public var trainingDataConfig: BedrockClientTypes.TrainingDataConfig?
-    /// Contains training metrics from the job creation.
-    public var trainingMetrics: BedrockClientTypes.TrainingMetrics?
-    /// Contains information about the validation dataset.
-    public var validationDataConfig: BedrockClientTypes.ValidationDataConfig?
-    /// The validation metrics from the job creation.
-    public var validationMetrics: [BedrockClientTypes.ValidatorMetric]?
-
-    public init(
-        baseModelArn: Swift.String? = nil,
-        creationTime: Foundation.Date? = nil,
-        customizationConfig: BedrockClientTypes.CustomizationConfig? = nil,
-        customizationType: BedrockClientTypes.CustomizationType? = nil,
-        hyperParameters: [Swift.String: Swift.String]? = nil,
-        jobArn: Swift.String? = nil,
-        jobName: Swift.String? = nil,
-        modelArn: Swift.String? = nil,
-        modelKmsKeyArn: Swift.String? = nil,
-        modelName: Swift.String? = nil,
-        outputDataConfig: BedrockClientTypes.OutputDataConfig? = nil,
-        trainingDataConfig: BedrockClientTypes.TrainingDataConfig? = nil,
-        trainingMetrics: BedrockClientTypes.TrainingMetrics? = nil,
-        validationDataConfig: BedrockClientTypes.ValidationDataConfig? = nil,
-        validationMetrics: [BedrockClientTypes.ValidatorMetric]? = nil
-    ) {
-        self.baseModelArn = baseModelArn
-        self.creationTime = creationTime
-        self.customizationConfig = customizationConfig
-        self.customizationType = customizationType
-        self.hyperParameters = hyperParameters
-        self.jobArn = jobArn
-        self.jobName = jobName
-        self.modelArn = modelArn
-        self.modelKmsKeyArn = modelKmsKeyArn
-        self.modelName = modelName
-        self.outputDataConfig = outputDataConfig
-        self.trainingDataConfig = trainingDataConfig
-        self.trainingMetrics = trainingMetrics
-        self.validationDataConfig = validationDataConfig
-        self.validationMetrics = validationMetrics
-    }
-}
-
 public struct GetFoundationModelInput: Swift.Sendable {
     /// The model identifier.
     /// This member is required.
@@ -6344,112 +6563,6 @@ public struct GetFoundationModelOutput: Swift.Sendable {
         modelDetails: BedrockClientTypes.FoundationModelDetails? = nil
     ) {
         self.modelDetails = modelDetails
-    }
-}
-
-public struct ListCustomModelsInput: Swift.Sendable {
-    /// Return custom models only if the base model Amazon Resource Name (ARN) matches this parameter.
-    public var baseModelArnEquals: Swift.String?
-    /// Return custom models created after the specified time.
-    public var creationTimeAfter: Foundation.Date?
-    /// Return custom models created before the specified time.
-    public var creationTimeBefore: Foundation.Date?
-    /// Return custom models only if the foundation model Amazon Resource Name (ARN) matches this parameter.
-    public var foundationModelArnEquals: Swift.String?
-    /// Return custom models depending on if the current account owns them (true) or if they were shared with the current account (false).
-    public var isOwned: Swift.Bool?
-    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
-    public var maxResults: Swift.Int?
-    /// Return custom models only if the job name contains these characters.
-    public var nameContains: Swift.String?
-    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
-    public var nextToken: Swift.String?
-    /// The field to sort by in the returned list of models.
-    public var sortBy: BedrockClientTypes.SortModelsBy?
-    /// The sort order of the results.
-    public var sortOrder: BedrockClientTypes.SortOrder?
-
-    public init(
-        baseModelArnEquals: Swift.String? = nil,
-        creationTimeAfter: Foundation.Date? = nil,
-        creationTimeBefore: Foundation.Date? = nil,
-        foundationModelArnEquals: Swift.String? = nil,
-        isOwned: Swift.Bool? = nil,
-        maxResults: Swift.Int? = nil,
-        nameContains: Swift.String? = nil,
-        nextToken: Swift.String? = nil,
-        sortBy: BedrockClientTypes.SortModelsBy? = nil,
-        sortOrder: BedrockClientTypes.SortOrder? = nil
-    ) {
-        self.baseModelArnEquals = baseModelArnEquals
-        self.creationTimeAfter = creationTimeAfter
-        self.creationTimeBefore = creationTimeBefore
-        self.foundationModelArnEquals = foundationModelArnEquals
-        self.isOwned = isOwned
-        self.maxResults = maxResults
-        self.nameContains = nameContains
-        self.nextToken = nextToken
-        self.sortBy = sortBy
-        self.sortOrder = sortOrder
-    }
-}
-
-extension BedrockClientTypes {
-
-    /// Summary information for a custom model.
-    public struct CustomModelSummary: Swift.Sendable {
-        /// The base model Amazon Resource Name (ARN).
-        /// This member is required.
-        public var baseModelArn: Swift.String?
-        /// The base model name.
-        /// This member is required.
-        public var baseModelName: Swift.String?
-        /// Creation time of the model.
-        /// This member is required.
-        public var creationTime: Foundation.Date?
-        /// Specifies whether to carry out continued pre-training of a model or whether to fine-tune it. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html).
-        public var customizationType: BedrockClientTypes.CustomizationType?
-        /// The Amazon Resource Name (ARN) of the custom model.
-        /// This member is required.
-        public var modelArn: Swift.String?
-        /// The name of the custom model.
-        /// This member is required.
-        public var modelName: Swift.String?
-        /// The unique identifier of the account that owns the model.
-        public var ownerAccountId: Swift.String?
-
-        public init(
-            baseModelArn: Swift.String? = nil,
-            baseModelName: Swift.String? = nil,
-            creationTime: Foundation.Date? = nil,
-            customizationType: BedrockClientTypes.CustomizationType? = nil,
-            modelArn: Swift.String? = nil,
-            modelName: Swift.String? = nil,
-            ownerAccountId: Swift.String? = nil
-        ) {
-            self.baseModelArn = baseModelArn
-            self.baseModelName = baseModelName
-            self.creationTime = creationTime
-            self.customizationType = customizationType
-            self.modelArn = modelArn
-            self.modelName = modelName
-            self.ownerAccountId = ownerAccountId
-        }
-    }
-}
-
-public struct ListCustomModelsOutput: Swift.Sendable {
-    /// Model summaries.
-    public var modelSummaries: [BedrockClientTypes.CustomModelSummary]?
-    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
-    public var nextToken: Swift.String?
-
-    public init(
-        modelSummaries: [BedrockClientTypes.CustomModelSummary]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.modelSummaries = modelSummaries
-        self.nextToken = nextToken
     }
 }
 
@@ -8216,6 +8329,13 @@ extension BatchDeleteEvaluationJobInput {
     }
 }
 
+extension CreateCustomModelInput {
+
+    static func urlPathProvider(_ value: CreateCustomModelInput) -> Swift.String? {
+        return "/custom-models/create-custom-model"
+    }
+}
+
 extension CreateEvaluationJobInput {
 
     static func urlPathProvider(_ value: CreateEvaluationJobInput) -> Swift.String? {
@@ -8566,6 +8686,10 @@ extension ListCustomModelsInput {
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        if let modelStatus = value.modelStatus {
+            let modelStatusQueryItem = Smithy.URIQueryItem(name: "modelStatus".urlPercentEncoding(), value: Swift.String(modelStatus.rawValue).urlPercentEncoding())
+            items.append(modelStatusQueryItem)
         }
         if let sortOrder = value.sortOrder {
             let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
@@ -9185,6 +9309,19 @@ extension BatchDeleteEvaluationJobInput {
     }
 }
 
+extension CreateCustomModelInput {
+
+    static func write(value: CreateCustomModelInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["modelKmsKeyArn"].write(value.modelKmsKeyArn)
+        try writer["modelName"].write(value.modelName)
+        try writer["modelSourceConfig"].write(value.modelSourceConfig, with: BedrockClientTypes.ModelDataSource.write(value:to:))
+        try writer["modelTags"].writeList(value.modelTags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["roleArn"].write(value.roleArn)
+    }
+}
+
 extension CreateEvaluationJobInput {
 
     static func write(value: CreateEvaluationJobInput?, to writer: SmithyJSON.Writer) throws {
@@ -9440,6 +9577,18 @@ extension BatchDeleteEvaluationJobOutput {
     }
 }
 
+extension CreateCustomModelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCustomModelOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCustomModelOutput()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateEvaluationJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEvaluationJobOutput {
@@ -9647,16 +9796,18 @@ extension GetCustomModelOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetCustomModelOutput()
-        value.baseModelArn = try reader["baseModelArn"].readIfPresent() ?? ""
+        value.baseModelArn = try reader["baseModelArn"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customizationConfig = try reader["customizationConfig"].readIfPresent(with: BedrockClientTypes.CustomizationConfig.read(from:))
         value.customizationType = try reader["customizationType"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
         value.hyperParameters = try reader["hyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobArn = try reader["jobArn"].readIfPresent()
         value.jobName = try reader["jobName"].readIfPresent()
         value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
         value.modelKmsKeyArn = try reader["modelKmsKeyArn"].readIfPresent()
         value.modelName = try reader["modelName"].readIfPresent() ?? ""
+        value.modelStatus = try reader["modelStatus"].readIfPresent()
         value.outputDataConfig = try reader["outputDataConfig"].readIfPresent(with: BedrockClientTypes.OutputDataConfig.read(from:))
         value.trainingDataConfig = try reader["trainingDataConfig"].readIfPresent(with: BedrockClientTypes.TrainingDataConfig.read(from:))
         value.trainingMetrics = try reader["trainingMetrics"].readIfPresent(with: BedrockClientTypes.TrainingMetrics.read(from:))
@@ -10230,6 +10381,27 @@ enum BatchDeleteEvaluationJobOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCustomModelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13239,6 +13411,7 @@ extension BedrockClientTypes.CustomModelSummary {
         value.baseModelName = try reader["baseModelName"].readIfPresent() ?? ""
         value.customizationType = try reader["customizationType"].readIfPresent()
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
+        value.modelStatus = try reader["modelStatus"].readIfPresent()
         return value
     }
 }
@@ -13410,8 +13583,8 @@ extension BedrockClientTypes.ModelCustomizationJobSummary {
         value.baseModelArn = try reader["baseModelArn"].readIfPresent() ?? ""
         value.jobName = try reader["jobName"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.statusDetails = try reader["statusDetails"].readIfPresent(with: BedrockClientTypes.StatusDetails.read(from:))
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.customModelArn = try reader["customModelArn"].readIfPresent()

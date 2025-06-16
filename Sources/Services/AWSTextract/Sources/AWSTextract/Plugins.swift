@@ -70,9 +70,7 @@ public class TextractClientAuthSchemePlugin: ClientRuntime.Plugin {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }
-            if (self.authSchemePreference != nil) {
-                config.authSchemePreference = self.authSchemePreference
-            }
+            config.authSchemePreference = self.authSchemePreference
             if (self.authSchemeResolver != nil) {
                 config.authSchemeResolver = self.authSchemeResolver!
             }
