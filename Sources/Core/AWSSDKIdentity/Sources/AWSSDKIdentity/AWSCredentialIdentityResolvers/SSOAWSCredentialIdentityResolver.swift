@@ -71,29 +71,29 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         fileBasedConfig: CRTFileBasedConfiguration
     ) throws -> (accountID: String, roleName: String, region: String) {
         // Get `sso_account_id` and `sso_role_name` properties.
-        guard let ssoSessionName = fileBasedConfig.getSection(
-            name: profileName, sectionType: .profile
-        )?.getProperty(name: "sso_session")?.value else {
-            throw ClientError.dataNotFound("Failed to retrieve sso_session from \(profileName) profile.")
-        }
-        guard let ssoAccountID = fileBasedConfig.getSection(
-            name: profileName, sectionType: .profile
-        )?.getProperty(name: "sso_account_id")?.value else {
-            throw ClientError.dataNotFound("Failed to retrieve from sso_account_id \(profileName) profile.")
-        }
-        guard let ssoRoleName = fileBasedConfig.getSection(
-            name: profileName, sectionType: .profile
-        )?.getProperty(name: "sso_role_name")?.value else {
-            throw ClientError.dataNotFound("Failed to retrieve sso_role_name from \(profileName) profile.")
-        }
+        let ssoAccountID = try getProperty(profileName, .profile, "sso_account_id", fileBasedConfig)
+        let ssoRoleName = try getProperty(profileName, .profile, "sso_role_name", fileBasedConfig)
 
         // Get `sso_region` property from sso-session section referenced by the profile section..
-        guard let ssoRegion = fileBasedConfig.getSection(
-            name: ssoSessionName, sectionType: .ssoSession
-        )?.getProperty(name: "sso_region")?.value else {
-            throw ClientError.dataNotFound("Failed to retrieve sso_region from \(ssoSessionName) sso-sesion section.")
-        }
+        let ssoSessionName = try getProperty(profileName, .profile, "sso_session", fileBasedConfig)
+        let ssoRegion = try getProperty(ssoSessionName, .ssoSession, "sso_region", fileBasedConfig)
 
         return (ssoAccountID, ssoRoleName, ssoRegion)
+    }
+
+    private func getProperty(
+        _ sectionName: String,
+        _ sectionType: CRTFileBasedConfiguration.SectionType,
+        _ propertyName: String,
+        _ fileBasedConfig: CRTFileBasedConfiguration
+    ) throws -> String {
+        guard let value = fileBasedConfig
+            .getSection(name: sectionName, sectionType: sectionType)?
+            .getProperty(name: propertyName)?
+            .value
+        else {
+            throw ClientError.dataNotFound("Failed to retrieve \(propertyName) from \(sectionName) \(sectionType) section.")
+        }
+        return value
     }
 }
