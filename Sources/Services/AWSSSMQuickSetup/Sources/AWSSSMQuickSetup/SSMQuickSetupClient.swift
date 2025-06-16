@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMQuickSetupClient: ClientRuntime.Client {
     public static let clientName = "SSMQuickSetupClient"
-    public static let version = "1.3.30"
+    public static let version = "1.3.36"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMQuickSetupClient.SSMQuickSetupClientConfiguration
     let serviceName = "SSM QuickSetup"
@@ -111,6 +111,7 @@ extension SSMQuickSetupClient {
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
@@ -138,6 +139,7 @@ extension SSMQuickSetupClient {
             _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
             _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
             _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemePreference: [String]?,
             _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
             _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
             _ interceptorProviders: [ClientRuntime.InterceptorProvider],
@@ -163,6 +165,7 @@ extension SSMQuickSetupClient {
             self.httpClientEngine = httpClientEngine
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
+            self.authSchemePreference = authSchemePreference
             self.authSchemeResolver = authSchemeResolver
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
             self.interceptorProviders = interceptorProviders
@@ -191,6 +194,7 @@ extension SSMQuickSetupClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -217,6 +221,7 @@ extension SSMQuickSetupClient {
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultSSMQuickSetupAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -245,6 +250,7 @@ extension SSMQuickSetupClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -271,6 +277,7 @@ extension SSMQuickSetupClient {
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultSSMQuickSetupAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -300,6 +307,7 @@ extension SSMQuickSetupClient {
                 httpClientEngine: nil,
                 httpClientConfiguration: nil,
                 authSchemes: nil,
+                authSchemePreference: nil,
                 authSchemeResolver: nil,
                 bearerTokenIdentityResolver: nil,
                 interceptorProviders: nil,
@@ -329,6 +337,7 @@ extension SSMQuickSetupClient {
                 AWSClientConfigDefaultsProvider.httpClientEngine(),
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                nil,
                 DefaultSSMQuickSetupAuthSchemeResolver(),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
@@ -385,6 +394,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -464,6 +474,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -540,6 +551,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -616,6 +628,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -690,6 +703,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -765,6 +779,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -843,6 +858,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -920,6 +936,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -996,6 +1013,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1072,6 +1090,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1151,6 +1170,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1228,6 +1248,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1307,6 +1328,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1385,6 +1407,7 @@ extension SSMQuickSetupClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)

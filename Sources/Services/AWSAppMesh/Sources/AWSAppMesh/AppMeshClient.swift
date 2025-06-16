@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppMeshClient: ClientRuntime.Client {
     public static let clientName = "AppMeshClient"
-    public static let version = "1.3.30"
+    public static let version = "1.3.36"
     let client: ClientRuntime.SdkHttpClient
     let config: AppMeshClient.AppMeshClientConfiguration
     let serviceName = "App Mesh"
@@ -111,6 +111,7 @@ extension AppMeshClient {
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
@@ -138,6 +139,7 @@ extension AppMeshClient {
             _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
             _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
             _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemePreference: [String]?,
             _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
             _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
             _ interceptorProviders: [ClientRuntime.InterceptorProvider],
@@ -163,6 +165,7 @@ extension AppMeshClient {
             self.httpClientEngine = httpClientEngine
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
+            self.authSchemePreference = authSchemePreference
             self.authSchemeResolver = authSchemeResolver
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
             self.interceptorProviders = interceptorProviders
@@ -191,6 +194,7 @@ extension AppMeshClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -217,6 +221,7 @@ extension AppMeshClient {
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultAppMeshAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -245,6 +250,7 @@ extension AppMeshClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -271,6 +277,7 @@ extension AppMeshClient {
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultAppMeshAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -300,6 +307,7 @@ extension AppMeshClient {
                 httpClientEngine: nil,
                 httpClientConfiguration: nil,
                 authSchemes: nil,
+                authSchemePreference: nil,
                 authSchemeResolver: nil,
                 bearerTokenIdentityResolver: nil,
                 interceptorProviders: nil,
@@ -329,6 +337,7 @@ extension AppMeshClient {
                 AWSClientConfigDefaultsProvider.httpClientEngine(),
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                nil,
                 DefaultAppMeshAuthSchemeResolver(),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
@@ -388,6 +397,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -471,6 +481,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -553,6 +564,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -636,6 +648,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -719,6 +732,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -802,6 +816,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -885,6 +900,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -967,6 +983,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1045,6 +1062,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1122,6 +1140,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1200,6 +1219,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1278,6 +1298,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1356,6 +1377,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1434,6 +1456,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1511,6 +1534,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1588,6 +1612,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1665,6 +1690,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1742,6 +1768,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1819,6 +1846,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1896,6 +1924,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1973,6 +2002,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2050,6 +2080,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2127,6 +2158,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2204,6 +2236,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2281,6 +2314,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2358,6 +2392,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2435,6 +2470,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2512,6 +2548,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2589,6 +2626,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2667,6 +2705,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2747,6 +2786,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2829,6 +2869,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2911,6 +2952,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2993,6 +3035,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3076,6 +3119,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3159,6 +3203,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3242,6 +3287,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3325,6 +3371,7 @@ extension AppMeshClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)

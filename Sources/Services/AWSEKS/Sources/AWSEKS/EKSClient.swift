@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EKSClient: ClientRuntime.Client {
     public static let clientName = "EKSClient"
-    public static let version = "1.3.30"
+    public static let version = "1.3.36"
     let client: ClientRuntime.SdkHttpClient
     let config: EKSClient.EKSClientConfiguration
     let serviceName = "EKS"
@@ -111,6 +111,7 @@ extension EKSClient {
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
@@ -138,6 +139,7 @@ extension EKSClient {
             _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
             _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
             _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemePreference: [String]?,
             _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
             _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
             _ interceptorProviders: [ClientRuntime.InterceptorProvider],
@@ -163,6 +165,7 @@ extension EKSClient {
             self.httpClientEngine = httpClientEngine
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
+            self.authSchemePreference = authSchemePreference
             self.authSchemeResolver = authSchemeResolver
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
             self.interceptorProviders = interceptorProviders
@@ -191,6 +194,7 @@ extension EKSClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -217,6 +221,7 @@ extension EKSClient {
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultEKSAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -245,6 +250,7 @@ extension EKSClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -271,6 +277,7 @@ extension EKSClient {
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultEKSAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -300,6 +307,7 @@ extension EKSClient {
                 httpClientEngine: nil,
                 httpClientConfiguration: nil,
                 authSchemes: nil,
+                authSchemePreference: nil,
                 authSchemeResolver: nil,
                 bearerTokenIdentityResolver: nil,
                 interceptorProviders: nil,
@@ -329,6 +337,7 @@ extension EKSClient {
                 AWSClientConfigDefaultsProvider.httpClientEngine(),
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                nil,
                 DefaultEKSAuthSchemeResolver(),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
@@ -384,6 +393,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -464,6 +474,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -545,6 +556,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -625,6 +637,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -705,6 +718,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -761,7 +775,7 @@ extension EKSClient {
 
     /// Performs the `CreateCluster` operation on the `EKS` service.
     ///
-    /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. You can use the endpointPublicAccess and endpointPrivateAccess parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see [Amazon EKS Cluster Endpoint Access Control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide . You can use the logging parameter to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster Control Plane Logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/). In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see [Allowing users to access your cluster](https://docs.aws.amazon.com/eks/latest/userguide/cluster-auth.html) and [Launching Amazon EKS nodes](https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html) in the Amazon EKS User Guide.
+    /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. You can use the endpointPublicAccess and endpointPrivateAccess parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. The endpoint domain name and IP address family depends on the value of the ipFamily for the cluster. For more information, see [Amazon EKS Cluster Endpoint Access Control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide . You can use the logging parameter to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster Control Plane Logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/). In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see [Allowing users to access your cluster](https://docs.aws.amazon.com/eks/latest/userguide/cluster-auth.html) and [Launching Amazon EKS nodes](https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html) in the Amazon EKS User Guide.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
     ///
@@ -786,6 +800,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -865,6 +880,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -945,6 +961,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1026,6 +1043,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1082,7 +1100,7 @@ extension EKSClient {
 
     /// Performs the `CreatePodIdentityAssociation` operation on the `EKS` service.
     ///
-    /// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity. Use EKS Pod Identity to give temporary IAM credentials to pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances. If a pod uses a service account that has an association, Amazon EKS sets environment variables in the containers of the pod. The environment variables configure the Amazon Web Services SDKs, including the Command Line Interface, to use the EKS Pod Identity credentials. Pod Identity is a simpler method than IAM roles for service accounts, as this method doesn't use OIDC identity providers. Additionally, you can configure a role for Pod Identity once, and reuse it across clusters.
+    /// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity. Use EKS Pod Identity to give temporary IAM credentials to Pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances. If a Pod uses a service account that has an association, Amazon EKS sets environment variables in the containers of the Pod. The environment variables configure the Amazon Web Services SDKs, including the Command Line Interface, to use the EKS Pod Identity credentials. EKS Pod Identity is a simpler method than IAM roles for service accounts, as this method doesn't use OIDC identity providers. Additionally, you can configure a role for EKS Pod Identity once, and reuse it across clusters. Similar to Amazon Web Services IAM behavior, EKS Pod Identity associations are eventually consistent, and may take several seconds to be effective after the initial API call returns successfully. You must design your applications to account for these potential delays. We recommend that you don’t include association create/updates in the critical, high-availability code paths of your application. Instead, make changes in a separate initialization or setup routine that you run less frequently. You can set a target IAM role in the same or a different account for advanced scenarios. With a target role, EKS Pod Identity automatically performs two role assumptions in sequence: first assuming the role in the association that is in this account, then using those credentials to assume the target IAM role. This process provides your Pod with temporary credentials that have the permissions defined in the target role, allowing secure access to resources in another Amazon Web Services account.
     ///
     /// - Parameter CreatePodIdentityAssociationInput : [no documentation found]
     ///
@@ -1106,6 +1124,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1183,6 +1202,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1258,6 +1278,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1334,6 +1355,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1408,6 +1430,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1482,6 +1505,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1558,6 +1582,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1632,6 +1657,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1708,6 +1734,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1781,6 +1808,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1856,6 +1884,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1929,6 +1958,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2003,6 +2033,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2078,6 +2109,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2151,6 +2183,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2226,6 +2259,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2300,6 +2334,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2375,6 +2410,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2452,6 +2488,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2527,6 +2564,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2601,6 +2639,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2675,6 +2714,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2749,6 +2789,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2826,6 +2867,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2904,6 +2946,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2976,6 +3019,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3052,6 +3096,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3126,6 +3171,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3201,6 +3247,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3276,6 +3323,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3351,6 +3399,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3427,6 +3476,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3506,6 +3556,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3584,6 +3635,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3659,6 +3711,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3732,6 +3785,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3806,6 +3860,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3885,6 +3940,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3961,6 +4017,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4036,6 +4093,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4111,6 +4169,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4191,6 +4250,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4251,7 +4311,7 @@ extension EKSClient {
     ///
     /// * You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster control plane logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
     ///
-    /// * You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see [Amazon EKS cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide .
+    /// * You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see [ Cluster API server endpoint](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide .
     ///
     /// * You can also use this API operation to choose different subnets and security groups for the cluster. You must specify at least two subnets that are in different Availability Zones. You can't change which VPC the subnets are from, the subnets must be in the same VPC as the subnets that the cluster was created with. For more information about the VPC requirements, see [https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) in the Amazon EKS User Guide .
     ///
@@ -4285,6 +4345,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4367,6 +4428,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4446,6 +4508,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4526,6 +4589,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4606,6 +4670,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4662,7 +4727,7 @@ extension EKSClient {
 
     /// Performs the `UpdatePodIdentityAssociation` operation on the `EKS` service.
     ///
-    /// Updates a EKS Pod Identity association. Only the IAM role can be changed; an association can't be moved between clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you need to delete the association and then create a new association with your desired settings.
+    /// Updates a EKS Pod Identity association. In an update, you can change the IAM role, the target IAM role, or disableSessionTags. You must change at least one of these in an update. An association can't be moved between clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you need to delete the association and then create a new association with your desired settings. Similar to Amazon Web Services IAM behavior, EKS Pod Identity associations are eventually consistent, and may take several seconds to be effective after the initial API call returns successfully. You must design your applications to account for these potential delays. We recommend that you don’t include association create/updates in the critical, high-availability code paths of your application. Instead, make changes in a separate initialization or setup routine that you run less frequently. You can set a target IAM role in the same or a different account for advanced scenarios. With a target role, EKS Pod Identity automatically performs two role assumptions in sequence: first assuming the role in the association that is in this account, then using those credentials to assume the target IAM role. This process provides your Pod with temporary credentials that have the permissions defined in the target role, allowing secure access to resources in another Amazon Web Services account.
     ///
     /// - Parameter UpdatePodIdentityAssociationInput : [no documentation found]
     ///
@@ -4684,6 +4749,7 @@ extension EKSClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)

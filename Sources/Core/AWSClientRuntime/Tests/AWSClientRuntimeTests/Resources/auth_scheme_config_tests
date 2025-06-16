@@ -1,0 +1,5 @@
+[default]
+auth_scheme_preference = sigv4
+
+[profile alt-profile]
+auth_scheme_preference = sigv4a,sigv4
