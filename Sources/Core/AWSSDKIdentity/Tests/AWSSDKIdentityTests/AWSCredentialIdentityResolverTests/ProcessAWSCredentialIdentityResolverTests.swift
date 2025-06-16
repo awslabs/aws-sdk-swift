@@ -14,22 +14,7 @@ class ProcessAWSCredentialIdentityResolverTests: XCTestCase {
     let configPath = Bundle.module.path(forResource: "config_with_process", ofType: nil)!
     let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
 
-    // Importing & instantiating ProfileAWSCredentialIdentityResolver in setUp() is a temporary workaround for
-    //  CRT's ProcessAWSCredentialIdentityResolver missing a required setup and depending on
-    //  some other credential resolver for it. The bug was caught when ECSAWSCredentialIdentityResolver
-    //  unit tests were refactored to use SDK-side implementation.
-    //  Xcode runs unit tests alphabetically, and the 2 tests below always ran after ECS resolver's unit tests.
-    //  Removing CRT's ECS resolver instantiation from the ECS resolver tests revealed the bug & started failing 2 tests below.
-    override class func setUp() {
-        let configPath = Bundle.module.path(forResource: "config", ofType: nil)!
-        let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
-        super.setUp()
-        _ = try! ProfileAWSCredentialIdentityResolver(
-            configFilePath: configPath,
-            credentialsFilePath: credentialsPath
-        )
-    }
-
+    #if !os(iOS) && !os(tvOS) && !os(watchOS) && !os(visionOS)
     func testGetCredentialsWithDefaultProfile() async throws {
         let subject = try ProcessAWSCredentialIdentityResolver(
             configFilePath: configPath,
@@ -56,4 +41,5 @@ class ProcessAWSCredentialIdentityResolverTests: XCTestCase {
         XCTAssertEqual("SessionToken456", credentials.sessionToken)
         XCTAssertEqual("234567890123", credentials.accountID)
     }
+    #endif
 }
