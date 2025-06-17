@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeDeployClient: ClientRuntime.Client {
     public static let clientName = "CodeDeployClient"
-    public static let version = "1.3.37"
+    public static let version = "1.3.38"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeDeployClient.CodeDeployClientConfiguration
     let serviceName = "CodeDeploy"

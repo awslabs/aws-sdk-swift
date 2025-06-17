@@ -1681,6 +1681,8 @@ extension NetworkFirewallClientTypes {
 
     /// Identifier for a single stateful rule group, used in a firewall policy to refer to a rule group.
     public struct StatefulRuleGroupReference: Swift.Sendable {
+        /// Network Firewall plans to augment the active threat defense managed rule group with an additional deep threat inspection capability. When this capability is released, Amazon Web Services will analyze service logs of network traffic processed by these rule groups to identify threat indicators across customers. Amazon Web Services will use these threat indicators to improve the active threat defense managed rule groups and protect the security of Amazon Web Services customers and services. Customers can opt-out of deep threat inspection at any time through the Network Firewall console or API. When customers opt out, Network Firewall will not use the network traffic processed by those customers' active threat defense rule groups for rule group improvement.
+        public var deepThreatInspection: Swift.Bool?
         /// The action that allows the policy owner to override the behavior of the rule group within a policy.
         public var `override`: NetworkFirewallClientTypes.StatefulRuleGroupOverride?
         /// An integer setting that indicates the order in which to run the stateful rule groups in a single [FirewallPolicy]. This setting only applies to firewall policies that specify the STRICT_ORDER rule order in the stateful engine options settings. Network Firewall evalutes each stateful rule group against a packet starting with the group that has the lowest priority setting. You must ensure that the priority settings are unique within each policy. You can change the priority settings of your rule groups at any time. To make it easier to insert rule groups later, number them so there's a wide range in between, for example use 100, 200, and so on.
@@ -1690,10 +1692,12 @@ extension NetworkFirewallClientTypes {
         public var resourceArn: Swift.String?
 
         public init(
+            deepThreatInspection: Swift.Bool? = nil,
             `override`: NetworkFirewallClientTypes.StatefulRuleGroupOverride? = nil,
             priority: Swift.Int? = nil,
             resourceArn: Swift.String? = nil
         ) {
+            self.deepThreatInspection = deepThreatInspection
             self.`override` = `override`
             self.priority = priority
             self.resourceArn = resourceArn
@@ -2655,6 +2659,58 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
+    public enum SummaryRuleOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case metadata
+        case msg
+        case sid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SummaryRuleOption] {
+            return [
+                .metadata,
+                .msg,
+                .sid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .metadata: return "METADATA"
+            case .msg: return "MSG"
+            case .sid: return "SID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A complex type that specifies which Suricata rule metadata fields to use when displaying threat information. Contains:
+    ///
+    /// * RuleOptions - The Suricata rule options fields to extract and display
+    ///
+    ///
+    /// These settings affect how threat information appears in both the console and API responses. Summaries are available for rule groups you manage and for active threat defense Amazon Web Services managed rule groups.
+    public struct SummaryConfiguration: Swift.Sendable {
+        /// Specifies the selected rule options returned by [DescribeRuleGroupSummary].
+        public var ruleOptions: [NetworkFirewallClientTypes.SummaryRuleOption]?
+
+        public init(
+            ruleOptions: [NetworkFirewallClientTypes.SummaryRuleOption]? = nil
+        ) {
+            self.ruleOptions = ruleOptions
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
     public enum RuleGroupType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case stateful
         case stateless
@@ -2712,6 +2768,14 @@ public struct CreateRuleGroupInput: Swift.Sendable {
     public var rules: Swift.String?
     /// A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to keep track of updates made to the originating rule group.
     public var sourceMetadata: NetworkFirewallClientTypes.SourceMetadata?
+    /// An object that contains a RuleOptions array of strings. You use RuleOptions to determine which of the following [RuleSummary] values are returned in response to DescribeRuleGroupSummary.
+    ///
+    /// * Metadata - returns
+    ///
+    /// * Msg
+    ///
+    /// * SID
+    public var summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration?
     /// The key:value pairs to associate with the resource.
     public var tags: [NetworkFirewallClientTypes.Tag]?
     /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
@@ -2728,6 +2792,7 @@ public struct CreateRuleGroupInput: Swift.Sendable {
         ruleGroupName: Swift.String? = nil,
         rules: Swift.String? = nil,
         sourceMetadata: NetworkFirewallClientTypes.SourceMetadata? = nil,
+        summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration? = nil,
         tags: [NetworkFirewallClientTypes.Tag]? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil
     ) {
@@ -2740,6 +2805,7 @@ public struct CreateRuleGroupInput: Swift.Sendable {
         self.ruleGroupName = ruleGroupName
         self.rules = rules
         self.sourceMetadata = sourceMetadata
+        self.summaryConfiguration = summaryConfiguration
         self.tags = tags
         self.type = type
     }
@@ -2778,6 +2844,12 @@ extension NetworkFirewallClientTypes {
         public var snsTopic: Swift.String?
         /// A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to track the version updates made to the originating rule group.
         public var sourceMetadata: NetworkFirewallClientTypes.SourceMetadata?
+        /// A complex type containing the currently selected rule option fields that will be displayed for rule summarization returned by [DescribeRuleGroupSummary].
+        ///
+        /// * The RuleOptions specified in [SummaryConfiguration]
+        ///
+        /// * Rule metadata organization preferences
+        public var summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration?
         /// The key:value pairs to associate with the resource.
         public var tags: [NetworkFirewallClientTypes.Tag]?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
@@ -2797,6 +2869,7 @@ extension NetworkFirewallClientTypes {
             ruleGroupStatus: NetworkFirewallClientTypes.ResourceStatus? = nil,
             snsTopic: Swift.String? = nil,
             sourceMetadata: NetworkFirewallClientTypes.SourceMetadata? = nil,
+            summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration? = nil,
             tags: [NetworkFirewallClientTypes.Tag]? = nil,
             type: NetworkFirewallClientTypes.RuleGroupType? = nil
         ) {
@@ -2813,6 +2886,7 @@ extension NetworkFirewallClientTypes {
             self.ruleGroupStatus = ruleGroupStatus
             self.snsTopic = snsTopic
             self.sourceMetadata = sourceMetadata
+            self.summaryConfiguration = summaryConfiguration
             self.tags = tags
             self.type = type
         }
@@ -3979,6 +4053,98 @@ public struct DescribeRuleGroupMetadataOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeRuleGroupSummaryInput: Swift.Sendable {
+    /// Required. The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
+    public var ruleGroupArn: Swift.String?
+    /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
+    public var ruleGroupName: Swift.String?
+    /// The type of rule group you want a summary for. This is a required field. Valid value: STATEFUL Note that STATELESS exists but is not currently supported. If you provide STATELESS, an exception is returned.
+    public var type: NetworkFirewallClientTypes.RuleGroupType?
+
+    public init(
+        ruleGroupArn: Swift.String? = nil,
+        ruleGroupName: Swift.String? = nil,
+        type: NetworkFirewallClientTypes.RuleGroupType? = nil
+    ) {
+        self.ruleGroupArn = ruleGroupArn
+        self.ruleGroupName = ruleGroupName
+        self.type = type
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A complex type containing details about a Suricata rule. Contains:
+    ///
+    /// * SID
+    ///
+    /// * Msg
+    ///
+    /// * Metadata
+    ///
+    ///
+    /// Summaries are available for rule groups you manage and for active threat defense Amazon Web Services managed rule groups.
+    public struct RuleSummary: Swift.Sendable {
+        /// The contents of the rule's metadata.
+        public var metadata: Swift.String?
+        /// The contents taken from the rule's msg field.
+        public var msg: Swift.String?
+        /// The unique identifier (Signature ID) of the Suricata rule.
+        public var sid: Swift.String?
+
+        public init(
+            metadata: Swift.String? = nil,
+            msg: Swift.String? = nil,
+            sid: Swift.String? = nil
+        ) {
+            self.metadata = metadata
+            self.msg = msg
+            self.sid = sid
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A complex type containing summaries of security protections provided by a rule group. Network Firewall extracts this information from selected fields in the rule group's Suricata rules, based on your [SummaryConfiguration] settings.
+    public struct Summary: Swift.Sendable {
+        /// An array of [RuleSummary] objects containing individual rule details that had been configured by the rulegroup's SummaryConfiguration.
+        public var ruleSummaries: [NetworkFirewallClientTypes.RuleSummary]?
+
+        public init(
+            ruleSummaries: [NetworkFirewallClientTypes.RuleSummary]? = nil
+        ) {
+            self.ruleSummaries = ruleSummaries
+        }
+    }
+}
+
+public struct DescribeRuleGroupSummaryOutput: Swift.Sendable {
+    /// A description of the rule group.
+    public var description: Swift.String?
+    /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.
+    /// This member is required.
+    public var ruleGroupName: Swift.String?
+    /// A complex type that contains rule information based on the rule group's configured summary settings. The content varies depending on the fields that you specified to extract in your SummaryConfiguration. When you haven't configured any summary settings, this returns an empty array. The response might include:
+    ///
+    /// * Rule identifiers
+    ///
+    /// * Rule descriptions
+    ///
+    /// * Any metadata fields that you specified in your SummaryConfiguration
+    public var summary: NetworkFirewallClientTypes.Summary?
+
+    public init(
+        description: Swift.String? = nil,
+        ruleGroupName: Swift.String? = nil,
+        summary: NetworkFirewallClientTypes.Summary? = nil
+    ) {
+        self.description = description
+        self.ruleGroupName = ruleGroupName
+        self.summary = summary
+    }
+}
+
 public struct DescribeTLSInspectionConfigurationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the TLS inspection configuration. You must specify the ARN or the name, and you can specify both.
     public var tlsInspectionConfigurationArn: Swift.String?
@@ -4551,12 +4717,14 @@ public struct ListFlowOperationsOutput: Swift.Sendable {
 extension NetworkFirewallClientTypes {
 
     public enum ResourceManagedType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activeThreatDefense
         case awsManagedDomainLists
         case awsManagedThreatSignatures
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceManagedType] {
             return [
+                .activeThreatDefense,
                 .awsManagedDomainLists,
                 .awsManagedThreatSignatures
             ]
@@ -4569,6 +4737,7 @@ extension NetworkFirewallClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .activeThreatDefense: return "ACTIVE_THREAT_DEFENSE"
             case .awsManagedDomainLists: return "AWS_MANAGED_DOMAIN_LISTS"
             case .awsManagedThreatSignatures: return "AWS_MANAGED_THREAT_SIGNATURES"
             case let .sdkUnknown(s): return s
@@ -5521,6 +5690,8 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
     public var rules: Swift.String?
     /// A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to keep track of updates made to the originating rule group.
     public var sourceMetadata: NetworkFirewallClientTypes.SourceMetadata?
+    /// Updates the selected summary configuration for a rule group. Changes affect subsequent responses from [DescribeRuleGroupSummary].
+    public var summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration?
     /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. This setting is required for requests that do not include the RuleGroupARN.
     public var type: NetworkFirewallClientTypes.RuleGroupType?
     /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request. To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
@@ -5537,6 +5708,7 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
         ruleGroupName: Swift.String? = nil,
         rules: Swift.String? = nil,
         sourceMetadata: NetworkFirewallClientTypes.SourceMetadata? = nil,
+        summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil,
         updateToken: Swift.String? = nil
     ) {
@@ -5549,6 +5721,7 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
         self.ruleGroupName = ruleGroupName
         self.rules = rules
         self.sourceMetadata = sourceMetadata
+        self.summaryConfiguration = summaryConfiguration
         self.type = type
         self.updateToken = updateToken
     }
@@ -5832,6 +6005,13 @@ extension DescribeRuleGroupInput {
 extension DescribeRuleGroupMetadataInput {
 
     static func urlPathProvider(_ value: DescribeRuleGroupMetadataInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeRuleGroupSummaryInput {
+
+    static func urlPathProvider(_ value: DescribeRuleGroupSummaryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6148,6 +6328,7 @@ extension CreateRuleGroupInput {
         try writer["RuleGroupName"].write(value.ruleGroupName)
         try writer["Rules"].write(value.rules)
         try writer["SourceMetadata"].write(value.sourceMetadata, with: NetworkFirewallClientTypes.SourceMetadata.write(value:to:))
+        try writer["SummaryConfiguration"].write(value.summaryConfiguration, with: NetworkFirewallClientTypes.SummaryConfiguration.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkFirewallClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Type"].write(value.type)
     }
@@ -6307,6 +6488,16 @@ extension DescribeRuleGroupInput {
 extension DescribeRuleGroupMetadataInput {
 
     static func write(value: DescribeRuleGroupMetadataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuleGroupArn"].write(value.ruleGroupArn)
+        try writer["RuleGroupName"].write(value.ruleGroupName)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension DescribeRuleGroupSummaryInput {
+
+    static func write(value: DescribeRuleGroupSummaryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["RuleGroupArn"].write(value.ruleGroupArn)
         try writer["RuleGroupName"].write(value.ruleGroupName)
@@ -6639,6 +6830,7 @@ extension UpdateRuleGroupInput {
         try writer["RuleGroupName"].write(value.ruleGroupName)
         try writer["Rules"].write(value.rules)
         try writer["SourceMetadata"].write(value.sourceMetadata, with: NetworkFirewallClientTypes.SourceMetadata.write(value:to:))
+        try writer["SummaryConfiguration"].write(value.summaryConfiguration, with: NetworkFirewallClientTypes.SummaryConfiguration.write(value:to:))
         try writer["Type"].write(value.type)
         try writer["UpdateToken"].write(value.updateToken)
     }
@@ -6993,6 +7185,20 @@ extension DescribeRuleGroupMetadataOutput {
         value.ruleGroupName = try reader["RuleGroupName"].readIfPresent() ?? ""
         value.statefulRuleOptions = try reader["StatefulRuleOptions"].readIfPresent(with: NetworkFirewallClientTypes.StatefulRuleOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeRuleGroupSummaryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeRuleGroupSummaryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeRuleGroupSummaryOutput()
+        value.description = try reader["Description"].readIfPresent()
+        value.ruleGroupName = try reader["RuleGroupName"].readIfPresent() ?? ""
+        value.summary = try reader["Summary"].readIfPresent(with: NetworkFirewallClientTypes.Summary.read(from:))
         return value
     }
 }
@@ -7847,6 +8053,23 @@ enum DescribeRuleGroupOutputError {
 }
 
 enum DescribeRuleGroupMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeRuleGroupSummaryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8805,6 +9028,22 @@ extension NetworkFirewallClientTypes.RuleGroupResponse {
         value.snsTopic = try reader["SnsTopic"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.analysisResults = try reader["AnalysisResults"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.AnalysisResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.summaryConfiguration = try reader["SummaryConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.SummaryConfiguration.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.SummaryConfiguration {
+
+    static func write(value: NetworkFirewallClientTypes.SummaryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuleOptions"].writeList(value.ruleOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.SummaryRuleOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.SummaryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.SummaryConfiguration()
+        value.ruleOptions = try reader["RuleOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.SummaryRuleOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9017,6 +9256,7 @@ extension NetworkFirewallClientTypes.StatefulRuleGroupReference {
 
     static func write(value: NetworkFirewallClientTypes.StatefulRuleGroupReference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DeepThreatInspection"].write(value.deepThreatInspection)
         try writer["Override"].write(value.`override`, with: NetworkFirewallClientTypes.StatefulRuleGroupOverride.write(value:to:))
         try writer["Priority"].write(value.priority)
         try writer["ResourceArn"].write(value.resourceArn)
@@ -9028,6 +9268,7 @@ extension NetworkFirewallClientTypes.StatefulRuleGroupReference {
         value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
         value.priority = try reader["Priority"].readIfPresent()
         value.`override` = try reader["Override"].readIfPresent(with: NetworkFirewallClientTypes.StatefulRuleGroupOverride.read(from:))
+        value.deepThreatInspection = try reader["DeepThreatInspection"].readIfPresent()
         return value
     }
 }
@@ -9514,6 +9755,28 @@ extension NetworkFirewallClientTypes.PortSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkFirewallClientTypes.PortSet()
         value.definition = try reader["Definition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Summary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Summary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Summary()
+        value.ruleSummaries = try reader["RuleSummaries"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.RuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.RuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.RuleSummary()
+        value.sid = try reader["SID"].readIfPresent()
+        value.msg = try reader["Msg"].readIfPresent()
+        value.metadata = try reader["Metadata"].readIfPresent()
         return value
     }
 }

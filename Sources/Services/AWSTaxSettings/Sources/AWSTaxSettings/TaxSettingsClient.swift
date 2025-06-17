@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TaxSettingsClient: ClientRuntime.Client {
     public static let clientName = "TaxSettingsClient"
-    public static let version = "1.3.37"
+    public static let version = "1.3.38"
     let client: ClientRuntime.SdkHttpClient
     let config: TaxSettingsClient.TaxSettingsClientConfiguration
     let serviceName = "TaxSettings"

@@ -533,6 +533,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSM2](../../../../../swift/api/awsm2/latest)
 
+[AWSMPA](../../../../../swift/api/awsmpa/latest)
+
 [AWSMTurk](../../../../../swift/api/awsmturk/latest)
 
 [AWSMWAA](../../../../../swift/api/awsmwaa/latest)

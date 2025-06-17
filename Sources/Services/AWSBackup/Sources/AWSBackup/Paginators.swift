@@ -596,6 +596,37 @@ extension ListReportPlansInput: ClientRuntime.PaginateToken {
         )}
 }
 extension BackupClient {
+    /// Paginate over `[ListRestoreAccessBackupVaultsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRestoreAccessBackupVaultsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRestoreAccessBackupVaultsOutput`
+    public func listRestoreAccessBackupVaultsPaginated(input: ListRestoreAccessBackupVaultsInput) -> ClientRuntime.PaginatorSequence<ListRestoreAccessBackupVaultsInput, ListRestoreAccessBackupVaultsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRestoreAccessBackupVaultsInput, ListRestoreAccessBackupVaultsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRestoreAccessBackupVaults(input:))
+    }
+}
+
+extension ListRestoreAccessBackupVaultsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRestoreAccessBackupVaultsInput {
+        return ListRestoreAccessBackupVaultsInput(
+            backupVaultName: self.backupVaultName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRestoreAccessBackupVaultsInput, OperationStackOutput == ListRestoreAccessBackupVaultsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRestoreAccessBackupVaultsPaginated`
+    /// to access the nested member `[BackupClientTypes.RestoreAccessBackupVaultListMember]`
+    /// - Returns: `[BackupClientTypes.RestoreAccessBackupVaultListMember]`
+    public func restoreAccessBackupVaults() async throws -> [BackupClientTypes.RestoreAccessBackupVaultListMember] {
+        return try await self.asyncCompactMap { item in item.restoreAccessBackupVaults }
+    }
+}
+extension BackupClient {
     /// Paginate over `[ListRestoreJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
