@@ -52,13 +52,15 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
 public class CognitoIdentityProviderClientAuthSchemePlugin: ClientRuntime.Plugin {
     private var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+    private var authSchemePreference: [String]
     private var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver?
     private var awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)?
     private var bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)?
 
-    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: CognitoIdentityProviderAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
+    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemePreference: [String]? = nil, authSchemeResolver: CognitoIdentityProviderAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
         self.authSchemeResolver = authSchemeResolver
         self.authSchemes = authSchemes
+        self.authSchemePreference = authSchemePreference ?? []
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
         self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
     }
@@ -68,6 +70,7 @@ public class CognitoIdentityProviderClientAuthSchemePlugin: ClientRuntime.Plugin
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }
+            config.authSchemePreference = self.authSchemePreference
             if (self.authSchemeResolver != nil) {
                 config.authSchemeResolver = self.authSchemeResolver!
             }

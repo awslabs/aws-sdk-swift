@@ -2353,6 +2353,16 @@ extension MediaConnectClientTypes {
         public var outputArn: Swift.String?
         /// An indication of whether the output is transmitting data or not.
         public var outputStatus: MediaConnectClientTypes.OutputStatus?
+        /// The IP address of the device that is currently receiving content from this output.
+        ///
+        /// * For outputs that use protocols where you specify the destination (such as SRT Caller or Zixi Push), this value matches the configured destination address.
+        ///
+        /// * For outputs that use listener protocols (such as SRT Listener), this value shows the address of the connected receiver.
+        ///
+        /// * Peer IP addresses aren't available for entitlements, managed MediaLive outputs, NDI outputs, and CDI/ST2110 outputs.
+        ///
+        /// * The peer IP address might not be visible for flows that haven't been started yet, or flows that were started before May 2025. In these cases, restart your flow to see the peer IP address.
+        public var peerIpAddress: Swift.String?
         /// The port to use when content is distributed to this output.
         public var port: Swift.Int?
         /// Attributes related to the transport stream that are used in the output.
@@ -2374,6 +2384,7 @@ extension MediaConnectClientTypes {
             name: Swift.String? = nil,
             outputArn: Swift.String? = nil,
             outputStatus: MediaConnectClientTypes.OutputStatus? = nil,
+            peerIpAddress: Swift.String? = nil,
             port: Swift.Int? = nil,
             transport: MediaConnectClientTypes.Transport? = nil,
             vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
@@ -2391,6 +2402,7 @@ extension MediaConnectClientTypes {
             self.name = name
             self.outputArn = outputArn
             self.outputStatus = outputStatus
+            self.peerIpAddress = peerIpAddress
             self.port = port
             self.transport = transport
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
@@ -2659,6 +2671,16 @@ extension MediaConnectClientTypes {
         /// The name of the source.
         /// This member is required.
         public var name: Swift.String?
+        /// The IP address of the device that is currently sending content to this source.
+        ///
+        /// * For sources that use protocols where you specify the origin (such as SRT Caller), this value matches the configured origin address.
+        ///
+        /// * For sources that use listener protocols (such as SRT Listener or RTP), this value shows the address of the connected sender.
+        ///
+        /// * Peer IP addresses aren't available for entitlements and CDI/ST2110 sources.
+        ///
+        /// * The peer IP address might not be visible for flows that haven't been started yet, or flows that were started before May 2025. In these cases, restart your flow to see the peer IP address.
+        public var peerIpAddress: Swift.String?
         /// The IP address that the flow communicates with to initiate connection with the sender.
         public var senderControlPort: Swift.Int?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
@@ -2683,6 +2705,7 @@ extension MediaConnectClientTypes {
             ingestPort: Swift.Int? = nil,
             mediaStreamSourceConfigurations: [MediaConnectClientTypes.MediaStreamSourceConfiguration]? = nil,
             name: Swift.String? = nil,
+            peerIpAddress: Swift.String? = nil,
             senderControlPort: Swift.Int? = nil,
             senderIpAddress: Swift.String? = nil,
             sourceArn: Swift.String? = nil,
@@ -2699,6 +2722,7 @@ extension MediaConnectClientTypes {
             self.ingestPort = ingestPort
             self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
             self.name = name
+            self.peerIpAddress = peerIpAddress
             self.senderControlPort = senderControlPort
             self.senderIpAddress = senderIpAddress
             self.sourceArn = sourceArn
@@ -8894,6 +8918,7 @@ extension MediaConnectClientTypes.Output {
         value.bridgeArn = try reader["bridgeArn"].readIfPresent()
         value.bridgePorts = try reader["bridgePorts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         value.outputStatus = try reader["outputStatus"].readIfPresent()
+        value.peerIpAddress = try reader["peerIpAddress"].readIfPresent()
         return value
     }
 }
@@ -9020,6 +9045,7 @@ extension MediaConnectClientTypes.Source {
         value.vpcInterfaceName = try reader["vpcInterfaceName"].readIfPresent()
         value.whitelistCidr = try reader["whitelistCidr"].readIfPresent()
         value.gatewayBridgeSource = try reader["gatewayBridgeSource"].readIfPresent(with: MediaConnectClientTypes.GatewayBridgeSource.read(from:))
+        value.peerIpAddress = try reader["peerIpAddress"].readIfPresent()
         return value
     }
 }
