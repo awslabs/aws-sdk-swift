@@ -8,9 +8,9 @@
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Smithy.Attributes
 import ClientRuntime
-@_spi(FileBasedConfig) import AWSSDKCommon
 import class Foundation.ProcessInfo
 import enum Smithy.ClientError
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 /// A credential identity resolver that resolves credentials using GetRoleCredentialsRequest to the AWS Single Sign-On Service to maintain short-lived sessions.
 /// [Details link](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html)
@@ -92,7 +92,9 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             .getProperty(name: propertyName)?
             .value
         else {
-            throw ClientError.dataNotFound("Failed to retrieve \(propertyName) from \(sectionName) \(sectionType) section.")
+            throw ClientError.dataNotFound(
+                "Failed to retrieve \(propertyName) from \(sectionName) \(sectionType) section."
+            )
         }
         return value
     }

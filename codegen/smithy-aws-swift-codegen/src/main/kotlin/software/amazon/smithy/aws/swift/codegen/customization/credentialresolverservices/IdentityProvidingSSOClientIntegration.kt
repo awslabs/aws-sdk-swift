@@ -43,7 +43,7 @@ class IdentityProvidingSSOClientIntegration : SwiftIntegration {
                         writer.write(
                             "throw \$N.failedToResolveAWSCredentials(\"SSOAWSCredentialIdentityResolver: Failed to retrieve temporary credentials using SSO token.\")",
                             AWSSDKIdentityTypes.AWSCredentialIdentityResolverError,
-                            )
+                        )
                     }
                     writer.write(
                         "var expiration: \$N? = nil",
