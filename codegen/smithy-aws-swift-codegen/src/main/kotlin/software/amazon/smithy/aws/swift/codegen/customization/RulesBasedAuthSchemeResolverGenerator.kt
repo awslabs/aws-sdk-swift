@@ -142,9 +142,7 @@ class RulesBasedAuthSchemeResolverGenerator {
         }
     }
 
-    private fun renderInternalClientInits(
-        writer: SwiftWriter
-    ) {
+    private fun renderInternalClientInits(writer: SwiftWriter) {
         writer.apply {
             write(
                 "sigV4Option.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
