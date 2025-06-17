@@ -704,11 +704,8 @@ private func target(_ service: String) -> Target {
             .awsSDKEventStreamsAuth,
             .awsSDKChecksums,
             "InternalAWSSTS",
-<<<<<<< HEAD
             "InternalAWSSSO",
             "InternalAWSSSOOIDC",
-=======
->>>>>>> main
         ],
         path: "Sources/Services/\(service)/Sources/\(service)"
     )
