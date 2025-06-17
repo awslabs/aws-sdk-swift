@@ -55,8 +55,15 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
             )
         }
 
-        let underlyingCreds = try await awsCredentialIdentityResolver.getIdentity(identityProperties: identityProperties)
-        return try await internalSTSClient.assumeRoleWithCreds(creds: underlyingCreds, roleARN: roleARN, roleSessionName: roleSessionName, durationSeconds: durationSeconds)
+        let underlyingCreds = try await awsCredentialIdentityResolver.getIdentity(
+            identityProperties: identityProperties
+        )
+        return try await internalSTSClient.assumeRoleWithCreds(
+            creds: underlyingCreds,
+            roleARN: roleARN,
+            roleSessionName: roleSessionName,
+            durationSeconds: durationSeconds
+        )
     }
 }
 

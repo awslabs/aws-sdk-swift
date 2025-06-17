@@ -45,22 +45,29 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
                         SmithyIdentityTypes.StaticAWSCredentialIdentityResolver,
                     )
                     writer.write("let sts = STSClient(config: stsConfig)")
-                    writer.write("let out = try await sts.assumeRole(input: AssumeRoleInput(durationSeconds: Int(durationSeconds), roleArn: roleARN, roleSessionName: roleSessionName))")
+                    writer.write(
+                        "let out = try await sts.assumeRole(input: AssumeRoleInput(durationSeconds: " +
+                            "Int(durationSeconds), roleArn: roleARN, roleSessionName: roleSessionName))",
+                    )
                     writer.openBlock(
                         "guard let creds = out.credentials, let accessKey = creds.accessKeyId, let secretKey = creds.secretAccessKey else {",
                         "}",
                     ) {
                         writer.write(
-                            "throw \$N.failedToResolveAWSCredentials(\"STSAssumeRoleAWSCredentialIdentityResolver: Failed to retrieve credentials from STS with assume role.\")",
+                            "throw \$N.failedToResolveAWSCredentials(\"STSAssumeRoleAWSCredentialIdentityResolver:" +
+                                "Failed to retrieve credentials from STS with assume role.\")",
                             AWSSDKIdentityTypes.AWSCredentialIdentityResolverError,
                         )
                     }
-                    writer.write("return AWSCredentialIdentity(accessKey: accessKey, secret: secretKey, expiration: creds.expiration, sessionToken: creds.sessionToken)")
-
+                    writer.write(
+                        "return AWSCredentialIdentity(accessKey: accessKey, secret: secretKey, " +
+                            "expiration: creds.expiration, sessionToken: creds.sessionToken)",
+                    )
                 }
 
                 writer.openBlock(
-                    "package func getCredentialsWithWebIdentity(region: String, roleARN: String, roleSessionName: String, webIdentityToken: String) async throws -> \$N {",
+                    "package func getCredentialsWithWebIdentity(region: String, roleARN: String, " +
+                        "roleSessionName: String, webIdentityToken: String) async throws -> \$N {",
                     "}",
                     AWSSDKIdentityTypes.AWSCredentialIdentity,
                 ) {
