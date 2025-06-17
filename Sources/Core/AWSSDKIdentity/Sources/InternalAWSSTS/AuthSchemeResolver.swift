@@ -28,6 +28,12 @@ internal protocol STSAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
 
 internal struct DefaultSTSAuthSchemeResolver: STSAuthSchemeResolver {
 
+    public let authSchemePreference: [String]
+
+    public init(authSchemePreference: [String] = []) {
+        self.authSchemePreference = authSchemePreference
+    }
+
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
         guard let serviceParams = params as? STSAuthSchemeResolverParameters else {
@@ -45,7 +51,7 @@ internal struct DefaultSTSAuthSchemeResolver: STSAuthSchemeResolver {
                 sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
                 validAuthOptions.append(sigv4Option)
         }
-        return validAuthOptions
+        return self.reprioritizeAuthOptions(authSchemePreference: authSchemePreference, authOptions: validAuthOptions)
     }
 
     public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {

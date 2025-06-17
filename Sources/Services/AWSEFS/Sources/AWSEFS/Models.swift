@@ -925,7 +925,7 @@ public struct CreateFileSystemInput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The performance mode of the file system. We recommend generalPurpose performance mode for all file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created. The maxIO mode is not supported on One Zone file systems. Due to the higher per-operation latencies with Max I/O, we recommend using General Purpose performance mode for all file systems. Default is generalPurpose.
     public var performanceMode: EFSClientTypes.PerformanceMode?
-    /// The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web Services Support. For more information, see [Amazon EFS quotas that you can increase](https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits) in the Amazon EFS User Guide.
+    /// The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web ServicesSupport. For more information, see [Amazon EFS quotas that you can increase](https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits) in the Amazon EFS User Guide.
     public var provisionedThroughputInMibps: Swift.Double?
     /// Use to create one or more tags associated with the file system. Each tag is a user-defined key-value pair. Name your file system on creation by including a "Key":"Name","Value":"{value}" key-value pair. Each key must be unique. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference Guide.
     public var tags: [EFSClientTypes.Tag]?
@@ -997,7 +997,7 @@ extension EFSClientTypes {
         ///
         /// * DISABLED – The file system can be used as the destination file system in a replication configuration. The file system is read-only and can only be modified by EFS replication.
         ///
-        /// * REPLICATING – The file system is being used as the destination file system in a replication configuration. The file system is read-only and is only modified only by EFS replication.
+        /// * REPLICATING – The file system is being used as the destination file system in a replication configuration. The file system is read-only and is modified only by EFS replication.
         ///
         ///
         /// If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled, the file system becomes writeable.
@@ -1190,7 +1190,7 @@ public struct MountTargetConflict: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// The calling account has reached the limit for elastic network interfaces for the specific Amazon Web Services Region. Either delete some network interfaces or request that the account quota be raised. For more information, see [Amazon VPC Quotas](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_Limits.html) in the Amazon VPC User Guide (see the Network interfaces per Region entry in the Network interfaces table).
+/// The calling account has reached the limit for elastic network interfaces for the specific Amazon Web Services Region. Either delete some network interfaces or request that the account quota be raised. For more information, see [Amazon VPC Quotas](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html) in the Amazon VPC User Guide (see the Network interfaces per Region entry in the Network interfaces table).
 public struct NetworkInterfaceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1248,7 +1248,7 @@ public struct NoFreeAddressesInSubnet: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// Returned if the size of SecurityGroups specified in the request is greater than five.
+/// Returned if the number of SecurityGroups specified in the request is greater than the limit, which is based on account quota. Either delete some security groups or request that the account quota be raised. For more information, see [Amazon VPC Quotas](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html) in the Amazon VPC User Guide (see the Security Groups table).
 public struct SecurityGroupLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1335,14 +1335,59 @@ public struct SubnetNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     }
 }
 
+extension EFSClientTypes {
+
+    public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualStack
+        case ipv4Only
+        case ipv6Only
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpAddressType] {
+            return [
+                .dualStack,
+                .ipv4Only,
+                .ipv6Only
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "DUAL_STACK"
+            case .ipv4Only: return "IPV4_ONLY"
+            case .ipv6Only: return "IPV6_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 ///
 public struct CreateMountTargetInput: Swift.Sendable {
     /// The ID of the file system for which to create the mount target.
     /// This member is required.
     public var fileSystemId: Swift.String?
-    /// Valid IPv4 address within the address range of the specified subnet.
+    /// If the IP address type for the mount target is IPv4, then specify the IPv4 address within the address range of the specified subnet.
     public var ipAddress: Swift.String?
-    /// Up to five VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as subnet specified.
+    /// Specify the type of IP address of the mount target you are creating. Options are IPv4, dual stack, or IPv6. If you don’t specify an IpAddressType, then IPv4 is used.
+    ///
+    /// * IPV4_ONLY – Create mount target with IPv4 only subnet or dual-stack subnet.
+    ///
+    /// * DUAL_STACK – Create mount target with dual-stack subnet.
+    ///
+    /// * IPV6_ONLY – Create mount target with IPv6 only subnet.
+    ///
+    ///
+    /// Creating IPv6 mount target only ENI in dual-stack subnet is not supported.
+    public var ipAddressType: EFSClientTypes.IpAddressType?
+    /// If the IP address type for the mount target is IPv6, then specify the IPv6 address within the address range of the specified subnet.
+    public var ipv6Address: Swift.String?
+    /// VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as the subnet specified. The maximum number of security groups depends on account quota. For more information, see [Amazon VPC Quotas](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html) in the Amazon VPC User Guide (see the Security Groups table).
     public var securityGroups: [Swift.String]?
     /// The ID of the subnet to add the mount target in. For One Zone file systems, use the subnet that is associated with the file system's Availability Zone.
     /// This member is required.
@@ -1351,11 +1396,15 @@ public struct CreateMountTargetInput: Swift.Sendable {
     public init(
         fileSystemId: Swift.String? = nil,
         ipAddress: Swift.String? = nil,
+        ipAddressType: EFSClientTypes.IpAddressType? = nil,
+        ipv6Address: Swift.String? = nil,
         securityGroups: [Swift.String]? = nil,
         subnetId: Swift.String? = nil
     ) {
         self.fileSystemId = fileSystemId
         self.ipAddress = ipAddress
+        self.ipAddressType = ipAddressType
+        self.ipv6Address = ipv6Address
         self.securityGroups = securityGroups
         self.subnetId = subnetId
     }
@@ -1372,6 +1421,8 @@ public struct CreateMountTargetOutput: Swift.Sendable {
     public var fileSystemId: Swift.String?
     /// Address at which the file system can be mounted by using the mount target.
     public var ipAddress: Swift.String?
+    /// The IPv6 address for the mount target.
+    public var ipv6Address: Swift.String?
     /// Lifecycle state of the mount target.
     /// This member is required.
     public var lifeCycleState: EFSClientTypes.LifeCycleState?
@@ -1393,6 +1444,7 @@ public struct CreateMountTargetOutput: Swift.Sendable {
         availabilityZoneName: Swift.String? = nil,
         fileSystemId: Swift.String? = nil,
         ipAddress: Swift.String? = nil,
+        ipv6Address: Swift.String? = nil,
         lifeCycleState: EFSClientTypes.LifeCycleState? = nil,
         mountTargetId: Swift.String? = nil,
         networkInterfaceId: Swift.String? = nil,
@@ -1404,6 +1456,7 @@ public struct CreateMountTargetOutput: Swift.Sendable {
         self.availabilityZoneName = availabilityZoneName
         self.fileSystemId = fileSystemId
         self.ipAddress = ipAddress
+        self.ipv6Address = ipv6Address
         self.lifeCycleState = lifeCycleState
         self.mountTargetId = mountTargetId
         self.networkInterfaceId = networkInterfaceId
@@ -1482,7 +1535,7 @@ extension EFSClientTypes {
     public struct DestinationToCreate: Swift.Sendable {
         /// To create a file system that uses One Zone storage, specify the name of the Availability Zone in which to create the destination file system.
         public var availabilityZoneName: Swift.String?
-        /// The ID or ARN of the file system to use for the destination. For cross-account replication, this must be an ARN. The file system's replication overwrite replication must be disabled. If no ID or ARN is specified, then a new file system is created.
+        /// The ID or ARN of the file system to use for the destination. For cross-account replication, this must be an ARN. The file system's replication overwrite replication must be disabled. If no ID or ARN is specified, then a new file system is created. When you initially configure replication to an existing file system, Amazon EFS writes data to or removes existing data from the destination file system to match data in the source file system. If you don't want to change data in the destination file system, then you should replicate to a new file system instead. For more information, see [https://docs.aws.amazon.com/efs/latest/ug/create-replication.html](https://docs.aws.amazon.com/efs/latest/ug/create-replication.html).
         public var fileSystemId: Swift.String?
         /// Specify the Key Management Service (KMS) key that you want to use to encrypt the destination file system. If you do not specify a KMS key, Amazon EFS uses your default KMS key for Amazon EFS, /aws/elasticfilesystem. This ID can be in one of the following formats:
         ///
@@ -2022,7 +2075,7 @@ public struct DescribeAccountPreferencesOutput: Swift.Sendable {
     }
 }
 
-/// Returned if the default file system policy is in effect for the EFS file system specified.
+/// Returned if no backup is specified for a One Zone EFS file system.
 public struct PolicyNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2448,6 +2501,8 @@ extension EFSClientTypes {
         public var fileSystemId: Swift.String?
         /// Address at which the file system can be mounted by using the mount target.
         public var ipAddress: Swift.String?
+        /// The IPv6 address for the mount target.
+        public var ipv6Address: Swift.String?
         /// Lifecycle state of the mount target.
         /// This member is required.
         public var lifeCycleState: EFSClientTypes.LifeCycleState?
@@ -2469,6 +2524,7 @@ extension EFSClientTypes {
             availabilityZoneName: Swift.String? = nil,
             fileSystemId: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
+            ipv6Address: Swift.String? = nil,
             lifeCycleState: EFSClientTypes.LifeCycleState? = nil,
             mountTargetId: Swift.String? = nil,
             networkInterfaceId: Swift.String? = nil,
@@ -2480,6 +2536,7 @@ extension EFSClientTypes {
             self.availabilityZoneName = availabilityZoneName
             self.fileSystemId = fileSystemId
             self.ipAddress = ipAddress
+            self.ipv6Address = ipv6Address
             self.lifeCycleState = lifeCycleState
             self.mountTargetId = mountTargetId
             self.networkInterfaceId = networkInterfaceId
@@ -2753,7 +2810,7 @@ public struct ModifyMountTargetSecurityGroupsInput: Swift.Sendable {
     /// The ID of the mount target whose security groups you want to modify.
     /// This member is required.
     public var mountTargetId: Swift.String?
-    /// An array of up to five VPC security group IDs.
+    /// An array of VPC security group IDs.
     public var securityGroups: [Swift.String]?
 
     public init(
@@ -2956,7 +3013,7 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     /// The ID of the file system that you want to update.
     /// This member is required.
     public var fileSystemId: Swift.String?
-    /// (Optional) The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web Services Support. For more information, see [Amazon EFS quotas that you can increase](https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits) in the Amazon EFS User Guide.
+    /// (Optional) The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web ServicesSupport. For more information, see [Amazon EFS quotas that you can increase](https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits) in the Amazon EFS User Guide.
     public var provisionedThroughputInMibps: Swift.Double?
     /// (Optional) Updates the file system's throughput mode. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps.
     public var throughputMode: EFSClientTypes.ThroughputMode?
@@ -3122,7 +3179,7 @@ public struct UpdateFileSystemProtectionOutput: Swift.Sendable {
     ///
     /// * DISABLED – The file system can be used as the destination file system in a replication configuration. The file system is read-only and can only be modified by EFS replication.
     ///
-    /// * REPLICATING – The file system is being used as the destination file system in a replication configuration. The file system is read-only and is only modified only by EFS replication.
+    /// * REPLICATING – The file system is being used as the destination file system in a replication configuration. The file system is read-only and is modified only by EFS replication.
     ///
     ///
     /// If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled, the file system becomes writeable.
@@ -3608,6 +3665,8 @@ extension CreateMountTargetInput {
         guard let value else { return }
         try writer["FileSystemId"].write(value.fileSystemId)
         try writer["IpAddress"].write(value.ipAddress)
+        try writer["IpAddressType"].write(value.ipAddressType)
+        try writer["Ipv6Address"].write(value.ipv6Address)
         try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetId"].write(value.subnetId)
     }
@@ -3773,6 +3832,7 @@ extension CreateMountTargetOutput {
         value.availabilityZoneName = try reader["AvailabilityZoneName"].readIfPresent()
         value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
         value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.ipv6Address = try reader["Ipv6Address"].readIfPresent()
         value.lifeCycleState = try reader["LifeCycleState"].readIfPresent() ?? .sdkUnknown("")
         value.mountTargetId = try reader["MountTargetId"].readIfPresent() ?? ""
         value.networkInterfaceId = try reader["NetworkInterfaceId"].readIfPresent()
@@ -5320,6 +5380,7 @@ extension EFSClientTypes.MountTargetDescription {
         value.subnetId = try reader["SubnetId"].readIfPresent() ?? ""
         value.lifeCycleState = try reader["LifeCycleState"].readIfPresent() ?? .sdkUnknown("")
         value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.ipv6Address = try reader["Ipv6Address"].readIfPresent()
         value.networkInterfaceId = try reader["NetworkInterfaceId"].readIfPresent()
         value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
         value.availabilityZoneName = try reader["AvailabilityZoneName"].readIfPresent()

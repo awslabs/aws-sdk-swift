@@ -2122,39 +2122,51 @@ extension NetworkManagerClientTypes {
         public var cidr: Swift.String?
         /// The ID of the destination.
         public var destinationIdentifier: Swift.String?
+        /// Indicates whether public DNS support is supported. The default is true.
+        public var dnsSupport: Swift.Bool
         /// The Regions where edges are located in a core network.
         public var edgeLocations: [Swift.String]?
         /// The inside IP addresses used for core network change values.
         public var insideCidrBlocks: [Swift.String]?
         /// The network function group name if the change event is associated with a network function group.
         public var networkFunctionGroupName: Swift.String?
+        /// Indicates whether security group referencing is enabled for the core network.
+        public var securityGroupReferencingSupport: Swift.Bool
         /// The names of the segments in a core network.
         public var segmentName: Swift.String?
         /// Describes the service insertion action.
         public var serviceInsertionActions: [NetworkManagerClientTypes.ServiceInsertionAction]?
         /// The shared segments for a core network change value.
         public var sharedSegments: [Swift.String]?
+        /// Indicates whether Equal Cost Multipath (ECMP) is enabled for the core network.
+        public var vpnEcmpSupport: Swift.Bool
 
         public init(
             asn: Swift.Int? = nil,
             cidr: Swift.String? = nil,
             destinationIdentifier: Swift.String? = nil,
+            dnsSupport: Swift.Bool = false,
             edgeLocations: [Swift.String]? = nil,
             insideCidrBlocks: [Swift.String]? = nil,
             networkFunctionGroupName: Swift.String? = nil,
+            securityGroupReferencingSupport: Swift.Bool = false,
             segmentName: Swift.String? = nil,
             serviceInsertionActions: [NetworkManagerClientTypes.ServiceInsertionAction]? = nil,
-            sharedSegments: [Swift.String]? = nil
+            sharedSegments: [Swift.String]? = nil,
+            vpnEcmpSupport: Swift.Bool = false
         ) {
             self.asn = asn
             self.cidr = cidr
             self.destinationIdentifier = destinationIdentifier
+            self.dnsSupport = dnsSupport
             self.edgeLocations = edgeLocations
             self.insideCidrBlocks = insideCidrBlocks
             self.networkFunctionGroupName = networkFunctionGroupName
+            self.securityGroupReferencingSupport = securityGroupReferencingSupport
             self.segmentName = segmentName
             self.serviceInsertionActions = serviceInsertionActions
             self.sharedSegments = sharedSegments
+            self.vpnEcmpSupport = vpnEcmpSupport
         }
     }
 }
@@ -3697,15 +3709,23 @@ extension NetworkManagerClientTypes {
     public struct VpcOptions: Swift.Sendable {
         /// Indicates whether appliance mode is supported. If enabled, traffic flow between a source and destination use the same Availability Zone for the VPC attachment for the lifetime of that flow. The default value is false.
         public var applianceModeSupport: Swift.Bool
+        /// Indicates whether DNS is supported.
+        public var dnsSupport: Swift.Bool
         /// Indicates whether IPv6 is supported.
         public var ipv6Support: Swift.Bool
+        /// Indicates whether security group referencing is enabled for this VPC attachment. The default is true. However, at the core network policy-level the default is set to false.
+        public var securityGroupReferencingSupport: Swift.Bool
 
         public init(
             applianceModeSupport: Swift.Bool = false,
-            ipv6Support: Swift.Bool = false
+            dnsSupport: Swift.Bool = false,
+            ipv6Support: Swift.Bool = false,
+            securityGroupReferencingSupport: Swift.Bool = false
         ) {
             self.applianceModeSupport = applianceModeSupport
+            self.dnsSupport = dnsSupport
             self.ipv6Support = ipv6Support
+            self.securityGroupReferencingSupport = securityGroupReferencingSupport
         }
     }
 }
@@ -12248,7 +12268,9 @@ extension NetworkManagerClientTypes.VpcOptions {
     static func write(value: NetworkManagerClientTypes.VpcOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ApplianceModeSupport"].write(value.applianceModeSupport)
+        try writer["DnsSupport"].write(value.dnsSupport)
         try writer["Ipv6Support"].write(value.ipv6Support)
+        try writer["SecurityGroupReferencingSupport"].write(value.securityGroupReferencingSupport)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.VpcOptions {
@@ -12256,6 +12278,8 @@ extension NetworkManagerClientTypes.VpcOptions {
         var value = NetworkManagerClientTypes.VpcOptions()
         value.ipv6Support = try reader["Ipv6Support"].readIfPresent() ?? false
         value.applianceModeSupport = try reader["ApplianceModeSupport"].readIfPresent() ?? false
+        value.dnsSupport = try reader["DnsSupport"].readIfPresent() ?? false
+        value.securityGroupReferencingSupport = try reader["SecurityGroupReferencingSupport"].readIfPresent() ?? false
         return value
     }
 }
@@ -12370,6 +12394,9 @@ extension NetworkManagerClientTypes.CoreNetworkChangeValues {
         value.insideCidrBlocks = try reader["InsideCidrBlocks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.sharedSegments = try reader["SharedSegments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.serviceInsertionActions = try reader["ServiceInsertionActions"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.ServiceInsertionAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpnEcmpSupport = try reader["VpnEcmpSupport"].readIfPresent() ?? false
+        value.dnsSupport = try reader["DnsSupport"].readIfPresent() ?? false
+        value.securityGroupReferencingSupport = try reader["SecurityGroupReferencingSupport"].readIfPresent() ?? false
         return value
     }
 }

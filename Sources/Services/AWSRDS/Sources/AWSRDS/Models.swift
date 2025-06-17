@@ -4821,6 +4821,8 @@ extension RDSClientTypes {
         public var engineMode: Swift.String?
         /// The version of the database engine.
         public var engineVersion: Swift.String?
+        /// Contains a user-supplied global database cluster identifier. This identifier is the unique key that identifies a global database cluster.
+        public var globalClusterIdentifier: Swift.String?
         /// Indicates whether write forwarding is enabled for a secondary cluster in an Aurora global database. Because write forwarding takes time to enable, check the value of GlobalWriteForwardingStatus to confirm that the request has completed before using the write forwarding feature for this cluster.
         public var globalWriteForwardingRequested: Swift.Bool?
         /// The status of write forwarding for a secondary cluster in an Aurora global database.
@@ -4953,6 +4955,7 @@ extension RDSClientTypes {
             engineLifecycleSupport: Swift.String? = nil,
             engineMode: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
+            globalClusterIdentifier: Swift.String? = nil,
             globalWriteForwardingRequested: Swift.Bool? = nil,
             globalWriteForwardingStatus: RDSClientTypes.WriteForwardingStatus? = nil,
             hostedZoneId: Swift.String? = nil,
@@ -5036,6 +5039,7 @@ extension RDSClientTypes {
             self.engineLifecycleSupport = engineLifecycleSupport
             self.engineMode = engineMode
             self.engineVersion = engineVersion
+            self.globalClusterIdentifier = globalClusterIdentifier
             self.globalWriteForwardingRequested = globalWriteForwardingRequested
             self.globalWriteForwardingStatus = globalWriteForwardingStatus
             self.hostedZoneId = hostedZoneId
@@ -6360,7 +6364,7 @@ extension RDSClientTypes {
         public var dbSubnetGroupName: Swift.String?
         /// Provides the status of the DB subnet group.
         public var subnetGroupStatus: Swift.String?
-        /// Contains a list of Subnet elements.
+        /// Contains a list of Subnet elements. The list of subnets shown here might not reflect the current state of your VPC. For the most up-to-date information, we recommend checking your VPC configuration directly.
         public var subnets: [RDSClientTypes.Subnet]?
         /// The network type of the DB subnet group. Valid values:
         ///
@@ -6745,7 +6749,7 @@ extension RDSClientTypes {
         public var readReplicaSourceDBClusterIdentifier: Swift.String?
         /// The identifier of the source DB instance if this DB instance is a read replica.
         public var readReplicaSourceDBInstanceIdentifier: Swift.String?
-        /// The open mode of an Oracle read replica. The default is open-read-only. For more information, see [Working with Oracle Read Replicas for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. This attribute is only supported in RDS for Oracle.
+        /// The open mode of a Db2 or an Oracle read replica. The default is open-read-only. For more information, see [Working with read replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) and [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. This attribute is only supported in RDS for Db2, RDS for Oracle, and RDS Custom for Oracle.
         public var replicaMode: RDSClientTypes.ReplicaMode?
         /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes full automation. The minimum value is 60 (default). The maximum value is 1,440.
         public var resumeFullAutomationModeTime: Foundation.Date?
@@ -7011,7 +7015,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
-    /// The name of the DB parameter group to associate with this read replica DB instance. For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:
+    /// The name of the DB parameter group to associate with this read replica DB instance. For the Db2 DB engine, if your source DB instance uses the Bring Your Own License model, then a custom parameter group must be associated with the replica. For a same Amazon Web Services Region replica, if you don't specify a custom parameter group, Amazon RDS associates the custom parameter group associated with the source DB instance. For a cross-Region replica, you must specify a custom parameter group. This custom parameter group must include your IBM Site ID and IBM Customer ID. For more information, see [ IBM IDs for Bring Your Own License for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html#db2-prereqs-ibm-info). For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, for Db2 DB instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:
     ///
     /// * Must be 1 to 255 letters, numbers, or hyphens.
     ///
@@ -7131,7 +7135,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
     /// Specifies whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see [CreateDBInstance].
     public var publiclyAccessible: Swift.Bool?
-    /// The open mode of the replica database: mounted or read-only. This parameter is only supported for Oracle DB instances. Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with Oracle Read Replicas for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
+    /// The open mode of the replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances. Db2 Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted. Oracle Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
     public var replicaMode: RDSClientTypes.ReplicaMode?
     /// The identifier of the Multi-AZ DB cluster that will act as the source for the read replica. Each DB cluster can have up to 15 read replicas. Constraints:
     ///
@@ -7143,7 +7147,16 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     ///
     /// * The source DB cluster must be in the same Amazon Web Services Region as the read replica. Cross-Region replication isn't supported.
     public var sourceDBClusterIdentifier: Swift.String?
-    /// The identifier of the DB instance that will act as the source for the read replica. Each DB instance can have up to 15 read replicas, with the exception of Oracle and SQL Server, which can have up to five. Constraints:
+    /// The identifier of the DB instance that will act as the source for the read replica. Each DB instance can have up to 15 read replicas, except for the following engines:
+    ///
+    /// * Db2 - Can have up to three replicas.
+    ///
+    /// * Oracle - Can have up to five read replicas.
+    ///
+    /// * SQL Server - Can have up to five read replicas.
+    ///
+    ///
+    /// Constraints:
     ///
     /// * Must be the identifier of an existing Db2, MariaDB, MySQL, Oracle, PostgreSQL, or SQL Server DB instance.
     ///
@@ -8211,13 +8224,13 @@ public struct UnsupportedDBEngineVersionFault: ClientRuntime.ModeledError, AWSCl
 }
 
 public struct CreateDBShardGroupInput: Swift.Sendable {
-    /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
+    /// Specifies whether to create standby standby DB data access shard for the DB shard group. Valid values are the following:
     ///
-    /// * 0 - Creates a DB shard group without a standby DB shard group. This is the default value.
+    /// * 0 - Creates a DB shard group without a standby DB data access shard. This is the default value.
     ///
-    /// * 1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).
+    /// * 1 - Creates a DB shard group with a standby DB data access shard in a different Availability Zone (AZ).
     ///
-    /// * 2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
+    /// * 2 - Creates a DB shard group with two standby DB data access shard in two different AZs.
     public var computeRedundancy: Swift.Int?
     /// The name of the primary DB cluster for the DB shard group.
     /// This member is required.
@@ -12832,7 +12845,7 @@ extension RDSClientTypes {
     public struct ConnectionPoolConfigurationInfo: Swift.Sendable {
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions.
         public var connectionBorrowTimeout: Swift.Int?
-        /// One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. This setting is empty by default. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.
+        /// One or more SQL statements for the proxy to run when opening each new database connection. The setting is typically used with SET statements to make sure that each connection has identical settings. The query added here must be valid. For including multiple variables in a single SET statement, use a comma separator. This is an optional field. For example: SET variable1=value1, variable2=value2 Since you can access initialization query as part of target group configuration, it is not protected by authentication or cryptographic methods. Anyone with access to view or manage your proxy target group configuration can view the initialization query. You should not add sensitive data, such as passwords or long-lived encryption keys, to this option.
         public var initQuery: Swift.String?
         /// The maximum size of the connection pool for each target in a target group. The value is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group.
         public var maxConnectionsPercent: Swift.Int?
@@ -17615,7 +17628,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var promotionTier: Swift.Int?
     /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. PubliclyAccessible only applies to DB instances in a VPC. The DB instance must be part of a public subnet and PubliclyAccessible must be enabled for it to be publicly accessible. Changes to the PubliclyAccessible parameter are applied immediately regardless of the value of the ApplyImmediately parameter.
     public var publiclyAccessible: Swift.Bool?
-    /// A value that sets the open mode of a replica database to either mounted or read-only. Currently, this parameter is only supported for Oracle DB instances. Mounted DB replicas are included in Oracle Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. For more information, see [Working with Oracle Read Replicas for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom DB instances.
+    /// The open mode of a replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances. Db2 Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted. Oracle Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
     public var replicaMode: RDSClientTypes.ReplicaMode?
     /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes full automation. Default: 60 Constraints:
     ///
@@ -17907,9 +17920,9 @@ extension RDSClientTypes {
     public struct ConnectionPoolConfiguration: Swift.Sendable {
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. This setting only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120 Constraints:
         ///
-        /// * Must be between 0 and 3600.
+        /// * Must be between 0 and 300.
         public var connectionBorrowTimeout: Swift.Int?
-        /// Add an initialization query, or modify the current one. You can specify one or more SQL statements for the proxy to run when opening each new database connection. The setting is typically used with SET statements to make sure that each connection has identical settings. Make sure that the query you add is valid. To include multiple variables in a single SET statement, use comma separators. For example: SET variable1=value1, variable2=value2 For multiple statements, use semicolons as the separator. Default: no initialization query
+        /// Add an initialization query, or modify the current one. You can specify one or more SQL statements for the proxy to run when opening each new database connection. The setting is typically used with SET statements to make sure that each connection has identical settings. Make sure the query added here is valid. This is an optional field, so you can choose to leave it empty. For including multiple variables in a single SET statement, use a comma separator. For example: SET variable1=value1, variable2=value2 Default: no initialization query Since you can access initialization query as part of target group configuration, it is not protected by authentication or cryptographic methods. Anyone with access to view or manage your proxy target group configuration can view the initialization query. You should not add sensitive data, such as passwords or long-lived encryption keys, to this option.
         public var initQuery: Swift.String?
         /// The maximum size of the connection pool for each target in a target group. The value is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group. If you specify MaxIdleConnectionsPercent, then you must also include a value for this parameter. Default: 10 for RDS for Microsoft SQL Server, and 100 for all other engines Constraints:
         ///
@@ -32703,6 +32716,7 @@ extension RDSClientTypes.DBCluster {
         value.crossAccountClone = try reader["CrossAccountClone"].readIfPresent()
         value.domainMemberships = try reader["DomainMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.DomainMembership.read(from:), memberNodeInfo: "DomainMembership", isFlattened: false)
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.globalClusterIdentifier = try reader["GlobalClusterIdentifier"].readIfPresent()
         value.globalWriteForwardingStatus = try reader["GlobalWriteForwardingStatus"].readIfPresent()
         value.globalWriteForwardingRequested = try reader["GlobalWriteForwardingRequested"].readIfPresent()
         value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.ClusterPendingModifiedValues.read(from:))

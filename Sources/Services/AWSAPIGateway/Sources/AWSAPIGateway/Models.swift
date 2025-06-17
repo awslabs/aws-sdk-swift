@@ -1318,6 +1318,38 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes {
 
+    public enum RoutingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case basePathMappingOnly
+        case routingRuleOnly
+        case routingRuleThenBasePathMapping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RoutingMode] {
+            return [
+                .basePathMappingOnly,
+                .routingRuleOnly,
+                .routingRuleThenBasePathMapping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .basePathMappingOnly: return "BASE_PATH_MAPPING_ONLY"
+            case .routingRuleOnly: return "ROUTING_RULE_ONLY"
+            case .routingRuleThenBasePathMapping: return "ROUTING_RULE_THEN_BASE_PATH_MAPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension APIGatewayClientTypes {
+
     public enum SecurityPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case tls10
         case tls12
@@ -1372,6 +1404,8 @@ public struct CreateDomainNameInput: Swift.Sendable {
     public var regionalCertificateArn: Swift.String?
     /// The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
     public var regionalCertificateName: Swift.String?
+    /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
+    public var routingMode: APIGatewayClientTypes.RoutingMode?
     /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
     public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
@@ -1390,6 +1424,7 @@ public struct CreateDomainNameInput: Swift.Sendable {
         policy: Swift.String? = nil,
         regionalCertificateArn: Swift.String? = nil,
         regionalCertificateName: Swift.String? = nil,
+        routingMode: APIGatewayClientTypes.RoutingMode? = nil,
         securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -1405,6 +1440,7 @@ public struct CreateDomainNameInput: Swift.Sendable {
         self.policy = policy
         self.regionalCertificateArn = regionalCertificateArn
         self.regionalCertificateName = regionalCertificateName
+        self.routingMode = routingMode
         self.securityPolicy = securityPolicy
         self.tags = tags
     }
@@ -1485,7 +1521,7 @@ public struct CreateDomainNameOutput: Swift.Sendable {
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
-    /// The ARN of the domain name. Supported only for private custom domain names.
+    /// The ARN of the domain name.
     public var domainNameArn: Swift.String?
     /// The identifier for the domain name resource. Supported only for private custom domain names.
     public var domainNameId: Swift.String?
@@ -1511,6 +1547,8 @@ public struct CreateDomainNameOutput: Swift.Sendable {
     public var regionalDomainName: Swift.String?
     /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
     public var regionalHostedZoneId: Swift.String?
+    /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
+    public var routingMode: APIGatewayClientTypes.RoutingMode?
     /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
     public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The collection of tags. Each tag element is associated with a given resource.
@@ -1536,6 +1574,7 @@ public struct CreateDomainNameOutput: Swift.Sendable {
         regionalCertificateName: Swift.String? = nil,
         regionalDomainName: Swift.String? = nil,
         regionalHostedZoneId: Swift.String? = nil,
+        routingMode: APIGatewayClientTypes.RoutingMode? = nil,
         securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -1558,6 +1597,7 @@ public struct CreateDomainNameOutput: Swift.Sendable {
         self.regionalCertificateName = regionalCertificateName
         self.regionalDomainName = regionalDomainName
         self.regionalHostedZoneId = regionalHostedZoneId
+        self.routingMode = routingMode
         self.securityPolicy = securityPolicy
         self.tags = tags
     }
@@ -1917,7 +1957,7 @@ extension APIGatewayClientTypes {
         public var requestParameters: [Swift.String: Swift.String]?
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
         public var requestTemplates: [Swift.String: Swift.String]?
-        /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+        /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
         public var timeoutInMillis: Swift.Int
         /// Specifies the TLS configuration for an integration.
         public var tlsConfig: APIGatewayClientTypes.TlsConfig?
@@ -4151,7 +4191,7 @@ public struct GetDomainNameOutput: Swift.Sendable {
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
-    /// The ARN of the domain name. Supported only for private custom domain names.
+    /// The ARN of the domain name.
     public var domainNameArn: Swift.String?
     /// The identifier for the domain name resource. Supported only for private custom domain names.
     public var domainNameId: Swift.String?
@@ -4177,6 +4217,8 @@ public struct GetDomainNameOutput: Swift.Sendable {
     public var regionalDomainName: Swift.String?
     /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
     public var regionalHostedZoneId: Swift.String?
+    /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
+    public var routingMode: APIGatewayClientTypes.RoutingMode?
     /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
     public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The collection of tags. Each tag element is associated with a given resource.
@@ -4202,6 +4244,7 @@ public struct GetDomainNameOutput: Swift.Sendable {
         regionalCertificateName: Swift.String? = nil,
         regionalDomainName: Swift.String? = nil,
         regionalHostedZoneId: Swift.String? = nil,
+        routingMode: APIGatewayClientTypes.RoutingMode? = nil,
         securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -4224,6 +4267,7 @@ public struct GetDomainNameOutput: Swift.Sendable {
         self.regionalCertificateName = regionalCertificateName
         self.regionalDomainName = regionalDomainName
         self.regionalHostedZoneId = regionalHostedZoneId
+        self.routingMode = routingMode
         self.securityPolicy = securityPolicy
         self.tags = tags
     }
@@ -4359,7 +4403,7 @@ extension APIGatewayClientTypes {
         public var distributionHostedZoneId: Swift.String?
         /// The custom domain name as an API host name, for example, my-api.example.com.
         public var domainName: Swift.String?
-        /// The ARN of the domain name. Supported only for private custom domain names.
+        /// The ARN of the domain name.
         public var domainNameArn: Swift.String?
         /// The identifier for the domain name resource. Supported only for private custom domain names.
         public var domainNameId: Swift.String?
@@ -4385,6 +4429,8 @@ extension APIGatewayClientTypes {
         public var regionalDomainName: Swift.String?
         /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
         public var regionalHostedZoneId: Swift.String?
+        /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
+        public var routingMode: APIGatewayClientTypes.RoutingMode?
         /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
         public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
         /// The collection of tags. Each tag element is associated with a given resource.
@@ -4410,6 +4456,7 @@ extension APIGatewayClientTypes {
             regionalCertificateName: Swift.String? = nil,
             regionalDomainName: Swift.String? = nil,
             regionalHostedZoneId: Swift.String? = nil,
+            routingMode: APIGatewayClientTypes.RoutingMode? = nil,
             securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
@@ -4432,6 +4479,7 @@ extension APIGatewayClientTypes {
             self.regionalCertificateName = regionalCertificateName
             self.regionalDomainName = regionalDomainName
             self.regionalHostedZoneId = regionalHostedZoneId
+            self.routingMode = routingMode
             self.securityPolicy = securityPolicy
             self.tags = tags
         }
@@ -4666,7 +4714,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
     public var requestParameters: [Swift.String: Swift.String]?
     /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
     public var requestTemplates: [Swift.String: Swift.String]?
-    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
     public var timeoutInMillis: Swift.Int
     /// Specifies the TLS configuration for an integration.
     public var tlsConfig: APIGatewayClientTypes.TlsConfig?
@@ -6554,7 +6602,7 @@ public struct PutIntegrationInput: Swift.Sendable {
     /// The string identifier of the associated RestApi.
     /// This member is required.
     public var restApiId: Swift.String?
-    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
     public var timeoutInMillis: Swift.Int?
     /// Specifies the TLS configuration for an integration.
     public var tlsConfig: APIGatewayClientTypes.TlsConfig?
@@ -6627,7 +6675,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
     public var requestParameters: [Swift.String: Swift.String]?
     /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
     public var requestTemplates: [Swift.String: Swift.String]?
-    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
     public var timeoutInMillis: Swift.Int
     /// Specifies the TLS configuration for an integration.
     public var tlsConfig: APIGatewayClientTypes.TlsConfig?
@@ -7710,7 +7758,7 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
-    /// The ARN of the domain name. Supported only for private custom domain names.
+    /// The ARN of the domain name.
     public var domainNameArn: Swift.String?
     /// The identifier for the domain name resource. Supported only for private custom domain names.
     public var domainNameId: Swift.String?
@@ -7736,6 +7784,8 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
     public var regionalDomainName: Swift.String?
     /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
     public var regionalHostedZoneId: Swift.String?
+    /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
+    public var routingMode: APIGatewayClientTypes.RoutingMode?
     /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
     public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The collection of tags. Each tag element is associated with a given resource.
@@ -7761,6 +7811,7 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
         regionalCertificateName: Swift.String? = nil,
         regionalDomainName: Swift.String? = nil,
         regionalHostedZoneId: Swift.String? = nil,
+        routingMode: APIGatewayClientTypes.RoutingMode? = nil,
         securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -7783,6 +7834,7 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
         self.regionalCertificateName = regionalCertificateName
         self.regionalDomainName = regionalDomainName
         self.regionalHostedZoneId = regionalHostedZoneId
+        self.routingMode = routingMode
         self.securityPolicy = securityPolicy
         self.tags = tags
     }
@@ -7889,7 +7941,7 @@ public struct UpdateIntegrationOutput: Swift.Sendable {
     public var requestParameters: [Swift.String: Swift.String]?
     /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
     public var requestTemplates: [Swift.String: Swift.String]?
-    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+    /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
     public var timeoutInMillis: Swift.Int
     /// Specifies the TLS configuration for an integration.
     public var tlsConfig: APIGatewayClientTypes.TlsConfig?
@@ -10836,6 +10888,7 @@ extension CreateDomainNameInput {
         try writer["policy"].write(value.policy)
         try writer["regionalCertificateArn"].write(value.regionalCertificateArn)
         try writer["regionalCertificateName"].write(value.regionalCertificateName)
+        try writer["routingMode"].write(value.routingMode)
         try writer["securityPolicy"].write(value.securityPolicy)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -11391,6 +11444,7 @@ extension CreateDomainNameOutput {
         value.regionalCertificateName = try reader["regionalCertificateName"].readIfPresent()
         value.regionalDomainName = try reader["regionalDomainName"].readIfPresent()
         value.regionalHostedZoneId = try reader["regionalHostedZoneId"].readIfPresent()
+        value.routingMode = try reader["routingMode"].readIfPresent()
         value.securityPolicy = try reader["securityPolicy"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -11999,6 +12053,7 @@ extension GetDomainNameOutput {
         value.regionalCertificateName = try reader["regionalCertificateName"].readIfPresent()
         value.regionalDomainName = try reader["regionalDomainName"].readIfPresent()
         value.regionalHostedZoneId = try reader["regionalHostedZoneId"].readIfPresent()
+        value.routingMode = try reader["routingMode"].readIfPresent()
         value.securityPolicy = try reader["securityPolicy"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -12887,6 +12942,7 @@ extension UpdateDomainNameOutput {
         value.regionalCertificateName = try reader["regionalCertificateName"].readIfPresent()
         value.regionalDomainName = try reader["regionalDomainName"].readIfPresent()
         value.regionalHostedZoneId = try reader["regionalHostedZoneId"].readIfPresent()
+        value.routingMode = try reader["routingMode"].readIfPresent()
         value.securityPolicy = try reader["securityPolicy"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -15878,6 +15934,7 @@ extension APIGatewayClientTypes.DomainName {
         value.ownershipVerificationCertificateArn = try reader["ownershipVerificationCertificateArn"].readIfPresent()
         value.managementPolicy = try reader["managementPolicy"].readIfPresent()
         value.policy = try reader["policy"].readIfPresent()
+        value.routingMode = try reader["routingMode"].readIfPresent()
         return value
     }
 }

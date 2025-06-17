@@ -18,7 +18,7 @@ class SSOBearerTokenIdentityResolverTests: XCTestCase {
         let testTokenFileURL = Bundle.module.url(
             forResource: "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3", withExtension: "json"
         )
-        let tokenString = SSOBearerTokenIdentityResolver().loadToken(
+        let tokenString = try SSOBearerTokenIdentityResolver().loadToken(
             fileURL: testTokenFileURL!
         ).accessToken
         XCTAssertEqual(expectedAccessToken, tokenString)

@@ -35,7 +35,10 @@ class IdentityProvidingSSOOIDCClientIntegration : SwiftIntegration {
                     SmithyIdentityTypes.BearerTokenIdentity,
                 ) {
                     writer.write("let ssoOIDC = try SSOOIDCClient(region: region)")
-                    writer.write("let input = CreateTokenInput(clientId: clientID, clientSecret: clientSecret, grantType: \"refresh_token\", refreshToken: refreshToken)")
+                    writer.write(
+                        "let input = CreateTokenInput(clientId: clientID, clientSecret: clientSecret, " +
+                            "grantType: \"refresh_token\", refreshToken: refreshToken)",
+                    )
                     writer.write("let out = try await ssoOIDC.createToken(input: input)")
                     writer.write(
                         "let expiration = \$N().addingTimeInterval(\$N(out.expiresIn))",

@@ -5721,6 +5721,22 @@ public struct CreateBotAliasOutput: Swift.Sendable {
 
 extension LexModelsV2ClientTypes {
 
+    /// Specifies whether the assisted nlu feature is turned on or off.
+    public struct NluImprovementSpecification: Swift.Sendable {
+        /// Specifies whether the assisted nlu feature is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            enabled: Swift.Bool = false
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
     /// Contains specifications for the assisted slot resolution feature.
     public struct SlotResolutionImprovementSpecification: Swift.Sendable {
         /// An object containing information about the Amazon Bedrock model used to assist slot resolution.
@@ -5743,12 +5759,16 @@ extension LexModelsV2ClientTypes {
 
     /// Contains specifications about the Amazon Lex runtime generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
     public struct RuntimeSettings: Swift.Sendable {
+        /// An object containing specifications for the assisted nlu feature.
+        public var nluImprovement: LexModelsV2ClientTypes.NluImprovementSpecification?
         /// An object containing specifications for the assisted slot resolution feature.
         public var slotResolutionImprovement: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification?
 
         public init(
+            nluImprovement: LexModelsV2ClientTypes.NluImprovementSpecification? = nil,
             slotResolutionImprovement: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification? = nil
         ) {
+            self.nluImprovement = nluImprovement
             self.slotResolutionImprovement = slotResolutionImprovement
         }
     }
@@ -22591,6 +22611,7 @@ extension LexModelsV2ClientTypes.RuntimeSettings {
 
     static func write(value: LexModelsV2ClientTypes.RuntimeSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["nluImprovement"].write(value.nluImprovement, with: LexModelsV2ClientTypes.NluImprovementSpecification.write(value:to:))
         try writer["slotResolutionImprovement"].write(value.slotResolutionImprovement, with: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification.write(value:to:))
     }
 
@@ -22598,6 +22619,22 @@ extension LexModelsV2ClientTypes.RuntimeSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.RuntimeSettings()
         value.slotResolutionImprovement = try reader["slotResolutionImprovement"].readIfPresent(with: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification.read(from:))
+        value.nluImprovement = try reader["nluImprovement"].readIfPresent(with: LexModelsV2ClientTypes.NluImprovementSpecification.read(from:))
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.NluImprovementSpecification {
+
+    static func write(value: LexModelsV2ClientTypes.NluImprovementSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.NluImprovementSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.NluImprovementSpecification()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
 }
