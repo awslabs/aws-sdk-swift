@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NetworkFirewallClient: ClientRuntime.Client {
     public static let clientName = "NetworkFirewallClient"
-    public static let version = "1.3.28"
+    public static let version = "1.3.38"
     let client: ClientRuntime.SdkHttpClient
     let config: NetworkFirewallClient.NetworkFirewallClientConfiguration
     let serviceName = "Network Firewall"
@@ -111,6 +111,7 @@ extension NetworkFirewallClient {
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
@@ -138,6 +139,7 @@ extension NetworkFirewallClient {
             _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
             _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
             _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemePreference: [String]?,
             _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
             _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
             _ interceptorProviders: [ClientRuntime.InterceptorProvider],
@@ -163,6 +165,7 @@ extension NetworkFirewallClient {
             self.httpClientEngine = httpClientEngine
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
+            self.authSchemePreference = authSchemePreference
             self.authSchemeResolver = authSchemeResolver
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
             self.interceptorProviders = interceptorProviders
@@ -191,6 +194,7 @@ extension NetworkFirewallClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -217,6 +221,7 @@ extension NetworkFirewallClient {
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultNetworkFirewallAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -245,6 +250,7 @@ extension NetworkFirewallClient {
             httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
             httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
             authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
             authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
             bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
@@ -271,6 +277,7 @@ extension NetworkFirewallClient {
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultNetworkFirewallAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
@@ -300,6 +307,7 @@ extension NetworkFirewallClient {
                 httpClientEngine: nil,
                 httpClientConfiguration: nil,
                 authSchemes: nil,
+                authSchemePreference: nil,
                 authSchemeResolver: nil,
                 bearerTokenIdentityResolver: nil,
                 interceptorProviders: nil,
@@ -329,6 +337,7 @@ extension NetworkFirewallClient {
                 AWSClientConfigDefaultsProvider.httpClientEngine(),
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                nil,
                 DefaultNetworkFirewallAuthSchemeResolver(),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
@@ -360,6 +369,179 @@ extension NetworkFirewallClient {
 }
 
 extension NetworkFirewallClient {
+    /// Performs the `AcceptNetworkFirewallTransitGatewayAttachment` operation on the `NetworkFirewall` service.
+    ///
+    /// Accepts a transit gateway attachment request for Network Firewall. When you accept the attachment request, Network Firewall creates the necessary routing components to enable traffic flow between the transit gateway and firewall endpoints. You must accept a transit gateway attachment to complete the creation of a transit gateway-attached firewall, unless auto-accept is enabled on the transit gateway. After acceptance, use [DescribeFirewall] to verify the firewall status. To reject an attachment instead of accepting it, use [RejectNetworkFirewallTransitGatewayAttachment]. It can take several minutes for the attachment acceptance to complete and the firewall to become available.
+    ///
+    /// - Parameter AcceptNetworkFirewallTransitGatewayAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptNetworkFirewallTransitGatewayAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func acceptNetworkFirewallTransitGatewayAttachment(input: AcceptNetworkFirewallTransitGatewayAttachmentInput) async throws -> AcceptNetworkFirewallTransitGatewayAttachmentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "acceptNetworkFirewallTransitGatewayAttachment")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(AcceptNetworkFirewallTransitGatewayAttachmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentOutput>(AcceptNetworkFirewallTransitGatewayAttachmentOutput.httpOutput(from:), AcceptNetworkFirewallTransitGatewayAttachmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(xAmzTarget: "NetworkFirewall_20201112.AcceptNetworkFirewallTransitGatewayAttachment"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptNetworkFirewallTransitGatewayAttachmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcceptNetworkFirewallTransitGatewayAttachment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `AssociateAvailabilityZones` operation on the `NetworkFirewall` service.
+    ///
+    /// Associates the specified Availability Zones with a transit gateway-attached firewall. For each Availability Zone, Network Firewall creates a firewall endpoint to process traffic. You can specify one or more Availability Zones where you want to deploy the firewall. After adding Availability Zones, you must update your transit gateway route tables to direct traffic through the new firewall endpoints. Use [DescribeFirewall] to monitor the status of the new endpoints.
+    ///
+    /// - Parameter AssociateAvailabilityZonesInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateAvailabilityZonesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientCapacityException` : Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func associateAvailabilityZones(input: AssociateAvailabilityZonesInput) async throws -> AssociateAvailabilityZonesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateAvailabilityZones")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(AssociateAvailabilityZonesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAvailabilityZonesOutput>(AssociateAvailabilityZonesOutput.httpOutput(from:), AssociateAvailabilityZonesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAvailabilityZonesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateAvailabilityZonesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(xAmzTarget: "NetworkFirewall_20201112.AssociateAvailabilityZones"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateAvailabilityZonesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateAvailabilityZonesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateAvailabilityZones")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AssociateFirewallPolicy` operation on the `NetworkFirewall` service.
     ///
     /// Associates a [FirewallPolicy] to a [Firewall]. A firewall policy defines how to monitor and manage your VPC network traffic, using a collection of inspection rule groups and other settings. Each firewall requires one firewall policy association, and you can use the same firewall policy for multiple firewalls.
@@ -392,6 +574,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -479,6 +662,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -565,6 +749,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -650,6 +835,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -735,6 +921,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -820,6 +1007,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -907,6 +1095,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -993,6 +1182,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1079,6 +1269,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1133,6 +1324,91 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteNetworkFirewallTransitGatewayAttachment` operation on the `NetworkFirewall` service.
+    ///
+    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment. After you delete a transit gateway attachment, raffic will no longer flow through the firewall endpoints. After you initiate the delete operation, use [DescribeFirewall] to monitor the deletion status.
+    ///
+    /// - Parameter DeleteNetworkFirewallTransitGatewayAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteNetworkFirewallTransitGatewayAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func deleteNetworkFirewallTransitGatewayAttachment(input: DeleteNetworkFirewallTransitGatewayAttachmentInput) async throws -> DeleteNetworkFirewallTransitGatewayAttachmentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteNetworkFirewallTransitGatewayAttachment")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(DeleteNetworkFirewallTransitGatewayAttachmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentOutput>(DeleteNetworkFirewallTransitGatewayAttachmentOutput.httpOutput(from:), DeleteNetworkFirewallTransitGatewayAttachmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteNetworkFirewallTransitGatewayAttachment"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteNetworkFirewallTransitGatewayAttachmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteNetworkFirewallTransitGatewayAttachment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteResourcePolicy` operation on the `NetworkFirewall` service.
     ///
     /// Deletes a resource policy that you created in a [PutResourcePolicy] request.
@@ -1164,6 +1440,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1250,6 +1527,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1335,6 +1613,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1420,6 +1699,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1504,6 +1784,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1588,6 +1869,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1672,6 +1954,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1756,6 +2039,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1840,6 +2124,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -1924,6 +2209,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2008,6 +2294,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2092,6 +2379,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2146,6 +2434,91 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeRuleGroupSummary` operation on the `NetworkFirewall` service.
+    ///
+    /// Returns detailed information for a stateful rule group. For active threat defense Amazon Web Services managed rule groups, this operation provides insight into the protections enabled by the rule group, based on Suricata rule metadata fields. Summaries are available for rule groups you manage and for active threat defense Amazon Web Services managed rule groups. To modify how threat information appears in summaries, use the SummaryConfiguration parameter in [UpdateRuleGroup].
+    ///
+    /// - Parameter DescribeRuleGroupSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRuleGroupSummaryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func describeRuleGroupSummary(input: DescribeRuleGroupSummaryInput) async throws -> DescribeRuleGroupSummaryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeRuleGroupSummary")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(DescribeRuleGroupSummaryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRuleGroupSummaryOutput>(DescribeRuleGroupSummaryOutput.httpOutput(from:), DescribeRuleGroupSummaryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuleGroupSummaryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRuleGroupSummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeRuleGroupSummary"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRuleGroupSummaryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuleGroupSummaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRuleGroupSummary")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeTLSInspectionConfiguration` operation on the `NetworkFirewall` service.
     ///
     /// Returns the data objects for the specified TLS inspection configuration.
@@ -2176,6 +2549,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2260,6 +2634,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2314,6 +2689,93 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateAvailabilityZones` operation on the `NetworkFirewall` service.
+    ///
+    /// Removes the specified Availability Zone associations from a transit gateway-attached firewall. This removes the firewall endpoints from these Availability Zones and stops traffic filtering in those zones. Before removing an Availability Zone, ensure you've updated your transit gateway route tables to redirect traffic appropriately. If AvailabilityZoneChangeProtection is enabled, you must first disable it using [UpdateAvailabilityZoneChangeProtection]. To verify the status of your Availability Zone changes, use [DescribeFirewall].
+    ///
+    /// - Parameter DisassociateAvailabilityZonesInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateAvailabilityZonesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func disassociateAvailabilityZones(input: DisassociateAvailabilityZonesInput) async throws -> DisassociateAvailabilityZonesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateAvailabilityZones")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(DisassociateAvailabilityZonesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateAvailabilityZonesOutput>(DisassociateAvailabilityZonesOutput.httpOutput(from:), DisassociateAvailabilityZonesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAvailabilityZonesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateAvailabilityZonesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(xAmzTarget: "NetworkFirewall_20201112.DisassociateAvailabilityZones"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateAvailabilityZonesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateAvailabilityZonesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateAvailabilityZones")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisassociateSubnets` operation on the `NetworkFirewall` service.
     ///
     /// Removes the specified subnet associations from the firewall. This removes the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing.
@@ -2346,6 +2808,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2430,6 +2893,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2514,6 +2978,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2597,6 +3062,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2680,6 +3146,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2764,6 +3231,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2848,6 +3316,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -2931,6 +3400,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3014,6 +3484,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3098,6 +3569,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3181,6 +3653,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3273,6 +3746,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3327,6 +3801,91 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RejectNetworkFirewallTransitGatewayAttachment` operation on the `NetworkFirewall` service.
+    ///
+    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the firewall owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use [DescribeFirewall] to monitor the rejection status. To accept the attachment instead of rejecting it, use [AcceptNetworkFirewallTransitGatewayAttachment]. Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
+    ///
+    /// - Parameter RejectNetworkFirewallTransitGatewayAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `RejectNetworkFirewallTransitGatewayAttachmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func rejectNetworkFirewallTransitGatewayAttachment(input: RejectNetworkFirewallTransitGatewayAttachmentInput) async throws -> RejectNetworkFirewallTransitGatewayAttachmentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "rejectNetworkFirewallTransitGatewayAttachment")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(RejectNetworkFirewallTransitGatewayAttachmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectNetworkFirewallTransitGatewayAttachmentOutput>(RejectNetworkFirewallTransitGatewayAttachmentOutput.httpOutput(from:), RejectNetworkFirewallTransitGatewayAttachmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RejectNetworkFirewallTransitGatewayAttachmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectNetworkFirewallTransitGatewayAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(xAmzTarget: "NetworkFirewall_20201112.RejectNetworkFirewallTransitGatewayAttachment"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RejectNetworkFirewallTransitGatewayAttachmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RejectNetworkFirewallTransitGatewayAttachment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartAnalysisReport` operation on the `NetworkFirewall` service.
     ///
     /// Generates a traffic analysis report for the timeframe and traffic type you specify. For information on the contents of a traffic analysis report, see [AnalysisReport].
@@ -3357,6 +3916,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3441,6 +4001,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3525,6 +4086,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3609,6 +4171,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3693,6 +4256,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3747,6 +4311,93 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateAvailabilityZoneChangeProtection` operation on the `NetworkFirewall` service.
+    ///
+    /// Modifies the AvailabilityZoneChangeProtection setting for a transit gateway-attached firewall. When enabled, this setting prevents accidental changes to the firewall's Availability Zone configuration. This helps protect against disrupting traffic flow in production environments. When enabled, you must disable this protection before using [AssociateAvailabilityZones] or [DisassociateAvailabilityZones] to modify the firewall's Availability Zone configuration.
+    ///
+    /// - Parameter UpdateAvailabilityZoneChangeProtectionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAvailabilityZoneChangeProtectionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ResourceOwnerCheckException` : Unable to change the resource because your account doesn't own it.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func updateAvailabilityZoneChangeProtection(input: UpdateAvailabilityZoneChangeProtectionInput) async throws -> UpdateAvailabilityZoneChangeProtectionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAvailabilityZoneChangeProtection")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(UpdateAvailabilityZoneChangeProtectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAvailabilityZoneChangeProtectionOutput>(UpdateAvailabilityZoneChangeProtectionOutput.httpOutput(from:), UpdateAvailabilityZoneChangeProtectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAvailabilityZoneChangeProtectionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAvailabilityZoneChangeProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateAvailabilityZoneChangeProtection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAvailabilityZoneChangeProtectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAvailabilityZoneChangeProtectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAvailabilityZoneChangeProtection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateFirewallAnalysisSettings` operation on the `NetworkFirewall` service.
     ///
     /// Enables specific types of firewall analysis on a specific firewall you define.
@@ -3777,6 +4428,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3863,6 +4515,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -3948,6 +4601,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4034,6 +4688,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4119,6 +4774,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4205,6 +4861,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4300,6 +4957,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4385,6 +5043,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4471,6 +5130,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
@@ -4556,6 +5216,7 @@ extension NetworkFirewallClient {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)

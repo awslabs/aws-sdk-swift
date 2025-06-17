@@ -1449,6 +1449,7 @@ extension GetCallerIdentityInput {
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
                       .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemePreference(value: config.authSchemePreference)
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)

@@ -14,7 +14,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
 
     func testInvalidSessionName() async throws {
         XCTAssertThrowsError(try STSAssumeRoleAWSCredentialIdentityResolver(
-                awsCredentialIdentityResolver: try EnvironmentAWSCredentialIdentityResolver(),
+                awsCredentialIdentityResolver: EnvironmentAWSCredentialIdentityResolver(),
                 roleArn: "role",
                 sessionName: "invalid session name with spaces"
         )) { error in

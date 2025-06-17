@@ -3615,7 +3615,38 @@ extension ECSClientTypes {
     /// * If Container1 is HEALTHY and Container2 is HEALTHY, and Container3 is HEALTHY, the task health is HEALTHY.
     ///
     ///
-    /// If a task is run manually, and not as part of a service, the task will continue its lifecycle regardless of its health status. For tasks that are part of a service, if the task reports as unhealthy then the task will be stopped and the service scheduler will replace it. The following are notes about container health check support:
+    /// If a task is run manually, and not as part of a service, the task will continue its lifecycle regardless of its health status. For tasks that are part of a service, if the task reports as unhealthy then the task will be stopped and the service scheduler will replace it. When a container health check fails for a task that is part of a service, the following process occurs:
+    ///
+    /// * The task is marked as UNHEALTHY.
+    ///
+    /// * The unhealthy task will be stopped, and during the stopping process, it will go through the following states:
+    ///
+    /// * DEACTIVATING - In this state, Amazon ECS performs additional steps before stopping the task. For example, for tasks that are part of services configured to use Elastic Load Balancing target groups, target groups will be deregistered in this state.
+    ///
+    /// * STOPPING - The task is in the process of being stopped.
+    ///
+    /// * DEPROVISIONING - Resources associated with the task are being cleaned up.
+    ///
+    /// * STOPPED - The task has been completely stopped.
+    ///
+    ///
+    ///
+    ///
+    /// * After the old task stops, a new task will be launched to ensure service operation, and the new task will go through the following lifecycle:
+    ///
+    /// * PROVISIONING - Resources required for the task are being provisioned.
+    ///
+    /// * PENDING - The task is waiting to be placed on a container instance.
+    ///
+    /// * ACTIVATING - In this state, Amazon ECS pulls container images, creates containers, configures task networking, registers load balancer target groups, and configures service discovery status.
+    ///
+    /// * RUNNING - The task is running and performing its work.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// For more detailed information about task lifecycle states, see [Task lifecycle](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-lifecycle-explanation.html) in the Amazon Elastic Container Service Developer Guide. The following are notes about container health check support:
     ///
     /// * If the Amazon ECS container agent becomes disconnected from the Amazon ECS service, this won't cause a container to transition to an UNHEALTHY status. This is by design, to ensure that containers remain running during agent restarts or temporary unavailability. The health check status is the "last heard from" response from the Amazon ECS agent, so if the container was considered HEALTHY prior to the disconnect, that status will remain until the agent reconnects and another health check occurs. There are no assumptions made about the status of the container health checks.
     ///
@@ -9525,9 +9556,22 @@ public struct UpdateContainerInstancesStateOutput: Swift.Sendable {
 public struct UpdateServiceInput: Swift.Sendable {
     /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide .
     public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
-    /// The capacity provider strategy to update the service to use. if the service uses the default capacity provider strategy for the cluster, the service can be updated to use one or more capacity providers as opposed to the default capacity provider strategy. However, when a service is using a capacity provider strategy that's not the default capacity provider strategy, the service can't be updated to use the cluster's default capacity provider strategy. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the [CreateClusterCapacityProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateClusterCapacityProvider.html) API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html)API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
+    /// The details of a capacity provider strategy. You can set a capacity provider when you create a cluster, run a task, or update a service. When you use Fargate, the capacity providers are FARGATE or FARGATE_SPOT. When you use Amazon EC2, the capacity providers are Auto Scaling groups. You can change capacity providers for rolling deployments and blue/green deployments. The following list provides the valid transitions:
+    ///
+    /// * Update the Fargate launch type to an EC2 capacity provider.
+    ///
+    /// * Update the Amazon EC2 launch type to a Fargate capacity provider.
+    ///
+    /// * Update the Fargate capacity provider to an EC2 capacity provider.
+    ///
+    /// * Update the Amazon EC2 capacity provider to a Fargate capacity provider.
+    ///
+    /// * Update the EC2 or Fargate capacity provider back to the launch type. Pass an empty list in the capacityProvider parameter.
+    ///
+    ///
+    /// For information about Amazon Web Services CDK considerations, see [Amazon Web Services CDK considerations](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service-parameters.html).
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on. If you do not specify a cluster, the default cluster is assumed.
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on. If you do not specify a cluster, the default cluster is assumed. You can't change the cluster name.
     public var cluster: Swift.String?
     /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
     public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
@@ -9541,7 +9585,7 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var forceNewDeployment: Swift.Bool?
     /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
     public var healthCheckGracePeriodSeconds: Swift.Int?
-    /// A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services that use the external deployment controller, you can add, update, or remove load balancers by using [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). Note that multiple target groups are not supported for external deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. You can remove existing loadBalancers by passing an empty list.
+    /// You must have a service-linked role when you update this property A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services that use the external deployment controller, you can add, update, or remove load balancers by using [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). Note that multiple target groups are not supported for external deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. You can remove existing loadBalancers by passing an empty list.
     public var loadBalancers: [ECSClientTypes.LoadBalancer]?
     /// An object representing the network configuration for the service.
     public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
@@ -9558,7 +9602,7 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var service: Swift.String?
     /// The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
     public var serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
-    /// The details for the service discovery registries to assign to this service. For more information, see [Service Discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html). When you add, update, or remove the service registries configuration, Amazon ECS starts new tasks with the updated service registries configuration, and then stops the old tasks when the new tasks are running. You can remove existing serviceRegistries by passing an empty list.
+    /// You must have a service-linked role when you update this property. For more information about the role see the CreateService request parameter [role](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html#ECS-CreateService-request-role). The details for the service discovery registries to assign to this service. For more information, see [Service Discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html). When you add, update, or remove the service registries configuration, Amazon ECS starts new tasks with the updated service registries configuration, and then stops the old tasks when the new tasks are running. You can remove existing serviceRegistries by passing an empty list.
     public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
     /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. If you modify the task definition with UpdateService, Amazon ECS spawns a task with the new version of the task definition and then stops an old task after the new version is running.
     public var taskDefinition: Swift.String?

@@ -3652,6 +3652,7 @@ extension CloudFormationClientTypes {
 extension CloudFormationClientTypes {
 
     public enum WarningType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case excludedProperties
         case mutuallyExclusiveProperties
         case mutuallyExclusiveTypes
         case unsupportedProperties
@@ -3659,6 +3660,7 @@ extension CloudFormationClientTypes {
 
         public static var allCases: [WarningType] {
             return [
+                .excludedProperties,
                 .mutuallyExclusiveProperties,
                 .mutuallyExclusiveTypes,
                 .unsupportedProperties
@@ -3672,6 +3674,7 @@ extension CloudFormationClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .excludedProperties: return "EXCLUDED_PROPERTIES"
             case .mutuallyExclusiveProperties: return "MUTUALLY_EXCLUSIVE_PROPERTIES"
             case .mutuallyExclusiveTypes: return "MUTUALLY_EXCLUSIVE_TYPES"
             case .unsupportedProperties: return "UNSUPPORTED_PROPERTIES"
@@ -4050,7 +4053,7 @@ extension CloudFormationClientTypes {
 
     /// A filter that is used to specify which resource types to scan.
     public struct ScanFilter: Swift.Sendable {
-        /// An array of strings where each string represents an Amazon Web Services resource type you want to scan. Each string defines the resource type using the format AWS::ServiceName::ResourceType, for example, AWS::DynamoDB::Table. For the full list of supported resource types, see the [Resource type support](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html) table in the CloudFormation User Guide. To scan all resource types within a service, you can use a wildcard, represented by an asterisk (*). You can place a asterisk at only the end of the string, for example, AWS::S3::*.
+        /// An array of strings where each string represents an Amazon Web Services resource type you want to scan. Each string defines the resource type using the format AWS::ServiceName::ResourceType, for example, AWS::DynamoDB::Table. For the full list of supported resource types, see the [Resource type support](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html) table in the CloudFormation User Guide. To scan all resource types within a service, you can use a wildcard, represented by an asterisk (*). You can place an asterisk at only the end of the string, for example, AWS::S3::*.
         public var types: [Swift.String]?
 
         public init(
