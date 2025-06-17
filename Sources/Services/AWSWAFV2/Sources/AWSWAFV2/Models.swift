@@ -3357,6 +3357,40 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    /// Application details defined during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
+    public struct ApplicationAttribute: Swift.Sendable {
+        /// Specifies the attribute name.
+        public var name: Swift.String?
+        /// Specifies the attribute value.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A list of ApplicationAttributes that contains information about the application.
+    public struct ApplicationConfig: Swift.Sendable {
+        /// Contains the attribute name and a list of values for that attribute.
+        public var attributes: [WAFV2ClientTypes.ApplicationAttribute]?
+
+        public init(
+            attributes: [WAFV2ClientTypes.ApplicationAttribute]? = nil
+        ) {
+            self.attributes = attributes
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     public enum AssociatedResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case apiGateway
         case appRunnerService
@@ -8182,6 +8216,8 @@ public struct CreateRuleGroupInput: Swift.Sendable {
 }
 
 public struct CreateWebACLInput: Swift.Sendable {
+    /// Configures the ability for the WAF console to store and retrieve application attributes during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
+    public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
     /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
     public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
@@ -8220,6 +8256,7 @@ public struct CreateWebACLInput: Swift.Sendable {
     public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
     public init(
+        applicationConfig: WAFV2ClientTypes.ApplicationConfig? = nil,
         associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
         captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
         challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
@@ -8235,6 +8272,7 @@ public struct CreateWebACLInput: Swift.Sendable {
         tokenDomains: [Swift.String]? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
     ) {
+        self.applicationConfig = applicationConfig
         self.associationConfig = associationConfig
         self.captchaConfig = captchaConfig
         self.challengeConfig = challengeConfig
@@ -8396,6 +8434,8 @@ extension WAFV2ClientTypes {
 
     /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.
     public struct WebACL: Swift.Sendable {
+        /// Returns a list of ApplicationAttributes.
+        public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -8447,6 +8487,7 @@ extension WAFV2ClientTypes {
         public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
         public init(
+            applicationConfig: WAFV2ClientTypes.ApplicationConfig? = nil,
             arn: Swift.String? = nil,
             associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
             capacity: Swift.Int = 0,
@@ -8468,6 +8509,7 @@ extension WAFV2ClientTypes {
             tokenDomains: [Swift.String]? = nil,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
         ) {
+            self.applicationConfig = applicationConfig
             self.arn = arn
             self.associationConfig = associationConfig
             self.capacity = capacity
@@ -8971,6 +9013,7 @@ extension CreateWebACLInput {
 
     static func write(value: CreateWebACLInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ApplicationConfig"].write(value.applicationConfig, with: WAFV2ClientTypes.ApplicationConfig.write(value:to:))
         try writer["AssociationConfig"].write(value.associationConfig, with: WAFV2ClientTypes.AssociationConfig.write(value:to:))
         try writer["CaptchaConfig"].write(value.captchaConfig, with: WAFV2ClientTypes.CaptchaConfig.write(value:to:))
         try writer["ChallengeConfig"].write(value.challengeConfig, with: WAFV2ClientTypes.ChallengeConfig.write(value:to:))
@@ -13424,6 +13467,39 @@ extension WAFV2ClientTypes.WebACL {
         value.associationConfig = try reader["AssociationConfig"].readIfPresent(with: WAFV2ClientTypes.AssociationConfig.read(from:))
         value.retrofittedByFirewallManager = try reader["RetrofittedByFirewallManager"].readIfPresent() ?? false
         value.onSourceDDoSProtectionConfig = try reader["OnSourceDDoSProtectionConfig"].readIfPresent(with: WAFV2ClientTypes.OnSourceDDoSProtectionConfig.read(from:))
+        value.applicationConfig = try reader["ApplicationConfig"].readIfPresent(with: WAFV2ClientTypes.ApplicationConfig.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ApplicationConfig {
+
+    static func write(value: WAFV2ClientTypes.ApplicationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: WAFV2ClientTypes.ApplicationAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ApplicationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ApplicationConfig()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.ApplicationAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ApplicationAttribute {
+
+    static func write(value: WAFV2ClientTypes.ApplicationAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ApplicationAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ApplicationAttribute()
+        value.name = try reader["Name"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

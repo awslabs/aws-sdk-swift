@@ -650,7 +650,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension BedrockClientTypes {
 
-    /// The Amazon S3 data source of the model to import. For the [CreateCustomModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateCustomModel.html) API operation, you must specify the Amazon S3 URI for the Amazon-managed Amazon S3 bucket containing your model artifacts. SageMaker AI creates this bucket when you run your first SageMaker AI training job.
+    /// The Amazon S3 data source of the model to import.
     public struct S3DataSource: Swift.Sendable {
         /// The URI of the Amazon S3 data source.
         /// This member is required.
@@ -682,7 +682,7 @@ public struct CreateCustomModelInput: Swift.Sendable {
     /// A unique name for the custom model.
     /// This member is required.
     public var modelName: Swift.String?
-    /// The data source for the model. The Amazon S3 URI in the model source must be for the Amazon-managed Amazon S3 bucket containing your model artifacts. SageMaker AI creates this bucket when you run your first SageMaker AI training job.
+    /// The data source for the model. The Amazon S3 URI in the model source must be for the Amazon-managed Amazon S3 bucket containing your model artifacts.
     /// This member is required.
     public var modelSourceConfig: BedrockClientTypes.ModelDataSource?
     /// A list of key-value pairs to associate with the custom model resource. You can use these tags to organize and identify your resources. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).

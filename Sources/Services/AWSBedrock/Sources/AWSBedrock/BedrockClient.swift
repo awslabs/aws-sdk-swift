@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockClient: ClientRuntime.Client {
     public static let clientName = "BedrockClient"
-    public static let version = "1.3.37"
+    public static let version = "1.3.38"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockClient.BedrockClientConfiguration
     let serviceName = "Bedrock"
@@ -452,7 +452,7 @@ extension BedrockClient {
 
     /// Performs the `CreateCustomModel` operation on the `Bedrock` service.
     ///
-    /// Creates a new custom model in Amazon Bedrock from an existing SageMaker AI-trained Amazon Nova model stored in an Amazon-managed Amazon S3 bucket. After the model is active, you can use it for inference. To use the model for inference, you must purchase Provisioned Throughput for it. You can't use On-demand inference with these custom models. For more information about Provisioned Throughput, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html). The model appears in ListCustomModels with a customizationType of imported. To track the status of the new model, you use the GetCustomModel API operation. The model can be in the following states:
+    /// Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference. To use the model for inference, you must purchase Provisioned Throughput for it. You can't use On-demand inference with these custom models. For more information about Provisioned Throughput, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html). The model appears in ListCustomModels with a customizationType of imported. To track the status of the new model, you use the GetCustomModel API operation. The model can be in the following states:
     ///
     /// * Creating - Initial state during validation and registration
     ///
@@ -461,7 +461,7 @@ extension BedrockClient {
     /// * Failed - Creation process encountered an error
     ///
     ///
-    /// For more information about creating custom models, including specific model requirements, see [Import a SageMaker AI-trained Amazon Nova model](https://docs.aws.amazon.com/bedrock/latest/userguide/create-custom-model-from-existing.html) in the Amazon Bedrock User Guide. You use the CreateCustomModel API to import only SageMaker AI-trained Amazon Nova models. To import open-source models, you use the [CreateModelImportJob](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateModelImportJob.html). Related APIs
+    /// Related APIs
     ///
     /// * [GetCustomModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetCustomModel.html)
     ///
