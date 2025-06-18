@@ -28,6 +28,12 @@ public protocol QLDBAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
 
 public struct DefaultQLDBAuthSchemeResolver: QLDBAuthSchemeResolver {
 
+    public let authSchemePreference: [String]
+
+    public init(authSchemePreference: [String] = []) {
+        self.authSchemePreference = authSchemePreference
+    }
+
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
         guard let serviceParams = params as? QLDBAuthSchemeResolverParameters else {
@@ -43,7 +49,7 @@ public struct DefaultQLDBAuthSchemeResolver: QLDBAuthSchemeResolver {
                 sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
                 validAuthOptions.append(sigV4Option)
         }
-        return validAuthOptions
+        return self.reprioritizeAuthOptions(authSchemePreference: authSchemePreference, authOptions: validAuthOptions)
     }
 
     public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {

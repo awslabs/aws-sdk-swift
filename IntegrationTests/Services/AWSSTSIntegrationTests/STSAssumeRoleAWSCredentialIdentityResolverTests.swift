@@ -97,7 +97,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
         ))
 
         // Construct STS client wih assume-role credentials provider.
-        let underlyingResolver = try DefaultAWSCredentialIdentityResolverChain()
+        let underlyingResolver = DefaultAWSCredentialIdentityResolverChain()
         let assumeRoleAWSCredentialIdentityResolver = try STSAssumeRoleAWSCredentialIdentityResolver(
             awsCredentialIdentityResolver: underlyingResolver,
             roleArn: roleArn,

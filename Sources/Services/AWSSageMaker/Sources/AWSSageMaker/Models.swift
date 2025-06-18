@@ -979,6 +979,15 @@ extension SageMakerClientTypes {
         case mlC6g8xlarge
         case mlC6gLarge
         case mlC6gXlarge
+        case mlC6in12xlarge
+        case mlC6in16xlarge
+        case mlC6in24xlarge
+        case mlC6in2xlarge
+        case mlC6in32xlarge
+        case mlC6in4xlarge
+        case mlC6in8xlarge
+        case mlC6inLarge
+        case mlC6inXlarge
         case mlC6i12xlarge
         case mlC6i16xlarge
         case mlC6i24xlarge
@@ -1004,6 +1013,16 @@ extension SageMakerClientTypes {
         case mlC7i8xlarge
         case mlC7iLarge
         case mlC7iXlarge
+        case mlC8g12xlarge
+        case mlC8g16xlarge
+        case mlC8g24xlarge
+        case mlC8g2xlarge
+        case mlC8g48xlarge
+        case mlC8g4xlarge
+        case mlC8g8xlarge
+        case mlC8gLarge
+        case mlC8gMedium
+        case mlC8gXlarge
         case mlDl124xlarge
         case mlG4dn12xlarge
         case mlG4dn16xlarge
@@ -1092,6 +1111,16 @@ extension SageMakerClientTypes {
         case mlM7i8xlarge
         case mlM7iLarge
         case mlM7iXlarge
+        case mlM8g12xlarge
+        case mlM8g16xlarge
+        case mlM8g24xlarge
+        case mlM8g2xlarge
+        case mlM8g48xlarge
+        case mlM8g4xlarge
+        case mlM8g8xlarge
+        case mlM8gLarge
+        case mlM8gMedium
+        case mlM8gXlarge
         case mlP216xlarge
         case mlP28xlarge
         case mlP2Xlarge
@@ -1103,6 +1132,8 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6eGb20036xlarge
+        case mlP6B20048xlarge
         case mlR5d12xlarge
         case mlR5d24xlarge
         case mlR5d2xlarge
@@ -1138,6 +1169,14 @@ extension SageMakerClientTypes {
         case mlR6i8xlarge
         case mlR6iLarge
         case mlR6iXlarge
+        case mlR7gd12xlarge
+        case mlR7gd16xlarge
+        case mlR7gd2xlarge
+        case mlR7gd4xlarge
+        case mlR7gd8xlarge
+        case mlR7gdLarge
+        case mlR7gdMedium
+        case mlR7gdXlarge
         case mlR7i12xlarge
         case mlR7i16xlarge
         case mlR7i24xlarge
@@ -1207,6 +1246,15 @@ extension SageMakerClientTypes {
                 .mlC6g8xlarge,
                 .mlC6gLarge,
                 .mlC6gXlarge,
+                .mlC6in12xlarge,
+                .mlC6in16xlarge,
+                .mlC6in24xlarge,
+                .mlC6in2xlarge,
+                .mlC6in32xlarge,
+                .mlC6in4xlarge,
+                .mlC6in8xlarge,
+                .mlC6inLarge,
+                .mlC6inXlarge,
                 .mlC6i12xlarge,
                 .mlC6i16xlarge,
                 .mlC6i24xlarge,
@@ -1232,6 +1280,16 @@ extension SageMakerClientTypes {
                 .mlC7i8xlarge,
                 .mlC7iLarge,
                 .mlC7iXlarge,
+                .mlC8g12xlarge,
+                .mlC8g16xlarge,
+                .mlC8g24xlarge,
+                .mlC8g2xlarge,
+                .mlC8g48xlarge,
+                .mlC8g4xlarge,
+                .mlC8g8xlarge,
+                .mlC8gLarge,
+                .mlC8gMedium,
+                .mlC8gXlarge,
                 .mlDl124xlarge,
                 .mlG4dn12xlarge,
                 .mlG4dn16xlarge,
@@ -1320,6 +1378,16 @@ extension SageMakerClientTypes {
                 .mlM7i8xlarge,
                 .mlM7iLarge,
                 .mlM7iXlarge,
+                .mlM8g12xlarge,
+                .mlM8g16xlarge,
+                .mlM8g24xlarge,
+                .mlM8g2xlarge,
+                .mlM8g48xlarge,
+                .mlM8g4xlarge,
+                .mlM8g8xlarge,
+                .mlM8gLarge,
+                .mlM8gMedium,
+                .mlM8gXlarge,
                 .mlP216xlarge,
                 .mlP28xlarge,
                 .mlP2Xlarge,
@@ -1331,6 +1399,8 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6eGb20036xlarge,
+                .mlP6B20048xlarge,
                 .mlR5d12xlarge,
                 .mlR5d24xlarge,
                 .mlR5d2xlarge,
@@ -1366,6 +1436,14 @@ extension SageMakerClientTypes {
                 .mlR6i8xlarge,
                 .mlR6iLarge,
                 .mlR6iXlarge,
+                .mlR7gd12xlarge,
+                .mlR7gd16xlarge,
+                .mlR7gd2xlarge,
+                .mlR7gd4xlarge,
+                .mlR7gd8xlarge,
+                .mlR7gdLarge,
+                .mlR7gdMedium,
+                .mlR7gdXlarge,
                 .mlR7i12xlarge,
                 .mlR7i16xlarge,
                 .mlR7i24xlarge,
@@ -1441,6 +1519,15 @@ extension SageMakerClientTypes {
             case .mlC6g8xlarge: return "ml.c6g.8xlarge"
             case .mlC6gLarge: return "ml.c6g.large"
             case .mlC6gXlarge: return "ml.c6g.xlarge"
+            case .mlC6in12xlarge: return "ml.c6in.12xlarge"
+            case .mlC6in16xlarge: return "ml.c6in.16xlarge"
+            case .mlC6in24xlarge: return "ml.c6in.24xlarge"
+            case .mlC6in2xlarge: return "ml.c6in.2xlarge"
+            case .mlC6in32xlarge: return "ml.c6in.32xlarge"
+            case .mlC6in4xlarge: return "ml.c6in.4xlarge"
+            case .mlC6in8xlarge: return "ml.c6in.8xlarge"
+            case .mlC6inLarge: return "ml.c6in.large"
+            case .mlC6inXlarge: return "ml.c6in.xlarge"
             case .mlC6i12xlarge: return "ml.c6i.12xlarge"
             case .mlC6i16xlarge: return "ml.c6i.16xlarge"
             case .mlC6i24xlarge: return "ml.c6i.24xlarge"
@@ -1466,6 +1553,16 @@ extension SageMakerClientTypes {
             case .mlC7i8xlarge: return "ml.c7i.8xlarge"
             case .mlC7iLarge: return "ml.c7i.large"
             case .mlC7iXlarge: return "ml.c7i.xlarge"
+            case .mlC8g12xlarge: return "ml.c8g.12xlarge"
+            case .mlC8g16xlarge: return "ml.c8g.16xlarge"
+            case .mlC8g24xlarge: return "ml.c8g.24xlarge"
+            case .mlC8g2xlarge: return "ml.c8g.2xlarge"
+            case .mlC8g48xlarge: return "ml.c8g.48xlarge"
+            case .mlC8g4xlarge: return "ml.c8g.4xlarge"
+            case .mlC8g8xlarge: return "ml.c8g.8xlarge"
+            case .mlC8gLarge: return "ml.c8g.large"
+            case .mlC8gMedium: return "ml.c8g.medium"
+            case .mlC8gXlarge: return "ml.c8g.xlarge"
             case .mlDl124xlarge: return "ml.dl1.24xlarge"
             case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
             case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
@@ -1554,6 +1651,16 @@ extension SageMakerClientTypes {
             case .mlM7i8xlarge: return "ml.m7i.8xlarge"
             case .mlM7iLarge: return "ml.m7i.large"
             case .mlM7iXlarge: return "ml.m7i.xlarge"
+            case .mlM8g12xlarge: return "ml.m8g.12xlarge"
+            case .mlM8g16xlarge: return "ml.m8g.16xlarge"
+            case .mlM8g24xlarge: return "ml.m8g.24xlarge"
+            case .mlM8g2xlarge: return "ml.m8g.2xlarge"
+            case .mlM8g48xlarge: return "ml.m8g.48xlarge"
+            case .mlM8g4xlarge: return "ml.m8g.4xlarge"
+            case .mlM8g8xlarge: return "ml.m8g.8xlarge"
+            case .mlM8gLarge: return "ml.m8g.large"
+            case .mlM8gMedium: return "ml.m8g.medium"
+            case .mlM8gXlarge: return "ml.m8g.xlarge"
             case .mlP216xlarge: return "ml.p2.16xlarge"
             case .mlP28xlarge: return "ml.p2.8xlarge"
             case .mlP2Xlarge: return "ml.p2.xlarge"
@@ -1565,6 +1672,8 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6eGb20036xlarge: return "ml.p6e-gb200.36xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
             case .mlR5d24xlarge: return "ml.r5d.24xlarge"
             case .mlR5d2xlarge: return "ml.r5d.2xlarge"
@@ -1600,6 +1709,14 @@ extension SageMakerClientTypes {
             case .mlR6i8xlarge: return "ml.r6i.8xlarge"
             case .mlR6iLarge: return "ml.r6i.large"
             case .mlR6iXlarge: return "ml.r6i.xlarge"
+            case .mlR7gd12xlarge: return "ml.r7gd.12xlarge"
+            case .mlR7gd16xlarge: return "ml.r7gd.16xlarge"
+            case .mlR7gd2xlarge: return "ml.r7gd.2xlarge"
+            case .mlR7gd4xlarge: return "ml.r7gd.4xlarge"
+            case .mlR7gd8xlarge: return "ml.r7gd.8xlarge"
+            case .mlR7gdLarge: return "ml.r7gd.large"
+            case .mlR7gdMedium: return "ml.r7gd.medium"
+            case .mlR7gdXlarge: return "ml.r7gd.xlarge"
             case .mlR7i12xlarge: return "ml.r7i.12xlarge"
             case .mlR7i16xlarge: return "ml.r7i.16xlarge"
             case .mlR7i24xlarge: return "ml.r7i.24xlarge"
@@ -2654,6 +2771,7 @@ extension SageMakerClientTypes {
 
     public enum S3DataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case augmentedManifestFile
+        case converse
         case manifestFile
         case s3Prefix
         case sdkUnknown(Swift.String)
@@ -2661,6 +2779,7 @@ extension SageMakerClientTypes {
         public static var allCases: [S3DataType] {
             return [
                 .augmentedManifestFile,
+                .converse,
                 .manifestFile,
                 .s3Prefix
             ]
@@ -2674,6 +2793,7 @@ extension SageMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .augmentedManifestFile: return "AugmentedManifestFile"
+            case .converse: return "Converse"
             case .manifestFile: return "ManifestFile"
             case .s3Prefix: return "S3Prefix"
             case let .sdkUnknown(s): return s
@@ -2700,7 +2820,7 @@ extension SageMakerClientTypes {
         public var modelAccessConfig: SageMakerClientTypes.ModelAccessConfig?
         /// If you want SageMaker to replicate the entire dataset on each ML compute instance that is launched for model training, specify FullyReplicated. If you want SageMaker to replicate a subset of data on each ML compute instance that is launched for model training, specify ShardedByS3Key. If there are n ML compute instances launched for a training job, each instance gets approximately 1/n of the number of S3 objects. In this case, model training on each machine uses only the subset of training data. Don't choose more ML compute instances for training than available S3 objects. If you do, some nodes won't get any data and you will pay for nodes that aren't getting any training data. This applies in both File and Pipe modes. Keep this in mind when developing algorithms. In distributed training, where you use multiple ML compute EC2 instances, you might choose ShardedByS3Key. If the algorithm requires copying training data to the ML storage volume (when TrainingInputMode is set to File), this copies 1/n of the number of objects.
         public var s3DataDistributionType: SageMakerClientTypes.S3DataDistribution?
-        /// If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training. If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training. If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile can only be used if the Channel's input mode is Pipe.
+        /// If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training. If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training. If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile can only be used if the Channel's input mode is Pipe. If you choose Converse, S3Uri identifies an Amazon S3 location that contains data formatted according to Converse format. This format structures conversational messages with specific roles and content types used for training and fine-tuning foundational models.
         /// This member is required.
         public var s3DataType: SageMakerClientTypes.S3DataType?
         /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest. For example:
@@ -2928,6 +3048,15 @@ extension SageMakerClientTypes {
         case mlC6i4xlarge
         case mlC6i8xlarge
         case mlC6iXlarge
+        case mlC7i12xlarge
+        case mlC7i16xlarge
+        case mlC7i24xlarge
+        case mlC7i2xlarge
+        case mlC7i48xlarge
+        case mlC7i4xlarge
+        case mlC7i8xlarge
+        case mlC7iLarge
+        case mlC7iXlarge
         case mlG4dn12xlarge
         case mlG4dn16xlarge
         case mlG4dn2xlarge
@@ -2978,6 +3107,15 @@ extension SageMakerClientTypes {
         case mlM6i8xlarge
         case mlM6iLarge
         case mlM6iXlarge
+        case mlM7i12xlarge
+        case mlM7i16xlarge
+        case mlM7i24xlarge
+        case mlM7i2xlarge
+        case mlM7i48xlarge
+        case mlM7i4xlarge
+        case mlM7i8xlarge
+        case mlM7iLarge
+        case mlM7iXlarge
         case mlP216xlarge
         case mlP28xlarge
         case mlP2Xlarge
@@ -2990,6 +3128,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6B20048xlarge
         case mlR5d12xlarge
         case mlR5d16xlarge
         case mlR5d24xlarge
@@ -3006,6 +3145,15 @@ extension SageMakerClientTypes {
         case mlR58xlarge
         case mlR5Large
         case mlR5Xlarge
+        case mlR7i12xlarge
+        case mlR7i16xlarge
+        case mlR7i24xlarge
+        case mlR7i2xlarge
+        case mlR7i48xlarge
+        case mlR7i4xlarge
+        case mlR7i8xlarge
+        case mlR7iLarge
+        case mlR7iXlarge
         case mlT32xlarge
         case mlT3Large
         case mlT3Medium
@@ -3040,6 +3188,15 @@ extension SageMakerClientTypes {
                 .mlC6i4xlarge,
                 .mlC6i8xlarge,
                 .mlC6iXlarge,
+                .mlC7i12xlarge,
+                .mlC7i16xlarge,
+                .mlC7i24xlarge,
+                .mlC7i2xlarge,
+                .mlC7i48xlarge,
+                .mlC7i4xlarge,
+                .mlC7i8xlarge,
+                .mlC7iLarge,
+                .mlC7iXlarge,
                 .mlG4dn12xlarge,
                 .mlG4dn16xlarge,
                 .mlG4dn2xlarge,
@@ -3090,6 +3247,15 @@ extension SageMakerClientTypes {
                 .mlM6i8xlarge,
                 .mlM6iLarge,
                 .mlM6iXlarge,
+                .mlM7i12xlarge,
+                .mlM7i16xlarge,
+                .mlM7i24xlarge,
+                .mlM7i2xlarge,
+                .mlM7i48xlarge,
+                .mlM7i4xlarge,
+                .mlM7i8xlarge,
+                .mlM7iLarge,
+                .mlM7iXlarge,
                 .mlP216xlarge,
                 .mlP28xlarge,
                 .mlP2Xlarge,
@@ -3102,6 +3268,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6B20048xlarge,
                 .mlR5d12xlarge,
                 .mlR5d16xlarge,
                 .mlR5d24xlarge,
@@ -3118,6 +3285,15 @@ extension SageMakerClientTypes {
                 .mlR58xlarge,
                 .mlR5Large,
                 .mlR5Xlarge,
+                .mlR7i12xlarge,
+                .mlR7i16xlarge,
+                .mlR7i24xlarge,
+                .mlR7i2xlarge,
+                .mlR7i48xlarge,
+                .mlR7i4xlarge,
+                .mlR7i8xlarge,
+                .mlR7iLarge,
+                .mlR7iXlarge,
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
@@ -3158,6 +3334,15 @@ extension SageMakerClientTypes {
             case .mlC6i4xlarge: return "ml.c6i.4xlarge"
             case .mlC6i8xlarge: return "ml.c6i.8xlarge"
             case .mlC6iXlarge: return "ml.c6i.xlarge"
+            case .mlC7i12xlarge: return "ml.c7i.12xlarge"
+            case .mlC7i16xlarge: return "ml.c7i.16xlarge"
+            case .mlC7i24xlarge: return "ml.c7i.24xlarge"
+            case .mlC7i2xlarge: return "ml.c7i.2xlarge"
+            case .mlC7i48xlarge: return "ml.c7i.48xlarge"
+            case .mlC7i4xlarge: return "ml.c7i.4xlarge"
+            case .mlC7i8xlarge: return "ml.c7i.8xlarge"
+            case .mlC7iLarge: return "ml.c7i.large"
+            case .mlC7iXlarge: return "ml.c7i.xlarge"
             case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
             case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
             case .mlG4dn2xlarge: return "ml.g4dn.2xlarge"
@@ -3208,6 +3393,15 @@ extension SageMakerClientTypes {
             case .mlM6i8xlarge: return "ml.m6i.8xlarge"
             case .mlM6iLarge: return "ml.m6i.large"
             case .mlM6iXlarge: return "ml.m6i.xlarge"
+            case .mlM7i12xlarge: return "ml.m7i.12xlarge"
+            case .mlM7i16xlarge: return "ml.m7i.16xlarge"
+            case .mlM7i24xlarge: return "ml.m7i.24xlarge"
+            case .mlM7i2xlarge: return "ml.m7i.2xlarge"
+            case .mlM7i48xlarge: return "ml.m7i.48xlarge"
+            case .mlM7i4xlarge: return "ml.m7i.4xlarge"
+            case .mlM7i8xlarge: return "ml.m7i.8xlarge"
+            case .mlM7iLarge: return "ml.m7i.large"
+            case .mlM7iXlarge: return "ml.m7i.xlarge"
             case .mlP216xlarge: return "ml.p2.16xlarge"
             case .mlP28xlarge: return "ml.p2.8xlarge"
             case .mlP2Xlarge: return "ml.p2.xlarge"
@@ -3220,6 +3414,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
             case .mlR5d16xlarge: return "ml.r5d.16xlarge"
             case .mlR5d24xlarge: return "ml.r5d.24xlarge"
@@ -3236,6 +3431,15 @@ extension SageMakerClientTypes {
             case .mlR58xlarge: return "ml.r5.8xlarge"
             case .mlR5Large: return "ml.r5.large"
             case .mlR5Xlarge: return "ml.r5.xlarge"
+            case .mlR7i12xlarge: return "ml.r7i.12xlarge"
+            case .mlR7i16xlarge: return "ml.r7i.16xlarge"
+            case .mlR7i24xlarge: return "ml.r7i.24xlarge"
+            case .mlR7i2xlarge: return "ml.r7i.2xlarge"
+            case .mlR7i48xlarge: return "ml.r7i.48xlarge"
+            case .mlR7i4xlarge: return "ml.r7i.4xlarge"
+            case .mlR7i8xlarge: return "ml.r7i.8xlarge"
+            case .mlR7iLarge: return "ml.r7i.large"
+            case .mlR7iXlarge: return "ml.r7i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
@@ -9108,6 +9312,32 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum CapacityReservationPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityReservationsOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationPreference] {
+            return [
+                .capacityReservationsOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityReservationsOnly: return "capacity-reservations-only"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum NodeUnavailabilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityPercentage
         case instanceCount
@@ -14104,6 +14334,15 @@ extension SageMakerClientTypes {
         case mlC6i4xlarge
         case mlC6i8xlarge
         case mlC6iXlarge
+        case mlC7i12xlarge
+        case mlC7i16xlarge
+        case mlC7i24xlarge
+        case mlC7i2xlarge
+        case mlC7i48xlarge
+        case mlC7i4xlarge
+        case mlC7i8xlarge
+        case mlC7iLarge
+        case mlC7iXlarge
         case mlG4dn12xlarge
         case mlG4dn16xlarge
         case mlG4dn2xlarge
@@ -14154,6 +14393,15 @@ extension SageMakerClientTypes {
         case mlM6i8xlarge
         case mlM6iLarge
         case mlM6iXlarge
+        case mlM7i12xlarge
+        case mlM7i16xlarge
+        case mlM7i24xlarge
+        case mlM7i2xlarge
+        case mlM7i48xlarge
+        case mlM7i4xlarge
+        case mlM7i8xlarge
+        case mlM7iLarge
+        case mlM7iXlarge
         case mlP216xlarge
         case mlP28xlarge
         case mlP2Xlarge
@@ -14176,6 +14424,15 @@ extension SageMakerClientTypes {
         case mlR58xlarge
         case mlR5Large
         case mlR5Xlarge
+        case mlR7i12xlarge
+        case mlR7i16xlarge
+        case mlR7i24xlarge
+        case mlR7i2xlarge
+        case mlR7i48xlarge
+        case mlR7i4xlarge
+        case mlR7i8xlarge
+        case mlR7iLarge
+        case mlR7iXlarge
         case mlT32xlarge
         case mlT3Large
         case mlT3Medium
@@ -14201,6 +14458,15 @@ extension SageMakerClientTypes {
                 .mlC6i4xlarge,
                 .mlC6i8xlarge,
                 .mlC6iXlarge,
+                .mlC7i12xlarge,
+                .mlC7i16xlarge,
+                .mlC7i24xlarge,
+                .mlC7i2xlarge,
+                .mlC7i48xlarge,
+                .mlC7i4xlarge,
+                .mlC7i8xlarge,
+                .mlC7iLarge,
+                .mlC7iXlarge,
                 .mlG4dn12xlarge,
                 .mlG4dn16xlarge,
                 .mlG4dn2xlarge,
@@ -14251,6 +14517,15 @@ extension SageMakerClientTypes {
                 .mlM6i8xlarge,
                 .mlM6iLarge,
                 .mlM6iXlarge,
+                .mlM7i12xlarge,
+                .mlM7i16xlarge,
+                .mlM7i24xlarge,
+                .mlM7i2xlarge,
+                .mlM7i48xlarge,
+                .mlM7i4xlarge,
+                .mlM7i8xlarge,
+                .mlM7iLarge,
+                .mlM7iXlarge,
                 .mlP216xlarge,
                 .mlP28xlarge,
                 .mlP2Xlarge,
@@ -14273,6 +14548,15 @@ extension SageMakerClientTypes {
                 .mlR58xlarge,
                 .mlR5Large,
                 .mlR5Xlarge,
+                .mlR7i12xlarge,
+                .mlR7i16xlarge,
+                .mlR7i24xlarge,
+                .mlR7i2xlarge,
+                .mlR7i48xlarge,
+                .mlR7i4xlarge,
+                .mlR7i8xlarge,
+                .mlR7iLarge,
+                .mlR7iXlarge,
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
@@ -14304,6 +14588,15 @@ extension SageMakerClientTypes {
             case .mlC6i4xlarge: return "ml.c6i.4xlarge"
             case .mlC6i8xlarge: return "ml.c6i.8xlarge"
             case .mlC6iXlarge: return "ml.c6i.xlarge"
+            case .mlC7i12xlarge: return "ml.c7i.12xlarge"
+            case .mlC7i16xlarge: return "ml.c7i.16xlarge"
+            case .mlC7i24xlarge: return "ml.c7i.24xlarge"
+            case .mlC7i2xlarge: return "ml.c7i.2xlarge"
+            case .mlC7i48xlarge: return "ml.c7i.48xlarge"
+            case .mlC7i4xlarge: return "ml.c7i.4xlarge"
+            case .mlC7i8xlarge: return "ml.c7i.8xlarge"
+            case .mlC7iLarge: return "ml.c7i.large"
+            case .mlC7iXlarge: return "ml.c7i.xlarge"
             case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
             case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
             case .mlG4dn2xlarge: return "ml.g4dn.2xlarge"
@@ -14354,6 +14647,15 @@ extension SageMakerClientTypes {
             case .mlM6i8xlarge: return "ml.m6i.8xlarge"
             case .mlM6iLarge: return "ml.m6i.large"
             case .mlM6iXlarge: return "ml.m6i.xlarge"
+            case .mlM7i12xlarge: return "ml.m7i.12xlarge"
+            case .mlM7i16xlarge: return "ml.m7i.16xlarge"
+            case .mlM7i24xlarge: return "ml.m7i.24xlarge"
+            case .mlM7i2xlarge: return "ml.m7i.2xlarge"
+            case .mlM7i48xlarge: return "ml.m7i.48xlarge"
+            case .mlM7i4xlarge: return "ml.m7i.4xlarge"
+            case .mlM7i8xlarge: return "ml.m7i.8xlarge"
+            case .mlM7iLarge: return "ml.m7i.large"
+            case .mlM7iXlarge: return "ml.m7i.xlarge"
             case .mlP216xlarge: return "ml.p2.16xlarge"
             case .mlP28xlarge: return "ml.p2.8xlarge"
             case .mlP2Xlarge: return "ml.p2.xlarge"
@@ -14376,6 +14678,15 @@ extension SageMakerClientTypes {
             case .mlR58xlarge: return "ml.r5.8xlarge"
             case .mlR5Large: return "ml.r5.large"
             case .mlR5Xlarge: return "ml.r5.xlarge"
+            case .mlR7i12xlarge: return "ml.r7i.12xlarge"
+            case .mlR7i16xlarge: return "ml.r7i.16xlarge"
+            case .mlR7i24xlarge: return "ml.r7i.24xlarge"
+            case .mlR7i2xlarge: return "ml.r7i.2xlarge"
+            case .mlR7i48xlarge: return "ml.r7i.48xlarge"
+            case .mlR7i4xlarge: return "ml.r7i.4xlarge"
+            case .mlR7i8xlarge: return "ml.r7i.8xlarge"
+            case .mlR7iLarge: return "ml.r7i.large"
+            case .mlR7iXlarge: return "ml.r7i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
@@ -15421,6 +15732,8 @@ extension SageMakerClientTypes {
         public var projectId: Swift.String?
         /// The location where Amazon S3 stores temporary execution data and other artifacts for the project that corresponds to the domain.
         public var projectS3Path: Swift.String?
+        /// The ARN of the application managed by SageMaker AI and SageMaker Unified Studio in the Amazon Web Services IAM Identity Center.
+        public var singleSignOnApplicationArn: Swift.String?
         /// Sets whether you can access the domain in Amazon SageMaker Studio: ENABLED You can access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it in both studio interfaces. DISABLED You can't access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it only in that studio interface. To migrate a domain to Amazon SageMaker Unified Studio, you specify the UnifiedStudioSettings data type when you use the UpdateDomain action.
         public var studioWebPortalAccess: SageMakerClientTypes.FeatureStatus?
 
@@ -15431,6 +15744,7 @@ extension SageMakerClientTypes {
             environmentId: Swift.String? = nil,
             projectId: Swift.String? = nil,
             projectS3Path: Swift.String? = nil,
+            singleSignOnApplicationArn: Swift.String? = nil,
             studioWebPortalAccess: SageMakerClientTypes.FeatureStatus? = nil
         ) {
             self.domainAccountId = domainAccountId
@@ -15439,6 +15753,7 @@ extension SageMakerClientTypes {
             self.environmentId = environmentId
             self.projectId = projectId
             self.projectS3Path = projectS3Path
+            self.singleSignOnApplicationArn = singleSignOnApplicationArn
             self.studioWebPortalAccess = studioWebPortalAccess
         }
     }
@@ -16044,6 +16359,25 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+    public struct ProductionVariantCapacityReservationConfig: Swift.Sendable {
+        /// Options that you can choose for the capacity reservation. SageMaker AI supports the following options: capacity-reservations-only SageMaker AI launches instances only into an ML capacity reservation. If no capacity is available, the instances fail to launch.
+        public var capacityReservationPreference: SageMakerClientTypes.CapacityReservationPreference?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the ML capacity reservation that SageMaker AI applies when it deploys the endpoint.
+        public var mlReservationArn: Swift.String?
+
+        public init(
+            capacityReservationPreference: SageMakerClientTypes.CapacityReservationPreference? = nil,
+            mlReservationArn: Swift.String? = nil
+        ) {
+            self.capacityReservationPreference = capacityReservationPreference
+            self.mlReservationArn = mlReservationArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Specifies configuration for a core dump from the model container when the process crashes.
     public struct ProductionVariantCoreDumpConfig: Swift.Sendable {
         /// The Amazon S3 bucket to send the core dump to.
@@ -16240,6 +16574,8 @@ extension SageMakerClientTypes {
     public struct ProductionVariant: Swift.Sendable {
         /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify the size of the EI instance to use for the production variant.
         public var acceleratorType: SageMakerClientTypes.ProductionVariantAcceleratorType?
+        /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+        public var capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationConfig?
         /// The timeout value, in seconds, for your inference container to pass health check by SageMaker Hosting. For more information about health check, see [How Your Container Should Respond to Health Check (Ping) Requests](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html#your-algorithms-inference-algo-ping-requests).
         public var containerStartupHealthCheckTimeoutInSeconds: Swift.Int?
         /// Specifies configuration for a core dump from the model container when the process crashes.
@@ -16307,6 +16643,7 @@ extension SageMakerClientTypes {
 
         public init(
             acceleratorType: SageMakerClientTypes.ProductionVariantAcceleratorType? = nil,
+            capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationConfig? = nil,
             containerStartupHealthCheckTimeoutInSeconds: Swift.Int? = nil,
             coreDumpConfig: SageMakerClientTypes.ProductionVariantCoreDumpConfig? = nil,
             enableSSMAccess: Swift.Bool? = nil,
@@ -16323,6 +16660,7 @@ extension SageMakerClientTypes {
             volumeSizeInGB: Swift.Int? = nil
         ) {
             self.acceleratorType = acceleratorType
+            self.capacityReservationConfig = capacityReservationConfig
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
             self.coreDumpConfig = coreDumpConfig
             self.enableSSMAccess = enableSSMAccess
@@ -29313,8 +29651,72 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The EC2 capacity reservations that are shared to an ML capacity reservation.
+    public struct Ec2CapacityReservation: Swift.Sendable {
+        /// The number of instances that are currently available in the EC2 capacity reservation.
+        public var availableInstanceCount: Swift.Int?
+        /// The unique identifier for an EC2 capacity reservation that's part of the ML capacity reservation.
+        public var ec2CapacityReservationId: Swift.String?
+        /// The number of instances that you allocated to the EC2 capacity reservation.
+        public var totalInstanceCount: Swift.Int?
+        /// The number of instances from the EC2 capacity reservation that are being used by the endpoint.
+        public var usedByCurrentEndpoint: Swift.Int?
+
+        public init(
+            availableInstanceCount: Swift.Int? = nil,
+            ec2CapacityReservationId: Swift.String? = nil,
+            totalInstanceCount: Swift.Int? = nil,
+            usedByCurrentEndpoint: Swift.Int? = nil
+        ) {
+            self.availableInstanceCount = availableInstanceCount
+            self.ec2CapacityReservationId = ec2CapacityReservationId
+            self.totalInstanceCount = totalInstanceCount
+            self.usedByCurrentEndpoint = usedByCurrentEndpoint
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details about an ML capacity reservation.
+    public struct ProductionVariantCapacityReservationSummary: Swift.Sendable {
+        /// The number of instances that are currently available in the ML capacity reservation.
+        public var availableInstanceCount: Swift.Int?
+        /// The option that you chose for the capacity reservation. SageMaker AI supports the following options: capacity-reservations-only SageMaker AI launches instances only into an ML capacity reservation. If no capacity is available, the instances fail to launch.
+        public var capacityReservationPreference: SageMakerClientTypes.CapacityReservationPreference?
+        /// The EC2 capacity reservations that are shared to this ML capacity reservation, if any.
+        public var ec2CapacityReservations: [SageMakerClientTypes.Ec2CapacityReservation]?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the ML capacity reservation that SageMaker AI applies when it deploys the endpoint.
+        public var mlReservationArn: Swift.String?
+        /// The number of instances that you allocated to the ML capacity reservation.
+        public var totalInstanceCount: Swift.Int?
+        /// The number of instances from the ML capacity reservation that are being used by the endpoint.
+        public var usedByCurrentEndpoint: Swift.Int?
+
+        public init(
+            availableInstanceCount: Swift.Int? = nil,
+            capacityReservationPreference: SageMakerClientTypes.CapacityReservationPreference? = nil,
+            ec2CapacityReservations: [SageMakerClientTypes.Ec2CapacityReservation]? = nil,
+            mlReservationArn: Swift.String? = nil,
+            totalInstanceCount: Swift.Int? = nil,
+            usedByCurrentEndpoint: Swift.Int? = nil
+        ) {
+            self.availableInstanceCount = availableInstanceCount
+            self.capacityReservationPreference = capacityReservationPreference
+            self.ec2CapacityReservations = ec2CapacityReservations
+            self.mlReservationArn = mlReservationArn
+            self.totalInstanceCount = totalInstanceCount
+            self.usedByCurrentEndpoint = usedByCurrentEndpoint
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Describes weight and capacities for a production variant associated with an endpoint. If you sent a request to the UpdateEndpointWeightsAndCapacities API and the endpoint status is Updating, you get different desired and current values.
     public struct ProductionVariantSummary: Swift.Sendable {
+        /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+        public var capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationSummary?
         /// The number of instances associated with the variant.
         public var currentInstanceCount: Swift.Int?
         /// The serverless configuration for the endpoint.
@@ -29340,6 +29742,7 @@ extension SageMakerClientTypes {
         public var variantStatus: [SageMakerClientTypes.ProductionVariantStatus]?
 
         public init(
+            capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationSummary? = nil,
             currentInstanceCount: Swift.Int? = nil,
             currentServerlessConfig: SageMakerClientTypes.ProductionVariantServerlessConfig? = nil,
             currentWeight: Swift.Float? = nil,
@@ -29352,6 +29755,7 @@ extension SageMakerClientTypes {
             variantName: Swift.String? = nil,
             variantStatus: [SageMakerClientTypes.ProductionVariantStatus]? = nil
         ) {
+            self.capacityReservationConfig = capacityReservationConfig
             self.currentInstanceCount = currentInstanceCount
             self.currentServerlessConfig = currentServerlessConfig
             self.currentWeight = currentWeight
@@ -32302,6 +32706,38 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum TrackingServerMaintenanceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case maintenanceComplete
+        case maintenanceFailed
+        case maintenanceInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrackingServerMaintenanceStatus] {
+            return [
+                .maintenanceComplete,
+                .maintenanceFailed,
+                .maintenanceInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .maintenanceComplete: return "MaintenanceComplete"
+            case .maintenanceFailed: return "MaintenanceFailed"
+            case .maintenanceInProgress: return "MaintenanceInProgress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum TrackingServerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case created
         case createFailed
@@ -32395,6 +32831,8 @@ public struct DescribeMlflowTrackingServerOutput: Swift.Sendable {
     public var roleArn: Swift.String?
     /// The ARN of the described tracking server.
     public var trackingServerArn: Swift.String?
+    /// The current maintenance status of the described MLflow Tracking Server.
+    public var trackingServerMaintenanceStatus: SageMakerClientTypes.TrackingServerMaintenanceStatus?
     /// The name of the described tracking server.
     public var trackingServerName: Swift.String?
     /// The size of the described tracking server.
@@ -32417,6 +32855,7 @@ public struct DescribeMlflowTrackingServerOutput: Swift.Sendable {
         mlflowVersion: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         trackingServerArn: Swift.String? = nil,
+        trackingServerMaintenanceStatus: SageMakerClientTypes.TrackingServerMaintenanceStatus? = nil,
         trackingServerName: Swift.String? = nil,
         trackingServerSize: SageMakerClientTypes.TrackingServerSize? = nil,
         trackingServerStatus: SageMakerClientTypes.TrackingServerStatus? = nil,
@@ -32433,6 +32872,7 @@ public struct DescribeMlflowTrackingServerOutput: Swift.Sendable {
         self.mlflowVersion = mlflowVersion
         self.roleArn = roleArn
         self.trackingServerArn = trackingServerArn
+        self.trackingServerMaintenanceStatus = trackingServerMaintenanceStatus
         self.trackingServerName = trackingServerName
         self.trackingServerSize = trackingServerSize
         self.trackingServerStatus = trackingServerStatus
@@ -35402,6 +35842,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6B20048xlarge
         case mlTrn132xlarge
         case mlTrn248xlarge
         case sdkUnknown(Swift.String)
@@ -35412,6 +35853,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6B20048xlarge,
                 .mlTrn132xlarge,
                 .mlTrn248xlarge
             ]
@@ -35428,6 +35870,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
             case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
@@ -60874,6 +61317,7 @@ extension DescribeMlflowTrackingServerOutput {
         value.mlflowVersion = try reader["MlflowVersion"].readIfPresent()
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.trackingServerArn = try reader["TrackingServerArn"].readIfPresent()
+        value.trackingServerMaintenanceStatus = try reader["TrackingServerMaintenanceStatus"].readIfPresent()
         value.trackingServerName = try reader["TrackingServerName"].readIfPresent()
         value.trackingServerSize = try reader["TrackingServerSize"].readIfPresent()
         value.trackingServerStatus = try reader["TrackingServerStatus"].readIfPresent()
@@ -71868,6 +72312,7 @@ extension SageMakerClientTypes.UnifiedStudioSettings {
         try writer["EnvironmentId"].write(value.environmentId)
         try writer["ProjectId"].write(value.projectId)
         try writer["ProjectS3Path"].write(value.projectS3Path)
+        try writer["SingleSignOnApplicationArn"].write(value.singleSignOnApplicationArn)
         try writer["StudioWebPortalAccess"].write(value.studioWebPortalAccess)
     }
 
@@ -71881,6 +72326,7 @@ extension SageMakerClientTypes.UnifiedStudioSettings {
         value.projectId = try reader["ProjectId"].readIfPresent()
         value.environmentId = try reader["EnvironmentId"].readIfPresent()
         value.projectS3Path = try reader["ProjectS3Path"].readIfPresent()
+        value.singleSignOnApplicationArn = try reader["SingleSignOnApplicationArn"].readIfPresent()
         return value
     }
 }
@@ -72079,6 +72525,35 @@ extension SageMakerClientTypes.ProductionVariantSummary {
         value.desiredServerlessConfig = try reader["DesiredServerlessConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantServerlessConfig.read(from:))
         value.managedInstanceScaling = try reader["ManagedInstanceScaling"].readIfPresent(with: SageMakerClientTypes.ProductionVariantManagedInstanceScaling.read(from:))
         value.routingConfig = try reader["RoutingConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantRoutingConfig.read(from:))
+        value.capacityReservationConfig = try reader["CapacityReservationConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantCapacityReservationSummary.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ProductionVariantCapacityReservationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantCapacityReservationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ProductionVariantCapacityReservationSummary()
+        value.mlReservationArn = try reader["MlReservationArn"].readIfPresent()
+        value.capacityReservationPreference = try reader["CapacityReservationPreference"].readIfPresent()
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent()
+        value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
+        value.usedByCurrentEndpoint = try reader["UsedByCurrentEndpoint"].readIfPresent()
+        value.ec2CapacityReservations = try reader["Ec2CapacityReservations"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Ec2CapacityReservation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.Ec2CapacityReservation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Ec2CapacityReservation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.Ec2CapacityReservation()
+        value.ec2CapacityReservationId = try reader["Ec2CapacityReservationId"].readIfPresent()
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent()
+        value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
+        value.usedByCurrentEndpoint = try reader["UsedByCurrentEndpoint"].readIfPresent()
         return value
     }
 }
@@ -72541,6 +73016,7 @@ extension SageMakerClientTypes.ProductionVariant {
     static func write(value: SageMakerClientTypes.ProductionVariant?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AcceleratorType"].write(value.acceleratorType)
+        try writer["CapacityReservationConfig"].write(value.capacityReservationConfig, with: SageMakerClientTypes.ProductionVariantCapacityReservationConfig.write(value:to:))
         try writer["ContainerStartupHealthCheckTimeoutInSeconds"].write(value.containerStartupHealthCheckTimeoutInSeconds)
         try writer["CoreDumpConfig"].write(value.coreDumpConfig, with: SageMakerClientTypes.ProductionVariantCoreDumpConfig.write(value:to:))
         try writer["EnableSSMAccess"].write(value.enableSSMAccess)
@@ -72575,6 +73051,24 @@ extension SageMakerClientTypes.ProductionVariant {
         value.managedInstanceScaling = try reader["ManagedInstanceScaling"].readIfPresent(with: SageMakerClientTypes.ProductionVariantManagedInstanceScaling.read(from:))
         value.routingConfig = try reader["RoutingConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantRoutingConfig.read(from:))
         value.inferenceAmiVersion = try reader["InferenceAmiVersion"].readIfPresent()
+        value.capacityReservationConfig = try reader["CapacityReservationConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantCapacityReservationConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ProductionVariantCapacityReservationConfig {
+
+    static func write(value: SageMakerClientTypes.ProductionVariantCapacityReservationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityReservationPreference"].write(value.capacityReservationPreference)
+        try writer["MlReservationArn"].write(value.mlReservationArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantCapacityReservationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ProductionVariantCapacityReservationConfig()
+        value.capacityReservationPreference = try reader["CapacityReservationPreference"].readIfPresent()
+        value.mlReservationArn = try reader["MlReservationArn"].readIfPresent()
         return value
     }
 }

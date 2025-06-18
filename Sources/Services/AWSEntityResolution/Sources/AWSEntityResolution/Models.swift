@@ -1624,6 +1624,180 @@ public struct DeleteSchemaMappingOutput: Swift.Sendable {
     }
 }
 
+extension EntityResolutionClientTypes {
+
+    public enum ProcessingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case consistent
+        case eventual
+        case eventualNoLookup
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProcessingType] {
+            return [
+                .consistent,
+                .eventual,
+                .eventualNoLookup
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .consistent: return "CONSISTENT"
+            case .eventual: return "EVENTUAL"
+            case .eventualNoLookup: return "EVENTUAL_NO_LOOKUP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EntityResolutionClientTypes {
+
+    /// The record.
+    public struct Record: Swift.Sendable {
+        /// The input source ARN of the record.
+        /// This member is required.
+        public var inputSourceARN: Swift.String?
+        /// The record's attribute map.
+        /// This member is required.
+        public var recordAttributeMap: [Swift.String: Swift.String]?
+        /// The unique ID of the record.
+        /// This member is required.
+        public var uniqueId: Swift.String?
+
+        public init(
+            inputSourceARN: Swift.String? = nil,
+            recordAttributeMap: [Swift.String: Swift.String]? = nil,
+            uniqueId: Swift.String? = nil
+        ) {
+            self.inputSourceARN = inputSourceARN
+            self.recordAttributeMap = recordAttributeMap
+            self.uniqueId = uniqueId
+        }
+    }
+}
+
+extension EntityResolutionClientTypes.Record: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Record(inputSourceARN: \(Swift.String(describing: inputSourceARN)), uniqueId: \(Swift.String(describing: uniqueId)), recordAttributeMap: \"CONTENT_REDACTED\")"}
+}
+
+public struct GenerateMatchIdInput: Swift.Sendable {
+    /// The processing mode that determines how Match IDs are generated and results are saved. Each mode provides different levels of accuracy, response time, and completeness of results. If not specified, defaults to CONSISTENT. CONSISTENT: Performs immediate lookup and matching against all existing records, with results saved synchronously. Provides highest accuracy but slower response time. EVENTUAL (shown as Background in the console): Performs initial match ID lookup or generation immediately, with record updates processed asynchronously in the background. Offers faster initial response time, with complete matching results available later in S3. EVENTUAL_NO_LOOKUP (shown as Quick ID generation in the console): Generates new match IDs without checking existing matches, with updates processed asynchronously. Provides fastest response time but should only be used for records known to be unique.
+    public var processingType: EntityResolutionClientTypes.ProcessingType?
+    /// The records to match.
+    /// This member is required.
+    public var records: [EntityResolutionClientTypes.Record]?
+    /// The name of the rule-based matching workflow.
+    /// This member is required.
+    public var workflowName: Swift.String?
+
+    public init(
+        processingType: EntityResolutionClientTypes.ProcessingType? = nil,
+        records: [EntityResolutionClientTypes.Record]? = nil,
+        workflowName: Swift.String? = nil
+    ) {
+        self.processingType = processingType
+        self.records = records
+        self.workflowName = workflowName
+    }
+}
+
+extension EntityResolutionClientTypes {
+
+    /// The record that didn't generate a Match ID.
+    public struct FailedRecord: Swift.Sendable {
+        /// The error message for the record that didn't generate a Match ID.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The input source ARN of the record that didn't generate a Match ID.
+        /// This member is required.
+        public var inputSourceARN: Swift.String?
+        /// The unique ID of the record that didn't generate a Match ID.
+        /// This member is required.
+        public var uniqueId: Swift.String?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            inputSourceARN: Swift.String? = nil,
+            uniqueId: Swift.String? = nil
+        ) {
+            self.errorMessage = errorMessage
+            self.inputSourceARN = inputSourceARN
+            self.uniqueId = uniqueId
+        }
+    }
+}
+
+extension EntityResolutionClientTypes {
+
+    /// The matched record.
+    public struct MatchedRecord: Swift.Sendable {
+        /// The input source ARN of the matched record.
+        /// This member is required.
+        public var inputSourceARN: Swift.String?
+        /// The record ID of the matched record.
+        /// This member is required.
+        public var recordId: Swift.String?
+
+        public init(
+            inputSourceARN: Swift.String? = nil,
+            recordId: Swift.String? = nil
+        ) {
+            self.inputSourceARN = inputSourceARN
+            self.recordId = recordId
+        }
+    }
+}
+
+extension EntityResolutionClientTypes {
+
+    /// The match group.
+    public struct MatchGroup: Swift.Sendable {
+        /// The match ID.
+        /// This member is required.
+        public var matchId: Swift.String?
+        /// The match rule of the match group.
+        /// This member is required.
+        public var matchRule: Swift.String?
+        /// The matched records.
+        /// This member is required.
+        public var records: [EntityResolutionClientTypes.MatchedRecord]?
+
+        public init(
+            matchId: Swift.String? = nil,
+            matchRule: Swift.String? = nil,
+            records: [EntityResolutionClientTypes.MatchedRecord]? = nil
+        ) {
+            self.matchId = matchId
+            self.matchRule = matchRule
+            self.records = records
+        }
+    }
+}
+
+public struct GenerateMatchIdOutput: Swift.Sendable {
+    /// The records that didn't receive a generated Match ID.
+    /// This member is required.
+    public var failedRecords: [EntityResolutionClientTypes.FailedRecord]?
+    /// The match groups from the generated match ID.
+    /// This member is required.
+    public var matchGroups: [EntityResolutionClientTypes.MatchGroup]?
+
+    public init(
+        failedRecords: [EntityResolutionClientTypes.FailedRecord]? = nil,
+        matchGroups: [EntityResolutionClientTypes.MatchGroup]? = nil
+    ) {
+        self.failedRecords = failedRecords
+        self.matchGroups = matchGroups
+    }
+}
+
 public struct GetIdMappingJobInput: Swift.Sendable {
     /// The ID of the job.
     /// This member is required.
@@ -2037,7 +2211,7 @@ public struct GetMatchingJobOutput: Swift.Sendable {
     public var endTime: Foundation.Date?
     /// An object containing an error message, if there was an error.
     public var errorDetails: EntityResolutionClientTypes.ErrorDetails?
-    /// The ID of the job.
+    /// The unique identifier of the matching job.
     /// This member is required.
     public var jobId: Swift.String?
     /// Metrics associated with the execution, specifically total records processed, unique IDs generated, and records the execution skipped.
@@ -2439,7 +2613,7 @@ public struct GetSchemaMappingOutput: Swift.Sendable {
     /// Specifies whether the schema mapping has been applied to a workflow.
     /// This member is required.
     public var hasWorkflows: Swift.Bool?
-    /// A list of MappedInputFields. Each MappedInputField corresponds to a column the source data table, and contains column name plus additional information Venice uses for matching.
+    /// A list of MappedInputFields. Each MappedInputField corresponds to a column the source data table, and contains column name plus additional information Entity Resolution uses for matching.
     /// This member is required.
     public var mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]?
     /// The ARN (Amazon Resource Name) that Entity Resolution generated for the SchemaMapping.
@@ -3294,7 +3468,7 @@ public struct UpdateMatchingWorkflowOutput: Swift.Sendable {
     /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
     /// This member is required.
     public var outputSourceConfig: [EntityResolutionClientTypes.OutputSource]?
-    /// An object which defines the resolutionType and the ruleBasedProperties
+    /// An object which defines the resolutionType and the ruleBasedProperties.
     /// This member is required.
     public var resolutionTechniques: EntityResolutionClientTypes.ResolutionTechniques?
     /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
@@ -3490,6 +3664,16 @@ extension DeleteSchemaMappingInput {
             return nil
         }
         return "/schemas/\(schemaName.urlPercentEncoding())"
+    }
+}
+
+extension GenerateMatchIdInput {
+
+    static func urlPathProvider(_ value: GenerateMatchIdInput) -> Swift.String? {
+        guard let workflowName = value.workflowName else {
+            return nil
+        }
+        return "/matchingworkflows/\(workflowName.urlPercentEncoding())/generateMatches"
     }
 }
 
@@ -3944,6 +4128,15 @@ extension CreateSchemaMappingInput {
     }
 }
 
+extension GenerateMatchIdInput {
+
+    static func write(value: GenerateMatchIdInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["processingType"].write(value.processingType)
+        try writer["records"].writeList(value.records, memberWritingClosure: EntityResolutionClientTypes.Record.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension GetMatchIdInput {
 
     static func write(value: GetMatchIdInput?, to writer: SmithyJSON.Writer) throws {
@@ -4183,6 +4376,19 @@ extension DeleteSchemaMappingOutput {
         let reader = responseReader
         var value = DeleteSchemaMappingOutput()
         value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GenerateMatchIdOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GenerateMatchIdOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GenerateMatchIdOutput()
+        value.failedRecords = try reader["failedRecords"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.FailedRecord.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.matchGroups = try reader["matchGroups"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.MatchGroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4778,6 +4984,24 @@ enum DeleteSchemaMappingOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GenerateMatchIdOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5697,6 +5921,41 @@ extension EntityResolutionClientTypes.SchemaInputAttribute {
     }
 }
 
+extension EntityResolutionClientTypes.MatchGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.MatchGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EntityResolutionClientTypes.MatchGroup()
+        value.records = try reader["records"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.MatchedRecord.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.matchId = try reader["matchId"].readIfPresent() ?? ""
+        value.matchRule = try reader["matchRule"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EntityResolutionClientTypes.MatchedRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.MatchedRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EntityResolutionClientTypes.MatchedRecord()
+        value.inputSourceARN = try reader["inputSourceARN"].readIfPresent() ?? ""
+        value.recordId = try reader["recordId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EntityResolutionClientTypes.FailedRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.FailedRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EntityResolutionClientTypes.FailedRecord()
+        value.inputSourceARN = try reader["inputSourceARN"].readIfPresent() ?? ""
+        value.uniqueId = try reader["uniqueId"].readIfPresent() ?? ""
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension EntityResolutionClientTypes.IdMappingJobMetrics {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdMappingJobMetrics {
@@ -5932,6 +6191,16 @@ extension EntityResolutionClientTypes.SchemaMappingSummary {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.hasWorkflows = try reader["hasWorkflows"].readIfPresent() ?? false
         return value
+    }
+}
+
+extension EntityResolutionClientTypes.Record {
+
+    static func write(value: EntityResolutionClientTypes.Record?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inputSourceARN"].write(value.inputSourceARN)
+        try writer["recordAttributeMap"].writeMap(value.recordAttributeMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["uniqueId"].write(value.uniqueId)
     }
 }
 

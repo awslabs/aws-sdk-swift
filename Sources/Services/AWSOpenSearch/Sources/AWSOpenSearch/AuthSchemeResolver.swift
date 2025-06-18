@@ -28,6 +28,12 @@ public protocol OpenSearchAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolv
 
 public struct DefaultOpenSearchAuthSchemeResolver: OpenSearchAuthSchemeResolver {
 
+    public let authSchemePreference: [String]
+
+    public init(authSchemePreference: [String] = []) {
+        self.authSchemePreference = authSchemePreference
+    }
+
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
         guard let serviceParams = params as? OpenSearchAuthSchemeResolverParameters else {
@@ -43,7 +49,7 @@ public struct DefaultOpenSearchAuthSchemeResolver: OpenSearchAuthSchemeResolver 
                 sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
                 validAuthOptions.append(sigV4Option)
         }
-        return validAuthOptions
+        return self.reprioritizeAuthOptions(authSchemePreference: authSchemePreference, authOptions: validAuthOptions)
     }
 
     public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {

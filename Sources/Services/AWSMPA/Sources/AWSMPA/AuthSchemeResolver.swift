@@ -14,36 +14,42 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolverParameters
 import struct SmithyHTTPAuthAPI.AuthOption
 
-public struct PrivateNetworksAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+public struct MPAAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
     public let operation: Swift.String
     // Region is used for SigV4 auth scheme
     public let region: Swift.String?
 }
 
-public protocol PrivateNetworksAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
+public protocol MPAAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
     // Intentionally empty.
     // This is the parent protocol that all auth scheme resolver implementations of
-    // the service PrivateNetworks must conform to.
+    // the service MPA must conform to.
 }
 
-public struct DefaultPrivateNetworksAuthSchemeResolver: PrivateNetworksAuthSchemeResolver {
+public struct DefaultMPAAuthSchemeResolver: MPAAuthSchemeResolver {
+
+    public let authSchemePreference: [String]
+
+    public init(authSchemePreference: [String] = []) {
+        self.authSchemePreference = authSchemePreference
+    }
 
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
-        guard let serviceParams = params as? PrivateNetworksAuthSchemeResolverParameters else {
+        guard let serviceParams = params as? MPAAuthSchemeResolverParameters else {
             throw Smithy.ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
         }
         switch serviceParams.operation {
             default:
                 var sigV4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
-                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "private-networks")
+                sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "mpa")
                 guard let region = serviceParams.region else {
                     throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
                 sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
                 validAuthOptions.append(sigV4Option)
         }
-        return validAuthOptions
+        return self.reprioritizeAuthOptions(authSchemePreference: authSchemePreference, authOptions: validAuthOptions)
     }
 
     public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
@@ -51,6 +57,6 @@ public struct DefaultPrivateNetworksAuthSchemeResolver: PrivateNetworksAuthSchem
             throw Smithy.ClientError.dataNotFound("Operation name not configured in middleware context for auth scheme resolver params construction.")
         }
         let opRegion = context.getRegion()
-        return PrivateNetworksAuthSchemeResolverParameters(operation: opName, region: opRegion)
+        return MPAAuthSchemeResolverParameters(operation: opName, region: opRegion)
     }
 }

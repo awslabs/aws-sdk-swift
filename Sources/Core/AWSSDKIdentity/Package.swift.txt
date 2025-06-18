@@ -1,43 +1,116 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 5.9.0
 
 import PackageDescription
 
 let package = Package(
-    name: "AWSSDKIdentity",
+    name: "InternalAWSSTS",
     platforms: [
-        .macOS(.v10_15),
-        .iOS(.v13),
-        .tvOS(.v13),
-        .watchOS(.v6)
+        .macOS(.v10_15), .iOS(.v13)
     ],
     products: [
-        .library(name: "AWSSDKIdentity", targets: ["AWSSDKIdentity"]),
+        .library(name: "InternalAWSSTS", targets: ["InternalAWSSTS"])
     ],
     dependencies: [
-        .package(id: "aws-sdk-swift.AWSSDKCommon", from: "0.0.1"),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: "0.30.0"),
-        .package(id: "aws-sdk-swift.smithy-swift", from: "0.0.1"),
+        .package(
+            id: "aws-sdk-swift.AWSClientRuntime",
+            exact: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.AWSSDKChecksums",
+            exact: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.AWSSDKHTTPAuth",
+            exact: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.AWSSDKIdentity",
+            exact: "0.0.1"
+        ),
+        .package(
+            url: "https://github.com/smithy-lang/smithy-swift",
+            exact: "0.0.1"
+        ),
     ],
     targets: [
         .target(
-            name: "AWSSDKIdentity",
+            name: "InternalAWSSTS",
             dependencies: [
-                .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift"),
-                .product(name: "ClientRuntime", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "Smithy", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "SmithyHTTPAPI", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "SmithyIdentityAPI", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "SmithyIdentity", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "AWSSDKCommon", package: "aws-sdk-swift.AWSSDKCommon"),
+                .product(
+                    name: "AWSClientRuntime",
+                    package: "aws-sdk-swift.AWSClientRuntime"
+                ),
+                .product(
+                    name: "AWSSDKChecksums",
+                    package: "aws-sdk-swift.AWSSDKChecksums"
+                ),
+                .product(
+                    name: "AWSSDKHTTPAuth",
+                    package: "aws-sdk-swift.AWSSDKHTTPAuth"
+                ),
+                .product(
+                    name: "AWSSDKIdentity",
+                    package: "aws-sdk-swift.AWSSDKIdentity"
+                ),
+                .product(
+                    name: "ClientRuntime",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "Smithy",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyFormURL",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyHTTPAPI",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyHTTPAuthAPI",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyIdentity",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyReadWrite",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyRetries",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyRetriesAPI",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyTestUtil",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyTimestamps",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyXML",
+                    package: "smithy-swift"
+                ),
             ]
         ),
         .testTarget(
-            name: "AWSSDKIdentityTests",
+            name: "InternalAWSSTSTests",
             dependencies: [
-                "AWSSDKIdentity",
-                .product(name: "Smithy", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "SmithyIdentity", package: "aws-sdk-swift.smithy-swift"),
+                "InternalAWSSTS",
+                .product(
+                    name: "SmithyTestUtil",
+                    package: "smithy-swift"
+                ),
             ]
-        ),
+        )
     ]
 )

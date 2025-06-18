@@ -262,6 +262,7 @@ extension AuditManagerClientTypes {
         /// The list of comments that's attached to the control.
         public var comments: [AuditManagerClientTypes.ControlComment]?
         /// The description of the control.
+        @available(*, deprecated, message: "This data type will be deprecated on May 19, 2025. To view the assessment control description, use GetControl. API deprecated since 2025-05-19")
         public var description: Swift.String?
         /// The amount of evidence that's collected for the control.
         public var evidenceCount: Swift.Int
@@ -646,13 +647,13 @@ extension AuditManagerClientTypes.AssessmentReportsDestination: Swift.CustomDebu
 
 extension AuditManagerClientTypes {
 
-    /// An Amazon Web Service such as Amazon S3 or CloudTrail. For an example of how to find an Amazon Web Service name and how to define it in your assessment scope, see the following:
+    /// An Amazon Web Services service such as Amazon S3 or CloudTrail. For an example of how to find an Amazon Web Services service name and how to define it in your assessment scope, see the following:
     ///
-    /// * [Finding an Amazon Web Service name to use in your assessment scope](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_2)
+    /// * [Finding an Amazon Web Services service name to use in your assessment scope](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_2)
     ///
-    /// * [Defining an Amazon Web Service name in your assessment scope](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_3)
+    /// * [Defining an Amazon Web Services service name in your assessment scope](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_3)
     public struct AWSService: Swift.Sendable {
-        /// The name of the Amazon Web Service.
+        /// The name of the Amazon Web Services service.
         public var serviceName: Swift.String?
 
         public init(
@@ -665,11 +666,11 @@ extension AuditManagerClientTypes {
 
 extension AuditManagerClientTypes {
 
-    /// The wrapper that contains the Amazon Web Services accounts that are in scope for the assessment. You no longer need to specify which Amazon Web Services are in scope when you create or update an assessment. Audit Manager infers the services in scope by examining your assessment controls and their data sources, and then mapping this information to the relevant Amazon Web Services. If an underlying data source changes for your assessment, we automatically update the services scope as needed to reflect the correct Amazon Web Services. This ensures that your assessment collects accurate and comprehensive evidence about all of the relevant services in your AWS environment.
+    /// The wrapper that contains the Amazon Web Services accounts that are in scope for the assessment. You no longer need to specify which Amazon Web Services services are in scope when you create or update an assessment. Audit Manager infers the services in scope by examining your assessment controls and their data sources, and then mapping this information to the relevant Amazon Web Services services. If an underlying data source changes for your assessment, we automatically update the services scope as needed to reflect the correct Amazon Web Services services. This ensures that your assessment collects accurate and comprehensive evidence about all of the relevant services in your AWS environment.
     public struct Scope: Swift.Sendable {
         /// The Amazon Web Services accounts that are included in the scope of the assessment.
         public var awsAccounts: [AuditManagerClientTypes.AWSAccount]?
-        /// The Amazon Web Services services that are included in the scope of the assessment. This API parameter is no longer supported. If you use this parameter to specify one or more Amazon Web Services, Audit Manager ignores this input. Instead, the value for awsServices will show as empty.
+        /// The Amazon Web Services services that are included in the scope of the assessment. This API parameter is no longer supported. If you use this parameter to specify one or more Amazon Web Services services, Audit Manager ignores this input. Instead, the value for awsServices will show as empty.
         @available(*, deprecated, message: "You can't specify services in scope when creating/updating an assessment. If you use the parameter to specify one or more AWS services, Audit Manager ignores the input. Instead the value of the parameter will show as empty indicating that the services are defined and managed by Audit Manager.")
         public var awsServices: [AuditManagerClientTypes.AWSService]?
 
@@ -830,7 +831,7 @@ extension AuditManagerClientTypes {
         public var controlName: Swift.String?
         /// The identifier for the control set.
         public var controlSetId: Swift.String?
-        /// The Amazon Web Service that the evidence was collected from.
+        /// The Amazon Web Services service that the evidence was collected from.
         public var dataSource: Swift.String?
         /// The date when the first evidence was added to the evidence folder.
         public var date: Foundation.Date?
@@ -840,7 +841,7 @@ extension AuditManagerClientTypes {
         public var evidenceByTypeComplianceCheckCount: Swift.Int
         /// The total number of issues that were reported directly from Security Hub, Config, or both.
         public var evidenceByTypeComplianceCheckIssuesCount: Swift.Int
-        /// The number of evidence that falls under the configuration data category. This evidence is collected from configuration snapshots of other Amazon Web Services such as Amazon EC2, Amazon S3, or IAM.
+        /// The number of evidence that falls under the configuration data category. This evidence is collected from configuration snapshots of other Amazon Web Services services such as Amazon EC2, Amazon S3, or IAM.
         public var evidenceByTypeConfigurationDataCount: Swift.Int
         /// The number of evidence that falls under the manual category. This evidence is imported manually.
         public var evidenceByTypeManualCount: Swift.Int
@@ -1859,7 +1860,7 @@ public struct CreateAssessmentInput: Swift.Sendable {
     /// The list of roles for the assessment.
     /// This member is required.
     public var roles: [AuditManagerClientTypes.Role]?
-    /// The wrapper that contains the Amazon Web Services accounts that are in scope for the assessment. You no longer need to specify which Amazon Web Services are in scope when you create or update an assessment. Audit Manager infers the services in scope by examining your assessment controls and their data sources, and then mapping this information to the relevant Amazon Web Services. If an underlying data source changes for your assessment, we automatically update the services scope as needed to reflect the correct Amazon Web Services. This ensures that your assessment collects accurate and comprehensive evidence about all of the relevant services in your AWS environment.
+    /// The wrapper that contains the Amazon Web Services accounts that are in scope for the assessment. You no longer need to specify which Amazon Web Services services are in scope when you create or update an assessment. Audit Manager infers the services in scope by examining your assessment controls and their data sources, and then mapping this information to the relevant Amazon Web Services services. If an underlying data source changes for your assessment, we automatically update the services scope as needed to reflect the correct Amazon Web Services services. This ensures that your assessment collects accurate and comprehensive evidence about all of the relevant services in your AWS environment.
     /// This member is required.
     public var scope: AuditManagerClientTypes.Scope?
     /// The tags that are associated with the assessment.
@@ -2102,7 +2103,7 @@ extension AuditManagerClientTypes {
         ///
         /// * For Amazon Web Services API calls: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, iam_ListGroups. For accuracy, we recommend that you reference the list of [supported API calls](https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html).
         ///
-        /// * For CloudTrail: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, cloudtrail_StartLogging. For accuracy, we recommend that you review the Amazon Web Service prefix and action names in the [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html).
+        /// * For CloudTrail: Make sure that the keywordValue is written as serviceprefix_ActionName. For example, cloudtrail_StartLogging. For accuracy, we recommend that you review the Amazon Web Services service prefix and action names in the [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html).
         public var keywordValue: Swift.String?
 
         public init(
@@ -3225,7 +3226,7 @@ extension AuditManagerClientTypes {
         public var dataSource: Swift.String?
         /// The name of the evidence event.
         public var eventName: Swift.String?
-        /// The Amazon Web Service that the evidence is collected from.
+        /// The Amazon Web Services service that the evidence is collected from.
         public var eventSource: Swift.String?
         /// The identifier for the Amazon Web Services account.
         public var evidenceAwsAccountId: Swift.String?
@@ -3633,15 +3634,15 @@ public struct GetServicesInScopeInput: Swift.Sendable {
 
 extension AuditManagerClientTypes {
 
-    /// The metadata that's associated with the Amazon Web Service.
+    /// The metadata that's associated with the Amazon Web Services service.
     public struct ServiceMetadata: Swift.Sendable {
-        /// The category that the Amazon Web Service belongs to, such as compute, storage, or database.
+        /// The category that the Amazon Web Services service belongs to, such as compute, storage, or database.
         public var category: Swift.String?
-        /// The description of the Amazon Web Service.
+        /// The description of the Amazon Web Services service.
         public var description: Swift.String?
-        /// The display name of the Amazon Web Service.
+        /// The display name of the Amazon Web Services service.
         public var displayName: Swift.String?
-        /// The name of the Amazon Web Service.
+        /// The name of the Amazon Web Services service.
         public var name: Swift.String?
 
         public init(
@@ -3659,7 +3660,7 @@ extension AuditManagerClientTypes {
 }
 
 public struct GetServicesInScopeOutput: Swift.Sendable {
-    /// The metadata that's associated with the Amazon Web Service.
+    /// The metadata that's associated with the Amazon Web Services service.
     public var serviceMetadata: [AuditManagerClientTypes.ServiceMetadata]?
 
     public init(
@@ -8024,6 +8025,7 @@ enum UpdateAssessmentOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

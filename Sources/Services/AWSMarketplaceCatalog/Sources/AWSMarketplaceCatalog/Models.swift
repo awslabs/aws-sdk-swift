@@ -626,7 +626,7 @@ extension MarketplaceCatalogClientTypes {
         public var changeType: Swift.String?
         /// This object contains details specific to the change type of the requested change.
         public var details: Swift.String?
-        /// The JSON value of the details specific to the change type of the requested change.
+        /// The JSON value of the details specific to the change type of the requested change. To download the "DetailsDocument" shapes, see the [Python](https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-python) and [Java](https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-java/tree/main) shapes on GitHub.
         public var detailsDocument: Smithy.Document?
         /// The entity to be changed.
         public var entity: MarketplaceCatalogClientTypes.Entity?
@@ -837,7 +837,7 @@ public struct DescribeEntityInput: Swift.Sendable {
 public struct DescribeEntityOutput: Swift.Sendable {
     /// This stringified JSON object includes the details of the entity.
     public var details: Swift.String?
-    /// The JSON value of the details specific to the entity.
+    /// The JSON value of the details specific to the entity. To download "DetailsDocument" shapes, see the [Python](https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-python) and [Java](https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-java/tree/main) shapes on GitHub.
     public var detailsDocument: Smithy.Document?
     /// The ARN associated to the unique identifier for the entity referenced in this request.
     public var entityArn: Swift.String?
@@ -1310,6 +1310,160 @@ extension MarketplaceCatalogClientTypes {
             lastModifiedDate: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter? = nil,
             productTitle: MarketplaceCatalogClientTypes.DataProductTitleFilter? = nil,
             visibility: MarketplaceCatalogClientTypes.DataProductVisibilityFilter? = nil
+        ) {
+            self.entityId = entityId
+            self.lastModifiedDate = lastModifiedDate
+            self.productTitle = productTitle
+            self.visibility = visibility
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for machine learning product entity IDs.
+    public struct MachineLearningProductEntityIdFilter: Swift.Sendable {
+        /// A list of entity IDs to filter by. The operation returns machine learning products with entity IDs that match the values in this list.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A date range for filtering machine learning products by their last modified date.
+    public struct MachineLearningProductLastModifiedDateFilterDateRange: Swift.Sendable {
+        /// The start date (inclusive) of the date range. The operation returns machine learning products with last modified dates on or after this date.
+        public var afterValue: Swift.String?
+        /// The end date (inclusive) of the date range. The operation returns machine learning products with last modified dates on or before this date.
+        public var beforeValue: Swift.String?
+
+        public init(
+            afterValue: Swift.String? = nil,
+            beforeValue: Swift.String? = nil
+        ) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for machine learning product last modified date.
+    public struct MachineLearningProductLastModifiedDateFilter: Swift.Sendable {
+        /// A date range to filter by. The operation returns machine learning products with last modified dates that fall within this range.
+        public var dateRange: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilterDateRange?
+
+        public init(
+            dateRange: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilterDateRange? = nil
+        ) {
+            self.dateRange = dateRange
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for machine learning product titles.
+    public struct MachineLearningProductTitleFilter: Swift.Sendable {
+        /// A list of product titles to filter by. The operation returns machine learning products with titles that exactly match the values in this list.
+        public var valueList: [Swift.String]?
+        /// A wildcard value to filter product titles. The operation returns machine learning products with titles that match this wildcard pattern.
+        public var wildCardValue: Swift.String?
+
+        public init(
+            valueList: [Swift.String]? = nil,
+            wildCardValue: Swift.String? = nil
+        ) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The visibility status of a machine learning product. Valid values are:
+    ///
+    /// * Limited - The product is available to a limited set of buyers.
+    ///
+    /// * Public - The product is publicly available to all buyers.
+    ///
+    /// * Restricted - The product has restricted availability.
+    ///
+    /// * Draft - The product is in draft state and not yet available to buyers.
+    public enum MachineLearningProductVisibilityString: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case draft
+        case limited
+        case `public`
+        case restricted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MachineLearningProductVisibilityString] {
+            return [
+                .draft,
+                .limited,
+                .public,
+                .restricted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .draft: return "Draft"
+            case .limited: return "Limited"
+            case .public: return "Public"
+            case .restricted: return "Restricted"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for machine learning product visibility status.
+    public struct MachineLearningProductVisibilityFilter: Swift.Sendable {
+        /// A list of visibility values to filter by. The operation returns machine learning products with visibility status that match the values in this list.
+        public var valueList: [MarketplaceCatalogClientTypes.MachineLearningProductVisibilityString]?
+
+        public init(
+            valueList: [MarketplaceCatalogClientTypes.MachineLearningProductVisibilityString]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filters that you can use with the ListEntities operation to filter machine learning products. You can filter by EntityId, LastModifiedDate, ProductTitle, and Visibility.
+    public struct MachineLearningProductFilters: Swift.Sendable {
+        /// Filter machine learning products by their entity IDs.
+        public var entityId: MarketplaceCatalogClientTypes.MachineLearningProductEntityIdFilter?
+        /// Filter machine learning products by their last modified date.
+        public var lastModifiedDate: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilter?
+        /// Filter machine learning products by their product titles.
+        public var productTitle: MarketplaceCatalogClientTypes.MachineLearningProductTitleFilter?
+        /// Filter machine learning products by their visibility status.
+        public var visibility: MarketplaceCatalogClientTypes.MachineLearningProductVisibilityFilter?
+
+        public init(
+            entityId: MarketplaceCatalogClientTypes.MachineLearningProductEntityIdFilter? = nil,
+            lastModifiedDate: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilter? = nil,
+            productTitle: MarketplaceCatalogClientTypes.MachineLearningProductTitleFilter? = nil,
+            visibility: MarketplaceCatalogClientTypes.MachineLearningProductVisibilityFilter? = nil
         ) {
             self.entityId = entityId
             self.lastModifiedDate = lastModifiedDate
@@ -2189,6 +2343,8 @@ extension MarketplaceCatalogClientTypes {
         case containerproductfilters(MarketplaceCatalogClientTypes.ContainerProductFilters)
         /// A filter for Resale Authorizations.
         case resaleauthorizationfilters(MarketplaceCatalogClientTypes.ResaleAuthorizationFilters)
+        /// The filters that you can use with the ListEntities operation to filter machine learning products. You can filter by EntityId, LastModifiedDate, ProductTitle, and Visibility.
+        case machinelearningproductfilters(MarketplaceCatalogClientTypes.MachineLearningProductFilters)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2293,6 +2449,61 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             sortBy: MarketplaceCatalogClientTypes.DataProductSortBy? = nil,
+            sortOrder: MarketplaceCatalogClientTypes.SortOrder? = nil
+        ) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The fields that you can sort machine learning products by.
+    public enum MachineLearningProductSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case entityid
+        case lastmodifieddate
+        case producttitle
+        case visibility
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MachineLearningProductSortBy] {
+            return [
+                .entityid,
+                .lastmodifieddate,
+                .producttitle,
+                .visibility
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .entityid: return "EntityId"
+            case .lastmodifieddate: return "LastModifiedDate"
+            case .producttitle: return "ProductTitle"
+            case .visibility: return "Visibility"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The sort options for machine learning products.
+    public struct MachineLearningProductSort: Swift.Sendable {
+        /// The field to sort by. Valid values: EntityId, LastModifiedDate, ProductTitle, and Visibility.
+        public var sortBy: MarketplaceCatalogClientTypes.MachineLearningProductSortBy?
+        /// The sort order. Valid values are ASC (ascending) and DESC (descending).
+        public var sortOrder: MarketplaceCatalogClientTypes.SortOrder?
+
+        public init(
+            sortBy: MarketplaceCatalogClientTypes.MachineLearningProductSortBy? = nil,
             sortOrder: MarketplaceCatalogClientTypes.SortOrder? = nil
         ) {
             self.sortBy = sortBy
@@ -2524,6 +2735,8 @@ extension MarketplaceCatalogClientTypes {
         case containerproductsort(MarketplaceCatalogClientTypes.ContainerProductSort)
         /// A sort for Resale Authorizations.
         case resaleauthorizationsort(MarketplaceCatalogClientTypes.ResaleAuthorizationSort)
+        /// The sort options for machine learning products.
+        case machinelearningproductsort(MarketplaceCatalogClientTypes.MachineLearningProductSort)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2633,6 +2846,25 @@ extension MarketplaceCatalogClientTypes {
         public init(
             productTitle: Swift.String? = nil,
             visibility: MarketplaceCatalogClientTypes.DataProductVisibilityString? = nil
+        ) {
+            self.productTitle = productTitle
+            self.visibility = visibility
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A summary of a machine learning product.
+    public struct MachineLearningProductSummary: Swift.Sendable {
+        /// The title of the machine learning product.
+        public var productTitle: Swift.String?
+        /// The visibility status of the machine learning product. Valid values are Limited, Public, Restricted, and Draft.
+        public var visibility: MarketplaceCatalogClientTypes.MachineLearningProductVisibilityString?
+
+        public init(
+            productTitle: Swift.String? = nil,
+            visibility: MarketplaceCatalogClientTypes.MachineLearningProductVisibilityString? = nil
         ) {
             self.productTitle = productTitle
             self.visibility = visibility
@@ -2775,6 +3007,8 @@ extension MarketplaceCatalogClientTypes {
         public var entityType: Swift.String?
         /// The last time the entity was published, using ISO 8601 format (2018-02-27T13:45:22Z).
         public var lastModifiedDate: Swift.String?
+        /// A summary of a machine learning product.
+        public var machineLearningProductSummary: MarketplaceCatalogClientTypes.MachineLearningProductSummary?
         /// The name for the entity. This value is not unique. It is defined by the seller.
         public var name: Swift.String?
         /// An object that contains summary information about the offer.
@@ -2794,6 +3028,7 @@ extension MarketplaceCatalogClientTypes {
             entityId: Swift.String? = nil,
             entityType: Swift.String? = nil,
             lastModifiedDate: Swift.String? = nil,
+            machineLearningProductSummary: MarketplaceCatalogClientTypes.MachineLearningProductSummary? = nil,
             name: Swift.String? = nil,
             offerSummary: MarketplaceCatalogClientTypes.OfferSummary? = nil,
             resaleAuthorizationSummary: MarketplaceCatalogClientTypes.ResaleAuthorizationSummary? = nil,
@@ -2807,6 +3042,7 @@ extension MarketplaceCatalogClientTypes {
             self.entityId = entityId
             self.entityType = entityType
             self.lastModifiedDate = lastModifiedDate
+            self.machineLearningProductSummary = machineLearningProductSummary
             self.name = name
             self.offerSummary = offerSummary
             self.resaleAuthorizationSummary = resaleAuthorizationSummary
@@ -2935,7 +3171,7 @@ extension MarketplaceCatalogClientTypes {
         public var changeType: Swift.String?
         /// This object contains details specific to the change type of the requested change. For more information about change types available for single-AMI products, see [Working with single-AMI products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products). Also, for more information about change types available for container-based products, see [Working with container products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products).
         public var details: Swift.String?
-        /// Alternative field that accepts a JSON value instead of a string for ChangeType details. You can use either Details or DetailsDocument, but not both.
+        /// Alternative field that accepts a JSON value instead of a string for ChangeType details. You can use either Details or DetailsDocument, but not both. To download the "DetailsDocument" shapes, see the [Python](https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-python) and [Java](https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-java/tree/main) shapes on GitHub.
         public var detailsDocument: Smithy.Document?
         /// The entity to be changed.
         /// This member is required.
@@ -3914,6 +4150,18 @@ extension MarketplaceCatalogClientTypes.EntitySummary {
         value.saaSProductSummary = try reader["SaaSProductSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.SaaSProductSummary.read(from:))
         value.offerSummary = try reader["OfferSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferSummary.read(from:))
         value.resaleAuthorizationSummary = try reader["ResaleAuthorizationSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationSummary.read(from:))
+        value.machineLearningProductSummary = try reader["MachineLearningProductSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.MachineLearningProductSummary.read(from:))
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.MachineLearningProductSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.MachineLearningProductSummary()
+        value.productTitle = try reader["ProductTitle"].readIfPresent()
+        value.visibility = try reader["Visibility"].readIfPresent()
         return value
     }
 }
@@ -4054,6 +4302,8 @@ extension MarketplaceCatalogClientTypes.EntityTypeFilters {
                 try writer["ContainerProductFilters"].write(containerproductfilters, with: MarketplaceCatalogClientTypes.ContainerProductFilters.write(value:to:))
             case let .dataproductfilters(dataproductfilters):
                 try writer["DataProductFilters"].write(dataproductfilters, with: MarketplaceCatalogClientTypes.DataProductFilters.write(value:to:))
+            case let .machinelearningproductfilters(machinelearningproductfilters):
+                try writer["MachineLearningProductFilters"].write(machinelearningproductfilters, with: MarketplaceCatalogClientTypes.MachineLearningProductFilters.write(value:to:))
             case let .offerfilters(offerfilters):
                 try writer["OfferFilters"].write(offerfilters, with: MarketplaceCatalogClientTypes.OfferFilters.write(value:to:))
             case let .resaleauthorizationfilters(resaleauthorizationfilters):
@@ -4063,6 +4313,59 @@ extension MarketplaceCatalogClientTypes.EntityTypeFilters {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductFilters {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.MachineLearningProductEntityIdFilter.write(value:to:))
+        try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilter.write(value:to:))
+        try writer["ProductTitle"].write(value.productTitle, with: MarketplaceCatalogClientTypes.MachineLearningProductTitleFilter.write(value:to:))
+        try writer["Visibility"].write(value.visibility, with: MarketplaceCatalogClientTypes.MachineLearningProductVisibilityFilter.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductVisibilityFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.MachineLearningProductVisibilityString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductTitleFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductTitleFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WildCardValue"].write(value.wildCardValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilterDateRange.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilterDateRange {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterValue"].write(value.afterValue)
+        try writer["BeforeValue"].write(value.beforeValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductEntityIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4574,6 +4877,8 @@ extension MarketplaceCatalogClientTypes.EntityTypeSort {
                 try writer["ContainerProductSort"].write(containerproductsort, with: MarketplaceCatalogClientTypes.ContainerProductSort.write(value:to:))
             case let .dataproductsort(dataproductsort):
                 try writer["DataProductSort"].write(dataproductsort, with: MarketplaceCatalogClientTypes.DataProductSort.write(value:to:))
+            case let .machinelearningproductsort(machinelearningproductsort):
+                try writer["MachineLearningProductSort"].write(machinelearningproductsort, with: MarketplaceCatalogClientTypes.MachineLearningProductSort.write(value:to:))
             case let .offersort(offersort):
                 try writer["OfferSort"].write(offersort, with: MarketplaceCatalogClientTypes.OfferSort.write(value:to:))
             case let .resaleauthorizationsort(resaleauthorizationsort):
@@ -4583,6 +4888,15 @@ extension MarketplaceCatalogClientTypes.EntityTypeSort {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductSort {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
     }
 }
 

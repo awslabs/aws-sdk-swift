@@ -65,6 +65,7 @@ extension SecurityIRClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast7
         case apSouth1
         case apSouth2
         case caCentral1
@@ -82,6 +83,7 @@ extension SecurityIRClientTypes {
         case ilCentral1
         case meCentral1
         case meSouth1
+        case mxCentral1
         case saEast1
         case usEast1
         case usEast2
@@ -101,6 +103,7 @@ extension SecurityIRClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast7,
                 .apSouth1,
                 .apSouth2,
                 .caCentral1,
@@ -118,6 +121,7 @@ extension SecurityIRClientTypes {
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
+                .mxCentral1,
                 .saEast1,
                 .usEast1,
                 .usEast2,
@@ -143,6 +147,7 @@ extension SecurityIRClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast7: return "ap-southeast-7"
             case .apSouth1: return "ap-south-1"
             case .apSouth2: return "ap-south-2"
             case .caCentral1: return "ca-central-1"
@@ -160,6 +165,7 @@ extension SecurityIRClientTypes {
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
+            case .mxCentral1: return "mx-central-1"
             case .saEast1: return "sa-east-1"
             case .usEast1: return "us-east-1"
             case .usEast2: return "us-east-2"

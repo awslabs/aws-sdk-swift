@@ -8,11 +8,13 @@
 import XCTest
 import struct AWSSDKIdentity.ProcessAWSCredentialIdentityResolver
 @_spi(FileBasedConfig) @testable import AWSClientRuntime
+import struct AWSSDKIdentity.ProfileAWSCredentialIdentityResolver
 
 class ProcessAWSCredentialIdentityResolverTests: XCTestCase {
     let configPath = Bundle.module.path(forResource: "config_with_process", ofType: nil)!
     let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
 
+    #if !os(iOS) && !os(tvOS) && !os(watchOS) && !os(visionOS)
     func testGetCredentialsWithDefaultProfile() async throws {
         let subject = try ProcessAWSCredentialIdentityResolver(
             configFilePath: configPath,
@@ -39,4 +41,5 @@ class ProcessAWSCredentialIdentityResolverTests: XCTestCase {
         XCTAssertEqual("SessionToken456", credentials.sessionToken)
         XCTAssertEqual("234567890123", credentials.accountID)
     }
+    #endif
 }

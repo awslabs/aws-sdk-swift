@@ -753,13 +753,17 @@ public struct CancelJobRunInput: Swift.Sendable {
     /// The ID of the job run to cancel.
     /// This member is required.
     public var jobRunId: Swift.String?
+    /// The duration in seconds to wait before forcefully terminating the job after cancellation is requested.
+    public var shutdownGracePeriodInSeconds: Swift.Int?
 
     public init(
         applicationId: Swift.String? = nil,
-        jobRunId: Swift.String? = nil
+        jobRunId: Swift.String? = nil,
+        shutdownGracePeriodInSeconds: Swift.Int? = nil
     ) {
         self.applicationId = applicationId
         self.jobRunId = jobRunId
+        self.shutdownGracePeriodInSeconds = shutdownGracePeriodInSeconds
     }
 }
 
@@ -856,6 +860,25 @@ extension EMRServerlessClientTypes {
             self.memoryGBHour = memoryGBHour
             self.storageGBHour = storageGBHour
             self.vCPUHour = vCPUHour
+        }
+    }
+}
+
+extension EMRServerlessClientTypes {
+
+    /// Optional IAM policy. The resulting job IAM role permissions will be an intersection of the policies passed and the policy associated with your job execution role.
+    public struct JobRunExecutionIamPolicy: Swift.Sendable {
+        /// An IAM inline policy to use as an execution IAM policy.
+        public var policy: Swift.String?
+        /// A list of Amazon Resource Names (ARNs) to use as an execution IAM policy.
+        public var policyArns: [Swift.String]?
+
+        public init(
+            policy: Swift.String? = nil,
+            policyArns: [Swift.String]? = nil
+        ) {
+            self.policy = policy
+            self.policyArns = policyArns
         }
     }
 }
@@ -1729,6 +1752,8 @@ extension EMRServerlessClientTypes {
         public var createdBy: Swift.String?
         /// The date and time when the job was terminated.
         public var endedAt: Foundation.Date?
+        /// Optional IAM policy. The resulting job IAM role permissions will be an intersection of the policies passed and the policy associated with your job execution role.
+        public var executionIamPolicy: EMRServerlessClientTypes.JobRunExecutionIamPolicy?
         /// The execution role ARN of the job run.
         /// This member is required.
         public var executionRole: Swift.String?
@@ -1782,6 +1807,7 @@ extension EMRServerlessClientTypes {
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             endedAt: Foundation.Date? = nil,
+            executionIamPolicy: EMRServerlessClientTypes.JobRunExecutionIamPolicy? = nil,
             executionRole: Swift.String? = nil,
             executionTimeoutMinutes: Swift.Int? = 0,
             jobDriver: EMRServerlessClientTypes.JobDriver? = nil,
@@ -1810,6 +1836,7 @@ extension EMRServerlessClientTypes {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.endedAt = endedAt
+            self.executionIamPolicy = executionIamPolicy
             self.executionRole = executionRole
             self.executionTimeoutMinutes = executionTimeoutMinutes
             self.jobDriver = jobDriver
@@ -1852,6 +1879,8 @@ public struct StartJobRunInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The configuration overrides for the job run.
     public var configurationOverrides: EMRServerlessClientTypes.ConfigurationOverrides?
+    /// You can pass an optional IAM policy. The resulting job IAM role permissions will be an intersection of this policy and the policy associated with your job execution role.
+    public var executionIamPolicy: EMRServerlessClientTypes.JobRunExecutionIamPolicy?
     /// The execution role ARN for the job run.
     /// This member is required.
     public var executionRoleArn: Swift.String?
@@ -1872,6 +1901,7 @@ public struct StartJobRunInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         configurationOverrides: EMRServerlessClientTypes.ConfigurationOverrides? = nil,
+        executionIamPolicy: EMRServerlessClientTypes.JobRunExecutionIamPolicy? = nil,
         executionRoleArn: Swift.String? = nil,
         executionTimeoutMinutes: Swift.Int? = 0,
         jobDriver: EMRServerlessClientTypes.JobDriver? = nil,
@@ -1883,6 +1913,7 @@ public struct StartJobRunInput: Swift.Sendable {
         self.applicationId = applicationId
         self.clientToken = clientToken
         self.configurationOverrides = configurationOverrides
+        self.executionIamPolicy = executionIamPolicy
         self.executionRoleArn = executionRoleArn
         self.executionTimeoutMinutes = executionTimeoutMinutes
         self.jobDriver = jobDriver
@@ -1927,6 +1958,18 @@ extension CancelJobRunInput {
             return nil
         }
         return "/applications/\(applicationId.urlPercentEncoding())/jobruns/\(jobRunId.urlPercentEncoding())"
+    }
+}
+
+extension CancelJobRunInput {
+
+    static func queryItemProvider(_ value: CancelJobRunInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let shutdownGracePeriodInSeconds = value.shutdownGracePeriodInSeconds {
+            let shutdownGracePeriodInSecondsQueryItem = Smithy.URIQueryItem(name: "shutdownGracePeriodInSeconds".urlPercentEncoding(), value: Swift.String(shutdownGracePeriodInSeconds).urlPercentEncoding())
+            items.append(shutdownGracePeriodInSecondsQueryItem)
+        }
+        return items
     }
 }
 
@@ -2229,6 +2272,7 @@ extension StartJobRunInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["configurationOverrides"].write(value.configurationOverrides, with: EMRServerlessClientTypes.ConfigurationOverrides.write(value:to:))
+        try writer["executionIamPolicy"].write(value.executionIamPolicy, with: EMRServerlessClientTypes.JobRunExecutionIamPolicy.write(value:to:))
         try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["executionTimeoutMinutes"].write(value.executionTimeoutMinutes)
         try writer["jobDriver"].write(value.jobDriver, with: EMRServerlessClientTypes.JobDriver.write(value:to:))
@@ -3082,6 +3126,7 @@ extension EMRServerlessClientTypes.JobRun {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.executionRole = try reader["executionRole"].readIfPresent() ?? ""
+        value.executionIamPolicy = try reader["executionIamPolicy"].readIfPresent(with: EMRServerlessClientTypes.JobRunExecutionIamPolicy.read(from:))
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.stateDetails = try reader["stateDetails"].readIfPresent() ?? ""
         value.releaseLabel = try reader["releaseLabel"].readIfPresent() ?? ""
@@ -3225,6 +3270,23 @@ extension EMRServerlessClientTypes.ConfigurationOverrides {
         var value = EMRServerlessClientTypes.ConfigurationOverrides()
         value.applicationConfiguration = try reader["applicationConfiguration"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.monitoringConfiguration = try reader["monitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.MonitoringConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.JobRunExecutionIamPolicy {
+
+    static func write(value: EMRServerlessClientTypes.JobRunExecutionIamPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["policy"].write(value.policy)
+        try writer["policyArns"].writeList(value.policyArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobRunExecutionIamPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.JobRunExecutionIamPolicy()
+        value.policy = try reader["policy"].readIfPresent()
+        value.policyArns = try reader["policyArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

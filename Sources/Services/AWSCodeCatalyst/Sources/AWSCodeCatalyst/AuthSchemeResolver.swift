@@ -25,6 +25,12 @@ public protocol CodeCatalystAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeReso
 
 public struct DefaultCodeCatalystAuthSchemeResolver: CodeCatalystAuthSchemeResolver {
 
+    public let authSchemePreference: [String]
+
+    public init(authSchemePreference: [String] = []) {
+        self.authSchemePreference = authSchemePreference
+    }
+
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
         guard let serviceParams = params as? CodeCatalystAuthSchemeResolverParameters else {
@@ -34,7 +40,7 @@ public struct DefaultCodeCatalystAuthSchemeResolver: CodeCatalystAuthSchemeResol
             default:
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth"))
         }
-        return validAuthOptions
+        return self.reprioritizeAuthOptions(authSchemePreference: authSchemePreference, authOptions: validAuthOptions)
     }
 
     public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {

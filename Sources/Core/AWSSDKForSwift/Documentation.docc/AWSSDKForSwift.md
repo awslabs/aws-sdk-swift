@@ -369,6 +369,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSEvidently](../../../../../swift/api/awsevidently/latest)
 
+[AWSEvs](../../../../../swift/api/awsevs/latest)
+
 [AWSFMS](../../../../../swift/api/awsfms/latest)
 
 [AWSFSx](../../../../../swift/api/awsfsx/latest)
@@ -531,6 +533,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSM2](../../../../../swift/api/awsm2/latest)
 
+[AWSMPA](../../../../../swift/api/awsmpa/latest)
+
 [AWSMTurk](../../../../../swift/api/awsmturk/latest)
 
 [AWSMWAA](../../../../../swift/api/awsmwaa/latest)
@@ -668,8 +672,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSPolly](../../../../../swift/api/awspolly/latest)
 
 [AWSPricing](../../../../../swift/api/awspricing/latest)
-
-[AWSPrivateNetworks](../../../../../swift/api/awsprivatenetworks/latest)
 
 [AWSProton](../../../../../swift/api/awsproton/latest)
 

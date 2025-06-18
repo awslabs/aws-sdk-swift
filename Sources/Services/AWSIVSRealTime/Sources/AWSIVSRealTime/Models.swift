@@ -921,6 +921,8 @@ extension IVSRealTimeClientTypes {
         public var hlsConfiguration: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration?
         /// Types of media to be recorded. Default: AUDIO_VIDEO.
         public var mediaTypes: [IVSRealTimeClientTypes.ParticipantRecordingMediaType]?
+        /// Optional field to disable replica participant recording. If this is set to false when a participant is a replica, replica participants are not recorded. Default: true.
+        public var recordParticipantReplicas: Swift.Bool
         /// If a stage publisher disconnects and then reconnects within the specified interval, the multiple recordings will be considered a single recording and merged together. The default value is 0, which disables merging.
         public var recordingReconnectWindowSeconds: Swift.Int
         /// ARN of the [StorageConfiguration] resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a [Stage] is created or updated. To disable individual participant recording, set this to ""; other fields in this object will get reset to their defaults when sending "".
@@ -932,12 +934,14 @@ extension IVSRealTimeClientTypes {
         public init(
             hlsConfiguration: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration? = nil,
             mediaTypes: [IVSRealTimeClientTypes.ParticipantRecordingMediaType]? = nil,
+            recordParticipantReplicas: Swift.Bool = false,
             recordingReconnectWindowSeconds: Swift.Int = 0,
             storageConfigurationArn: Swift.String? = nil,
             thumbnailConfiguration: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration? = nil
         ) {
             self.hlsConfiguration = hlsConfiguration
             self.mediaTypes = mediaTypes
+            self.recordParticipantReplicas = recordParticipantReplicas
             self.recordingReconnectWindowSeconds = recordingReconnectWindowSeconds
             self.storageConfigurationArn = storageConfigurationArn
             self.thumbnailConfiguration = thumbnailConfiguration
@@ -1325,7 +1329,7 @@ extension IVSRealTimeClientTypes {
 
     /// An object representing a configuration of HLS recordings for server-side composition.
     public struct CompositionRecordingHlsConfiguration: Swift.Sendable {
-        /// Defines the target duration for recorded segments generated when using composite recording. Segments may have durations shorter than the specified value when needed to ensure each segment begins with a keyframe. Default: 2.
+        /// Defines the target duration for recorded segments generated when using composite recording. Default: 2.
         public var targetSegmentDurationSeconds: Swift.Int?
 
         public init(
@@ -2011,6 +2015,67 @@ extension IVSRealTimeClientTypes {
 
 extension IVSRealTimeClientTypes {
 
+    public enum ReplicationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationState] {
+            return [
+                .active,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .stopped: return "STOPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    public enum ReplicationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case replica
+        case source
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationType] {
+            return [
+                .none,
+                .replica,
+                .source
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .replica: return "REPLICA"
+            case .source: return "SOURCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
     public enum ParticipantState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case connected
         case disconnected
@@ -2064,12 +2129,20 @@ extension IVSRealTimeClientTypes {
         public var published: Swift.Bool
         /// Name of the S3 bucket to where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
         public var recordingS3BucketName: Swift.String?
-        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
+        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled. If individual participant recording merge is enabled, and if a stage publisher disconnects from a stage and then reconnects, IVS tries to record to the same S3 prefix as the previous session. See [ Merge Fragmented Individual Participant Recordings].
         public var recordingS3Prefix: Swift.String?
         /// The participant’s recording state.
         public var recordingState: IVSRealTimeClientTypes.ParticipantRecordingState?
+        /// The participant's replication state.
+        public var replicationState: IVSRealTimeClientTypes.ReplicationState?
+        /// Indicates if the participant has been replicated to another stage or is a replica from another stage. Default: NONE.
+        public var replicationType: IVSRealTimeClientTypes.ReplicationType?
         /// The participant’s SDK version.
         public var sdkVersion: Swift.String?
+        /// ID of the session within the source stage, if replicationType is REPLICA.
+        public var sourceSessionId: Swift.String?
+        /// Source stage ARN from which this participant is replicated, if replicationType is REPLICA.
+        public var sourceStageArn: Swift.String?
         /// Whether the participant is connected to or disconnected from the stage.
         public var state: IVSRealTimeClientTypes.ParticipantState?
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
@@ -2089,7 +2162,11 @@ extension IVSRealTimeClientTypes {
             recordingS3BucketName: Swift.String? = nil,
             recordingS3Prefix: Swift.String? = nil,
             recordingState: IVSRealTimeClientTypes.ParticipantRecordingState? = nil,
+            replicationState: IVSRealTimeClientTypes.ReplicationState? = nil,
+            replicationType: IVSRealTimeClientTypes.ReplicationType? = nil,
             sdkVersion: Swift.String? = nil,
+            sourceSessionId: Swift.String? = nil,
+            sourceStageArn: Swift.String? = nil,
             state: IVSRealTimeClientTypes.ParticipantState? = nil,
             userId: Swift.String? = nil
         ) {
@@ -2106,7 +2183,11 @@ extension IVSRealTimeClientTypes {
             self.recordingS3BucketName = recordingS3BucketName
             self.recordingS3Prefix = recordingS3Prefix
             self.recordingState = recordingState
+            self.replicationState = replicationState
+            self.replicationType = replicationType
             self.sdkVersion = sdkVersion
+            self.sourceSessionId = sourceSessionId
+            self.sourceStageArn = sourceStageArn
             self.state = state
             self.userId = userId
         }
@@ -2659,6 +2740,8 @@ extension IVSRealTimeClientTypes {
         case publishError
         case publishStarted
         case publishStopped
+        case replicationStarted
+        case replicationStopped
         case subscribeError
         case subscribeStarted
         case subscribeStopped
@@ -2672,6 +2755,8 @@ extension IVSRealTimeClientTypes {
                 .publishError,
                 .publishStarted,
                 .publishStopped,
+                .replicationStarted,
+                .replicationStopped,
                 .subscribeError,
                 .subscribeStarted,
                 .subscribeStopped
@@ -2691,6 +2776,8 @@ extension IVSRealTimeClientTypes {
             case .publishError: return "PUBLISH_ERROR"
             case .publishStarted: return "PUBLISH_STARTED"
             case .publishStopped: return "PUBLISH_STOPPED"
+            case .replicationStarted: return "REPLICATION_STARTED"
+            case .replicationStopped: return "REPLICATION_STOPPED"
             case .subscribeError: return "SUBSCRIBE_ERROR"
             case .subscribeStarted: return "SUBSCRIBE_STARTED"
             case .subscribeStopped: return "SUBSCRIBE_STOPPED"
@@ -2704,6 +2791,10 @@ extension IVSRealTimeClientTypes {
 
     /// An occurrence during a stage session.
     public struct Event: Swift.Sendable {
+        /// ID of the session within the destination stage. Applicable only if the event name is REPLICATION_STARTED or REPLICATION_STOPPED.
+        public var destinationSessionId: Swift.String?
+        /// ARN of the stage where the participant is replicated. Applicable only if the event name is REPLICATION_STARTED or REPLICATION_STOPPED.
+        public var destinationStageArn: Swift.String?
         /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null.
         ///
         /// * B_FRAME_PRESENT — The participant's stream includes B-frames. For details, see [ IVS RTMP Publishing](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/rt-rtmp-publishing.html).
@@ -2742,19 +2833,27 @@ extension IVSRealTimeClientTypes {
         public var participantId: Swift.String?
         /// Unique identifier for the remote participant. For a subscribe event, this is the publisher. For a publish or join event, this is null. This is assigned by IVS.
         public var remoteParticipantId: Swift.String?
+        /// If true, this indicates the participantId is a replicated participant. If this is a subscribe event, then this flag refers to remoteParticipantId.
+        public var replica: Swift.Bool
 
         public init(
+            destinationSessionId: Swift.String? = nil,
+            destinationStageArn: Swift.String? = nil,
             errorCode: IVSRealTimeClientTypes.EventErrorCode? = nil,
             eventTime: Foundation.Date? = nil,
             name: IVSRealTimeClientTypes.EventName? = nil,
             participantId: Swift.String? = nil,
-            remoteParticipantId: Swift.String? = nil
+            remoteParticipantId: Swift.String? = nil,
+            replica: Swift.Bool = false
         ) {
+            self.destinationSessionId = destinationSessionId
+            self.destinationStageArn = destinationStageArn
             self.errorCode = errorCode
             self.eventTime = eventTime
             self.name = name
             self.participantId = participantId
             self.remoteParticipantId = remoteParticipantId
+            self.replica = replica
         }
     }
 }
@@ -2772,6 +2871,88 @@ public struct ListParticipantEventsOutput: Swift.Sendable {
     ) {
         self.events = events
         self.nextToken = nextToken
+    }
+}
+
+public struct ListParticipantReplicasInput: Swift.Sendable {
+    /// Maximum number of results to return. Default: 50.
+    public var maxResults: Swift.Int?
+    /// The first participant to retrieve. This is used for pagination; see the nextToken response field.
+    public var nextToken: Swift.String?
+    /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by [CreateParticipantToken] or the jti (JWT ID) used to [create a self signed token](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started-distribute-tokens.html#getting-started-distribute-tokens-self-signed).
+    /// This member is required.
+    public var participantId: Swift.String?
+    /// ARN of the stage where the participant is publishing.
+    /// This member is required.
+    public var sourceStageArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        participantId: Swift.String? = nil,
+        sourceStageArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.participantId = participantId
+        self.sourceStageArn = sourceStageArn
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    /// Information about the replicated destination stage for a participant.
+    public struct ParticipantReplica: Swift.Sendable {
+        /// ID of the session within the destination stage.
+        /// This member is required.
+        public var destinationSessionId: Swift.String?
+        /// ARN of the stage where the participant is replicated.
+        /// This member is required.
+        public var destinationStageArn: Swift.String?
+        /// Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by [CreateParticipantToken] or the jti (JWT ID) used to [ create a self signed token](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started-distribute-tokens.html#getting-started-distribute-tokens-self-signed).
+        /// This member is required.
+        public var participantId: Swift.String?
+        /// Replica’s current replication state.
+        /// This member is required.
+        public var replicationState: IVSRealTimeClientTypes.ReplicationState?
+        /// ID of the session within the source stage.
+        /// This member is required.
+        public var sourceSessionId: Swift.String?
+        /// ARN of the stage from which this participant is replicated.
+        /// This member is required.
+        public var sourceStageArn: Swift.String?
+
+        public init(
+            destinationSessionId: Swift.String? = nil,
+            destinationStageArn: Swift.String? = nil,
+            participantId: Swift.String? = nil,
+            replicationState: IVSRealTimeClientTypes.ReplicationState? = nil,
+            sourceSessionId: Swift.String? = nil,
+            sourceStageArn: Swift.String? = nil
+        ) {
+            self.destinationSessionId = destinationSessionId
+            self.destinationStageArn = destinationStageArn
+            self.participantId = participantId
+            self.replicationState = replicationState
+            self.sourceSessionId = sourceSessionId
+            self.sourceStageArn = sourceStageArn
+        }
+    }
+}
+
+public struct ListParticipantReplicasOutput: Swift.Sendable {
+    /// If there are more participants than maxResults, use nextToken in the request to get the next set.
+    public var nextToken: Swift.String?
+    /// List of all participant replicas.
+    /// This member is required.
+    public var replicas: [IVSRealTimeClientTypes.ParticipantReplica]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        replicas: [IVSRealTimeClientTypes.ParticipantReplica]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.replicas = replicas
     }
 }
 
@@ -2866,6 +3047,14 @@ extension IVSRealTimeClientTypes {
         public var published: Swift.Bool
         /// The participant’s recording state.
         public var recordingState: IVSRealTimeClientTypes.ParticipantRecordingState?
+        /// The participant's replication state.
+        public var replicationState: IVSRealTimeClientTypes.ReplicationState?
+        /// Indicates if the participant has been replicated to another stage or is a replica from another stage. Default: NONE.
+        public var replicationType: IVSRealTimeClientTypes.ReplicationType?
+        /// ID of the session within the source stage, if replicationType is REPLICA.
+        public var sourceSessionId: Swift.String?
+        /// ARN of the stage from which this participant is replicated.
+        public var sourceStageArn: Swift.String?
         /// Whether the participant is connected to or disconnected from the stage.
         public var state: IVSRealTimeClientTypes.ParticipantState?
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
@@ -2876,6 +3065,10 @@ extension IVSRealTimeClientTypes {
             participantId: Swift.String? = nil,
             published: Swift.Bool = false,
             recordingState: IVSRealTimeClientTypes.ParticipantRecordingState? = nil,
+            replicationState: IVSRealTimeClientTypes.ReplicationState? = nil,
+            replicationType: IVSRealTimeClientTypes.ReplicationType? = nil,
+            sourceSessionId: Swift.String? = nil,
+            sourceStageArn: Swift.String? = nil,
             state: IVSRealTimeClientTypes.ParticipantState? = nil,
             userId: Swift.String? = nil
         ) {
@@ -2883,6 +3076,10 @@ extension IVSRealTimeClientTypes {
             self.participantId = participantId
             self.published = published
             self.recordingState = recordingState
+            self.replicationState = replicationState
+            self.replicationType = replicationType
+            self.sourceSessionId = sourceSessionId
+            self.sourceStageArn = sourceStageArn
             self.state = state
             self.userId = userId
         }
@@ -3200,6 +3397,71 @@ public struct StartCompositionOutput: Swift.Sendable {
     }
 }
 
+public struct StartParticipantReplicationInput: Swift.Sendable {
+    /// Application-provided attributes to set on the replicated participant in the destination stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information. These attributes are merged with any attributes set for this participant when creating the token. If there is overlap in keys, the values in these attributes are replaced.
+    public var attributes: [Swift.String: Swift.String]?
+    /// ARN of the stage to which the participant will be replicated.
+    /// This member is required.
+    public var destinationStageArn: Swift.String?
+    /// Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by [CreateParticipantToken] or the jti (JWT ID) used to [create a self signed token](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started-distribute-tokens.html#getting-started-distribute-tokens-self-signed).
+    /// This member is required.
+    public var participantId: Swift.String?
+    /// If the participant disconnects and then reconnects within the specified interval, replication will continue to be ACTIVE. Default: 0.
+    public var reconnectWindowSeconds: Swift.Int?
+    /// ARN of the stage where the participant is publishing.
+    /// This member is required.
+    public var sourceStageArn: Swift.String?
+
+    public init(
+        attributes: [Swift.String: Swift.String]? = nil,
+        destinationStageArn: Swift.String? = nil,
+        participantId: Swift.String? = nil,
+        reconnectWindowSeconds: Swift.Int? = nil,
+        sourceStageArn: Swift.String? = nil
+    ) {
+        self.attributes = attributes
+        self.destinationStageArn = destinationStageArn
+        self.participantId = participantId
+        self.reconnectWindowSeconds = reconnectWindowSeconds
+        self.sourceStageArn = sourceStageArn
+    }
+}
+
+public struct StartParticipantReplicationOutput: Swift.Sendable {
+    ///
+    public var accessControlAllowOrigin: Swift.String?
+    ///
+    public var accessControlExposeHeaders: Swift.String?
+    ///
+    public var cacheControl: Swift.String?
+    ///
+    public var contentSecurityPolicy: Swift.String?
+    ///
+    public var strictTransportSecurity: Swift.String?
+    ///
+    public var xContentTypeOptions: Swift.String?
+    ///
+    public var xFrameOptions: Swift.String?
+
+    public init(
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
+    ) {
+        self.accessControlAllowOrigin = accessControlAllowOrigin
+        self.accessControlExposeHeaders = accessControlExposeHeaders
+        self.cacheControl = cacheControl
+        self.contentSecurityPolicy = contentSecurityPolicy
+        self.strictTransportSecurity = strictTransportSecurity
+        self.xContentTypeOptions = xContentTypeOptions
+        self.xFrameOptions = xFrameOptions
+    }
+}
+
 public struct StopCompositionInput: Swift.Sendable {
     /// ARN of the Composition.
     /// This member is required.
@@ -3215,6 +3477,63 @@ public struct StopCompositionInput: Swift.Sendable {
 public struct StopCompositionOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct StopParticipantReplicationInput: Swift.Sendable {
+    /// ARN of the stage where the participant has been replicated.
+    /// This member is required.
+    public var destinationStageArn: Swift.String?
+    /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by [CreateParticipantToken] or the jti (JWT ID) used to [ create a self signed token](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started-distribute-tokens.html#getting-started-distribute-tokens-self-signed).
+    /// This member is required.
+    public var participantId: Swift.String?
+    /// ARN of the stage where the participant is publishing.
+    /// This member is required.
+    public var sourceStageArn: Swift.String?
+
+    public init(
+        destinationStageArn: Swift.String? = nil,
+        participantId: Swift.String? = nil,
+        sourceStageArn: Swift.String? = nil
+    ) {
+        self.destinationStageArn = destinationStageArn
+        self.participantId = participantId
+        self.sourceStageArn = sourceStageArn
+    }
+}
+
+public struct StopParticipantReplicationOutput: Swift.Sendable {
+    ///
+    public var accessControlAllowOrigin: Swift.String?
+    ///
+    public var accessControlExposeHeaders: Swift.String?
+    ///
+    public var cacheControl: Swift.String?
+    ///
+    public var contentSecurityPolicy: Swift.String?
+    ///
+    public var strictTransportSecurity: Swift.String?
+    ///
+    public var xContentTypeOptions: Swift.String?
+    ///
+    public var xFrameOptions: Swift.String?
+
+    public init(
+        accessControlAllowOrigin: Swift.String? = nil,
+        accessControlExposeHeaders: Swift.String? = nil,
+        cacheControl: Swift.String? = nil,
+        contentSecurityPolicy: Swift.String? = nil,
+        strictTransportSecurity: Swift.String? = nil,
+        xContentTypeOptions: Swift.String? = nil,
+        xFrameOptions: Swift.String? = nil
+    ) {
+        self.accessControlAllowOrigin = accessControlAllowOrigin
+        self.accessControlExposeHeaders = accessControlExposeHeaders
+        self.cacheControl = cacheControl
+        self.contentSecurityPolicy = contentSecurityPolicy
+        self.strictTransportSecurity = strictTransportSecurity
+        self.xContentTypeOptions = xContentTypeOptions
+        self.xFrameOptions = xFrameOptions
+    }
 }
 
 public struct TagResourceInput: Swift.Sendable {
@@ -3487,6 +3806,13 @@ extension ListParticipantEventsInput {
     }
 }
 
+extension ListParticipantReplicasInput {
+
+    static func urlPathProvider(_ value: ListParticipantReplicasInput) -> Swift.String? {
+        return "/ListParticipantReplicas"
+    }
+}
+
 extension ListParticipantsInput {
 
     static func urlPathProvider(_ value: ListParticipantsInput) -> Swift.String? {
@@ -3539,10 +3865,24 @@ extension StartCompositionInput {
     }
 }
 
+extension StartParticipantReplicationInput {
+
+    static func urlPathProvider(_ value: StartParticipantReplicationInput) -> Swift.String? {
+        return "/StartParticipantReplication"
+    }
+}
+
 extension StopCompositionInput {
 
     static func urlPathProvider(_ value: StopCompositionInput) -> Swift.String? {
         return "/StopComposition"
+    }
+}
+
+extension StopParticipantReplicationInput {
+
+    static func urlPathProvider(_ value: StopParticipantReplicationInput) -> Swift.String? {
+        return "/StopParticipantReplication"
     }
 }
 
@@ -3824,6 +4164,17 @@ extension ListParticipantEventsInput {
     }
 }
 
+extension ListParticipantReplicasInput {
+
+    static func write(value: ListParticipantReplicasInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["participantId"].write(value.participantId)
+        try writer["sourceStageArn"].write(value.sourceStageArn)
+    }
+}
+
 extension ListParticipantsInput {
 
     static func write(value: ListParticipantsInput?, to writer: SmithyJSON.Writer) throws {
@@ -3888,11 +4239,33 @@ extension StartCompositionInput {
     }
 }
 
+extension StartParticipantReplicationInput {
+
+    static func write(value: StartParticipantReplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["destinationStageArn"].write(value.destinationStageArn)
+        try writer["participantId"].write(value.participantId)
+        try writer["reconnectWindowSeconds"].write(value.reconnectWindowSeconds)
+        try writer["sourceStageArn"].write(value.sourceStageArn)
+    }
+}
+
 extension StopCompositionInput {
 
     static func write(value: StopCompositionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["arn"].write(value.arn)
+    }
+}
+
+extension StopParticipantReplicationInput {
+
+    static func write(value: StopParticipantReplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationStageArn"].write(value.destinationStageArn)
+        try writer["participantId"].write(value.participantId)
+        try writer["sourceStageArn"].write(value.sourceStageArn)
     }
 }
 
@@ -4186,6 +4559,19 @@ extension ListParticipantEventsOutput {
     }
 }
 
+extension ListParticipantReplicasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListParticipantReplicasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListParticipantReplicasOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.replicas = try reader["replicas"].readListIfPresent(memberReadingClosure: IVSRealTimeClientTypes.ParticipantReplica.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListParticipantsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListParticipantsOutput {
@@ -4275,10 +4661,68 @@ extension StartCompositionOutput {
     }
 }
 
+extension StartParticipantReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartParticipantReplicationOutput {
+        var value = StartParticipantReplicationOutput()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.xFrameOptions = xFrameOptionsHeaderValue
+        }
+        return value
+    }
+}
+
 extension StopCompositionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopCompositionOutput {
         return StopCompositionOutput()
+    }
+}
+
+extension StopParticipantReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopParticipantReplicationOutput {
+        var value = StopParticipantReplicationOutput()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.xFrameOptions = xFrameOptionsHeaderValue
+        }
+        return value
     }
 }
 
@@ -4742,6 +5186,21 @@ enum ListParticipantEventsOutputError {
     }
 }
 
+enum ListParticipantReplicasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListParticipantsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4857,6 +5316,26 @@ enum StartCompositionOutputError {
     }
 }
 
+enum StartParticipantReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "PendingVerification": return try PendingVerification.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopCompositionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4870,6 +5349,23 @@ enum StopCompositionOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopParticipantReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5314,6 +5810,7 @@ extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
         guard let value else { return }
         try writer["hlsConfiguration"].write(value.hlsConfiguration, with: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration.write(value:to:))
         try writer["mediaTypes"].writeList(value.mediaTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ParticipantRecordingMediaType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["recordParticipantReplicas"].write(value.recordParticipantReplicas)
         try writer["recordingReconnectWindowSeconds"].write(value.recordingReconnectWindowSeconds)
         try writer["storageConfigurationArn"].write(value.storageConfigurationArn)
         try writer["thumbnailConfiguration"].write(value.thumbnailConfiguration, with: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration.write(value:to:))
@@ -5327,6 +5824,7 @@ extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
         value.thumbnailConfiguration = try reader["thumbnailConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration.read(from:))
         value.recordingReconnectWindowSeconds = try reader["recordingReconnectWindowSeconds"].readIfPresent() ?? 0
         value.hlsConfiguration = try reader["hlsConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration.read(from:))
+        value.recordParticipantReplicas = try reader["recordParticipantReplicas"].readIfPresent() ?? false
         return value
     }
 }
@@ -5645,6 +6143,10 @@ extension IVSRealTimeClientTypes.Participant {
         value.recordingS3Prefix = try reader["recordingS3Prefix"].readIfPresent()
         value.recordingState = try reader["recordingState"].readIfPresent()
         value.`protocol` = try reader["protocol"].readIfPresent()
+        value.replicationType = try reader["replicationType"].readIfPresent()
+        value.replicationState = try reader["replicationState"].readIfPresent()
+        value.sourceStageArn = try reader["sourceStageArn"].readIfPresent()
+        value.sourceSessionId = try reader["sourceSessionId"].readIfPresent()
         return value
     }
 }
@@ -5742,6 +6244,24 @@ extension IVSRealTimeClientTypes.Event {
         value.eventTime = try reader["eventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.remoteParticipantId = try reader["remoteParticipantId"].readIfPresent()
         value.errorCode = try reader["errorCode"].readIfPresent()
+        value.destinationStageArn = try reader["destinationStageArn"].readIfPresent()
+        value.destinationSessionId = try reader["destinationSessionId"].readIfPresent()
+        value.replica = try reader["replica"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.ParticipantReplica {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ParticipantReplica {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.ParticipantReplica()
+        value.sourceStageArn = try reader["sourceStageArn"].readIfPresent() ?? ""
+        value.participantId = try reader["participantId"].readIfPresent() ?? ""
+        value.sourceSessionId = try reader["sourceSessionId"].readIfPresent() ?? ""
+        value.destinationStageArn = try reader["destinationStageArn"].readIfPresent() ?? ""
+        value.destinationSessionId = try reader["destinationSessionId"].readIfPresent() ?? ""
+        value.replicationState = try reader["replicationState"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5757,6 +6277,10 @@ extension IVSRealTimeClientTypes.ParticipantSummary {
         value.firstJoinTime = try reader["firstJoinTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.published = try reader["published"].readIfPresent() ?? false
         value.recordingState = try reader["recordingState"].readIfPresent()
+        value.replicationType = try reader["replicationType"].readIfPresent()
+        value.replicationState = try reader["replicationState"].readIfPresent()
+        value.sourceStageArn = try reader["sourceStageArn"].readIfPresent()
+        value.sourceSessionId = try reader["sourceSessionId"].readIfPresent()
         return value
     }
 }

@@ -382,6 +382,8 @@ extension SyntheticsClientTypes {
     public struct CanaryRunConfigOutput: Swift.Sendable {
         /// Displays whether this canary run used active X-Ray tracing.
         public var activeTracing: Swift.Bool?
+        /// Specifies the amount of ephemeral storage (in MB) to allocate for the canary run during execution. This temporary storage is used for storing canary run artifacts (which are uploaded to an Amazon S3 bucket at the end of the run), and any canary browser operations. This temporary storage is cleared after the run is completed. Default storage value is 1024 MB.
+        public var ephemeralStorage: Swift.Int?
         /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
         public var memoryInMB: Swift.Int?
         /// How long the canary is allowed to run before it must stop.
@@ -389,10 +391,12 @@ extension SyntheticsClientTypes {
 
         public init(
             activeTracing: Swift.Bool? = nil,
+            ephemeralStorage: Swift.Int? = nil,
             memoryInMB: Swift.Int? = nil,
             timeoutInSeconds: Swift.Int? = nil
         ) {
             self.activeTracing = activeTracing
+            self.ephemeralStorage = ephemeralStorage
             self.memoryInMB = memoryInMB
             self.timeoutInSeconds = timeoutInSeconds
         }
@@ -807,23 +811,59 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes {
 
+    public enum CanaryRunTestResult: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case passed
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CanaryRunTestResult] {
+            return [
+                .failed,
+                .passed,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .passed: return "PASSED"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
     /// This structure contains the status information about a canary run.
     public struct CanaryRunStatus: Swift.Sendable {
         /// The current state of the run.
         public var state: SyntheticsClientTypes.CanaryRunState?
         /// If run of the canary failed, this field contains the reason for the error.
         public var stateReason: Swift.String?
-        /// If this value is CANARY_FAILURE, an exception occurred in the canary code. If this value is EXECUTION_FAILURE, an exception occurred in CloudWatch Synthetics.
+        /// If this value is CANARY_FAILURE, either the canary script failed or Synthetics ran into a fatal error when running the canary. For example, a canary timeout misconfiguration setting can cause the canary to timeout before Synthetics can evaluate its status. If this value is EXECUTION_FAILURE, a non-critical failure occurred such as failing to save generated debug artifacts (for example, screenshots or har files). If both types of failures occurred, the CANARY_FAILURE takes precedence. To understand the exact error, use the [StateReason](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CanaryRunStatus.html) API.
         public var stateReasonCode: SyntheticsClientTypes.CanaryRunStateReasonCode?
+        /// Specifies the status of canary script for this run. When Synthetics tries to determine the status but fails, the result is marked as UNKNOWN. For the overall status of canary run, see [State](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CanaryRunStatus.html).
+        public var testResult: SyntheticsClientTypes.CanaryRunTestResult?
 
         public init(
             state: SyntheticsClientTypes.CanaryRunState? = nil,
             stateReason: Swift.String? = nil,
-            stateReasonCode: SyntheticsClientTypes.CanaryRunStateReasonCode? = nil
+            stateReasonCode: SyntheticsClientTypes.CanaryRunStateReasonCode? = nil,
+            testResult: SyntheticsClientTypes.CanaryRunTestResult? = nil
         ) {
             self.state = state
             self.stateReason = stateReason
             self.stateReasonCode = stateReasonCode
+            self.testResult = testResult
         }
     }
 }
@@ -915,7 +955,7 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes {
 
-    /// Use this structure to input your script code for the canary. This structure contains the Lambda handler with the location where the canary should start running the script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included. If the script was passed into the canary directly, the script code is contained in the value of Zipfile. If you are uploading your canary scripts with an Amazon S3 bucket, your zip file should include your script in a certain folder structure.
+    /// Use this structure to input your script code for the canary. This structure contains the Lambda handler with the location where the canary should start running the script. If the script is stored in an Amazon S3 bucket, the bucket name, key, and version are also included. If the script was passed into the canary directly, the script code is contained in the value of Zipfile. If you are uploading your canary scripts with an Amazon S3 bucket, your zip file should include your script in a certain folder structure.
     ///
     /// * For Node.js canaries, the folder structure must be nodejs/node_modules/myCanaryFilename.js  For more information, see [Packaging your Node.js canary files](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Nodejs.html#CloudWatch_Synthetics_Canaries_package)
     ///
@@ -924,13 +964,13 @@ extension SyntheticsClientTypes {
         /// The entry point to use for the source code when running the canary. For canaries that use the syn-python-selenium-1.0 runtime or a syn-nodejs.puppeteer runtime earlier than syn-nodejs.puppeteer-3.4, the handler must be specified as  fileName.handler. For syn-python-selenium-1.1, syn-nodejs.puppeteer-3.4, and later runtimes, the handler can be specified as  fileName.functionName , or you can specify a folder where canary scripts reside as  folder/fileName.functionName .
         /// This member is required.
         public var handler: Swift.String?
-        /// If your canary script is located in S3, specify the bucket name here. Do not include s3:// as the start of the bucket name.
+        /// If your canary script is located in Amazon S3, specify the bucket name here. Do not include s3:// as the start of the bucket name.
         public var s3Bucket: Swift.String?
-        /// The S3 key of your script. For more information, see [Working with Amazon S3 Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingObjects.html).
+        /// The Amazon S3 key of your script. For more information, see [Working with Amazon S3 Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingObjects.html).
         public var s3Key: Swift.String?
-        /// The S3 version ID of your script.
+        /// The Amazon S3 version ID of your script.
         public var s3Version: Swift.String?
-        /// If you input your canary script directly into the canary instead of referring to an S3 location, the value of this parameter is the base64-encoded contents of the .zip file that contains the script. It must be smaller than 225 Kb. For large canary scripts, we recommend that you use an S3 location instead of inputting it directly with this parameter.
+        /// If you input your canary script directly into the canary instead of referring to an Amazon S3 location, the value of this parameter is the base64-encoded contents of the .zip file that contains the script. It must be smaller than 225 Kb. For large canary scripts, we recommend that you use an Amazon S3 location instead of inputting it directly with this parameter.
         public var zipFile: Foundation.Data?
 
         public init(
@@ -957,6 +997,8 @@ extension SyntheticsClientTypes {
         public var activeTracing: Swift.Bool?
         /// Specifies the keys and values to use for any environment variables used in the canary script. Use the following format: { "key1" : "value1", "key2" : "value2", ...} Keys must start with a letter and be at least two characters. The total size of your environment variables cannot exceed 4 KB. You can't specify any Lambda reserved environment variables as the keys for your environment variables. For more information about reserved keys, see [ Runtime environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-runtime). Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables are not encrypted on the client side. Do not store sensitive information in them.
         public var environmentVariables: [Swift.String: Swift.String]?
+        /// Specifies the amount of ephemeral storage (in MB) to allocate for the canary run during execution. This temporary storage is used for storing canary run artifacts (which are uploaded to an Amazon S3 bucket at the end of the run), and any canary browser operations. This temporary storage is cleared after the run is completed. Default storage value is 1024 MB.
+        public var ephemeralStorage: Swift.Int?
         /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
         public var memoryInMB: Swift.Int?
         /// How long the canary is allowed to run before it must stop. You can't set this time to be longer than the frequency of the runs of this canary. If you omit this field, the frequency of the canary is used as this value, up to a maximum of 14 minutes.
@@ -965,11 +1007,13 @@ extension SyntheticsClientTypes {
         public init(
             activeTracing: Swift.Bool? = nil,
             environmentVariables: [Swift.String: Swift.String]? = nil,
+            ephemeralStorage: Swift.Int? = nil,
             memoryInMB: Swift.Int? = nil,
             timeoutInSeconds: Swift.Int? = nil
         ) {
             self.activeTracing = activeTracing
             self.environmentVariables = environmentVariables
+            self.ephemeralStorage = ephemeralStorage
             self.memoryInMB = memoryInMB
             self.timeoutInSeconds = timeoutInSeconds
         }
@@ -1091,10 +1135,10 @@ extension SyntheticsClientTypes {
 public struct CreateCanaryInput: Swift.Sendable {
     /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
     public var artifactConfig: SyntheticsClientTypes.ArtifactConfigInput?
-    /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the S3 bucket can't include a period (.).
+    /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
     /// This member is required.
     public var artifactS3Location: Swift.String?
-    /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included.
+    /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an Amazon S3 bucket, the bucket name, key, and version are also included.
     /// This member is required.
     public var code: SyntheticsClientTypes.CanaryCodeInput?
     /// The ARN of the IAM role to be used to run the canary. This role must already exist, and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:
@@ -1814,7 +1858,7 @@ public struct StartCanaryDryRunInput: Swift.Sendable {
     public var artifactConfig: SyntheticsClientTypes.ArtifactConfigInput?
     /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
     public var artifactS3Location: Swift.String?
-    /// Use this structure to input your script code for the canary. This structure contains the Lambda handler with the location where the canary should start running the script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included. If the script was passed into the canary directly, the script code is contained in the value of Zipfile. If you are uploading your canary scripts with an Amazon S3 bucket, your zip file should include your script in a certain folder structure.
+    /// Use this structure to input your script code for the canary. This structure contains the Lambda handler with the location where the canary should start running the script. If the script is stored in an Amazon S3 bucket, the bucket name, key, and version are also included. If the script was passed into the canary directly, the script code is contained in the value of Zipfile. If you are uploading your canary scripts with an Amazon S3 bucket, your zip file should include your script in a certain folder structure.
     ///
     /// * For Node.js canaries, the folder structure must be nodejs/node_modules/myCanaryFilename.js  For more information, see [Packaging your Node.js canary files](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Nodejs.html#CloudWatch_Synthetics_Canaries_package)
     ///
@@ -1822,18 +1866,18 @@ public struct StartCanaryDryRunInput: Swift.Sendable {
     public var code: SyntheticsClientTypes.CanaryCodeInput?
     /// The ARN of the IAM role to be used to run the canary. This role must already exist, and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:
     public var executionRoleArn: Swift.String?
-    /// The number of days to retain data on the failed runs for this canary. The valid range is 1 to 455 days. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
+    /// The number of days to retain data about failed runs of this canary. If you omit this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
     public var failureRetentionPeriodInDays: Swift.Int?
     /// The name of the canary that you want to dry run. To find canary names, use [DescribeCanaries](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html).
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If the value of this parameter is AUTOMATIC, it means that the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the [DeleteCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html) operation determines whether the Lambda functions and layers will be deleted.
+    /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If you omit this parameter, the default of AUTOMATIC is used, which means that the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the [DeleteCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html) operation determines whether the Lambda functions and layers will be deleted.
     public var provisionedResourceCleanup: SyntheticsClientTypes.ProvisionedResourceCleanupSetting?
     /// A structure that contains input information for a canary run.
     public var runConfig: SyntheticsClientTypes.CanaryRunConfigInput?
     /// Specifies the runtime version to use for the canary. For a list of valid runtime versions and for more information about runtime versions, see [ Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
     public var runtimeVersion: Swift.String?
-    /// The number of days to retain data on the failed runs for this canary. The valid range is 1 to 455 days. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
+    /// The number of days to retain data about successful runs of this canary. If you omit this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
     public var successRetentionPeriodInDays: Swift.Int?
     /// An object that specifies what screenshots to use as a baseline for visual monitoring by this canary. It can optionally also specify parts of the screenshots to ignore during the visual monitoring comparison. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see [ Visual monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html) and [ Visual monitoring blueprint](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
     public var visualReference: SyntheticsClientTypes.VisualReferenceInput?
@@ -1944,9 +1988,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 public struct UpdateCanaryInput: Swift.Sendable {
     /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
     public var artifactConfig: SyntheticsClientTypes.ArtifactConfigInput?
-    /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the S3 bucket can't include a period (.).
+    /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
     public var artifactS3Location: Swift.String?
-    /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included.
+    /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an Amazon S3 bucket, the bucket name, key, and version are also included.
     public var code: SyntheticsClientTypes.CanaryCodeInput?
     /// Update the existing canary using the updated configurations from the DryRun associated with the DryRunId. When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
     public var dryRunId: Swift.String?
@@ -3302,6 +3346,7 @@ extension SyntheticsClientTypes.CanaryRunConfigOutput {
         value.timeoutInSeconds = try reader["TimeoutInSeconds"].readIfPresent()
         value.memoryInMB = try reader["MemoryInMB"].readIfPresent()
         value.activeTracing = try reader["ActiveTracing"].readIfPresent()
+        value.ephemeralStorage = try reader["EphemeralStorage"].readIfPresent()
         return value
     }
 }
@@ -3412,6 +3457,7 @@ extension SyntheticsClientTypes.CanaryRunStatus {
         value.state = try reader["State"].readIfPresent()
         value.stateReason = try reader["StateReason"].readIfPresent()
         value.stateReasonCode = try reader["StateReasonCode"].readIfPresent()
+        value.testResult = try reader["TestResult"].readIfPresent()
         return value
     }
 }
@@ -3477,6 +3523,7 @@ extension SyntheticsClientTypes.CanaryRunConfigInput {
         guard let value else { return }
         try writer["ActiveTracing"].write(value.activeTracing)
         try writer["EnvironmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["EphemeralStorage"].write(value.ephemeralStorage)
         try writer["MemoryInMB"].write(value.memoryInMB)
         try writer["TimeoutInSeconds"].write(value.timeoutInSeconds)
     }

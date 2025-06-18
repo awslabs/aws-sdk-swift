@@ -297,7 +297,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
 
-    /// The type of file system.
+    /// The type of Amazon FSx file system.
     public enum FileSystemType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lustre
         case ontap
@@ -401,6 +401,63 @@ extension FSxClientTypes {
             case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    public enum LustreReadCacheSizingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noCache
+        case proportionalToThroughputCapacity
+        case userProvisioned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LustreReadCacheSizingMode] {
+            return [
+                .noCache,
+                .proportionalToThroughputCapacity,
+                .userProvisioned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noCache: return "NO_CACHE"
+            case .proportionalToThroughputCapacity: return "PROPORTIONAL_TO_THROUGHPUT_CAPACITY"
+            case .userProvisioned: return "USER_PROVISIONED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// The configuration for the optional provisioned SSD read cache on Amazon FSx for Lustre file systems that use the Intelligent-Tiering storage class.
+    public struct LustreReadCacheConfiguration: Swift.Sendable {
+        /// Required if SizingMode is set to USER_PROVISIONED. Specifies the size of the file system's SSD read cache, in gibibytes (GiB). The SSD read cache size is distributed across provisioned file servers in your file system. Intelligent-Tiering file systems support a minimum of 32 GiB and maximum of 131072 GiB for SSD read cache size for every 4,000 MB/s of throughput capacity provisioned.
+        public var sizeGiB: Swift.Int?
+        /// Specifies how the provisioned SSD read cache is sized, as follows:
+        ///
+        /// * Set to NO_CACHE if you do not want to use an SSD read cache with your Intelligent-Tiering file system.
+        ///
+        /// * Set to USER_PROVISIONED to specify the exact size of your SSD read cache.
+        ///
+        /// * Set to PROPORTIONAL_TO_THROUGHPUT_CAPACITY to have your SSD read cache automatically sized based on your throughput capacity.
+        public var sizingMode: FSxClientTypes.LustreReadCacheSizingMode?
+
+        public init(
+            sizeGiB: Swift.Int? = nil,
+            sizingMode: FSxClientTypes.LustreReadCacheSizingMode? = nil
+        ) {
+            self.sizeGiB = sizeGiB
+            self.sizingMode = sizingMode
         }
     }
 }
@@ -712,11 +769,15 @@ extension FSxClientTypes {
 
     /// The Lustre metadata performance configuration of an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type. The configuration enables the file system to support increasing metadata performance.
     public struct FileSystemLustreMetadataConfiguration: Swift.Sendable {
-        /// The number of Metadata IOPS provisioned for the file system. Valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
+        /// The number of Metadata IOPS provisioned for the file system.
+        ///
+        /// * For SSD file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
+        ///
+        /// * For Intelligent-Tiering file systems, valid values are 6000 and 12000.
         public var iops: Swift.Int?
         /// The metadata configuration mode for provisioning Metadata IOPS for the file system.
         ///
-        /// * In AUTOMATIC mode, FSx for Lustre automatically provisions and scales the number of Metadata IOPS on your file system based on your file system storage capacity.
+        /// * In AUTOMATIC mode (supported only on SSD file systems), FSx for Lustre automatically provisions and scales the number of Metadata IOPS on your file system based on your file system storage capacity.
         ///
         /// * In USER_PROVISIONED mode, you can choose to specify the number of Metadata IOPS to provision for your file system.
         /// This member is required.
@@ -781,9 +842,11 @@ extension FSxClientTypes {
         ///
         /// For more information, see [Lustre data compression](https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-compression.html).
         public var dataCompressionType: FSxClientTypes.DataCompressionType?
+        /// Required when StorageType is set to INTELLIGENT_TIERING. Specifies the optional provisioned SSD read cache.
+        public var dataReadCacheConfiguration: FSxClientTypes.LustreReadCacheConfiguration?
         /// The data repository configuration object for Lustre file systems returned in the response of the CreateFileSystem operation. This data type is not supported on file systems with a data repository association. For file systems with a data repository association, see .
         public var dataRepositoryConfiguration: FSxClientTypes.DataRepositoryConfiguration?
-        /// The deployment type of the FSx for Lustre file system. Scratch deployment type is designed for temporary storage and shorter-term processing of data. SCRATCH_1 and SCRATCH_2 deployment types are best suited for when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. The PERSISTENT_1 and PERSISTENT_2 deployment type is used for longer-term storage and workloads and encryption of data in transit. PERSISTENT_2 offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB) along with a lower minimum storage capacity requirement (600 GiB). To learn more about FSx for Lustre deployment types, see [ FSx for Lustre deployment options](https://docs.aws.amazon.com/fsx/latest/LustreGuide/lustre-deployment-types.html). The default is SCRATCH_1.
+        /// The deployment type of the FSx for Lustre file system. Scratch deployment type is designed for temporary storage and shorter-term processing of data. SCRATCH_1 and SCRATCH_2 deployment types are best suited for when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. The PERSISTENT_1 and PERSISTENT_2 deployment type is used for longer-term storage and workloads and encryption of data in transit. PERSISTENT_2 offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB) along with a lower minimum storage capacity requirement (600 GiB). To learn more about FSx for Lustre deployment types, see [Deployment and storage class options for FSx for Lustre file systems](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html). The default is SCRATCH_1.
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when StorageType is HDD. When set to READ the file system has an SSD storage cache that is sized to 20% of the file system's storage capacity. This improves the performance for frequently accessed files by caching up to 20% of the total storage capacity. This parameter is required when StorageType is set to HDD.
         public var driveCacheType: FSxClientTypes.DriveCacheType?
@@ -805,6 +868,8 @@ extension FSxClientTypes {
         public var perUnitStorageThroughput: Swift.Int?
         /// The Lustre root squash configuration for an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
         public var rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration?
+        /// The throughput of an Amazon FSx for Lustre file system using the Intelligent-Tiering storage class, measured in megabytes per second (MBps).
+        public var throughputCapacity: Swift.Int?
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. Here, d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
@@ -813,6 +878,7 @@ extension FSxClientTypes {
             copyTagsToBackups: Swift.Bool? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             dataCompressionType: FSxClientTypes.DataCompressionType? = nil,
+            dataReadCacheConfiguration: FSxClientTypes.LustreReadCacheConfiguration? = nil,
             dataRepositoryConfiguration: FSxClientTypes.DataRepositoryConfiguration? = nil,
             deploymentType: FSxClientTypes.LustreDeploymentType? = nil,
             driveCacheType: FSxClientTypes.DriveCacheType? = nil,
@@ -822,12 +888,14 @@ extension FSxClientTypes {
             mountName: Swift.String? = nil,
             perUnitStorageThroughput: Swift.Int? = nil,
             rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration? = nil,
+            throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
         ) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataCompressionType = dataCompressionType
+            self.dataReadCacheConfiguration = dataReadCacheConfiguration
             self.dataRepositoryConfiguration = dataRepositoryConfiguration
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
@@ -837,6 +905,7 @@ extension FSxClientTypes {
             self.mountName = mountName
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.rootSquashConfiguration = rootSquashConfiguration
+            self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
     }
@@ -1021,7 +1090,7 @@ extension FSxClientTypes {
         ///
         /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -1133,7 +1202,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
 
-    /// The configuration for the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
+    /// The configuration for the optional provisioned SSD read cache on Amazon FSx for OpenZFS file systems that use the Intelligent-Tiering storage class.
     public struct OpenZFSReadCacheConfiguration: Swift.Sendable {
         /// Required if SizingMode is set to USER_PROVISIONED. Specifies the size of the file system's SSD read cache, in gibibytes (GiB).
         public var sizeGiB: Swift.Int?
@@ -1186,7 +1255,7 @@ extension FSxClientTypes {
         public var routeTableIds: [Swift.String]?
         /// The throughput of an Amazon FSx file system, measured in megabytes per second (MBps).
         public var throughputCapacity: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -3111,7 +3180,7 @@ public struct InvalidSourceKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension FSxClientTypes {
 
-    /// The types of limits on your service utilization. Limits include file system count, total throughput capacity, total storage, and total user-initiated backups. These limits apply for a specific account in a specific Amazon Web Services Region. You can increase some of them by contacting Amazon Web Services Support.
+    /// The types of limits on your service utilization. Limits include file system count, total throughput capacity, total storage, and total user-initiated backups. These limits apply for a specific account in a specific Amazon Web Services Region. You can increase some of them by contacting Amazon Web ServicesSupport.
     public enum ServiceLimit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fileCacheCount
         case fileSystemCount
@@ -3163,7 +3232,7 @@ extension FSxClientTypes {
     }
 }
 
-/// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
+/// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
 public struct ServiceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3666,7 +3735,7 @@ extension FSxClientTypes {
     /// * DescribeDataRepositoryAssociations
     ///
     ///
-    /// Data repository associations are supported on Amazon File Cache resources and all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type.
+    /// Data repository associations are supported on Amazon File Cache resources and all FSx for Lustre 2.12 and 2.15 file systems, excluding Intelligent-Tiering and scratch_1 file systems.
     public struct DataRepositoryAssociation: Swift.Sendable {
         /// The system-generated, unique ID of the data repository association.
         public var associationId: Swift.String?
@@ -4423,7 +4492,7 @@ extension FSxClientTypes {
         /// Provisions the amount of read and write throughput for each 1 tebibyte (TiB) of cache storage capacity, in MB/s/TiB. The only supported value is 1000.
         /// This member is required.
         public var perUnitStorageThroughput: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -4569,7 +4638,7 @@ extension FSxClientTypes {
         public var mountName: Swift.String?
         /// Per unit storage throughput represents the megabytes per second of read or write throughput per 1 tebibyte of storage provisioned. Cache throughput capacity is equal to Storage capacity (TiB) * PerUnitStorageThroughput (MB/s/TiB). The only supported value is 1000.
         public var perUnitStorageThroughput: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -4808,11 +4877,18 @@ extension FSxClientTypes {
 
     /// The Lustre metadata performance configuration for the creation of an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type. The configuration uses a Metadata IOPS value to set the maximum rate of metadata disk IOPS supported by the file system. After creation, the file system supports increasing metadata performance. For more information on Metadata IOPS, see [Lustre metadata performance configuration](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-metadata-performance.html#metadata-configuration) in the Amazon FSx for Lustre User Guide.
     public struct CreateFileSystemLustreMetadataConfiguration: Swift.Sendable {
-        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for the file system. This parameter sets the maximum rate of metadata disk IOPS supported by the file system. Valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000. Iops doesn’t have a default value. If you're using USER_PROVISIONED mode, you can choose to specify a valid value. If you're using AUTOMATIC mode, you cannot specify a value because FSx for Lustre automatically sets the value based on your file system storage capacity.
+        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for the file system. This parameter sets the maximum rate of metadata disk IOPS supported by the file system.
+        ///
+        /// * For SSD file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
+        ///
+        /// * For Intelligent-Tiering file systems, valid values are 6000 and 12000.
+        ///
+        ///
+        /// Iops doesn’t have a default value. If you're using USER_PROVISIONED mode, you can choose to specify a valid value. If you're using AUTOMATIC mode, you cannot specify a value because FSx for Lustre automatically sets the value based on your file system storage capacity.
         public var iops: Swift.Int?
         /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.
         ///
-        /// * In AUTOMATIC mode, FSx for Lustre automatically provisions and scales the number of Metadata IOPS for your file system based on your file system storage capacity.
+        /// * In AUTOMATIC mode (supported only on SSD file systems), FSx for Lustre automatically provisions and scales the number of Metadata IOPS for your file system based on your file system storage capacity.
         ///
         /// * In USER_PROVISIONED mode, you specify the number of Metadata IOPS to provision for your file system.
         /// This member is required.
@@ -4868,7 +4944,9 @@ extension FSxClientTypes {
         ///
         /// For more information, see [Lustre data compression](https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-compression.html) in the Amazon FSx for Lustre User Guide.
         public var dataCompressionType: FSxClientTypes.DataCompressionType?
-        /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 for longer-term storage and for throughput-focused workloads that aren’t latency-sensitive. PERSISTENT_1 supports encryption of data in transit, and is available in all Amazon Web Services Regions in which FSx for Lustre is available. Choose PERSISTENT_2 for longer-term storage and for latency-sensitive workloads that require the highest levels of IOPS/throughput. PERSISTENT_2 supports SSD storage, and offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB). You can optionally specify a metadata configuration mode for PERSISTENT_2 which supports increasing metadata performance. PERSISTENT_2 is available in a limited number of Amazon Web Services Regions. For more information, and an up-to-date list of Amazon Web Services Regions in which PERSISTENT_2 is available, see [File system deployment options for FSx for Lustre](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html#lustre-deployment-types) in the Amazon FSx for Lustre User Guide. If you choose PERSISTENT_2, and you set FileSystemTypeVersion to 2.10, the CreateFileSystem operation fails. Encryption of data in transit is automatically turned on when you access SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 file systems from Amazon EC2 instances that support automatic encryption in the Amazon Web Services Regions where they are available. For more information about encryption in transit for FSx for Lustre file systems, see [Encrypting data in transit](https://docs.aws.amazon.com/fsx/latest/LustreGuide/encryption-in-transit-fsxl.html) in the Amazon FSx for Lustre User Guide. (Default = SCRATCH_1)
+        /// Specifies the optional provisioned SSD read cache on FSx for Lustre file systems that use the Intelligent-Tiering storage class. Required when StorageType is set to INTELLIGENT_TIERING.
+        public var dataReadCacheConfiguration: FSxClientTypes.LustreReadCacheConfiguration?
+        /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 for longer-term storage and for throughput-focused workloads that aren’t latency-sensitive. PERSISTENT_1 supports encryption of data in transit, and is available in all Amazon Web Services Regions in which FSx for Lustre is available. Choose PERSISTENT_2 for longer-term storage and for latency-sensitive workloads that require the highest levels of IOPS/throughput. PERSISTENT_2 supports the SSD and Intelligent-Tiering storage classes. You can optionally specify a metadata configuration mode for PERSISTENT_2 which supports increasing metadata performance. PERSISTENT_2 is available in a limited number of Amazon Web Services Regions. For more information, and an up-to-date list of Amazon Web Services Regions in which PERSISTENT_2 is available, see [Deployment and storage class options for FSx for Lustre file systems](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html) in the Amazon FSx for Lustre User Guide. If you choose PERSISTENT_2, and you set FileSystemTypeVersion to 2.10, the CreateFileSystem operation fails. Encryption of data in transit is automatically turned on when you access SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 file systems from Amazon EC2 instances that support automatic encryption in the Amazon Web Services Regions where they are available. For more information about encryption in transit for FSx for Lustre file systems, see [Encrypting data in transit](https://docs.aws.amazon.com/fsx/latest/LustreGuide/encryption-in-transit-fsxl.html) in the Amazon FSx for Lustre User Guide. (Default = SCRATCH_1)
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set this property to READ to improve the performance for frequently accessed files by caching up to 20% of the total storage capacity of the file system. This parameter is required when StorageType is set to HDD.
         public var driveCacheType: FSxClientTypes.DriveCacheType?
@@ -4884,7 +4962,7 @@ extension FSxClientTypes {
         public var logConfiguration: FSxClientTypes.LustreLogCreateConfiguration?
         /// The Lustre metadata performance configuration for the creation of an FSx for Lustre file system using a PERSISTENT_2 deployment type.
         public var metadataConfiguration: FSxClientTypes.CreateFileSystemLustreMetadataConfiguration?
-        /// Required with PERSISTENT_1 and PERSISTENT_2 deployment types, provisions the amount of read and write throughput for each 1 tebibyte (TiB) of file system storage capacity, in MB/s/TiB. File system throughput capacity is calculated by multiplying ﬁle system storage capacity (TiB) by the PerUnitStorageThroughput (MB/s/TiB). For a 2.4-TiB ﬁle system, provisioning 50 MB/s/TiB of PerUnitStorageThroughput yields 120 MB/s of ﬁle system throughput. You pay for the amount of throughput that you provision. Valid values:
+        /// Required with PERSISTENT_1 and PERSISTENT_2 deployment types using an SSD or HDD storage class, provisions the amount of read and write throughput for each 1 tebibyte (TiB) of file system storage capacity, in MB/s/TiB. File system throughput capacity is calculated by multiplying ﬁle system storage capacity (TiB) by the PerUnitStorageThroughput (MB/s/TiB). For a 2.4-TiB ﬁle system, provisioning 50 MB/s/TiB of PerUnitStorageThroughput yields 120 MB/s of ﬁle system throughput. You pay for the amount of throughput that you provision. Valid values:
         ///
         /// * For PERSISTENT_1 SSD storage: 50, 100, 200 MB/s/TiB.
         ///
@@ -4894,6 +4972,8 @@ extension FSxClientTypes {
         public var perUnitStorageThroughput: Swift.Int?
         /// The Lustre root squash configuration used when creating an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
         public var rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration?
+        /// Specifies the throughput of an FSx for Lustre file system using the Intelligent-Tiering storage class, measured in megabytes per second (MBps). Valid values are 4000 MBps or multiples of 4000 MBps. You pay for the amount of throughput that you provision.
+        public var throughputCapacity: Swift.Int?
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
@@ -4903,6 +4983,7 @@ extension FSxClientTypes {
             copyTagsToBackups: Swift.Bool? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             dataCompressionType: FSxClientTypes.DataCompressionType? = nil,
+            dataReadCacheConfiguration: FSxClientTypes.LustreReadCacheConfiguration? = nil,
             deploymentType: FSxClientTypes.LustreDeploymentType? = nil,
             driveCacheType: FSxClientTypes.DriveCacheType? = nil,
             efaEnabled: Swift.Bool? = nil,
@@ -4913,6 +4994,7 @@ extension FSxClientTypes {
             metadataConfiguration: FSxClientTypes.CreateFileSystemLustreMetadataConfiguration? = nil,
             perUnitStorageThroughput: Swift.Int? = nil,
             rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration? = nil,
+            throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
         ) {
             self.autoImportPolicy = autoImportPolicy
@@ -4920,6 +5002,7 @@ extension FSxClientTypes {
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataCompressionType = dataCompressionType
+            self.dataReadCacheConfiguration = dataReadCacheConfiguration
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
             self.efaEnabled = efaEnabled
@@ -4930,6 +5013,7 @@ extension FSxClientTypes {
             self.metadataConfiguration = metadataConfiguration
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.rootSquashConfiguration = rootSquashConfiguration
+            self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
     }
@@ -4996,7 +5080,7 @@ extension FSxClientTypes {
         ///
         /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -5105,7 +5189,7 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.OpenZFSDeploymentType?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
         public var endpointIpAddressRange: Swift.String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
@@ -5115,7 +5199,7 @@ extension FSxClientTypes {
         public var rootVolumeConfiguration: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration?
         /// (Multi-AZ only) Specifies the route tables in which Amazon FSx creates the rules for routing traffic to the correct file server. You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table.
         public var routeTableIds: [Swift.String]?
-        /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second (MBps). Valid values depend on the DeploymentType you choose, as follows:
+        /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second (MBps). Valid values depend on the DeploymentType that you choose, as follows:
         ///
         /// * For MULTI_AZ_1 and SINGLE_AZ_2, valid values are 160, 320, 640, 1280, 2560, 3840, 5120, 7680, or 10240 MBps.
         ///
@@ -5125,7 +5209,7 @@ extension FSxClientTypes {
         /// You pay for additional throughput capacity that you provision.
         /// This member is required.
         public var throughputCapacity: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -5405,12 +5489,12 @@ public struct CreateFileSystemInput: Swift.Sendable {
     ///
     /// * Set to SSD to use solid state drive storage. SSD is supported on all Windows, Lustre, ONTAP, and OpenZFS deployment types.
     ///
-    /// * Set to HDD to use hard disk drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT_1 Lustre file system deployment types.
+    /// * Set to HDD to use hard disk drive storage, which is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT_1 Lustre file system deployment types.
     ///
-    /// * Set to INTELLIGENT_TIERING to use fully elastic, intelligently-tiered storage. Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ deployment type.
+    /// * Set to INTELLIGENT_TIERING to use fully elastic, intelligently-tiered storage. Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ deployment type and for Lustre file systems with the Persistent_2 deployment type.
     ///
     ///
-    /// Default value is SSD. For more information, see [ Storage type options](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-costs.html#storage-type-options) in the FSx for Windows File Server User Guide, [Multiple storage options](https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html#storage-options) in the FSx for Lustre User Guide, and [Working with Intelligent-Tiering](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance-intelligent-tiering) in the Amazon FSx for OpenZFS User Guide.
+    /// Default value is SSD. For more information, see [ Storage type options](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-costs.html#storage-type-options) in the FSx for Windows File Server User Guide, [FSx for Lustre storage classes](https://docs.aws.amazon.com/fsx/latest/LustreGuide/lustre-storage-classes) in the FSx for Lustre User Guide, and [Working with Intelligent-Tiering](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance-intelligent-tiering) in the Amazon FSx for OpenZFS User Guide.
     public var storageType: FSxClientTypes.StorageType?
     /// Specifies the IDs of the subnets that the file system will be accessible from. For Windows and ONTAP MULTI_AZ_1 deployment types,provide exactly two subnet IDs, one for the preferred file server and one for the standby file server. You specify one of these subnets as the preferred subnet using the WindowsConfiguration > PreferredSubnetID or OntapConfiguration > PreferredSubnetID properties. For more information about Multi-AZ file system configuration, see [ Availability and durability: Single-AZ and Multi-AZ file systems](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html) in the Amazon FSx for Windows User Guide and [ Availability and durability](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-multiAZ.html) in the Amazon FSx for ONTAP User Guide. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 and all Lustre deployment types, provide exactly one subnet ID. The file server is launched in that subnet's Availability Zone.
     /// This member is required.
@@ -5489,11 +5573,13 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
     public var securityGroupIds: [Swift.String]?
     /// Sets the storage capacity of the OpenZFS file system that you're creating from a backup, in gibibytes (GiB). Valid values are from 64 GiB up to 524,288 GiB (512 TiB). However, the value that you specify must be equal to or greater than the backup's storage capacity value. If you don't use the StorageCapacity parameter, the default is the backup's StorageCapacity value. If used to create a file system other than OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you provide any other value, Amazon FSx responds with an HTTP status code 400 Bad Request.
     public var storageCapacity: Swift.Int?
-    /// Sets the storage type for the Windows or OpenZFS file system that you're creating from a backup. Valid values are SSD and HDD.
+    /// Sets the storage type for the Windows, OpenZFS, or Lustre file system that you're creating from a backup. Valid values are SSD, HDD, and INTELLIGENT_TIERING.
     ///
     /// * Set to SSD to use solid state drive storage. SSD is supported on all Windows and OpenZFS deployment types.
     ///
     /// * Set to HDD to use hard disk drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 FSx for Windows File Server file system deployment types.
+    ///
+    /// * Set to INTELLIGENT_TIERING to use fully elastic, intelligently-tiered storage. Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ deployment type and for Lustre file systems with the Persistent_2 deployment type.
     ///
     ///
     /// The default value is SSD. HDD and SSD storage types have different minimum storage capacity requirements. A restored file system's storage capacity is tied to the file system that was backed up. You can create a file system that uses HDD storage from a backup of a file system that used SSD storage if the original SSD file system had a storage capacity of at least 2000 GiB.
@@ -6162,7 +6248,7 @@ extension FSxClientTypes {
 
     /// Specifies the configuration of the Amazon FSx for OpenZFS volume that you are creating.
     public struct CreateOpenZFSVolumeConfiguration: Swift.Sendable {
-        /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If it's set to true, all tags for the volume are copied to snapshots where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to snapshots. If you specify one or more tags when creating the snapshot, no tags are copied from the volume, regardless of this value.
+        /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If this value is set to true, and you do not specify any tags, all tags for the original volume are copied over to snapshots. If this value is set to true, and you do specify one or more tags, only the specified tags for the original volume are copied over to snapshots. If you specify one or more tags when creating a new snapshot, no tags are copied over from the original volume, regardless of this value.
         public var copyTagsToSnapshots: Swift.Bool?
         /// Specifies the method used to compress the data on the volume. The compression type is NONE by default.
         ///
@@ -7907,7 +7993,7 @@ extension FSxClientTypes {
 
     /// The configuration update for an Amazon File Cache resource.
     public struct UpdateFileCacheLustreConfiguration: Swift.Sendable {
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -7953,13 +8039,24 @@ extension FSxClientTypes {
 
     /// The Lustre metadata performance configuration update for an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type. You can request an increase in your file system's Metadata IOPS and/or switch your file system's metadata configuration mode. For more information, see [Managing metadata performance](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-metadata-performance.html) in the Amazon FSx for Lustre User Guide.
     public struct UpdateFileSystemLustreMetadataConfiguration: Swift.Sendable {
-        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for your file system. Valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000. The value you provide must be greater than or equal to the current number of Metadata IOPS provisioned for the file system.
+        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for your file system.
+        ///
+        /// * For SSD file systems, valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
+        ///
+        /// * For Intelligent-Tiering file systems, valid values are 6000 and 12000.
+        ///
+        ///
+        /// The value you provide must be greater than or equal to the current number of Metadata IOPS provisioned for the file system.
         public var iops: Swift.Int?
         /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.
         ///
-        /// * To increase the Metadata IOPS or to switch from AUTOMATIC mode, specify USER_PROVISIONED as the value for this parameter. Then use the Iops parameter to provide a Metadata IOPS value that is greater than or equal to the current number of Metadata IOPS provisioned for the file system.
+        /// * To increase the Metadata IOPS or to switch an SSD file system from AUTOMATIC, specify USER_PROVISIONED as the value for this parameter. Then use the Iops parameter to provide a Metadata IOPS value that is greater than or equal to the current number of Metadata IOPS provisioned for the file system.
         ///
-        /// * To switch from USER_PROVISIONED mode, specify AUTOMATIC as the value for this parameter, but do not input a value for Iops. If you request to switch from USER_PROVISIONED to AUTOMATIC mode and the current Metadata IOPS value is greater than the automated default, FSx for Lustre rejects the request because downscaling Metadata IOPS is not supported.
+        /// * To switch from USER_PROVISIONED mode on an SSD file system, specify AUTOMATIC as the value for this parameter, but do not input a value for Iops.
+        ///
+        /// * If you request to switch from USER_PROVISIONED to AUTOMATIC mode and the current Metadata IOPS value is greater than the automated default, FSx for Lustre rejects the request because downscaling Metadata IOPS is not supported.
+        ///
+        /// * AUTOMATIC mode is not supported on Intelligent-Tiering file systems. For Intelligent-Tiering file systems, use USER_PROVISIONED mode.
         public var mode: FSxClientTypes.MetadataConfigurationMode?
 
         public init(
@@ -8002,6 +8099,8 @@ extension FSxClientTypes {
         ///
         /// If you don't use DataCompressionType, the file system retains its current data compression configuration. For more information, see [Lustre data compression](https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-compression.html).
         public var dataCompressionType: FSxClientTypes.DataCompressionType?
+        /// Specifies the optional provisioned SSD read cache on Amazon FSx for Lustre file systems that use the Intelligent-Tiering storage class.
+        public var dataReadCacheConfiguration: FSxClientTypes.LustreReadCacheConfiguration?
         /// The Lustre logging configuration used when updating an Amazon FSx for Lustre file system. When logging is enabled, Lustre logs error and warning events for data repositories associated with your file system to Amazon CloudWatch Logs.
         public var logConfiguration: FSxClientTypes.LustreLogCreateConfiguration?
         /// The Lustre metadata performance configuration for an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type. When this configuration is enabled, the file system supports increasing metadata performance.
@@ -8017,6 +8116,8 @@ extension FSxClientTypes {
         public var perUnitStorageThroughput: Swift.Int?
         /// The Lustre root squash configuration used when updating an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
         public var rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration?
+        /// The throughput of an Amazon FSx for Lustre file system using an Intelligent-Tiering storage class, measured in megabytes per second (MBps). You can only increase your file system's throughput. Valid values are 4000 MBps or multiples of 4000 MBps.
+        public var throughputCapacity: Swift.Int?
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
@@ -8025,20 +8126,24 @@ extension FSxClientTypes {
             automaticBackupRetentionDays: Swift.Int? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             dataCompressionType: FSxClientTypes.DataCompressionType? = nil,
+            dataReadCacheConfiguration: FSxClientTypes.LustreReadCacheConfiguration? = nil,
             logConfiguration: FSxClientTypes.LustreLogCreateConfiguration? = nil,
             metadataConfiguration: FSxClientTypes.UpdateFileSystemLustreMetadataConfiguration? = nil,
             perUnitStorageThroughput: Swift.Int? = nil,
             rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration? = nil,
+            throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
         ) {
             self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataCompressionType = dataCompressionType
+            self.dataReadCacheConfiguration = dataReadCacheConfiguration
             self.logConfiguration = logConfiguration
             self.metadataConfiguration = metadataConfiguration
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.rootSquashConfiguration = rootSquashConfiguration
+            self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
     }
@@ -8085,7 +8190,7 @@ extension FSxClientTypes {
         ///
         /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -8145,7 +8250,7 @@ extension FSxClientTypes {
         ///
         /// * For SINGLE_AZ_1, valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MB/s.
         public var throughputCapacity: Swift.Int?
-        /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
+        /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
         public init(
@@ -8731,7 +8836,13 @@ extension FSxClientTypes {
         public var resourceARN: Swift.String?
         /// The storage capacity of the file system in gibibytes (GiB). Amazon FSx responds with an HTTP status code 400 (Bad Request) if the value of StorageCapacity is outside of the minimum or maximum values.
         public var storageCapacity: Swift.Int?
-        /// The type of storage the file system is using. If set to SSD, the file system uses solid state drive storage. If set to HDD, the file system uses hard disk drive storage.
+        /// The type of storage the file system is using.
+        ///
+        /// * If set to SSD, the file system uses solid state drive storage.
+        ///
+        /// * If set to HDD, the file system uses hard disk drive storage.
+        ///
+        /// * If set to INTELLIGENT_TIERING, the file system uses fully elastic, intelligently-tiered storage.
         public var storageType: FSxClientTypes.StorageType?
         /// Specifies the IDs of the subnets that the file system is accessible from. For the Amazon FSx Windows and ONTAP MULTI_AZ_1 file system deployment type, there are two subnet IDs, one for the preferred file server and one for the standby file server. The preferred file server subnet identified in the PreferredSubnetID property. All other file systems have only one subnet ID. For FSx for Lustre file systems, and Single-AZ Windows file systems, this is the ID of the subnet that contains the file system's endpoint. For MULTI_AZ_1 Windows and ONTAP file systems, the file system endpoint is available in the PreferredSubnetID.
         public var subnetIds: [Swift.String]?
@@ -12290,6 +12401,25 @@ extension FSxClientTypes.LustreFileSystemConfiguration {
         value.rootSquashConfiguration = try reader["RootSquashConfiguration"].readIfPresent(with: FSxClientTypes.LustreRootSquashConfiguration.read(from:))
         value.metadataConfiguration = try reader["MetadataConfiguration"].readIfPresent(with: FSxClientTypes.FileSystemLustreMetadataConfiguration.read(from:))
         value.efaEnabled = try reader["EfaEnabled"].readIfPresent()
+        value.throughputCapacity = try reader["ThroughputCapacity"].readIfPresent()
+        value.dataReadCacheConfiguration = try reader["DataReadCacheConfiguration"].readIfPresent(with: FSxClientTypes.LustreReadCacheConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.LustreReadCacheConfiguration {
+
+    static func write(value: FSxClientTypes.LustreReadCacheConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SizeGiB"].write(value.sizeGiB)
+        try writer["SizingMode"].write(value.sizingMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.LustreReadCacheConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.LustreReadCacheConfiguration()
+        value.sizingMode = try reader["SizingMode"].readIfPresent()
+        value.sizeGiB = try reader["SizeGiB"].readIfPresent()
         return value
     }
 }
@@ -13022,6 +13152,7 @@ extension FSxClientTypes.CreateFileSystemLustreConfiguration {
         try writer["CopyTagsToBackups"].write(value.copyTagsToBackups)
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DataCompressionType"].write(value.dataCompressionType)
+        try writer["DataReadCacheConfiguration"].write(value.dataReadCacheConfiguration, with: FSxClientTypes.LustreReadCacheConfiguration.write(value:to:))
         try writer["DeploymentType"].write(value.deploymentType)
         try writer["DriveCacheType"].write(value.driveCacheType)
         try writer["EfaEnabled"].write(value.efaEnabled)
@@ -13032,6 +13163,7 @@ extension FSxClientTypes.CreateFileSystemLustreConfiguration {
         try writer["MetadataConfiguration"].write(value.metadataConfiguration, with: FSxClientTypes.CreateFileSystemLustreMetadataConfiguration.write(value:to:))
         try writer["PerUnitStorageThroughput"].write(value.perUnitStorageThroughput)
         try writer["RootSquashConfiguration"].write(value.rootSquashConfiguration, with: FSxClientTypes.LustreRootSquashConfiguration.write(value:to:))
+        try writer["ThroughputCapacity"].write(value.throughputCapacity)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
 }
@@ -13317,10 +13449,12 @@ extension FSxClientTypes.UpdateFileSystemLustreConfiguration {
         try writer["AutomaticBackupRetentionDays"].write(value.automaticBackupRetentionDays)
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DataCompressionType"].write(value.dataCompressionType)
+        try writer["DataReadCacheConfiguration"].write(value.dataReadCacheConfiguration, with: FSxClientTypes.LustreReadCacheConfiguration.write(value:to:))
         try writer["LogConfiguration"].write(value.logConfiguration, with: FSxClientTypes.LustreLogCreateConfiguration.write(value:to:))
         try writer["MetadataConfiguration"].write(value.metadataConfiguration, with: FSxClientTypes.UpdateFileSystemLustreMetadataConfiguration.write(value:to:))
         try writer["PerUnitStorageThroughput"].write(value.perUnitStorageThroughput)
         try writer["RootSquashConfiguration"].write(value.rootSquashConfiguration, with: FSxClientTypes.LustreRootSquashConfiguration.write(value:to:))
+        try writer["ThroughputCapacity"].write(value.throughputCapacity)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
     }
 }

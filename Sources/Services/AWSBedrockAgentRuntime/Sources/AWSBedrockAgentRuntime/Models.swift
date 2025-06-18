@@ -244,7 +244,7 @@ extension BedrockAgentRuntimeClientTypes {
     public struct Metadata: Swift.Sendable {
         /// A unique identifier associated with the downstream invocation. This ID can be used for tracing, debugging, and identifying specific invocations in customer logs or systems.
         public var clientRequestId: Swift.String?
-        /// In the final response, endTime is the end time time of the agent invocation operation.
+        /// In the final response, endTime is the end time of the agent invocation operation.
         public var endTime: Foundation.Date?
         /// The total time it took for the agent to complete execution. This field is only set for the final response.
         public var operationTotalTimeMs: Swift.Int?
@@ -1251,6 +1251,947 @@ extension BedrockAgentRuntimeClientTypes.AgentCollaboratorInvocationOutput: Swif
         "AgentCollaboratorInvocationOutput(agentCollaboratorAliasArn: \(Swift.String(describing: agentCollaboratorAliasArn)), agentCollaboratorName: \(Swift.String(describing: agentCollaboratorName)), output: \(Swift.String(describing: output)), metadata: \"CONTENT_REDACTED\")"}
 }
 
+/// An internal server error occurred. Retry your request.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The reason for the exception. If the reason is BEDROCK_MODEL_INVOCATION_SERVICE_UNAVAILABLE, the model invocation service is unavailable. Retry your request.
+        public internal(set) var reason: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        reason: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.reason = reason
+    }
+}
+
+/// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The number of requests exceeds the limit. Resubmit your request later.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// Input validation failed. Check your request parameters and retry the request.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetExecutionFlowSnapshotInput: Swift.Sendable {
+    /// The unique identifier of the flow execution.
+    /// This member is required.
+    public var executionIdentifier: Swift.String?
+    /// The unique identifier of the flow alias used for the flow execution.
+    /// This member is required.
+    public var flowAliasIdentifier: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var flowIdentifier: Swift.String?
+
+    public init(
+        executionIdentifier: Swift.String? = nil,
+        flowAliasIdentifier: Swift.String? = nil,
+        flowIdentifier: Swift.String? = nil
+    ) {
+        self.executionIdentifier = executionIdentifier
+        self.flowAliasIdentifier = flowAliasIdentifier
+        self.flowIdentifier = flowIdentifier
+    }
+}
+
+public struct GetExecutionFlowSnapshotOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the customer managed KMS key that's used to encrypt the flow snapshot.
+    public var customerEncryptionKeyArn: Swift.String?
+    /// The flow definition used for the flow execution, including the nodes, connections, and configuration at the time when the execution started. The definition returns as a string that follows the structure of a [FlowDefinition](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_FlowDefinition.html) object.
+    /// This member is required.
+    public var definition: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM service role that's used by the flow execution.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The unique identifier of the flow alias used for the flow execution.
+    /// This member is required.
+    public var flowAliasIdentifier: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var flowIdentifier: Swift.String?
+    /// The version of the flow used for the flow execution.
+    /// This member is required.
+    public var flowVersion: Swift.String?
+
+    public init(
+        customerEncryptionKeyArn: Swift.String? = nil,
+        definition: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        flowAliasIdentifier: Swift.String? = nil,
+        flowIdentifier: Swift.String? = nil,
+        flowVersion: Swift.String? = nil
+    ) {
+        self.customerEncryptionKeyArn = customerEncryptionKeyArn
+        self.definition = definition
+        self.executionRoleArn = executionRoleArn
+        self.flowAliasIdentifier = flowAliasIdentifier
+        self.flowIdentifier = flowIdentifier
+        self.flowVersion = flowVersion
+    }
+}
+
+public struct GetFlowExecutionInput: Swift.Sendable {
+    /// The unique identifier of the flow execution to retrieve.
+    /// This member is required.
+    public var executionIdentifier: Swift.String?
+    /// The unique identifier of the flow alias used for the execution.
+    /// This member is required.
+    public var flowAliasIdentifier: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var flowIdentifier: Swift.String?
+
+    public init(
+        executionIdentifier: Swift.String? = nil,
+        flowAliasIdentifier: Swift.String? = nil,
+        flowIdentifier: Swift.String? = nil
+    ) {
+        self.executionIdentifier = executionIdentifier
+        self.flowAliasIdentifier = flowAliasIdentifier
+        self.flowIdentifier = flowIdentifier
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum FlowExecutionErrorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowExecutionErrorType] {
+            return [
+                .timedOut
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .timedOut: return "ExecutionTimedOut"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about an error that occurred during an flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public struct FlowExecutionError: Swift.Sendable {
+        /// The error code for the type of error that occurred.
+        public var error: BedrockAgentRuntimeClientTypes.FlowExecutionErrorType?
+        /// A descriptive message that provides details about the error.
+        public var message: Swift.String?
+        /// The name of the node in the flow where the error occurred (if applicable).
+        public var nodeName: Swift.String?
+
+        public init(
+            error: BedrockAgentRuntimeClientTypes.FlowExecutionErrorType? = nil,
+            message: Swift.String? = nil,
+            nodeName: Swift.String? = nil
+        ) {
+            self.error = error
+            self.message = message
+            self.nodeName = nodeName
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum FlowExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aborted
+        case failed
+        case running
+        case succeeded
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowExecutionStatus] {
+            return [
+                .aborted,
+                .failed,
+                .running,
+                .succeeded,
+                .timedOut
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aborted: return "Aborted"
+            case .failed: return "Failed"
+            case .running: return "Running"
+            case .succeeded: return "Succeeded"
+            case .timedOut: return "TimedOut"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetFlowExecutionOutput: Swift.Sendable {
+    /// The timestamp when the flow execution ended. This field is only populated when the execution has completed, failed, timed out, or been aborted.
+    public var endedAt: Foundation.Date?
+    /// A list of errors that occurred during the flow execution. Each error includes an error code, message, and the node where the error occurred, if applicable.
+    public var errors: [BedrockAgentRuntimeClientTypes.FlowExecutionError]?
+    /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution.
+    /// This member is required.
+    public var executionArn: Swift.String?
+    /// The unique identifier of the flow alias used for the execution.
+    /// This member is required.
+    public var flowAliasIdentifier: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var flowIdentifier: Swift.String?
+    /// The version of the flow used for the execution.
+    /// This member is required.
+    public var flowVersion: Swift.String?
+    /// The timestamp when the flow execution started.
+    /// This member is required.
+    public var startedAt: Foundation.Date?
+    /// The current status of the flow execution. Flow executions time out after 24 hours.
+    /// This member is required.
+    public var status: BedrockAgentRuntimeClientTypes.FlowExecutionStatus?
+
+    public init(
+        endedAt: Foundation.Date? = nil,
+        errors: [BedrockAgentRuntimeClientTypes.FlowExecutionError]? = nil,
+        executionArn: Swift.String? = nil,
+        flowAliasIdentifier: Swift.String? = nil,
+        flowIdentifier: Swift.String? = nil,
+        flowVersion: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: BedrockAgentRuntimeClientTypes.FlowExecutionStatus? = nil
+    ) {
+        self.endedAt = endedAt
+        self.errors = errors
+        self.executionArn = executionArn
+        self.flowAliasIdentifier = flowAliasIdentifier
+        self.flowIdentifier = flowIdentifier
+        self.flowVersion = flowVersion
+        self.startedAt = startedAt
+        self.status = status
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum FlowExecutionEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case flow
+        case node
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowExecutionEventType] {
+            return [
+                .flow,
+                .node
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .flow: return "Flow"
+            case .node: return "Node"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListFlowExecutionEventsInput: Swift.Sendable {
+    /// The type of events to retrieve. Specify Node for node-level events or Flow for flow-level events.
+    /// This member is required.
+    public var eventType: BedrockAgentRuntimeClientTypes.FlowExecutionEventType?
+    /// The unique identifier of the flow execution.
+    /// This member is required.
+    public var executionIdentifier: Swift.String?
+    /// The unique identifier of the flow alias used for the execution.
+    /// This member is required.
+    public var flowAliasIdentifier: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var flowIdentifier: Swift.String?
+    /// The maximum number of events to return in a single response. If more events exist than the specified maxResults value, a token is included in the response so that the remaining results can be retrieved.
+    public var maxResults: Swift.Int?
+    /// A token to retrieve the next set of results. This value is returned in the response if more results are available.
+    public var nextToken: Swift.String?
+
+    public init(
+        eventType: BedrockAgentRuntimeClientTypes.FlowExecutionEventType? = nil,
+        executionIdentifier: Swift.String? = nil,
+        flowAliasIdentifier: Swift.String? = nil,
+        flowIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.eventType = eventType
+        self.executionIdentifier = executionIdentifier
+        self.flowAliasIdentifier = flowAliasIdentifier
+        self.flowIdentifier = flowIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Represents a condition that was satisfied during a condition node evaluation in a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public struct SatisfiedCondition: Swift.Sendable {
+        /// The name of the condition that was satisfied.
+        /// This member is required.
+        public var conditionName: Swift.String?
+
+        public init(
+            conditionName: Swift.String? = nil
+        ) {
+            self.conditionName = conditionName
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.SatisfiedCondition: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about a condition evaluation result during a flow execution. This event is generated when a condition node in the flow evaluates its conditions. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public struct ConditionResultEvent: Swift.Sendable {
+        /// The name of the condition node that evaluated the conditions.
+        /// This member is required.
+        public var nodeName: Swift.String?
+        /// A list of conditions that were satisfied during the evaluation.
+        /// This member is required.
+        public var satisfiedConditions: [BedrockAgentRuntimeClientTypes.SatisfiedCondition]?
+        /// The timestamp when the condition evaluation occurred.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            nodeName: Swift.String? = nil,
+            satisfiedConditions: [BedrockAgentRuntimeClientTypes.SatisfiedCondition]? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.nodeName = nodeName
+            self.satisfiedConditions = satisfiedConditions
+            self.timestamp = timestamp
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ConditionResultEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum FlowErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalServer
+        case nodeExecutionFailed
+        case validation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowErrorCode] {
+            return [
+                .internalServer,
+                .nodeExecutionFailed,
+                .validation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalServer: return "INTERNAL_SERVER"
+            case .nodeExecutionFailed: return "NODE_EXECUTION_FAILED"
+            case .validation: return "VALIDATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about a failure that occurred at the flow level during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public struct FlowFailureEvent: Swift.Sendable {
+        /// The error code that identifies the type of failure that occurred.
+        /// This member is required.
+        public var errorCode: BedrockAgentRuntimeClientTypes.FlowErrorCode?
+        /// A descriptive message that provides details about the failure.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The timestamp when the failure occurred.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            errorCode: BedrockAgentRuntimeClientTypes.FlowErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.timestamp = timestamp
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowFailureEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains the content of an flow execution input or output field. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public enum FlowExecutionContent: Swift.Sendable {
+        /// The document content of the field, which can contain text or structured data.
+        case document(Smithy.Document)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Represents an input field provided to a flow during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public struct FlowInputField: Swift.Sendable {
+        /// The content of the input field, which can contain text or structured data.
+        /// This member is required.
+        public var content: BedrockAgentRuntimeClientTypes.FlowExecutionContent?
+        /// The name of the input field as defined in the flow's input schema.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            content: BedrockAgentRuntimeClientTypes.FlowExecutionContent? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.content = content
+            self.name = name
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowInputField: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about the inputs provided to the flow at the start of a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public struct FlowExecutionInputEvent: Swift.Sendable {
+        /// A list of input fields provided to the flow.
+        /// This member is required.
+        public var fields: [BedrockAgentRuntimeClientTypes.FlowInputField]?
+        /// The name of the node that receives the inputs.
+        /// This member is required.
+        public var nodeName: Swift.String?
+        /// The timestamp when the inputs are provided.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            fields: [BedrockAgentRuntimeClientTypes.FlowInputField]? = nil,
+            nodeName: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.fields = fields
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowExecutionInputEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Represents an output field produced by a flow during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public struct FlowOutputField: Swift.Sendable {
+        /// The content of the output field, which can contain text or structured data.
+        /// This member is required.
+        public var content: BedrockAgentRuntimeClientTypes.FlowExecutionContent?
+        /// The name of the output field as defined in the flow's output schema.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            content: BedrockAgentRuntimeClientTypes.FlowExecutionContent? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.content = content
+            self.name = name
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowOutputField: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about the outputs produced by the flow during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public struct FlowExecutionOutputEvent: Swift.Sendable {
+        /// A list of output fields produced by the flow.
+        /// This member is required.
+        public var fields: [BedrockAgentRuntimeClientTypes.FlowOutputField]?
+        /// The name of the node that produces the outputs.
+        /// This member is required.
+        public var nodeName: Swift.String?
+        /// The timestamp when the outputs are produced.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            fields: [BedrockAgentRuntimeClientTypes.FlowOutputField]? = nil,
+            nodeName: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.fields = fields
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowExecutionOutputEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum NodeErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case badGateway
+        case dependencyFailed
+        case internalServer
+        case validation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeErrorCode] {
+            return [
+                .badGateway,
+                .dependencyFailed,
+                .internalServer,
+                .validation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .badGateway: return "BAD_GATEWAY"
+            case .dependencyFailed: return "DEPENDENCY_FAILED"
+            case .internalServer: return "INTERNAL_SERVER"
+            case .validation: return "VALIDATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about a failure that occurred at a specific node during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public struct NodeFailureEvent: Swift.Sendable {
+        /// The error code that identifies the type of failure that occurred at the node.
+        /// This member is required.
+        public var errorCode: BedrockAgentRuntimeClientTypes.NodeErrorCode?
+        /// A descriptive message that provides details about the node failure.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The name of the node where the failure occurred.
+        /// This member is required.
+        public var nodeName: Swift.String?
+        /// The timestamp when the node failure occurred.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            errorCode: BedrockAgentRuntimeClientTypes.NodeErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            nodeName: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.NodeFailureEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains the content of a flow node's input or output field for a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public enum NodeExecutionContent: Swift.Sendable {
+        /// The document content of the field, which can contain text or structured data.
+        case document(Smithy.Document)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Represents an input field provided to a node during a flow execution.
+    public struct NodeInputField: Swift.Sendable {
+        /// The content of the input field, which can contain text or structured data.
+        /// This member is required.
+        public var content: BedrockAgentRuntimeClientTypes.NodeExecutionContent?
+        /// The name of the input field as defined in the node's input schema.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            content: BedrockAgentRuntimeClientTypes.NodeExecutionContent? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.content = content
+            self.name = name
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.NodeInputField: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about the inputs provided to a specific node during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public struct NodeInputEvent: Swift.Sendable {
+        /// A list of input fields provided to the node.
+        /// This member is required.
+        public var fields: [BedrockAgentRuntimeClientTypes.NodeInputField]?
+        /// The name of the node that received the inputs.
+        /// This member is required.
+        public var nodeName: Swift.String?
+        /// The timestamp when the inputs were provided to the node.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            fields: [BedrockAgentRuntimeClientTypes.NodeInputField]? = nil,
+            nodeName: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.fields = fields
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.NodeInputEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Represents an output field produced by a node during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public struct NodeOutputField: Swift.Sendable {
+        /// The content of the output field, which can contain text or structured data.
+        /// This member is required.
+        public var content: BedrockAgentRuntimeClientTypes.NodeExecutionContent?
+        /// The name of the output field as defined in the node's output schema.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            content: BedrockAgentRuntimeClientTypes.NodeExecutionContent? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.content = content
+            self.name = name
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.NodeOutputField: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about the outputs produced by a specific node during a flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public struct NodeOutputEvent: Swift.Sendable {
+        /// A list of output fields produced by the node.
+        /// This member is required.
+        public var fields: [BedrockAgentRuntimeClientTypes.NodeOutputField]?
+        /// The name of the node that produced the outputs.
+        /// This member is required.
+        public var nodeName: Swift.String?
+        /// The timestamp when the outputs were produced by the node.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            fields: [BedrockAgentRuntimeClientTypes.NodeOutputField]? = nil,
+            nodeName: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.fields = fields
+            self.nodeName = nodeName
+            self.timestamp = timestamp
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.NodeOutputEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Represents an event that occurred during an flow execution. This is a union type that can contain one of several event types, such as node input and output events; flow input and output events; condition node result events, or failure events. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public enum FlowExecutionEvent: Swift.Sendable {
+        /// Contains information about the inputs provided to the flow at the start of execution.
+        case flowinputevent(BedrockAgentRuntimeClientTypes.FlowExecutionInputEvent)
+        /// Contains information about the outputs produced by the flow at the end of execution.
+        case flowoutputevent(BedrockAgentRuntimeClientTypes.FlowExecutionOutputEvent)
+        /// Contains information about the inputs provided to a specific node during execution.
+        case nodeinputevent(BedrockAgentRuntimeClientTypes.NodeInputEvent)
+        /// Contains information about the outputs produced by a specific node during execution.
+        case nodeoutputevent(BedrockAgentRuntimeClientTypes.NodeOutputEvent)
+        /// Contains information about a condition evaluation result during the flow execution. This event is generated when a condition node in the flow evaluates its conditions.
+        case conditionresultevent(BedrockAgentRuntimeClientTypes.ConditionResultEvent)
+        /// Contains information about a failure that occurred at a specific node during execution.
+        case nodefailureevent(BedrockAgentRuntimeClientTypes.NodeFailureEvent)
+        /// Contains information about a failure that occurred at the flow level during execution.
+        case flowfailureevent(BedrockAgentRuntimeClientTypes.FlowFailureEvent)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct ListFlowExecutionEventsOutput: Swift.Sendable {
+    /// A list of events that occurred during the flow execution. Events can include node inputs and outputs, flow inputs and outputs, condition results, and failure events.
+    /// This member is required.
+    public var flowExecutionEvents: [BedrockAgentRuntimeClientTypes.FlowExecutionEvent]?
+    /// A token to retrieve the next set of results. This value is returned if more results are available.
+    public var nextToken: Swift.String?
+
+    public init(
+        flowExecutionEvents: [BedrockAgentRuntimeClientTypes.FlowExecutionEvent]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.flowExecutionEvents = flowExecutionEvents
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListFlowExecutionsInput: Swift.Sendable {
+    /// The unique identifier of the flow alias to list executions for.
+    public var flowAliasIdentifier: Swift.String?
+    /// The unique identifier of the flow to list executions for.
+    /// This member is required.
+    public var flowIdentifier: Swift.String?
+    /// The maximum number of flow executions to return in a single response. If more executions exist than the specified maxResults value, a token is included in the response so that the remaining results can be retrieved.
+    public var maxResults: Swift.Int?
+    /// A token to retrieve the next set of results. This value is returned in the response if more results are available.
+    public var nextToken: Swift.String?
+
+    public init(
+        flowAliasIdentifier: Swift.String? = nil,
+        flowIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.flowAliasIdentifier = flowAliasIdentifier
+        self.flowIdentifier = flowIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains summary information about a flow execution, including its status, timestamps, and identifiers. Flow executions is in preview release for Amazon Bedrock and is subject to change.
+    public struct FlowExecutionSummary: Swift.Sendable {
+        /// The timestamp when the flow execution was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The timestamp when the flow execution ended. This field is only populated when the execution has completed, failed, timed out, or been aborted.
+        public var endedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution.
+        /// This member is required.
+        public var executionArn: Swift.String?
+        /// The unique identifier of the flow alias used for the execution.
+        /// This member is required.
+        public var flowAliasIdentifier: Swift.String?
+        /// The unique identifier of the flow.
+        /// This member is required.
+        public var flowIdentifier: Swift.String?
+        /// The version of the flow used for the execution.
+        /// This member is required.
+        public var flowVersion: Swift.String?
+        /// The current status of the flow execution. Flow executions time out after 24 hours.
+        /// This member is required.
+        public var status: BedrockAgentRuntimeClientTypes.FlowExecutionStatus?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            endedAt: Foundation.Date? = nil,
+            executionArn: Swift.String? = nil,
+            flowAliasIdentifier: Swift.String? = nil,
+            flowIdentifier: Swift.String? = nil,
+            flowVersion: Swift.String? = nil,
+            status: BedrockAgentRuntimeClientTypes.FlowExecutionStatus? = nil
+        ) {
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.executionArn = executionArn
+            self.flowAliasIdentifier = flowAliasIdentifier
+            self.flowIdentifier = flowIdentifier
+            self.flowVersion = flowVersion
+            self.status = status
+        }
+    }
+}
+
+public struct ListFlowExecutionsOutput: Swift.Sendable {
+    /// A list of flow execution summaries. Each summary includes the execution ARN, flow identifier, flow alias identifier, flow version, status, and timestamps.
+    /// This member is required.
+    public var flowExecutionSummaries: [BedrockAgentRuntimeClientTypes.FlowExecutionSummary]?
+    /// A token to retrieve the next set of results. This value is returned if more results are available.
+    public var nextToken: Swift.String?
+
+    public init(
+        flowExecutionSummaries: [BedrockAgentRuntimeClientTypes.FlowExecutionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.flowExecutionSummaries = flowExecutionSummaries
+        self.nextToken = nextToken
+    }
+}
+
 /// There was an issue with a dependency due to a server issue. Retry your request.
 public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1328,56 +2269,6 @@ public struct DependencyFailedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// An internal server error occurred. Retry your request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The reason for the exception. If the reason is BEDROCK_MODEL_INVOCATION_SERVICE_UNAVAILABLE, the model invocation service is unavailable. Retry your request.
-        public internal(set) var reason: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServerException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        reason: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.reason = reason
-    }
-}
-
-/// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// The number of requests exceeds the service quota. Resubmit your request later.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1387,52 +2278,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The number of requests exceeds the limit. Resubmit your request later.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// Input validation failed. Check your request parameters and retry the request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -1547,6 +2392,85 @@ extension BedrockAgentRuntimeClientTypes {
         ) {
             self.performanceConfig = performanceConfig
         }
+    }
+}
+
+public struct StartFlowExecutionInput: Swift.Sendable {
+    /// The unique identifier of the flow alias to use for the flow execution.
+    /// This member is required.
+    public var flowAliasIdentifier: Swift.String?
+    /// The unique name for the flow execution. If you don't provide one, a system-generated name is used.
+    public var flowExecutionName: Swift.String?
+    /// The unique identifier of the flow to execute.
+    /// This member is required.
+    public var flowIdentifier: Swift.String?
+    /// The input data required for the flow execution. This must match the input schema defined in the flow.
+    /// This member is required.
+    public var inputs: [BedrockAgentRuntimeClientTypes.FlowInput]?
+    /// The performance settings for the foundation model used in the flow execution.
+    public var modelPerformanceConfiguration: BedrockAgentRuntimeClientTypes.ModelPerformanceConfiguration?
+
+    public init(
+        flowAliasIdentifier: Swift.String? = nil,
+        flowExecutionName: Swift.String? = nil,
+        flowIdentifier: Swift.String? = nil,
+        inputs: [BedrockAgentRuntimeClientTypes.FlowInput]? = nil,
+        modelPerformanceConfiguration: BedrockAgentRuntimeClientTypes.ModelPerformanceConfiguration? = nil
+    ) {
+        self.flowAliasIdentifier = flowAliasIdentifier
+        self.flowExecutionName = flowExecutionName
+        self.flowIdentifier = flowIdentifier
+        self.inputs = inputs
+        self.modelPerformanceConfiguration = modelPerformanceConfiguration
+    }
+}
+
+public struct StartFlowExecutionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution.
+    public var executionArn: Swift.String?
+
+    public init(
+        executionArn: Swift.String? = nil
+    ) {
+        self.executionArn = executionArn
+    }
+}
+
+public struct StopFlowExecutionInput: Swift.Sendable {
+    /// The unique identifier of the flow execution to stop.
+    /// This member is required.
+    public var executionIdentifier: Swift.String?
+    /// The unique identifier of the flow alias used for the execution.
+    /// This member is required.
+    public var flowAliasIdentifier: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var flowIdentifier: Swift.String?
+
+    public init(
+        executionIdentifier: Swift.String? = nil,
+        flowAliasIdentifier: Swift.String? = nil,
+        flowIdentifier: Swift.String? = nil
+    ) {
+        self.executionIdentifier = executionIdentifier
+        self.flowAliasIdentifier = flowAliasIdentifier
+        self.flowIdentifier = flowIdentifier
+    }
+}
+
+public struct StopFlowExecutionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution that was stopped.
+    public var executionArn: Swift.String?
+    /// The updated status of the flow execution after the stop request. This will typically be ABORTED if the execution was successfully stopped.
+    /// This member is required.
+    public var status: BedrockAgentRuntimeClientTypes.FlowExecutionStatus?
+
+    public init(
+        executionArn: Swift.String? = nil,
+        status: BedrockAgentRuntimeClientTypes.FlowExecutionStatus? = nil
+    ) {
+        self.executionArn = executionArn
+        self.status = status
     }
 }
 
@@ -2350,6 +3274,25 @@ extension BedrockAgentRuntimeClientTypes {
             performanceConfig: BedrockAgentRuntimeClientTypes.PerformanceConfiguration? = nil
         ) {
             self.performanceConfig = performanceConfig
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Specifies parameters that control how the service populates the agent prompt for an InvokeAgent or InvokeInlineAgent request. You can control which aspects of previous invocations in the same agent session the service uses to populate the agent prompt. This gives you more granular control over the contextual history that is used to process the current request.
+    public struct PromptCreationConfigurations: Swift.Sendable {
+        /// If true, the service removes any content between <thinking> tags from previous conversations in an agent session. The service will only remove content from already processed turns. This helps you remove content which might not be useful for current and subsequent invocations. This can reduce the input token count and potentially save costs. The default value is false.
+        public var excludePreviousThinkingSteps: Swift.Bool
+        /// The number of previous conversations from the ongoing agent session to include in the conversation history of the agent prompt, during the current invocation. This gives you more granular control over the context that the model is made aware of, and helps the model remove older context which is no longer useful during the ongoing agent session.
+        public var previousConversationTurnsToInclude: Swift.Int?
+
+        public init(
+            excludePreviousThinkingSteps: Swift.Bool = false,
+            previousConversationTurnsToInclude: Swift.Int? = nil
+        ) {
+            self.excludePreviousThinkingSteps = excludePreviousThinkingSteps
+            self.previousConversationTurnsToInclude = previousConversationTurnsToInclude
         }
     }
 }
@@ -8226,6 +9169,8 @@ public struct InvokeAgentInput: Swift.Sendable {
     public var inputText: Swift.String?
     /// The unique identifier of the agent memory.
     public var memoryId: Swift.String?
+    /// Specifies parameters that control how the service populates the agent prompt for an InvokeAgent request. You can control which aspects of previous invocations in the same agent session the service uses to populate the agent prompt. This gives you more granular control over the contextual history that is used to process the current request.
+    public var promptCreationConfigurations: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations?
     /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -8244,6 +9189,7 @@ public struct InvokeAgentInput: Swift.Sendable {
         endSession: Swift.Bool? = nil,
         inputText: Swift.String? = nil,
         memoryId: Swift.String? = nil,
+        promptCreationConfigurations: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations? = nil,
         sessionId: Swift.String? = nil,
         sessionState: BedrockAgentRuntimeClientTypes.SessionState? = nil,
         sourceArn: Swift.String? = nil,
@@ -8256,6 +9202,7 @@ public struct InvokeAgentInput: Swift.Sendable {
         self.endSession = endSession
         self.inputText = inputText
         self.memoryId = memoryId
+        self.promptCreationConfigurations = promptCreationConfigurations
         self.sessionId = sessionId
         self.sessionState = sessionState
         self.sourceArn = sourceArn
@@ -8265,7 +9212,7 @@ public struct InvokeAgentInput: Swift.Sendable {
 
 extension InvokeAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeAgentInput(agentAliasId: \(Swift.String(describing: agentAliasId)), agentId: \(Swift.String(describing: agentId)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), memoryId: \(Swift.String(describing: memoryId)), sessionId: \(Swift.String(describing: sessionId)), sessionState: \(Swift.String(describing: sessionState)), sourceArn: \(Swift.String(describing: sourceArn)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), inputText: \"CONTENT_REDACTED\")"}
+        "InvokeAgentInput(agentAliasId: \(Swift.String(describing: agentAliasId)), agentId: \(Swift.String(describing: agentId)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), memoryId: \(Swift.String(describing: memoryId)), promptCreationConfigurations: \(Swift.String(describing: promptCreationConfigurations)), sessionId: \(Swift.String(describing: sessionId)), sessionState: \(Swift.String(describing: sessionState)), sourceArn: \(Swift.String(describing: sourceArn)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), inputText: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeInlineAgentInput: Swift.Sendable {
@@ -8307,6 +9254,8 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
     public var knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]?
     /// Specifies the type of orchestration strategy for the agent. This is set to DEFAULT orchestration type, by default.
     public var orchestrationType: BedrockAgentRuntimeClientTypes.OrchestrationType?
+    /// Specifies parameters that control how the service populates the agent prompt for an InvokeInlineAgent request. You can control which aspects of previous invocations in the same agent session the service uses to populate the agent prompt. This gives you more granular control over the contextual history that is used to process the current request.
+    public var promptCreationConfigurations: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations?
     /// Configurations for advanced prompts used to override the default prompts to enhance the accuracy of the inline agent.
     public var promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration?
     /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
@@ -8334,6 +9283,7 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
         instruction: Swift.String? = nil,
         knowledgeBases: [BedrockAgentRuntimeClientTypes.KnowledgeBase]? = nil,
         orchestrationType: BedrockAgentRuntimeClientTypes.OrchestrationType? = nil,
+        promptCreationConfigurations: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations? = nil,
         promptOverrideConfiguration: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration? = nil,
         sessionId: Swift.String? = nil,
         streamingConfigurations: BedrockAgentRuntimeClientTypes.StreamingConfigurations? = nil
@@ -8356,6 +9306,7 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
         self.instruction = instruction
         self.knowledgeBases = knowledgeBases
         self.orchestrationType = orchestrationType
+        self.promptCreationConfigurations = promptCreationConfigurations
         self.promptOverrideConfiguration = promptOverrideConfiguration
         self.sessionId = sessionId
         self.streamingConfigurations = streamingConfigurations
@@ -8364,7 +9315,7 @@ public struct InvokeInlineAgentInput: Swift.Sendable {
 
 extension InvokeInlineAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeInlineAgentInput(actionGroups: \(Swift.String(describing: actionGroups)), agentCollaboration: \(Swift.String(describing: agentCollaboration)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), collaboratorConfigurations: \(Swift.String(describing: collaboratorConfigurations)), collaborators: \(Swift.String(describing: collaborators)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), inlineSessionState: \(Swift.String(describing: inlineSessionState)), knowledgeBases: \(Swift.String(describing: knowledgeBases)), orchestrationType: \(Swift.String(describing: orchestrationType)), sessionId: \(Swift.String(describing: sessionId)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), agentName: \"CONTENT_REDACTED\", inputText: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "InvokeInlineAgentInput(actionGroups: \(Swift.String(describing: actionGroups)), agentCollaboration: \(Swift.String(describing: agentCollaboration)), bedrockModelConfigurations: \(Swift.String(describing: bedrockModelConfigurations)), collaboratorConfigurations: \(Swift.String(describing: collaboratorConfigurations)), collaborators: \(Swift.String(describing: collaborators)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), inlineSessionState: \(Swift.String(describing: inlineSessionState)), knowledgeBases: \(Swift.String(describing: knowledgeBases)), orchestrationType: \(Swift.String(describing: orchestrationType)), promptCreationConfigurations: \(Swift.String(describing: promptCreationConfigurations)), sessionId: \(Swift.String(describing: sessionId)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), agentName: \"CONTENT_REDACTED\", inputText: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateInvocationInput {
@@ -8481,6 +9432,38 @@ extension GetAgentMemoryInput {
     }
 }
 
+extension GetExecutionFlowSnapshotInput {
+
+    static func urlPathProvider(_ value: GetExecutionFlowSnapshotInput) -> Swift.String? {
+        guard let flowIdentifier = value.flowIdentifier else {
+            return nil
+        }
+        guard let flowAliasIdentifier = value.flowAliasIdentifier else {
+            return nil
+        }
+        guard let executionIdentifier = value.executionIdentifier else {
+            return nil
+        }
+        return "/flows/\(flowIdentifier.urlPercentEncoding())/aliases/\(flowAliasIdentifier.urlPercentEncoding())/executions/\(executionIdentifier.urlPercentEncoding())/flowsnapshot"
+    }
+}
+
+extension GetFlowExecutionInput {
+
+    static func urlPathProvider(_ value: GetFlowExecutionInput) -> Swift.String? {
+        guard let flowIdentifier = value.flowIdentifier else {
+            return nil
+        }
+        guard let flowAliasIdentifier = value.flowAliasIdentifier else {
+            return nil
+        }
+        guard let executionIdentifier = value.executionIdentifier else {
+            return nil
+        }
+        return "/flows/\(flowIdentifier.urlPercentEncoding())/aliases/\(flowAliasIdentifier.urlPercentEncoding())/executions/\(executionIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension GetInvocationStepInput {
 
     static func urlPathProvider(_ value: GetInvocationStepInput) -> Swift.String? {
@@ -8551,6 +9534,74 @@ extension InvokeInlineAgentInput {
             return nil
         }
         return "/agents/\(sessionId.urlPercentEncoding())"
+    }
+}
+
+extension ListFlowExecutionEventsInput {
+
+    static func urlPathProvider(_ value: ListFlowExecutionEventsInput) -> Swift.String? {
+        guard let flowIdentifier = value.flowIdentifier else {
+            return nil
+        }
+        guard let flowAliasIdentifier = value.flowAliasIdentifier else {
+            return nil
+        }
+        guard let executionIdentifier = value.executionIdentifier else {
+            return nil
+        }
+        return "/flows/\(flowIdentifier.urlPercentEncoding())/aliases/\(flowAliasIdentifier.urlPercentEncoding())/executions/\(executionIdentifier.urlPercentEncoding())/events"
+    }
+}
+
+extension ListFlowExecutionEventsInput {
+
+    static func queryItemProvider(_ value: ListFlowExecutionEventsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let eventType = value.eventType else {
+            let message = "Creating a URL Query Item failed. eventType is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let eventTypeQueryItem = Smithy.URIQueryItem(name: "eventType".urlPercentEncoding(), value: Swift.String(eventType.rawValue).urlPercentEncoding())
+        items.append(eventTypeQueryItem)
+        return items
+    }
+}
+
+extension ListFlowExecutionsInput {
+
+    static func urlPathProvider(_ value: ListFlowExecutionsInput) -> Swift.String? {
+        guard let flowIdentifier = value.flowIdentifier else {
+            return nil
+        }
+        return "/flows/\(flowIdentifier.urlPercentEncoding())/executions"
+    }
+}
+
+extension ListFlowExecutionsInput {
+
+    static func queryItemProvider(_ value: ListFlowExecutionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let flowAliasIdentifier = value.flowAliasIdentifier {
+            let flowAliasIdentifierQueryItem = Smithy.URIQueryItem(name: "flowAliasIdentifier".urlPercentEncoding(), value: Swift.String(flowAliasIdentifier).urlPercentEncoding())
+            items.append(flowAliasIdentifierQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -8687,6 +9738,35 @@ extension RetrieveAndGenerateStreamInput {
     }
 }
 
+extension StartFlowExecutionInput {
+
+    static func urlPathProvider(_ value: StartFlowExecutionInput) -> Swift.String? {
+        guard let flowIdentifier = value.flowIdentifier else {
+            return nil
+        }
+        guard let flowAliasIdentifier = value.flowAliasIdentifier else {
+            return nil
+        }
+        return "/flows/\(flowIdentifier.urlPercentEncoding())/aliases/\(flowAliasIdentifier.urlPercentEncoding())/executions"
+    }
+}
+
+extension StopFlowExecutionInput {
+
+    static func urlPathProvider(_ value: StopFlowExecutionInput) -> Swift.String? {
+        guard let flowIdentifier = value.flowIdentifier else {
+            return nil
+        }
+        guard let flowAliasIdentifier = value.flowAliasIdentifier else {
+            return nil
+        }
+        guard let executionIdentifier = value.executionIdentifier else {
+            return nil
+        }
+        return "/flows/\(flowIdentifier.urlPercentEncoding())/aliases/\(flowAliasIdentifier.urlPercentEncoding())/executions/\(executionIdentifier.urlPercentEncoding())/stop"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -8778,6 +9858,7 @@ extension InvokeAgentInput {
         try writer["endSession"].write(value.endSession)
         try writer["inputText"].write(value.inputText)
         try writer["memoryId"].write(value.memoryId)
+        try writer["promptCreationConfigurations"].write(value.promptCreationConfigurations, with: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations.write(value:to:))
         try writer["sessionState"].write(value.sessionState, with: BedrockAgentRuntimeClientTypes.SessionState.write(value:to:))
         try writer["streamingConfigurations"].write(value.streamingConfigurations, with: BedrockAgentRuntimeClientTypes.StreamingConfigurations.write(value:to:))
     }
@@ -8816,6 +9897,7 @@ extension InvokeInlineAgentInput {
         try writer["instruction"].write(value.instruction)
         try writer["knowledgeBases"].writeList(value.knowledgeBases, memberWritingClosure: BedrockAgentRuntimeClientTypes.KnowledgeBase.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["orchestrationType"].write(value.orchestrationType)
+        try writer["promptCreationConfigurations"].write(value.promptCreationConfigurations, with: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations.write(value:to:))
         try writer["promptOverrideConfiguration"].write(value.promptOverrideConfiguration, with: BedrockAgentRuntimeClientTypes.PromptOverrideConfiguration.write(value:to:))
         try writer["streamingConfigurations"].write(value.streamingConfigurations, with: BedrockAgentRuntimeClientTypes.StreamingConfigurations.write(value:to:))
     }
@@ -8890,6 +9972,16 @@ extension RetrieveAndGenerateStreamInput {
         try writer["retrieveAndGenerateConfiguration"].write(value.retrieveAndGenerateConfiguration, with: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateConfiguration.write(value:to:))
         try writer["sessionConfiguration"].write(value.sessionConfiguration, with: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateSessionConfiguration.write(value:to:))
         try writer["sessionId"].write(value.sessionId)
+    }
+}
+
+extension StartFlowExecutionInput {
+
+    static func write(value: StartFlowExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["flowExecutionName"].write(value.flowExecutionName)
+        try writer["inputs"].writeList(value.inputs, memberWritingClosure: BedrockAgentRuntimeClientTypes.FlowInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["modelPerformanceConfiguration"].write(value.modelPerformanceConfiguration, with: BedrockAgentRuntimeClientTypes.ModelPerformanceConfiguration.write(value:to:))
     }
 }
 
@@ -8991,6 +10083,42 @@ extension GetAgentMemoryOutput {
     }
 }
 
+extension GetExecutionFlowSnapshotOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetExecutionFlowSnapshotOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetExecutionFlowSnapshotOutput()
+        value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
+        value.definition = try reader["definition"].readIfPresent() ?? ""
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        value.flowAliasIdentifier = try reader["flowAliasIdentifier"].readIfPresent() ?? ""
+        value.flowIdentifier = try reader["flowIdentifier"].readIfPresent() ?? ""
+        value.flowVersion = try reader["flowVersion"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetFlowExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFlowExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFlowExecutionOutput()
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.FlowExecutionError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executionArn = try reader["executionArn"].readIfPresent() ?? ""
+        value.flowAliasIdentifier = try reader["flowAliasIdentifier"].readIfPresent() ?? ""
+        value.flowIdentifier = try reader["flowIdentifier"].readIfPresent() ?? ""
+        value.flowVersion = try reader["flowVersion"].readIfPresent() ?? ""
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GetInvocationStepOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInvocationStepOutput {
@@ -9074,6 +10202,32 @@ extension InvokeInlineAgentOutput {
             let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockAgentRuntimeClientTypes.InlineAgentResponseStream.unmarshal)
             value.completion = decoderStream.toAsyncStream()
         }
+        return value
+    }
+}
+
+extension ListFlowExecutionEventsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFlowExecutionEventsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFlowExecutionEventsOutput()
+        value.flowExecutionEvents = try reader["flowExecutionEvents"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.FlowExecutionEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListFlowExecutionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFlowExecutionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFlowExecutionsOutput()
+        value.flowExecutionSummaries = try reader["flowExecutionSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.FlowExecutionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -9208,6 +10362,31 @@ extension RetrieveAndGenerateStreamOutput {
             let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateStreamResponseOutput.unmarshal)
             value.stream = decoderStream.toAsyncStream()
         }
+        return value
+    }
+}
+
+extension StartFlowExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartFlowExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartFlowExecutionOutput()
+        value.executionArn = try reader["executionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension StopFlowExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopFlowExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopFlowExecutionOutput()
+        value.executionArn = try reader["executionArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9385,6 +10564,42 @@ enum GetAgentMemoryOutputError {
     }
 }
 
+enum GetExecutionFlowSnapshotOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetFlowExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetInvocationStepOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9481,6 +10696,42 @@ enum InvokeInlineAgentOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListFlowExecutionEventsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListFlowExecutionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9679,6 +10930,49 @@ enum RetrieveAndGenerateStreamOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartFlowExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DependencyFailedException": return try DependencyFailedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopFlowExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DependencyFailedException": return try DependencyFailedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10235,6 +11529,18 @@ extension BedrockAgentRuntimeClientTypes.MemorySessionSummary {
         value.sessionStartTime = try reader["sessionStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.sessionExpiryTime = try reader["sessionExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.summaryText = try reader["summaryText"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowExecutionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowExecutionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.FlowExecutionError()
+        value.nodeName = try reader["nodeName"].readIfPresent()
+        value.error = try reader["error"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -11885,6 +13191,215 @@ extension BedrockAgentRuntimeClientTypes.InlineAgentPayloadPart {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.FlowExecutionEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowExecutionEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "flowInputEvent":
+                return .flowinputevent(try reader["flowInputEvent"].read(with: BedrockAgentRuntimeClientTypes.FlowExecutionInputEvent.read(from:)))
+            case "flowOutputEvent":
+                return .flowoutputevent(try reader["flowOutputEvent"].read(with: BedrockAgentRuntimeClientTypes.FlowExecutionOutputEvent.read(from:)))
+            case "nodeInputEvent":
+                return .nodeinputevent(try reader["nodeInputEvent"].read(with: BedrockAgentRuntimeClientTypes.NodeInputEvent.read(from:)))
+            case "nodeOutputEvent":
+                return .nodeoutputevent(try reader["nodeOutputEvent"].read(with: BedrockAgentRuntimeClientTypes.NodeOutputEvent.read(from:)))
+            case "conditionResultEvent":
+                return .conditionresultevent(try reader["conditionResultEvent"].read(with: BedrockAgentRuntimeClientTypes.ConditionResultEvent.read(from:)))
+            case "nodeFailureEvent":
+                return .nodefailureevent(try reader["nodeFailureEvent"].read(with: BedrockAgentRuntimeClientTypes.NodeFailureEvent.read(from:)))
+            case "flowFailureEvent":
+                return .flowfailureevent(try reader["flowFailureEvent"].read(with: BedrockAgentRuntimeClientTypes.FlowFailureEvent.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowFailureEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowFailureEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.FlowFailureEvent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.NodeFailureEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.NodeFailureEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.NodeFailureEvent()
+        value.nodeName = try reader["nodeName"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ConditionResultEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.ConditionResultEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.ConditionResultEvent()
+        value.nodeName = try reader["nodeName"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.satisfiedConditions = try reader["satisfiedConditions"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.SatisfiedCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.SatisfiedCondition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.SatisfiedCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.SatisfiedCondition()
+        value.conditionName = try reader["conditionName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.NodeOutputEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.NodeOutputEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.NodeOutputEvent()
+        value.nodeName = try reader["nodeName"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.NodeOutputField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.NodeOutputField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.NodeOutputField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.NodeOutputField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.content = try reader["content"].readIfPresent(with: BedrockAgentRuntimeClientTypes.NodeExecutionContent.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.NodeExecutionContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.NodeExecutionContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "document":
+                return .document(try reader["document"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.NodeInputEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.NodeInputEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.NodeInputEvent()
+        value.nodeName = try reader["nodeName"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.NodeInputField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.NodeInputField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.NodeInputField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.NodeInputField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.content = try reader["content"].readIfPresent(with: BedrockAgentRuntimeClientTypes.NodeExecutionContent.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowExecutionOutputEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowExecutionOutputEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.FlowExecutionOutputEvent()
+        value.nodeName = try reader["nodeName"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.FlowOutputField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowOutputField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowOutputField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.FlowOutputField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.content = try reader["content"].readIfPresent(with: BedrockAgentRuntimeClientTypes.FlowExecutionContent.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowExecutionContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowExecutionContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "document":
+                return .document(try reader["document"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowExecutionInputEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowExecutionInputEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.FlowExecutionInputEvent()
+        value.nodeName = try reader["nodeName"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.FlowInputField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowInputField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowInputField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.FlowInputField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.content = try reader["content"].readIfPresent(with: BedrockAgentRuntimeClientTypes.FlowExecutionContent.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.FlowExecutionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.FlowExecutionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.FlowExecutionSummary()
+        value.executionArn = try reader["executionArn"].readIfPresent() ?? ""
+        value.flowAliasIdentifier = try reader["flowAliasIdentifier"].readIfPresent() ?? ""
+        value.flowIdentifier = try reader["flowIdentifier"].readIfPresent() ?? ""
+        value.flowVersion = try reader["flowVersion"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes.InvocationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.InvocationSummary {
@@ -12366,6 +13881,15 @@ extension BedrockAgentRuntimeClientTypes.StreamingConfigurations {
         guard let value else { return }
         try writer["applyGuardrailInterval"].write(value.applyGuardrailInterval)
         try writer["streamFinalResponse"].write(value.streamFinalResponse)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.PromptCreationConfigurations {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.PromptCreationConfigurations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["excludePreviousThinkingSteps"].write(value.excludePreviousThinkingSteps)
+        try writer["previousConversationTurnsToInclude"].write(value.previousConversationTurnsToInclude)
     }
 }
 

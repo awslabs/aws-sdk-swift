@@ -31,6 +31,11 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
+public struct AssociateBackupVaultMpaApprovalTeamOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteBackupSelectionOutput: Swift.Sendable {
 
     public init() { }
@@ -81,6 +86,11 @@ public struct DeleteRestoreTestingSelectionOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DisassociateBackupVaultMpaApprovalTeamOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DisassociateRecoveryPointFromParentOutput: Swift.Sendable {
 
     public init() { }
@@ -112,6 +122,11 @@ public struct PutBackupVaultNotificationsOutput: Swift.Sendable {
 }
 
 public struct PutRestoreValidationResultOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct RevokeRestoreAccessBackupVaultOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -234,6 +249,202 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
+/// Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var code: Swift.String? = nil
+        ///
+        public internal(set) var context: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+        ///
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterValueException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        context: Swift.String? = nil,
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.context = context
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var code: Swift.String? = nil
+        ///
+        public internal(set) var context: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+        ///
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        context: Swift.String? = nil,
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.context = context
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// Indicates that a required parameter is missing.
+public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var code: Swift.String? = nil
+        ///
+        public internal(set) var context: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+        ///
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MissingParameterValueException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        context: Swift.String? = nil,
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.context = context
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// A resource that is required for the action doesn't exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var code: Swift.String? = nil
+        ///
+        public internal(set) var context: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+        ///
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        context: Swift.String? = nil,
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.context = context
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// The request failed due to a temporary failure of the server.
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var code: Swift.String? = nil
+        ///
+        public internal(set) var context: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+        ///
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        context: Swift.String? = nil,
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.context = context
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+public struct AssociateBackupVaultMpaApprovalTeamInput: Swift.Sendable {
+    /// The name of the backup vault to associate with the MPA approval team.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the MPA approval team to associate with the backup vault.
+    /// This member is required.
+    public var mpaApprovalTeamArn: Swift.String?
+    /// A comment provided by the requester explaining the association request.
+    public var requesterComment: Swift.String?
+
+    public init(
+        backupVaultName: Swift.String? = nil,
+        mpaApprovalTeamArn: Swift.String? = nil,
+        requesterComment: Swift.String? = nil
+    ) {
+        self.backupVaultName = backupVaultName
+        self.mpaApprovalTeamArn = mpaApprovalTeamArn
+        self.requesterComment = requesterComment
+    }
+}
+
+extension AssociateBackupVaultMpaApprovalTeamInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssociateBackupVaultMpaApprovalTeamInput(backupVaultName: \(Swift.String(describing: backupVaultName)), mpaApprovalTeamArn: \(Swift.String(describing: mpaApprovalTeamArn)), requesterComment: \"CONTENT_REDACTED\")"}
+}
+
 extension BackupClientTypes {
 
     /// Contains information about the backup plan and rule that Backup used to initiate the recovery point backup.
@@ -321,7 +532,21 @@ extension BackupClientTypes {
         public var backupJobId: Swift.String?
         /// Specifies the backup option for a selected resource. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS":"disabled" to create a regular backup. If you specify an invalid option, you get an InvalidParameterValueException exception.
         public var backupOptions: [Swift.String: Swift.String]?
-        /// The size, in bytes, of a backup.
+        /// The size, in bytes, of a backup (recovery point). This value can render differently depending on the resource type as Backup pulls in data information from other Amazon Web Services services. For example, the value returned may show a value of 0, which may differ from the anticipated value. The expected behavior for values by resource type are described as follows:
+        ///
+        /// * Amazon Aurora, Amazon DocumentDB, and Amazon Neptune do not have this value populate from the operation GetBackupJobStatus.
+        ///
+        /// * For Amazon DynamoDB with advanced features, this value refers to the size of the recovery point (backup).
+        ///
+        /// * Amazon EC2 and Amazon EBS show volume size (provisioned storage) returned as part of this value. Amazon EBS does not return backup size information; snapshot size will have the same value as the original resource that was backed up.
+        ///
+        /// * For Amazon EFS, this value refers to the delta bytes transferred during a backup.
+        ///
+        /// * Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.
+        ///
+        /// * An Amazon RDS instance will show as 0.
+        ///
+        /// * For virtual machines running VMware, this value is passed to Backup through an asynchronous workflow, which can mean this displayed value can under-represent the actual backup size.
         public var backupSizeInBytes: Swift.Int?
         /// Represents the type of backup for a backup job.
         public var backupType: Swift.String?
@@ -604,7 +829,7 @@ extension BackupClientTypes {
         /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.' characters.
         /// This member is required.
         public var ruleName: Swift.String?
-        /// A cron expression in UTC specifying when Backup initiates a backup job. For more information about Amazon Web Services cron expressions, see [Schedule Expressions for Rules](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html) in the Amazon CloudWatch Events User Guide.. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
+        /// A cron expression in UTC specifying when Backup initiates a backup job. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *). For more information about Amazon Web Services cron expressions, see [Schedule Expressions for Rules](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html) in the Amazon CloudWatch Events User Guide. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
         public var scheduleExpression: Swift.String?
         /// The timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
         public var scheduleExpressionTimezone: Swift.String?
@@ -697,7 +922,7 @@ extension BackupClientTypes {
         /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.' characters.
         /// This member is required.
         public var ruleName: Swift.String?
-        /// A CRON expression in UTC specifying when Backup initiates a backup job.
+        /// A CRON expression in UTC specifying when Backup initiates a backup job. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *).
         public var scheduleExpression: Swift.String?
         /// The timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
         public var scheduleExpressionTimezone: Swift.String?
@@ -1011,9 +1236,13 @@ extension BackupClientTypes {
         case backupJobSuccessful
         case backupPlanCreated
         case backupPlanModified
+        case continuousBackupInterrupted
         case copyJobFailed
         case copyJobStarted
         case copyJobSuccessful
+        case recoveryPointIndexingFailed
+        case recoveryPointIndexCompleted
+        case recoveryPointIndexDeleted
         case recoveryPointModified
         case restoreJobCompleted
         case restoreJobFailed
@@ -1032,9 +1261,13 @@ extension BackupClientTypes {
                 .backupJobSuccessful,
                 .backupPlanCreated,
                 .backupPlanModified,
+                .continuousBackupInterrupted,
                 .copyJobFailed,
                 .copyJobStarted,
                 .copyJobSuccessful,
+                .recoveryPointIndexingFailed,
+                .recoveryPointIndexCompleted,
+                .recoveryPointIndexDeleted,
                 .recoveryPointModified,
                 .restoreJobCompleted,
                 .restoreJobFailed,
@@ -1059,9 +1292,13 @@ extension BackupClientTypes {
             case .backupJobSuccessful: return "BACKUP_JOB_SUCCESSFUL"
             case .backupPlanCreated: return "BACKUP_PLAN_CREATED"
             case .backupPlanModified: return "BACKUP_PLAN_MODIFIED"
+            case .continuousBackupInterrupted: return "CONTINUOUS_BACKUP_INTERRUPTED"
             case .copyJobFailed: return "COPY_JOB_FAILED"
             case .copyJobStarted: return "COPY_JOB_STARTED"
             case .copyJobSuccessful: return "COPY_JOB_SUCCESSFUL"
+            case .recoveryPointIndexingFailed: return "RECOVERY_POINT_INDEXING_FAILED"
+            case .recoveryPointIndexCompleted: return "RECOVERY_POINT_INDEX_COMPLETED"
+            case .recoveryPointIndexDeleted: return "RECOVERY_POINT_INDEX_DELETED"
             case .recoveryPointModified: return "RECOVERY_POINT_MODIFIED"
             case .restoreJobCompleted: return "RESTORE_JOB_COMPLETED"
             case .restoreJobFailed: return "RESTORE_JOB_FAILED"
@@ -1112,12 +1349,14 @@ extension BackupClientTypes {
     public enum VaultType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case backupVault
         case logicallyAirGappedBackupVault
+        case restoreAccessBackupVault
         case sdkUnknown(Swift.String)
 
         public static var allCases: [VaultType] {
             return [
                 .backupVault,
-                .logicallyAirGappedBackupVault
+                .logicallyAirGappedBackupVault,
+                .restoreAccessBackupVault
             ]
         }
 
@@ -1130,6 +1369,7 @@ extension BackupClientTypes {
             switch self {
             case .backupVault: return "BACKUP_VAULT"
             case .logicallyAirGappedBackupVault: return "LOGICALLY_AIR_GAPPED_BACKUP_VAULT"
+            case .restoreAccessBackupVault: return "RESTORE_ACCESS_BACKUP_VAULT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1214,40 +1454,6 @@ extension BackupClientTypes {
     }
 }
 
-/// Indicates that something is wrong with a parameter's value. For example, the value is out of range.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var code: Swift.String? = nil
-        ///
-        public internal(set) var context: Swift.String? = nil
-        public internal(set) var message: Swift.String? = nil
-        ///
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidParameterValueException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        code: Swift.String? = nil,
-        context: Swift.String? = nil,
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.code = code
-        self.properties.context = context
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
 /// Backup is already performing an action on this recovery point. It can't perform the action you requested until the first action finishes. Try again later.
 public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1263,108 +1469,6 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidResourceStateException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        code: Swift.String? = nil,
-        context: Swift.String? = nil,
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.code = code
-        self.properties.context = context
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
-/// Indicates that a required parameter is missing.
-public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var code: Swift.String? = nil
-        ///
-        public internal(set) var context: Swift.String? = nil
-        public internal(set) var message: Swift.String? = nil
-        ///
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "MissingParameterValueException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        code: Swift.String? = nil,
-        context: Swift.String? = nil,
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.code = code
-        self.properties.context = context
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
-/// A resource that is required for the action doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var code: Swift.String? = nil
-        ///
-        public internal(set) var context: Swift.String? = nil
-        public internal(set) var message: Swift.String? = nil
-        ///
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        code: Swift.String? = nil,
-        context: Swift.String? = nil,
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.code = code
-        self.properties.context = context
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
-/// The request failed due to a temporary failure of the server.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var code: Swift.String? = nil
-        ///
-        public internal(set) var context: Swift.String? = nil
-        public internal(set) var message: Swift.String? = nil
-        ///
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceUnavailableException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -2112,40 +2216,6 @@ public struct CreateLegalHoldOutput: Swift.Sendable {
     }
 }
 
-/// Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var code: Swift.String? = nil
-        ///
-        public internal(set) var context: Swift.String? = nil
-        public internal(set) var message: Swift.String? = nil
-        ///
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidRequestException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        code: Swift.String? = nil,
-        context: Swift.String? = nil,
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.code = code
-        self.properties.context = context
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
 public struct CreateLogicallyAirGappedBackupVaultInput: Swift.Sendable {
     /// The name of a logical container where backups are stored. Logically air-gapped backup vaults are identified by names that are unique to the account used to create them and the Region where they are created.
     /// This member is required.
@@ -2317,6 +2387,62 @@ public struct CreateReportPlanOutput: Swift.Sendable {
     }
 }
 
+public struct CreateRestoreAccessBackupVaultInput: Swift.Sendable {
+    /// The name of the backup vault to associate with an MPA approval team.
+    public var backupVaultName: Swift.String?
+    /// Optional tags to assign to the restore access backup vault.
+    public var backupVaultTags: [Swift.String: Swift.String]?
+    /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
+    public var creatorRequestId: Swift.String?
+    /// A comment explaining the reason for requesting restore access to the backup vault.
+    public var requesterComment: Swift.String?
+    /// The ARN of the source backup vault containing the recovery points to which temporary access is requested.
+    /// This member is required.
+    public var sourceBackupVaultArn: Swift.String?
+
+    public init(
+        backupVaultName: Swift.String? = nil,
+        backupVaultTags: [Swift.String: Swift.String]? = nil,
+        creatorRequestId: Swift.String? = nil,
+        requesterComment: Swift.String? = nil,
+        sourceBackupVaultArn: Swift.String? = nil
+    ) {
+        self.backupVaultName = backupVaultName
+        self.backupVaultTags = backupVaultTags
+        self.creatorRequestId = creatorRequestId
+        self.requesterComment = requesterComment
+        self.sourceBackupVaultArn = sourceBackupVaultArn
+    }
+}
+
+extension CreateRestoreAccessBackupVaultInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRestoreAccessBackupVaultInput(backupVaultName: \(Swift.String(describing: backupVaultName)), creatorRequestId: \(Swift.String(describing: creatorRequestId)), sourceBackupVaultArn: \(Swift.String(describing: sourceBackupVaultArn)), backupVaultTags: \"CONTENT_REDACTED\", requesterComment: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateRestoreAccessBackupVaultOutput: Swift.Sendable {
+    /// >The date and time when the restore access backup vault was created, in Unix format and Coordinated Universal Time
+    public var creationDate: Foundation.Date?
+    /// The ARN that uniquely identifies the created restore access backup vault.
+    public var restoreAccessBackupVaultArn: Swift.String?
+    /// The name of the created restore access backup vault.
+    public var restoreAccessBackupVaultName: Swift.String?
+    /// The current state of the restore access backup vault.
+    public var vaultState: BackupClientTypes.VaultState?
+
+    public init(
+        creationDate: Foundation.Date? = nil,
+        restoreAccessBackupVaultArn: Swift.String? = nil,
+        restoreAccessBackupVaultName: Swift.String? = nil,
+        vaultState: BackupClientTypes.VaultState? = nil
+    ) {
+        self.creationDate = creationDate
+        self.restoreAccessBackupVaultArn = restoreAccessBackupVaultArn
+        self.restoreAccessBackupVaultName = restoreAccessBackupVaultName
+        self.vaultState = vaultState
+    }
+}
+
 extension BackupClientTypes {
 
     public enum RestoreTestingRecoveryPointSelectionAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2416,7 +2542,7 @@ extension BackupClientTypes {
         /// The RestoreTestingPlanName is a unique string that is the name of the restore testing plan. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores.
         /// This member is required.
         public var restoreTestingPlanName: Swift.String?
-        /// A CRON expression in specified timezone when a restore testing plan is executed.
+        /// A CRON expression in specified timezone when a restore testing plan is executed. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *).
         /// This member is required.
         public var scheduleExpression: Swift.String?
         /// Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
@@ -2573,7 +2699,7 @@ extension BackupClientTypes {
         /// The unique name of the restore testing selection that belongs to the related restore testing plan.
         /// This member is required.
         public var restoreTestingSelectionName: Swift.String?
-        /// This is amount of hours (1 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
+        /// This is amount of hours (0 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
         public var validationWindowHours: Swift.Int
 
         public init(
@@ -2879,7 +3005,21 @@ public struct DescribeBackupJobOutput: Swift.Sendable {
     public var backupJobId: Swift.String?
     /// Represents the options specified as part of backup plan or on-demand backup job.
     public var backupOptions: [Swift.String: Swift.String]?
-    /// The size, in bytes, of a backup.
+    /// The size, in bytes, of a backup (recovery point). This value can render differently depending on the resource type as Backup pulls in data information from other Amazon Web Services services. For example, the value returned may show a value of 0, which may differ from the anticipated value. The expected behavior for values by resource type are described as follows:
+    ///
+    /// * Amazon Aurora, Amazon DocumentDB, and Amazon Neptune do not have this value populate from the operation GetBackupJobStatus.
+    ///
+    /// * For Amazon DynamoDB with advanced features, this value refers to the size of the recovery point (backup).
+    ///
+    /// * Amazon EC2 and Amazon EBS show volume size (provisioned storage) returned as part of this value. Amazon EBS does not return backup size information; snapshot size will have the same value as the original resource that was backed up.
+    ///
+    /// * For Amazon EFS, this value refers to the delta bytes transferred during a backup.
+    ///
+    /// * Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.
+    ///
+    /// * An Amazon RDS instance will show as 0.
+    ///
+    /// * For virtual machines running VMware, this value is passed to Backup through an asynchronous workflow, which can mean this displayed value can under-represent the actual backup size.
     public var backupSizeInBytes: Swift.Int?
     /// Represents the actual backup type selected for a backup job. For example, if a successful Windows Volume Shadow Copy Service (VSS) backup was taken, BackupType returns "WindowsVSS". If BackupType is empty, then the backup type was a regular backup.
     public var backupType: Swift.String?
@@ -3003,6 +3143,69 @@ public struct DescribeBackupVaultInput: Swift.Sendable {
     }
 }
 
+extension BackupClientTypes {
+
+    public enum MpaSessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MpaSessionStatus] {
+            return [
+                .approved,
+                .failed,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    /// Contains information about the latest update to an MPA approval team association.
+    public struct LatestMpaApprovalTeamUpdate: Swift.Sendable {
+        /// The date and time when the MPA approval team update will expire.
+        public var expiryDate: Foundation.Date?
+        /// The date and time when the MPA approval team update was initiated.
+        public var initiationDate: Foundation.Date?
+        /// The ARN of the MPA session associated with this update.
+        public var mpaSessionArn: Swift.String?
+        /// The current status of the MPA approval team update.
+        public var status: BackupClientTypes.MpaSessionStatus?
+        /// A message describing the current status of the MPA approval team update.
+        public var statusMessage: Swift.String?
+
+        public init(
+            expiryDate: Foundation.Date? = nil,
+            initiationDate: Foundation.Date? = nil,
+            mpaSessionArn: Swift.String? = nil,
+            status: BackupClientTypes.MpaSessionStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.expiryDate = expiryDate
+            self.initiationDate = initiationDate
+            self.mpaSessionArn = mpaSessionArn
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
 public struct DescribeBackupVaultOutput: Swift.Sendable {
     /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault.
     public var backupVaultArn: Swift.String?
@@ -3014,6 +3217,8 @@ public struct DescribeBackupVaultOutput: Swift.Sendable {
     public var creatorRequestId: Swift.String?
     /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
     public var encryptionKeyArn: Swift.String?
+    /// Information about the latest update to the MPA approval team association for this backup vault.
+    public var latestMpaApprovalTeamUpdate: BackupClientTypes.LatestMpaApprovalTeamUpdate?
     /// The date and time when Backup Vault Lock configuration cannot be changed or deleted. If you applied Vault Lock to your vault without specifying a lock date, you can change any of your Vault Lock settings, or delete Vault Lock from the vault entirely, at any time. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var lockDate: Foundation.Date?
     /// A Boolean that indicates whether Backup Vault Lock is currently protecting the backup vault. True means that Vault Lock causes delete or update operations on the recovery points stored in the vault to fail.
@@ -3022,8 +3227,14 @@ public struct DescribeBackupVaultOutput: Swift.Sendable {
     public var maxRetentionDays: Swift.Int?
     /// The Backup Vault Lock setting that specifies the minimum retention period that the vault retains its recovery points. If this parameter is not specified, Vault Lock will not enforce a minimum retention period. If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or longer than the minimum retention period. If the job's retention period is shorter than that minimum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. Recovery points already stored in the vault prior to Vault Lock are not affected.
     public var minRetentionDays: Swift.Int?
-    /// The number of recovery points that are stored in a backup vault.
+    /// The ARN of the MPA approval team associated with this backup vault.
+    public var mpaApprovalTeamArn: Swift.String?
+    /// The ARN of the MPA session associated with this backup vault.
+    public var mpaSessionArn: Swift.String?
+    /// The number of recovery points that are stored in a backup vault. Recovery point count value displayed in the console can be an approximation. Use [ListRecoveryPointsByBackupVault](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_ListRecoveryPointsByBackupVault.html) API to obtain the exact count.
     public var numberOfRecoveryPoints: Swift.Int
+    /// The ARN of the source backup vault from which this restore access backup vault was created.
+    public var sourceBackupVaultArn: Swift.String?
     /// The current state of the vault.->
     public var vaultState: BackupClientTypes.VaultState?
     /// The type of vault described.
@@ -3035,11 +3246,15 @@ public struct DescribeBackupVaultOutput: Swift.Sendable {
         creationDate: Foundation.Date? = nil,
         creatorRequestId: Swift.String? = nil,
         encryptionKeyArn: Swift.String? = nil,
+        latestMpaApprovalTeamUpdate: BackupClientTypes.LatestMpaApprovalTeamUpdate? = nil,
         lockDate: Foundation.Date? = nil,
         locked: Swift.Bool? = nil,
         maxRetentionDays: Swift.Int? = nil,
         minRetentionDays: Swift.Int? = nil,
+        mpaApprovalTeamArn: Swift.String? = nil,
+        mpaSessionArn: Swift.String? = nil,
         numberOfRecoveryPoints: Swift.Int = 0,
+        sourceBackupVaultArn: Swift.String? = nil,
         vaultState: BackupClientTypes.VaultState? = nil,
         vaultType: BackupClientTypes.VaultType? = nil
     ) {
@@ -3048,11 +3263,15 @@ public struct DescribeBackupVaultOutput: Swift.Sendable {
         self.creationDate = creationDate
         self.creatorRequestId = creatorRequestId
         self.encryptionKeyArn = encryptionKeyArn
+        self.latestMpaApprovalTeamUpdate = latestMpaApprovalTeamUpdate
         self.lockDate = lockDate
         self.locked = locked
         self.maxRetentionDays = maxRetentionDays
         self.minRetentionDays = minRetentionDays
+        self.mpaApprovalTeamArn = mpaApprovalTeamArn
+        self.mpaSessionArn = mpaSessionArn
         self.numberOfRecoveryPoints = numberOfRecoveryPoints
+        self.sourceBackupVaultArn = sourceBackupVaultArn
         self.vaultState = vaultState
         self.vaultType = vaultType
     }
@@ -3274,18 +3493,24 @@ extension BackupClientTypes {
 extension BackupClientTypes {
 
     public enum RecoveryPointStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
         case completed
+        case creating
         case deleting
         case expired
         case partial
+        case stopped
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecoveryPointStatus] {
             return [
+                .available,
                 .completed,
+                .creating,
                 .deleting,
                 .expired,
-                .partial
+                .partial,
+                .stopped
             ]
         }
 
@@ -3296,10 +3521,13 @@ extension BackupClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .available: return "AVAILABLE"
             case .completed: return "COMPLETED"
+            case .creating: return "CREATING"
             case .deleting: return "DELETING"
             case .expired: return "EXPIRED"
             case .partial: return "PARTIAL"
+            case .stopped: return "STOPPED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3363,6 +3591,8 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
     public var indexStatus: BackupClientTypes.IndexStatus?
     /// A string in the form of a detailed message explaining the status of a backup index associated with the recovery point.
     public var indexStatusMessage: Swift.String?
+    /// The date and time when the backup job that created this recovery point was initiated, in Unix format and Coordinated Universal Time (UTC).
+    public var initiationDate: Foundation.Date?
     /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
     public var isEncrypted: Swift.Bool
     /// This returns the boolean value that a recovery point is a parent (composite) job.
@@ -3383,7 +3613,17 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
     public var resourceType: Swift.String?
     /// An Amazon Resource Name (ARN) that uniquely identifies the source vault where the resource was originally backed up in; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault. If the recovery is restored to the same Amazon Web Services account or Region, this value will be null.
     public var sourceBackupVaultArn: Swift.String?
-    /// A status code specifying the state of the recovery point. PARTIAL status indicates Backup could not create the recovery point before the backup window closed. To increase your backup plan window using the API, see [UpdateBackupPlan](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_UpdateBackupPlan.html). You can also increase your backup plan window using the Console by choosing and editing your backup plan. EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see [ Step 3: Delete the recovery points](https://docs.aws.amazon.com/aws-backup/latest/devguide/gs-cleanup-resources.html#cleanup-backups) in the Clean up resources section of Getting started. STOPPED status occurs on a continuous backup where a user has taken some action that causes the continuous backup to be disabled. This can be caused by the removal of permissions, turning off versioning, turning off events being sent to EventBridge, or disabling the EventBridge rules that are put in place by Backup. For recovery points of Amazon S3, Amazon RDS, and Amazon Aurora resources, this status occurs when the retention period of a continuous backup rule is changed. To resolve STOPPED status, ensure that all requested permissions are in place and that versioning is enabled on the S3 bucket. Once these conditions are met, the next instance of a backup rule running will result in a new continuous recovery point being created. The recovery points with STOPPED status do not need to be deleted. For SAP HANA on Amazon EC2 STOPPED status occurs due to user action, application misconfiguration, or backup failure. To ensure that future continuous backups succeed, refer to the recovery point status and check SAP HANA for details.
+    /// A status code specifying the state of the recovery point. For more information, see [ Recovery point status](https://docs.aws.amazon.com/aws-backup/latest/devguide/applicationstackbackups.html#cfnrecoverypointstatus) in the Backup Developer Guide.
+    ///
+    /// * CREATING status indicates that an Backup job has been initiated for a resource. The backup process has started and is actively processing a backup job for the associated recovery point.
+    ///
+    /// * AVAILABLE status indicates that the backup was successfully created for the recovery point. The backup process has completed without any issues, and the recovery point is now ready for use.
+    ///
+    /// * PARTIAL status indicates a composite recovery point has one or more nested recovery points that were not in the backup.
+    ///
+    /// * EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see [ Step 3: Delete the recovery points](https://docs.aws.amazon.com/aws-backup/latest/devguide/gs-cleanup-resources.html#cleanup-backups) in the Clean up resources section of Getting started.
+    ///
+    /// * STOPPED status occurs on a continuous backup where a user has taken some action that causes the continuous backup to be disabled. This can be caused by the removal of permissions, turning off versioning, turning off events being sent to EventBridge, or disabling the EventBridge rules that are put in place by Backup. For recovery points of Amazon S3, Amazon RDS, and Amazon Aurora resources, this status occurs when the retention period of a continuous backup rule is changed. To resolve STOPPED status, ensure that all requested permissions are in place and that versioning is enabled on the S3 bucket. Once these conditions are met, the next instance of a backup rule running will result in a new continuous recovery point being created. The recovery points with STOPPED status do not need to be deleted. For SAP HANA on Amazon EC2 STOPPED status occurs due to user action, application misconfiguration, or backup failure. To ensure that future continuous backups succeed, refer to the recovery point status and check SAP HANA for details.
     public var status: BackupClientTypes.RecoveryPointStatus?
     /// A status message explaining the status of the recovery point.
     public var statusMessage: Swift.String?
@@ -3405,6 +3645,7 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
         iamRoleArn: Swift.String? = nil,
         indexStatus: BackupClientTypes.IndexStatus? = nil,
         indexStatusMessage: Swift.String? = nil,
+        initiationDate: Foundation.Date? = nil,
         isEncrypted: Swift.Bool = false,
         isParent: Swift.Bool = false,
         lastRestoreTime: Foundation.Date? = nil,
@@ -3432,6 +3673,7 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
         self.iamRoleArn = iamRoleArn
         self.indexStatus = indexStatus
         self.indexStatusMessage = indexStatusMessage
+        self.initiationDate = initiationDate
         self.isEncrypted = isEncrypted
         self.isParent = isParent
         self.lastRestoreTime = lastRestoreTime
@@ -3837,6 +4079,27 @@ public struct DescribeRestoreJobOutput: Swift.Sendable {
         self.validationStatus = validationStatus
         self.validationStatusMessage = validationStatusMessage
     }
+}
+
+public struct DisassociateBackupVaultMpaApprovalTeamInput: Swift.Sendable {
+    /// The name of the backup vault from which to disassociate the MPA approval team.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// An optional comment explaining the reason for disassociating the MPA approval team from the backup vault.
+    public var requesterComment: Swift.String?
+
+    public init(
+        backupVaultName: Swift.String? = nil,
+        requesterComment: Swift.String? = nil
+    ) {
+        self.backupVaultName = backupVaultName
+        self.requesterComment = requesterComment
+    }
+}
+
+extension DisassociateBackupVaultMpaApprovalTeamInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DisassociateBackupVaultMpaApprovalTeamInput(backupVaultName: \(Swift.String(describing: backupVaultName)), requesterComment: \"CONTENT_REDACTED\")"}
 }
 
 public struct DisassociateRecoveryPointInput: Swift.Sendable {
@@ -4378,7 +4641,7 @@ extension BackupClientTypes {
         /// The restore testing plan name.
         /// This member is required.
         public var restoreTestingPlanName: Swift.String?
-        /// A CRON expression in specified timezone when a restore testing plan is executed.
+        /// A CRON expression in specified timezone when a restore testing plan is executed. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *).
         /// This member is required.
         public var scheduleExpression: Swift.String?
         /// Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
@@ -5524,6 +5787,8 @@ extension BackupClientTypes {
         public var indexStatus: BackupClientTypes.IndexStatus?
         /// A string in the form of a detailed message explaining the status of a backup index associated with the recovery point.
         public var indexStatusMessage: Swift.String?
+        /// The date and time when the backup job that created this recovery point was initiated, in Unix format and Coordinated Universal Time (UTC).
+        public var initiationDate: Foundation.Date?
         /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
         public var isEncrypted: Swift.Bool
         /// This is a boolean value indicating this is a parent (composite) recovery point.
@@ -5564,6 +5829,7 @@ extension BackupClientTypes {
             iamRoleArn: Swift.String? = nil,
             indexStatus: BackupClientTypes.IndexStatus? = nil,
             indexStatusMessage: Swift.String? = nil,
+            initiationDate: Foundation.Date? = nil,
             isEncrypted: Swift.Bool = false,
             isParent: Swift.Bool = false,
             lastRestoreTime: Foundation.Date? = nil,
@@ -5590,6 +5856,7 @@ extension BackupClientTypes {
             self.iamRoleArn = iamRoleArn
             self.indexStatus = indexStatus
             self.indexStatusMessage = indexStatusMessage
+            self.initiationDate = initiationDate
             self.isEncrypted = isEncrypted
             self.isParent = isParent
             self.lastRestoreTime = lastRestoreTime
@@ -5859,6 +6126,132 @@ public struct ListReportPlansOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.reportPlans = reportPlans
+    }
+}
+
+public struct ListRestoreAccessBackupVaultsInput: Swift.Sendable {
+    /// The name of the backup vault for which to list associated restore access backup vaults.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// The maximum number of items to return in the response.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        backupVaultName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.backupVaultName = backupVaultName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BackupClientTypes {
+
+    public enum MpaRevokeSessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MpaRevokeSessionStatus] {
+            return [
+                .failed,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    /// Contains information about the latest request to revoke access to a backup vault.
+    public struct LatestRevokeRequest: Swift.Sendable {
+        /// The date and time when the revoke request will expire.
+        public var expiryDate: Foundation.Date?
+        /// The date and time when the revoke request was initiated.
+        public var initiationDate: Foundation.Date?
+        /// The ARN of the MPA session associated with this revoke request.
+        public var mpaSessionArn: Swift.String?
+        /// The current status of the revoke request.
+        public var status: BackupClientTypes.MpaRevokeSessionStatus?
+        /// A message describing the current status of the revoke request.
+        public var statusMessage: Swift.String?
+
+        public init(
+            expiryDate: Foundation.Date? = nil,
+            initiationDate: Foundation.Date? = nil,
+            mpaSessionArn: Swift.String? = nil,
+            status: BackupClientTypes.MpaRevokeSessionStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.expiryDate = expiryDate
+            self.initiationDate = initiationDate
+            self.mpaSessionArn = mpaSessionArn
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    /// Contains information about a restore access backup vault.
+    public struct RestoreAccessBackupVaultListMember: Swift.Sendable {
+        /// The date and time when the restore access backup vault was approved.
+        public var approvalDate: Foundation.Date?
+        /// The date and time when the restore access backup vault was created.
+        public var creationDate: Foundation.Date?
+        /// Information about the latest request to revoke access to this backup vault.
+        public var latestRevokeRequest: BackupClientTypes.LatestRevokeRequest?
+        /// The ARN of the restore access backup vault.
+        public var restoreAccessBackupVaultArn: Swift.String?
+        /// The current state of the restore access backup vault.
+        public var vaultState: BackupClientTypes.VaultState?
+
+        public init(
+            approvalDate: Foundation.Date? = nil,
+            creationDate: Foundation.Date? = nil,
+            latestRevokeRequest: BackupClientTypes.LatestRevokeRequest? = nil,
+            restoreAccessBackupVaultArn: Swift.String? = nil,
+            vaultState: BackupClientTypes.VaultState? = nil
+        ) {
+            self.approvalDate = approvalDate
+            self.creationDate = creationDate
+            self.latestRevokeRequest = latestRevokeRequest
+            self.restoreAccessBackupVaultArn = restoreAccessBackupVaultArn
+            self.vaultState = vaultState
+        }
+    }
+}
+
+public struct ListRestoreAccessBackupVaultsOutput: Swift.Sendable {
+    /// The pagination token to use in a subsequent request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of restore access backup vaults associated with the specified backup vault.
+    public var restoreAccessBackupVaults: [BackupClientTypes.RestoreAccessBackupVaultListMember]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        restoreAccessBackupVaults: [BackupClientTypes.RestoreAccessBackupVaultListMember]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.restoreAccessBackupVaults = restoreAccessBackupVaults
     }
 }
 
@@ -6270,7 +6663,7 @@ extension BackupClientTypes {
         /// The restore testing plan name.
         /// This member is required.
         public var restoreTestingPlanName: Swift.String?
-        /// A CRON expression in specified timezone when a restore testing plan is executed.
+        /// A CRON expression in specified timezone when a restore testing plan is executed. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *).
         /// This member is required.
         public var scheduleExpression: Swift.String?
         /// Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
@@ -6473,18 +6866,7 @@ public struct PutBackupVaultLockConfigurationInput: Swift.Sendable {
 }
 
 public struct PutBackupVaultNotificationsInput: Swift.Sendable {
-    /// An array of events that indicate the status of jobs to back up resources to the backup vault. For common use cases and code samples, see [Using Amazon SNS to track Backup events](https://docs.aws.amazon.com/aws-backup/latest/devguide/sns-notifications.html). The following events are supported:
-    ///
-    /// * BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED
-    ///
-    /// * COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED
-    ///
-    /// * RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED
-    ///
-    /// * S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED
-    ///
-    ///
-    /// The list below includes both supported events and deprecated events that are no longer in use (for reference). Deprecated events do not return statuses or notifications. Refer to the list above for the supported events.
+    /// An array of events that indicate the status of jobs to back up resources to the backup vault. For the list of supported events, common use cases, and code samples, see [Notification options with Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-notifications.html).
     /// This member is required.
     public var backupVaultEvents: [BackupClientTypes.BackupVaultEvent]?
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
@@ -6524,6 +6906,32 @@ public struct PutRestoreValidationResultInput: Swift.Sendable {
         self.validationStatus = validationStatus
         self.validationStatusMessage = validationStatusMessage
     }
+}
+
+public struct RevokeRestoreAccessBackupVaultInput: Swift.Sendable {
+    /// The name of the source backup vault associated with the restore access backup vault to be revoked.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// A comment explaining the reason for revoking access to the restore access backup vault.
+    public var requesterComment: Swift.String?
+    /// The ARN of the restore access backup vault to revoke.
+    /// This member is required.
+    public var restoreAccessBackupVaultArn: Swift.String?
+
+    public init(
+        backupVaultName: Swift.String? = nil,
+        requesterComment: Swift.String? = nil,
+        restoreAccessBackupVaultArn: Swift.String? = nil
+    ) {
+        self.backupVaultName = backupVaultName
+        self.requesterComment = requesterComment
+        self.restoreAccessBackupVaultArn = restoreAccessBackupVaultArn
+    }
+}
+
+extension RevokeRestoreAccessBackupVaultInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RevokeRestoreAccessBackupVaultInput(backupVaultName: \(Swift.String(describing: backupVaultName)), restoreAccessBackupVaultArn: \(Swift.String(describing: restoreAccessBackupVaultArn)), requesterComment: \"CONTENT_REDACTED\")"}
 }
 
 extension BackupClientTypes {
@@ -6843,7 +7251,7 @@ public struct StopBackupJobInput: Swift.Sendable {
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource. ARNs that do not include backup are incompatible with tagging. TagResource and UntagResource with invalid ARNs will result in an error. Acceptable ARN content can include arn:aws:backup:us-east. Invalid ARN content may look like arn:aws:ec2:us-east.
+    /// The ARN that uniquely identifies the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// Key-value pairs that are used to help organize your resources. You can assign your own metadata to the resources you create. For clarity, this is the structure to assign tags: [{"Key":"string","Value":"string"}].
@@ -7145,7 +7553,7 @@ extension BackupClientTypes {
     public struct RestoreTestingPlanForUpdate: Swift.Sendable {
         /// Required: Algorithm; RecoveryPointTypes; IncludeVaults (one or more). Optional: SelectionWindowDays ('30' if not specified); ExcludeVaults (defaults to empty list if not listed).
         public var recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection?
-        /// A CRON expression in specified timezone when a restore testing plan is executed.
+        /// A CRON expression in specified timezone when a restore testing plan is executed. When no CRON expression is provided, Backup will use the default expression cron(0 5 ? * * *).
         public var scheduleExpression: Swift.String?
         /// Optional. This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
         public var scheduleExpressionTimezone: Swift.String?
@@ -7300,6 +7708,16 @@ public struct UpdateRestoreTestingSelectionOutput: Swift.Sendable {
     }
 }
 
+extension AssociateBackupVaultMpaApprovalTeamInput {
+
+    static func urlPathProvider(_ value: AssociateBackupVaultMpaApprovalTeamInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
+            return nil
+        }
+        return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/mpaApprovalTeam"
+    }
+}
+
 extension CancelLegalHoldInput {
 
     static func urlPathProvider(_ value: CancelLegalHoldInput) -> Swift.String? {
@@ -7383,6 +7801,13 @@ extension CreateReportPlanInput {
 
     static func urlPathProvider(_ value: CreateReportPlanInput) -> Swift.String? {
         return "/audit/report-plans"
+    }
+}
+
+extension CreateRestoreAccessBackupVaultInput {
+
+    static func urlPathProvider(_ value: CreateRestoreAccessBackupVaultInput) -> Swift.String? {
+        return "/restore-access-backup-vaults"
     }
 }
 
@@ -7650,6 +8075,25 @@ extension DescribeRestoreJobInput {
             return nil
         }
         return "/restore-jobs/\(restoreJobId.urlPercentEncoding())"
+    }
+}
+
+extension DisassociateBackupVaultMpaApprovalTeamInput {
+
+    static func urlPathProvider(_ value: DisassociateBackupVaultMpaApprovalTeamInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
+            return nil
+        }
+        return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/mpaApprovalTeam"
+    }
+}
+
+extension DisassociateBackupVaultMpaApprovalTeamInput {
+
+    static func queryItemProvider(_ value: DisassociateBackupVaultMpaApprovalTeamInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "delete", value: nil))
+        return items
     }
 }
 
@@ -8547,6 +8991,32 @@ extension ListReportPlansInput {
     }
 }
 
+extension ListRestoreAccessBackupVaultsInput {
+
+    static func urlPathProvider(_ value: ListRestoreAccessBackupVaultsInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
+            return nil
+        }
+        return "/logically-air-gapped-backup-vaults/\(backupVaultName.urlPercentEncoding())/restore-access-backup-vaults"
+    }
+}
+
+extension ListRestoreAccessBackupVaultsInput {
+
+    static func queryItemProvider(_ value: ListRestoreAccessBackupVaultsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListRestoreJobsInput {
 
     static func urlPathProvider(_ value: ListRestoreJobsInput) -> Swift.String? {
@@ -8794,6 +9264,31 @@ extension PutRestoreValidationResultInput {
     }
 }
 
+extension RevokeRestoreAccessBackupVaultInput {
+
+    static func urlPathProvider(_ value: RevokeRestoreAccessBackupVaultInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
+            return nil
+        }
+        guard let restoreAccessBackupVaultArn = value.restoreAccessBackupVaultArn else {
+            return nil
+        }
+        return "/logically-air-gapped-backup-vaults/\(backupVaultName.urlPercentEncoding())/restore-access-backup-vaults/\(restoreAccessBackupVaultArn.urlPercentEncoding())"
+    }
+}
+
+extension RevokeRestoreAccessBackupVaultInput {
+
+    static func queryItemProvider(_ value: RevokeRestoreAccessBackupVaultInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let requesterComment = value.requesterComment {
+            let requesterCommentQueryItem = Smithy.URIQueryItem(name: "requesterComment".urlPercentEncoding(), value: Swift.String(requesterComment).urlPercentEncoding())
+            items.append(requesterCommentQueryItem)
+        }
+        return items
+    }
+}
+
 extension StartBackupJobInput {
 
     static func urlPathProvider(_ value: StartBackupJobInput) -> Swift.String? {
@@ -8948,6 +9443,15 @@ extension UpdateRestoreTestingSelectionInput {
     }
 }
 
+extension AssociateBackupVaultMpaApprovalTeamInput {
+
+    static func write(value: AssociateBackupVaultMpaApprovalTeamInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MpaApprovalTeamArn"].write(value.mpaApprovalTeamArn)
+        try writer["RequesterComment"].write(value.requesterComment)
+    }
+}
+
 extension CreateBackupPlanInput {
 
     static func write(value: CreateBackupPlanInput?, to writer: SmithyJSON.Writer) throws {
@@ -9025,6 +9529,18 @@ extension CreateReportPlanInput {
     }
 }
 
+extension CreateRestoreAccessBackupVaultInput {
+
+    static func write(value: CreateRestoreAccessBackupVaultInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BackupVaultName"].write(value.backupVaultName)
+        try writer["BackupVaultTags"].writeMap(value.backupVaultTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["CreatorRequestId"].write(value.creatorRequestId)
+        try writer["RequesterComment"].write(value.requesterComment)
+        try writer["SourceBackupVaultArn"].write(value.sourceBackupVaultArn)
+    }
+}
+
 extension CreateRestoreTestingPlanInput {
 
     static func write(value: CreateRestoreTestingPlanInput?, to writer: SmithyJSON.Writer) throws {
@@ -9041,6 +9557,14 @@ extension CreateRestoreTestingSelectionInput {
         guard let value else { return }
         try writer["CreatorRequestId"].write(value.creatorRequestId)
         try writer["RestoreTestingSelection"].write(value.restoreTestingSelection, with: BackupClientTypes.RestoreTestingSelectionForCreate.write(value:to:))
+    }
+}
+
+extension DisassociateBackupVaultMpaApprovalTeamInput {
+
+    static func write(value: DisassociateBackupVaultMpaApprovalTeamInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RequesterComment"].write(value.requesterComment)
     }
 }
 
@@ -9234,6 +9758,13 @@ extension UpdateRestoreTestingSelectionInput {
     }
 }
 
+extension AssociateBackupVaultMpaApprovalTeamOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateBackupVaultMpaApprovalTeamOutput {
+        return AssociateBackupVaultMpaApprovalTeamOutput()
+    }
+}
+
 extension CancelLegalHoldOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelLegalHoldOutput {
@@ -9341,6 +9872,21 @@ extension CreateReportPlanOutput {
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.reportPlanArn = try reader["ReportPlanArn"].readIfPresent()
         value.reportPlanName = try reader["ReportPlanName"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateRestoreAccessBackupVaultOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRestoreAccessBackupVaultOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRestoreAccessBackupVaultOutput()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.restoreAccessBackupVaultArn = try reader["RestoreAccessBackupVaultArn"].readIfPresent()
+        value.restoreAccessBackupVaultName = try reader["RestoreAccessBackupVaultName"].readIfPresent()
+        value.vaultState = try reader["VaultState"].readIfPresent()
         return value
     }
 }
@@ -9509,11 +10055,15 @@ extension DescribeBackupVaultOutput {
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
         value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
+        value.latestMpaApprovalTeamUpdate = try reader["LatestMpaApprovalTeamUpdate"].readIfPresent(with: BackupClientTypes.LatestMpaApprovalTeamUpdate.read(from:))
         value.lockDate = try reader["LockDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.locked = try reader["Locked"].readIfPresent()
         value.maxRetentionDays = try reader["MaxRetentionDays"].readIfPresent()
         value.minRetentionDays = try reader["MinRetentionDays"].readIfPresent()
+        value.mpaApprovalTeamArn = try reader["MpaApprovalTeamArn"].readIfPresent()
+        value.mpaSessionArn = try reader["MpaSessionArn"].readIfPresent()
         value.numberOfRecoveryPoints = try reader["NumberOfRecoveryPoints"].readIfPresent() ?? 0
+        value.sourceBackupVaultArn = try reader["SourceBackupVaultArn"].readIfPresent()
         value.vaultState = try reader["VaultState"].readIfPresent()
         value.vaultType = try reader["VaultType"].readIfPresent()
         return value
@@ -9603,6 +10153,7 @@ extension DescribeRecoveryPointOutput {
         value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
         value.indexStatus = try reader["IndexStatus"].readIfPresent()
         value.indexStatusMessage = try reader["IndexStatusMessage"].readIfPresent()
+        value.initiationDate = try reader["InitiationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.isEncrypted = try reader["IsEncrypted"].readIfPresent() ?? false
         value.isParent = try reader["IsParent"].readIfPresent() ?? false
         value.lastRestoreTime = try reader["LastRestoreTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -9685,6 +10236,13 @@ extension DescribeRestoreJobOutput {
         value.validationStatus = try reader["ValidationStatus"].readIfPresent()
         value.validationStatusMessage = try reader["ValidationStatusMessage"].readIfPresent()
         return value
+    }
+}
+
+extension DisassociateBackupVaultMpaApprovalTeamOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateBackupVaultMpaApprovalTeamOutput {
+        return DisassociateBackupVaultMpaApprovalTeamOutput()
     }
 }
 
@@ -10169,6 +10727,19 @@ extension ListReportPlansOutput {
     }
 }
 
+extension ListRestoreAccessBackupVaultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRestoreAccessBackupVaultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRestoreAccessBackupVaultsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.restoreAccessBackupVaults = try reader["RestoreAccessBackupVaults"].readListIfPresent(memberReadingClosure: BackupClientTypes.RestoreAccessBackupVaultListMember.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListRestoreJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRestoreJobsOutput {
@@ -10273,6 +10844,13 @@ extension PutRestoreValidationResultOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutRestoreValidationResultOutput {
         return PutRestoreValidationResultOutput()
+    }
+}
+
+extension RevokeRestoreAccessBackupVaultOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RevokeRestoreAccessBackupVaultOutput {
+        return RevokeRestoreAccessBackupVaultOutput()
     }
 }
 
@@ -10469,6 +11047,24 @@ extension UpdateRestoreTestingSelectionOutput {
     }
 }
 
+enum AssociateBackupVaultMpaApprovalTeamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CancelLegalHoldOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10607,6 +11203,26 @@ enum CreateReportPlanOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateRestoreAccessBackupVaultOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11016,6 +11632,24 @@ enum DescribeRestoreJobOutputError {
         switch baseError.code {
             case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateBackupVaultMpaApprovalTeamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -11613,6 +12247,23 @@ enum ListReportPlansOutputError {
     }
 }
 
+enum ListRestoreAccessBackupVaultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListRestoreJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11763,6 +12414,24 @@ enum PutBackupVaultNotificationsOutputError {
 }
 
 enum PutRestoreValidationResultOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RevokeRestoreAccessBackupVaultOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12114,11 +12783,11 @@ extension InvalidParameterValueException {
     }
 }
 
-extension InvalidResourceStateException {
+extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidResourceStateException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
-        var value = InvalidResourceStateException()
+        var value = InvalidRequestException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.context = try reader["Context"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12135,6 +12804,22 @@ extension ServiceUnavailableException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.context = try reader["Context"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidResourceStateException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidResourceStateException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidResourceStateException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.context = try reader["Context"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12171,22 +12856,6 @@ extension AlreadyExistsException {
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.context = try reader["Context"].readIfPresent()
         value.properties.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.type = try reader["Type"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.context = try reader["Context"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.type = try reader["Type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -12290,6 +12959,20 @@ extension BackupClientTypes.RecoveryPointCreator {
         value.backupPlanArn = try reader["BackupPlanArn"].readIfPresent()
         value.backupPlanVersion = try reader["BackupPlanVersion"].readIfPresent()
         value.backupRuleId = try reader["BackupRuleId"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupClientTypes.LatestMpaApprovalTeamUpdate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.LatestMpaApprovalTeamUpdate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.LatestMpaApprovalTeamUpdate()
+        value.mpaSessionArn = try reader["MpaSessionArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.initiationDate = try reader["InitiationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expiryDate = try reader["ExpiryDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -12965,6 +13648,7 @@ extension BackupClientTypes.RecoveryPointByBackupVault {
         value.status = try reader["Status"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.initiationDate = try reader["InitiationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.backupSizeInBytes = try reader["BackupSizeInBytes"].readIfPresent()
         value.calculatedLifecycle = try reader["CalculatedLifecycle"].readIfPresent(with: BackupClientTypes.CalculatedLifecycle.read(from:))
@@ -13014,6 +13698,34 @@ extension BackupClientTypes.RecoveryPointByResource {
         value.vaultType = try reader["VaultType"].readIfPresent()
         value.indexStatus = try reader["IndexStatus"].readIfPresent()
         value.indexStatusMessage = try reader["IndexStatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupClientTypes.RestoreAccessBackupVaultListMember {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RestoreAccessBackupVaultListMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.RestoreAccessBackupVaultListMember()
+        value.restoreAccessBackupVaultArn = try reader["RestoreAccessBackupVaultArn"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.approvalDate = try reader["ApprovalDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vaultState = try reader["VaultState"].readIfPresent()
+        value.latestRevokeRequest = try reader["LatestRevokeRequest"].readIfPresent(with: BackupClientTypes.LatestRevokeRequest.read(from:))
+        return value
+    }
+}
+
+extension BackupClientTypes.LatestRevokeRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.LatestRevokeRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.LatestRevokeRequest()
+        value.mpaSessionArn = try reader["MpaSessionArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.initiationDate = try reader["InitiationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expiryDate = try reader["ExpiryDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
