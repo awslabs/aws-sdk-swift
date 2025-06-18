@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.137.0"
+let clientRuntimeVersion: Version = "0.138.0"
 let crtVersion: Version = "0.52.1"
 
 let excludeRuntimeUnitTests = false
@@ -25,6 +25,7 @@ let isPreviewBuild = false
 let serviceTargets: [String] = [
     "AWSACM",
     "AWSACMPCA",
+    "AWSAIOps",
     "AWSAPIGateway",
     "AWSARCZonalShift",
     "AWSAccessAnalyzer",

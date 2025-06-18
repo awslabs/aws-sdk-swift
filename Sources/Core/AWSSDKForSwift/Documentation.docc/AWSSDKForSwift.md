@@ -81,6 +81,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSACMPCA](../../../../../swift/api/awsacmpca/latest)
 
+[AWSAIOps](../../../../../swift/api/awsaiops/latest)
+
 [AWSAPIGateway](../../../../../swift/api/awsapigateway/latest)
 
 [AWSARCZonalShift](../../../../../swift/api/awsarczonalshift/latest)
