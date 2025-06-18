@@ -20,9 +20,15 @@ import struct Smithy.Attributes
 /// This is the default resolver when no credential identity resolver is provided by the user.
 ///
 /// The chain resolves the credential identity in the following order:
-/// 1. Environment
-/// 2. Profile
-/// 3. Web Identity Tokens (STS Web Identity)
+/// 1. Environment - static credentials
+/// 2. Environment - STS web identity
+/// 3. Profile chain
+///     i. Static credentials
+///     ii. Assume role with source profile
+///     iii. Assume role with credential source
+///     iv. STS web identity
+///     v. SSO
+///     vi. External process
 /// 4. ECS (IAM roles for tasks)
 /// 5. EC2 Instance Metadata (IMDSv2)
 ///
@@ -36,12 +42,11 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
 
     public init() {
         resolverFactories = [
-            { return (EnvironmentAWSCredentialIdentityResolver()) },
-            { return (try ProfileAWSCredentialIdentityResolver()) },
+            { return ( EnvironmentAWSCredentialIdentityResolver()) },
             { return ( STSWebIdentityAWSCredentialIdentityResolver(source: .env)) },
-            { return ( STSWebIdentityAWSCredentialIdentityResolver(source: .configFile)) },
+            { return ( try ProfileAWSCredentialIdentityResolver()) },
             { return ( ECSAWSCredentialIdentityResolver()) },
-            { return (try IMDSAWSCredentialIdentityResolver()) }
+            { return ( try IMDSAWSCredentialIdentityResolver()) }
         ]
     }
 
