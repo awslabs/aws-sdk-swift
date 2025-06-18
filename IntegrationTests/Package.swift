@@ -24,6 +24,7 @@ extension Target.Dependency {
     static var clientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
     static var smithyIdentity: Self { .product(name: "SmithyIdentity", package: "smithy-swift") }
     static var smithyTestUtil: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
+    static var smithyHttpApi: Self { .product(name: "SmithyHTTPAPI", package: "smithy-swift") }
 }
 
 // MARK: - Base Package
@@ -105,6 +106,7 @@ private func integrationTestTarget(_ name: String) -> Target {
             .smithyIdentity,
             .awsSDKCommon,
             .awsIntegrationTestUtils,
+            .smithyHttpApi,
             .product(name: name, package: "aws-sdk-swift")
         ] + additionalDependencies.map {
             Target.Dependency.product(name: $0, package: "aws-sdk-swift", condition: nil)

@@ -10,6 +10,7 @@
 import Foundation
 import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
+import struct Smithy.Document
 
 extension SecurityHubClient {
     /// Paginate over `[DescribeActionTargetsOutput]` results.
@@ -71,6 +72,36 @@ extension PaginatorSequence where OperationStackInput == DescribeProductsInput, 
     /// - Returns: `[SecurityHubClientTypes.Product]`
     public func products() async throws -> [SecurityHubClientTypes.Product] {
         return try await self.asyncCompactMap { item in item.products }
+    }
+}
+extension SecurityHubClient {
+    /// Paginate over `[DescribeProductsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeProductsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeProductsV2Output`
+    public func describeProductsV2Paginated(input: DescribeProductsV2Input) -> ClientRuntime.PaginatorSequence<DescribeProductsV2Input, DescribeProductsV2Output> {
+        return ClientRuntime.PaginatorSequence<DescribeProductsV2Input, DescribeProductsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeProductsV2(input:))
+    }
+}
+
+extension DescribeProductsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeProductsV2Input {
+        return DescribeProductsV2Input(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeProductsV2Input, OperationStackOutput == DescribeProductsV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `describeProductsV2Paginated`
+    /// to access the nested member `[SecurityHubClientTypes.ProductV2]`
+    /// - Returns: `[SecurityHubClientTypes.ProductV2]`
+    public func productsV2() async throws -> [SecurityHubClientTypes.ProductV2] {
+        return try await self.asyncCompactMap { item in item.productsV2 }
     }
 }
 extension SecurityHubClient {
@@ -231,6 +262,38 @@ extension PaginatorSequence where OperationStackInput == GetFindingsInput, Opera
     }
 }
 extension SecurityHubClient {
+    /// Paginate over `[GetFindingsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetFindingsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetFindingsV2Output`
+    public func getFindingsV2Paginated(input: GetFindingsV2Input) -> ClientRuntime.PaginatorSequence<GetFindingsV2Input, GetFindingsV2Output> {
+        return ClientRuntime.PaginatorSequence<GetFindingsV2Input, GetFindingsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getFindingsV2(input:))
+    }
+}
+
+extension GetFindingsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetFindingsV2Input {
+        return GetFindingsV2Input(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortCriteria: self.sortCriteria
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetFindingsV2Input, OperationStackOutput == GetFindingsV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `getFindingsV2Paginated`
+    /// to access the nested member `[Smithy.Document]`
+    /// - Returns: `[Smithy.Document]`
+    public func findings() async throws -> [Smithy.Document] {
+        return try await self.asyncCompactMap { item in item.findings }
+    }
+}
+extension SecurityHubClient {
     /// Paginate over `[GetInsightsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -259,6 +322,68 @@ extension PaginatorSequence where OperationStackInput == GetInsightsInput, Opera
     /// - Returns: `[SecurityHubClientTypes.Insight]`
     public func insights() async throws -> [SecurityHubClientTypes.Insight] {
         return try await self.asyncCompactMap { item in item.insights }
+    }
+}
+extension SecurityHubClient {
+    /// Paginate over `[GetResourcesV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetResourcesV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourcesV2Output`
+    public func getResourcesV2Paginated(input: GetResourcesV2Input) -> ClientRuntime.PaginatorSequence<GetResourcesV2Input, GetResourcesV2Output> {
+        return ClientRuntime.PaginatorSequence<GetResourcesV2Input, GetResourcesV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getResourcesV2(input:))
+    }
+}
+
+extension GetResourcesV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetResourcesV2Input {
+        return GetResourcesV2Input(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortCriteria: self.sortCriteria
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetResourcesV2Input, OperationStackOutput == GetResourcesV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `getResourcesV2Paginated`
+    /// to access the nested member `[SecurityHubClientTypes.ResourceResult]`
+    /// - Returns: `[SecurityHubClientTypes.ResourceResult]`
+    public func resources() async throws -> [SecurityHubClientTypes.ResourceResult] {
+        return try await self.asyncCompactMap { item in item.resources }
+    }
+}
+extension SecurityHubClient {
+    /// Paginate over `[ListAggregatorsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAggregatorsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAggregatorsV2Output`
+    public func listAggregatorsV2Paginated(input: ListAggregatorsV2Input) -> ClientRuntime.PaginatorSequence<ListAggregatorsV2Input, ListAggregatorsV2Output> {
+        return ClientRuntime.PaginatorSequence<ListAggregatorsV2Input, ListAggregatorsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAggregatorsV2(input:))
+    }
+}
+
+extension ListAggregatorsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAggregatorsV2Input {
+        return ListAggregatorsV2Input(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAggregatorsV2Input, OperationStackOutput == ListAggregatorsV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `listAggregatorsV2Paginated`
+    /// to access the nested member `[SecurityHubClientTypes.AggregatorV2]`
+    /// - Returns: `[SecurityHubClientTypes.AggregatorV2]`
+    public func aggregatorsV2() async throws -> [SecurityHubClientTypes.AggregatorV2] {
+        return try await self.asyncCompactMap { item in item.aggregatorsV2 }
     }
 }
 extension SecurityHubClient {
@@ -460,6 +585,7 @@ extension SecurityHubClient {
 extension ListOrganizationAdminAccountsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListOrganizationAdminAccountsInput {
         return ListOrganizationAdminAccountsInput(
+            feature: self.feature,
             maxResults: self.maxResults,
             nextToken: token
         )}

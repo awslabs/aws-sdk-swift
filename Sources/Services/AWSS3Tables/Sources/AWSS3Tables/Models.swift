@@ -660,22 +660,23 @@ public struct GetNamespaceOutput: Swift.Sendable {
 
 public struct GetTableInput: Swift.Sendable {
     /// The name of the table.
-    /// This member is required.
     public var name: Swift.String?
     /// The name of the namespace the table is associated with.
-    /// This member is required.
     public var namespace: Swift.String?
+    /// The Amazon Resource Name (ARN) of the table.
+    public var tableArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the table bucket associated with the table.
-    /// This member is required.
     public var tableBucketARN: Swift.String?
 
     public init(
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
+        tableArn: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
     ) {
         self.name = name
         self.namespace = namespace
+        self.tableArn = tableArn
         self.tableBucketARN = tableBucketARN
     }
 }
@@ -1977,16 +1978,31 @@ extension GetNamespaceInput {
 extension GetTableInput {
 
     static func urlPathProvider(_ value: GetTableInput) -> Swift.String? {
-        guard let tableBucketARN = value.tableBucketARN else {
-            return nil
+        return "/get-table"
+    }
+}
+
+extension GetTableInput {
+
+    static func queryItemProvider(_ value: GetTableInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let tableBucketARN = value.tableBucketARN {
+            let tableBucketARNQueryItem = Smithy.URIQueryItem(name: "tableBucketARN".urlPercentEncoding(), value: Swift.String(tableBucketARN).urlPercentEncoding())
+            items.append(tableBucketARNQueryItem)
         }
-        guard let namespace = value.namespace else {
-            return nil
+        if let namespace = value.namespace {
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
         }
-        guard let name = value.name else {
-            return nil
+        if let name = value.name {
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
         }
-        return "/tables/\(tableBucketARN.urlPercentEncoding())/\(namespace.urlPercentEncoding())/\(name.urlPercentEncoding())"
+        if let tableArn = value.tableArn {
+            let tableArnQueryItem = Smithy.URIQueryItem(name: "tableArn".urlPercentEncoding(), value: Swift.String(tableArn).urlPercentEncoding())
+            items.append(tableArnQueryItem)
+        }
+        return items
     }
 }
 

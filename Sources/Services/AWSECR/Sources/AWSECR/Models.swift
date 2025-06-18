@@ -1074,7 +1074,7 @@ public struct CreatePullThroughCacheRuleInput: Swift.Sendable {
     public var upstreamRegistry: ECRClientTypes.UpstreamRegistry?
     /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.
     ///
-    /// * Amazon ECR (ecr) – dkr.ecr..amazonaws.com
+    /// * Amazon ECR (ecr) – .dkr.ecr..amazonaws.com
     ///
     /// * Amazon ECR Public (ecr-public) – public.ecr.aws
     ///
@@ -2305,7 +2305,7 @@ extension ECRClientTypes {
         public var imageScanFindingsSummary: ECRClientTypes.ImageScanFindingsSummary?
         /// The current state of the scan.
         public var imageScanStatus: ECRClientTypes.ImageScanStatus?
-        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list. Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image sizes returned by [DescribeImages].
+        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list. Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console.
         public var imageSizeInBytes: Swift.Int?
         /// The list of tags associated with this image.
         public var imageTags: [Swift.String]?
@@ -2582,6 +2582,10 @@ extension ECRClientTypes {
         public var imageHash: Swift.String?
         /// The image tags attached to the Amazon ECR container image.
         public var imageTags: [Swift.String]?
+        /// The number of Amazon ECS or Amazon EKS clusters currently running the image.
+        public var inUseCount: Swift.Int?
+        /// The most recent date and time a cluster was running the image.
+        public var lastInUseAt: Foundation.Date?
         /// The platform of the Amazon ECR container image.
         public var platform: Swift.String?
         /// The date and time the Amazon ECR container image was pushed.
@@ -2596,6 +2600,8 @@ extension ECRClientTypes {
             author: Swift.String? = nil,
             imageHash: Swift.String? = nil,
             imageTags: [Swift.String]? = nil,
+            inUseCount: Swift.Int? = nil,
+            lastInUseAt: Foundation.Date? = nil,
             platform: Swift.String? = nil,
             pushedAt: Foundation.Date? = nil,
             registry: Swift.String? = nil,
@@ -2605,6 +2611,8 @@ extension ECRClientTypes {
             self.author = author
             self.imageHash = imageHash
             self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
             self.platform = platform
             self.pushedAt = pushedAt
             self.registry = registry
@@ -3260,7 +3268,7 @@ extension ECRClientTypes {
 }
 
 public struct GetAuthorizationTokenOutput: Swift.Sendable {
-    /// A list of authorization token data objects that correspond to the registryIds values in the request.
+    /// A list of authorization token data objects that correspond to the registryIds values in the request. The size of the authorization token returned by Amazon ECR is not fixed. We recommend that you don't make assumptions about the maximum size.
     public var authorizationData: [ECRClientTypes.AuthorizationData]?
 
     public init(
@@ -3459,7 +3467,7 @@ public struct GetLifecyclePolicyPreviewInput: Swift.Sendable {
     public var filter: ECRClientTypes.LifecyclePolicyPreviewFilter?
     /// The list of imageIDs to be included.
     public var imageIds: [ECRClientTypes.ImageIdentifier]?
-    /// The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in  paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns  maxResults results in a single page along with a nextToken  response element. The remaining results of the initial request can be seen by sending  another GetLifecyclePolicyPreviewRequest request with the returned nextToken  value. This value can be between 1 and 1000. If this  parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to  100 results and a nextToken value, if  applicable. This option cannot be used when you specify images with imageIds.
+    /// The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest in  paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns  maxResults results in a single page along with a nextToken  response element. The remaining results of the initial request can be seen by sending  another GetLifecyclePolicyPreviewRequest request with the returned nextToken  value. This value can be between 1 and 100. If this  parameter is not used, then GetLifecyclePolicyPreviewRequest returns up to 100 results and a nextToken value, if  applicable. This option cannot be used when you specify images with imageIds.
     public var maxResults: Swift.Int?
     /// The nextToken value returned from a previous paginated  GetLifecyclePolicyPreviewRequest request where maxResults was used and the  results exceeded the value of that parameter. Pagination continues from the end of the  previous results that returned the nextToken value. This value is  null when there are no more results to return. This option cannot be used when you specify images with imageIds.
     public var nextToken: Swift.String?
@@ -8026,6 +8034,8 @@ extension ECRClientTypes.AwsEcrContainerImageDetails {
         value.imageTags = try reader["imageTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.platform = try reader["platform"].readIfPresent()
         value.pushedAt = try reader["pushedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastInUseAt = try reader["lastInUseAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inUseCount = try reader["inUseCount"].readIfPresent()
         value.registry = try reader["registry"].readIfPresent()
         value.repositoryName = try reader["repositoryName"].readIfPresent()
         return value

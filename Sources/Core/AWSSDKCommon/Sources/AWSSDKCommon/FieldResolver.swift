@@ -6,10 +6,9 @@
 //
 
 import class Foundation.ProcessInfo
-@_spi(FileBasedConfig) import AWSSDKCommon
 
 /// Resolves a configuration field for an AWS SDK feature.
-struct FieldResolver<T> {
+public struct FieldResolver<T> {
     let configValue: T?
     let envVarName: String?
     let configFieldName: String?
@@ -17,12 +16,13 @@ struct FieldResolver<T> {
     let profileName: String?
     let converter: (String) -> T?
 
-    init(configValue: T?,
-         envVarName: String?,
-         configFieldName: String?,
-         fileBasedConfig: FileBasedConfiguration,
-         profileName: String?,
-         converter: @escaping (String) -> T?
+    @_spi(FileBasedConfig) public init(
+        configValue: T? = nil,
+        envVarName: String? = nil,
+        configFieldName: String? = nil,
+        fileBasedConfig: FileBasedConfiguration,
+        profileName: String? = nil,
+        converter: @escaping (String) -> T?
     ) {
         self.configValue = configValue
         self.envVarName = envVarName
@@ -39,7 +39,7 @@ struct FieldResolver<T> {
     /// - If an environment var named `envVarName` is set, its value is used to create a value.
     /// - If a config field is set in the config file for the current profile, its value is used to create a value.
     /// - Finally, if none of the above yield a value, `nil` is returned.
-    var value: T? {
+    public var value: T? {
         let env = ProcessInfo.processInfo.environment
         if let value = configValue {
             return value

@@ -22,7 +22,6 @@ public class DefaultAWSClientPlugin: Plugin {
                 config.awsRetryMode,
                 config.maxAttempts
             )
-            config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
         }
     }
 }

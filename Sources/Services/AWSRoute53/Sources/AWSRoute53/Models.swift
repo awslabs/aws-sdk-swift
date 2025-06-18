@@ -332,6 +332,7 @@ extension Route53ClientTypes {
     public enum CloudWatchRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
+        case apEast2
         case apNortheast1
         case apNortheast2
         case apNortheast3
@@ -377,6 +378,7 @@ extension Route53ClientTypes {
             return [
                 .afSouth1,
                 .apEast1,
+                .apEast2,
                 .apNortheast1,
                 .apNortheast2,
                 .apNortheast3,
@@ -428,6 +430,7 @@ extension Route53ClientTypes {
             switch self {
             case .afSouth1: return "af-south-1"
             case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
             case .apNortheast1: return "ap-northeast-1"
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
@@ -795,6 +798,7 @@ extension Route53ClientTypes {
     public enum VPCRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
+        case apEast2
         case apNortheast1
         case apNortheast2
         case apNortheast3
@@ -840,6 +844,7 @@ extension Route53ClientTypes {
             return [
                 .afSouth1,
                 .apEast1,
+                .apEast2,
                 .apNortheast1,
                 .apNortheast2,
                 .apNortheast3,
@@ -891,6 +896,7 @@ extension Route53ClientTypes {
             switch self {
             case .afSouth1: return "af-south-1"
             case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
             case .apNortheast1: return "ap-northeast-1"
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
@@ -1381,6 +1387,7 @@ extension Route53ClientTypes {
     public enum ResourceRecordSetRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
+        case apEast2
         case apNortheast1
         case apNortheast2
         case apNortheast3
@@ -1421,6 +1428,7 @@ extension Route53ClientTypes {
             return [
                 .afSouth1,
                 .apEast1,
+                .apEast2,
                 .apNortheast1,
                 .apNortheast2,
                 .apNortheast3,
@@ -1467,6 +1475,7 @@ extension Route53ClientTypes {
             switch self {
             case .afSouth1: return "af-south-1"
             case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
             case .apNortheast1: return "ap-northeast-1"
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
