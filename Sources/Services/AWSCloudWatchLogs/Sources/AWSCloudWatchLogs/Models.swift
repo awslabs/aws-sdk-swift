@@ -3510,6 +3510,44 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes {
 
+    public enum EventSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awswaf
+        case cloudTrail
+        case eksAudit
+        case route53Resolver
+        case vpcFlow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventSource] {
+            return [
+                .awswaf,
+                .cloudTrail,
+                .eksAudit,
+                .route53Resolver,
+                .vpcFlow
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awswaf: return "AWSWAF"
+            case .cloudTrail: return "CloudTrail"
+            case .eksAudit: return "EKSAudit"
+            case .route53Resolver: return "Route53Resolver"
+            case .vpcFlow: return "VPCFlow"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
     /// Represents a matched event.
     public struct FilteredLogEvent: Swift.Sendable {
         /// The ID of the event.
@@ -4698,6 +4736,57 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes {
 
+    public enum OCSFVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case v11
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OCSFVersion] {
+            return [
+                .v11
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .v11: return "V1.1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This processor converts logs into [Open Cybersecurity Schema Framework (OCSF)](https://ocsf.io) events. For more information about this processor including examples, see [ parseToOSCF](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseToOCSF) in the CloudWatch Logs User Guide.
+    public struct ParseToOCSF: Swift.Sendable {
+        /// Specify the service or process that produces the log events that will be converted with this processor.
+        /// This member is required.
+        public var eventSource: CloudWatchLogsClientTypes.EventSource?
+        /// Specify which version of the OCSF schema to use for the transformed log events.
+        /// This member is required.
+        public var ocsfVersion: CloudWatchLogsClientTypes.OCSFVersion?
+        /// The path to the field in the log event that you want to parse. If you omit this value, the whole log message is parsed.
+        public var source: Swift.String?
+
+        public init(
+            eventSource: CloudWatchLogsClientTypes.EventSource? = nil,
+            ocsfVersion: CloudWatchLogsClientTypes.OCSFVersion? = nil,
+            source: Swift.String? = nil
+        ) {
+            self.eventSource = eventSource
+            self.ocsfVersion = ocsfVersion
+            self.source = source
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
     /// Use this processor to parse Amazon VPC vended logs, extract fields, and and convert them into a JSON format. This processor always processes the entire log event message. This processor doesn't support custom log formats, such as NAT gateway logs. For more information about custom log formats in Amazon VPC, see [ parseVPC](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs-records-examples.html#flow-log-example-tcp-flag) For more information about this processor including examples, see [ parseVPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseVPC). If you use this processor, it must be the first processor in your transformer.
     public struct ParseVPC: Swift.Sendable {
         /// Omit this parameter and the whole log message will be processed by this processor. No other value than @message is allowed for source.
@@ -4982,6 +5071,8 @@ extension CloudWatchLogsClientTypes {
         public var parsePostgres: CloudWatchLogsClientTypes.ParsePostgres?
         /// Use this parameter to include the [ parseRoute53](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseRoute53) processor in your transformer. If you use this processor, it must be the first processor in your transformer.
         public var parseRoute53: CloudWatchLogsClientTypes.ParseRoute53?
+        /// Use this processor to convert logs into Open Cybersecurity Schema Framework (OCSF) format
+        public var parseToOCSF: CloudWatchLogsClientTypes.ParseToOCSF?
         /// Use this parameter to include the [ parseVPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseVPC) processor in your transformer. If you use this processor, it must be the first processor in your transformer.
         public var parseVPC: CloudWatchLogsClientTypes.ParseVPC?
         /// Use this parameter to include the [ parseWAF](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseWAF) processor in your transformer. If you use this processor, it must be the first processor in your transformer.
@@ -5014,6 +5105,7 @@ extension CloudWatchLogsClientTypes {
             parseKeyValue: CloudWatchLogsClientTypes.ParseKeyValue? = nil,
             parsePostgres: CloudWatchLogsClientTypes.ParsePostgres? = nil,
             parseRoute53: CloudWatchLogsClientTypes.ParseRoute53? = nil,
+            parseToOCSF: CloudWatchLogsClientTypes.ParseToOCSF? = nil,
             parseVPC: CloudWatchLogsClientTypes.ParseVPC? = nil,
             parseWAF: CloudWatchLogsClientTypes.ParseWAF? = nil,
             renameKeys: CloudWatchLogsClientTypes.RenameKeys? = nil,
@@ -5037,6 +5129,7 @@ extension CloudWatchLogsClientTypes {
             self.parseKeyValue = parseKeyValue
             self.parsePostgres = parsePostgres
             self.parseRoute53 = parseRoute53
+            self.parseToOCSF = parseToOCSF
             self.parseVPC = parseVPC
             self.parseWAF = parseWAF
             self.renameKeys = renameKeys
@@ -5729,11 +5822,13 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.
     ///
+    /// * For Entity Resolution, the valid value is WORKFLOW_LOGS.
+    ///
     /// * For IAM Identity Center, the valid value is ERROR_LOGS.
     ///
     /// * For Amazon Q, the valid value is EVENT_LOGS.
     ///
-    /// * For Amazon SES mail manager, the valid value is APPLICATION_LOG.
+    /// * For Amazon SES mail manager, the valid values are APPLICATION_LOG and TRAFFIC_POLICY_DEBUG_LOGS.
     ///
     /// * For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.
     /// This member is required.
@@ -11710,6 +11805,7 @@ extension CloudWatchLogsClientTypes.Processor {
         try writer["parseKeyValue"].write(value.parseKeyValue, with: CloudWatchLogsClientTypes.ParseKeyValue.write(value:to:))
         try writer["parsePostgres"].write(value.parsePostgres, with: CloudWatchLogsClientTypes.ParsePostgres.write(value:to:))
         try writer["parseRoute53"].write(value.parseRoute53, with: CloudWatchLogsClientTypes.ParseRoute53.write(value:to:))
+        try writer["parseToOCSF"].write(value.parseToOCSF, with: CloudWatchLogsClientTypes.ParseToOCSF.write(value:to:))
         try writer["parseVPC"].write(value.parseVPC, with: CloudWatchLogsClientTypes.ParseVPC.write(value:to:))
         try writer["parseWAF"].write(value.parseWAF, with: CloudWatchLogsClientTypes.ParseWAF.write(value:to:))
         try writer["renameKeys"].write(value.renameKeys, with: CloudWatchLogsClientTypes.RenameKeys.write(value:to:))
@@ -11736,6 +11832,7 @@ extension CloudWatchLogsClientTypes.Processor {
         value.parseJSON = try reader["parseJSON"].readIfPresent(with: CloudWatchLogsClientTypes.ParseJSON.read(from:))
         value.parseKeyValue = try reader["parseKeyValue"].readIfPresent(with: CloudWatchLogsClientTypes.ParseKeyValue.read(from:))
         value.parseRoute53 = try reader["parseRoute53"].readIfPresent(with: CloudWatchLogsClientTypes.ParseRoute53.read(from:))
+        value.parseToOCSF = try reader["parseToOCSF"].readIfPresent(with: CloudWatchLogsClientTypes.ParseToOCSF.read(from:))
         value.parsePostgres = try reader["parsePostgres"].readIfPresent(with: CloudWatchLogsClientTypes.ParsePostgres.read(from:))
         value.parseVPC = try reader["parseVPC"].readIfPresent(with: CloudWatchLogsClientTypes.ParseVPC.read(from:))
         value.parseWAF = try reader["parseWAF"].readIfPresent(with: CloudWatchLogsClientTypes.ParseWAF.read(from:))
@@ -11952,6 +12049,25 @@ extension CloudWatchLogsClientTypes.ParsePostgres {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.ParsePostgres()
         value.source = try reader["source"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.ParseToOCSF {
+
+    static func write(value: CloudWatchLogsClientTypes.ParseToOCSF?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventSource"].write(value.eventSource)
+        try writer["ocsfVersion"].write(value.ocsfVersion)
+        try writer["source"].write(value.source)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.ParseToOCSF {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.ParseToOCSF()
+        value.source = try reader["source"].readIfPresent()
+        value.eventSource = try reader["eventSource"].readIfPresent() ?? .sdkUnknown("")
+        value.ocsfVersion = try reader["ocsfVersion"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

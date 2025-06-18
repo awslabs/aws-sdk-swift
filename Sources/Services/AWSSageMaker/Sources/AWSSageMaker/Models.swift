@@ -10182,6 +10182,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6B20048xlarge
         case mlR6i12xlarge
         case mlR6i16xlarge
         case mlR6i24xlarge
@@ -10297,6 +10298,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6B20048xlarge,
                 .mlR6i12xlarge,
                 .mlR6i16xlarge,
                 .mlR6i24xlarge,
@@ -10418,6 +10420,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR6i12xlarge: return "ml.r6i.12xlarge"
             case .mlR6i16xlarge: return "ml.r6i.16xlarge"
             case .mlR6i24xlarge: return "ml.r6i.24xlarge"
