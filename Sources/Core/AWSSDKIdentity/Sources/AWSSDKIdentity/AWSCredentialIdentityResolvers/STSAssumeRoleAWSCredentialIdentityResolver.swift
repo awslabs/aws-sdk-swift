@@ -50,7 +50,7 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
             key: InternalClientKeys.internalSTSClientKey
         ) else {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "STSWebIdentityAWSCredentialIdentityResolver: "
+                "STSAssumeRoleAWSCredentialIdentityResolver: "
                 + "Missing IdentityProvidingSTSClient in identity properties."
             )
         }
