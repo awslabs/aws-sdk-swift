@@ -9,6 +9,7 @@ import ClientRuntime
 import enum Smithy.ClientError
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Foundation.TimeInterval
+import struct Foundation.UUID
 import struct Smithy.Attributes
 
 // swiftlint:disable type_name
@@ -36,12 +37,12 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
     public init(
         awsCredentialIdentityResolver: any AWSCredentialIdentityResolver,
         roleArn: String,
-        sessionName: String,
+        sessionName: String?,
         durationSeconds: TimeInterval = 900
     ) throws {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
         self.roleARN = roleArn
-        self.roleSessionName = sessionName
+        self.roleSessionName = sessionName ?? UUID().uuidString
         self.durationSeconds = durationSeconds
     }
 
