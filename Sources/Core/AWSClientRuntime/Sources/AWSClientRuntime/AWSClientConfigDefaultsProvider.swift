@@ -6,6 +6,7 @@
 //
 
 @_spi(FileBasedConfig) import class AWSSDKCommon.CRTFileBasedConfiguration
+import struct AWSSDKCommon.FieldResolver
 import struct SmithyRetries.ExponentialBackoffStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
