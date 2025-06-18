@@ -2581,6 +2581,8 @@ public struct DescribeAutoScalingGroupsInput: Swift.Sendable {
     public var autoScalingGroupNames: [Swift.String]?
     /// One or more filters to limit the results based on specific tags.
     public var filters: [AutoScalingClientTypes.Filter]?
+    /// Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
+    public var includeInstances: Swift.Bool?
     /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
     public var maxRecords: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -2589,11 +2591,13 @@ public struct DescribeAutoScalingGroupsInput: Swift.Sendable {
     public init(
         autoScalingGroupNames: [Swift.String]? = nil,
         filters: [AutoScalingClientTypes.Filter]? = nil,
+        includeInstances: Swift.Bool? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.autoScalingGroupNames = autoScalingGroupNames
         self.filters = filters
+        self.includeInstances = includeInstances
         self.maxRecords = maxRecords
         self.nextToken = nextToken
     }
@@ -7272,6 +7276,7 @@ extension DescribeAutoScalingGroupsInput {
         guard let value else { return }
         try writer["AutoScalingGroupNames"].writeList(value.autoScalingGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Filters"].writeList(value.filters, memberWritingClosure: AutoScalingClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeInstances"].write(value.includeInstances)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["NextToken"].write(value.nextToken)
         try writer["Action"].write("DescribeAutoScalingGroups")
