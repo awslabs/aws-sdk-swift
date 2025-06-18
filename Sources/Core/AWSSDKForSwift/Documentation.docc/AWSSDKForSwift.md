@@ -81,6 +81,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSACMPCA](../../../../../swift/api/awsacmpca/latest)
 
+[AWSAIOps](../../../../../swift/api/awsaiops/latest)
+
 [AWSAPIGateway](../../../../../swift/api/awsapigateway/latest)
 
 [AWSARCZonalShift](../../../../../swift/api/awsarczonalshift/latest)
@@ -532,6 +534,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSLookoutVision](../../../../../swift/api/awslookoutvision/latest)
 
 [AWSM2](../../../../../swift/api/awsm2/latest)
+
+[AWSMPA](../../../../../swift/api/awsmpa/latest)
 
 [AWSMTurk](../../../../../swift/api/awsmturk/latest)
 

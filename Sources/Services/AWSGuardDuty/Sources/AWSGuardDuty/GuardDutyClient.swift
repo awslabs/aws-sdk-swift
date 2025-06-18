@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GuardDutyClient: ClientRuntime.Client {
     public static let clientName = "GuardDutyClient"
-    public static let version = "1.3.36"
+    public static let version = "1.3.39"
     let client: ClientRuntime.SdkHttpClient
     let config: GuardDutyClient.GuardDutyClientConfiguration
     let serviceName = "GuardDuty"
@@ -2490,7 +2490,13 @@ extension GuardDutyClient {
 
     /// Performs the `GetAdministratorAccount` operation on the `GuardDuty` service.
     ///
-    /// Provides the details of the GuardDuty administrator account associated with the current GuardDuty member account. If the organization's management account or a delegated administrator runs this API, it will return success (HTTP 200) but no content.
+    /// Provides the details of the GuardDuty administrator account associated with the current GuardDuty member account. Based on the type of account that runs this API, the following list shows how the API behavior varies:
+    ///
+    /// * When the GuardDuty administrator account runs this API, it will return success (HTTP 200) but no content.
+    ///
+    /// * When a member account runs this API, it will return the details of the GuardDuty administrator account that is associated with this calling member account.
+    ///
+    /// * When an individual account (not associated with an organization) runs this API, it will return success (HTTP 200) but no content.
     ///
     /// - Parameter GetAdministratorAccountInput : [no documentation found]
     ///

@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.136.0"
+let clientRuntimeVersion: Version = "0.138.0"
 let crtVersion: Version = "0.52.1"
 
 let excludeRuntimeUnitTests = false
@@ -25,6 +25,7 @@ let isPreviewBuild = false
 let serviceTargets: [String] = [
     "AWSACM",
     "AWSACMPCA",
+    "AWSAIOps",
     "AWSAPIGateway",
     "AWSARCZonalShift",
     "AWSAccessAnalyzer",
@@ -251,6 +252,7 @@ let serviceTargets: [String] = [
     "AWSLookoutMetrics",
     "AWSLookoutVision",
     "AWSM2",
+    "AWSMPA",
     "AWSMTurk",
     "AWSMWAA",
     "AWSMachineLearning",
@@ -560,13 +562,37 @@ private var runtimeTargets: [Target] {
         ),
         .target(
             name: "AWSSDKHTTPAuth",
-            dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKIdentity", "AWSSDKChecksums"],
+            dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKChecksums"],
             path: "Sources/Core/AWSSDKHTTPAuth/Sources"
         ),
         .target(
             name: "AWSSDKIdentity",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon],
-            path: "Sources/Core/AWSSDKIdentity/Sources"
+            path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity"
+        ),
+        .target(
+            name: "InternalAWSSTS",
+            dependencies: [
+                .clientRuntime,
+                .awsClientRuntime,
+                .smithyRetriesAPI,
+                .smithyRetries,
+                .smithy,
+                .smithyIdentity,
+                .smithyIdentityAPI,
+                .smithyEventStreamsAPI,
+                .smithyEventStreamsAuthAPI,
+                .smithyEventStreams,
+                .smithyChecksumsAPI,
+                .smithyChecksums,
+                .smithyWaitersAPI,
+                .awsSDKCommon,
+                .awsSDKIdentity,
+                .awsSDKHTTPAuth,
+                .awsSDKEventStreamsAuth,
+                .awsSDKChecksums,
+            ],
+            path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSTS"
         ),
         .target(
             name: "AWSSDKChecksums",
@@ -591,7 +617,7 @@ private var runtimeTestTargets: [Target] {
         ),
         .testTarget(
             name: "AWSSDKEventStreamsAuthTests",
-            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams, .smithyTestUtils],
+            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", "AWSSDKIdentity", .smithyStreams, .smithyTestUtils],
             path: "Sources/Core/AWSSDKEventStreamsAuth/Tests/AWSSDKEventStreamsAuthTests"
         ),
         .testTarget(
@@ -630,6 +656,7 @@ private func target(_ service: String) -> Target {
             .awsSDKHTTPAuth,
             .awsSDKEventStreamsAuth,
             .awsSDKChecksums,
+            "InternalAWSSTS",
         ],
         path: "Sources/Services/\(service)/Sources/\(service)"
     )

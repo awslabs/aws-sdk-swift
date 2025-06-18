@@ -560,7 +560,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// Container for the owner's display name and ID.
+    /// End of support notice: Beginning October 1, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. Container for the owner's display name and ID.
     public struct Owner: Swift.Sendable {
         /// Container for the display name of the owner. This value is only supported in the following Amazon Web Services Regions:
         ///
@@ -2650,15 +2650,19 @@ public struct DeleteBucketIntelligentTieringConfigurationInput: Swift.Sendable {
     /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
     /// This member is required.
     public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the S3 Intelligent-Tiering configuration.
     /// This member is required.
     public var id: Swift.String?
 
     public init(
         bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil
     ) {
         self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
         self.id = id
     }
 }
@@ -4667,15 +4671,19 @@ public struct GetBucketIntelligentTieringConfigurationInput: Swift.Sendable {
     /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
     /// This member is required.
     public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the S3 Intelligent-Tiering configuration.
     /// This member is required.
     public var id: Swift.String?
 
     public init(
         bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil
     ) {
         self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
         self.id = id
     }
 }
@@ -7977,9 +7985,9 @@ extension S3ClientTypes {
         public var partNumberMarker: Swift.String?
         /// A container for elements related to a particular part. A response can contain zero or more Parts elements.
         ///
-        /// * General purpose buckets - For GetObjectAttributes, if a additional checksum (including x-amz-checksum-crc32, x-amz-checksum-crc32c, x-amz-checksum-sha1, or x-amz-checksum-sha256) isn't applied to the object specified in the request, the response doesn't return Part.
+        /// * General purpose buckets - For GetObjectAttributes, if an additional checksum (including x-amz-checksum-crc32, x-amz-checksum-crc32c, x-amz-checksum-sha1, or x-amz-checksum-sha256) isn't applied to the object specified in the request, the response doesn't return the Part element.
         ///
-        /// * Directory buckets - For GetObjectAttributes, no matter whether a additional checksum is applied to the object specified in the request, the response returns Part.
+        /// * Directory buckets - For GetObjectAttributes, regardless of whether an additional checksum is applied to the object specified in the request, the response returns the Part element.
         public var parts: [S3ClientTypes.ObjectPart]?
         /// The total number of parts.
         public var totalPartsCount: Swift.Int?
@@ -8738,6 +8746,8 @@ public struct HeadObjectOutput: Swift.Sendable {
     public var ssekmsKeyId: Swift.String?
     /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html). Directory buckets - Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones.
     public var storageClass: S3ClientTypes.StorageClass?
+    /// The number of tags, if any, on the object, when you have the relevant permission to read object tags. You can use [GetObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html) to retrieve the tag set associated with an object. This functionality is not supported for directory buckets.
+    public var tagCount: Swift.Int?
     /// Version ID of the object. This functionality is not supported for directory buckets.
     public var versionId: Swift.String?
     /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. This functionality is not supported for directory buckets.
@@ -8779,6 +8789,7 @@ public struct HeadObjectOutput: Swift.Sendable {
         sseCustomerKeyMD5: Swift.String? = nil,
         ssekmsKeyId: Swift.String? = nil,
         storageClass: S3ClientTypes.StorageClass? = nil,
+        tagCount: Swift.Int? = nil,
         versionId: Swift.String? = nil,
         websiteRedirectLocation: Swift.String? = nil
     ) {
@@ -8817,6 +8828,7 @@ public struct HeadObjectOutput: Swift.Sendable {
         self.sseCustomerKeyMD5 = sseCustomerKeyMD5
         self.ssekmsKeyId = ssekmsKeyId
         self.storageClass = storageClass
+        self.tagCount = tagCount
         self.versionId = versionId
         self.websiteRedirectLocation = websiteRedirectLocation
     }
@@ -8824,7 +8836,7 @@ public struct HeadObjectOutput: Swift.Sendable {
 
 extension HeadObjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "HeadObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), archiveStatus: \(Swift.String(describing: archiveStatus)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumType: \(Swift.String(describing: checksumType)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "HeadObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), archiveStatus: \(Swift.String(describing: archiveStatus)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumType: \(Swift.String(describing: checksumType)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListBucketAnalyticsConfigurationsInput: Swift.Sendable {
@@ -8876,13 +8888,17 @@ public struct ListBucketIntelligentTieringConfigurationsInput: Swift.Sendable {
     public var bucket: Swift.String?
     /// The ContinuationToken that represents a placeholder from where this request should begin.
     public var continuationToken: Swift.String?
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
 
     public init(
         bucket: Swift.String? = nil,
-        continuationToken: Swift.String? = nil
+        continuationToken: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
     ) {
         self.bucket = bucket
         self.continuationToken = continuationToken
+        self.expectedBucketOwner = expectedBucketOwner
     }
 }
 
@@ -9622,7 +9638,7 @@ public struct ListObjectsV2Output: Swift.Sendable {
     public var commonPrefixes: [S3ClientTypes.CommonPrefix]?
     /// Metadata about each object returned.
     public var contents: [S3ClientTypes.Object]?
-    /// If ContinuationToken was sent with the request, it is included in the response. You can use the returned ContinuationToken for pagination of the list response. You can use this ContinuationToken for pagination of the list results.
+    /// If ContinuationToken was sent with the request, it is included in the response. You can use the returned ContinuationToken for pagination of the list response.
     public var continuationToken: Swift.String?
     /// Causes keys that contain the same string between the prefix and the first occurrence of the delimiter to be rolled up into a single result element in the CommonPrefixes collection. These rolled-up keys are not returned elsewhere in the response. Each rolled-up result counts as only one return against the MaxKeys value. Directory buckets - For directory buckets, / is the only supported delimiter.
     public var delimiter: Swift.String?
@@ -10253,6 +10269,8 @@ public struct PutBucketIntelligentTieringConfigurationInput: Swift.Sendable {
     /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
     /// This member is required.
     public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the S3 Intelligent-Tiering configuration.
     /// This member is required.
     public var id: Swift.String?
@@ -10262,10 +10280,12 @@ public struct PutBucketIntelligentTieringConfigurationInput: Swift.Sendable {
 
     public init(
         bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil,
         intelligentTieringConfiguration: S3ClientTypes.IntelligentTieringConfiguration? = nil
     ) {
         self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
         self.id = id
         self.intelligentTieringConfiguration = intelligentTieringConfiguration
     }
@@ -11495,6 +11515,83 @@ public struct PutPublicAccessBlockInput: Swift.Sendable {
         self.expectedBucketOwner = expectedBucketOwner
         self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
     }
+}
+
+/// Parameters on this idempotent request are inconsistent with parameters used in previous request(s). For a list of error codes and more information on Amazon S3 errors, see [Error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
+public struct IdempotencyParameterMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+    public static var typeName: Swift.String { "IdempotencyParameterMismatch" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+    public internal(set) var requestID2: Swift.String?
+
+    public init() { }
+}
+
+public struct RenameObjectInput: Swift.Sendable {
+    /// The bucket name of the directory bucket containing the object. You must use virtual-hosted-style requests in the format Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported. Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format bucket-base-name--zone-id--x-s3  (for example, amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// A unique string with a max of 64 ASCII characters in the ASCII range of 33 - 126. RenameObject supports idempotency using a client token. To make an idempotent API request using RenameObject, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails and an IdempotentParameterMismatch error is returned.
+    public var clientToken: Swift.String?
+    /// Renames the object only if the ETag (entity tag) value provided during the operation matches the ETag of the object in S3. The If-Match header field makes the request method conditional on ETags. If the ETag values do not match, the operation returns a 412 Precondition Failed error. Expects the ETag value as a string.
+    public var destinationIfMatch: Swift.String?
+    /// Renames the object if the destination exists and if it has been modified since the specified time.
+    public var destinationIfModifiedSince: Foundation.Date?
+    /// Renames the object only if the destination does not already exist in the specified directory bucket. If the object does exist when you send a request with If-None-Match:*, the S3 API will return a 412 Precondition Failed error, preventing an overwrite. The If-None-Match header prevents overwrites of existing data by validating that there's not an object with the same key name already in your directory bucket. Expects the * character (asterisk).
+    public var destinationIfNoneMatch: Swift.String?
+    /// Renames the object if it hasn't been modified since the specified time.
+    public var destinationIfUnmodifiedSince: Foundation.Date?
+    /// Key name of the object to rename.
+    /// This member is required.
+    public var key: Swift.String?
+    /// Specifies the source for the rename operation. The value must be URL encoded.
+    /// This member is required.
+    public var renameSource: Swift.String?
+    /// Renames the object if the source exists and if its entity tag (ETag) matches the specified ETag.
+    public var sourceIfMatch: Swift.String?
+    /// Renames the object if the source exists and if it has been modified since the specified time.
+    public var sourceIfModifiedSince: Foundation.Date?
+    /// Renames the object if the source exists and if its entity tag (ETag) is different than the specified ETag. If an asterisk (*) character is provided, the operation will fail and return a 412 Precondition Failed error.
+    public var sourceIfNoneMatch: Swift.String?
+    /// Renames the object if the source exists and hasn't been modified since the specified time.
+    public var sourceIfUnmodifiedSince: Foundation.Date?
+
+    public init(
+        bucket: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        destinationIfMatch: Swift.String? = nil,
+        destinationIfModifiedSince: Foundation.Date? = nil,
+        destinationIfNoneMatch: Swift.String? = nil,
+        destinationIfUnmodifiedSince: Foundation.Date? = nil,
+        key: Swift.String? = nil,
+        renameSource: Swift.String? = nil,
+        sourceIfMatch: Swift.String? = nil,
+        sourceIfModifiedSince: Foundation.Date? = nil,
+        sourceIfNoneMatch: Swift.String? = nil,
+        sourceIfUnmodifiedSince: Foundation.Date? = nil
+    ) {
+        self.bucket = bucket
+        self.clientToken = clientToken
+        self.destinationIfMatch = destinationIfMatch
+        self.destinationIfModifiedSince = destinationIfModifiedSince
+        self.destinationIfNoneMatch = destinationIfNoneMatch
+        self.destinationIfUnmodifiedSince = destinationIfUnmodifiedSince
+        self.key = key
+        self.renameSource = renameSource
+        self.sourceIfMatch = sourceIfMatch
+        self.sourceIfModifiedSince = sourceIfModifiedSince
+        self.sourceIfNoneMatch = sourceIfNoneMatch
+        self.sourceIfUnmodifiedSince = sourceIfUnmodifiedSince
+    }
+}
+
+public struct RenameObjectOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 /// This action is not allowed against this storage tier.
@@ -13520,6 +13617,17 @@ extension DeleteBucketIntelligentTieringConfigurationInput {
 
 extension DeleteBucketIntelligentTieringConfigurationInput {
 
+    static func headerProvider(_ value: DeleteBucketIntelligentTieringConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketIntelligentTieringConfigurationInput {
+
     static func queryItemProvider(_ value: DeleteBucketIntelligentTieringConfigurationInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "intelligent-tiering", value: nil))
@@ -14089,6 +14197,17 @@ extension GetBucketIntelligentTieringConfigurationInput {
 
     static func urlPathProvider(_ value: GetBucketIntelligentTieringConfigurationInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension GetBucketIntelligentTieringConfigurationInput {
+
+    static func headerProvider(_ value: GetBucketIntelligentTieringConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
     }
 }
 
@@ -15064,6 +15183,17 @@ extension ListBucketIntelligentTieringConfigurationsInput {
 
 extension ListBucketIntelligentTieringConfigurationsInput {
 
+    static func headerProvider(_ value: ListBucketIntelligentTieringConfigurationsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension ListBucketIntelligentTieringConfigurationsInput {
+
     static func queryItemProvider(_ value: ListBucketIntelligentTieringConfigurationsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "intelligent-tiering", value: nil))
@@ -15675,6 +15805,17 @@ extension PutBucketIntelligentTieringConfigurationInput {
 
     static func urlPathProvider(_ value: PutBucketIntelligentTieringConfigurationInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension PutBucketIntelligentTieringConfigurationInput {
+
+    static func headerProvider(_ value: PutBucketIntelligentTieringConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
     }
 }
 
@@ -16499,6 +16640,63 @@ extension PutPublicAccessBlockInput {
     static func queryItemProvider(_ value: PutPublicAccessBlockInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "publicAccessBlock", value: nil))
+        return items
+    }
+}
+
+extension RenameObjectInput {
+
+    static func urlPathProvider(_ value: RenameObjectInput) -> Swift.String? {
+        guard let key = value.key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension RenameObjectInput {
+
+    static func headerProvider(_ value: RenameObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let clientToken = value.clientToken {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-client-token", value: Swift.String(clientToken)))
+        }
+        if let destinationIfMatch = value.destinationIfMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(destinationIfMatch)))
+        }
+        if let destinationIfModifiedSince = value.destinationIfModifiedSince {
+            items.add(SmithyHTTPAPI.Header(name: "If-Modified-Since", value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .httpDate).string(from: destinationIfModifiedSince))))
+        }
+        if let destinationIfNoneMatch = value.destinationIfNoneMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-None-Match", value: Swift.String(destinationIfNoneMatch)))
+        }
+        if let destinationIfUnmodifiedSince = value.destinationIfUnmodifiedSince {
+            items.add(SmithyHTTPAPI.Header(name: "If-Unmodified-Since", value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .httpDate).string(from: destinationIfUnmodifiedSince))))
+        }
+        if let renameSource = value.renameSource {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-rename-source", value: Swift.String(renameSource)))
+        }
+        if let sourceIfMatch = value.sourceIfMatch {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-rename-source-if-match", value: Swift.String(sourceIfMatch)))
+        }
+        if let sourceIfModifiedSince = value.sourceIfModifiedSince {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-rename-source-if-modified-since", value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .httpDate).string(from: sourceIfModifiedSince))))
+        }
+        if let sourceIfNoneMatch = value.sourceIfNoneMatch {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-rename-source-if-none-match", value: Swift.String(sourceIfNoneMatch)))
+        }
+        if let sourceIfUnmodifiedSince = value.sourceIfUnmodifiedSince {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-rename-source-if-unmodified-since", value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .httpDate).string(from: sourceIfUnmodifiedSince))))
+        }
+        return items
+    }
+}
+
+extension RenameObjectInput {
+
+    static func queryItemProvider(_ value: RenameObjectInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "renameObject", value: nil))
         return items
     }
 }
@@ -18134,6 +18332,9 @@ extension HeadObjectOutput {
         if let storageClassHeaderValue = httpResponse.headers.value(for: "x-amz-storage-class") {
             value.storageClass = S3ClientTypes.StorageClass(rawValue: storageClassHeaderValue)
         }
+        if let tagCountHeaderValue = httpResponse.headers.value(for: "x-amz-tagging-count") {
+            value.tagCount = Swift.Int(tagCountHeaderValue) ?? 0
+        }
         if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
             value.versionId = versionIdHeaderValue
         }
@@ -18628,6 +18829,13 @@ extension PutPublicAccessBlockOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutPublicAccessBlockOutput {
         return PutPublicAccessBlockOutput()
+    }
+}
+
+extension RenameObjectOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RenameObjectOutput {
+        return RenameObjectOutput()
     }
 }
 
@@ -20069,6 +20277,21 @@ enum PutPublicAccessBlockOutputError {
     }
 }
 
+enum RenameObjectOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "IdempotencyParameterMismatch": return try IdempotencyParameterMismatch.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RestoreObjectOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -20279,6 +20502,18 @@ extension TooManyParts {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyParts {
         var value = TooManyParts()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
+        return value
+    }
+}
+
+extension IdempotencyParameterMismatch {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IdempotencyParameterMismatch {
+        var value = IdempotencyParameterMismatch()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

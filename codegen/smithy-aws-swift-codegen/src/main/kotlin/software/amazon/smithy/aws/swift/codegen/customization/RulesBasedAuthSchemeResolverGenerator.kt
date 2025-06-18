@@ -2,6 +2,7 @@ package software.amazon.smithy.aws.swift.codegen.customization
 
 import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalClientTypes
 import software.amazon.smithy.aws.traits.auth.SigV4ATrait
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
@@ -111,6 +112,11 @@ class RulesBasedAuthSchemeResolverGenerator {
                             "sigV4Option.signingProperties.set(key: \$N.signingRegion, value: param.signingRegion)",
                             SmithyHTTPAuthAPITypes.SigningPropertyKeys,
                         )
+                        write(
+                            "sigV4Option.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
+                            AWSSDKIdentityTypes.InternalClientKeys,
+                            InternalClientTypes.IdentityProvidingSTSClient,
+                        )
                         write("validAuthOptions.append(sigV4Option)")
                         dedent()
                         // SigV4A case
@@ -124,6 +130,11 @@ class RulesBasedAuthSchemeResolverGenerator {
                         write(
                             "sigV4Option.signingProperties.set(key: \$N.signingRegion, value: param.signingRegionSet?[0])",
                             SmithyHTTPAuthAPITypes.SigningPropertyKeys,
+                        )
+                        write(
+                            "sigV4Option.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
+                            AWSSDKIdentityTypes.InternalClientKeys,
+                            InternalClientTypes.IdentityProvidingSTSClient,
                         )
                         write("validAuthOptions.append(sigV4Option)")
                         dedent()
