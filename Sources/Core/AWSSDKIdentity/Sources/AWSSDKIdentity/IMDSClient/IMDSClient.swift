@@ -145,6 +145,7 @@ public final class IMDSClient: EC2InstanceMetadataProvider {
 }
 
 // URLSession.data(for:) isn't available in Linux; so this wrapper is used instead.
+// This extension is used by ECSAWSCredentialIdentityResolver as well.
 extension URLSession {
     func asyncData(for request: URLRequest) async throws -> (Data, URLResponse) {
         return try await withCheckedThrowingContinuation { continuation in
