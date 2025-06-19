@@ -102,7 +102,11 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         let newVisited = visitedProfiles.union([currentProfileName])
 
         // For the current profile section, attempt to resolve credentials in order.
-        for resolver in credentialResolvers(profile: profile, fileBasedConfig: fileBasedConfig, visitedProfiles: newVisited) {
+        for resolver in credentialResolvers(
+            profile: profile,
+            fileBasedConfig: fileBasedConfig,
+            visitedProfiles: newVisited
+        ) {
             do {
                 return try await resolver(identityProperties)
             } catch {}
@@ -156,6 +160,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
             resolvers.append { identityProperties in
                 let credSource = profile.string(for: .init(stringLiteral: "credential_source"))!
                 let sourceCreds = try await resolveFromCredentialSource(
+                    profileName: profile.name,
                     source: credSource,
                     identityProperties: identityProperties
                 )
@@ -198,6 +203,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
     }
 
     private func resolveFromCredentialSource(
+        profileName: String,
         source: String,
         identityProperties: Attributes?
     ) async throws -> AWSCredentialIdentity {
@@ -207,7 +213,9 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                 identityProperties: identityProperties
             )
         case "Ec2InstanceMetadata":
-            return try await IMDSAWSCredentialIdentityResolver().getIdentity(
+            return try await IMDSAWSCredentialIdentityResolver(
+                ec2InstanceProfileName: profileName
+            ).getIdentity(
                 identityProperties: identityProperties
             )
         case "EcsContainer":

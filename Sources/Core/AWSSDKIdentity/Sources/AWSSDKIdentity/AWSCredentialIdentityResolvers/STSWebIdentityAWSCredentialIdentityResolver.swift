@@ -26,7 +26,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
     private let credentialsFilePath: String?
     private let source: STSWebIdentitySource
     private let maxRetries = 3
-    private var profileName: String? = nil
+    private var profileName: String?
 
     public init(
         configFilePath: String? = nil,

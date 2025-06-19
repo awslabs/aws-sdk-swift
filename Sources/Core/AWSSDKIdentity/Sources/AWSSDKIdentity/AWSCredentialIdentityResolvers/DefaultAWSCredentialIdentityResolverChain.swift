@@ -55,8 +55,7 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
             return cached
         }
 
-        let lastIndex = resolverFactories.count - 1
-        for index in 0..<lastIndex {
+        for index in 0..<resolverFactories.count {
             do {
                 let resolver = try resolverFactories[index]()
                 let credentials = try await resolver.getIdentity(identityProperties: identityProperties)
@@ -67,11 +66,12 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
             }
         }
 
-        // The error thrown from the last resolver is not caught and instead gets thrown to caller.
-        let lastResolver = try resolverFactories[lastIndex]()
-        let credentials = try await lastResolver.getIdentity(identityProperties: identityProperties)
-        cachedCredentials = credentials
-        return credentials
+        // None of the resolvers successfully resolved credentials.
+        // Throw a descriptive error.
+        throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+            "DefaultAWSCredentialIdentityRsolverChain: "
+            + "Failed to resolve credentials."
+        )
     }
 
     private func shouldRefreshCredentials(expiration: Date?) -> Bool {
