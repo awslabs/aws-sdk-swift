@@ -56,7 +56,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         profileName: String? = nil,
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil
-    ) throws {
+    ) {
         self.profileName = profileName
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
