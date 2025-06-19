@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "AWSMediaPackageV2",
     platforms: [
-        .macOS(.v10_15), .iOS(.v13)
+        .macOS(.v12), .iOS(.v13)
     ],
     products: [
         .library(name: "AWSMediaPackageV2", targets: ["AWSMediaPackageV2"])
