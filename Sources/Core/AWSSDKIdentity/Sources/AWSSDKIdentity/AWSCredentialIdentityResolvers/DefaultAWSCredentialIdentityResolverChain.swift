@@ -12,6 +12,7 @@ import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
 @_spi(FileBasedConfig) import AWSSDKCommon
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Smithy.Attributes
+import struct Smithy.SwiftLogger
 
 // swiftlint:disable type_name
 // ^ Required to mute swiftlint warning about type name being too long.
@@ -40,6 +41,8 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
     private let resolverFactories: [ResolverFactory]
     private var cachedCredentials: AWSCredentialIdentity?
 
+    private let logger: SwiftLogger = SwiftLogger(label: "DefaultAWSCredentialIdentityResolverChain")
+
     public init() {
         resolverFactories = [
             { return ( EnvironmentAWSCredentialIdentityResolver()) },
@@ -62,7 +65,8 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
                 cachedCredentials = credentials
                 return credentials
             } catch {
-                // Continue to the next resolver factory.
+                // Log error & continue to the next resolver factory.
+                logger.debug(error.localizedDescription)
             }
         }
 

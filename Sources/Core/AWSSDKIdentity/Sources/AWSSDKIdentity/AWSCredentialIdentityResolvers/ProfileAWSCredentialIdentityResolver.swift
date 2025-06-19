@@ -9,6 +9,7 @@ import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Smithy.Attributes
 import struct SmithyIdentity.StaticAWSCredentialIdentityResolver
 import class Foundation.ProcessInfo
+import struct Smithy.SwiftLogger
 @_spi(FileBasedConfig) import AWSSDKCommon
 
 /// A credential identity resolver that resolves credentials from a profile in `~/.aws/config` or the shared credentials file `~/.aws/credentials`.
@@ -45,6 +46,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
     private let profileName: String?
     private let configFilePath: String?
     private let credentialsFilePath: String?
+    private let logger = SwiftLogger(label: "ProfileAWSCredentialIdentityResolver")
 
     /// Creates a credential identity resolver that resolves credentials from a profile in `~/.aws/config` or the shared credentials file `~/.aws/credentials`.
     ///
@@ -109,14 +111,17 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         ) {
             do {
                 return try await resolver(identityProperties)
-            } catch {}
+            } catch {
+                // Log error message and continue on.
+                logger.debug(error.localizedDescription)
+            }
         }
 
         // If credentials couldn't be resolved from current profile section from any
         //  of the sources, throw an error.
         throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
             "ProfileAWSCredentialIdentityResolver: "
-            + "Failed to resolve credentials from profile: \(currentProfileName)."
+            + "Failed to resolve credentials from profile: \(currentProfileName). "
             + "All known resolution methods failed."
         )
     }
@@ -128,8 +133,30 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
     ) -> [(Attributes?) async throws -> AWSCredentialIdentity] {
         var resolvers: [(Attributes?) async throws -> AWSCredentialIdentity] = []
 
+        // 0. Handle edge case for self-referencing profile without prior chain.
+        if (
+            profile.hasStaticCredentials() &&
+            profile.hasSourceProfile() &&
+            visitedProfiles.count == 1 &&
+            profile.val(for: "source_profile") == profile.name
+        ) {
+            resolvers.append { identityProperties in
+                let access = profile.string(for: .init(stringLiteral: "aws_access_key_id"))!
+                let secret = profile.string(for: .init(stringLiteral: "aws_secret_access_key"))!
+                let sourceCreds = AWSCredentialIdentity(accessKey: access, secret: secret)
+                return try await STSAssumeRoleAWSCredentialIdentityResolver(
+                    awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(sourceCreds),
+                    roleArn: profile.string(for: .init(stringLiteral: "role_arn"))!,
+                    sessionName: profile.string(for: .init(stringLiteral: "role_session_name"))
+                ).getIdentity(identityProperties: identityProperties)
+            }
+        }
+
         // 1. Static credentials in profile
-        if profile.hasStaticCredentials() {
+        //    Take static credentials only if current profile is the leaf in profile chain.
+        //    This means static credentials in a profile gets ignored if it's the first one in a chain;
+        //      that's the intended behavior as per SEP.
+        if profile.hasStaticCredentials() && (!profile.hasSourceProfile() || visitedProfiles.count > 1) {
             resolvers.append { _ in
                 let access = profile.string(for: .init(stringLiteral: "aws_access_key_id"))!
                 let secret = profile.string(for: .init(stringLiteral: "aws_secret_access_key"))!
