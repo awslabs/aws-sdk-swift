@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "IMDSIntegTestApp",
     platforms: [
-        .macOS(.v10_15),
+        .macOS(.v12),
         .iOS(.v13)
     ],
     dependencies: [
