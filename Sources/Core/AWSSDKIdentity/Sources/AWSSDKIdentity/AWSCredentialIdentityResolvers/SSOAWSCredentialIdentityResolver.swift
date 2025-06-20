@@ -10,6 +10,12 @@ import struct Smithy.Attributes
 import ClientRuntime
 import class Foundation.ProcessInfo
 import enum Smithy.ClientError
+import struct SmithyIdentity.BearerTokenIdentity
+import class Foundation.FileManager
+import struct Foundation.URL
+import struct Foundation.Data
+import struct Foundation.Date
+import class Foundation.JSONDecoder
 @_spi(FileBasedConfig) import AWSSDKCommon
 
 /// A credential identity resolver that resolves credentials using GetRoleCredentialsRequest to the AWS Single Sign-On Service to maintain short-lived sessions.
@@ -48,15 +54,26 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             credentialsFilePath: credentialsFilePath
         )
         let resolvedProfileName = self.profileName ?? ProcessInfo.processInfo.environment["AWS_PROFIE"] ?? "default"
-        let (accountID, roleName, region) = try fetchSSOConfigFromSharedConfigFile(
+        let (accountID, roleName, ssoSessionName) = try fetchSSOConfigFromSharedConfigFile(
             profileName: resolvedProfileName,
             fileBasedConfig: fileBasedConfig
         )
 
-        let ssoToken = try await SSOBearerTokenIdentityResolver(
-            profileName: resolvedProfileName,
-            configFilePath: configFilePath
-        ).getIdentity(identityProperties: identityProperties)
+        var ssoToken: BearerTokenIdentity!
+        var region: String!
+        if let ssoSessionName {
+            region = try getProperty(ssoSessionName, .ssoSession, "sso_region", fileBasedConfig)
+            ssoToken = try await SSOBearerTokenIdentityResolver(
+                profileName: resolvedProfileName,
+                configFilePath: configFilePath
+            ).getIdentity(identityProperties: identityProperties)
+        } else { // Handle Legacy token flow.
+            region = try getProperty(resolvedProfileName, .profile, "sso_region", fileBasedConfig)
+            ssoToken = try await SSOBearerTokenLegacyResolver().getSSOTokenWithLegacyFlow(
+                profileName: resolvedProfileName,
+                fileBasedConfig: fileBasedConfig
+            )
+        }
 
         return try await internalSSOClient.getCredentialsWithSSOToken(
             region: region,
@@ -69,16 +86,18 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private func fetchSSOConfigFromSharedConfigFile(
         profileName: String,
         fileBasedConfig: CRTFileBasedConfiguration
-    ) throws -> (accountID: String, roleName: String, region: String) {
+    ) throws -> (accountID: String, roleName: String, ssoSessionName: String?) {
         // Get `sso_account_id` and `sso_role_name` properties.
         let ssoAccountID = try getProperty(profileName, .profile, "sso_account_id", fileBasedConfig)
         let ssoRoleName = try getProperty(profileName, .profile, "sso_role_name", fileBasedConfig)
 
-        // Get `sso_region` property from sso-session section referenced by the profile section..
-        let ssoSessionName = try getProperty(profileName, .profile, "sso_session", fileBasedConfig)
-        let ssoRegion = try getProperty(ssoSessionName, .ssoSession, "sso_region", fileBasedConfig)
+        // Get sso-session name referenced by the profile section. Nil if not present.
+        let ssoSessionName = fileBasedConfig
+            .getSection(name: profileName, sectionType: .profile)?
+            .getProperty(name: "sso_session")?
+            .value
 
-        return (ssoAccountID, ssoRoleName, ssoRegion)
+        return (ssoAccountID, ssoRoleName, ssoSessionName)
     }
 
     private func getProperty(
@@ -93,9 +112,78 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             .value
         else {
             throw ClientError.dataNotFound(
-                "Failed to retrieve \(propertyName) from \(sectionName) \(sectionType) section."
+                "SSOAWSCredentialIdentityResolver: "
+                + "Failed to retrieve \(propertyName) from \(sectionName) \(sectionType) section."
             )
         }
         return value
+    }
+}
+
+// Legacy SSO token retrieval flow.
+// Legacy flow:
+//   - Token file is located in ~/.aws/sso/cache/<SHA-1-hash-of-sso_start_url>.json
+//   - Has no token refreshing logic.
+// sso-sesion flow (in SSOBearerTokenIdentityResolver):
+//   - Token file is located in ~/.aws/sso/cache/<SHA-1-hash-of-sso-session-name>.json
+//   - Refreshes SSO token if it's about to expire / has expired.
+private struct SSOBearerTokenLegacyResolver {
+    func getSSOTokenWithLegacyFlow(
+        profileName: String,
+        fileBasedConfig: CRTFileBasedConfiguration
+    ) async throws -> BearerTokenIdentity {
+        let ssoStartURL = fileBasedConfig.getSection(
+            name: profileName, sectionType: .profile
+        )?.getProperty(name: "sso_start_url")?.value
+
+        guard let ssoStartURL else {
+            throw ClientError.dataNotFound(
+                "SSOAWSCredentialIdentityResolver: "
+                + "Failed to retrieve sso_start_url in profile \(profileName)."
+            )
+        }
+
+        let tokenURL = try getSSOTokenFileURL(ssoStartURL: ssoStartURL)
+        let token = try loadToken(fileURL: tokenURL)
+
+        guard Date() < token.expiresAt else {
+            throw ClientError.invalidValue(
+                "SSOAWSCredentialIdentityResolver: "
+                + "SSO token retrieved with legacy flow has expired."
+            )
+        }
+
+        return BearerTokenIdentity(token: token.accessToken, expiration: token.expiresAt)
+    }
+
+    private func getSSOTokenFileURL(
+        ssoStartURL: String
+    ) throws -> URL {
+        let tokenFileName = try ssoStartURL.data(using: .utf8)!.computeSHA1().encodeToHexString() + ".json"
+
+        // Get the access token file URL
+        #if os(macOS) || os(Linux)
+        // On macOS, use homeDirectoryForCurrentUser
+        let homeDir = FileManager.default.homeDirectoryForCurrentUser
+        #else
+        // On iOS, tvOS, and watchOS, use NSHomeDirectory()
+        let homeDir = URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
+        #endif
+        let relativePath = ".aws/sso/cache/\(tokenFileName)"
+        return homeDir.appendingPathComponent(relativePath)
+    }
+
+    private func loadToken(fileURL: URL) throws -> SSOToken {
+        do {
+            let data = try Data(contentsOf: fileURL)
+            let decoder = JSONDecoder()
+            let token = try decoder.decode(SSOToken.self, from: data)
+            return token
+        } catch {
+            throw ClientError.dataNotFound(
+                "SSOAWSCredentialIdentityResolver: "
+                + "Failed to load SSO token with legacy flow."
+            )
+        }
     }
 }
