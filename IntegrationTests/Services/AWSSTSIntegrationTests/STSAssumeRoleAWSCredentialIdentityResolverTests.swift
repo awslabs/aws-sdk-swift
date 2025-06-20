@@ -96,6 +96,9 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
         let client = STSClient(config: config)
         _ = try await client.getCallerIdentity(input: GetCallerIdentityInput())
 
+        // some CI simulators may be slow to process
+        try await Task.sleep(nanoseconds: 500_000_000) // 500ms
+
         let traceResults = inMemoryExporter.getFinishedSpanItems()
 
         XCTAssertTrue(
