@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 internal class STSClient: ClientRuntime.Client {
     public static let clientName = "STSClient"
-    public static let version = "1.3.40"
+    public static let version = "1.3.41"
     let client: ClientRuntime.SdkHttpClient
     let config: STSClient.STSClientConfiguration
     let serviceName = "STS"
