@@ -14,7 +14,6 @@ import struct Smithy.Attributes
 final actor S3ExpressIdentityCachedElement {
 
     struct CacheKey: Hashable {
-        static let uuid = UUID().uuidString
         let bucket: String
 
         init(identityProperties: Attributes) throws {
