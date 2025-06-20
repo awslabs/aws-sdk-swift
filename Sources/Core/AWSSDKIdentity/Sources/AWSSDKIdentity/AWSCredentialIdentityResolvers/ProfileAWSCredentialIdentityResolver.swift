@@ -134,12 +134,10 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         var resolvers: [(Attributes?) async throws -> AWSCredentialIdentity] = []
 
         // 0. Handle edge case for self-referencing profile without prior chain.
-        if (
-            profile.hasStaticCredentials() &&
+        if profile.hasStaticCredentials() &&
             profile.hasSourceProfile() &&
             visitedProfiles.count == 1 &&
-            profile.val(for: "source_profile") == profile.name
-        ) {
+            profile.val(for: "source_profile") == profile.name {
             resolvers.append { identityProperties in
                 let access = profile.string(for: .init(stringLiteral: "aws_access_key_id"))!
                 let secret = profile.string(for: .init(stringLiteral: "aws_secret_access_key"))!
