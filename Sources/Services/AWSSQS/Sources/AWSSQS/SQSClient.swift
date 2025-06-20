@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SQSClient: ClientRuntime.Client {
     public static let clientName = "SQSClient"
-    public static let version = "1.3.39"
+    public static let version = "1.3.41"
     let client: ClientRuntime.SdkHttpClient
     let config: SQSClient.SQSClientConfiguration
     let serviceName = "SQS"

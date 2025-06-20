@@ -44,7 +44,7 @@ extension Target.Dependency {
 let package = Package(
     name: "aws-sdk-swift-protocol-tests",
     platforms: [
-        .macOS(.v10_15),
+        .macOS(.v12),
         .iOS(.v13),
         .tvOS(.v13),
         .watchOS(.v6)

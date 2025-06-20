@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DSQLClient: ClientRuntime.Client {
     public static let clientName = "DSQLClient"
-    public static let version = "1.3.39"
+    public static let version = "1.3.41"
     let client: ClientRuntime.SdkHttpClient
     let config: DSQLClient.DSQLClientConfiguration
     let serviceName = "DSQL"

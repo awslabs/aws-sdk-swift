@@ -2831,6 +2831,41 @@ public struct BatchGetDataQualityResultInput: Swift.Sendable {
 
 extension GlueClientTypes {
 
+    /// A summary of metrics showing the total counts of processed rows and rules, including their pass/fail statistics based on row-level results.
+    public struct DataQualityAggregatedMetrics: Swift.Sendable {
+        /// The total number of rows that failed one or more data quality rules.
+        public var totalRowsFailed: Swift.Double?
+        /// The total number of rows that passed all applicable data quality rules.
+        public var totalRowsPassed: Swift.Double?
+        /// The total number of rows that were processed during the data quality evaluation.
+        public var totalRowsProcessed: Swift.Double?
+        /// The total number of data quality rules that failed their evaluation criteria.
+        public var totalRulesFailed: Swift.Double?
+        /// The total number of data quality rules that passed their evaluation criteria.
+        public var totalRulesPassed: Swift.Double?
+        /// The total number of data quality rules that were evaluated.
+        public var totalRulesProcessed: Swift.Double?
+
+        public init(
+            totalRowsFailed: Swift.Double? = nil,
+            totalRowsPassed: Swift.Double? = nil,
+            totalRowsProcessed: Swift.Double? = nil,
+            totalRulesFailed: Swift.Double? = nil,
+            totalRulesPassed: Swift.Double? = nil,
+            totalRulesProcessed: Swift.Double? = nil
+        ) {
+            self.totalRowsFailed = totalRowsFailed
+            self.totalRowsPassed = totalRowsPassed
+            self.totalRowsProcessed = totalRowsProcessed
+            self.totalRulesFailed = totalRulesFailed
+            self.totalRulesPassed = totalRulesPassed
+            self.totalRulesProcessed = totalRulesProcessed
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// Describes the result of the evaluation of a data quality analyzer.
     public struct DataQualityAnalyzerResult: Swift.Sendable {
         /// A description of the data quality analyzer.
@@ -3040,6 +3075,8 @@ extension GlueClientTypes {
         public var name: Swift.String?
         /// A pass or fail status for the rule.
         public var result: GlueClientTypes.DataQualityRuleResultStatus?
+        /// A map containing metrics associated with the evaluation of the rule based on row-level results.
+        public var ruleMetrics: [Swift.String: Swift.Double]?
 
         public init(
             description: Swift.String? = nil,
@@ -3047,7 +3084,8 @@ extension GlueClientTypes {
             evaluatedRule: Swift.String? = nil,
             evaluationMessage: Swift.String? = nil,
             name: Swift.String? = nil,
-            result: GlueClientTypes.DataQualityRuleResultStatus? = nil
+            result: GlueClientTypes.DataQualityRuleResultStatus? = nil,
+            ruleMetrics: [Swift.String: Swift.Double]? = nil
         ) {
             self.description = description
             self.evaluatedMetrics = evaluatedMetrics
@@ -3055,19 +3093,22 @@ extension GlueClientTypes {
             self.evaluationMessage = evaluationMessage
             self.name = name
             self.result = result
+            self.ruleMetrics = ruleMetrics
         }
     }
 }
 
 extension GlueClientTypes.DataQualityRuleResult: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DataQualityRuleResult(name: \(Swift.String(describing: name)), result: \(Swift.String(describing: result)), description: \"CONTENT_REDACTED\", evaluatedMetrics: \"CONTENT_REDACTED\", evaluatedRule: \"CONTENT_REDACTED\", evaluationMessage: \"CONTENT_REDACTED\")"}
+        "DataQualityRuleResult(name: \(Swift.String(describing: name)), result: \(Swift.String(describing: result)), description: \"CONTENT_REDACTED\", evaluatedMetrics: \"CONTENT_REDACTED\", evaluatedRule: \"CONTENT_REDACTED\", evaluationMessage: \"CONTENT_REDACTED\", ruleMetrics: \"CONTENT_REDACTED\")"}
 }
 
 extension GlueClientTypes {
 
     /// Describes a data quality result.
     public struct DataQualityResult: Swift.Sendable {
+        /// A summary of DataQualityAggregatedMetrics objects showing the total counts of processed rows and rules, including their pass/fail statistics based on row-level results.
+        public var aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics?
         /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
         public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
         /// The date and time when this data quality run completed.
@@ -3098,6 +3139,7 @@ extension GlueClientTypes {
         public var startedOn: Foundation.Date?
 
         public init(
+            aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics? = nil,
             analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
             completedOn: Foundation.Date? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
@@ -3113,6 +3155,7 @@ extension GlueClientTypes {
             score: Swift.Double? = nil,
             startedOn: Foundation.Date? = nil
         ) {
+            self.aggregatedMetrics = aggregatedMetrics
             self.analyzerResults = analyzerResults
             self.completedOn = completedOn
             self.dataSource = dataSource
@@ -11482,6 +11525,7 @@ extension GlueClientTypes {
     }
 }
 
+/// A request to create a data quality ruleset.
 public struct CreateDataQualityRulesetInput: Swift.Sendable {
     /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
     public var clientToken: Swift.String?
@@ -18376,7 +18420,10 @@ public struct GetDataQualityResultInput: Swift.Sendable {
     }
 }
 
+/// The response for the data quality result.
 public struct GetDataQualityResultOutput: Swift.Sendable {
+    /// A summary of DataQualityAggregatedMetrics objects showing the total counts of processed rows and rules, including their pass/fail statistics based on row-level results.
+    public var aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics?
     /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
     public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
     /// The date and time when the run for this data quality result was completed.
@@ -18407,6 +18454,7 @@ public struct GetDataQualityResultOutput: Swift.Sendable {
     public var startedOn: Foundation.Date?
 
     public init(
+        aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics? = nil,
         analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
         completedOn: Foundation.Date? = nil,
         dataSource: GlueClientTypes.DataSource? = nil,
@@ -18422,6 +18470,7 @@ public struct GetDataQualityResultOutput: Swift.Sendable {
         score: Swift.Double? = nil,
         startedOn: Foundation.Date? = nil
     ) {
+        self.aggregatedMetrics = aggregatedMetrics
         self.analyzerResults = analyzerResults
         self.completedOn = completedOn
         self.dataSource = dataSource
@@ -18451,6 +18500,7 @@ public struct GetDataQualityRuleRecommendationRunInput: Swift.Sendable {
     }
 }
 
+/// The response for the Data Quality rule recommendation run.
 public struct GetDataQualityRuleRecommendationRunOutput: Swift.Sendable {
     /// The date and time when this run was completed.
     public var completedOn: Foundation.Date?
@@ -18526,6 +18576,7 @@ public struct GetDataQualityRulesetInput: Swift.Sendable {
     }
 }
 
+/// Returns the data quality ruleset response.
 public struct GetDataQualityRulesetOutput: Swift.Sendable {
     /// A timestamp. The time and date that this data quality ruleset was created.
     public var createdOn: Foundation.Date?
@@ -25094,6 +25145,7 @@ public struct StartCrawlerScheduleOutput: Swift.Sendable {
     public init() { }
 }
 
+/// The request of the Data Quality rule recommendation request.
 public struct StartDataQualityRuleRecommendationRunInput: Swift.Sendable {
     /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
     public var clientToken: Swift.String?
@@ -33981,6 +34033,7 @@ extension GetDataQualityResultOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDataQualityResultOutput()
+        value.aggregatedMetrics = try reader["AggregatedMetrics"].readIfPresent(with: GlueClientTypes.DataQualityAggregatedMetrics.read(from:))
         value.analyzerResults = try reader["AnalyzerResults"].readListIfPresent(memberReadingClosure: GlueClientTypes.DataQualityAnalyzerResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
@@ -41299,6 +41352,22 @@ extension GlueClientTypes.DataQualityResult {
         value.ruleResults = try reader["RuleResults"].readListIfPresent(memberReadingClosure: GlueClientTypes.DataQualityRuleResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.analyzerResults = try reader["AnalyzerResults"].readListIfPresent(memberReadingClosure: GlueClientTypes.DataQualityAnalyzerResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.observations = try reader["Observations"].readListIfPresent(memberReadingClosure: GlueClientTypes.DataQualityObservation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aggregatedMetrics = try reader["AggregatedMetrics"].readIfPresent(with: GlueClientTypes.DataQualityAggregatedMetrics.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityAggregatedMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityAggregatedMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityAggregatedMetrics()
+        value.totalRowsProcessed = try reader["TotalRowsProcessed"].readIfPresent()
+        value.totalRowsPassed = try reader["TotalRowsPassed"].readIfPresent()
+        value.totalRowsFailed = try reader["TotalRowsFailed"].readIfPresent()
+        value.totalRulesProcessed = try reader["TotalRulesProcessed"].readIfPresent()
+        value.totalRulesPassed = try reader["TotalRulesPassed"].readIfPresent()
+        value.totalRulesFailed = try reader["TotalRulesFailed"].readIfPresent()
         return value
     }
 }
@@ -41364,6 +41433,7 @@ extension GlueClientTypes.DataQualityRuleResult {
         value.result = try reader["Result"].readIfPresent()
         value.evaluatedMetrics = try reader["EvaluatedMetrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.evaluatedRule = try reader["EvaluatedRule"].readIfPresent()
+        value.ruleMetrics = try reader["RuleMetrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SNSClient: ClientRuntime.Client {
     public static let clientName = "SNSClient"
-    public static let version = "1.3.39"
+    public static let version = "1.3.41"
     let client: ClientRuntime.SdkHttpClient
     let config: SNSClient.SNSClientConfiguration
     let serviceName = "SNS"

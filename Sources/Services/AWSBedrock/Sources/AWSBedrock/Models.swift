@@ -2890,16 +2890,74 @@ extension BedrockClientTypes.GuardrailContentFilterConfig: Swift.CustomDebugStri
 
 extension BedrockClientTypes {
 
+    public enum GuardrailContentFiltersTierName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case classic
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContentFiltersTierName] {
+            return [
+                .classic,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .classic: return "CLASSIC"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// The tier that your guardrail uses for content filters. Consider using a tier that balances performance, accuracy, and compatibility with your existing generative AI workflows.
+    public struct GuardrailContentFiltersTierConfig: Swift.Sendable {
+        /// The tier that your guardrail uses for content filters. Valid values include:
+        ///
+        /// * CLASSIC tier – Provides established guardrails functionality supporting English, French, and Spanish languages.
+        ///
+        /// * STANDARD tier – Provides a more robust solution than the CLASSIC tier and has more comprehensive language support. This tier requires that your guardrail use [cross-Region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+        /// This member is required.
+        public var tierName: BedrockClientTypes.GuardrailContentFiltersTierName?
+
+        public init(
+            tierName: BedrockClientTypes.GuardrailContentFiltersTierName? = nil
+        ) {
+            self.tierName = tierName
+        }
+    }
+}
+
+extension BedrockClientTypes.GuardrailContentFiltersTierConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailContentFiltersTierConfig(tierName: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
     /// Contains details about how to handle harmful content.
     public struct GuardrailContentPolicyConfig: Swift.Sendable {
         /// Contains the type of the content filter and how strongly it should apply to prompts and model responses.
         /// This member is required.
         public var filtersConfig: [BedrockClientTypes.GuardrailContentFilterConfig]?
+        /// The tier that your guardrail uses for content filters.
+        public var tierConfig: BedrockClientTypes.GuardrailContentFiltersTierConfig?
 
         public init(
-            filtersConfig: [BedrockClientTypes.GuardrailContentFilterConfig]? = nil
+            filtersConfig: [BedrockClientTypes.GuardrailContentFilterConfig]? = nil,
+            tierConfig: BedrockClientTypes.GuardrailContentFiltersTierConfig? = nil
         ) {
             self.filtersConfig = filtersConfig
+            self.tierConfig = tierConfig
         }
     }
 }
@@ -3400,6 +3458,60 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    public enum GuardrailTopicsTierName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case classic
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailTopicsTierName] {
+            return [
+                .classic,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .classic: return "CLASSIC"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// The tier that your guardrail uses for denied topic filters. Consider using a tier that balances performance, accuracy, and compatibility with your existing generative AI workflows.
+    public struct GuardrailTopicsTierConfig: Swift.Sendable {
+        /// The tier that your guardrail uses for denied topic filters. Valid values include:
+        ///
+        /// * CLASSIC tier – Provides established guardrails functionality supporting English, French, and Spanish languages.
+        ///
+        /// * STANDARD tier – Provides a more robust solution than the CLASSIC tier and has more comprehensive language support. This tier requires that your guardrail use [cross-Region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+        /// This member is required.
+        public var tierName: BedrockClientTypes.GuardrailTopicsTierName?
+
+        public init(
+            tierName: BedrockClientTypes.GuardrailTopicsTierName? = nil
+        ) {
+            self.tierName = tierName
+        }
+    }
+}
+
+extension BedrockClientTypes.GuardrailTopicsTierConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailTopicsTierConfig(tierName: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
     public enum GuardrailTopicAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case block
         case `none`
@@ -3516,13 +3628,17 @@ extension BedrockClientTypes {
 
     /// Contains details about topics that the guardrail should identify and deny.
     public struct GuardrailTopicPolicyConfig: Swift.Sendable {
+        /// The tier that your guardrail uses for denied topic filters.
+        public var tierConfig: BedrockClientTypes.GuardrailTopicsTierConfig?
         /// A list of policies related to topics that the guardrail should deny.
         /// This member is required.
         public var topicsConfig: [BedrockClientTypes.GuardrailTopicConfig]?
 
         public init(
+            tierConfig: BedrockClientTypes.GuardrailTopicsTierConfig? = nil,
             topicsConfig: [BedrockClientTypes.GuardrailTopicConfig]? = nil
         ) {
+            self.tierConfig = tierConfig
             self.topicsConfig = topicsConfig
         }
     }
@@ -3943,17 +4059,46 @@ extension BedrockClientTypes.GuardrailContentFilter: Swift.CustomDebugStringConv
 
 extension BedrockClientTypes {
 
+    /// The tier that your guardrail uses for content filters.
+    public struct GuardrailContentFiltersTier: Swift.Sendable {
+        /// The tier that your guardrail uses for content filters. Valid values include:
+        ///
+        /// * CLASSIC tier – Provides established guardrails functionality supporting English, French, and Spanish languages.
+        ///
+        /// * STANDARD tier – Provides a more robust solution than the CLASSIC tier and has more comprehensive language support. This tier requires that your guardrail use [cross-Region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+        /// This member is required.
+        public var tierName: BedrockClientTypes.GuardrailContentFiltersTierName?
+
+        public init(
+            tierName: BedrockClientTypes.GuardrailContentFiltersTierName? = nil
+        ) {
+            self.tierName = tierName
+        }
+    }
+}
+
+extension BedrockClientTypes.GuardrailContentFiltersTier: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailContentFiltersTier(tierName: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
     /// Contains details about how to handle harmful content. This data type is used in the following API operations:
     ///
     /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
     public struct GuardrailContentPolicy: Swift.Sendable {
         /// Contains the type of the content filter and how strongly it should apply to prompts and model responses.
         public var filters: [BedrockClientTypes.GuardrailContentFilter]?
+        /// The tier that your guardrail uses for content filters.
+        public var tier: BedrockClientTypes.GuardrailContentFiltersTier?
 
         public init(
-            filters: [BedrockClientTypes.GuardrailContentFilter]? = nil
+            filters: [BedrockClientTypes.GuardrailContentFilter]? = nil,
+            tier: BedrockClientTypes.GuardrailContentFiltersTier? = nil
         ) {
             self.filters = filters
+            self.tier = tier
         }
     }
 }
@@ -4196,6 +4341,31 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// The tier that your guardrail uses for denied topic filters.
+    public struct GuardrailTopicsTier: Swift.Sendable {
+        /// The tier that your guardrail uses for denied topic filters. Valid values include:
+        ///
+        /// * CLASSIC tier – Provides established guardrails functionality supporting English, French, and Spanish languages.
+        ///
+        /// * STANDARD tier – Provides a more robust solution than the CLASSIC tier and has more comprehensive language support. This tier requires that your guardrail use [cross-Region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+        /// This member is required.
+        public var tierName: BedrockClientTypes.GuardrailTopicsTierName?
+
+        public init(
+            tierName: BedrockClientTypes.GuardrailTopicsTierName? = nil
+        ) {
+            self.tierName = tierName
+        }
+    }
+}
+
+extension BedrockClientTypes.GuardrailTopicsTier: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailTopicsTier(tierName: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
     /// Details about topics for the guardrail to identify and deny. This data type is used in the following API operations:
     ///
     /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
@@ -4260,13 +4430,17 @@ extension BedrockClientTypes {
     ///
     /// * [GetGuardrail response body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetGuardrail.html#API_GetGuardrail_ResponseSyntax)
     public struct GuardrailTopicPolicy: Swift.Sendable {
+        /// The tier that your guardrail uses for denied topic filters.
+        public var tier: BedrockClientTypes.GuardrailTopicsTier?
         /// A list of policies related to topics that the guardrail should deny.
         /// This member is required.
         public var topics: [BedrockClientTypes.GuardrailTopic]?
 
         public init(
+            tier: BedrockClientTypes.GuardrailTopicsTier? = nil,
             topics: [BedrockClientTypes.GuardrailTopic]? = nil
         ) {
+            self.tier = tier
             self.topics = topics
         }
     }
@@ -12932,6 +13106,17 @@ extension BedrockClientTypes.GuardrailTopicPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailTopicPolicy()
         value.topics = try reader["topics"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailTopic.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tier = try reader["tier"].readIfPresent(with: BedrockClientTypes.GuardrailTopicsTier.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.GuardrailTopicsTier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailTopicsTier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.GuardrailTopicsTier()
+        value.tierName = try reader["tierName"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12959,6 +13144,17 @@ extension BedrockClientTypes.GuardrailContentPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailContentPolicy()
         value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailContentFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tier = try reader["tier"].readIfPresent(with: BedrockClientTypes.GuardrailContentFiltersTier.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.GuardrailContentFiltersTier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailContentFiltersTier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.GuardrailContentFiltersTier()
+        value.tierName = try reader["tierName"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13679,7 +13875,16 @@ extension BedrockClientTypes.GuardrailTopicPolicyConfig {
 
     static func write(value: BedrockClientTypes.GuardrailTopicPolicyConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["tierConfig"].write(value.tierConfig, with: BedrockClientTypes.GuardrailTopicsTierConfig.write(value:to:))
         try writer["topicsConfig"].writeList(value.topicsConfig, memberWritingClosure: BedrockClientTypes.GuardrailTopicConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockClientTypes.GuardrailTopicsTierConfig {
+
+    static func write(value: BedrockClientTypes.GuardrailTopicsTierConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tierName"].write(value.tierName)
     }
 }
 
@@ -13703,6 +13908,15 @@ extension BedrockClientTypes.GuardrailContentPolicyConfig {
     static func write(value: BedrockClientTypes.GuardrailContentPolicyConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filtersConfig"].writeList(value.filtersConfig, memberWritingClosure: BedrockClientTypes.GuardrailContentFilterConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tierConfig"].write(value.tierConfig, with: BedrockClientTypes.GuardrailContentFiltersTierConfig.write(value:to:))
+    }
+}
+
+extension BedrockClientTypes.GuardrailContentFiltersTierConfig {
+
+    static func write(value: BedrockClientTypes.GuardrailContentFiltersTierConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tierName"].write(value.tierName)
     }
 }
 

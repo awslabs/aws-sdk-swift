@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "AWSWorkDocs",
     platforms: [
-        .macOS(.v10_15), .iOS(.v13)
+        .macOS(.v12), .iOS(.v13)
     ],
     products: [
         .library(name: "AWSWorkDocs", targets: ["AWSWorkDocs"])

@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlueClient: ClientRuntime.Client {
     public static let clientName = "GlueClient"
-    public static let version = "1.3.39"
+    public static let version = "1.3.41"
     let client: ClientRuntime.SdkHttpClient
     let config: GlueClient.GlueClientConfiguration
     let serviceName = "Glue"
@@ -2759,7 +2759,7 @@ extension GlueClient {
     ///
     /// Creates a data quality ruleset with DQDL rules applied to a specified Glue table. You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide.
     ///
-    /// - Parameter CreateDataQualityRulesetInput : [no documentation found]
+    /// - Parameter CreateDataQualityRulesetInput : A request to create a data quality ruleset.
     ///
     /// - Returns: `CreateDataQualityRulesetOutput` : [no documentation found]
     ///
@@ -9014,7 +9014,7 @@ extension GlueClient {
     ///
     /// - Parameter GetDataQualityResultInput : [no documentation found]
     ///
-    /// - Returns: `GetDataQualityResultOutput` : [no documentation found]
+    /// - Returns: `GetDataQualityResultOutput` : The response for the data quality result.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9093,7 +9093,7 @@ extension GlueClient {
     ///
     /// - Parameter GetDataQualityRuleRecommendationRunInput : [no documentation found]
     ///
-    /// - Returns: `GetDataQualityRuleRecommendationRunOutput` : [no documentation found]
+    /// - Returns: `GetDataQualityRuleRecommendationRunOutput` : The response for the Data Quality rule recommendation run.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9172,7 +9172,7 @@ extension GlueClient {
     ///
     /// - Parameter GetDataQualityRulesetInput : [no documentation found]
     ///
-    /// - Returns: `GetDataQualityRulesetOutput` : [no documentation found]
+    /// - Returns: `GetDataQualityRulesetOutput` : Returns the data quality ruleset response.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16909,7 +16909,7 @@ extension GlueClient {
     ///
     /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking. Recommendation runs are automatically deleted after 90 days.
     ///
-    /// - Parameter StartDataQualityRuleRecommendationRunInput : [no documentation found]
+    /// - Parameter StartDataQualityRuleRecommendationRunInput : The request of the Data Quality rule recommendation request.
     ///
     /// - Returns: `StartDataQualityRuleRecommendationRunOutput` : [no documentation found]
     ///
