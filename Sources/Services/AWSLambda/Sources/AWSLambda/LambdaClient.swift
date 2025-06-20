@@ -72,7 +72,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LambdaClient: ClientRuntime.Client {
     public static let clientName = "LambdaClient"
-    public static let version = "1.3.39"
+    public static let version = "1.3.41"
     let client: ClientRuntime.SdkHttpClient
     let config: LambdaClient.LambdaClientConfiguration
     let serviceName = "Lambda"
@@ -733,7 +733,7 @@ extension LambdaClient {
     ///
     /// For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:
     ///
-    /// * DestinationConfig – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket.
+    /// * OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket. For more information, see [Adding a destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html#invocation-async-destinations).
     ///
     ///
     /// For information about which configuration parameters apply to each event source, see the following topics.
@@ -5382,7 +5382,7 @@ extension LambdaClient {
     ///
     /// For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:
     ///
-    /// * DestinationConfig – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket.
+    /// * OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket. For more information, see [Adding a destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html#invocation-async-destinations).
     ///
     ///
     /// For information about which configuration parameters apply to each event source, see the following topics.

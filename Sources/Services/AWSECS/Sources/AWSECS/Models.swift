@@ -4310,7 +4310,7 @@ extension ECSClientTypes {
         public var healthCheck: ECSClientTypes.HealthCheck?
         /// The hostname to use for your container. This parameter maps to Hostname in the docker container create command and the --hostname option to docker run. The hostname parameter is not supported if you're using the awsvpc network mode.
         public var hostname: Swift.String?
-        /// The image used to start a container. This string is passed directly to the Docker daemon. By default, images in the Docker Hub registry are available. Other repositories are specified with either  repository-url/image:tag  or  repository-url/image@digest . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the docker container create command and the IMAGE parameter of docker run.
+        /// The image used to start a container. This string is passed directly to the Docker daemon. By default, images in the Docker Hub registry are available. Other repositories are specified with either  repository-url/image:tag  or  repository-url/image@digest . For images using tags (repository-url/image:tag), up to 255 characters total are allowed, including letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs (#). For images using digests (repository-url/image@digest), the 255 character limit applies only to the repository URL and image name (everything before the @ sign). The only supported hash function is sha256, and the hash value after sha256: must be exactly 64 characters (only letters A-F, a-f, and numbers 0-9 are allowed). This parameter maps to Image in the docker container create command and the IMAGE parameter of docker run.
         ///
         /// * When a new task starts, the Amazon ECS container agent pulls the latest version of the specified image and tag for the container to use. However, subsequent updates to a repository image aren't propagated to already running tasks.
         ///
@@ -4775,6 +4775,8 @@ extension ECSClientTypes {
         case windowsServer2019Full
         case windowsServer2022Core
         case windowsServer2022Full
+        case windowsServer2025Core
+        case windowsServer2025Full
         case windowsServer20h2Core
         case sdkUnknown(Swift.String)
 
@@ -4787,6 +4789,8 @@ extension ECSClientTypes {
                 .windowsServer2019Full,
                 .windowsServer2022Core,
                 .windowsServer2022Full,
+                .windowsServer2025Core,
+                .windowsServer2025Full,
                 .windowsServer20h2Core
             ]
         }
@@ -4805,6 +4809,8 @@ extension ECSClientTypes {
             case .windowsServer2019Full: return "WINDOWS_SERVER_2019_FULL"
             case .windowsServer2022Core: return "WINDOWS_SERVER_2022_CORE"
             case .windowsServer2022Full: return "WINDOWS_SERVER_2022_FULL"
+            case .windowsServer2025Core: return "WINDOWS_SERVER_2025_CORE"
+            case .windowsServer2025Full: return "WINDOWS_SERVER_2025_FULL"
             case .windowsServer20h2Core: return "WINDOWS_SERVER_20H2_CORE"
             case let .sdkUnknown(s): return s
             }
@@ -9558,15 +9564,15 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
     /// The details of a capacity provider strategy. You can set a capacity provider when you create a cluster, run a task, or update a service. When you use Fargate, the capacity providers are FARGATE or FARGATE_SPOT. When you use Amazon EC2, the capacity providers are Auto Scaling groups. You can change capacity providers for rolling deployments and blue/green deployments. The following list provides the valid transitions:
     ///
-    /// * Update the Fargate launch type to an EC2 capacity provider.
+    /// * Update the Fargate launch type to an Auto Scaling group capacity provider.
     ///
     /// * Update the Amazon EC2 launch type to a Fargate capacity provider.
     ///
-    /// * Update the Fargate capacity provider to an EC2 capacity provider.
+    /// * Update the Fargate capacity provider to an Auto Scaling group capacity provider.
     ///
     /// * Update the Amazon EC2 capacity provider to a Fargate capacity provider.
     ///
-    /// * Update the EC2 or Fargate capacity provider back to the launch type. Pass an empty list in the capacityProvider parameter.
+    /// * Update the Auto Scaling group or Fargate capacity provider back to the launch type. Pass an empty list in the capacityProviderStrategy parameter.
     ///
     ///
     /// For information about Amazon Web Services CDK considerations, see [Amazon Web Services CDK considerations](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service-parameters.html).
