@@ -16,6 +16,7 @@ import struct Foundation.URL
 import struct Foundation.Data
 import struct Foundation.Date
 import class Foundation.JSONDecoder
+import func Foundation.NSHomeDirectory
 @_spi(FileBasedConfig) import AWSSDKCommon
 
 /// A credential identity resolver that resolves credentials using GetRoleCredentialsRequest to the AWS Single Sign-On Service to maintain short-lived sessions.
