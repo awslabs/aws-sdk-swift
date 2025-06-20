@@ -12,17 +12,24 @@ import protocol SmithyHTTPAuthAPI.AuthScheme
 import protocol SmithyHTTPAuthAPI.Signer
 import struct Smithy.Attributes
 
-public struct SigV4AAuthScheme: AuthScheme {
-    public let schemeID: String = "aws.auth#sigv4a"
+public struct SigV4S3ExpressAuthScheme: AuthScheme {
+    public let schemeID: String = "aws.auth#sigv4-s3express"
     public let signer: Signer = AWSSigV4Signer()
+    public let requestUnsignedBody: Bool
 
-    public init() {}
+    public init() {
+        self.requestUnsignedBody = false
+    }
+
+    public init(requestUnsignedBody: Bool) {
+        self.requestUnsignedBody = requestUnsignedBody
+    }
 
     public func customizeSigningProperties(signingProperties: Attributes, context: Context) throws -> Attributes {
         var updatedSigningProperties = signingProperties
 
         // Set signing algorithm flag
-        updatedSigningProperties.set(key: SigningPropertyKeys.signingAlgorithm, value: .sigv4a)
+        updatedSigningProperties.set(key: SigningPropertyKeys.signingAlgorithm, value: .sigv4s3express)
 
         // Set bidirectional streaming flag
         updatedSigningProperties.set(
@@ -63,6 +70,20 @@ public struct SigV4AAuthScheme: AuthScheme {
         updatedSigningProperties.set(key: SigningPropertyKeys.useDoubleURIEncode, value: true)
         updatedSigningProperties.set(key: SigningPropertyKeys.shouldNormalizeURIPath, value: true)
         updatedSigningProperties.set(key: SigningPropertyKeys.omitSessionToken, value: false)
+
+        // Copy checksum from middleware context to signing properties
+        updatedSigningProperties.set(key: SigningPropertyKeys.checksum, value: context.checksumString)
+
+        // Copy chunked streaming eligiblity from middleware context to signing properties
+        updatedSigningProperties.set(
+            key: SigningPropertyKeys.isChunkedEligibleStream,
+            value: context.isChunkedEligibleStream
+        )
+
+        // Optionally toggle unsigned body
+        if self.requestUnsignedBody {
+            updatedSigningProperties.set(key: SigningPropertyKeys.requestUnsignedBody, value: true)
+        }
 
         // Set service-specific signing properties if needed.
         try CustomSigningPropertiesSetter().setServiceSpecificSigningProperties(

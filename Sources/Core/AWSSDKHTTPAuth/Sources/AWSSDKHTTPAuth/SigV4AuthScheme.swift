@@ -37,8 +37,9 @@ public struct SigV4AuthScheme: AuthScheme {
             value: context.isBidirectionalStreamingEnabled
         )
 
-        // Set signing name and signing region flags
-        updatedSigningProperties.set(key: SigningPropertyKeys.signingName, value: context.signingName)
+        // Set resolved signing name and signing region flags
+        let signingName = updatedSigningProperties.get(key: SigningPropertyKeys.signingName) ?? context.signingName
+        updatedSigningProperties.set(key: SigningPropertyKeys.signingName, value: signingName)
         updatedSigningProperties.set(
             key: SigningPropertyKeys.signingRegion,
             value: signingProperties.get(key: SigningPropertyKeys.signingRegion) ?? context.signingRegion

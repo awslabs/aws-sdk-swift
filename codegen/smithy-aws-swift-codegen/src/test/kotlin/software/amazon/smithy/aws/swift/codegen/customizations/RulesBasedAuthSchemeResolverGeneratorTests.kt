@@ -149,6 +149,13 @@ public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
                     sigV4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: param.signingRegionSet?[0])
                     sigV4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
                     validAuthOptions.append(sigV4Option)
+                case .sigV4S3Express(let param):
+                    var authOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4-s3express")
+                    authOption.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: param.signingName)
+                    authOption.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: param.signingRegion)
+                    authOption.identityProperties.set(key: AWSSDKIdentity.AWSIdentityPropertyKeys.bucket, value: serviceParams.bucket)
+                    authOption.identityProperties.set(key: AWSSDKIdentity.AWSIdentityPropertyKeys.s3ExpressClient, value: S3ExpressCreateSessionClient())
+                    validAuthOptions.append(authOption)
                 default:
                     throw Smithy.ClientError.authError("Unknown auth scheme name: \(scheme.name)")
             }
