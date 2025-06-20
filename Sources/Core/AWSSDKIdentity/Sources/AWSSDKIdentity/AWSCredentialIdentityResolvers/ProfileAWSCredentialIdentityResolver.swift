@@ -275,7 +275,6 @@ private extension CRTFileBasedConfigurationSection {
     }
 
     func hasSSO() -> Bool {
-        val(for: "sso_session") != nil &&
         val(for: "sso_account_id") != nil &&
         val(for: "sso_role_name") != nil
     }
