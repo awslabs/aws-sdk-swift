@@ -451,6 +451,10 @@ extension PaymentCryptographyClientTypes {
         case eccNistP256
         case eccNistP384
         case eccNistP521
+        case hmacSha224
+        case hmacSha256
+        case hmacSha384
+        case hmacSha512
         case rsa2048
         case rsa3072
         case rsa4096
@@ -466,6 +470,10 @@ extension PaymentCryptographyClientTypes {
                 .eccNistP256,
                 .eccNistP384,
                 .eccNistP521,
+                .hmacSha224,
+                .hmacSha256,
+                .hmacSha384,
+                .hmacSha512,
                 .rsa2048,
                 .rsa3072,
                 .rsa4096,
@@ -487,6 +495,10 @@ extension PaymentCryptographyClientTypes {
             case .eccNistP256: return "ECC_NIST_P256"
             case .eccNistP384: return "ECC_NIST_P384"
             case .eccNistP521: return "ECC_NIST_P521"
+            case .hmacSha224: return "HMAC_SHA224"
+            case .hmacSha256: return "HMAC_SHA256"
+            case .hmacSha384: return "HMAC_SHA384"
+            case .hmacSha512: return "HMAC_SHA512"
             case .rsa2048: return "RSA_2048"
             case .rsa3072: return "RSA_3072"
             case .rsa4096: return "RSA_4096"
@@ -708,12 +720,14 @@ extension PaymentCryptographyClientTypes {
     public enum KeyCheckValueAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ansiX924
         case cmac
+        case hmac
         case sdkUnknown(Swift.String)
 
         public static var allCases: [KeyCheckValueAlgorithm] {
             return [
                 .ansiX924,
-                .cmac
+                .cmac,
+                .hmac
             ]
         }
 
@@ -726,6 +740,7 @@ extension PaymentCryptographyClientTypes {
             switch self {
             case .ansiX924: return "ANSI_X9_24"
             case .cmac: return "CMAC"
+            case .hmac: return "HMAC"
             case let .sdkUnknown(s): return s
             }
         }
@@ -754,7 +769,7 @@ extension PaymentCryptographyClientTypes {
 }
 
 public struct CreateKeyInput: Swift.Sendable {
-    /// The cryptographic usage of an ECDH derived key as deﬁned in section A.5.2 of the TR-31 spec.
+    /// The intended cryptographic usage of keys derived from the ECC key pair to be created. After creating an ECC key pair, you cannot change the intended cryptographic usage of keys derived from it using ECDH.
     public var deriveKeyUsage: PaymentCryptographyClientTypes.DeriveKeyUsage?
     /// Specifies whether to enable the key. If the key is enabled, it is activated for use within the service. If the key is not enabled, then it is created but not activated. The default value is enabled.
     public var enabled: Swift.Bool?
@@ -970,9 +985,9 @@ public struct DeleteKeyOutput: Swift.Sendable {
 
 extension PaymentCryptographyClientTypes {
 
-    /// Derivation data used to derive an ECDH key.
+    /// The shared information used when deriving a key using ECDH.
     public enum DiffieHellmanDerivationData: Swift.Sendable {
-        /// A byte string containing information that binds the ECDH derived key to the two parties involved or to the context of the key. It may include details like identities of the two parties deriving the key, context of the operation, session IDs, and optionally a nonce. It must not contain zero bytes, and re-using shared information for multiple ECDH key derivations is not recommended.
+        /// A string containing information that binds the ECDH derived key to the two parties involved or to the context of the key. It may include details like identities of the two parties deriving the key, context of the operation, session IDs, and optionally a nonce. It must not contain zero bytes. It is not recommended to reuse shared information for multiple ECDH key derivations, as it could result in derived key material being the same across different derivations.
         case sharedinformation(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -1019,6 +1034,10 @@ extension PaymentCryptographyClientTypes {
         case aes128
         case aes192
         case aes256
+        case hmacSha224
+        case hmacSha256
+        case hmacSha384
+        case hmacSha512
         case tdes2key
         case tdes3key
         case sdkUnknown(Swift.String)
@@ -1028,6 +1047,10 @@ extension PaymentCryptographyClientTypes {
                 .aes128,
                 .aes192,
                 .aes256,
+                .hmacSha224,
+                .hmacSha256,
+                .hmacSha384,
+                .hmacSha512,
                 .tdes2key,
                 .tdes3key
             ]
@@ -1043,6 +1066,10 @@ extension PaymentCryptographyClientTypes {
             case .aes128: return "AES_128"
             case .aes192: return "AES_192"
             case .aes256: return "AES_256"
+            case .hmacSha224: return "HMAC_SHA224"
+            case .hmacSha256: return "HMAC_SHA256"
+            case .hmacSha384: return "HMAC_SHA384"
+            case .hmacSha512: return "HMAC_SHA512"
             case .tdes2key: return "TDES_2KEY"
             case .tdes3key: return "TDES_3KEY"
             case let .sdkUnknown(s): return s
@@ -1178,29 +1205,29 @@ extension PaymentCryptographyClientTypes {
 
 extension PaymentCryptographyClientTypes {
 
-    /// Parameter information for key material export using the asymmetric ECDH key exchange method.
+    /// Key derivation parameter information for key material export using asymmetric ECDH key exchange method.
     public struct ExportDiffieHellmanTr31KeyBlock: Swift.Sendable {
-        /// The keyARN of the certificate that signed the client's PublicKeyCertificate.
+        /// The keyARN of the CA that signed the PublicKeyCertificate for the client's receiving ECC key pair.
         /// This member is required.
         public var certificateAuthorityPublicKeyIdentifier: Swift.String?
-        /// Derivation data used to derive an ECDH key.
+        /// The shared information used when deriving a key using ECDH.
         /// This member is required.
         public var derivationData: PaymentCryptographyClientTypes.DiffieHellmanDerivationData?
-        /// The key algorithm of the derived ECDH key.
+        /// The key algorithm of the shared derived ECDH key.
         /// This member is required.
         public var deriveKeyAlgorithm: PaymentCryptographyClientTypes.SymmetricKeyAlgorithm?
         /// Optional metadata for export associated with the key material. This data is signed but transmitted in clear text.
         public var keyBlockHeaders: PaymentCryptographyClientTypes.KeyBlockHeaders?
-        /// The key derivation function to use for deriving a key using ECDH.
+        /// The key derivation function to use when deriving a key using ECDH.
         /// This member is required.
         public var keyDerivationFunction: PaymentCryptographyClientTypes.KeyDerivationFunction?
-        /// The hash type to use for deriving a key using ECDH.
+        /// The hash type to use when deriving a key using ECDH.
         /// This member is required.
         public var keyDerivationHashAlgorithm: PaymentCryptographyClientTypes.KeyDerivationHashAlgorithm?
-        /// The keyARN of the asymmetric ECC key.
+        /// The keyARN of the asymmetric ECC key created within Amazon Web Services Payment Cryptography.
         /// This member is required.
         public var privateKeyIdentifier: Swift.String?
-        /// The client's public key certificate in PEM format (base64 encoded) to use for ECDH key derivation.
+        /// The public key certificate of the client's receiving ECC key pair, in PEM format (base64 encoded), to use for ECDH key derivation.
         /// This member is required.
         public var publicKeyCertificate: Swift.String?
 
@@ -1343,7 +1370,7 @@ extension PaymentCryptographyClientTypes {
         /// The KeyARN of the certificate chain that signs the wrapping key certificate during TR-34 key export.
         /// This member is required.
         public var certificateAuthorityPublicKeyIdentifier: Swift.String?
-        /// The export token to initiate key export from Amazon Web Services Payment Cryptography. It also contains the signing key certificate that will sign the wrapped key during TR-34 key block generation. Call [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html) to receive an export token. It expires after 7 days. You can use the same export token to export multiple keys from the same service account.
+        /// The export token to initiate key export from Amazon Web Services Payment Cryptography. It also contains the signing key certificate that will sign the wrapped key during TR-34 key block generation. Call [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html) to receive an export token. It expires after 30 days. You can use the same export token to export multiple keys from the same service account.
         /// This member is required.
         public var exportToken: Swift.String?
         /// The format of key block that Amazon Web Services Payment Cryptography will use during key export.
@@ -1390,7 +1417,7 @@ extension PaymentCryptographyClientTypes {
         case tr34keyblock(PaymentCryptographyClientTypes.ExportTr34KeyBlock)
         /// Parameter information for key material export using asymmetric RSA wrap and unwrap key exchange method
         case keycryptogram(PaymentCryptographyClientTypes.ExportKeyCryptogram)
-        /// Parameter information for key material export using the asymmetric ECDH key exchange method.
+        /// Key derivation parameter information for key material export using asymmetric ECDH key exchange method.
         case diffiehellmantr31keyblock(PaymentCryptographyClientTypes.ExportDiffieHellmanTr31KeyBlock)
         case sdkUnknown(Swift.String)
     }
@@ -1579,7 +1606,7 @@ public struct GetParametersForExportInput: Swift.Sendable {
 }
 
 public struct GetParametersForExportOutput: Swift.Sendable {
-    /// The export token to initiate key export from Amazon Web Services Payment Cryptography. The export token expires after 7 days. You can use the same export token to export multiple keys from the same service account.
+    /// The export token to initiate key export from Amazon Web Services Payment Cryptography. The export token expires after 30 days. You can use the same export token to export multiple keys from the same service account.
     /// This member is required.
     public var exportToken: Swift.String?
     /// The validity period of the export token.
@@ -1588,7 +1615,7 @@ public struct GetParametersForExportOutput: Swift.Sendable {
     /// The algorithm of the signing key certificate for use in TR-34 key block generation. RSA_2048 is the only signing key algorithm allowed.
     /// This member is required.
     public var signingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
-    /// The signing key certificate in PEM format (base64 encoded) of the public key for signature within the TR-34 key block. The certificate expires after 7 days.
+    /// The signing key certificate in PEM format (base64 encoded) of the public key for signature within the TR-34 key block. The certificate expires after 30 days.
     /// This member is required.
     public var signingKeyCertificate: Swift.String?
     /// The root certificate authority (CA) that signed the signing key certificate in PEM format (base64 encoded).
@@ -1633,7 +1660,7 @@ public struct GetParametersForImportInput: Swift.Sendable {
 }
 
 public struct GetParametersForImportOutput: Swift.Sendable {
-    /// The import token to initiate key import into Amazon Web Services Payment Cryptography. The import token expires after 7 days. You can use the same import token to import multiple keys to the same service account.
+    /// The import token to initiate key import into Amazon Web Services Payment Cryptography. The import token expires after 30 days. You can use the same import token to import multiple keys to the same service account.
     /// This member is required.
     public var importToken: Swift.String?
     /// The validity period of the import token.
@@ -1642,7 +1669,7 @@ public struct GetParametersForImportOutput: Swift.Sendable {
     /// The algorithm of the wrapping key for use within TR-34 WrappedKeyBlock or RSA WrappedKeyCryptogram.
     /// This member is required.
     public var wrappingKeyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
-    /// The wrapping key certificate in PEM format (base64 encoded) of the wrapping key for use within the TR-34 key block. The certificate expires in 7 days.
+    /// The wrapping key certificate in PEM format (base64 encoded) of the wrapping key for use within the TR-34 key block. The certificate expires in 30 days.
     /// This member is required.
     public var wrappingKeyCertificate: Swift.String?
     /// The Amazon Web Services Payment Cryptography root certificate authority (CA) that signed the wrapping key certificate in PEM format (base64 encoded).
@@ -1705,27 +1732,27 @@ extension GetPublicKeyCertificateOutput: Swift.CustomDebugStringConvertible {
 
 extension PaymentCryptographyClientTypes {
 
-    /// Parameter information for key material import using the asymmetric ECDH key exchange method.
+    /// Key derivation parameter information for key material import using asymmetric ECDH key exchange method.
     public struct ImportDiffieHellmanTr31KeyBlock: Swift.Sendable {
-        /// The keyARN of the certificate that signed the client's PublicKeyCertificate.
+        /// The keyARN of the CA that signed the PublicKeyCertificate for the client's receiving ECC key pair.
         /// This member is required.
         public var certificateAuthorityPublicKeyIdentifier: Swift.String?
-        /// Derivation data used to derive an ECDH key.
+        /// The shared information used when deriving a key using ECDH.
         /// This member is required.
         public var derivationData: PaymentCryptographyClientTypes.DiffieHellmanDerivationData?
-        /// The key algorithm of the derived ECDH key.
+        /// The key algorithm of the shared derived ECDH key.
         /// This member is required.
         public var deriveKeyAlgorithm: PaymentCryptographyClientTypes.SymmetricKeyAlgorithm?
-        /// The key derivation function to use for deriving a key using ECDH.
+        /// The key derivation function to use when deriving a key using ECDH.
         /// This member is required.
         public var keyDerivationFunction: PaymentCryptographyClientTypes.KeyDerivationFunction?
-        /// The hash type to use for deriving a key using ECDH.
+        /// The hash type to use when deriving a key using ECDH.
         /// This member is required.
         public var keyDerivationHashAlgorithm: PaymentCryptographyClientTypes.KeyDerivationHashAlgorithm?
-        /// The keyARN of the asymmetric ECC key.
+        /// The keyARN of the asymmetric ECC key created within Amazon Web Services Payment Cryptography.
         /// This member is required.
         public var privateKeyIdentifier: Swift.String?
-        /// The client's public key certificate in PEM format (base64 encoded) to use for ECDH key derivation.
+        /// The public key certificate of the client's receiving ECC key pair, in PEM format (base64 encoded), to use for ECDH key derivation.
         /// This member is required.
         public var publicKeyCertificate: Swift.String?
         /// The ECDH wrapped key block to import.
@@ -1766,7 +1793,7 @@ extension PaymentCryptographyClientTypes {
         /// Specifies whether the key is exportable from the service.
         /// This member is required.
         public var exportable: Swift.Bool?
-        /// The import token that initiates key import using the asymmetric RSA wrap and unwrap key exchange method into AWS Payment Cryptography. It expires after 7 days. You can use the same import token to import multiple keys to the same service account.
+        /// The import token that initiates key import using the asymmetric RSA wrap and unwrap key exchange method into AWS Payment Cryptography. It expires after 30 days. You can use the same import token to import multiple keys to the same service account.
         /// This member is required.
         public var importToken: Swift.String?
         /// The role of the key, the algorithm it supports, and the cryptographic operations allowed with the key. This data is immutable after the key is created.
@@ -1858,7 +1885,7 @@ extension PaymentCryptographyClientTypes {
         /// The KeyARN of the certificate chain that signs the signing key certificate during TR-34 key import.
         /// This member is required.
         public var certificateAuthorityPublicKeyIdentifier: Swift.String?
-        /// The import token that initiates key import using the asymmetric TR-34 key exchange method into Amazon Web Services Payment Cryptography. It expires after 7 days. You can use the same import token to import multiple keys to the same service account.
+        /// The import token that initiates key import using the asymmetric TR-34 key exchange method into Amazon Web Services Payment Cryptography. It expires after 30 days. You can use the same import token to import multiple keys to the same service account.
         /// This member is required.
         public var importToken: Swift.String?
         /// The key block format to use during key import. The only value allowed is X9_TR34_2012.
@@ -1941,7 +1968,7 @@ extension PaymentCryptographyClientTypes {
         case tr34keyblock(PaymentCryptographyClientTypes.ImportTr34KeyBlock)
         /// Parameter information for key material import using asymmetric RSA wrap and unwrap key exchange method.
         case keycryptogram(PaymentCryptographyClientTypes.ImportKeyCryptogram)
-        /// Parameter information for key material import using the asymmetric ECDH key exchange method.
+        /// Key derivation parameter information for key material import using asymmetric ECDH key exchange method.
         case diffiehellmantr31keyblock(PaymentCryptographyClientTypes.ImportDiffieHellmanTr31KeyBlock)
         case sdkUnknown(Swift.String)
     }

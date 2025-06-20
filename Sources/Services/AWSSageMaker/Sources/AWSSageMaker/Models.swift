@@ -3488,14 +3488,7 @@ extension SageMakerClientTypes {
         public var instanceCount: Swift.Int?
         /// The configuration of a heterogeneous cluster in JSON format.
         public var instanceGroups: [SageMakerClientTypes.InstanceGroup]?
-        /// The ML compute instance type. SageMaker Training on Amazon Elastic Compute Cloud (EC2) P4de instances is in preview release starting December 9th, 2022. [Amazon EC2 P4de instances](http://aws.amazon.com/ec2/instance-types/p4/) (currently in preview) are powered by 8 NVIDIA A100 GPUs with 80GB high-performance HBM2e GPU memory, which accelerate the speed of training ML models that need to be trained on large datasets of high-resolution data. In this preview release, Amazon SageMaker supports ML training jobs on P4de instances (ml.p4de.24xlarge) to reduce model training time. The ml.p4de.24xlarge instances are available in the following Amazon Web Services Regions.
-        ///
-        /// * US East (N. Virginia) (us-east-1)
-        ///
-        /// * US West (Oregon) (us-west-2)
-        ///
-        ///
-        /// To request quota limit increase and start using P4de instances, contact the SageMaker Training service team through your account team.
+        /// The ML compute instance type.
         public var instanceType: SageMakerClientTypes.TrainingInstanceType?
         /// The duration of time in seconds to retain configured resources in a warm pool for subsequent training jobs.
         public var keepAlivePeriodInSeconds: Swift.Int?
@@ -9536,6 +9529,177 @@ extension SageMakerClientTypes {
             values: [Swift.String]? = nil
         ) {
             self.values = values
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A key-value pair that represents a parameter for the CloudFormation stack.
+    public struct CfnStackCreateParameter: Swift.Sendable {
+        /// The name of the CloudFormation parameter.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the CloudFormation parameter.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The CloudFormation template provider configuration for creating infrastructure resources.
+    public struct CfnCreateTemplateProvider: Swift.Sendable {
+        /// An array of CloudFormation stack parameters.
+        public var parameters: [SageMakerClientTypes.CfnStackCreateParameter]?
+        /// The IAM role that CloudFormation assumes when creating the stack.
+        public var roleARN: Swift.String?
+        /// A unique identifier for the template within the project.
+        /// This member is required.
+        public var templateName: Swift.String?
+        /// The Amazon S3 URL of the CloudFormation template.
+        /// This member is required.
+        public var templateURL: Swift.String?
+
+        public init(
+            parameters: [SageMakerClientTypes.CfnStackCreateParameter]? = nil,
+            roleARN: Swift.String? = nil,
+            templateName: Swift.String? = nil,
+            templateURL: Swift.String? = nil
+        ) {
+            self.parameters = parameters
+            self.roleARN = roleARN
+            self.templateName = templateName
+            self.templateURL = templateURL
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details about the CloudFormation stack.
+    public struct CfnStackDetail: Swift.Sendable {
+        /// The unique identifier of the CloudFormation stack.
+        public var id: Swift.String?
+        /// The name of the CloudFormation stack.
+        public var name: Swift.String?
+        /// A human-readable message about the stack's current status.
+        /// This member is required.
+        public var statusMessage: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.id = id
+            self.name = name
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A key-value pair representing a parameter used in the CloudFormation stack.
+    public struct CfnStackParameter: Swift.Sendable {
+        /// The name of the CloudFormation parameter.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the CloudFormation parameter.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A key-value pair representing a parameter used in the CloudFormation stack.
+    public struct CfnStackUpdateParameter: Swift.Sendable {
+        /// The name of the CloudFormation parameter.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the CloudFormation parameter.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details about a CloudFormation template provider configuration and associated provisioning information.
+    public struct CfnTemplateProviderDetail: Swift.Sendable {
+        /// An array of CloudFormation stack parameters.
+        public var parameters: [SageMakerClientTypes.CfnStackParameter]?
+        /// The IAM role used by CloudFormation to create the stack.
+        public var roleARN: Swift.String?
+        /// Information about the CloudFormation stack created by the template provider.
+        public var stackDetail: SageMakerClientTypes.CfnStackDetail?
+        /// The unique identifier of the template within the project.
+        /// This member is required.
+        public var templateName: Swift.String?
+        /// The Amazon S3 URL of the CloudFormation template.
+        /// This member is required.
+        public var templateURL: Swift.String?
+
+        public init(
+            parameters: [SageMakerClientTypes.CfnStackParameter]? = nil,
+            roleARN: Swift.String? = nil,
+            stackDetail: SageMakerClientTypes.CfnStackDetail? = nil,
+            templateName: Swift.String? = nil,
+            templateURL: Swift.String? = nil
+        ) {
+            self.parameters = parameters
+            self.roleARN = roleARN
+            self.stackDetail = stackDetail
+            self.templateName = templateName
+            self.templateURL = templateURL
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Contains configuration details for updating an existing CloudFormation template provider in the project.
+    public struct CfnUpdateTemplateProvider: Swift.Sendable {
+        /// An array of CloudFormation stack parameters.
+        public var parameters: [SageMakerClientTypes.CfnStackUpdateParameter]?
+        /// The unique identifier of the template to update within the project.
+        /// This member is required.
+        public var templateName: Swift.String?
+        /// The Amazon S3 URL of the CloudFormation template.
+        /// This member is required.
+        public var templateURL: Swift.String?
+
+        public init(
+            parameters: [SageMakerClientTypes.CfnStackUpdateParameter]? = nil,
+            templateName: Swift.String? = nil,
+            templateURL: Swift.String? = nil
+        ) {
+            self.parameters = parameters
+            self.templateName = templateName
+            self.templateURL = templateURL
         }
     }
 }
@@ -24711,6 +24875,21 @@ extension SageMakerClientTypes {
     }
 }
 
+extension SageMakerClientTypes {
+
+    /// Contains configuration details for a template provider. Only one type of template provider can be specified.
+    public struct CreateTemplateProvider: Swift.Sendable {
+        /// The CloudFormation template provider configuration for creating infrastructure resources.
+        public var cfnTemplateProvider: SageMakerClientTypes.CfnCreateTemplateProvider?
+
+        public init(
+            cfnTemplateProvider: SageMakerClientTypes.CfnCreateTemplateProvider? = nil
+        ) {
+            self.cfnTemplateProvider = cfnTemplateProvider
+        }
+    }
+}
+
 public struct CreateProjectInput: Swift.Sendable {
     /// A description for the project.
     public var projectDescription: Swift.String?
@@ -24721,17 +24900,21 @@ public struct CreateProjectInput: Swift.Sendable {
     public var serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails?
     /// An array of key-value pairs that you want to use to organize and track your Amazon Web Services resource costs. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference Guide.
     public var tags: [SageMakerClientTypes.Tag]?
+    /// An array of template provider configurations for creating infrastructure resources for the project.
+    public var templateProviders: [SageMakerClientTypes.CreateTemplateProvider]?
 
     public init(
         projectDescription: Swift.String? = nil,
         projectName: Swift.String? = nil,
         serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil,
-        tags: [SageMakerClientTypes.Tag]? = nil
+        tags: [SageMakerClientTypes.Tag]? = nil,
+        templateProviders: [SageMakerClientTypes.CreateTemplateProvider]? = nil
     ) {
         self.projectDescription = projectDescription
         self.projectName = projectName
         self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
         self.tags = tags
+        self.templateProviders = templateProviders
     }
 }
 
@@ -34967,6 +35150,21 @@ extension SageMakerClientTypes {
     }
 }
 
+extension SageMakerClientTypes {
+
+    /// Details about a template provider configuration and associated provisioning information.
+    public struct TemplateProviderDetail: Swift.Sendable {
+        /// Details about a CloudFormation template provider configuration and associated provisioning information.
+        public var cfnTemplateProviderDetail: SageMakerClientTypes.CfnTemplateProviderDetail?
+
+        public init(
+            cfnTemplateProviderDetail: SageMakerClientTypes.CfnTemplateProviderDetail? = nil
+        ) {
+            self.cfnTemplateProviderDetail = cfnTemplateProviderDetail
+        }
+    }
+}
+
 public struct DescribeProjectOutput: Swift.Sendable {
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var createdBy: SageMakerClientTypes.UserContext?
@@ -34995,6 +35193,8 @@ public struct DescribeProjectOutput: Swift.Sendable {
     public var serviceCatalogProvisionedProductDetails: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails?
     /// Information used to provision a service catalog product. For information, see [What is Amazon Web Services Service Catalog](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html).
     public var serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails?
+    /// An array of template providers associated with the project.
+    public var templateProviderDetails: [SageMakerClientTypes.TemplateProviderDetail]?
 
     public init(
         createdBy: SageMakerClientTypes.UserContext? = nil,
@@ -35007,7 +35207,8 @@ public struct DescribeProjectOutput: Swift.Sendable {
         projectName: Swift.String? = nil,
         projectStatus: SageMakerClientTypes.ProjectStatus? = nil,
         serviceCatalogProvisionedProductDetails: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails? = nil,
-        serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil
+        serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil,
+        templateProviderDetails: [SageMakerClientTypes.TemplateProviderDetail]? = nil
     ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
@@ -35020,6 +35221,7 @@ public struct DescribeProjectOutput: Swift.Sendable {
         self.projectStatus = projectStatus
         self.serviceCatalogProvisionedProductDetails = serviceCatalogProvisionedProductDetails
         self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
+        self.templateProviderDetails = templateProviderDetails
     }
 }
 
@@ -48985,6 +49187,8 @@ extension SageMakerClientTypes {
         public var serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails?
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
         public var tags: [SageMakerClientTypes.Tag]?
+        /// An array of template providers associated with the project.
+        public var templateProviderDetails: [SageMakerClientTypes.TemplateProviderDetail]?
 
         public init(
             createdBy: SageMakerClientTypes.UserContext? = nil,
@@ -48998,7 +49202,8 @@ extension SageMakerClientTypes {
             projectStatus: SageMakerClientTypes.ProjectStatus? = nil,
             serviceCatalogProvisionedProductDetails: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails? = nil,
             serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil,
-            tags: [SageMakerClientTypes.Tag]? = nil
+            tags: [SageMakerClientTypes.Tag]? = nil,
+            templateProviderDetails: [SageMakerClientTypes.TemplateProviderDetail]? = nil
         ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -49012,6 +49217,7 @@ extension SageMakerClientTypes {
             self.serviceCatalogProvisionedProductDetails = serviceCatalogProvisionedProductDetails
             self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
             self.tags = tags
+            self.templateProviderDetails = templateProviderDetails
         }
     }
 }
@@ -52112,6 +52318,21 @@ extension SageMakerClientTypes {
     }
 }
 
+extension SageMakerClientTypes {
+
+    /// Contains configuration details for updating an existing template provider in the project.
+    public struct UpdateTemplateProvider: Swift.Sendable {
+        /// The CloudFormation template provider configuration to update.
+        public var cfnTemplateProvider: SageMakerClientTypes.CfnUpdateTemplateProvider?
+
+        public init(
+            cfnTemplateProvider: SageMakerClientTypes.CfnUpdateTemplateProvider? = nil
+        ) {
+            self.cfnTemplateProvider = cfnTemplateProvider
+        }
+    }
+}
+
 public struct UpdateProjectInput: Swift.Sendable {
     /// The description for the project.
     public var projectDescription: Swift.String?
@@ -52122,17 +52343,21 @@ public struct UpdateProjectInput: Swift.Sendable {
     public var serviceCatalogProvisioningUpdateDetails: SageMakerClientTypes.ServiceCatalogProvisioningUpdateDetails?
     /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html). In addition, the project must have tag update constraints set in order to include this parameter in the request. For more information, see [Amazon Web Services Service Catalog Tag Update Constraints](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/constraints-resourceupdate.html).
     public var tags: [SageMakerClientTypes.Tag]?
+    /// The template providers to update in the project.
+    public var templateProvidersToUpdate: [SageMakerClientTypes.UpdateTemplateProvider]?
 
     public init(
         projectDescription: Swift.String? = nil,
         projectName: Swift.String? = nil,
         serviceCatalogProvisioningUpdateDetails: SageMakerClientTypes.ServiceCatalogProvisioningUpdateDetails? = nil,
-        tags: [SageMakerClientTypes.Tag]? = nil
+        tags: [SageMakerClientTypes.Tag]? = nil,
+        templateProvidersToUpdate: [SageMakerClientTypes.UpdateTemplateProvider]? = nil
     ) {
         self.projectDescription = projectDescription
         self.projectName = projectName
         self.serviceCatalogProvisioningUpdateDetails = serviceCatalogProvisioningUpdateDetails
         self.tags = tags
+        self.templateProvidersToUpdate = templateProvidersToUpdate
     }
 }
 
@@ -55835,6 +56060,7 @@ extension CreateProjectInput {
         try writer["ProjectName"].write(value.projectName)
         try writer["ServiceCatalogProvisioningDetails"].write(value.serviceCatalogProvisioningDetails, with: SageMakerClientTypes.ServiceCatalogProvisioningDetails.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TemplateProviders"].writeList(value.templateProviders, memberWritingClosure: SageMakerClientTypes.CreateTemplateProvider.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -59049,6 +59275,7 @@ extension UpdateProjectInput {
         try writer["ProjectName"].write(value.projectName)
         try writer["ServiceCatalogProvisioningUpdateDetails"].write(value.serviceCatalogProvisioningUpdateDetails, with: SageMakerClientTypes.ServiceCatalogProvisioningUpdateDetails.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TemplateProvidersToUpdate"].writeList(value.templateProvidersToUpdate, memberWritingClosure: SageMakerClientTypes.UpdateTemplateProvider.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -61755,6 +61982,7 @@ extension DescribeProjectOutput {
         value.projectStatus = try reader["ProjectStatus"].readIfPresent() ?? .sdkUnknown("")
         value.serviceCatalogProvisionedProductDetails = try reader["ServiceCatalogProvisionedProductDetails"].readIfPresent(with: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails.read(from:))
         value.serviceCatalogProvisioningDetails = try reader["ServiceCatalogProvisioningDetails"].readIfPresent(with: SageMakerClientTypes.ServiceCatalogProvisioningDetails.read(from:))
+        value.templateProviderDetails = try reader["TemplateProviderDetails"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TemplateProviderDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -76487,6 +76715,53 @@ extension SageMakerClientTypes.ServiceCatalogProvisionedProductDetails {
     }
 }
 
+extension SageMakerClientTypes.TemplateProviderDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TemplateProviderDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.TemplateProviderDetail()
+        value.cfnTemplateProviderDetail = try reader["CfnTemplateProviderDetail"].readIfPresent(with: SageMakerClientTypes.CfnTemplateProviderDetail.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.CfnTemplateProviderDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CfnTemplateProviderDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.CfnTemplateProviderDetail()
+        value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
+        value.templateURL = try reader["TemplateURL"].readIfPresent() ?? ""
+        value.roleARN = try reader["RoleARN"].readIfPresent()
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CfnStackParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stackDetail = try reader["StackDetail"].readIfPresent(with: SageMakerClientTypes.CfnStackDetail.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.CfnStackDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CfnStackDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.CfnStackDetail()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SageMakerClientTypes.CfnStackParameter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CfnStackParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.CfnStackParameter()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.SpaceSettings {
 
     static func write(value: SageMakerClientTypes.SpaceSettings?, to writer: SmithyJSON.Writer) throws {
@@ -79239,6 +79514,7 @@ extension SageMakerClientTypes.Project {
         value.projectStatus = try reader["ProjectStatus"].readIfPresent()
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.templateProviderDetails = try reader["TemplateProviderDetails"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TemplateProviderDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
@@ -79774,6 +80050,34 @@ extension SageMakerClientTypes.PipelineDefinitionS3Location {
     }
 }
 
+extension SageMakerClientTypes.CreateTemplateProvider {
+
+    static func write(value: SageMakerClientTypes.CreateTemplateProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CfnTemplateProvider"].write(value.cfnTemplateProvider, with: SageMakerClientTypes.CfnCreateTemplateProvider.write(value:to:))
+    }
+}
+
+extension SageMakerClientTypes.CfnCreateTemplateProvider {
+
+    static func write(value: SageMakerClientTypes.CfnCreateTemplateProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: SageMakerClientTypes.CfnStackCreateParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["TemplateName"].write(value.templateName)
+        try writer["TemplateURL"].write(value.templateURL)
+    }
+}
+
+extension SageMakerClientTypes.CfnStackCreateParameter {
+
+    static func write(value: SageMakerClientTypes.CfnStackCreateParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+}
+
 extension SageMakerClientTypes.SessionChainingConfig {
 
     static func write(value: SageMakerClientTypes.SessionChainingConfig?, to writer: SmithyJSON.Writer) throws {
@@ -80022,6 +80326,33 @@ extension SageMakerClientTypes.ServiceCatalogProvisioningUpdateDetails {
         guard let value else { return }
         try writer["ProvisioningArtifactId"].write(value.provisioningArtifactId)
         try writer["ProvisioningParameters"].writeList(value.provisioningParameters, memberWritingClosure: SageMakerClientTypes.ProvisioningParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SageMakerClientTypes.UpdateTemplateProvider {
+
+    static func write(value: SageMakerClientTypes.UpdateTemplateProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CfnTemplateProvider"].write(value.cfnTemplateProvider, with: SageMakerClientTypes.CfnUpdateTemplateProvider.write(value:to:))
+    }
+}
+
+extension SageMakerClientTypes.CfnUpdateTemplateProvider {
+
+    static func write(value: SageMakerClientTypes.CfnUpdateTemplateProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: SageMakerClientTypes.CfnStackUpdateParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TemplateName"].write(value.templateName)
+        try writer["TemplateURL"].write(value.templateURL)
+    }
+}
+
+extension SageMakerClientTypes.CfnStackUpdateParameter {
+
+    static func write(value: SageMakerClientTypes.CfnStackUpdateParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
     }
 }
 

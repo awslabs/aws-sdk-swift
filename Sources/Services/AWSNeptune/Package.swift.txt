@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "AWSNeptune",
     platforms: [
-        .macOS(.v10_15), .iOS(.v13)
+        .macOS(.v12), .iOS(.v13)
     ],
     products: [
         .library(name: "AWSNeptune", targets: ["AWSNeptune"])

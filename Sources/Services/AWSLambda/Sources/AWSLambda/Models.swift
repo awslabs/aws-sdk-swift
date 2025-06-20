@@ -617,15 +617,178 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
+    public enum KafkaSchemaRegistryAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case basicAuth
+        case clientCertificateTlsAuth
+        case serverRootCaCertificate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KafkaSchemaRegistryAuthType] {
+            return [
+                .basicAuth,
+                .clientCertificateTlsAuth,
+                .serverRootCaCertificate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .basicAuth: return "BASIC_AUTH"
+            case .clientCertificateTlsAuth: return "CLIENT_CERTIFICATE_TLS_AUTH"
+            case .serverRootCaCertificate: return "SERVER_ROOT_CA_CERTIFICATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Specific access configuration settings that tell Lambda how to authenticate with your schema registry. If you're working with an Glue schema registry, don't provide authentication details in this object. Instead, ensure that your execution role has the required permissions for Lambda to access your cluster. If you're working with a Confluent schema registry, choose the authentication method in the Type field, and provide the Secrets Manager secret ARN in the URI field.
+    public struct KafkaSchemaRegistryAccessConfig: Swift.Sendable {
+        /// The type of authentication Lambda uses to access your schema registry.
+        public var type: LambdaClientTypes.KafkaSchemaRegistryAuthType?
+        /// The URI of the secret (Secrets Manager secret ARN) to authenticate with your schema registry.
+        public var uri: Swift.String?
+
+        public init(
+            type: LambdaClientTypes.KafkaSchemaRegistryAuthType? = nil,
+            uri: Swift.String? = nil
+        ) {
+            self.type = type
+            self.uri = uri
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum SchemaRegistryEventRecordFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case json
+        case source
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SchemaRegistryEventRecordFormat] {
+            return [
+                .json,
+                .source
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "JSON"
+            case .source: return "SOURCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum KafkaSchemaValidationAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case key
+        case value
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KafkaSchemaValidationAttribute] {
+            return [
+                .key,
+                .value
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .key: return "KEY"
+            case .value: return "VALUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Specific schema validation configuration settings that tell Lambda the message attributes you want to validate and filter using your schema registry.
+    public struct KafkaSchemaValidationConfig: Swift.Sendable {
+        /// The attributes you want your schema registry to validate and filter for. If you selected JSON as the EventRecordFormat, Lambda also deserializes the selected message attributes.
+        public var attribute: LambdaClientTypes.KafkaSchemaValidationAttribute?
+
+        public init(
+            attribute: LambdaClientTypes.KafkaSchemaValidationAttribute? = nil
+        ) {
+            self.attribute = attribute
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Specific configuration settings for a Kafka schema registry.
+    public struct KafkaSchemaRegistryConfig: Swift.Sendable {
+        /// An array of access configuration objects that tell Lambda how to authenticate with your schema registry.
+        public var accessConfigs: [LambdaClientTypes.KafkaSchemaRegistryAccessConfig]?
+        /// The record format that Lambda delivers to your function after schema validation.
+        ///
+        /// * Choose JSON to have Lambda deliver the record to your function as a standard JSON object.
+        ///
+        /// * Choose SOURCE to have Lambda deliver the record to your function in its original source format. Lambda removes all schema metadata, such as the schema ID, before sending the record to your function.
+        public var eventRecordFormat: LambdaClientTypes.SchemaRegistryEventRecordFormat?
+        /// The URI for your schema registry. The correct URI format depends on the type of schema registry you're using.
+        ///
+        /// * For Glue schema registries, use the ARN of the registry.
+        ///
+        /// * For Confluent schema registries, use the URL of the registry.
+        public var schemaRegistryURI: Swift.String?
+        /// An array of schema validation configuration objects, which tell Lambda the message attributes you want to validate and filter using your schema registry.
+        public var schemaValidationConfigs: [LambdaClientTypes.KafkaSchemaValidationConfig]?
+
+        public init(
+            accessConfigs: [LambdaClientTypes.KafkaSchemaRegistryAccessConfig]? = nil,
+            eventRecordFormat: LambdaClientTypes.SchemaRegistryEventRecordFormat? = nil,
+            schemaRegistryURI: Swift.String? = nil,
+            schemaValidationConfigs: [LambdaClientTypes.KafkaSchemaValidationConfig]? = nil
+        ) {
+            self.accessConfigs = accessConfigs
+            self.eventRecordFormat = eventRecordFormat
+            self.schemaRegistryURI = schemaRegistryURI
+            self.schemaValidationConfigs = schemaValidationConfigs
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
     /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
     public struct AmazonManagedKafkaEventSourceConfig: Swift.Sendable {
         /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see [Customizable consumer group ID](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-consumer-group-id).
         public var consumerGroupId: Swift.String?
+        /// Specific configuration settings for a Kafka schema registry.
+        public var schemaRegistryConfig: LambdaClientTypes.KafkaSchemaRegistryConfig?
 
         public init(
-            consumerGroupId: Swift.String? = nil
+            consumerGroupId: Swift.String? = nil,
+            schemaRegistryConfig: LambdaClientTypes.KafkaSchemaRegistryConfig? = nil
         ) {
             self.consumerGroupId = consumerGroupId
+            self.schemaRegistryConfig = schemaRegistryConfig
         }
     }
 }
@@ -893,7 +1056,7 @@ public struct CreateCodeSigningConfigOutput: Swift.Sendable {
 
 extension LambdaClientTypes {
 
-    /// A destination for events that failed processing.
+    /// A destination for events that failed processing. For more information, see [Adding a destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html#invocation-async-destinations).
     public struct OnFailure: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the destination resource. To retain records of unsuccessful [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Amazon S3 bucket, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from [Kinesis](https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html), [DynamoDB](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html), [self-managed Kafka](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-smaa-onfailure-destination) or [Amazon MSK](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-onfailure-destination), you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
         public var destination: Swift.String?
@@ -908,7 +1071,7 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    /// A destination for events that were processed successfully. To retain records of successful [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Lambda function, or Amazon EventBridge event bus as the destination.
+    /// A destination for events that were processed successfully. To retain records of successful [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Lambda function, or Amazon EventBridge event bus as the destination. OnSuccess is not supported in CreateEventSourceMapping or UpdateEventSourceMapping requests.
     public struct OnSuccess: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the destination resource.
         public var destination: Swift.String?
@@ -923,11 +1086,11 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    /// A configuration object that specifies the destination of an event after Lambda processes it.
+    /// A configuration object that specifies the destination of an event after Lambda processes it. For more information, see [Adding a destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html#invocation-async-destinations).
     public struct DestinationConfig: Swift.Sendable {
         /// The destination configuration for failed invocations.
         public var onFailure: LambdaClientTypes.OnFailure?
-        /// The destination configuration for successful invocations.
+        /// The destination configuration for successful invocations. Not supported in CreateEventSourceMapping or UpdateEventSourceMapping.
         public var onSuccess: LambdaClientTypes.OnSuccess?
 
         public init(
@@ -1168,13 +1331,17 @@ extension LambdaClientTypes {
 
     /// Specific configuration settings for a self-managed Apache Kafka event source.
     public struct SelfManagedKafkaEventSourceConfig: Swift.Sendable {
-        /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see [Customizable consumer group ID](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-consumer-group-id).
+        /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see [Customizable consumer group ID](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka-process.html#services-smaa-topic-add).
         public var consumerGroupId: Swift.String?
+        /// Specific configuration settings for a Kafka schema registry.
+        public var schemaRegistryConfig: LambdaClientTypes.KafkaSchemaRegistryConfig?
 
         public init(
-            consumerGroupId: Swift.String? = nil
+            consumerGroupId: Swift.String? = nil,
+            schemaRegistryConfig: LambdaClientTypes.KafkaSchemaRegistryConfig? = nil
         ) {
             self.consumerGroupId = consumerGroupId
+            self.schemaRegistryConfig = schemaRegistryConfig
         }
     }
 }
@@ -1495,7 +1662,7 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
     public var kmsKeyArn: Swift.String?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: Foundation.Date?
-    /// The result of the last Lambda invocation of your function.
+    /// The result of the event source mapping's last processing attempt.
     public var lastProcessingResult: Swift.String?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
@@ -1750,7 +1917,7 @@ extension LambdaClientTypes.FunctionCode: Swift.CustomDebugStringConvertible {
 
 extension LambdaClientTypes {
 
-    /// The [dead-letter queue](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#dlq) for failed asynchronous invocations.
+    /// The [dead-letter queue](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html#invocation-dlq) for failed asynchronous invocations.
     public struct DeadLetterConfig: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
         public var targetArn: Swift.String?
@@ -3259,7 +3426,7 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
     public var kmsKeyArn: Swift.String?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: Foundation.Date?
-    /// The result of the last Lambda invocation of your function.
+    /// The result of the event source mapping's last processing attempt.
     public var lastProcessingResult: Swift.String?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
@@ -3669,7 +3836,7 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
     public var kmsKeyArn: Swift.String?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: Foundation.Date?
-    /// The result of the last Lambda invocation of your function.
+    /// The result of the event source mapping's last processing attempt.
     public var lastProcessingResult: Swift.String?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
@@ -6078,7 +6245,7 @@ extension LambdaClientTypes {
         public var kmsKeyArn: Swift.String?
         /// The date that the event source mapping was last updated or that its state changed.
         public var lastModified: Foundation.Date?
-        /// The result of the last Lambda invocation of your function.
+        /// The result of the event source mapping's last processing attempt.
         public var lastProcessingResult: Swift.String?
         /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public var maximumBatchingWindowInSeconds: Swift.Int?
@@ -7629,6 +7796,8 @@ public struct UpdateCodeSigningConfigOutput: Swift.Sendable {
 }
 
 public struct UpdateEventSourceMappingInput: Swift.Sendable {
+    /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
+    public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).
     ///
     /// * Amazon Kinesis – Default 100. Max 10,000.
@@ -7686,6 +7855,8 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
     public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
     public var scalingConfig: LambdaClientTypes.ScalingConfig?
+    /// Specific configuration settings for a self-managed Apache Kafka event source.
+    public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     /// An array of authentication protocols or VPC components required to secure your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
     /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
@@ -7695,6 +7866,7 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
     public var uuid: Swift.String?
 
     public init(
+        amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig? = nil,
         batchSize: Swift.Int? = nil,
         bisectBatchOnFunctionError: Swift.Bool? = nil,
         destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
@@ -7711,10 +7883,12 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
         parallelizationFactor: Swift.Int? = nil,
         provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
+        selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
         sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
         tumblingWindowInSeconds: Swift.Int? = nil,
         uuid: Swift.String? = nil
     ) {
+        self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
         self.batchSize = batchSize
         self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
         self.destinationConfig = destinationConfig
@@ -7731,6 +7905,7 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
         self.parallelizationFactor = parallelizationFactor
         self.provisionedPollerConfig = provisionedPollerConfig
         self.scalingConfig = scalingConfig
+        self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
         self.sourceAccessConfigurations = sourceAccessConfigurations
         self.tumblingWindowInSeconds = tumblingWindowInSeconds
         self.uuid = uuid
@@ -7765,7 +7940,7 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
     public var kmsKeyArn: Swift.String?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: Foundation.Date?
-    /// The result of the last Lambda invocation of your function.
+    /// The result of the event source mapping's last processing attempt.
     public var lastProcessingResult: Swift.String?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
@@ -10045,6 +10220,7 @@ extension UpdateEventSourceMappingInput {
 
     static func write(value: UpdateEventSourceMappingInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AmazonManagedKafkaEventSourceConfig"].write(value.amazonManagedKafkaEventSourceConfig, with: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig.write(value:to:))
         try writer["BatchSize"].write(value.batchSize)
         try writer["BisectBatchOnFunctionError"].write(value.bisectBatchOnFunctionError)
         try writer["DestinationConfig"].write(value.destinationConfig, with: LambdaClientTypes.DestinationConfig.write(value:to:))
@@ -10061,6 +10237,7 @@ extension UpdateEventSourceMappingInput {
         try writer["ParallelizationFactor"].write(value.parallelizationFactor)
         try writer["ProvisionedPollerConfig"].write(value.provisionedPollerConfig, with: LambdaClientTypes.ProvisionedPollerConfig.write(value:to:))
         try writer["ScalingConfig"].write(value.scalingConfig, with: LambdaClientTypes.ScalingConfig.write(value:to:))
+        try writer["SelfManagedKafkaEventSourceConfig"].write(value.selfManagedKafkaEventSourceConfig, with: LambdaClientTypes.SelfManagedKafkaEventSourceConfig.write(value:to:))
         try writer["SourceAccessConfigurations"].writeList(value.sourceAccessConfigurations, memberWritingClosure: LambdaClientTypes.SourceAccessConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TumblingWindowInSeconds"].write(value.tumblingWindowInSeconds)
     }
@@ -13299,12 +13476,67 @@ extension LambdaClientTypes.AmazonManagedKafkaEventSourceConfig {
     static func write(value: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ConsumerGroupId"].write(value.consumerGroupId)
+        try writer["SchemaRegistryConfig"].write(value.schemaRegistryConfig, with: LambdaClientTypes.KafkaSchemaRegistryConfig.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AmazonManagedKafkaEventSourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.AmazonManagedKafkaEventSourceConfig()
         value.consumerGroupId = try reader["ConsumerGroupId"].readIfPresent()
+        value.schemaRegistryConfig = try reader["SchemaRegistryConfig"].readIfPresent(with: LambdaClientTypes.KafkaSchemaRegistryConfig.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.KafkaSchemaRegistryConfig {
+
+    static func write(value: LambdaClientTypes.KafkaSchemaRegistryConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessConfigs"].writeList(value.accessConfigs, memberWritingClosure: LambdaClientTypes.KafkaSchemaRegistryAccessConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EventRecordFormat"].write(value.eventRecordFormat)
+        try writer["SchemaRegistryURI"].write(value.schemaRegistryURI)
+        try writer["SchemaValidationConfigs"].writeList(value.schemaValidationConfigs, memberWritingClosure: LambdaClientTypes.KafkaSchemaValidationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.KafkaSchemaRegistryConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.KafkaSchemaRegistryConfig()
+        value.schemaRegistryURI = try reader["SchemaRegistryURI"].readIfPresent()
+        value.eventRecordFormat = try reader["EventRecordFormat"].readIfPresent()
+        value.accessConfigs = try reader["AccessConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.KafkaSchemaRegistryAccessConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.schemaValidationConfigs = try reader["SchemaValidationConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.KafkaSchemaValidationConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LambdaClientTypes.KafkaSchemaValidationConfig {
+
+    static func write(value: LambdaClientTypes.KafkaSchemaValidationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attribute"].write(value.attribute)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.KafkaSchemaValidationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.KafkaSchemaValidationConfig()
+        value.attribute = try reader["Attribute"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.KafkaSchemaRegistryAccessConfig {
+
+    static func write(value: LambdaClientTypes.KafkaSchemaRegistryAccessConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["URI"].write(value.uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.KafkaSchemaRegistryAccessConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.KafkaSchemaRegistryAccessConfig()
+        value.type = try reader["Type"].readIfPresent()
+        value.uri = try reader["URI"].readIfPresent()
         return value
     }
 }
@@ -13314,12 +13546,14 @@ extension LambdaClientTypes.SelfManagedKafkaEventSourceConfig {
     static func write(value: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ConsumerGroupId"].write(value.consumerGroupId)
+        try writer["SchemaRegistryConfig"].write(value.schemaRegistryConfig, with: LambdaClientTypes.KafkaSchemaRegistryConfig.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.SelfManagedKafkaEventSourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.SelfManagedKafkaEventSourceConfig()
         value.consumerGroupId = try reader["ConsumerGroupId"].readIfPresent()
+        value.schemaRegistryConfig = try reader["SchemaRegistryConfig"].readIfPresent(with: LambdaClientTypes.KafkaSchemaRegistryConfig.read(from:))
         return value
     }
 }
