@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "AWSNetworkMonitor",
     platforms: [
-        .macOS(.v10_15), .iOS(.v13)
+        .macOS(.v12), .iOS(.v13)
     ],
     products: [
         .library(name: "AWSNetworkMonitor", targets: ["AWSNetworkMonitor"])
@@ -25,6 +25,10 @@ let package = Package(
         ),
         .package(
             id: "aws-sdk-swift.AWSSDKIdentity",
+            exact: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.InternalAWSSTS",
             exact: "0.0.1"
         ),
         .package(
@@ -55,6 +59,10 @@ let package = Package(
                 .product(
                     name: "ClientRuntime",
                     package: "smithy-swift"
+                ),
+                .product(
+                    name: "InternalAWSSTS",
+                    package: "aws-sdk-swift.InternalAWSSTS"
                 ),
                 .product(
                     name: "Smithy",

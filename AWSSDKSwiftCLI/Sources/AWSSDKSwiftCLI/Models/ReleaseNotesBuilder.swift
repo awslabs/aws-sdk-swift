@@ -18,12 +18,6 @@ struct ReleaseNotesBuilder {
     let features: Features
     let featuresIDToServiceName: [String: String]
 
-    static let macOSVersionBumpAnnouncement: String = """
-    **Heads up!**
-    On June 19th, the minimum supported macOS version for this SDK will increase from 10.15 to 12.
-    [Read more](https://github.com/awslabs/aws-sdk-swift/discussions/1940)
-    """
-
     // MARK: - Build
 
     func build() throws -> String {
@@ -32,10 +26,7 @@ struct ReleaseNotesBuilder {
         let fullCommitLogLink = [
             "\n**Full Changelog**: https://github.com/\(repoOrg.rawValue)/\(repoType.rawValue)/compare/\(previousVersion)...\(newVersion)"
         ]
-        let contents = [
-            ReleaseNotesBuilder.macOSVersionBumpAnnouncement,
-            "## What's Changed"
-        ] + serviceClientChanges + sdkChanges + fullCommitLogLink
+        let contents = ["## What's Changed"] + serviceClientChanges + sdkChanges + fullCommitLogLink
         return contents.joined(separator: .newline)
     }
 
