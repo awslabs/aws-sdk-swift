@@ -14,19 +14,19 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolverParameters
 import struct SmithyHTTPAuthAPI.AuthOption
 
-internal struct STSAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+internal struct SSOAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
     public let operation: Swift.String
     // Region is used for SigV4 auth scheme
     public let region: Swift.String?
 }
 
-internal protocol STSAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
+internal protocol SSOAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
     // Intentionally empty.
     // This is the parent protocol that all auth scheme resolver implementations of
-    // the service STS must conform to.
+    // the service SSO must conform to.
 }
 
-internal struct DefaultSTSAuthSchemeResolver: STSAuthSchemeResolver {
+internal struct DefaultSSOAuthSchemeResolver: SSOAuthSchemeResolver {
 
     public let authSchemePreference: [String]
 
@@ -36,15 +36,15 @@ internal struct DefaultSTSAuthSchemeResolver: STSAuthSchemeResolver {
 
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
-        guard let serviceParams = params as? STSAuthSchemeResolverParameters else {
+        guard let serviceParams = params as? SSOAuthSchemeResolverParameters else {
             throw Smithy.ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
         }
         switch serviceParams.operation {
-            case "assumeRoleWithWebIdentity":
+            case "getRoleCredentials":
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             default:
                 var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
-                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "sts")
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "awsssoportal")
                 guard let region = serviceParams.region else {
                     throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
@@ -59,6 +59,6 @@ internal struct DefaultSTSAuthSchemeResolver: STSAuthSchemeResolver {
             throw Smithy.ClientError.dataNotFound("Operation name not configured in middleware context for auth scheme resolver params construction.")
         }
         let opRegion = context.getRegion()
-        return STSAuthSchemeResolverParameters(operation: opName, region: opRegion)
+        return SSOAuthSchemeResolverParameters(operation: opName, region: opRegion)
     }
 }

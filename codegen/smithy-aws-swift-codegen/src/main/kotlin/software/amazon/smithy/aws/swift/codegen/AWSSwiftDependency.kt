@@ -67,5 +67,25 @@ class AWSSwiftDependency {
                 "InternalAWSSTS",
                 SwiftDependency.DistributionMethod.SPR,
             )
+        val INTERNAL_AWS_SSO =
+            SwiftDependency(
+                "InternalAWSSSO",
+                "main",
+                "0.0.1",
+                "aws-sdk-swift",
+                "../../../aws-sdk-swift",
+                "InternalAWSSSO",
+                SwiftDependency.DistributionMethod.SPR,
+            )
+        val INTERNAL_AWS_SSO_OIDC =
+            SwiftDependency(
+                "InternalAWSSSOOIDC",
+                "main",
+                "0.0.1",
+                "aws-sdk-swift",
+                "../../../aws-sdk-swift",
+                "InternalAWSSSOOIDC",
+                SwiftDependency.DistributionMethod.SPR,
+            )
     }
 }

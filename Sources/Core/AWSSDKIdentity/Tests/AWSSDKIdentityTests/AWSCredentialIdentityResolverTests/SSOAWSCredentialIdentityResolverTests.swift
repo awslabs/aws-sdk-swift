@@ -12,16 +12,7 @@ import struct AWSSDKIdentity.SSOAWSCredentialIdentityResolver
 class SSOAWSCredentialIdentityResolverTests: XCTestCase {
     let configPath = Bundle.module.path(forResource: "sso_tests", ofType: nil)!
     let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
-    
-    func testCreateSSOAWSCredentialIdentityResolverNonexistentProfile() async throws {
-        XCTAssertThrowsError(try SSOAWSCredentialIdentityResolver(
-            profileName: "PROFILE_NOT_IN_SSO_TESTS_CONFIG_FILE",
-            configFilePath: configPath,
-            credentialsFilePath: credentialsPath
-            )
-        )
-    }
-    
+
     func testCreateSSOAWSCredentialIdentityResolverLegacyProfile() async throws {
         _ = try SSOAWSCredentialIdentityResolver(
             profileName: "user",

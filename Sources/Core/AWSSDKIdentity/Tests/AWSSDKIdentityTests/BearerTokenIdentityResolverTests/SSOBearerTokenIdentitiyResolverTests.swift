@@ -5,8 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct AWSSDKIdentity.SSOBearerTokenIdentityResolver
-import func AWSSDKIdentity.loadTokenFile
+@testable import struct AWSSDKIdentity.SSOBearerTokenIdentityResolver
 import struct Smithy.Attributes
 import XCTest
 
@@ -14,17 +13,19 @@ class SSOBearerTokenIdentityResolverTests: XCTestCase {
     let configPath = Bundle.module.path(forResource: "sso_tests", ofType: nil)!
     let expectedAccessToken = "ACCESS_TOKEN_STRING"
 
-    func testLoadTokenFile() throws {
+    func testLoadToken() throws {
         // Load the test token file under Resources/
         let testTokenFileURL = Bundle.module.url(
             forResource: "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3", withExtension: "json"
         )
-        let tokenString = try loadTokenFile(fileURL: testTokenFileURL!)
+        let tokenString = try SSOBearerTokenIdentityResolver().loadToken(
+            fileURL: testTokenFileURL!
+        ).accessToken
         XCTAssertEqual(expectedAccessToken, tokenString)
     }
 
     func testCreateSSOBearerTokenIdentityResolverLegacyProfile() async throws {
-        _ = try SSOBearerTokenIdentityResolver(
+        _ = SSOBearerTokenIdentityResolver(
             profileName: "user",
             configFilePath: configPath
         )
@@ -32,7 +33,7 @@ class SSOBearerTokenIdentityResolverTests: XCTestCase {
     }
 
     func testCreateSSOBearerTokenIdentityResolverTokenProviderProfile() async throws {
-        _ = try SSOBearerTokenIdentityResolver(
+        _ = SSOBearerTokenIdentityResolver(
             profileName: "dev",
             configFilePath: configPath
         )

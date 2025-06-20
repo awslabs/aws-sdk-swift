@@ -2,7 +2,7 @@
     "startUrl": "A",
     "region": "B",
     "accessToken": "ACCESS_TOKEN_STRING",
-    "expiresAt": "D",
+    "expiresAt": "2019-11-14T04:05:45Z",
     "clientId": "E",
     "clientSecret": "F",
     "registrationExpiresAt": "G",

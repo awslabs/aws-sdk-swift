@@ -31,3 +31,5 @@ software.amazon.smithy.aws.swift.codegen.customization.rds.AuthTokenGeneratorInt
 software.amazon.smithy.aws.swift.codegen.customization.dsql.AuthTokenGeneratorIntegration
 software.amazon.smithy.aws.swift.codegen.customization.credentialresolverservices.InternalModelIntegration
 software.amazon.smithy.aws.swift.codegen.customization.credentialresolverservices.IdentityProvidingSTSClientIntegration
+software.amazon.smithy.aws.swift.codegen.customization.credentialresolverservices.IdentityProvidingSSOClientIntegration
+software.amazon.smithy.aws.swift.codegen.customization.credentialresolverservices.IdentityProvidingSSOOIDCClientIntegration
