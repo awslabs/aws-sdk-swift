@@ -8,6 +8,7 @@ import class Foundation.ProcessInfo
 
 public struct EnvironmentRegionProvider: RegionProvider {
     private let AWS_ENVIRON_REGION = "AWS_REGION"
+    private let AWS_DEFAULT_REGION = "AWS_DEFAULT_REGION"
     private let env: Environment
 
     public init(env: Environment = ProcessEnvironment()) {
@@ -15,7 +16,7 @@ public struct EnvironmentRegionProvider: RegionProvider {
     }
 
     public func getRegion() throws -> String? {
-        return env.environmentVariable(key: AWS_ENVIRON_REGION)
+        return env.environmentVariable(key: AWS_ENVIRON_REGION) ?? env.environmentVariable(key: AWS_DEFAULT_REGION)
     }
 }
 
