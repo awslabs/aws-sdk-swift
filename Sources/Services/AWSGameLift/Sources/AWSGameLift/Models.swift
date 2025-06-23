@@ -17553,11 +17553,24 @@ enum ValidateMatchmakingRuleSetOutputError {
     }
 }
 
-extension UnsupportedRegionException {
+extension InternalServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedRegionException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceException {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedRegionException()
+        var value = InternalServiceException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -17579,24 +17592,11 @@ extension NotFoundException {
     }
 }
 
-extension InternalServiceException {
+extension UnsupportedRegionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedRegionException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
+        var value = UnsupportedRegionException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -17696,19 +17696,6 @@ extension InvalidFleetStatusException {
     }
 }
 
-extension TerminalRoutingStrategyException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TerminalRoutingStrategyException {
-        let reader = baseError.errorBodyReader
-        var value = TerminalRoutingStrategyException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension FleetCapacityExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FleetCapacityExceededException {
@@ -17735,11 +17722,11 @@ extension IdempotentParameterMismatchException {
     }
 }
 
-extension InvalidGameSessionStatusException {
+extension TerminalRoutingStrategyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidGameSessionStatusException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TerminalRoutingStrategyException {
         let reader = baseError.errorBodyReader
-        var value = InvalidGameSessionStatusException()
+        var value = TerminalRoutingStrategyException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -17753,6 +17740,19 @@ extension GameSessionFullException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GameSessionFullException {
         let reader = baseError.errorBodyReader
         var value = GameSessionFullException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidGameSessionStatusException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidGameSessionStatusException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidGameSessionStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

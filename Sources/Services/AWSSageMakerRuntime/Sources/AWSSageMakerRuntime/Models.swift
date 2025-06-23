@@ -797,37 +797,11 @@ extension InternalDependencyException {
     }
 }
 
-extension ModelNotReadyException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelNotReadyException {
-        let reader = baseError.errorBodyReader
-        var value = ModelNotReadyException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalFailure {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailure {
         let reader = baseError.errorBodyReader
         var value = InternalFailure()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationError {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationError {
-        let reader = baseError.errorBodyReader
-        var value = ValidationError()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -852,11 +826,50 @@ extension ModelError {
     }
 }
 
+extension ModelNotReadyException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelNotReadyException {
+        let reader = baseError.errorBodyReader
+        var value = ModelNotReadyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceUnavailable {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailable {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailable()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationError {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationError {
+        let reader = baseError.errorBodyReader
+        var value = ValidationError()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalStreamFailure {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalStreamFailure {
+        let reader = baseError.errorBodyReader
+        var value = InternalStreamFailure()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -871,19 +884,6 @@ extension ModelStreamError {
         let reader = baseError.errorBodyReader
         var value = ModelStreamError()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalStreamFailure {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalStreamFailure {
-        let reader = baseError.errorBodyReader
-        var value = InternalStreamFailure()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

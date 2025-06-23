@@ -2707,32 +2707,6 @@ enum UpdateIdentityPoolOutputError {
     }
 }
 
-extension TooManyRequestsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalErrorException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalErrorException {
@@ -2759,6 +2733,19 @@ extension InvalidParameterException {
     }
 }
 
+extension LimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension NotAuthorizedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotAuthorizedException {
@@ -2772,11 +2759,24 @@ extension NotAuthorizedException {
     }
 }
 
-extension LimitExceededException {
+extension ResourceConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceConflictException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = ResourceConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRequestsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -112,11 +112,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                             "sigV4Option.signingProperties.set(key: \$N.signingRegion, value: param.signingRegion)",
                             SmithyHTTPAuthAPITypes.SigningPropertyKeys,
                         )
-                        write(
-                            "sigV4Option.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
-                            AWSSDKIdentityTypes.InternalClientKeys,
-                            InternalClientTypes.IdentityProvidingSTSClient,
-                        )
+                        renderInternalClientInits(writer)
                         write("validAuthOptions.append(sigV4Option)")
                         dedent()
                         // SigV4A case
@@ -131,11 +127,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                             "sigV4Option.signingProperties.set(key: \$N.signingRegion, value: param.signingRegionSet?[0])",
                             SmithyHTTPAuthAPITypes.SigningPropertyKeys,
                         )
-                        write(
-                            "sigV4Option.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
-                            AWSSDKIdentityTypes.InternalClientKeys,
-                            InternalClientTypes.IdentityProvidingSTSClient,
-                        )
+                        renderInternalClientInits(writer)
                         write("validAuthOptions.append(sigV4Option)")
                         dedent()
                         // sigv4-s3express case
@@ -176,6 +168,26 @@ class RulesBasedAuthSchemeResolverGenerator {
                 // Return result
                 write("return validAuthOptions")
             }
+        }
+    }
+
+    private fun renderInternalClientInits(writer: SwiftWriter) {
+        writer.apply {
+            write(
+                "sigV4Option.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
+                AWSSDKIdentityTypes.InternalClientKeys,
+                InternalClientTypes.IdentityProvidingSTSClient,
+            )
+            write(
+                "sigV4Option.identityProperties.set(key: \$N.internalSSOClientKey, value: \$N())",
+                AWSSDKIdentityTypes.InternalClientKeys,
+                InternalClientTypes.IdentityProvidingSSOClient,
+            )
+            write(
+                "sigV4Option.identityProperties.set(key: \$N.internalSSOOIDCClientKey, value: \$N())",
+                AWSSDKIdentityTypes.InternalClientKeys,
+                InternalClientTypes.IdentityProvidingSSOOIDCClient,
+            )
         }
     }
 

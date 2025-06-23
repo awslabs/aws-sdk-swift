@@ -29,6 +29,7 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
                 SwiftTypes.Protocols.Sendable,
             ) {
                 writer.write("package init() {}")
+                writer.write("")
                 writer.openBlock(
                     "package func getCredentialsWithWebIdentity(region: String, roleARN: String, roleSessionName: String, webIdentityToken: String) async throws -> \$N {",
                     "}",

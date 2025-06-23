@@ -9547,14 +9547,12 @@ enum UpdateWebAppCustomizationOutputError {
     }
 }
 
-extension ResourceExistsException {
+extension InternalServiceError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceError {
         let reader = baseError.errorBodyReader
-        var value = ResourceExistsException()
+        var value = InternalServiceError()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.properties.resource = try reader["Resource"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9575,12 +9573,14 @@ extension InvalidRequestException {
     }
 }
 
-extension ServiceUnavailableException {
+extension ResourceExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceExistsException {
         let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        var value = ResourceExistsException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resource = try reader["Resource"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9603,12 +9603,12 @@ extension ResourceNotFoundException {
     }
 }
 
-extension InternalServiceError {
+extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceError {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceError()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        var value = ServiceUnavailableException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

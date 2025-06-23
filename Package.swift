@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.139.0"
+let clientRuntimeVersion: Version = "0.140.0"
 let crtVersion: Version = "0.52.1"
 
 let excludeRuntimeUnitTests = false
@@ -428,6 +428,7 @@ let serviceTargets: [String] = [
     "AWSWorkSpaces",
     "AWSWorkSpacesThinClient",
     "AWSWorkSpacesWeb",
+    "AWSWorkspacesInstances",
     "AWSXRay",
 ]
 
@@ -595,6 +596,54 @@ private var runtimeTargets: [Target] {
             path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSTS"
         ),
         .target(
+            name: "InternalAWSSSO",
+            dependencies: [
+                .clientRuntime,
+                .awsClientRuntime,
+                .smithyRetriesAPI,
+                .smithyRetries,
+                .smithy,
+                .smithyIdentity,
+                .smithyIdentityAPI,
+                .smithyEventStreamsAPI,
+                .smithyEventStreamsAuthAPI,
+                .smithyEventStreams,
+                .smithyChecksumsAPI,
+                .smithyChecksums,
+                .smithyWaitersAPI,
+                .awsSDKCommon,
+                .awsSDKIdentity,
+                .awsSDKHTTPAuth,
+                .awsSDKEventStreamsAuth,
+                .awsSDKChecksums,
+            ],
+            path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSSO"
+        ),
+        .target(
+            name: "InternalAWSSSOOIDC",
+            dependencies: [
+                .clientRuntime,
+                .awsClientRuntime,
+                .smithyRetriesAPI,
+                .smithyRetries,
+                .smithy,
+                .smithyIdentity,
+                .smithyIdentityAPI,
+                .smithyEventStreamsAPI,
+                .smithyEventStreamsAuthAPI,
+                .smithyEventStreams,
+                .smithyChecksumsAPI,
+                .smithyChecksums,
+                .smithyWaitersAPI,
+                .awsSDKCommon,
+                .awsSDKIdentity,
+                .awsSDKHTTPAuth,
+                .awsSDKEventStreamsAuth,
+                .awsSDKChecksums,
+            ],
+            path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSSOOIDC"
+        ),
+        .target(
             name: "AWSSDKChecksums",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyChecksumsAPI, .smithyChecksums, .smithyHTTPAPI],
             path: "Sources/Core/AWSSDKChecksums/Sources"
@@ -657,6 +706,8 @@ private func target(_ service: String) -> Target {
             .awsSDKEventStreamsAuth,
             .awsSDKChecksums,
             "InternalAWSSTS",
+            "InternalAWSSSO",
+            "InternalAWSSSOOIDC",
         ],
         path: "Sources/Services/\(service)/Sources/\(service)"
     )

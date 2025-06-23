@@ -10086,19 +10086,6 @@ enum UpdateVPCEConfigurationOutputError {
     }
 }
 
-extension NotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = NotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ArgumentException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ArgumentException {
@@ -10112,11 +10099,11 @@ extension ArgumentException {
     }
 }
 
-extension ServiceAccountException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceAccountException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ServiceAccountException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10125,11 +10112,24 @@ extension ServiceAccountException {
     }
 }
 
-extension LimitExceededException {
+extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = NotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceAccountException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceAccountException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceAccountException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10217,11 +10217,11 @@ extension IdempotencyException {
     }
 }
 
-extension TooManyTagsException {
+extension TagPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagPolicyException {
         let reader = baseError.errorBodyReader
-        var value = TooManyTagsException()
+        var value = TagPolicyException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.resourceName = try reader["resourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -10231,11 +10231,11 @@ extension TooManyTagsException {
     }
 }
 
-extension TagPolicyException {
+extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagPolicyException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
-        var value = TagPolicyException()
+        var value = TooManyTagsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.resourceName = try reader["resourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse

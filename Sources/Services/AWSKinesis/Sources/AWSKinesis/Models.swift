@@ -4198,11 +4198,11 @@ extension InvalidArgumentException {
     }
 }
 
-extension ResourceInUseException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4211,11 +4211,11 @@ extension ResourceInUseException {
     }
 }
 
-extension LimitExceededException {
+extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = ResourceInUseException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4237,50 +4237,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension KMSNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = KMSNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ExpiredIteratorException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExpiredIteratorException {
         let reader = baseError.errorBodyReader
         var value = ExpiredIteratorException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension KMSOptInRequired {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSOptInRequired {
-        let reader = baseError.errorBodyReader
-        var value = KMSOptInRequired()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ProvisionedThroughputExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ProvisionedThroughputExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4328,6 +4289,45 @@ extension KMSDisabledException {
     }
 }
 
+extension KMSInvalidStateException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSInvalidStateException {
+        let reader = baseError.errorBodyReader
+        var value = KMSInvalidStateException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = KMSNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSOptInRequired {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSOptInRequired {
+        let reader = baseError.errorBodyReader
+        var value = KMSOptInRequired()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension KMSThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSThrottlingException {
@@ -4341,11 +4341,11 @@ extension KMSThrottlingException {
     }
 }
 
-extension KMSInvalidStateException {
+extension ProvisionedThroughputExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSInvalidStateException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
         let reader = baseError.errorBodyReader
-        var value = KMSInvalidStateException()
+        var value = ProvisionedThroughputExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -21321,6 +21321,70 @@ enum UpdateRelationalDatabaseParametersOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.code = try reader["code"].readIfPresent()
+        value.properties.docs = try reader["docs"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.tip = try reader["tip"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AccountSetupInProgressException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountSetupInProgressException {
+        let reader = baseError.errorBodyReader
+        var value = AccountSetupInProgressException()
+        value.properties.code = try reader["code"].readIfPresent()
+        value.properties.docs = try reader["docs"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.tip = try reader["tip"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidInputException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidInputException()
+        value.properties.code = try reader["code"].readIfPresent()
+        value.properties.docs = try reader["docs"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.tip = try reader["tip"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = NotFoundException()
+        value.properties.code = try reader["code"].readIfPresent()
+        value.properties.docs = try reader["docs"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.tip = try reader["tip"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension OperationFailureException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationFailureException {
@@ -21358,70 +21422,6 @@ extension UnauthenticatedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnauthenticatedException {
         let reader = baseError.errorBodyReader
         var value = UnauthenticatedException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.docs = try reader["docs"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.tip = try reader["tip"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidInputException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.docs = try reader["docs"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.tip = try reader["tip"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccountSetupInProgressException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountSetupInProgressException {
-        let reader = baseError.errorBodyReader
-        var value = AccountSetupInProgressException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.docs = try reader["docs"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.tip = try reader["tip"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = NotFoundException()
-        value.properties.code = try reader["code"].readIfPresent()
-        value.properties.docs = try reader["docs"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.tip = try reader["tip"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
         value.properties.code = try reader["code"].readIfPresent()
         value.properties.docs = try reader["docs"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()

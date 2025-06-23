@@ -9496,89 +9496,11 @@ enum UpgradePublishedSchemaOutputError {
     }
 }
 
-extension FacetValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FacetValidationException {
-        let reader = baseError.errorBodyReader
-        var value = FacetValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidArnException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArnException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidArnException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension RetryableConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RetryableConflictException {
-        let reader = baseError.errorBodyReader
-        var value = RetryableConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension LimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServiceException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9600,6 +9522,58 @@ extension DirectoryNotEnabledException {
     }
 }
 
+extension FacetValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FacetValidationException {
+        let reader = baseError.errorBodyReader
+        var value = FacetValidationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServiceException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServiceException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidArnException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArnException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidArnException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension LimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
@@ -9613,11 +9587,24 @@ extension ResourceNotFoundException {
     }
 }
 
-extension SchemaAlreadyExistsException {
+extension RetryableConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SchemaAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RetryableConflictException {
         let reader = baseError.errorBodyReader
-        var value = SchemaAlreadyExistsException()
+        var value = RetryableConflictException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9631,6 +9618,19 @@ extension InvalidAttachmentException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidAttachmentException {
         let reader = baseError.errorBodyReader
         var value = InvalidAttachmentException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SchemaAlreadyExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SchemaAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = SchemaAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9665,11 +9665,11 @@ extension NotPolicyException {
     }
 }
 
-extension NotIndexException {
+extension IndexedAttributeMissingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotIndexException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IndexedAttributeMissingException {
         let reader = baseError.errorBodyReader
-        var value = NotIndexException()
+        var value = IndexedAttributeMissingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9678,11 +9678,11 @@ extension NotIndexException {
     }
 }
 
-extension IndexedAttributeMissingException {
+extension NotIndexException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IndexedAttributeMissingException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotIndexException {
         let reader = baseError.errorBodyReader
-        var value = IndexedAttributeMissingException()
+        var value = NotIndexException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9758,19 +9758,6 @@ extension UnsupportedIndexTypeException {
     }
 }
 
-extension DirectoryNotDisabledException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DirectoryNotDisabledException {
-        let reader = baseError.errorBodyReader
-        var value = DirectoryNotDisabledException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DirectoryDeletedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DirectoryDeletedException {
@@ -9784,11 +9771,11 @@ extension DirectoryDeletedException {
     }
 }
 
-extension FacetNotFoundException {
+extension DirectoryNotDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FacetNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DirectoryNotDisabledException {
         let reader = baseError.errorBodyReader
-        var value = FacetNotFoundException()
+        var value = DirectoryNotDisabledException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9802,6 +9789,19 @@ extension FacetInUseException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FacetInUseException {
         let reader = baseError.errorBodyReader
         var value = FacetInUseException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension FacetNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FacetNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = FacetNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

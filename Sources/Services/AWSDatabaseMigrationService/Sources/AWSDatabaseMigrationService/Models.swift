@@ -16827,13 +16827,12 @@ extension AccessDeniedFault {
     }
 }
 
-extension ResourceAlreadyExistsFault {
+extension FailedDependencyFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FailedDependencyFault {
         let reader = baseError.errorBodyReader
-        var value = ResourceAlreadyExistsFault()
+        var value = FailedDependencyFault()
         value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceArn = try reader["resourceArn"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -16854,12 +16853,13 @@ extension InvalidOperationFault {
     }
 }
 
-extension FailedDependencyFault {
+extension ResourceAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FailedDependencyFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = FailedDependencyFault()
+        var value = ResourceAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceArn = try reader["resourceArn"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -16872,19 +16872,6 @@ extension ResourceQuotaExceededFault {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = ResourceQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension S3AccessDeniedFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> S3AccessDeniedFault {
-        let reader = baseError.errorBodyReader
-        var value = S3AccessDeniedFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16906,11 +16893,11 @@ extension KMSKeyNotAccessibleFault {
     }
 }
 
-extension SNSInvalidTopicFault {
+extension S3AccessDeniedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SNSInvalidTopicFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> S3AccessDeniedFault {
         let reader = baseError.errorBodyReader
-        var value = SNSInvalidTopicFault()
+        var value = S3AccessDeniedFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16971,11 +16958,11 @@ extension KMSNotFoundFault {
     }
 }
 
-extension SNSNoAuthorizationFault {
+extension KMSThrottlingFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SNSNoAuthorizationFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSThrottlingFault {
         let reader = baseError.errorBodyReader
-        var value = SNSNoAuthorizationFault()
+        var value = KMSThrottlingFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16984,11 +16971,24 @@ extension SNSNoAuthorizationFault {
     }
 }
 
-extension KMSThrottlingFault {
+extension SNSInvalidTopicFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSThrottlingFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SNSInvalidTopicFault {
         let reader = baseError.errorBodyReader
-        var value = KMSThrottlingFault()
+        var value = SNSInvalidTopicFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SNSNoAuthorizationFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SNSNoAuthorizationFault {
+        let reader = baseError.errorBodyReader
+        var value = SNSNoAuthorizationFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -17010,11 +17010,11 @@ extension S3ResourceNotFoundFault {
     }
 }
 
-extension ReplicationSubnetGroupDoesNotCoverEnoughAZs {
+extension InvalidSubnet {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicationSubnetGroupDoesNotCoverEnoughAZs {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSubnet {
         let reader = baseError.errorBodyReader
-        var value = ReplicationSubnetGroupDoesNotCoverEnoughAZs()
+        var value = InvalidSubnet()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -17023,11 +17023,11 @@ extension ReplicationSubnetGroupDoesNotCoverEnoughAZs {
     }
 }
 
-extension InvalidSubnet {
+extension ReplicationSubnetGroupDoesNotCoverEnoughAZs {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSubnet {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicationSubnetGroupDoesNotCoverEnoughAZs {
         let reader = baseError.errorBodyReader
-        var value = InvalidSubnet()
+        var value = ReplicationSubnetGroupDoesNotCoverEnoughAZs()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

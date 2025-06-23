@@ -7252,11 +7252,11 @@ extension InsufficientPrivilegesException {
     }
 }
 
-extension ManagedActionInvalidStateException {
+extension ElasticBeanstalkServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ManagedActionInvalidStateException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ElasticBeanstalkServiceException {
         let reader = baseError.errorBodyReader
-        var value = ManagedActionInvalidStateException()
+        var value = ElasticBeanstalkServiceException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7265,11 +7265,11 @@ extension ManagedActionInvalidStateException {
     }
 }
 
-extension ElasticBeanstalkServiceException {
+extension ManagedActionInvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ElasticBeanstalkServiceException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ManagedActionInvalidStateException {
         let reader = baseError.errorBodyReader
-        var value = ElasticBeanstalkServiceException()
+        var value = ManagedActionInvalidStateException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7304,11 +7304,11 @@ extension TooManyApplicationsException {
     }
 }
 
-extension S3LocationNotInServiceRegionException {
+extension CodeBuildNotInServiceRegionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> S3LocationNotInServiceRegionException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CodeBuildNotInServiceRegionException {
         let reader = baseError.errorBodyReader
-        var value = S3LocationNotInServiceRegionException()
+        var value = CodeBuildNotInServiceRegionException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7317,11 +7317,11 @@ extension S3LocationNotInServiceRegionException {
     }
 }
 
-extension CodeBuildNotInServiceRegionException {
+extension S3LocationNotInServiceRegionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CodeBuildNotInServiceRegionException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> S3LocationNotInServiceRegionException {
         let reader = baseError.errorBodyReader
-        var value = CodeBuildNotInServiceRegionException()
+        var value = S3LocationNotInServiceRegionException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7343,11 +7343,11 @@ extension TooManyApplicationVersionsException {
     }
 }
 
-extension TooManyConfigurationTemplatesException {
+extension TooManyBucketsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyConfigurationTemplatesException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyBucketsException {
         let reader = baseError.errorBodyReader
-        var value = TooManyConfigurationTemplatesException()
+        var value = TooManyBucketsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7356,11 +7356,11 @@ extension TooManyConfigurationTemplatesException {
     }
 }
 
-extension TooManyBucketsException {
+extension TooManyConfigurationTemplatesException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyBucketsException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyConfigurationTemplatesException {
         let reader = baseError.errorBodyReader
-        var value = TooManyBucketsException()
+        var value = TooManyConfigurationTemplatesException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7447,11 +7447,11 @@ extension InvalidRequestException {
     }
 }
 
-extension ResourceTypeNotSupportedException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceTypeNotSupportedException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ResourceTypeNotSupportedException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7460,11 +7460,11 @@ extension ResourceTypeNotSupportedException {
     }
 }
 
-extension ResourceNotFoundException {
+extension ResourceTypeNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceTypeNotSupportedException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = ResourceTypeNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

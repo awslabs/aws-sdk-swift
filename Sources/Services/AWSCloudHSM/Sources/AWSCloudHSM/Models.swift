@@ -1907,11 +1907,11 @@ enum RemoveTagsFromResourceOutputError {
     }
 }
 
-extension CloudHsmServiceException {
+extension CloudHsmInternalException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmServiceException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmInternalException {
         let reader = baseError.errorBodyReader
-        var value = CloudHsmServiceException()
+        var value = CloudHsmInternalException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.retryable = try reader["retryable"].readIfPresent() ?? false
         value.httpResponse = baseError.httpResponse
@@ -1921,11 +1921,11 @@ extension CloudHsmServiceException {
     }
 }
 
-extension CloudHsmInternalException {
+extension CloudHsmServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmInternalException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudHsmServiceException {
         let reader = baseError.errorBodyReader
-        var value = CloudHsmInternalException()
+        var value = CloudHsmServiceException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.retryable = try reader["retryable"].readIfPresent() ?? false
         value.httpResponse = baseError.httpResponse

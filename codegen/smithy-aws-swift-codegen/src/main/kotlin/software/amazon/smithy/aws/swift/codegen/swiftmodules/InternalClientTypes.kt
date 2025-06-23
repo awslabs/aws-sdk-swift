@@ -13,6 +13,18 @@ object InternalClientTypes {
             SwiftDeclaration.STRUCT,
             AWSSwiftDependency.INTERNAL_AWS_STS,
         )
+    val IdentityProvidingSSOClient =
+        runtimeSymbol(
+            "IdentityProvidingSSOClient",
+            SwiftDeclaration.STRUCT,
+            AWSSwiftDependency.INTERNAL_AWS_SSO,
+        )
+    val IdentityProvidingSSOOIDCClient =
+        runtimeSymbol(
+            "IdentityProvidingSSOOIDCClient",
+            SwiftDeclaration.STRUCT,
+            AWSSwiftDependency.INTERNAL_AWS_SSO_OIDC,
+        )
 }
 
 private fun runtimeSymbol(
