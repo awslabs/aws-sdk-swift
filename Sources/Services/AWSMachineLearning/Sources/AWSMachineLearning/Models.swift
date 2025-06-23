@@ -4443,20 +4443,6 @@ enum UpdateMLModelOutputError {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.code = try reader["code"].readIfPresent() ?? 0
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalServerException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
@@ -4471,11 +4457,12 @@ extension InternalServerException {
     }
 }
 
-extension TagLimitExceededException {
+extension InvalidInputException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
         let reader = baseError.errorBodyReader
-        var value = TagLimitExceededException()
+        var value = InvalidInputException()
+        value.properties.code = try reader["code"].readIfPresent() ?? 0
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4497,12 +4484,25 @@ extension InvalidTagException {
     }
 }
 
-extension InvalidInputException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
+        var value = ResourceNotFoundException()
         value.properties.code = try reader["code"].readIfPresent() ?? 0
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TagLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = TagLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

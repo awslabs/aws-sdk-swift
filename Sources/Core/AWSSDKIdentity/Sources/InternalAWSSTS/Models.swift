@@ -579,6 +579,19 @@ enum AssumeRoleWithWebIdentityOutputError {
     }
 }
 
+extension ExpiredTokenException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ExpiredTokenException {
+        let reader = baseError.errorBodyReader
+        var value = ExpiredTokenException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension MalformedPolicyDocumentException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MalformedPolicyDocumentException {
@@ -592,11 +605,11 @@ extension MalformedPolicyDocumentException {
     }
 }
 
-extension ExpiredTokenException {
+extension PackedPolicyTooLargeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ExpiredTokenException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PackedPolicyTooLargeException {
         let reader = baseError.errorBodyReader
-        var value = ExpiredTokenException()
+        var value = PackedPolicyTooLargeException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -618,11 +631,11 @@ extension RegionDisabledException {
     }
 }
 
-extension PackedPolicyTooLargeException {
+extension IDPCommunicationErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PackedPolicyTooLargeException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IDPCommunicationErrorException {
         let reader = baseError.errorBodyReader
-        var value = PackedPolicyTooLargeException()
+        var value = IDPCommunicationErrorException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -649,19 +662,6 @@ extension InvalidIdentityTokenException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidIdentityTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidIdentityTokenException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension IDPCommunicationErrorException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IDPCommunicationErrorException {
-        let reader = baseError.errorBodyReader
-        var value = IDPCommunicationErrorException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

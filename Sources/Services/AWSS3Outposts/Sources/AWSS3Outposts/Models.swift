@@ -813,19 +813,6 @@ enum ListSharedEndpointsOutputError {
     }
 }
 
-extension OutpostOfflineException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> OutpostOfflineException {
-        let reader = baseError.errorBodyReader
-        var value = OutpostOfflineException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -852,11 +839,24 @@ extension ConflictException {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = InternalServerException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OutpostOfflineException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> OutpostOfflineException {
+        let reader = baseError.errorBodyReader
+        var value = OutpostOfflineException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -891,11 +891,11 @@ extension ThrottlingException {
     }
 }
 
-extension InternalServerException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -2427,20 +2427,6 @@ extension ConflictException {
     }
 }
 
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
@@ -2450,6 +2436,20 @@ extension ResourceNotFoundException {
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

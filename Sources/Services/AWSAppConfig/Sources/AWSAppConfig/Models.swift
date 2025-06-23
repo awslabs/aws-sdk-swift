@@ -5786,19 +5786,6 @@ enum ValidateConfigurationOutputError {
     }
 }
 
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension BadRequestException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
@@ -5819,6 +5806,19 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -3460,11 +3460,11 @@ extension InvalidAddress {
     }
 }
 
-extension UnsupportedOperation {
+extension InvalidSecurity {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperation {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSecurity {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedOperation()
+        var value = InvalidSecurity()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3486,19 +3486,6 @@ extension OverLimit {
     }
 }
 
-extension RequestThrottled {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestThrottled {
-        let reader = baseError.errorBodyReader
-        var value = RequestThrottled()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension QueueDoesNotExist {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QueueDoesNotExist {
@@ -3512,11 +3499,24 @@ extension QueueDoesNotExist {
     }
 }
 
-extension InvalidSecurity {
+extension RequestThrottled {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSecurity {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestThrottled {
         let reader = baseError.errorBodyReader
-        var value = InvalidSecurity()
+        var value = RequestThrottled()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnsupportedOperation {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperation {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedOperation()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3562,11 +3562,11 @@ extension ReceiptHandleIsInvalid {
     }
 }
 
-extension EmptyBatchRequest {
+extension BatchEntryIdsNotDistinct {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EmptyBatchRequest {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BatchEntryIdsNotDistinct {
         let reader = baseError.errorBodyReader
-        var value = EmptyBatchRequest()
+        var value = BatchEntryIdsNotDistinct()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3575,11 +3575,11 @@ extension EmptyBatchRequest {
     }
 }
 
-extension TooManyEntriesInBatchRequest {
+extension EmptyBatchRequest {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyEntriesInBatchRequest {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EmptyBatchRequest {
         let reader = baseError.errorBodyReader
-        var value = TooManyEntriesInBatchRequest()
+        var value = EmptyBatchRequest()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3601,24 +3601,11 @@ extension InvalidBatchEntryId {
     }
 }
 
-extension BatchEntryIdsNotDistinct {
+extension TooManyEntriesInBatchRequest {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BatchEntryIdsNotDistinct {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyEntriesInBatchRequest {
         let reader = baseError.errorBodyReader
-        var value = BatchEntryIdsNotDistinct()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidAttributeValue {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAttributeValue {
-        let reader = baseError.errorBodyReader
-        var value = InvalidAttributeValue()
+        var value = TooManyEntriesInBatchRequest()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3640,11 +3627,11 @@ extension InvalidAttributeName {
     }
 }
 
-extension QueueNameExists {
+extension InvalidAttributeValue {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QueueNameExists {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAttributeValue {
         let reader = baseError.errorBodyReader
-        var value = QueueNameExists()
+        var value = InvalidAttributeValue()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3658,6 +3645,19 @@ extension QueueDeletedRecently {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QueueDeletedRecently {
         let reader = baseError.errorBodyReader
         var value = QueueDeletedRecently()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension QueueNameExists {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QueueNameExists {
+        let reader = baseError.errorBodyReader
+        var value = QueueNameExists()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3703,24 +3703,11 @@ extension KmsAccessDenied {
     }
 }
 
-extension KmsNotFound {
+extension KmsDisabled {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsNotFound {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsDisabled {
         let reader = baseError.errorBodyReader
-        var value = KmsNotFound()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension KmsInvalidState {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsInvalidState {
-        let reader = baseError.errorBodyReader
-        var value = KmsInvalidState()
+        var value = KmsDisabled()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3742,11 +3729,11 @@ extension KmsInvalidKeyUsage {
     }
 }
 
-extension KmsThrottled {
+extension KmsInvalidState {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsThrottled {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsInvalidState {
         let reader = baseError.errorBodyReader
-        var value = KmsThrottled()
+        var value = KmsInvalidState()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3755,11 +3742,11 @@ extension KmsThrottled {
     }
 }
 
-extension KmsDisabled {
+extension KmsNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsDisabled {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsNotFound {
         let reader = baseError.errorBodyReader
-        var value = KmsDisabled()
+        var value = KmsNotFound()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3773,6 +3760,19 @@ extension KmsOptInRequired {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsOptInRequired {
         let reader = baseError.errorBodyReader
         var value = KmsOptInRequired()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KmsThrottled {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsThrottled {
+        let reader = baseError.errorBodyReader
+        var value = KmsThrottled()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

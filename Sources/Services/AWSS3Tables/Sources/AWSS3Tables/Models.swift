@@ -1103,14 +1103,53 @@ extension S3TablesClientTypes {
 
 extension S3TablesClientTypes {
 
+    public enum IcebergCompactionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case binpack
+        case sort
+        case zorder
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergCompactionStrategy] {
+            return [
+                .auto,
+                .binpack,
+                .sort,
+                .zorder
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "auto"
+            case .binpack: return "binpack"
+            case .sort: return "sort"
+            case .zorder: return "z-order"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
     /// Contains details about the compaction settings for an Iceberg table.
     public struct IcebergCompactionSettings: Swift.Sendable {
+        /// The compaction strategy to use for the table. This determines how files are selected and combined during compaction operations.
+        public var strategy: S3TablesClientTypes.IcebergCompactionStrategy?
         /// The target file size for the table in MB.
         public var targetFileSizeMB: Swift.Int?
 
         public init(
+            strategy: S3TablesClientTypes.IcebergCompactionStrategy? = nil,
             targetFileSizeMB: Swift.Int? = nil
         ) {
+            self.strategy = strategy
             self.targetFileSizeMB = targetFileSizeMB
         }
     }
@@ -3317,11 +3356,24 @@ enum UpdateTableMetadataLocationOutputError {
     }
 }
 
-extension TooManyRequestsException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
+        var value = BadRequestException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3369,24 +3421,11 @@ extension NotFoundException {
     }
 }
 
-extension BadRequestException {
+extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3549,6 +3588,7 @@ extension S3TablesClientTypes.IcebergCompactionSettings {
 
     static func write(value: S3TablesClientTypes.IcebergCompactionSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["strategy"].write(value.strategy)
         try writer["targetFileSizeMB"].write(value.targetFileSizeMB)
     }
 
@@ -3556,6 +3596,7 @@ extension S3TablesClientTypes.IcebergCompactionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3TablesClientTypes.IcebergCompactionSettings()
         value.targetFileSizeMB = try reader["targetFileSizeMB"].readIfPresent()
+        value.strategy = try reader["strategy"].readIfPresent()
         return value
     }
 }

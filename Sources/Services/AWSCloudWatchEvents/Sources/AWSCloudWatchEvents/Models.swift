@@ -6558,50 +6558,11 @@ enum UpdateConnectionOutputError {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension OperationDisabledException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationDisabledException {
-        let reader = baseError.errorBodyReader
-        var value = OperationDisabledException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConcurrentModificationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidStateException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidStateException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6623,6 +6584,45 @@ extension InternalException {
     }
 }
 
+extension InvalidStateException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidStateException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OperationDisabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationDisabledException {
+        let reader = baseError.errorBodyReader
+        var value = OperationDisabledException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension IllegalStatusException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IllegalStatusException {
@@ -6636,11 +6636,11 @@ extension IllegalStatusException {
     }
 }
 
-extension ResourceAlreadyExistsException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ResourceAlreadyExistsException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6649,11 +6649,11 @@ extension ResourceAlreadyExistsException {
     }
 }
 
-extension LimitExceededException {
+extension ResourceAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = ResourceAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -12749,24 +12749,11 @@ enum UpdateTaskSetOutputError {
     }
 }
 
-extension ServerException {
+extension ClientException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClientException {
         let reader = baseError.errorBodyReader
-        var value = ServerException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UpdateInProgressException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UpdateInProgressException {
-        let reader = baseError.errorBodyReader
-        var value = UpdateInProgressException()
+        var value = ClientException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12801,11 +12788,24 @@ extension LimitExceededException {
     }
 }
 
-extension ClientException {
+extension ServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClientException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServerException {
         let reader = baseError.errorBodyReader
-        var value = ClientException()
+        var value = ServerException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UpdateInProgressException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UpdateInProgressException {
+        let reader = baseError.errorBodyReader
+        var value = UpdateInProgressException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12853,6 +12853,19 @@ extension ClusterNotFoundException {
     }
 }
 
+extension PlatformTaskDefinitionIncompatibilityException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PlatformTaskDefinitionIncompatibilityException {
+        let reader = baseError.errorBodyReader
+        var value = PlatformTaskDefinitionIncompatibilityException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension PlatformUnknownException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PlatformUnknownException {
@@ -12879,11 +12892,11 @@ extension UnsupportedFeatureException {
     }
 }
 
-extension PlatformTaskDefinitionIncompatibilityException {
+extension ServiceNotActiveException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PlatformTaskDefinitionIncompatibilityException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceNotActiveException {
         let reader = baseError.errorBodyReader
-        var value = PlatformTaskDefinitionIncompatibilityException()
+        var value = ServiceNotActiveException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12905,11 +12918,11 @@ extension ServiceNotFoundException {
     }
 }
 
-extension ServiceNotActiveException {
+extension TargetNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceNotActiveException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TargetNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ServiceNotActiveException()
+        var value = TargetNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12918,11 +12931,11 @@ extension ServiceNotActiveException {
     }
 }
 
-extension TargetNotFoundException {
+extension ClusterContainsContainerInstancesException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TargetNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterContainsContainerInstancesException {
         let reader = baseError.errorBodyReader
-        var value = TargetNotFoundException()
+        var value = ClusterContainsContainerInstancesException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12949,19 +12962,6 @@ extension ClusterContainsTasksException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterContainsTasksException {
         let reader = baseError.errorBodyReader
         var value = ClusterContainsTasksException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ClusterContainsContainerInstancesException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterContainsContainerInstancesException {
-        let reader = baseError.errorBodyReader
-        var value = ClusterContainsContainerInstancesException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -13260,6 +13260,7 @@ extension CopyObjectInput {
         }
         if let metadata = value.metadata {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
+                guard !items.exists(name: "x-amz-meta-\(prefixHeaderMapKey)") else { continue }
                 items.add(SmithyHTTPAPI.Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
         }
@@ -13448,6 +13449,7 @@ extension CreateMultipartUploadInput {
         }
         if let metadata = value.metadata {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
+                guard !items.exists(name: "x-amz-meta-\(prefixHeaderMapKey)") else { continue }
                 items.add(SmithyHTTPAPI.Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
         }
@@ -16363,6 +16365,7 @@ extension PutObjectInput {
         }
         if let metadata = value.metadata {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
+                guard !items.exists(name: "x-amz-meta-\(prefixHeaderMapKey)") else { continue }
                 items.add(SmithyHTTPAPI.Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
         }
@@ -17073,6 +17076,7 @@ extension WriteGetObjectResponseInput {
         }
         if let metadata = value.metadata {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
+                guard !items.exists(name: "x-amz-meta-\(prefixHeaderMapKey)") else { continue }
                 items.add(SmithyHTTPAPI.Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
         }
@@ -20387,10 +20391,10 @@ extension ObjectNotInActiveTierError {
     }
 }
 
-extension BucketAlreadyOwnedByYou {
+extension BucketAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BucketAlreadyOwnedByYou {
-        var value = BucketAlreadyOwnedByYou()
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BucketAlreadyExists {
+        var value = BucketAlreadyExists()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -20399,10 +20403,10 @@ extension BucketAlreadyOwnedByYou {
     }
 }
 
-extension BucketAlreadyExists {
+extension BucketAlreadyOwnedByYou {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BucketAlreadyExists {
-        var value = BucketAlreadyExists()
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BucketAlreadyOwnedByYou {
+        var value = BucketAlreadyOwnedByYou()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -20423,10 +20427,13 @@ extension NoSuchBucket {
     }
 }
 
-extension NoSuchKey {
+extension InvalidObjectState {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchKey {
-        var value = NoSuchKey()
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidObjectState {
+        let reader = baseError.errorBodyReader
+        var value = InvalidObjectState()
+        value.properties.accessTier = try reader["AccessTier"].readIfPresent()
+        value.properties.storageClass = try reader["StorageClass"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -20435,13 +20442,10 @@ extension NoSuchKey {
     }
 }
 
-extension InvalidObjectState {
+extension NoSuchKey {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidObjectState {
-        let reader = baseError.errorBodyReader
-        var value = InvalidObjectState()
-        value.properties.accessTier = try reader["AccessTier"].readIfPresent()
-        value.properties.storageClass = try reader["StorageClass"].readIfPresent()
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchKey {
+        var value = NoSuchKey()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -20474,10 +20478,10 @@ extension EncryptionTypeMismatch {
     }
 }
 
-extension InvalidWriteOffset {
+extension InvalidRequest {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidWriteOffset {
-        var value = InvalidWriteOffset()
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequest {
+        var value = InvalidRequest()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -20486,10 +20490,10 @@ extension InvalidWriteOffset {
     }
 }
 
-extension InvalidRequest {
+extension InvalidWriteOffset {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequest {
-        var value = InvalidRequest()
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidWriteOffset {
+        var value = InvalidWriteOffset()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

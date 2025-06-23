@@ -14743,11 +14743,11 @@ enum UntagResourceOutputError {
     }
 }
 
-extension ValidationException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14769,11 +14769,11 @@ extension NoSuchConfigurationRecorderException {
     }
 }
 
-extension ConflictException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14821,11 +14821,11 @@ extension InvalidParameterValueException {
     }
 }
 
-extension ResourceInUseException {
+extension NoSuchConfigRuleException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchConfigRuleException {
         let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
+        var value = NoSuchConfigRuleException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14834,11 +14834,11 @@ extension ResourceInUseException {
     }
 }
 
-extension NoSuchConfigRuleException {
+extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchConfigRuleException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
-        var value = NoSuchConfigRuleException()
+        var value = ResourceInUseException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14873,19 +14873,6 @@ extension NoSuchConformancePackException {
     }
 }
 
-extension NoSuchDeliveryChannelException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchDeliveryChannelException {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchDeliveryChannelException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension LastDeliveryChannelDeleteFailedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LastDeliveryChannelDeleteFailedException {
@@ -14899,11 +14886,11 @@ extension LastDeliveryChannelDeleteFailedException {
     }
 }
 
-extension OrganizationAccessDeniedException {
+extension NoSuchDeliveryChannelException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationAccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchDeliveryChannelException {
         let reader = baseError.errorBodyReader
-        var value = OrganizationAccessDeniedException()
+        var value = NoSuchDeliveryChannelException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14917,6 +14904,19 @@ extension NoSuchOrganizationConfigRuleException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchOrganizationConfigRuleException {
         let reader = baseError.errorBodyReader
         var value = NoSuchOrganizationConfigRuleException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OrganizationAccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationAccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = OrganizationAccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14951,11 +14951,11 @@ extension InsufficientPermissionsException {
     }
 }
 
-extension RemediationInProgressException {
+extension NoSuchRemediationConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RemediationInProgressException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchRemediationConfigurationException {
         let reader = baseError.errorBodyReader
-        var value = RemediationInProgressException()
+        var value = NoSuchRemediationConfigurationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14964,11 +14964,11 @@ extension RemediationInProgressException {
     }
 }
 
-extension NoSuchRemediationConfigurationException {
+extension RemediationInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchRemediationConfigurationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RemediationInProgressException {
         let reader = baseError.errorBodyReader
-        var value = NoSuchRemediationConfigurationException()
+        var value = RemediationInProgressException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15172,11 +15172,11 @@ extension OrganizationAllFeaturesNotEnabledException {
     }
 }
 
-extension InvalidRecordingGroupException {
+extension InvalidConfigurationRecorderNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRecordingGroupException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidConfigurationRecorderNameException {
         let reader = baseError.errorBodyReader
-        var value = InvalidRecordingGroupException()
+        var value = InvalidConfigurationRecorderNameException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15185,11 +15185,11 @@ extension InvalidRecordingGroupException {
     }
 }
 
-extension InvalidConfigurationRecorderNameException {
+extension InvalidRecordingGroupException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidConfigurationRecorderNameException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRecordingGroupException {
         let reader = baseError.errorBodyReader
-        var value = InvalidConfigurationRecorderNameException()
+        var value = InvalidRecordingGroupException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15211,19 +15211,6 @@ extension MaxNumberOfConfigurationRecordersExceededException {
     }
 }
 
-extension MaxNumberOfConformancePacksExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfConformancePacksExceededException {
-        let reader = baseError.errorBodyReader
-        var value = MaxNumberOfConformancePacksExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConformancePackTemplateValidationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConformancePackTemplateValidationException {
@@ -15237,24 +15224,11 @@ extension ConformancePackTemplateValidationException {
     }
 }
 
-extension InvalidS3KmsKeyArnException {
+extension MaxNumberOfConformancePacksExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3KmsKeyArnException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfConformancePacksExceededException {
         let reader = baseError.errorBodyReader
-        var value = InvalidS3KmsKeyArnException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidSNSTopicARNException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSNSTopicARNException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidSNSTopicARNException()
+        var value = MaxNumberOfConformancePacksExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15289,11 +15263,37 @@ extension InvalidDeliveryChannelNameException {
     }
 }
 
-extension NoSuchBucketException {
+extension InvalidS3KeyPrefixException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchBucketException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3KeyPrefixException {
         let reader = baseError.errorBodyReader
-        var value = NoSuchBucketException()
+        var value = InvalidS3KeyPrefixException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidS3KmsKeyArnException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3KmsKeyArnException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidS3KmsKeyArnException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidSNSTopicARNException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSNSTopicARNException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidSNSTopicARNException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15315,11 +15315,11 @@ extension MaxNumberOfDeliveryChannelsExceededException {
     }
 }
 
-extension InvalidS3KeyPrefixException {
+extension NoSuchBucketException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3KeyPrefixException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchBucketException {
         let reader = baseError.errorBodyReader
-        var value = InvalidS3KeyPrefixException()
+        var value = NoSuchBucketException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15354,11 +15354,11 @@ extension MaxNumberOfOrganizationConfigRulesExceededException {
     }
 }
 
-extension OrganizationConformancePackTemplateValidationException {
+extension MaxNumberOfOrganizationConformancePacksExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationConformancePackTemplateValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfOrganizationConformancePacksExceededException {
         let reader = baseError.errorBodyReader
-        var value = OrganizationConformancePackTemplateValidationException()
+        var value = MaxNumberOfOrganizationConformancePacksExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15367,11 +15367,11 @@ extension OrganizationConformancePackTemplateValidationException {
     }
 }
 
-extension MaxNumberOfOrganizationConformancePacksExceededException {
+extension OrganizationConformancePackTemplateValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfOrganizationConformancePacksExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationConformancePackTemplateValidationException {
         let reader = baseError.errorBodyReader
-        var value = MaxNumberOfOrganizationConformancePacksExceededException()
+        var value = OrganizationConformancePackTemplateValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15406,11 +15406,11 @@ extension MaxNumberOfRetentionConfigurationsExceededException {
     }
 }
 
-extension TooManyTagsException {
+extension ResourceConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceConcurrentModificationException {
         let reader = baseError.errorBodyReader
-        var value = TooManyTagsException()
+        var value = ResourceConcurrentModificationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15419,11 +15419,11 @@ extension TooManyTagsException {
     }
 }
 
-extension ResourceConcurrentModificationException {
+extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceConcurrentModificationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
-        var value = ResourceConcurrentModificationException()
+        var value = TooManyTagsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

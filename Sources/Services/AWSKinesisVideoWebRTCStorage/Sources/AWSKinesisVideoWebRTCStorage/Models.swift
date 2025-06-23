@@ -231,11 +231,24 @@ enum JoinStorageSessionAsViewerOutputError {
     }
 }
 
-extension ResourceNotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ClientLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ClientLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -257,24 +270,11 @@ extension InvalidArgumentException {
     }
 }
 
-extension AccessDeniedException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ClientLimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ClientLimitExceededException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

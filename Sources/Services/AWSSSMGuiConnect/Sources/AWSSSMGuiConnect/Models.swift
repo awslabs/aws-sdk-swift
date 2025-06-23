@@ -457,11 +457,11 @@ enum UpdateConnectionRecordingPreferencesOutputError {
     }
 }
 
-extension ThrottlingException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -470,11 +470,24 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -509,24 +522,11 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension ConflictException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

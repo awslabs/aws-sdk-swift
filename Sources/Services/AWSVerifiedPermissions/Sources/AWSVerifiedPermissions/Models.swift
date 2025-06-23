@@ -5159,6 +5159,20 @@ extension ResourceNotFoundException {
     }
 }
 
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resources = try reader["resources"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.ResourceConflict.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
@@ -5176,13 +5190,12 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension ConflictException {
+extension InvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = InvalidStateException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resources = try reader["resources"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.ResourceConflict.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5190,11 +5203,11 @@ extension ConflictException {
     }
 }
 
-extension InvalidStateException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidStateException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5224,19 +5237,6 @@ extension ThrottlingException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
         value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

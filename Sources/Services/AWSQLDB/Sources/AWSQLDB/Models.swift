@@ -2451,6 +2451,20 @@ enum UpdateLedgerPermissionsModeOutputError {
     }
 }
 
+extension InvalidParameterException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidParameterException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.parameterName = try reader["ParameterName"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
@@ -2459,20 +2473,6 @@ extension ResourceNotFoundException {
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.resourceName = try reader["ResourceName"].readIfPresent()
         value.properties.resourceType = try reader["ResourceType"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidParameterException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidParameterException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.parameterName = try reader["ParameterName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2509,11 +2509,11 @@ extension LimitExceededException {
     }
 }
 
-extension ResourceInUseException {
+extension ResourceAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
+        var value = ResourceAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.resourceName = try reader["ResourceName"].readIfPresent()
         value.properties.resourceType = try reader["ResourceType"].readIfPresent()
@@ -2524,11 +2524,11 @@ extension ResourceInUseException {
     }
 }
 
-extension ResourceAlreadyExistsException {
+extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
-        var value = ResourceAlreadyExistsException()
+        var value = ResourceInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.resourceName = try reader["ResourceName"].readIfPresent()
         value.properties.resourceType = try reader["ResourceType"].readIfPresent()

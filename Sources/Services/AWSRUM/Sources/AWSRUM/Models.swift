@@ -2781,18 +2781,12 @@ enum UpdateRumMetricDefinitionOutputError {
     }
 }
 
-extension ThrottlingException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = ThrottlingException()
-        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
-        }
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2808,32 +2802,6 @@ extension ConflictException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceName = try reader["resourceName"].readIfPresent() ?? ""
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2873,11 +2841,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension AccessDeniedException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2886,11 +2854,30 @@ extension AccessDeniedException {
     }
 }
 
-extension PolicyNotFoundException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PolicyNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = PolicyNotFoundException()
+        let httpResponse = baseError.httpResponse
+        var value = ThrottlingException()
+        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
+            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
+        }
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2912,11 +2899,11 @@ extension InvalidPolicyRevisionIdException {
     }
 }
 
-extension PolicySizeLimitExceededException {
+extension PolicyNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PolicySizeLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PolicyNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = PolicySizeLimitExceededException()
+        var value = PolicyNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2930,6 +2917,19 @@ extension MalformedPolicyDocumentException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedPolicyDocumentException {
         let reader = baseError.errorBodyReader
         var value = MalformedPolicyDocumentException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PolicySizeLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PolicySizeLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = PolicySizeLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

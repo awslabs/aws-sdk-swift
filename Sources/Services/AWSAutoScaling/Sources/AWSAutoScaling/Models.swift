@@ -9447,11 +9447,11 @@ enum UpdateAutoScalingGroupOutputError {
     }
 }
 
-extension ServiceLinkedRoleFailure {
+extension ResourceContentionFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceLinkedRoleFailure {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceContentionFault {
         let reader = baseError.errorBodyReader
-        var value = ServiceLinkedRoleFailure()
+        var value = ResourceContentionFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9460,11 +9460,11 @@ extension ServiceLinkedRoleFailure {
     }
 }
 
-extension ResourceContentionFault {
+extension ServiceLinkedRoleFailure {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceContentionFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceLinkedRoleFailure {
         let reader = baseError.errorBodyReader
-        var value = ResourceContentionFault()
+        var value = ServiceLinkedRoleFailure()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

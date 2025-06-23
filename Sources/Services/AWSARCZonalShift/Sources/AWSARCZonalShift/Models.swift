@@ -2093,6 +2093,19 @@ enum UpdateZonalShiftOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
@@ -2101,33 +2114,6 @@ extension ConflictException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.properties.zonalShiftId = try reader["zonalShiftId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2148,6 +2134,19 @@ extension InternalServerException {
     }
 }
 
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -2161,12 +2160,13 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
+        var value = ValidationException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

@@ -40144,32 +40144,6 @@ enum UpdateViewMetadataOutputError {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalServiceException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceException {
@@ -40201,6 +40175,32 @@ extension ResourceConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceConflictException {
         let reader = baseError.errorBodyReader
         var value = ResourceConflictException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -40355,19 +40355,6 @@ extension ResourceNotReadyException {
     }
 }
 
-extension TooManyRequestsException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ResourceInUseException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
@@ -40376,6 +40363,19 @@ extension ResourceInUseException {
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRequestsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRequestsException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

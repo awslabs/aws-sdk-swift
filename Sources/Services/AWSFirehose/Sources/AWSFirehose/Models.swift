@@ -5967,32 +5967,6 @@ enum UpdateDestinationOutputError {
     }
 }
 
-extension ResourceInUseException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension LimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidArgumentException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgumentException {
@@ -6020,11 +5994,11 @@ extension InvalidKMSResourceException {
     }
 }
 
-extension ResourceNotFoundException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6033,11 +6007,24 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ServiceUnavailableException {
+extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
+        var value = ResourceInUseException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6052,6 +6039,19 @@ extension InvalidSourceException {
         let reader = baseError.errorBodyReader
         var value = InvalidSourceException()
         value.properties.code = try reader["code"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

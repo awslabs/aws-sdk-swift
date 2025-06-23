@@ -1555,20 +1555,6 @@ enum UpdateRuleOutputError {
     }
 }
 
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.reason = try reader["Reason"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalServerException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
@@ -1587,6 +1573,20 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse

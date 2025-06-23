@@ -3803,38 +3803,37 @@ enum UpdateSubscriptionOutputError {
     }
 }
 
-extension InvalidOperationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOperationException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidOperationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedForDependencyException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedForDependencyException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedForDependencyException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalErrorException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalErrorException {
+        let reader = baseError.errorBodyReader
+        var value = InternalErrorException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidOperationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOperationException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidOperationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3851,6 +3850,21 @@ extension InvalidParameterException {
         value.properties.fields = try reader["fields"].readListIfPresent(memberReadingClosure: ShieldClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.reason = try reader["reason"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension LimitsExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitsExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitsExceededException()
+        value.properties.limit = try reader["Limit"].readIfPresent() ?? 0
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3884,27 +3898,13 @@ extension OptimisticLockException {
     }
 }
 
-extension InternalErrorException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalErrorException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InternalErrorException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension LimitsExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitsExceededException {
-        let reader = baseError.errorBodyReader
-        var value = LimitsExceededException()
-        value.properties.limit = try reader["Limit"].readIfPresent() ?? 0
-        value.properties.type = try reader["Type"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceType = try reader["resourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

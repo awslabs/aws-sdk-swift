@@ -4701,11 +4701,11 @@ enum UpdateVpcIngressConnectionOutputError {
     }
 }
 
-extension InvalidRequestException {
+extension InternalServiceErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
         let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
+        var value = InternalServiceErrorException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4714,11 +4714,11 @@ extension InvalidRequestException {
     }
 }
 
-extension InternalServiceErrorException {
+extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceErrorException()
+        var value = InvalidRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -638,11 +638,11 @@ enum PutUsersOutputError {
     }
 }
 
-extension ResourceInUseException {
+extension InvalidInputException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidInputException {
         let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
+        var value = InvalidInputException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -651,11 +651,11 @@ extension ResourceInUseException {
     }
 }
 
-extension InvalidInputException {
+extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidInputException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
+        var value = ResourceInUseException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

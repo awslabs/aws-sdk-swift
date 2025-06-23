@@ -1954,12 +1954,12 @@ enum ListTablesOutputError {
     }
 }
 
-extension InternalServerException {
+extension ActiveSessionsExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActiveSessionsExceededException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        var value = ActiveSessionsExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1972,19 +1972,6 @@ extension ActiveStatementsExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActiveStatementsExceededException {
         let reader = baseError.errorBodyReader
         var value = ActiveStatementsExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ActiveSessionsExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActiveSessionsExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ActiveSessionsExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2007,12 +1994,38 @@ extension BatchExecuteStatementException {
     }
 }
 
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DatabaseConnectionException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DatabaseConnectionException {
+        let reader = baseError.errorBodyReader
+        var value = DatabaseConnectionException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2027,19 +2040,6 @@ extension ResourceNotFoundException {
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DatabaseConnectionException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DatabaseConnectionException {
-        let reader = baseError.errorBodyReader
-        var value = DatabaseConnectionException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

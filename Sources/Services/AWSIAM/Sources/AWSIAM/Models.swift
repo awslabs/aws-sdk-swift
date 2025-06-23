@@ -15790,6 +15790,19 @@ enum UploadSSHPublicKeyOutputError {
     }
 }
 
+extension InvalidInputException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidInputException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidInputException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension LimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> LimitExceededException {
@@ -15816,19 +15829,6 @@ extension NoSuchEntityException {
     }
 }
 
-extension InvalidInputException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidInputException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ServiceFailureException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceFailureException {
@@ -15842,11 +15842,11 @@ extension ServiceFailureException {
     }
 }
 
-extension UnmodifiableEntityException {
+extension EntityAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnmodifiableEntityException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EntityAlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = UnmodifiableEntityException()
+        var value = EntityAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15855,11 +15855,11 @@ extension UnmodifiableEntityException {
     }
 }
 
-extension EntityAlreadyExistsException {
+extension UnmodifiableEntityException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EntityAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnmodifiableEntityException {
         let reader = baseError.errorBodyReader
-        var value = EntityAlreadyExistsException()
+        var value = UnmodifiableEntityException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15894,11 +15894,11 @@ extension EntityTemporarilyUnmodifiableException {
     }
 }
 
-extension PasswordPolicyViolationException {
+extension InvalidUserTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PasswordPolicyViolationException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidUserTypeException {
         let reader = baseError.errorBodyReader
-        var value = PasswordPolicyViolationException()
+        var value = InvalidUserTypeException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15907,11 +15907,11 @@ extension PasswordPolicyViolationException {
     }
 }
 
-extension InvalidUserTypeException {
+extension PasswordPolicyViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidUserTypeException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PasswordPolicyViolationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidUserTypeException()
+        var value = PasswordPolicyViolationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15985,6 +15985,19 @@ extension DeleteConflictException {
     }
 }
 
+extension AccountNotManagementOrDelegatedAdministratorException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AccountNotManagementOrDelegatedAdministratorException {
+        let reader = baseError.errorBodyReader
+        var value = AccountNotManagementOrDelegatedAdministratorException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension OrganizationNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OrganizationNotFoundException {
@@ -16016,19 +16029,6 @@ extension ServiceAccessNotEnabledException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceAccessNotEnabledException {
         let reader = baseError.errorBodyReader
         var value = ServiceAccessNotEnabledException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccountNotManagementOrDelegatedAdministratorException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AccountNotManagementOrDelegatedAdministratorException {
-        let reader = baseError.errorBodyReader
-        var value = AccountNotManagementOrDelegatedAdministratorException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16076,19 +16076,6 @@ extension ReportGenerationLimitExceededException {
     }
 }
 
-extension CredentialReportNotReadyException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CredentialReportNotReadyException {
-        let reader = baseError.errorBodyReader
-        var value = CredentialReportNotReadyException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension CredentialReportExpiredException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CredentialReportExpiredException {
@@ -16107,6 +16094,19 @@ extension CredentialReportNotPresentException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CredentialReportNotPresentException {
         let reader = baseError.errorBodyReader
         var value = CredentialReportNotPresentException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CredentialReportNotReadyException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CredentialReportNotReadyException {
+        let reader = baseError.errorBodyReader
+        var value = CredentialReportNotReadyException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16167,19 +16167,6 @@ extension MalformedCertificateException {
     }
 }
 
-extension InvalidCertificateException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCertificateException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidCertificateException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DuplicateCertificateException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateCertificateException {
@@ -16193,11 +16180,11 @@ extension DuplicateCertificateException {
     }
 }
 
-extension InvalidPublicKeyException {
+extension InvalidCertificateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidPublicKeyException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCertificateException {
         let reader = baseError.errorBodyReader
-        var value = InvalidPublicKeyException()
+        var value = InvalidCertificateException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16211,6 +16198,19 @@ extension DuplicateSSHPublicKeyException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateSSHPublicKeyException {
         let reader = baseError.errorBodyReader
         var value = DuplicateSSHPublicKeyException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidPublicKeyException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidPublicKeyException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidPublicKeyException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

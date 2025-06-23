@@ -7263,24 +7263,11 @@ enum UpdateTrustedTokenIssuerOutputError {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7302,11 +7289,11 @@ extension ConflictException {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7315,11 +7302,24 @@ extension ValidationException {
     }
 }
 
-extension InternalServerException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7341,11 +7341,11 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

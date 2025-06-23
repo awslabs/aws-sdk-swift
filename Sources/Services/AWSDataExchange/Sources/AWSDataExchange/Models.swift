@@ -5241,6 +5241,7 @@ extension SendApiAssetInput {
         }
         if let requestHeaders = value.requestHeaders {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in requestHeaders {
+                guard !items.exists(name: "x-amzn-dataexchange-header-\(prefixHeaderMapKey)") else { continue }
                 items.add(SmithyHTTPAPI.Header(name: "x-amzn-dataexchange-header-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
         }
@@ -6727,11 +6728,24 @@ enum UpdateRevisionOutputError {
     }
 }
 
-extension ResourceNotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.properties.resourceType = try reader["ResourceType"].readIfPresent()
@@ -6742,12 +6756,27 @@ extension ResourceNotFoundException {
     }
 }
 
-extension AccessDeniedException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6775,34 +6804,6 @@ extension ValidationException {
         var value = ValidationException()
         value.properties.exceptionCause = try reader["ExceptionCause"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
