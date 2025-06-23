@@ -6938,11 +6938,24 @@ extension AccessDeniedException {
     }
 }
 
-extension OperationTimeoutException {
+extension ConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> OperationTimeoutException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
-        var value = OperationTimeoutException()
+        var value = ConcurrentModificationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EntityNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EntityNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = EntityNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6977,24 +6990,11 @@ extension InvalidInputException {
     }
 }
 
-extension ConcurrentModificationException {
+extension OperationTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> OperationTimeoutException {
         let reader = baseError.errorBodyReader
-        var value = ConcurrentModificationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EntityNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EntityNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = EntityNotFoundException()
+        var value = OperationTimeoutException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7042,11 +7042,11 @@ extension TransactionCanceledException {
     }
 }
 
-extension ResourceNumberLimitExceededException {
+extension AlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNumberLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNumberLimitExceededException()
+        var value = AlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7055,11 +7055,11 @@ extension ResourceNumberLimitExceededException {
     }
 }
 
-extension AlreadyExistsException {
+extension ResourceNumberLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNumberLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = AlreadyExistsException()
+        var value = ResourceNumberLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

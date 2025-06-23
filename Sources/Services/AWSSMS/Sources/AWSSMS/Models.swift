@@ -4400,11 +4400,11 @@ enum UpdateReplicationJobOutputError {
     }
 }
 
-extension OperationNotPermittedException {
+extension InternalError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationNotPermittedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalError {
         let reader = baseError.errorBodyReader
-        var value = OperationNotPermittedException()
+        var value = InternalError()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4426,32 +4426,6 @@ extension InvalidParameterException {
     }
 }
 
-extension UnauthorizedOperationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnauthorizedOperationException {
-        let reader = baseError.errorBodyReader
-        var value = UnauthorizedOperationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalError {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalError {
-        let reader = baseError.errorBodyReader
-        var value = InternalError()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension MissingRequiredParameterException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingRequiredParameterException {
@@ -4465,11 +4439,24 @@ extension MissingRequiredParameterException {
     }
 }
 
-extension ReplicationJobAlreadyExistsException {
+extension OperationNotPermittedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicationJobAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationNotPermittedException {
         let reader = baseError.errorBodyReader
-        var value = ReplicationJobAlreadyExistsException()
+        var value = OperationNotPermittedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnauthorizedOperationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnauthorizedOperationException {
+        let reader = baseError.errorBodyReader
+        var value = UnauthorizedOperationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4491,10 +4478,12 @@ extension NoConnectorsAvailableException {
     }
 }
 
-extension TemporarilyUnavailableException {
+extension ReplicationJobAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TemporarilyUnavailableException {
-        var value = TemporarilyUnavailableException()
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicationJobAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = ReplicationJobAlreadyExistsException()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4515,6 +4504,17 @@ extension ServerCannotBeReplicatedException {
     }
 }
 
+extension TemporarilyUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TemporarilyUnavailableException {
+        var value = TemporarilyUnavailableException()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ReplicationJobNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicationJobNotFoundException {
@@ -4528,11 +4528,11 @@ extension ReplicationJobNotFoundException {
     }
 }
 
-extension ReplicationRunLimitExceededException {
+extension DryRunOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicationRunLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DryRunOperationException {
         let reader = baseError.errorBodyReader
-        var value = ReplicationRunLimitExceededException()
+        var value = DryRunOperationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4541,11 +4541,11 @@ extension ReplicationRunLimitExceededException {
     }
 }
 
-extension DryRunOperationException {
+extension ReplicationRunLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DryRunOperationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicationRunLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = DryRunOperationException()
+        var value = ReplicationRunLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -9592,6 +9592,24 @@ enum UpdatePodIdentityAssociationOutputError {
     }
 }
 
+extension InvalidParameterException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidParameterException()
+        value.properties.addonName = try reader["addonName"].readIfPresent()
+        value.properties.clusterName = try reader["clusterName"].readIfPresent()
+        value.properties.fargateProfileName = try reader["fargateProfileName"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.nodegroupName = try reader["nodegroupName"].readIfPresent()
+        value.properties.subscriptionId = try reader["subscriptionId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidRequestException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
@@ -9644,31 +9662,16 @@ extension ServerException {
     }
 }
 
-extension InvalidParameterException {
+extension ClientException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientException {
         let reader = baseError.errorBodyReader
-        var value = InvalidParameterException()
+        var value = ClientException()
         value.properties.addonName = try reader["addonName"].readIfPresent()
         value.properties.clusterName = try reader["clusterName"].readIfPresent()
-        value.properties.fargateProfileName = try reader["fargateProfileName"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.nodegroupName = try reader["nodegroupName"].readIfPresent()
         value.properties.subscriptionId = try reader["subscriptionId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
-        value.properties.clusterName = try reader["clusterName"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9692,16 +9695,13 @@ extension ResourceInUseException {
     }
 }
 
-extension ClientException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = ClientException()
-        value.properties.addonName = try reader["addonName"].readIfPresent()
+        var value = ThrottlingException()
         value.properties.clusterName = try reader["clusterName"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
-        value.properties.nodegroupName = try reader["nodegroupName"].readIfPresent()
-        value.properties.subscriptionId = try reader["subscriptionId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9767,11 +9767,11 @@ extension AccessDeniedException {
     }
 }
 
-extension NotFoundException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = NotFoundException()
+        var value = BadRequestException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9780,11 +9780,11 @@ extension NotFoundException {
     }
 }
 
-extension BadRequestException {
+extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
+        var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

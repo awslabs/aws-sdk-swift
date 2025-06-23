@@ -956,6 +956,19 @@ enum ListStreamsOutputError {
     }
 }
 
+extension InternalServerError {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerError()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
@@ -969,11 +982,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension InternalServerError {
+extension ExpiredIteratorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExpiredIteratorException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerError()
+        var value = ExpiredIteratorException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1000,19 +1013,6 @@ extension TrimmedDataAccessException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TrimmedDataAccessException {
         let reader = baseError.errorBodyReader
         var value = TrimmedDataAccessException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ExpiredIteratorException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExpiredIteratorException {
-        let reader = baseError.errorBodyReader
-        var value = ExpiredIteratorException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -780,6 +780,19 @@ extension AccessForbidden {
     }
 }
 
+extension InternalFailure {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailure {
+        let reader = baseError.errorBodyReader
+        var value = InternalFailure()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceUnavailable {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailable {
@@ -798,19 +811,6 @@ extension ValidationError {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationError {
         let reader = baseError.errorBodyReader
         var value = ValidationError()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalFailure {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailure {
-        let reader = baseError.errorBodyReader
-        var value = InternalFailure()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

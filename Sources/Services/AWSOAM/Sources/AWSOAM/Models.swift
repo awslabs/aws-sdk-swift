@@ -1702,12 +1702,12 @@ extension ConflictException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension InternalServiceFault {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceFault {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = ServiceQuotaExceededException()
+        var value = InternalServiceFault()
         if let amznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.amznErrorType = amznErrorTypeHeaderValue
         }
@@ -1719,16 +1719,16 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension InternalServiceFault {
+extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceFault {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = InternalServiceFault()
+        var value = InvalidParameterException()
         if let amznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.amznErrorType = amznErrorTypeHeaderValue
         }
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1753,16 +1753,16 @@ extension MissingRequiredParameterException {
     }
 }
 
-extension InvalidParameterException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = InvalidParameterException()
+        var value = ServiceQuotaExceededException()
         if let amznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.amznErrorType = amznErrorTypeHeaderValue
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

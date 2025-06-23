@@ -483,11 +483,11 @@ enum GetRecommendationsOutputError {
     }
 }
 
-extension ResourceNotFoundException {
+extension InvalidInputException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidInputException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = InvalidInputException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -496,11 +496,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension InvalidInputException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidInputException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
