@@ -16,6 +16,7 @@ import struct SmithyIdentity.StaticAWSCredentialIdentityResolver
 
 package struct IdentityProvidingSTSClient: AWSSDKIdentity.IdentityProvidingSTSClient, Swift.Sendable {
     package init() {}
+
     package func assumeRoleWithCreds(creds: AWSSDKIdentity.AWSCredentialIdentity, roleARN: String, roleSessionName: String, durationSeconds: Foundation.TimeInterval) async throws -> AWSSDKIdentity.AWSCredentialIdentity {
         let stsConfig = try await STSClient.STSClientConfiguration()
         stsConfig.awsCredentialIdentityResolver = SmithyIdentity.StaticAWSCredentialIdentityResolver(creds)
@@ -26,6 +27,7 @@ package struct IdentityProvidingSTSClient: AWSSDKIdentity.IdentityProvidingSTSCl
         }
         return AWSCredentialIdentity(accessKey: accessKey, secret: secretKey, expiration: creds.expiration, sessionToken: creds.sessionToken)
     }
+
     package func getCredentialsWithWebIdentity(region: String, roleARN: String, roleSessionName: String, webIdentityToken: String) async throws -> AWSSDKIdentity.AWSCredentialIdentity {
         let sts = try STSClient(region: region)
         var out: AssumeRoleWithWebIdentityOutput
