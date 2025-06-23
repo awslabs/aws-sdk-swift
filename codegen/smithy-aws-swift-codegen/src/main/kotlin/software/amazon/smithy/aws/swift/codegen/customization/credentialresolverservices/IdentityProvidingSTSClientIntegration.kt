@@ -31,7 +31,7 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
                 SwiftTypes.Protocols.Sendable,
             ) {
                 writer.write("package init() {}")
-
+                writer.write("")
                 writer.openBlock(
                     "package func assumeRoleWithCreds(creds: \$N, roleARN: String, roleSessionName: String, durationSeconds: \$N) async throws -> \$N {",
                     "}",
@@ -64,7 +64,7 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
                             "expiration: creds.expiration, sessionToken: creds.sessionToken)",
                     )
                 }
-
+                writer.write("")
                 writer.openBlock(
                     "package func getCredentialsWithWebIdentity(region: String, roleARN: String, " +
                         "roleSessionName: String, webIdentityToken: String) async throws -> \$N {",
