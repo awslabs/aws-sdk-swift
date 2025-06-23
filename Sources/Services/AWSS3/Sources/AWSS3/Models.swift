@@ -22769,11 +22769,13 @@ extension GetObjectInput {
                       .withExpiration(value: expiration)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -22845,27 +22847,27 @@ extension GetObjectInputGETQueryItemMiddleware: Smithy.RequestMessageSerializer 
             builder.withQueryItem(queryItem)
         }
         if let responseCacheControl = input.responseCacheControl {
-            let queryItem = Smithy.URIQueryItem(name: "ResponseCacheControl".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "response-cache-control".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentDisposition = input.responseContentDisposition {
-            let queryItem = Smithy.URIQueryItem(name: "ResponseContentDisposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "response-content-disposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentEncoding = input.responseContentEncoding {
-            let queryItem = Smithy.URIQueryItem(name: "ResponseContentEncoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "response-content-encoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentLanguage = input.responseContentLanguage {
-            let queryItem = Smithy.URIQueryItem(name: "ResponseContentLanguage".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "response-content-language".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentType = input.responseContentType {
-            let queryItem = Smithy.URIQueryItem(name: "ResponseContentType".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "response-content-type".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let versionId = input.versionId {
-            let queryItem = Smithy.URIQueryItem(name: "VersionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let sseCustomerAlgorithm = input.sseCustomerAlgorithm {
@@ -22919,11 +22921,13 @@ extension PutObjectInput {
                       .withExpiration(value: expiration)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -23010,11 +23014,13 @@ extension UploadPartInput {
                       .withExpiration(value: expiration)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -23080,11 +23086,13 @@ extension GetObjectInput {
                       .withExpiration(value: expiration)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -23153,11 +23161,13 @@ extension PutObjectInput {
                       .withExpiration(value: expiration)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -23230,11 +23240,13 @@ extension UploadPartInput {
                       .withExpiration(value: expiration)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
