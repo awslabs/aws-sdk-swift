@@ -6,6 +6,7 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.customization.RulesBasedAuthSchemeResolverGenerator
+import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKEventStreamsAuthTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
@@ -39,6 +40,9 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         }
         writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4")
         writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4a")
+        if (ctx.service.isS3) {
+            writer.write("  .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: \$S)", "aws.auth#sigv4-s3express")
+        }
         writer.write("  .withRegion(value: config.region)")
         writer.write("  .withRequestChecksumCalculation(value: config.requestChecksumCalculation)")
         writer.write("  .withResponseChecksumValidation(value: config.responseChecksumValidation)")
@@ -46,6 +50,9 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
             val signingName = AWSAuthUtils.signingServiceName(serviceShape)
             writer.write("  .withSigningName(value: \$S)", signingName)
             writer.write("  .withSigningRegion(value: config.signingRegion)")
+        }
+        if (ctx.service.isS3) {
+            writer.write("  .withClientConfig(value: config)") // this is used in S3 Express
         }
     }
 
