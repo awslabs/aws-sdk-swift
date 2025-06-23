@@ -12735,11 +12735,27 @@ enum UpdateRestoreTestingSelectionOutputError {
     }
 }
 
-extension ResourceNotFoundException {
+extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = InvalidParameterValueException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.context = try reader["Context"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRequestException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.context = try reader["Context"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12767,27 +12783,11 @@ extension MissingParameterValueException {
     }
 }
 
-extension InvalidParameterValueException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InvalidParameterValueException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.context = try reader["Context"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.type = try reader["Type"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
+        var value = ResourceNotFoundException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.context = try reader["Context"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12831,22 +12831,6 @@ extension InvalidResourceStateException {
     }
 }
 
-extension LimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.context = try reader["Context"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.type = try reader["Type"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AlreadyExistsException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AlreadyExistsException {
@@ -12856,6 +12840,22 @@ extension AlreadyExistsException {
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.context = try reader["Context"].readIfPresent()
         value.properties.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension LimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.context = try reader["Context"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.type = try reader["Type"].readIfPresent()
         value.httpResponse = baseError.httpResponse

@@ -6587,11 +6587,11 @@ enum UpdateUserOutputError {
     }
 }
 
-extension ServiceUpdateNotFoundFault {
+extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUpdateNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
-        var value = ServiceUpdateNotFoundFault()
+        var value = InvalidParameterValueException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6600,11 +6600,11 @@ extension ServiceUpdateNotFoundFault {
     }
 }
 
-extension InvalidParameterValueException {
+extension ServiceUpdateNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUpdateNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidParameterValueException()
+        var value = ServiceUpdateNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6626,37 +6626,11 @@ extension InvalidParameterCombinationException {
     }
 }
 
-extension SnapshotNotFoundFault {
+extension InvalidSnapshotStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSnapshotStateFault {
         let reader = baseError.errorBodyReader
-        var value = SnapshotNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TagQuotaPerResourceExceeded {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagQuotaPerResourceExceeded {
-        let reader = baseError.errorBodyReader
-        var value = TagQuotaPerResourceExceeded()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SnapshotQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = SnapshotQuotaExceededFault()
+        var value = InvalidSnapshotStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6691,11 +6665,11 @@ extension SnapshotAlreadyExistsFault {
     }
 }
 
-extension InvalidSnapshotStateFault {
+extension SnapshotNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSnapshotStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidSnapshotStateFault()
+        var value = SnapshotNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6704,11 +6678,11 @@ extension InvalidSnapshotStateFault {
     }
 }
 
-extension ACLQuotaExceededFault {
+extension SnapshotQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ACLQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = ACLQuotaExceededFault()
+        var value = SnapshotQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6717,37 +6691,11 @@ extension ACLQuotaExceededFault {
     }
 }
 
-extension DuplicateUserNameFault {
+extension TagQuotaPerResourceExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateUserNameFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagQuotaPerResourceExceeded {
         let reader = baseError.errorBodyReader
-        var value = DuplicateUserNameFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DefaultUserRequired {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DefaultUserRequired {
-        let reader = baseError.errorBodyReader
-        var value = DefaultUserRequired()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UserNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = UserNotFoundFault()
+        var value = TagQuotaPerResourceExceeded()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6769,11 +6717,50 @@ extension ACLAlreadyExistsFault {
     }
 }
 
-extension ClusterQuotaForCustomerExceededFault {
+extension ACLQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterQuotaForCustomerExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ACLQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = ClusterQuotaForCustomerExceededFault()
+        var value = ACLQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DefaultUserRequired {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DefaultUserRequired {
+        let reader = baseError.errorBodyReader
+        var value = DefaultUserRequired()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DuplicateUserNameFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateUserNameFault {
+        let reader = baseError.errorBodyReader
+        var value = DuplicateUserNameFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UserNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = UserNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6795,45 +6782,6 @@ extension ACLNotFoundFault {
     }
 }
 
-extension NodeQuotaForClusterExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NodeQuotaForClusterExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = NodeQuotaForClusterExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SubnetGroupNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetGroupNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = SubnetGroupNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidCredentialsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCredentialsException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidCredentialsException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ClusterAlreadyExistsFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterAlreadyExistsFault {
@@ -6847,63 +6795,11 @@ extension ClusterAlreadyExistsFault {
     }
 }
 
-extension ShardsPerClusterQuotaExceededFault {
+extension ClusterQuotaForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ShardsPerClusterQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterQuotaForCustomerExceededFault {
         let reader = baseError.errorBodyReader
-        var value = ShardsPerClusterQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ParameterGroupNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ParameterGroupNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = ParameterGroupNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidVPCNetworkStateFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidVPCNetworkStateFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidVPCNetworkStateFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension MultiRegionClusterNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MultiRegionClusterNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = MultiRegionClusterNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NodeQuotaForCustomerExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NodeQuotaForCustomerExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = NodeQuotaForCustomerExceededFault()
+        var value = ClusterQuotaForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6938,11 +6834,115 @@ extension InvalidACLStateFault {
     }
 }
 
+extension InvalidCredentialsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCredentialsException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidCredentialsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidMultiRegionClusterStateFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidMultiRegionClusterStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidMultiRegionClusterStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidVPCNetworkStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidVPCNetworkStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidVPCNetworkStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MultiRegionClusterNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MultiRegionClusterNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = MultiRegionClusterNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NodeQuotaForClusterExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NodeQuotaForClusterExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = NodeQuotaForClusterExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NodeQuotaForCustomerExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NodeQuotaForCustomerExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = NodeQuotaForCustomerExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ParameterGroupNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ParameterGroupNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = ParameterGroupNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ShardsPerClusterQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ShardsPerClusterQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = ShardsPerClusterQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SubnetGroupNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetGroupNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = SubnetGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6977,11 +6977,11 @@ extension MultiRegionParameterGroupNotFoundFault {
     }
 }
 
-extension ParameterGroupAlreadyExistsFault {
+extension InvalidParameterGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ParameterGroupAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterGroupStateFault {
         let reader = baseError.errorBodyReader
-        var value = ParameterGroupAlreadyExistsFault()
+        var value = InvalidParameterGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6990,11 +6990,11 @@ extension ParameterGroupAlreadyExistsFault {
     }
 }
 
-extension InvalidParameterGroupStateFault {
+extension ParameterGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterGroupStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ParameterGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidParameterGroupStateFault()
+        var value = ParameterGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7042,50 +7042,11 @@ extension InvalidClusterStateFault {
     }
 }
 
-extension SubnetNotAllowedFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetNotAllowedFault {
-        let reader = baseError.errorBodyReader
-        var value = SubnetNotAllowedFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SubnetGroupQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetGroupQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = SubnetGroupQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidSubnet {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSubnet {
         let reader = baseError.errorBodyReader
         var value = InvalidSubnet()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SubnetQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = SubnetQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7107,11 +7068,37 @@ extension SubnetGroupAlreadyExistsFault {
     }
 }
 
-extension UserQuotaExceededFault {
+extension SubnetGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = UserQuotaExceededFault()
+        var value = SubnetGroupQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SubnetNotAllowedFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetNotAllowedFault {
+        let reader = baseError.errorBodyReader
+        var value = SubnetNotAllowedFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SubnetQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = SubnetQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7125,6 +7112,19 @@ extension UserAlreadyExistsFault {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = UserAlreadyExistsFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UserQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = UserQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7185,11 +7185,11 @@ extension ReservedNodesOfferingNotFoundFault {
     }
 }
 
-extension InvalidKMSKeyFault {
+extension APICallRateForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKMSKeyFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> APICallRateForCustomerExceededFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidKMSKeyFault()
+        var value = APICallRateForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7198,11 +7198,11 @@ extension InvalidKMSKeyFault {
     }
 }
 
-extension APICallRateForCustomerExceededFault {
+extension InvalidKMSKeyFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> APICallRateForCustomerExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKMSKeyFault {
         let reader = baseError.errorBodyReader
-        var value = APICallRateForCustomerExceededFault()
+        var value = InvalidKMSKeyFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

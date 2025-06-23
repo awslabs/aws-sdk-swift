@@ -13153,24 +13153,11 @@ extension BucketAlreadyOwnedByYou {
     }
 }
 
-extension InternalServiceException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InternalServiceException {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyRequestsException {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyRequestsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
+        var value = BadRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13192,11 +13179,24 @@ extension IdempotencyException {
     }
 }
 
-extension BadRequestException {
+extension InternalServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InternalServiceException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
+        var value = InternalServiceException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRequestsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRequestsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13231,11 +13231,11 @@ extension NoSuchPublicAccessBlockConfiguration {
     }
 }
 
-extension InvalidRequestException {
+extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
+        var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13244,11 +13244,11 @@ extension InvalidRequestException {
     }
 }
 
-extension InvalidNextTokenException {
+extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
-        var value = InvalidNextTokenException()
+        var value = InvalidRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

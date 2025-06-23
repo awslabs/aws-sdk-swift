@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.139.0"
+let clientRuntimeVersion: Version = "0.140.0"
 let crtVersion: Version = "0.52.1"
 
 let excludeRuntimeUnitTests = false
@@ -428,6 +428,7 @@ let serviceTargets: [String] = [
     "AWSWorkSpaces",
     "AWSWorkSpacesThinClient",
     "AWSWorkSpacesWeb",
+    "AWSWorkspacesInstances",
     "AWSXRay",
 ]
 

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3TablesClient: ClientRuntime.Client {
     public static let clientName = "S3TablesClient"
-    public static let version = "1.3.41"
+    public static let version = "1.3.42"
     let client: ClientRuntime.SdkHttpClient
     let config: S3TablesClient.S3TablesClientConfiguration
     let serviceName = "S3Tables"
@@ -1630,7 +1630,11 @@ extension S3TablesClient {
 
     /// Performs the `GetTableMaintenanceConfiguration` operation on the `S3Tables` service.
     ///
-    /// Gets details about the maintenance configuration of a table. For more information, see [S3 Tables maintenance](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-maintenance.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTableMaintenanceConfiguration permission to use this operation.
+    /// Gets details about the maintenance configuration of a table. For more information, see [S3 Tables maintenance](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-maintenance.html) in the Amazon Simple Storage Service User Guide. Permissions
+    ///
+    /// * You must have the s3tables:GetTableMaintenanceConfiguration permission to use this operation.
+    ///
+    /// * You must have the s3tables:GetTableData permission to use set the compaction strategy to sort or zorder.
     ///
     /// - Parameter GetTableMaintenanceConfigurationInput : [no documentation found]
     ///

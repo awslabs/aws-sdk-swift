@@ -336,11 +336,11 @@ enum PutAuditEventsOutputError {
     }
 }
 
-extension UnsupportedOperationException {
+extension ChannelInsufficientPermission {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedOperationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ChannelInsufficientPermission {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedOperationException()
+        var value = ChannelInsufficientPermission()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -349,11 +349,11 @@ extension UnsupportedOperationException {
     }
 }
 
-extension ChannelInsufficientPermission {
+extension ChannelNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ChannelInsufficientPermission {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ChannelNotFound {
         let reader = baseError.errorBodyReader
-        var value = ChannelInsufficientPermission()
+        var value = ChannelNotFound()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -401,11 +401,11 @@ extension InvalidChannelARN {
     }
 }
 
-extension ChannelNotFound {
+extension UnsupportedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ChannelNotFound {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
-        var value = ChannelNotFound()
+        var value = UnsupportedOperationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

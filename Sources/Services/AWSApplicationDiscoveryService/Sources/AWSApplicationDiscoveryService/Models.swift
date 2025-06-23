@@ -3949,11 +3949,24 @@ enum UpdateApplicationOutputError {
     }
 }
 
-extension InvalidParameterValueException {
+extension AuthorizationErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AuthorizationErrorException {
         let reader = baseError.errorBodyReader
-        var value = InvalidParameterValueException()
+        var value = AuthorizationErrorException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension HomeRegionNotSetException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HomeRegionNotSetException {
+        let reader = baseError.errorBodyReader
+        var value = HomeRegionNotSetException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3975,11 +3988,11 @@ extension InvalidParameterException {
     }
 }
 
-extension AuthorizationErrorException {
+extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AuthorizationErrorException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
-        var value = AuthorizationErrorException()
+        var value = InvalidParameterValueException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3993,19 +4006,6 @@ extension ServerInternalErrorException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServerInternalErrorException {
         let reader = baseError.errorBodyReader
         var value = ServerInternalErrorException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension HomeRegionNotSetException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HomeRegionNotSetException {
-        let reader = baseError.errorBodyReader
-        var value = HomeRegionNotSetException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

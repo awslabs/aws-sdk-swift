@@ -20872,24 +20872,11 @@ enum UpdatePartnerStatusOutputError {
     }
 }
 
-extension ReservedNodeAlreadyMigratedFault {
+extension DependentServiceUnavailableFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedNodeAlreadyMigratedFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DependentServiceUnavailableFault {
         let reader = baseError.errorBodyReader
-        var value = ReservedNodeAlreadyMigratedFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnsupportedOperationFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnsupportedOperationFault {
-        let reader = baseError.errorBodyReader
-        var value = UnsupportedOperationFault()
+        var value = DependentServiceUnavailableFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20924,24 +20911,11 @@ extension ReservedNodeAlreadyExistsFault {
     }
 }
 
-extension ReservedNodeOfferingNotFoundFault {
+extension ReservedNodeAlreadyMigratedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedNodeOfferingNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedNodeAlreadyMigratedFault {
         let reader = baseError.errorBodyReader
-        var value = ReservedNodeOfferingNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DependentServiceUnavailableFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DependentServiceUnavailableFault {
-        let reader = baseError.errorBodyReader
-        var value = DependentServiceUnavailableFault()
+        var value = ReservedNodeAlreadyMigratedFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20963,11 +20937,24 @@ extension ReservedNodeNotFoundFault {
     }
 }
 
-extension PartnerNotFoundFault {
+extension ReservedNodeOfferingNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PartnerNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedNodeOfferingNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = PartnerNotFoundFault()
+        var value = ReservedNodeOfferingNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnsupportedOperationFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnsupportedOperationFault {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedOperationFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20981,6 +20968,19 @@ extension ClusterNotFoundFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ClusterNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PartnerNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PartnerNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = PartnerNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21028,11 +21028,11 @@ extension InvalidNamespaceFault {
     }
 }
 
-extension AuthorizationQuotaExceededFault {
+extension AuthorizationAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = AuthorizationQuotaExceededFault()
+        var value = AuthorizationAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21041,11 +21041,11 @@ extension AuthorizationQuotaExceededFault {
     }
 }
 
-extension InvalidClusterSecurityGroupStateFault {
+extension AuthorizationQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidClusterSecurityGroupStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidClusterSecurityGroupStateFault()
+        var value = AuthorizationQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21067,11 +21067,11 @@ extension ClusterSecurityGroupNotFoundFault {
     }
 }
 
-extension AuthorizationAlreadyExistsFault {
+extension InvalidClusterSecurityGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidClusterSecurityGroupStateFault {
         let reader = baseError.errorBodyReader
-        var value = AuthorizationAlreadyExistsFault()
+        var value = InvalidClusterSecurityGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21080,24 +21080,11 @@ extension AuthorizationAlreadyExistsFault {
     }
 }
 
-extension InvalidClusterStateFault {
+extension EndpointAuthorizationAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidClusterStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EndpointAuthorizationAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidClusterStateFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidAuthorizationStateFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidAuthorizationStateFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidAuthorizationStateFault()
+        var value = EndpointAuthorizationAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21119,11 +21106,24 @@ extension EndpointAuthorizationsPerClusterLimitExceededFault {
     }
 }
 
-extension EndpointAuthorizationAlreadyExistsFault {
+extension InvalidAuthorizationStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EndpointAuthorizationAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidAuthorizationStateFault {
         let reader = baseError.errorBodyReader
-        var value = EndpointAuthorizationAlreadyExistsFault()
+        var value = InvalidAuthorizationStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidClusterStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidClusterStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidClusterStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21197,11 +21197,11 @@ extension BatchDeleteRequestSizeExceededFault {
     }
 }
 
-extension InvalidRetentionPeriodFault {
+extension BatchModifyClusterSnapshotsLimitExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidRetentionPeriodFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BatchModifyClusterSnapshotsLimitExceededFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidRetentionPeriodFault()
+        var value = BatchModifyClusterSnapshotsLimitExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21210,11 +21210,11 @@ extension InvalidRetentionPeriodFault {
     }
 }
 
-extension BatchModifyClusterSnapshotsLimitExceededFault {
+extension InvalidRetentionPeriodFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BatchModifyClusterSnapshotsLimitExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidRetentionPeriodFault {
         let reader = baseError.errorBodyReader
-        var value = BatchModifyClusterSnapshotsLimitExceededFault()
+        var value = InvalidRetentionPeriodFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21301,136 +21301,6 @@ extension InvalidAuthenticationProfileRequestFault {
     }
 }
 
-extension ClusterQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = ClusterQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension HsmConfigurationNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HsmConfigurationNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = HsmConfigurationNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NumberOfNodesQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NumberOfNodesQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = NumberOfNodesQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidSubnet {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnet {
-        let reader = baseError.errorBodyReader
-        var value = InvalidSubnet()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnauthorizedOperation {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnauthorizedOperation {
-        let reader = baseError.errorBodyReader
-        var value = UnauthorizedOperation()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidTagFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidTagFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidTagFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension HsmClientCertificateNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HsmClientCertificateNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = HsmClientCertificateNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidClusterSubnetGroupStateFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidClusterSubnetGroupStateFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidClusterSubnetGroupStateFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TagLimitExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TagLimitExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = TagLimitExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidVPCNetworkStateFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidVPCNetworkStateFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ClusterAlreadyExistsFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterAlreadyExistsFault {
@@ -21457,6 +21327,19 @@ extension ClusterParameterGroupNotFoundFault {
     }
 }
 
+extension ClusterQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = ClusterQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ClusterSubnetGroupNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterSubnetGroupNotFoundFault {
@@ -21470,11 +21353,11 @@ extension ClusterSubnetGroupNotFoundFault {
     }
 }
 
-extension Ipv6CidrBlockNotFoundFault {
+extension HsmClientCertificateNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> Ipv6CidrBlockNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HsmClientCertificateNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = Ipv6CidrBlockNotFoundFault()
+        var value = HsmClientCertificateNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21483,11 +21366,11 @@ extension Ipv6CidrBlockNotFoundFault {
     }
 }
 
-extension RedshiftIdcApplicationNotExistsFault {
+extension HsmConfigurationNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RedshiftIdcApplicationNotExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HsmConfigurationNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = RedshiftIdcApplicationNotExistsFault()
+        var value = HsmConfigurationNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21501,6 +21384,19 @@ extension InsufficientClusterCapacityFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientClusterCapacityFault {
         let reader = baseError.errorBodyReader
         var value = InsufficientClusterCapacityFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidClusterSubnetGroupStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidClusterSubnetGroupStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidClusterSubnetGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21535,11 +21431,50 @@ extension InvalidElasticIpFault {
     }
 }
 
-extension SnapshotScheduleNotFoundFault {
+extension InvalidSubnet {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotScheduleNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnet {
         let reader = baseError.errorBodyReader
-        var value = SnapshotScheduleNotFoundFault()
+        var value = InvalidSubnet()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidTagFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidTagFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidTagFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidVPCNetworkStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidVPCNetworkStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension Ipv6CidrBlockNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> Ipv6CidrBlockNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = Ipv6CidrBlockNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21553,6 +21488,71 @@ extension NumberOfNodesPerClusterLimitExceededFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NumberOfNodesPerClusterLimitExceededFault {
         let reader = baseError.errorBodyReader
         var value = NumberOfNodesPerClusterLimitExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NumberOfNodesQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NumberOfNodesQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = NumberOfNodesQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RedshiftIdcApplicationNotExistsFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RedshiftIdcApplicationNotExistsFault {
+        let reader = baseError.errorBodyReader
+        var value = RedshiftIdcApplicationNotExistsFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SnapshotScheduleNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotScheduleNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = SnapshotScheduleNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TagLimitExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TagLimitExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = TagLimitExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnauthorizedOperation {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnauthorizedOperation {
+        let reader = baseError.errorBodyReader
+        var value = UnauthorizedOperation()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21587,11 +21587,11 @@ extension ClusterParameterGroupQuotaExceededFault {
     }
 }
 
-extension ClusterSecurityGroupQuotaExceededFault {
+extension ClusterSecurityGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterSecurityGroupQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterSecurityGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = ClusterSecurityGroupQuotaExceededFault()
+        var value = ClusterSecurityGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21600,11 +21600,11 @@ extension ClusterSecurityGroupQuotaExceededFault {
     }
 }
 
-extension ClusterSecurityGroupAlreadyExistsFault {
+extension ClusterSecurityGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterSecurityGroupAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterSecurityGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = ClusterSecurityGroupAlreadyExistsFault()
+        var value = ClusterSecurityGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21626,11 +21626,11 @@ extension ClusterSubnetGroupAlreadyExistsFault {
     }
 }
 
-extension ClusterSubnetQuotaExceededFault {
+extension ClusterSubnetGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterSubnetQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterSubnetGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = ClusterSubnetQuotaExceededFault()
+        var value = ClusterSubnetGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21639,11 +21639,11 @@ extension ClusterSubnetQuotaExceededFault {
     }
 }
 
-extension ClusterSubnetGroupQuotaExceededFault {
+extension ClusterSubnetQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterSubnetGroupQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ClusterSubnetQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = ClusterSubnetGroupQuotaExceededFault()
+        var value = ClusterSubnetQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21665,11 +21665,11 @@ extension CustomCnameAssociationFault {
     }
 }
 
-extension EndpointsPerAuthorizationLimitExceededFault {
+extension AccessToClusterDeniedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EndpointsPerAuthorizationLimitExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AccessToClusterDeniedFault {
         let reader = baseError.errorBodyReader
-        var value = EndpointsPerAuthorizationLimitExceededFault()
+        var value = AccessToClusterDeniedFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21691,11 +21691,11 @@ extension EndpointAlreadyExistsFault {
     }
 }
 
-extension AccessToClusterDeniedFault {
+extension EndpointsPerAuthorizationLimitExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AccessToClusterDeniedFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EndpointsPerAuthorizationLimitExceededFault {
         let reader = baseError.errorBodyReader
-        var value = AccessToClusterDeniedFault()
+        var value = EndpointsPerAuthorizationLimitExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21730,63 +21730,11 @@ extension EventSubscriptionQuotaExceededFault {
     }
 }
 
-extension SubscriptionSeverityNotFoundFault {
+extension SNSInvalidTopicFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionSeverityNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSInvalidTopicFault {
         let reader = baseError.errorBodyReader
-        var value = SubscriptionSeverityNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SubscriptionEventIdNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionEventIdNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = SubscriptionEventIdNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SubscriptionCategoryNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionCategoryNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = SubscriptionCategoryNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SNSTopicArnNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSTopicArnNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = SNSTopicArnNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SubscriptionAlreadyExistFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionAlreadyExistFault {
-        let reader = baseError.errorBodyReader
-        var value = SubscriptionAlreadyExistFault()
+        var value = SNSInvalidTopicFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21808,6 +21756,19 @@ extension SNSNoAuthorizationFault {
     }
 }
 
+extension SNSTopicArnNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSTopicArnNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = SNSTopicArnNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension SourceNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SourceNotFoundFault {
@@ -21821,11 +21782,50 @@ extension SourceNotFoundFault {
     }
 }
 
-extension SNSInvalidTopicFault {
+extension SubscriptionAlreadyExistFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSInvalidTopicFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionAlreadyExistFault {
         let reader = baseError.errorBodyReader
-        var value = SNSInvalidTopicFault()
+        var value = SubscriptionAlreadyExistFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SubscriptionCategoryNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionCategoryNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = SubscriptionCategoryNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SubscriptionEventIdNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionEventIdNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = SubscriptionEventIdNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SubscriptionSeverityNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionSeverityNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = SubscriptionSeverityNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21860,19 +21860,6 @@ extension HsmClientCertificateQuotaExceededFault {
     }
 }
 
-extension HsmConfigurationQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HsmConfigurationQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = HsmConfigurationQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension HsmConfigurationAlreadyExistsFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HsmConfigurationAlreadyExistsFault {
@@ -21886,11 +21873,11 @@ extension HsmConfigurationAlreadyExistsFault {
     }
 }
 
-extension IntegrationTargetNotFoundFault {
+extension HsmConfigurationQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationTargetNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HsmConfigurationQuotaExceededFault {
         let reader = baseError.errorBodyReader
-        var value = IntegrationTargetNotFoundFault()
+        var value = HsmConfigurationQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21951,6 +21938,19 @@ extension IntegrationSourceNotFoundFault {
     }
 }
 
+extension IntegrationTargetNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationTargetNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = IntegrationTargetNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DependentServiceAccessDeniedFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DependentServiceAccessDeniedFault {
@@ -21990,11 +21990,24 @@ extension RedshiftIdcApplicationQuotaExceededFault {
     }
 }
 
-extension ScheduledActionTypeUnsupportedFault {
+extension InvalidScheduledActionFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ScheduledActionTypeUnsupportedFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidScheduledActionFault {
         let reader = baseError.errorBodyReader
-        var value = ScheduledActionTypeUnsupportedFault()
+        var value = InvalidScheduledActionFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidScheduleFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidScheduleFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidScheduleFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -22016,19 +22029,6 @@ extension ScheduledActionAlreadyExistsFault {
     }
 }
 
-extension InvalidScheduledActionFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidScheduledActionFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidScheduledActionFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ScheduledActionQuotaExceededFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ScheduledActionQuotaExceededFault {
@@ -22042,11 +22042,11 @@ extension ScheduledActionQuotaExceededFault {
     }
 }
 
-extension InvalidScheduleFault {
+extension ScheduledActionTypeUnsupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidScheduleFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ScheduledActionTypeUnsupportedFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidScheduleFault()
+        var value = ScheduledActionTypeUnsupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -22081,19 +22081,6 @@ extension SnapshotCopyGrantQuotaExceededFault {
     }
 }
 
-extension SnapshotScheduleQuotaExceededFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotScheduleQuotaExceededFault {
-        let reader = baseError.errorBodyReader
-        var value = SnapshotScheduleQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ScheduleDefinitionTypeUnsupportedFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ScheduleDefinitionTypeUnsupportedFault {
@@ -22120,6 +22107,19 @@ extension SnapshotScheduleAlreadyExistsFault {
     }
 }
 
+extension SnapshotScheduleQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotScheduleQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = SnapshotScheduleQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundFault {
@@ -22133,11 +22133,11 @@ extension ResourceNotFoundFault {
     }
 }
 
-extension UsageLimitAlreadyExistsFault {
+extension InvalidUsageLimitFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UsageLimitAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidUsageLimitFault {
         let reader = baseError.errorBodyReader
-        var value = UsageLimitAlreadyExistsFault()
+        var value = InvalidUsageLimitFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -22146,11 +22146,11 @@ extension UsageLimitAlreadyExistsFault {
     }
 }
 
-extension InvalidUsageLimitFault {
+extension UsageLimitAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidUsageLimitFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UsageLimitAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidUsageLimitFault()
+        var value = UsageLimitAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -22289,11 +22289,11 @@ extension InvalidHsmConfigurationStateFault {
     }
 }
 
-extension IntegrationNotFoundFault {
+extension IntegrationConflictStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationConflictStateFault {
         let reader = baseError.errorBodyReader
-        var value = IntegrationNotFoundFault()
+        var value = IntegrationConflictStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -22302,11 +22302,11 @@ extension IntegrationNotFoundFault {
     }
 }
 
-extension IntegrationConflictStateFault {
+extension IntegrationNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationConflictStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = IntegrationConflictStateFault()
+        var value = IntegrationNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -22328,11 +22328,11 @@ extension ScheduledActionNotFoundFault {
     }
 }
 
-extension SnapshotCopyGrantNotFoundFault {
+extension InvalidSnapshotCopyGrantStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotCopyGrantNotFoundFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSnapshotCopyGrantStateFault {
         let reader = baseError.errorBodyReader
-        var value = SnapshotCopyGrantNotFoundFault()
+        var value = InvalidSnapshotCopyGrantStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -22341,11 +22341,11 @@ extension SnapshotCopyGrantNotFoundFault {
     }
 }
 
-extension InvalidSnapshotCopyGrantStateFault {
+extension SnapshotCopyGrantNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSnapshotCopyGrantStateFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotCopyGrantNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = InvalidSnapshotCopyGrantStateFault()
+        var value = SnapshotCopyGrantNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -22445,6 +22445,19 @@ extension BucketNotFoundFault {
     }
 }
 
+extension InsufficientS3BucketPolicyFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientS3BucketPolicyFault {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientS3BucketPolicyFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidS3BucketNameFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidS3BucketNameFault {
@@ -22471,19 +22484,6 @@ extension InvalidS3KeyPrefixFault {
     }
 }
 
-extension InsufficientS3BucketPolicyFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientS3BucketPolicyFault {
-        let reader = baseError.errorBodyReader
-        var value = InsufficientS3BucketPolicyFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension CopyToRegionDisabledFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CopyToRegionDisabledFault {
@@ -22497,11 +22497,11 @@ extension CopyToRegionDisabledFault {
     }
 }
 
-extension UnknownSnapshotCopyRegionFault {
+extension IncompatibleOrderableOptions {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnknownSnapshotCopyRegionFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IncompatibleOrderableOptions {
         let reader = baseError.errorBodyReader
-        var value = UnknownSnapshotCopyRegionFault()
+        var value = IncompatibleOrderableOptions()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -22523,11 +22523,11 @@ extension SnapshotCopyAlreadyEnabledFault {
     }
 }
 
-extension IncompatibleOrderableOptions {
+extension UnknownSnapshotCopyRegionFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IncompatibleOrderableOptions {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnknownSnapshotCopyRegionFault {
         let reader = baseError.errorBodyReader
-        var value = IncompatibleOrderableOptions()
+        var value = UnknownSnapshotCopyRegionFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

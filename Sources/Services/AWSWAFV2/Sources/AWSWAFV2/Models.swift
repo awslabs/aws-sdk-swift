@@ -11134,6 +11134,32 @@ enum UpdateWebACLOutputError {
     }
 }
 
+extension WAFInternalErrorException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInternalErrorException {
+        let reader = baseError.errorBodyReader
+        var value = WAFInternalErrorException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension WAFInvalidOperationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInvalidOperationException {
+        let reader = baseError.errorBodyReader
+        var value = WAFInvalidOperationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension WAFInvalidParameterException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInvalidParameterException {
@@ -11163,37 +11189,11 @@ extension WAFNonexistentItemException {
     }
 }
 
-extension WAFInternalErrorException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInternalErrorException {
-        let reader = baseError.errorBodyReader
-        var value = WAFInternalErrorException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension WAFUnavailableEntityException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFUnavailableEntityException {
         let reader = baseError.errorBodyReader
         var value = WAFUnavailableEntityException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension WAFInvalidOperationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInvalidOperationException {
-        let reader = baseError.errorBodyReader
-        var value = WAFInvalidOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11228,19 +11228,6 @@ extension WAFInvalidResourceException {
     }
 }
 
-extension WAFSubscriptionNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFSubscriptionNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = WAFSubscriptionNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension WAFLimitsExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFLimitsExceededException {
@@ -11255,11 +11242,11 @@ extension WAFLimitsExceededException {
     }
 }
 
-extension WAFOptimisticLockException {
+extension WAFSubscriptionNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFOptimisticLockException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFSubscriptionNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = WAFOptimisticLockException()
+        var value = WAFSubscriptionNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11273,6 +11260,19 @@ extension WAFDuplicateItemException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFDuplicateItemException {
         let reader = baseError.errorBodyReader
         var value = WAFDuplicateItemException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension WAFOptimisticLockException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFOptimisticLockException {
+        let reader = baseError.errorBodyReader
+        var value = WAFOptimisticLockException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

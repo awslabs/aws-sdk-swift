@@ -7826,12 +7826,11 @@ enum UpdateWorkGroupOutputError {
     }
 }
 
-extension InvalidRequestException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
-        value.properties.athenaErrorCode = try reader["AthenaErrorCode"].readIfPresent()
+        var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7840,11 +7839,12 @@ extension InvalidRequestException {
     }
 }
 
-extension InternalServerException {
+extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = InvalidRequestException()
+        value.properties.athenaErrorCode = try reader["AthenaErrorCode"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -6592,11 +6592,11 @@ enum StartMLModelTransformJobOutputError {
     }
 }
 
-extension ParsingException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ParsingException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = ParsingException()
+        var value = BadRequestException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
         value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
         value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
@@ -6607,41 +6607,11 @@ extension ParsingException {
     }
 }
 
-extension UnsupportedOperationException {
+extension ClientTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedOperationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientTimeoutException {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedOperationException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidArgumentException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArgumentException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidArgumentException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidParameterException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidParameterException()
+        var value = ClientTimeoutException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
         value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
         value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
@@ -6667,86 +6637,11 @@ extension ConcurrentModificationException {
     }
 }
 
-extension MissingParameterException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingParameterException {
-        let reader = baseError.errorBodyReader
-        var value = MissingParameterException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TimeLimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TimeLimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = TimeLimitExceededException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension PreconditionsFailedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PreconditionsFailedException {
-        let reader = baseError.errorBodyReader
-        var value = PreconditionsFailedException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension BadRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
-        let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConstraintViolationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConstraintViolationException {
         let reader = baseError.errorBodyReader
         var value = ConstraintViolationException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ClientTimeoutException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientTimeoutException {
-        let reader = baseError.errorBodyReader
-        var value = ClientTimeoutException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
         value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
         value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
@@ -6787,11 +6682,131 @@ extension IllegalArgumentException {
     }
 }
 
+extension InvalidArgumentException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArgumentException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidArgumentException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidParameterException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidParameterException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MissingParameterException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingParameterException {
+        let reader = baseError.errorBodyReader
+        var value = MissingParameterException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ParsingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ParsingException {
+        let reader = baseError.errorBodyReader
+        var value = ParsingException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PreconditionsFailedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PreconditionsFailedException {
+        let reader = baseError.errorBodyReader
+        var value = PreconditionsFailedException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TimeLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TimeLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = TimeLimitExceededException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TooManyRequestsException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnsupportedOperationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedOperationException {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedOperationException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BulkLoadIdNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BulkLoadIdNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = BulkLoadIdNotFoundException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
         value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
         value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
@@ -6832,21 +6847,6 @@ extension LoadUrlAccessDeniedException {
     }
 }
 
-extension BulkLoadIdNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BulkLoadIdNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = BulkLoadIdNotFoundException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension MLResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MLResourceNotFoundException {
@@ -6867,6 +6867,21 @@ extension InvalidNumericDataException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidNumericDataException {
         let reader = baseError.errorBodyReader
         var value = InvalidNumericDataException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
         value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
         value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
@@ -6907,21 +6922,6 @@ extension StatisticsNotAvailableException {
     }
 }
 
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension MethodNotAllowedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
@@ -6952,21 +6952,6 @@ extension ServerShutdownException {
     }
 }
 
-extension MemoryLimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MemoryLimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = MemoryLimitExceededException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension CancelledByUserException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CancelledByUserException {
@@ -6987,6 +6972,21 @@ extension MalformedQueryException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedQueryException {
         let reader = baseError.errorBodyReader
         var value = MalformedQueryException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MemoryLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MemoryLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = MemoryLimitExceededException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
         value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
         value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
@@ -7057,11 +7057,11 @@ extension ExpiredStreamException {
     }
 }
 
-extension ThrottlingException {
+extension StreamRecordsNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StreamRecordsNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = StreamRecordsNotFoundException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
         value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
         value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
@@ -7072,11 +7072,11 @@ extension ThrottlingException {
     }
 }
 
-extension StreamRecordsNotFoundException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StreamRecordsNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = StreamRecordsNotFoundException()
+        var value = ThrottlingException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
         value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
         value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
