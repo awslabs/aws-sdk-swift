@@ -13,6 +13,14 @@ class InternalModelIntegration : SwiftIntegration {
             "com.amazonaws.sts#AssumeRole",
             "com.amazonaws.sts#AssumeRoleWithWebIdentity",
         )
+    private val ssoOps =
+        listOf(
+            "com.amazonaws.sso#GetRoleCredentials",
+        )
+    private val ssoOIDCOps =
+        listOf(
+            "com.amazonaws.ssooidc#CreateToken",
+        )
 
     override fun enabledForService(
         model: Model,
@@ -38,6 +46,8 @@ class InternalModelIntegration : SwiftIntegration {
     private fun neededOpsForService(sdkId: String?): List<String> =
         when (sdkId) {
             "STS" -> stsOps
+            "SSO" -> ssoOps
+            "SSO OIDC" -> ssoOIDCOps
             else -> emptyList()
         }
 }
