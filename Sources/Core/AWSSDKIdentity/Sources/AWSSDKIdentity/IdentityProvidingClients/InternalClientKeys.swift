@@ -12,4 +12,12 @@ public enum InternalClientKeys {
     public static let internalSTSClientKey = AttributeKey<any IdentityProvidingSTSClient>(
         name: "IdentityProvidingSTSClient"
     )
+    /// The SSO client to be used in credential resolution.
+    public static let internalSSOClientKey = AttributeKey<any IdentityProvidingSSOClient>(
+        name: "IdentityProvidingSSOClient"
+    )
+    /// The SSO OIDC client to be used in credential resolution.
+    public static let internalSSOOIDCClientKey = AttributeKey<any IdentityProvidingSSOOIDCClient>(
+        name: "IdentityProvidingSSOOIDCClient"
+    )
 }
