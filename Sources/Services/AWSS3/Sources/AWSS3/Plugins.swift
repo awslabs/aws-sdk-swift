@@ -15,6 +15,7 @@ import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct AWSSDKHTTPAuth.SigV4AAuthScheme
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
+import struct AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme
 import struct SmithyIdentity.BearerTokenIdentity
 import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -44,7 +45,7 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
         if let config = clientConfiguration as? S3Client.S3ClientConfiguration {
             config.authSchemeResolver = DefaultS3AuthSchemeResolver()
-            config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()]
+            config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
         }

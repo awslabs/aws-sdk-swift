@@ -55,7 +55,7 @@ extension AWSEndpointResolverMiddleware: ApplyEndpoint {
             let authScheme = try authSchemeResolver.resolve(authSchemes: schemes)
             signingAlgorithm = authScheme.name
             switch authScheme {
-            case .sigV4(let param):
+            case .sigV4(let param), .sigV4S3Express(let param):
                 signingName = param.signingName
                 signingRegion = param.signingRegion
             case .sigV4A(let param):

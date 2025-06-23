@@ -268,11 +268,13 @@ extension PutObjectInput {
                       .withExpiration(value: expiration)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
