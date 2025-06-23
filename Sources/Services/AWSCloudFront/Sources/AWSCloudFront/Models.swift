@@ -23052,19 +23052,6 @@ extension IllegalUpdate {
     }
 }
 
-extension NoSuchDistribution {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchDistribution {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchDistribution()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidArgument {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidArgument {
@@ -23078,11 +23065,11 @@ extension InvalidArgument {
     }
 }
 
-extension TooManyDistributionCNAMEs {
+extension NoSuchDistribution {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionCNAMEs {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchDistribution {
         let reader = baseError.errorBodyReader
-        var value = TooManyDistributionCNAMEs()
+        var value = NoSuchDistribution()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23091,11 +23078,11 @@ extension TooManyDistributionCNAMEs {
     }
 }
 
-extension PreconditionFailed {
+extension TooManyDistributionCNAMEs {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PreconditionFailed {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionCNAMEs {
         let reader = baseError.errorBodyReader
-        var value = PreconditionFailed()
+        var value = TooManyDistributionCNAMEs()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23130,11 +23117,11 @@ extension InvalidIfMatchVersion {
     }
 }
 
-extension TooManyDistributionsAssociatedToOriginRequestPolicy {
+extension PreconditionFailed {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToOriginRequestPolicy {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PreconditionFailed {
         let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsAssociatedToOriginRequestPolicy()
+        var value = PreconditionFailed()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23143,11 +23130,11 @@ extension TooManyDistributionsAssociatedToOriginRequestPolicy {
     }
 }
 
-extension InvalidRelativePath {
+extension CNAMEAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRelativePath {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CNAMEAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = InvalidRelativePath()
+        var value = CNAMEAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23156,11 +23143,11 @@ extension InvalidRelativePath {
     }
 }
 
-extension TooManyQueryStringParameters {
+extension DistributionAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyQueryStringParameters {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DistributionAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = TooManyQueryStringParameters()
+        var value = DistributionAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23169,24 +23156,11 @@ extension TooManyQueryStringParameters {
     }
 }
 
-extension InvalidOriginAccessControl {
+extension IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginAccessControl {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
         let reader = baseError.errorBodyReader
-        var value = InvalidOriginAccessControl()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyLambdaFunctionAssociations {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyLambdaFunctionAssociations {
-        let reader = baseError.errorBodyReader
-        var value = TooManyLambdaFunctionAssociations()
+        var value = IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23208,11 +23182,11 @@ extension InconsistentQuantities {
     }
 }
 
-extension InvalidWebACLId {
+extension InvalidDefaultRootObject {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidWebACLId {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidDefaultRootObject {
         let reader = baseError.errorBodyReader
-        var value = InvalidWebACLId()
+        var value = InvalidDefaultRootObject()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23221,11 +23195,11 @@ extension InvalidWebACLId {
     }
 }
 
-extension InvalidTTLOrder {
+extension InvalidErrorCode {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidTTLOrder {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidErrorCode {
         let reader = baseError.errorBodyReader
-        var value = InvalidTTLOrder()
+        var value = InvalidErrorCode()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23234,11 +23208,11 @@ extension InvalidTTLOrder {
     }
 }
 
-extension TooManyDistributions {
+extension InvalidForwardCookies {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributions {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidForwardCookies {
         let reader = baseError.errorBodyReader
-        var value = TooManyDistributions()
+        var value = InvalidForwardCookies()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23247,11 +23221,11 @@ extension TooManyDistributions {
     }
 }
 
-extension TooManyDistributionsWithFunctionAssociations {
+extension InvalidFunctionAssociation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithFunctionAssociations {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidFunctionAssociation {
         let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsWithFunctionAssociations()
+        var value = InvalidFunctionAssociation()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23260,11 +23234,11 @@ extension TooManyDistributionsWithFunctionAssociations {
     }
 }
 
-extension TooManyHeadersInForwardedValues {
+extension InvalidGeoRestrictionParameter {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHeadersInForwardedValues {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidGeoRestrictionParameter {
         let reader = baseError.errorBodyReader
-        var value = TooManyHeadersInForwardedValues()
+        var value = InvalidGeoRestrictionParameter()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23273,11 +23247,76 @@ extension TooManyHeadersInForwardedValues {
     }
 }
 
-extension TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
+extension InvalidHeadersForS3Origin {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidHeadersForS3Origin {
         let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsAssociatedToFieldLevelEncryptionConfig()
+        var value = InvalidHeadersForS3Origin()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidLambdaFunctionAssociation {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLambdaFunctionAssociation {
+        let reader = baseError.errorBodyReader
+        var value = InvalidLambdaFunctionAssociation()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidLocationCode {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLocationCode {
+        let reader = baseError.errorBodyReader
+        var value = InvalidLocationCode()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidMinimumProtocolVersion {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidMinimumProtocolVersion {
+        let reader = baseError.errorBodyReader
+        var value = InvalidMinimumProtocolVersion()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidOrigin {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOrigin {
+        let reader = baseError.errorBodyReader
+        var value = InvalidOrigin()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidOriginAccessControl {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginAccessControl {
+        let reader = baseError.errorBodyReader
+        var value = InvalidOriginAccessControl()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23299,11 +23338,219 @@ extension InvalidOriginAccessIdentity {
     }
 }
 
-extension DistributionAlreadyExists {
+extension InvalidOriginKeepaliveTimeout {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DistributionAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginKeepaliveTimeout {
         let reader = baseError.errorBodyReader
-        var value = DistributionAlreadyExists()
+        var value = InvalidOriginKeepaliveTimeout()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidOriginReadTimeout {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginReadTimeout {
+        let reader = baseError.errorBodyReader
+        var value = InvalidOriginReadTimeout()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidProtocolSettings {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidProtocolSettings {
+        let reader = baseError.errorBodyReader
+        var value = InvalidProtocolSettings()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidQueryStringParameters {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidQueryStringParameters {
+        let reader = baseError.errorBodyReader
+        var value = InvalidQueryStringParameters()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRelativePath {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRelativePath {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRelativePath()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRequiredProtocol {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequiredProtocol {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRequiredProtocol()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidResponseCode {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidResponseCode {
+        let reader = baseError.errorBodyReader
+        var value = InvalidResponseCode()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidTTLOrder {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidTTLOrder {
+        let reader = baseError.errorBodyReader
+        var value = InvalidTTLOrder()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidViewerCertificate {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidViewerCertificate {
+        let reader = baseError.errorBodyReader
+        var value = InvalidViewerCertificate()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidWebACLId {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidWebACLId {
+        let reader = baseError.errorBodyReader
+        var value = InvalidWebACLId()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MissingBody {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> MissingBody {
+        let reader = baseError.errorBodyReader
+        var value = MissingBody()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchCachePolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCachePolicy {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchCachePolicy()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchFieldLevelEncryptionConfig {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFieldLevelEncryptionConfig {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchFieldLevelEncryptionConfig()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchOrigin {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOrigin {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchOrigin()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchOriginRequestPolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOriginRequestPolicy {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchOriginRequestPolicy()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchRealtimeLogConfig {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchRealtimeLogConfig {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchRealtimeLogConfig()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchResponseHeadersPolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchResponseHeadersPolicy {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchResponseHeadersPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23338,11 +23585,37 @@ extension TooManyCacheBehaviors {
     }
 }
 
-extension NoSuchOrigin {
+extension TooManyCertificates {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOrigin {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCertificates {
         let reader = baseError.errorBodyReader
-        var value = NoSuchOrigin()
+        var value = TooManyCertificates()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyCookieNamesInWhiteList {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookieNamesInWhiteList {
+        let reader = baseError.errorBodyReader
+        var value = TooManyCookieNamesInWhiteList()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyDistributions {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributions {
+        let reader = baseError.errorBodyReader
+        var value = TooManyDistributions()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23364,180 +23637,11 @@ extension TooManyDistributionsAssociatedToCachePolicy {
     }
 }
 
-extension InvalidViewerCertificate {
+extension TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidViewerCertificate {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
         let reader = baseError.errorBodyReader
-        var value = InvalidViewerCertificate()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidFunctionAssociation {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidFunctionAssociation {
-        let reader = baseError.errorBodyReader
-        var value = InvalidFunctionAssociation()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchResponseHeadersPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchResponseHeadersPolicy {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchResponseHeadersPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidDefaultRootObject {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidDefaultRootObject {
-        let reader = baseError.errorBodyReader
-        var value = InvalidDefaultRootObject()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchCachePolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCachePolicy {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchCachePolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidProtocolSettings {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidProtocolSettings {
-        let reader = baseError.errorBodyReader
-        var value = InvalidProtocolSettings()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidMinimumProtocolVersion {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidMinimumProtocolVersion {
-        let reader = baseError.errorBodyReader
-        var value = InvalidMinimumProtocolVersion()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidLambdaFunctionAssociation {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLambdaFunctionAssociation {
-        let reader = baseError.errorBodyReader
-        var value = InvalidLambdaFunctionAssociation()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidResponseCode {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidResponseCode {
-        let reader = baseError.errorBodyReader
-        var value = InvalidResponseCode()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchOriginRequestPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOriginRequestPolicy {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchOriginRequestPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchFieldLevelEncryptionConfig {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFieldLevelEncryptionConfig {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchFieldLevelEncryptionConfig()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidHeadersForS3Origin {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidHeadersForS3Origin {
-        let reader = baseError.errorBodyReader
-        var value = InvalidHeadersForS3Origin()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TrustedSignerDoesNotExist {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedSignerDoesNotExist {
-        let reader = baseError.errorBodyReader
-        var value = TrustedSignerDoesNotExist()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCookieNamesInWhiteList {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookieNamesInWhiteList {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCookieNamesInWhiteList()
+        var value = TooManyDistributionsAssociatedToFieldLevelEncryptionConfig()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23572,258 +23676,11 @@ extension TooManyDistributionsAssociatedToOriginAccessControl {
     }
 }
 
-extension TooManyOrigins {
+extension TooManyDistributionsAssociatedToOriginRequestPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOrigins {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToOriginRequestPolicy {
         let reader = baseError.errorBodyReader
-        var value = TooManyOrigins()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyTrustedSigners {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTrustedSigners {
-        let reader = baseError.errorBodyReader
-        var value = TooManyTrustedSigners()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyDistributionsWithSingleFunctionARN {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithSingleFunctionARN {
-        let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsWithSingleFunctionARN()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension MissingBody {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> MissingBody {
-        let reader = baseError.errorBodyReader
-        var value = MissingBody()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidGeoRestrictionParameter {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidGeoRestrictionParameter {
-        let reader = baseError.errorBodyReader
-        var value = InvalidGeoRestrictionParameter()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchRealtimeLogConfig {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchRealtimeLogConfig {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchRealtimeLogConfig()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOriginReadTimeout {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginReadTimeout {
-        let reader = baseError.errorBodyReader
-        var value = InvalidOriginReadTimeout()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCertificates {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCertificates {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCertificates()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidLocationCode {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLocationCode {
-        let reader = baseError.errorBodyReader
-        var value = InvalidLocationCode()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidQueryStringParameters {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidQueryStringParameters {
-        let reader = baseError.errorBodyReader
-        var value = InvalidQueryStringParameters()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension CNAMEAlreadyExists {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CNAMEAlreadyExists {
-        let reader = baseError.errorBodyReader
-        var value = CNAMEAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
-        let reader = baseError.errorBodyReader
-        var value = IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidErrorCode {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidErrorCode {
-        let reader = baseError.errorBodyReader
-        var value = InvalidErrorCode()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyKeyGroupsAssociatedToDistribution {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyKeyGroupsAssociatedToDistribution {
-        let reader = baseError.errorBodyReader
-        var value = TooManyKeyGroupsAssociatedToDistribution()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyDistributionsWithLambdaAssociations {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithLambdaAssociations {
-        let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsWithLambdaAssociations()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyOriginCustomHeaders {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginCustomHeaders {
-        let reader = baseError.errorBodyReader
-        var value = TooManyOriginCustomHeaders()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TrustedKeyGroupDoesNotExist {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedKeyGroupDoesNotExist {
-        let reader = baseError.errorBodyReader
-        var value = TrustedKeyGroupDoesNotExist()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOriginKeepaliveTimeout {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginKeepaliveTimeout {
-        let reader = baseError.errorBodyReader
-        var value = InvalidOriginKeepaliveTimeout()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidForwardCookies {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidForwardCookies {
-        let reader = baseError.errorBodyReader
-        var value = InvalidForwardCookies()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOrigin {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOrigin {
-        let reader = baseError.errorBodyReader
-        var value = InvalidOrigin()
+        var value = TooManyDistributionsAssociatedToOriginRequestPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23845,11 +23702,11 @@ extension TooManyDistributionsAssociatedToResponseHeadersPolicy {
     }
 }
 
-extension TooManyOriginGroupsPerDistribution {
+extension TooManyDistributionsWithFunctionAssociations {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginGroupsPerDistribution {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithFunctionAssociations {
         let reader = baseError.errorBodyReader
-        var value = TooManyOriginGroupsPerDistribution()
+        var value = TooManyDistributionsWithFunctionAssociations()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23858,11 +23715,24 @@ extension TooManyOriginGroupsPerDistribution {
     }
 }
 
-extension InvalidRequiredProtocol {
+extension TooManyDistributionsWithLambdaAssociations {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequiredProtocol {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithLambdaAssociations {
         let reader = baseError.errorBodyReader
-        var value = InvalidRequiredProtocol()
+        var value = TooManyDistributionsWithLambdaAssociations()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyDistributionsWithSingleFunctionARN {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithSingleFunctionARN {
+        let reader = baseError.errorBodyReader
+        var value = TooManyDistributionsWithSingleFunctionARN()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23884,11 +23754,141 @@ extension TooManyFunctionAssociations {
     }
 }
 
-extension UnsupportedOperation {
+extension TooManyHeadersInForwardedValues {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> UnsupportedOperation {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHeadersInForwardedValues {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedOperation()
+        var value = TooManyHeadersInForwardedValues()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyKeyGroupsAssociatedToDistribution {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyKeyGroupsAssociatedToDistribution {
+        let reader = baseError.errorBodyReader
+        var value = TooManyKeyGroupsAssociatedToDistribution()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyLambdaFunctionAssociations {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyLambdaFunctionAssociations {
+        let reader = baseError.errorBodyReader
+        var value = TooManyLambdaFunctionAssociations()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyOriginCustomHeaders {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginCustomHeaders {
+        let reader = baseError.errorBodyReader
+        var value = TooManyOriginCustomHeaders()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyOriginGroupsPerDistribution {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginGroupsPerDistribution {
+        let reader = baseError.errorBodyReader
+        var value = TooManyOriginGroupsPerDistribution()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyOrigins {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOrigins {
+        let reader = baseError.errorBodyReader
+        var value = TooManyOrigins()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyQueryStringParameters {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyQueryStringParameters {
+        let reader = baseError.errorBodyReader
+        var value = TooManyQueryStringParameters()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyTrustedSigners {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTrustedSigners {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTrustedSigners()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TrustedKeyGroupDoesNotExist {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedKeyGroupDoesNotExist {
+        let reader = baseError.errorBodyReader
+        var value = TrustedKeyGroupDoesNotExist()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TrustedSignerDoesNotExist {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedSignerDoesNotExist {
+        let reader = baseError.errorBodyReader
+        var value = TrustedSignerDoesNotExist()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EntityAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = EntityAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23923,11 +23923,37 @@ extension InvalidTagging {
     }
 }
 
-extension EntityAlreadyExists {
+extension UnsupportedOperation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> UnsupportedOperation {
         let reader = baseError.errorBodyReader
-        var value = EntityAlreadyExists()
+        var value = UnsupportedOperation()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CachePolicyAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CachePolicyAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = CachePolicyAlreadyExists()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyCachePolicies {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCachePolicies {
+        let reader = baseError.errorBodyReader
+        var value = TooManyCachePolicies()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23962,37 +23988,11 @@ extension TooManyHeadersInCachePolicy {
     }
 }
 
-extension TooManyCachePolicies {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCachePolicies {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCachePolicies()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension TooManyQueryStringsInCachePolicy {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyQueryStringsInCachePolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyQueryStringsInCachePolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension CachePolicyAlreadyExists {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CachePolicyAlreadyExists {
-        let reader = baseError.errorBodyReader
-        var value = CachePolicyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24027,11 +24027,11 @@ extension TooManyCloudFrontOriginAccessIdentities {
     }
 }
 
-extension TooManyContinuousDeploymentPolicies {
+extension ContinuousDeploymentPolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyContinuousDeploymentPolicies {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ContinuousDeploymentPolicyAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = TooManyContinuousDeploymentPolicies()
+        var value = ContinuousDeploymentPolicyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24053,24 +24053,11 @@ extension StagingDistributionInUse {
     }
 }
 
-extension ContinuousDeploymentPolicyAlreadyExists {
+extension TooManyContinuousDeploymentPolicies {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ContinuousDeploymentPolicyAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyContinuousDeploymentPolicies {
         let reader = baseError.errorBodyReader
-        var value = ContinuousDeploymentPolicyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchContinuousDeploymentPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchContinuousDeploymentPolicy {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchContinuousDeploymentPolicy()
+        var value = TooManyContinuousDeploymentPolicies()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24118,11 +24105,11 @@ extension InvalidDomainNameForOriginAccessControl {
     }
 }
 
-extension InvalidAssociation {
+extension NoSuchContinuousDeploymentPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidAssociation {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchContinuousDeploymentPolicy {
         let reader = baseError.errorBodyReader
-        var value = InvalidAssociation()
+        var value = NoSuchContinuousDeploymentPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24131,11 +24118,11 @@ extension InvalidAssociation {
     }
 }
 
-extension QueryArgProfileEmpty {
+extension InvalidAssociation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> QueryArgProfileEmpty {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidAssociation {
         let reader = baseError.errorBodyReader
-        var value = QueryArgProfileEmpty()
+        var value = InvalidAssociation()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24157,19 +24144,6 @@ extension FieldLevelEncryptionConfigAlreadyExists {
     }
 }
 
-extension TooManyFieldLevelEncryptionContentTypeProfiles {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionContentTypeProfiles {
-        let reader = baseError.errorBodyReader
-        var value = TooManyFieldLevelEncryptionContentTypeProfiles()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension NoSuchFieldLevelEncryptionProfile {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFieldLevelEncryptionProfile {
@@ -24183,11 +24157,37 @@ extension NoSuchFieldLevelEncryptionProfile {
     }
 }
 
+extension QueryArgProfileEmpty {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> QueryArgProfileEmpty {
+        let reader = baseError.errorBodyReader
+        var value = QueryArgProfileEmpty()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TooManyFieldLevelEncryptionConfigs {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionConfigs {
         let reader = baseError.errorBodyReader
         var value = TooManyFieldLevelEncryptionConfigs()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyFieldLevelEncryptionContentTypeProfiles {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionContentTypeProfiles {
+        let reader = baseError.errorBodyReader
+        var value = TooManyFieldLevelEncryptionContentTypeProfiles()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24222,11 +24222,11 @@ extension FieldLevelEncryptionProfileAlreadyExists {
     }
 }
 
-extension TooManyFieldLevelEncryptionFieldPatterns {
+extension FieldLevelEncryptionProfileSizeExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionFieldPatterns {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FieldLevelEncryptionProfileSizeExceeded {
         let reader = baseError.errorBodyReader
-        var value = TooManyFieldLevelEncryptionFieldPatterns()
+        var value = FieldLevelEncryptionProfileSizeExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24261,37 +24261,24 @@ extension TooManyFieldLevelEncryptionEncryptionEntities {
     }
 }
 
+extension TooManyFieldLevelEncryptionFieldPatterns {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionFieldPatterns {
+        let reader = baseError.errorBodyReader
+        var value = TooManyFieldLevelEncryptionFieldPatterns()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TooManyFieldLevelEncryptionProfiles {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionProfiles {
         let reader = baseError.errorBodyReader
         var value = TooManyFieldLevelEncryptionProfiles()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension FieldLevelEncryptionProfileSizeExceeded {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FieldLevelEncryptionProfileSizeExceeded {
-        let reader = baseError.errorBodyReader
-        var value = FieldLevelEncryptionProfileSizeExceeded()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyFunctions {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFunctions {
-        let reader = baseError.errorBodyReader
-        var value = TooManyFunctions()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24326,11 +24313,11 @@ extension FunctionSizeLimitExceeded {
     }
 }
 
-extension TooManyInvalidationsInProgress {
+extension TooManyFunctions {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyInvalidationsInProgress {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFunctions {
         let reader = baseError.errorBodyReader
-        var value = TooManyInvalidationsInProgress()
+        var value = TooManyFunctions()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24344,6 +24331,19 @@ extension BatchTooLarge {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BatchTooLarge {
         let reader = baseError.errorBodyReader
         var value = BatchTooLarge()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyInvalidationsInProgress {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyInvalidationsInProgress {
+        let reader = baseError.errorBodyReader
+        var value = TooManyInvalidationsInProgress()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24417,6 +24417,19 @@ extension MonitoringSubscriptionAlreadyExists {
     }
 }
 
+extension OriginAccessControlAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginAccessControlAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = OriginAccessControlAlreadyExists()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TooManyOriginAccessControls {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginAccessControls {
@@ -24430,11 +24443,24 @@ extension TooManyOriginAccessControls {
     }
 }
 
-extension OriginAccessControlAlreadyExists {
+extension OriginRequestPolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginAccessControlAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginRequestPolicyAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = OriginAccessControlAlreadyExists()
+        var value = OriginRequestPolicyAlreadyExists()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyCookiesInOriginRequestPolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookiesInOriginRequestPolicy {
+        let reader = baseError.errorBodyReader
+        var value = TooManyCookiesInOriginRequestPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24482,24 +24508,11 @@ extension TooManyQueryStringsInOriginRequestPolicy {
     }
 }
 
-extension OriginRequestPolicyAlreadyExists {
+extension PublicKeyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginRequestPolicyAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PublicKeyAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = OriginRequestPolicyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCookiesInOriginRequestPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookiesInOriginRequestPolicy {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCookiesInOriginRequestPolicy()
+        var value = PublicKeyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24521,11 +24534,11 @@ extension TooManyPublicKeys {
     }
 }
 
-extension PublicKeyAlreadyExists {
+extension RealtimeLogConfigAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PublicKeyAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> RealtimeLogConfigAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = PublicKeyAlreadyExists()
+        var value = RealtimeLogConfigAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24547,24 +24560,11 @@ extension TooManyRealtimeLogConfigs {
     }
 }
 
-extension RealtimeLogConfigAlreadyExists {
+extension ResponseHeadersPolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> RealtimeLogConfigAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResponseHeadersPolicyAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = RealtimeLogConfigAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCustomHeadersInResponseHeadersPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCustomHeadersInResponseHeadersPolicy {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCustomHeadersInResponseHeadersPolicy()
+        var value = ResponseHeadersPolicyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24578,6 +24578,19 @@ extension TooLongCSPInResponseHeadersPolicy {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooLongCSPInResponseHeadersPolicy {
         let reader = baseError.errorBodyReader
         var value = TooLongCSPInResponseHeadersPolicy()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyCustomHeadersInResponseHeadersPolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCustomHeadersInResponseHeadersPolicy {
+        let reader = baseError.errorBodyReader
+        var value = TooManyCustomHeadersInResponseHeadersPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24612,32 +24625,6 @@ extension TooManyResponseHeadersPolicies {
     }
 }
 
-extension ResponseHeadersPolicyAlreadyExists {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResponseHeadersPolicyAlreadyExists {
-        let reader = baseError.errorBodyReader
-        var value = ResponseHeadersPolicyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyStreamingDistributions {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyStreamingDistributions {
-        let reader = baseError.errorBodyReader
-        var value = TooManyStreamingDistributions()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension StreamingDistributionAlreadyExists {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> StreamingDistributionAlreadyExists {
@@ -24656,6 +24643,19 @@ extension TooManyStreamingDistributionCNAMEs {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyStreamingDistributionCNAMEs {
         let reader = baseError.errorBodyReader
         var value = TooManyStreamingDistributionCNAMEs()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyStreamingDistributions {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyStreamingDistributions {
+        let reader = baseError.errorBodyReader
+        var value = TooManyStreamingDistributions()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24742,11 +24742,11 @@ extension ResourceNotDisabled {
     }
 }
 
-extension ResourceInUse {
+extension DistributionNotDisabled {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResourceInUse {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DistributionNotDisabled {
         let reader = baseError.errorBodyReader
-        var value = ResourceInUse()
+        var value = DistributionNotDisabled()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24755,11 +24755,11 @@ extension ResourceInUse {
     }
 }
 
-extension DistributionNotDisabled {
+extension ResourceInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DistributionNotDisabled {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResourceInUse {
         let reader = baseError.errorBodyReader
-        var value = DistributionNotDisabled()
+        var value = ResourceInUse()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24794,11 +24794,11 @@ extension FieldLevelEncryptionProfileInUse {
     }
 }
 
-extension NoSuchFunctionExists {
+extension FunctionInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFunctionExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FunctionInUse {
         let reader = baseError.errorBodyReader
-        var value = NoSuchFunctionExists()
+        var value = FunctionInUse()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24807,11 +24807,11 @@ extension NoSuchFunctionExists {
     }
 }
 
-extension FunctionInUse {
+extension NoSuchFunctionExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FunctionInUse {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFunctionExists {
         let reader = baseError.errorBodyReader
-        var value = FunctionInUse()
+        var value = NoSuchFunctionExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24924,11 +24924,11 @@ extension ResponseHeadersPolicyInUse {
     }
 }
 
-extension StreamingDistributionNotDisabled {
+extension NoSuchStreamingDistribution {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> StreamingDistributionNotDisabled {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchStreamingDistribution {
         let reader = baseError.errorBodyReader
-        var value = StreamingDistributionNotDisabled()
+        var value = NoSuchStreamingDistribution()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24937,11 +24937,11 @@ extension StreamingDistributionNotDisabled {
     }
 }
 
-extension NoSuchStreamingDistribution {
+extension StreamingDistributionNotDisabled {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchStreamingDistribution {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> StreamingDistributionNotDisabled {
         let reader = baseError.errorBodyReader
-        var value = NoSuchStreamingDistribution()
+        var value = StreamingDistributionNotDisabled()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

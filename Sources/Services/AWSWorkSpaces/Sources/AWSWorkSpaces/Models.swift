@@ -11815,20 +11815,6 @@ enum UpdateWorkspacesPoolOutputError {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
@@ -11855,11 +11841,11 @@ extension ConflictException {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11868,11 +11854,25 @@ extension ValidationException {
     }
 }
 
-extension InternalServerException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = ResourceNotFoundException()
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11894,13 +11894,12 @@ extension InvalidParameterValuesException {
     }
 }
 
-extension OperationNotSupportedException {
+extension InvalidResourceStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationNotSupportedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResourceStateException {
         let reader = baseError.errorBodyReader
-        var value = OperationNotSupportedException()
+        var value = InvalidResourceStateException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11908,12 +11907,13 @@ extension OperationNotSupportedException {
     }
 }
 
-extension InvalidResourceStateException {
+extension OperationNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResourceStateException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationNotSupportedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidResourceStateException()
+        var value = OperationNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11947,6 +11947,17 @@ extension ResourceLimitExceededException {
     }
 }
 
+extension ApplicationNotSupportedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ApplicationNotSupportedException {
+        var value = ApplicationNotSupportedException()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ComputeNotCompatibleException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ComputeNotCompatibleException {
@@ -11958,10 +11969,21 @@ extension ComputeNotCompatibleException {
     }
 }
 
-extension ApplicationNotSupportedException {
+extension IncompatibleApplicationsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ApplicationNotSupportedException {
-        var value = ApplicationNotSupportedException()
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncompatibleApplicationsException {
+        var value = IncompatibleApplicationsException()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OperatingSystemNotCompatibleException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperatingSystemNotCompatibleException {
+        var value = OperatingSystemNotCompatibleException()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11982,17 +12004,6 @@ extension ResourceAlreadyExistsException {
     }
 }
 
-extension OperatingSystemNotCompatibleException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperatingSystemNotCompatibleException {
-        var value = OperatingSystemNotCompatibleException()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ResourceInUseException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
@@ -12000,17 +12011,6 @@ extension ResourceInUseException {
         var value = ResourceInUseException()
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension IncompatibleApplicationsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncompatibleApplicationsException {
-        var value = IncompatibleApplicationsException()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

@@ -4023,30 +4023,6 @@ enum VoteOnProposalOutputError {
     }
 }
 
-extension ResourceLimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceLimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceLimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
-        var value = ThrottlingException()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -4084,13 +4060,12 @@ extension InvalidRequestException {
     }
 }
 
-extension TooManyTagsException {
+extension ResourceAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = TooManyTagsException()
+        var value = ResourceAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceName = try reader["ResourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4098,12 +4073,37 @@ extension TooManyTagsException {
     }
 }
 
-extension ResourceAlreadyExistsException {
+extension ResourceLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ResourceAlreadyExistsException()
+        var value = ResourceLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        var value = ThrottlingException()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyTagsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyTagsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTagsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.resourceName = try reader["ResourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

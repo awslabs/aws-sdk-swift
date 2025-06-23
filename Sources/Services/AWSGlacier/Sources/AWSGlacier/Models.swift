@@ -4165,11 +4165,11 @@ enum UploadMultipartPartOutputError {
     }
 }
 
-extension MissingParameterValueException {
+extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingParameterValueException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
-        var value = MissingParameterValueException()
+        var value = InvalidParameterValueException()
         value.properties.code = try reader["code"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.type = try reader["type"].readIfPresent()
@@ -4180,11 +4180,11 @@ extension MissingParameterValueException {
     }
 }
 
-extension InvalidParameterValueException {
+extension MissingParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingParameterValueException {
         let reader = baseError.errorBodyReader
-        var value = InvalidParameterValueException()
+        var value = MissingParameterValueException()
         value.properties.code = try reader["code"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.type = try reader["type"].readIfPresent()

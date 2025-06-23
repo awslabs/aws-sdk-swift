@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OutpostsClient: ClientRuntime.Client {
     public static let clientName = "OutpostsClient"
-    public static let version = "1.3.41"
+    public static let version = "1.3.42"
     let client: ClientRuntime.SdkHttpClient
     let config: OutpostsClient.OutpostsClientConfiguration
     let serviceName = "Outposts"

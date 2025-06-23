@@ -12361,19 +12361,6 @@ enum UpdateFlywheelOutputError {
     }
 }
 
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension BatchSizeLimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BatchSizeLimitExceededException {
@@ -12387,11 +12374,11 @@ extension BatchSizeLimitExceededException {
     }
 }
 
-extension TextSizeLimitExceededException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TextSizeLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = TextSizeLimitExceededException()
+        var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12408,6 +12395,19 @@ extension InvalidRequestException {
         value.properties.detail = try reader["Detail"].readIfPresent(with: ComprehendClientTypes.InvalidRequestDetail.read(from:))
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.reason = try reader["Reason"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TextSizeLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TextSizeLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = TextSizeLimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12441,6 +12441,19 @@ extension ResourceUnavailableException {
     }
 }
 
+extension ResourceInUseException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceInUseException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceLimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceLimitExceededException {
@@ -12454,24 +12467,11 @@ extension ResourceLimitExceededException {
     }
 }
 
-extension TooManyTagsException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = TooManyTagsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceInUseException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12493,11 +12493,11 @@ extension TooManyRequestsException {
     }
 }
 
-extension ResourceNotFoundException {
+extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = TooManyTagsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

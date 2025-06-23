@@ -4187,11 +4187,11 @@ enum UpdatePlaybackRestrictionPolicyOutputError {
     }
 }
 
-extension ValidationException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = AccessDeniedException()
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4213,19 +4213,6 @@ extension PendingVerification {
     }
 }
 
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -4239,11 +4226,11 @@ extension ThrottlingException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = ValidationException()
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4265,11 +4252,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension InternalServerException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = ServiceQuotaExceededException()
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4283,6 +4270,19 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
+        value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
         value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

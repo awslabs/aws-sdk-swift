@@ -887,5 +887,7 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSWorkSpacesWeb](../../../../../swift/api/awsworkspacesweb/latest)
 
+[AWSWorkspacesInstances](../../../../../swift/api/awsworkspacesinstances/latest)
+
 [AWSXRay](../../../../../swift/api/awsxray/latest)
 

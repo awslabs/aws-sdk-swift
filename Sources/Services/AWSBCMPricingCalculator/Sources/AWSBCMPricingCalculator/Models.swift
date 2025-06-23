@@ -5707,19 +5707,6 @@ enum UpdateWorkloadEstimateOutputError {
     }
 }
 
-extension DataUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = DataUnavailableException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
@@ -5728,6 +5715,19 @@ extension ConflictException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DataUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = DataUnavailableException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

@@ -7193,11 +7193,11 @@ enum UpdatePolicyOutputError {
     }
 }
 
-extension HandshakeNotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = HandshakeNotFoundException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7220,13 +7220,25 @@ extension AccessDeniedForDependencyException {
     }
 }
 
-extension HandshakeConstraintViolationException {
+extension AWSOrganizationsNotInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeConstraintViolationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AWSOrganizationsNotInUseException {
         let reader = baseError.errorBodyReader
-        var value = HandshakeConstraintViolationException()
+        var value = AWSOrganizationsNotInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.reason = try reader["Reason"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConcurrentModificationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+        let reader = baseError.errorBodyReader
+        var value = ConcurrentModificationException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7247,11 +7259,11 @@ extension HandshakeAlreadyInStateException {
     }
 }
 
-extension InvalidInputException {
+extension HandshakeConstraintViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeConstraintViolationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
+        var value = HandshakeConstraintViolationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -7261,11 +7273,11 @@ extension InvalidInputException {
     }
 }
 
-extension AWSOrganizationsNotInUseException {
+extension HandshakeNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AWSOrganizationsNotInUseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = AWSOrganizationsNotInUseException()
+        var value = HandshakeNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7274,11 +7286,11 @@ extension AWSOrganizationsNotInUseException {
     }
 }
 
-extension AccessDeniedException {
+extension InvalidHandshakeTransitionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidHandshakeTransitionException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = InvalidHandshakeTransitionException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7287,12 +7299,13 @@ extension AccessDeniedException {
     }
 }
 
-extension ConcurrentModificationException {
+extension InvalidInputException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
         let reader = baseError.errorBodyReader
-        var value = ConcurrentModificationException()
+        var value = InvalidInputException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7327,12 +7340,13 @@ extension TooManyRequestsException {
     }
 }
 
-extension InvalidHandshakeTransitionException {
+extension ConstraintViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidHandshakeTransitionException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidHandshakeTransitionException()
+        var value = ConstraintViolationException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7353,13 +7367,25 @@ extension DuplicatePolicyAttachmentException {
     }
 }
 
-extension ConstraintViolationException {
+extension PolicyChangesInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyChangesInProgressException {
         let reader = baseError.errorBodyReader
-        var value = ConstraintViolationException()
+        var value = PolicyChangesInProgressException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.reason = try reader["Reason"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PolicyNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = PolicyNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7398,32 +7424,6 @@ extension UnsupportedAPIEndpointException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedAPIEndpointException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedAPIEndpointException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension PolicyChangesInProgressException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyChangesInProgressException {
-        let reader = baseError.errorBodyReader
-        var value = PolicyChangesInProgressException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension PolicyNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = PolicyNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7523,19 +7523,6 @@ extension ParentNotFoundException {
     }
 }
 
-extension PolicyTypeNotAvailableForOrganizationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyTypeNotAvailableForOrganizationException {
-        let reader = baseError.errorBodyReader
-        var value = PolicyTypeNotAvailableForOrganizationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DuplicatePolicyException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicatePolicyException {
@@ -7554,6 +7541,19 @@ extension MalformedPolicyDocumentException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MalformedPolicyDocumentException {
         let reader = baseError.errorBodyReader
         var value = MalformedPolicyDocumentException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PolicyTypeNotAvailableForOrganizationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyTypeNotAvailableForOrganizationException {
+        let reader = baseError.errorBodyReader
+        var value = PolicyTypeNotAvailableForOrganizationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7705,11 +7705,11 @@ extension PolicyTypeAlreadyEnabledException {
     }
 }
 
-extension DuplicateHandshakeException {
+extension AccountOwnerNotVerifiedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateHandshakeException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountOwnerNotVerifiedException {
         let reader = baseError.errorBodyReader
-        var value = DuplicateHandshakeException()
+        var value = AccountOwnerNotVerifiedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7718,11 +7718,11 @@ extension DuplicateHandshakeException {
     }
 }
 
-extension AccountOwnerNotVerifiedException {
+extension DuplicateHandshakeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountOwnerNotVerifiedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateHandshakeException {
         let reader = baseError.errorBodyReader
-        var value = AccountOwnerNotVerifiedException()
+        var value = DuplicateHandshakeException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7757,19 +7757,6 @@ extension ChildNotFoundException {
     }
 }
 
-extension SourceParentNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SourceParentNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = SourceParentNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DestinationParentNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DestinationParentNotFoundException {
@@ -7788,6 +7775,19 @@ extension DuplicateAccountException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateAccountException {
         let reader = baseError.errorBodyReader
         var value = DuplicateAccountException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SourceParentNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SourceParentNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = SourceParentNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -2421,23 +2421,6 @@ enum UpdateCampaignOutboundCallConfigOutputError {
     }
 }
 
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = ServiceQuotaExceededException()
-        if let xAmzErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
-            value.properties.xAmzErrorType = xAmzErrorTypeHeaderValue
-        }
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -2472,12 +2455,12 @@ extension ConflictException {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = ValidationException()
+        var value = InternalServerException()
         if let xAmzErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.xAmzErrorType = xAmzErrorTypeHeaderValue
         }
@@ -2506,6 +2489,23 @@ extension ResourceNotFoundException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
+        var value = ServiceQuotaExceededException()
+        if let xAmzErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmzErrorType = xAmzErrorTypeHeaderValue
+        }
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -2523,12 +2523,12 @@ extension ThrottlingException {
     }
 }
 
-extension InternalServerException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = InternalServerException()
+        var value = ValidationException()
         if let xAmzErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.xAmzErrorType = xAmzErrorTypeHeaderValue
         }

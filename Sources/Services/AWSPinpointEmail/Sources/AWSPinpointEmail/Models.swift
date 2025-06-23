@@ -4671,11 +4671,11 @@ enum UpdateConfigurationSetEventDestinationOutputError {
     }
 }
 
-extension TooManyRequestsException {
+extension AlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
+        var value = AlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4684,11 +4684,24 @@ extension TooManyRequestsException {
     }
 }
 
-extension AlreadyExistsException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = AlreadyExistsException()
+        var value = BadRequestException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConcurrentModificationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
+        let reader = baseError.errorBodyReader
+        var value = ConcurrentModificationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4723,50 +4736,11 @@ extension NotFoundException {
     }
 }
 
-extension ConcurrentModificationException {
+extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
-        var value = ConcurrentModificationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension BadRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
-        let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SendingPausedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SendingPausedException {
-        let reader = baseError.errorBodyReader
-        var value = SendingPausedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension MessageRejected {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MessageRejected {
-        let reader = baseError.errorBodyReader
-        var value = MessageRejected()
+        var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4793,6 +4767,32 @@ extension MailFromDomainNotVerifiedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MailFromDomainNotVerifiedException {
         let reader = baseError.errorBodyReader
         var value = MailFromDomainNotVerifiedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MessageRejected {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MessageRejected {
+        let reader = baseError.errorBodyReader
+        var value = MessageRejected()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SendingPausedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SendingPausedException {
+        let reader = baseError.errorBodyReader
+        var value = SendingPausedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

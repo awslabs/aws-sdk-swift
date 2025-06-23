@@ -8102,11 +8102,11 @@ enum VerifyMacOutputError {
     }
 }
 
-extension NotFoundException {
+extension DependencyTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DependencyTimeoutException {
         let reader = baseError.errorBodyReader
-        var value = NotFoundException()
+        var value = DependencyTimeoutException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8154,11 +8154,11 @@ extension KMSInvalidStateException {
     }
 }
 
-extension DependencyTimeoutException {
+extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DependencyTimeoutException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
-        var value = DependencyTimeoutException()
+        var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8219,11 +8219,11 @@ extension CustomKeyStoreNotFoundException {
     }
 }
 
-extension LimitExceededException {
+extension AlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = AlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8245,50 +8245,11 @@ extension InvalidAliasNameException {
     }
 }
 
-extension AlreadyExistsException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = AlreadyExistsException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension XksProxyIncorrectAuthenticationCredentialException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyIncorrectAuthenticationCredentialException {
-        let reader = baseError.errorBodyReader
-        var value = XksProxyIncorrectAuthenticationCredentialException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension XksProxyVpcEndpointServiceInvalidConfigurationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyVpcEndpointServiceInvalidConfigurationException {
-        let reader = baseError.errorBodyReader
-        var value = XksProxyVpcEndpointServiceInvalidConfigurationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension CustomKeyStoreNameInUseException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CustomKeyStoreNameInUseException {
-        let reader = baseError.errorBodyReader
-        var value = CustomKeyStoreNameInUseException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8323,11 +8284,11 @@ extension CloudHsmClusterNotFoundException {
     }
 }
 
-extension XksProxyVpcEndpointServiceInUseException {
+extension CustomKeyStoreNameInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyVpcEndpointServiceInUseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CustomKeyStoreNameInUseException {
         let reader = baseError.errorBodyReader
-        var value = XksProxyVpcEndpointServiceInUseException()
+        var value = CustomKeyStoreNameInUseException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8349,11 +8310,11 @@ extension IncorrectTrustAnchorException {
     }
 }
 
-extension XksProxyInvalidResponseException {
+extension XksProxyIncorrectAuthenticationCredentialException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyInvalidResponseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyIncorrectAuthenticationCredentialException {
         let reader = baseError.errorBodyReader
-        var value = XksProxyInvalidResponseException()
+        var value = XksProxyIncorrectAuthenticationCredentialException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8375,37 +8336,11 @@ extension XksProxyInvalidConfigurationException {
     }
 }
 
-extension XksProxyUriUnreachableException {
+extension XksProxyInvalidResponseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyUriUnreachableException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyInvalidResponseException {
         let reader = baseError.errorBodyReader
-        var value = XksProxyUriUnreachableException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension XksProxyUriInUseException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyUriInUseException {
-        let reader = baseError.errorBodyReader
-        var value = XksProxyUriInUseException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension XksProxyVpcEndpointServiceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyVpcEndpointServiceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = XksProxyVpcEndpointServiceNotFoundException()
+        var value = XksProxyInvalidResponseException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8427,11 +8362,63 @@ extension XksProxyUriEndpointInUseException {
     }
 }
 
-extension DryRunOperationException {
+extension XksProxyUriInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DryRunOperationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyUriInUseException {
         let reader = baseError.errorBodyReader
-        var value = DryRunOperationException()
+        var value = XksProxyUriInUseException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension XksProxyUriUnreachableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyUriUnreachableException {
+        let reader = baseError.errorBodyReader
+        var value = XksProxyUriUnreachableException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension XksProxyVpcEndpointServiceInUseException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyVpcEndpointServiceInUseException {
+        let reader = baseError.errorBodyReader
+        var value = XksProxyVpcEndpointServiceInUseException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension XksProxyVpcEndpointServiceInvalidConfigurationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyVpcEndpointServiceInvalidConfigurationException {
+        let reader = baseError.errorBodyReader
+        var value = XksProxyVpcEndpointServiceInvalidConfigurationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension XksProxyVpcEndpointServiceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksProxyVpcEndpointServiceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = XksProxyVpcEndpointServiceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8453,11 +8440,11 @@ extension DisabledException {
     }
 }
 
-extension InvalidGrantTokenException {
+extension DryRunOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidGrantTokenException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DryRunOperationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidGrantTokenException()
+        var value = DryRunOperationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8466,11 +8453,11 @@ extension InvalidGrantTokenException {
     }
 }
 
-extension UnsupportedOperationException {
+extension InvalidGrantTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidGrantTokenException {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedOperationException()
+        var value = InvalidGrantTokenException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8505,11 +8492,11 @@ extension TagException {
     }
 }
 
-extension XksKeyNotFoundException {
+extension UnsupportedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksKeyNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
-        var value = XksKeyNotFoundException()
+        var value = UnsupportedOperationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8544,11 +8531,11 @@ extension XksKeyInvalidConfigurationException {
     }
 }
 
-extension InvalidKeyUsageException {
+extension XksKeyNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKeyUsageException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> XksKeyNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InvalidKeyUsageException()
+        var value = XksKeyNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8557,11 +8544,11 @@ extension InvalidKeyUsageException {
     }
 }
 
-extension KeyUnavailableException {
+extension IncorrectKeyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KeyUnavailableException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncorrectKeyException {
         let reader = baseError.errorBodyReader
-        var value = KeyUnavailableException()
+        var value = IncorrectKeyException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8583,11 +8570,24 @@ extension InvalidCiphertextException {
     }
 }
 
-extension IncorrectKeyException {
+extension InvalidKeyUsageException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncorrectKeyException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKeyUsageException {
         let reader = baseError.errorBodyReader
-        var value = IncorrectKeyException()
+        var value = InvalidKeyUsageException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KeyUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KeyUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = KeyUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8635,11 +8635,11 @@ extension ExpiredImportTokenException {
     }
 }
 
-extension InvalidImportTokenException {
+extension IncorrectKeyMaterialException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidImportTokenException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncorrectKeyMaterialException {
         let reader = baseError.errorBodyReader
-        var value = InvalidImportTokenException()
+        var value = IncorrectKeyMaterialException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8648,11 +8648,11 @@ extension InvalidImportTokenException {
     }
 }
 
-extension IncorrectKeyMaterialException {
+extension InvalidImportTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncorrectKeyMaterialException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidImportTokenException {
         let reader = baseError.errorBodyReader
-        var value = IncorrectKeyMaterialException()
+        var value = InvalidImportTokenException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

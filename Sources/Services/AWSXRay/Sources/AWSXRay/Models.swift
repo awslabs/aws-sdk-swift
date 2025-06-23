@@ -5368,19 +5368,6 @@ extension LockoutPreventionException {
     }
 }
 
-extension PolicySizeLimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PolicySizeLimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = PolicySizeLimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension MalformedPolicyDocumentException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedPolicyDocumentException {
@@ -5399,6 +5386,19 @@ extension PolicyCountLimitExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PolicyCountLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = PolicyCountLimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PolicySizeLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PolicySizeLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = PolicySizeLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

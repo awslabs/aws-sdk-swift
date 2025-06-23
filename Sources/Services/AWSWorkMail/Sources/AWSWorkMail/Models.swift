@@ -9876,6 +9876,19 @@ enum UpdateUserOutputError {
     }
 }
 
+extension EntityNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EntityNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = EntityNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension EntityStateException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EntityStateException {
@@ -9902,37 +9915,11 @@ extension InvalidParameterException {
     }
 }
 
-extension UnsupportedOperationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
-        let reader = baseError.errorBodyReader
-        var value = UnsupportedOperationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension OrganizationNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationNotFoundException {
         let reader = baseError.errorBodyReader
         var value = OrganizationNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EntityNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EntityNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = EntityNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9954,11 +9941,11 @@ extension OrganizationStateException {
     }
 }
 
-extension DirectoryUnavailableException {
+extension UnsupportedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryUnavailableException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
-        var value = DirectoryUnavailableException()
+        var value = UnsupportedOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9972,6 +9959,19 @@ extension DirectoryServiceAuthenticationFailedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryServiceAuthenticationFailedException {
         let reader = baseError.errorBodyReader
         var value = DirectoryServiceAuthenticationFailedException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DirectoryUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = DirectoryUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10006,6 +10006,19 @@ extension EmailAddressInUseException {
     }
 }
 
+extension LimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension MailDomainNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MailDomainNotFoundException {
@@ -10024,19 +10037,6 @@ extension MailDomainStateException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MailDomainStateException {
         let reader = baseError.errorBodyReader
         var value = MailDomainStateException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension LimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

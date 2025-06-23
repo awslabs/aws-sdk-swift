@@ -3882,6 +3882,19 @@ enum UpdateSlackChannelConfigurationOutputError {
     }
 }
 
+extension InternalServiceError {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceError {
+        let reader = baseError.errorBodyReader
+        var value = InternalServiceError()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidRequestException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
@@ -3908,12 +3921,12 @@ extension UnauthorizedException {
     }
 }
 
-extension InternalServiceError {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceError {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceError()
-        value.properties.message = try reader["Message"].readIfPresent()
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3921,12 +3934,12 @@ extension InternalServiceError {
     }
 }
 
-extension ConflictException {
+extension CreateChimeWebhookConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CreateChimeWebhookConfigurationException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
+        var value = CreateChimeWebhookConfigurationException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3953,19 +3966,6 @@ extension LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension CreateChimeWebhookConfigurationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CreateChimeWebhookConfigurationException {
-        let reader = baseError.errorBodyReader
-        var value = CreateChimeWebhookConfigurationException()
-        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

@@ -8646,11 +8646,11 @@ enum UpdateTLSInspectionConfigurationOutputError {
     }
 }
 
-extension ThrottlingException {
+extension InternalServerError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = InternalServerError()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8685,11 +8685,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension InternalServerError {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerError()
+        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -3577,11 +3577,11 @@ enum UpdateUserOutputError {
     }
 }
 
-extension ConflictException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = BadRequestException()
         value.properties.errorAttribute = try reader["errorAttribute"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -3591,11 +3591,11 @@ extension ConflictException {
     }
 }
 
-extension BadRequestException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
+        var value = ConflictException()
         value.properties.errorAttribute = try reader["errorAttribute"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse

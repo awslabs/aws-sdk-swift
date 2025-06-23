@@ -55149,21 +55149,6 @@ enum UpdateVPCConnectionOutputError {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -55178,11 +55163,11 @@ extension AccessDeniedException {
     }
 }
 
-extension ThrottlingException {
+extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = InternalFailureException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -55206,11 +55191,26 @@ extension InvalidParameterValueException {
     }
 }
 
-extension InternalFailureException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InternalFailureException()
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -55418,11 +55418,11 @@ extension QuickSightUserNotFoundException {
     }
 }
 
-extension IdentityTypeNotSupportedException {
+extension DomainNotWhitelistedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IdentityTypeNotSupportedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DomainNotWhitelistedException {
         let reader = baseError.errorBodyReader
-        var value = IdentityTypeNotSupportedException()
+        var value = DomainNotWhitelistedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -55432,11 +55432,11 @@ extension IdentityTypeNotSupportedException {
     }
 }
 
-extension DomainNotWhitelistedException {
+extension IdentityTypeNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DomainNotWhitelistedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IdentityTypeNotSupportedException {
         let reader = baseError.errorBodyReader
-        var value = DomainNotWhitelistedException()
+        var value = IdentityTypeNotSupportedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse

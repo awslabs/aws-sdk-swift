@@ -16091,6 +16091,19 @@ enum VerifyUserAttributeOutputError {
     }
 }
 
+extension InternalErrorException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalErrorException {
+        let reader = baseError.errorBodyReader
+        var value = InternalErrorException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidParameterException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
@@ -16105,11 +16118,11 @@ extension InvalidParameterException {
     }
 }
 
-extension UserImportInProgressException {
+extension NotAuthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserImportInProgressException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotAuthorizedException {
         let reader = baseError.errorBodyReader
-        var value = UserImportInProgressException()
+        var value = NotAuthorizedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16131,37 +16144,24 @@ extension ResourceNotFoundException {
     }
 }
 
-extension InternalErrorException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalErrorException {
-        let reader = baseError.errorBodyReader
-        var value = InternalErrorException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NotAuthorizedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotAuthorizedException {
-        let reader = baseError.errorBodyReader
-        var value = NotAuthorizedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension TooManyRequestsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UserImportInProgressException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserImportInProgressException {
+        let reader = baseError.errorBodyReader
+        var value = UserImportInProgressException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16183,37 +16183,11 @@ extension UserNotFoundException {
     }
 }
 
-extension UnexpectedLambdaException {
+extension InvalidLambdaResponseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnexpectedLambdaException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLambdaResponseException {
         let reader = baseError.errorBodyReader
-        var value = UnexpectedLambdaException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyFailedAttemptsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyFailedAttemptsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyFailedAttemptsException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UserLambdaValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserLambdaValidationException {
-        let reader = baseError.errorBodyReader
-        var value = UserLambdaValidationException()
+        var value = InvalidLambdaResponseException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16235,11 +16209,37 @@ extension LimitExceededException {
     }
 }
 
-extension InvalidLambdaResponseException {
+extension TooManyFailedAttemptsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLambdaResponseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyFailedAttemptsException {
         let reader = baseError.errorBodyReader
-        var value = InvalidLambdaResponseException()
+        var value = TooManyFailedAttemptsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnexpectedLambdaException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnexpectedLambdaException {
+        let reader = baseError.errorBodyReader
+        var value = UnexpectedLambdaException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UserLambdaValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserLambdaValidationException {
+        let reader = baseError.errorBodyReader
+        var value = UserLambdaValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16261,11 +16261,11 @@ extension CodeDeliveryFailureException {
     }
 }
 
-extension InvalidSmsRoleTrustRelationshipException {
+extension InvalidPasswordException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSmsRoleTrustRelationshipException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPasswordException {
         let reader = baseError.errorBodyReader
-        var value = InvalidSmsRoleTrustRelationshipException()
+        var value = InvalidPasswordException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16287,6 +16287,19 @@ extension InvalidSmsRoleAccessPolicyException {
     }
 }
 
+extension InvalidSmsRoleTrustRelationshipException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSmsRoleTrustRelationshipException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidSmsRoleTrustRelationshipException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension PreconditionNotMetException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PreconditionNotMetException {
@@ -16300,11 +16313,11 @@ extension PreconditionNotMetException {
     }
 }
 
-extension InvalidPasswordException {
+extension UnsupportedUserStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPasswordException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedUserStateException {
         let reader = baseError.errorBodyReader
-        var value = InvalidPasswordException()
+        var value = UnsupportedUserStateException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16318,19 +16331,6 @@ extension UsernameExistsException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UsernameExistsException {
         let reader = baseError.errorBodyReader
         var value = UsernameExistsException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnsupportedUserStateException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedUserStateException {
-        let reader = baseError.errorBodyReader
-        var value = UnsupportedUserStateException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16357,19 +16357,6 @@ extension InvalidUserPoolConfigurationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUserPoolConfigurationException {
         let reader = baseError.errorBodyReader
         var value = InvalidUserPoolConfigurationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UserNotConfirmedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserNotConfirmedException {
-        let reader = baseError.errorBodyReader
-        var value = UserNotConfirmedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16430,6 +16417,19 @@ extension UnsupportedOperationException {
     }
 }
 
+extension UserNotConfirmedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserNotConfirmedException {
+        let reader = baseError.errorBodyReader
+        var value = UserNotConfirmedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension UserPoolAddOnNotEnabledException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserPoolAddOnNotEnabledException {
@@ -16443,11 +16443,11 @@ extension UserPoolAddOnNotEnabledException {
     }
 }
 
-extension ExpiredCodeException {
+extension CodeMismatchException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExpiredCodeException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CodeMismatchException {
         let reader = baseError.errorBodyReader
-        var value = ExpiredCodeException()
+        var value = CodeMismatchException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16456,11 +16456,11 @@ extension ExpiredCodeException {
     }
 }
 
-extension CodeMismatchException {
+extension ExpiredCodeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CodeMismatchException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExpiredCodeException {
         let reader = baseError.errorBodyReader
-        var value = CodeMismatchException()
+        var value = ExpiredCodeException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16495,19 +16495,6 @@ extension SoftwareTokenMFANotFoundException {
     }
 }
 
-extension ForbiddenException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ForbiddenException {
-        let reader = baseError.errorBodyReader
-        var value = ForbiddenException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConcurrentModificationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
@@ -16521,37 +16508,11 @@ extension ConcurrentModificationException {
     }
 }
 
-extension WebAuthnClientMismatchException {
+extension ForbiddenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnClientMismatchException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
-        var value = WebAuthnClientMismatchException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension WebAuthnRelyingPartyMismatchException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnRelyingPartyMismatchException {
-        let reader = baseError.errorBodyReader
-        var value = WebAuthnRelyingPartyMismatchException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension WebAuthnOriginNotAllowedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnOriginNotAllowedException {
-        let reader = baseError.errorBodyReader
-        var value = WebAuthnOriginNotAllowedException()
+        var value = ForbiddenException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16573,11 +16534,11 @@ extension WebAuthnChallengeNotFoundException {
     }
 }
 
-extension WebAuthnNotEnabledException {
+extension WebAuthnClientMismatchException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnNotEnabledException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnClientMismatchException {
         let reader = baseError.errorBodyReader
-        var value = WebAuthnNotEnabledException()
+        var value = WebAuthnClientMismatchException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16591,6 +16552,45 @@ extension WebAuthnCredentialNotSupportedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnCredentialNotSupportedException {
         let reader = baseError.errorBodyReader
         var value = WebAuthnCredentialNotSupportedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension WebAuthnNotEnabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnNotEnabledException {
+        let reader = baseError.errorBodyReader
+        var value = WebAuthnNotEnabledException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension WebAuthnOriginNotAllowedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnOriginNotAllowedException {
+        let reader = baseError.errorBodyReader
+        var value = WebAuthnOriginNotAllowedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension WebAuthnRelyingPartyMismatchException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WebAuthnRelyingPartyMismatchException {
+        let reader = baseError.errorBodyReader
+        var value = WebAuthnRelyingPartyMismatchException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16651,6 +16651,19 @@ extension ManagedLoginBrandingExistsException {
     }
 }
 
+extension FeatureUnavailableInTierException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FeatureUnavailableInTierException {
+        let reader = baseError.errorBodyReader
+        var value = FeatureUnavailableInTierException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TierChangeNotAllowedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TierChangeNotAllowedException {
@@ -16677,11 +16690,11 @@ extension UserPoolTaggingException {
     }
 }
 
-extension FeatureUnavailableInTierException {
+extension InvalidOAuthFlowException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FeatureUnavailableInTierException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOAuthFlowException {
         let reader = baseError.errorBodyReader
-        var value = FeatureUnavailableInTierException()
+        var value = InvalidOAuthFlowException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16695,19 +16708,6 @@ extension ScopeDoesNotExistException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ScopeDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = ScopeDoesNotExistException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOAuthFlowException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOAuthFlowException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidOAuthFlowException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16742,11 +16742,11 @@ extension RefreshTokenReuseException {
     }
 }
 
-extension UnsupportedTokenTypeException {
+extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedTokenTypeException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedTokenTypeException()
+        var value = UnauthorizedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16755,11 +16755,11 @@ extension UnsupportedTokenTypeException {
     }
 }
 
-extension UnauthorizedException {
+extension UnsupportedTokenTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedTokenTypeException {
         let reader = baseError.errorBodyReader
-        var value = UnauthorizedException()
+        var value = UnsupportedTokenTypeException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

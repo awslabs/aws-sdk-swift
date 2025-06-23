@@ -8155,11 +8155,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension LimitExceededException {
+extension ConcurrentDeploymentException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentDeploymentException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = ConcurrentDeploymentException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8181,11 +8181,11 @@ extension IdempotentParameterMismatchException {
     }
 }
 
-extension ConcurrentDeploymentException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentDeploymentException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ConcurrentDeploymentException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

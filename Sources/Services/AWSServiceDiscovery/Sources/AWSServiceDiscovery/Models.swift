@@ -4234,13 +4234,13 @@ enum UpdateServiceAttributesOutputError {
     }
 }
 
-extension TooManyTagsException {
+extension DuplicateRequest {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateRequest {
         let reader = baseError.errorBodyReader
-        var value = TooManyTagsException()
+        var value = DuplicateRequest()
+        value.properties.duplicateOperationId = try reader["DuplicateOperationId"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.resourceName = try reader["ResourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4253,19 +4253,6 @@ extension InvalidInput {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInput {
         let reader = baseError.errorBodyReader
         var value = InvalidInput()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceLimitExceeded {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceLimitExceeded {
-        let reader = baseError.errorBodyReader
-        var value = ResourceLimitExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4289,13 +4276,26 @@ extension NamespaceAlreadyExists {
     }
 }
 
-extension DuplicateRequest {
+extension ResourceLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateRequest {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceLimitExceeded {
         let reader = baseError.errorBodyReader
-        var value = DuplicateRequest()
-        value.properties.duplicateOperationId = try reader["DuplicateOperationId"].readIfPresent()
+        var value = ResourceLimitExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyTagsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTagsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.resourceName = try reader["ResourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

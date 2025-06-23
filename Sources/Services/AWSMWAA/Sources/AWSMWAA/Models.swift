@@ -2156,11 +2156,11 @@ extension AccessDeniedException {
     }
 }
 
-extension RestApiServerException {
+extension RestApiClientException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RestApiServerException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RestApiClientException {
         let reader = baseError.errorBodyReader
-        var value = RestApiServerException()
+        var value = RestApiClientException()
         value.properties.restApiResponse = try reader["RestApiResponse"].readIfPresent()
         value.properties.restApiStatusCode = try reader["RestApiStatusCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -2170,11 +2170,11 @@ extension RestApiServerException {
     }
 }
 
-extension RestApiClientException {
+extension RestApiServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RestApiClientException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RestApiServerException {
         let reader = baseError.errorBodyReader
-        var value = RestApiClientException()
+        var value = RestApiServerException()
         value.properties.restApiResponse = try reader["RestApiResponse"].readIfPresent()
         value.properties.restApiStatusCode = try reader["RestApiStatusCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse

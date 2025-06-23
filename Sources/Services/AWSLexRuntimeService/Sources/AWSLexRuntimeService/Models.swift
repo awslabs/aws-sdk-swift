@@ -1926,12 +1926,12 @@ extension NotFoundException {
     }
 }
 
-extension UnsupportedMediaTypeException {
+extension BadGatewayException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedMediaTypeException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadGatewayException {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedMediaTypeException()
-        value.properties.message = try reader["message"].readIfPresent()
+        var value = BadGatewayException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1965,19 +1965,6 @@ extension LoopDetectedException {
     }
 }
 
-extension RequestTimeoutException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestTimeoutException {
-        let reader = baseError.errorBodyReader
-        var value = RequestTimeoutException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension NotAcceptableException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAcceptableException {
@@ -1991,12 +1978,25 @@ extension NotAcceptableException {
     }
 }
 
-extension BadGatewayException {
+extension RequestTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadGatewayException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestTimeoutException {
         let reader = baseError.errorBodyReader
-        var value = BadGatewayException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        var value = RequestTimeoutException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnsupportedMediaTypeException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedMediaTypeException {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedMediaTypeException()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
