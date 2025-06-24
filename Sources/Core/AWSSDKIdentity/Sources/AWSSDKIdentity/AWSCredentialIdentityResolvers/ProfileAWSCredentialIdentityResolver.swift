@@ -201,6 +201,8 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         if profile.hasWebIdentityToken() {
             resolvers.append { identityProperties in
                 return try await STSWebIdentityAWSCredentialIdentityResolver(
+                    configFilePath: configFilePath,
+                    credentialsFilePath: credentialsFilePath,
                     profileName: profile.name
                 ).getIdentity(identityProperties: identityProperties)
             }
@@ -210,7 +212,9 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         if profile.hasSSO() {
             resolvers.append { identityProperties in
                 return try await SSOAWSCredentialIdentityResolver(
-                    profileName: profile.name
+                    profileName: profile.name,
+                    configFilePath: configFilePath,
+                    credentialsFilePath: credentialsFilePath
                 ).getIdentity(identityProperties: identityProperties)
             }
         }
@@ -219,7 +223,9 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         if profile.hasExternalProcess() {
             resolvers.append { identityProperties in
                 return try await ProcessAWSCredentialIdentityResolver(
-                    profileName: profile.name
+                    profileName: profile.name,
+                    configFilePath: configFilePath,
+                    credentialsFilePath: credentialsFilePath
                 ).getIdentity(identityProperties: identityProperties)
             }
         }
