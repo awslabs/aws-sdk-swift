@@ -40,6 +40,7 @@ class DefaultRegionResolverTests: XCTestCase {
         setenv("AWS_CONFIG_FILE", configPath, 1)
         // unset the region env var, otherwise the region provider will use the region from the env var instead of the profile
         unsetenv("AWS_REGION")
+        unsetenv("AWS_DEFAULT_REGION")
         defer {
             unsetenv("AWS_CONFIG_FILE")
         }

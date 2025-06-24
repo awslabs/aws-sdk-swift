@@ -7,6 +7,8 @@ import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 
 class IdentityProvidingSTSClientIntegration : SwiftIntegration {
@@ -31,7 +33,41 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
                 writer.write("package init() {}")
                 writer.write("")
                 writer.openBlock(
-                    "package func getCredentialsWithWebIdentity(region: String, roleARN: String, roleSessionName: String, webIdentityToken: String) async throws -> \$N {",
+                    "package func assumeRoleWithCreds(creds: \$N, roleARN: String, roleSessionName: String, durationSeconds: \$N) async throws -> \$N {",
+                    "}",
+                    AWSSDKIdentityTypes.AWSCredentialIdentity,
+                    FoundationTypes.TimeInterval,
+                    AWSSDKIdentityTypes.AWSCredentialIdentity,
+                ) {
+                    writer.write("let stsConfig = try await STSClient.STSClientConfiguration()")
+                    writer.write(
+                        "stsConfig.awsCredentialIdentityResolver = \$N(creds)",
+                        SmithyIdentityTypes.StaticAWSCredentialIdentityResolver,
+                    )
+                    writer.write("let sts = STSClient(config: stsConfig)")
+                    writer.write(
+                        "let out = try await sts.assumeRole(input: AssumeRoleInput(durationSeconds: " +
+                            "Int(durationSeconds), roleArn: roleARN, roleSessionName: roleSessionName))",
+                    )
+                    writer.openBlock(
+                        "guard let creds = out.credentials, let accessKey = creds.accessKeyId, let secretKey = creds.secretAccessKey else {",
+                        "}",
+                    ) {
+                        writer.write(
+                            "throw \$N.failedToResolveAWSCredentials(\"STSAssumeRoleAWSCredentialIdentityResolver:" +
+                                "Failed to retrieve credentials from STS with assume role.\")",
+                            AWSSDKIdentityTypes.AWSCredentialIdentityResolverError,
+                        )
+                    }
+                    writer.write(
+                        "return AWSCredentialIdentity(accessKey: accessKey, secret: secretKey, " +
+                            "expiration: creds.expiration, sessionToken: creds.sessionToken)",
+                    )
+                }
+                writer.write("")
+                writer.openBlock(
+                    "package func getCredentialsWithWebIdentity(region: String, roleARN: String, " +
+                        "roleSessionName: String, webIdentityToken: String) async throws -> \$N {",
                     "}",
                     AWSSDKIdentityTypes.AWSCredentialIdentity,
                 ) {
