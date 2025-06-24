@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LocationClient: ClientRuntime.Client {
     public static let clientName = "LocationClient"
-    public static let version = "1.3.42"
+    public static let version = "1.3.43"
     let client: ClientRuntime.SdkHttpClient
     let config: LocationClient.LocationClientConfiguration
     let serviceName = "Location"

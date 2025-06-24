@@ -259,7 +259,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about the target group stickiness for a rule.
     public struct TargetGroupStickinessConfig: Swift.Sendable {
-        /// The time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days).
+        /// The time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days). You must specify this value when enabling target group stickiness.
         public var durationSeconds: Swift.Int?
         /// Indicates whether target group stickiness is enabled.
         public var enabled: Swift.Bool?
@@ -1833,7 +1833,7 @@ public struct CreateListenerInput: Swift.Sendable {
     /// * None
     ///
     ///
-    /// For more information, see [ALPN policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies) in the Network Load Balancers Guide.
+    /// For more information, see [ALPN policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-listeners.html#alpn-policies) in the Network Load Balancers Guide.
     public var alpnPolicy: [Swift.String]?
     /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault.
     public var certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]?
@@ -1849,7 +1849,7 @@ public struct CreateListenerInput: Swift.Sendable {
     public var port: Swift.Int?
     /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the UDP or TCP_UDP protocol if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
     public var `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
-    /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies) in the Application Load Balancers Guide and [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies) in the Network Load Balancers Guide.
+    /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/describe-ssl-policies.html) in the Application Load Balancers Guide and [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/describe-ssl-policies.html) in the Network Load Balancers Guide.
     public var sslPolicy: Swift.String?
     /// The tags to assign to the listener.
     public var tags: [ElasticLoadBalancingv2ClientTypes.Tag]?
@@ -2552,7 +2552,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about a host header condition.
     public struct HostHeaderConditionConfig: Swift.Sendable {
-        /// The host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
+        /// The host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). You must include at least one "." character. You can include only alphabetical characters after the final "." character. If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
         public var values: [Swift.String]?
 
         public init(
@@ -2567,7 +2567,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about an HTTP header condition. There is a set of standard HTTP header fields. You can also define custom HTTP header fields.
     public struct HttpHeaderConditionConfig: Swift.Sendable {
-        /// The name of the HTTP header field. The maximum size is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Use [HostHeaderConditionConfig] to specify a host header condition.
+        /// The name of the HTTP header field. The maximum size is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Instead, use a [host condition](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#host-conditions).
         public var httpHeaderName: Swift.String?
         /// The strings to compare against the value of the HTTP header. The maximum size of each string is 128 characters. The comparison strings are case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request, we search them in order until a match is found. If you specify multiple strings, the condition is satisfied if one of the strings matches the value of the HTTP header. To require that all of the strings are a match, create one condition per string.
         public var values: [Swift.String]?
@@ -2601,7 +2601,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about a path pattern condition.
     public struct PathPatternConditionConfig: Swift.Sendable {
-        /// The path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use [QueryStringConditionConfig].
+        /// The path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use a [query string condition](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#query-string-conditions).
         public var values: [Swift.String]?
 
         public init(
@@ -2650,7 +2650,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about a source IP condition. You can use this condition to route based on the IP address of the source that connects to the load balancer. If a client is behind a proxy, this is the IP address of the proxy not the IP address of the client.
     public struct SourceIpConditionConfig: Swift.Sendable {
-        /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use [HttpHeaderConditionConfig]. The total number of values must be less than, or equal to five.
+        /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use an [HTTP header condition](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#http-header-conditions). The total number of values must be less than, or equal to five.
         public var values: [Swift.String]?
 
         public init(
@@ -3614,9 +3614,9 @@ public struct DescribeCapacityReservationInput: Swift.Sendable {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    /// The capacity reservation status for each availability zone.
+    /// The capacity reservation status for each Availability Zone.
     public struct ZonalCapacityReservationState: Swift.Sendable {
-        /// Information about the availability zone.
+        /// Information about the Availability Zone.
         public var availabilityZone: Swift.String?
         /// The number of effective capacity units.
         public var effectiveCapacityUnits: Swift.Double?
@@ -4154,7 +4154,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// * load_balancing.cross_zone.enabled - Indicates whether cross zone load balancing is enabled. The value is true, false or use_load_balancer_configuration. The default is use_load_balancer_configuration.
         ///
-        /// * target_group_health.dns_failover.minimum_healthy_targets.count - The minimum number of targets that must be healthy. If the number of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to the maximum number of targets. The default is off.
+        /// * target_group_health.dns_failover.minimum_healthy_targets.count - The minimum number of targets that must be healthy. If the number of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to the maximum number of targets. The default is 1.
         ///
         /// * target_group_health.dns_failover.minimum_healthy_targets.percentage - The minimum percentage of targets that must be healthy. If the percentage of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to 100. The default is off.
         ///
@@ -4980,7 +4980,7 @@ public struct ModifyListenerInput: Swift.Sendable {
     /// * None
     ///
     ///
-    /// For more information, see [ALPN policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies) in the Network Load Balancers Guide.
+    /// For more information, see [ALPN policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-listeners.html#alpn-policies) in the Network Load Balancers Guide.
     public var alpnPolicy: [Swift.String]?
     /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault.
     public var certificates: [ElasticLoadBalancingv2ClientTypes.Certificate]?
@@ -4995,7 +4995,7 @@ public struct ModifyListenerInput: Swift.Sendable {
     public var port: Swift.Int?
     /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
     public var `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
-    /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies) in the Application Load Balancers Guide or [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies) in the Network Load Balancers Guide.
+    /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/describe-ssl-policies.html) in the Application Load Balancers Guide or [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/describe-ssl-policies.html) in the Network Load Balancers Guide.
     public var sslPolicy: Swift.String?
 
     public init(

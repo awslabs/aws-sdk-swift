@@ -1624,14 +1624,65 @@ public struct CreateLicenseConfigurationOutput: Swift.Sendable {
 
 extension LicenseManagerClientTypes {
 
+    public enum ProductCodeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case marketplace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProductCodeType] {
+            return [
+                .marketplace
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .marketplace: return "marketplace"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// A list item that contains a product code.
+    public struct ProductCodeListItem: Swift.Sendable {
+        /// The product code ID
+        /// This member is required.
+        public var productCodeId: Swift.String?
+        /// The product code type
+        /// This member is required.
+        public var productCodeType: LicenseManagerClientTypes.ProductCodeType?
+
+        public init(
+            productCodeId: Swift.String? = nil,
+            productCodeType: LicenseManagerClientTypes.ProductCodeType? = nil
+        ) {
+            self.productCodeId = productCodeId
+            self.productCodeType = productCodeType
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
     /// Information about a license type conversion task.
     public struct LicenseConversionContext: Swift.Sendable {
+        /// Product codes referred to in the license conversion process.
+        public var productCodes: [LicenseManagerClientTypes.ProductCodeListItem]?
         /// The Usage operation value that corresponds to the license type you are converting your resource from. For more information about which platforms correspond to which usage operation values see [Sample data: usage operation by platform ](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/billing-info-fields.html#billing-info)
         public var usageOperation: Swift.String?
 
         public init(
+            productCodes: [LicenseManagerClientTypes.ProductCodeListItem]? = nil,
             usageOperation: Swift.String? = nil
         ) {
+            self.productCodes = productCodes
             self.usageOperation = usageOperation
         }
     }
@@ -7456,6 +7507,7 @@ extension LicenseManagerClientTypes.LicenseConversionContext {
 
     static func write(value: LicenseManagerClientTypes.LicenseConversionContext?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ProductCodes"].writeList(value.productCodes, memberWritingClosure: LicenseManagerClientTypes.ProductCodeListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["UsageOperation"].write(value.usageOperation)
     }
 
@@ -7463,6 +7515,24 @@ extension LicenseManagerClientTypes.LicenseConversionContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LicenseManagerClientTypes.LicenseConversionContext()
         value.usageOperation = try reader["UsageOperation"].readIfPresent()
+        value.productCodes = try reader["ProductCodes"].readListIfPresent(memberReadingClosure: LicenseManagerClientTypes.ProductCodeListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LicenseManagerClientTypes.ProductCodeListItem {
+
+    static func write(value: LicenseManagerClientTypes.ProductCodeListItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProductCodeId"].write(value.productCodeId)
+        try writer["ProductCodeType"].write(value.productCodeType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerClientTypes.ProductCodeListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerClientTypes.ProductCodeListItem()
+        value.productCodeId = try reader["ProductCodeId"].readIfPresent() ?? ""
+        value.productCodeType = try reader["ProductCodeType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
