@@ -237,6 +237,21 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension AIOpsClientTypes {
 
+    /// This structure contains information about the cross-account configuration in the account.
+    public struct CrossAccountConfiguration: Swift.Sendable {
+        /// The ARN of an existing role which will be used to do investigations on your behalf.
+        public var sourceRoleArn: Swift.String?
+
+        public init(
+            sourceRoleArn: Swift.String? = nil
+        ) {
+            self.sourceRoleArn = sourceRoleArn
+        }
+    }
+}
+
+extension AIOpsClientTypes {
+
     public enum EncryptionConfigurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsOwnedKey
         case customerManagedKmsKey
@@ -284,18 +299,20 @@ extension AIOpsClientTypes {
 }
 
 public struct CreateInvestigationGroupInput: Swift.Sendable {
-    /// Use this structure to integrate Amazon Q Developer operational investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see [Getting started with Amazon Q in chat applications](https://docs.aws.amazon.com/chatbot/latest/adminguide/getting-started.html) and [Resource type defined by Amazon Web Services Chatbot](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awschatbot.html#awschatbot-resources-for-iam-policies).
+    /// Use this structure to integrate CloudWatch investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see [Getting started with Amazon Q in chat applications](https://docs.aws.amazon.com/chatbot/latest/adminguide/getting-started.html) and [Resource type defined by Amazon Web Services Chatbot](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awschatbot.html#awschatbot-resources-for-iam-policies).
     public var chatbotNotificationChannel: [Swift.String: [Swift.String]]?
-    /// Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, Amazon Q Developer operational investigations will use an Amazon Web Services key to encrypt the data. For more information, see [Encryption of investigation data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Investigations-Security.html#Investigations-KMS).
+    /// Number of sourceAccountId values that have been configured for cross-account access.
+    public var crossAccountConfigurations: [AIOpsClientTypes.CrossAccountConfiguration]?
+    /// Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, CloudWatch investigations will use an Amazon Web Services key to encrypt the data. For more information, see [Encryption of investigation data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Investigations-Security.html#Investigations-KMS).
     public var encryptionConfiguration: AIOpsClientTypes.EncryptionConfiguration?
-    /// Specify true to enable Amazon Q Developer operational investigations to have access to change events that are recorded by CloudTrail. The default is true.
+    /// Specify true to enable CloudWatch investigations to have access to change events that are recorded by CloudTrail. The default is true.
     public var isCloudTrailEventHistoryEnabled: Swift.Bool?
-    /// A name for the investigation group.
+    /// Provides a name for the investigation group.
     /// This member is required.
     public var name: Swift.String?
     /// Specify how long that investigation data is kept. For more information, see [Operational investigation data retention](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Investigations-Retention.html). If you omit this parameter, the default of 90 days is used.
     public var retentionInDays: Swift.Int?
-    /// Specify the ARN of the IAM role that Amazon Q Developer operational investigations will use when it gathers investigation data. The permissions in this role determine which of your resources that Amazon Q Developer operational investigations will have access to during investigations. For more information, see [How to control what data Amazon Q has access to during investigations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Investigations-Security.html#Investigations-Security-Data).
+    /// Specify the ARN of the IAM role that CloudWatch investigations will use when it gathers investigation data. The permissions in this role determine which of your resources that CloudWatch investigations will have access to during investigations. For more information, see [How to control what data Amazon Q has access to during investigations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Investigations-Security.html#Investigations-Security-Data).
     /// This member is required.
     public var roleArn: Swift.String?
     /// Enter the existing custom tag keys for custom applications in your system. Resource tags help Amazon Q narrow the search space when it is unable to discover definite relationships between resources. For example, to discover that an Amazon ECS service depends on an Amazon RDS database, Amazon Q can discover this relationship using data sources such as X-Ray and CloudWatch Application Signals. However, if you haven't deployed these features, Amazon Q will attempt to identify possible relationships. Tag boundaries can be used to narrow the resources that will be discovered by Amazon Q in these cases. You don't need to enter tags created by myApplications or CloudFormation, because Amazon Q can automatically detect those tags.
@@ -305,6 +322,7 @@ public struct CreateInvestigationGroupInput: Swift.Sendable {
 
     public init(
         chatbotNotificationChannel: [Swift.String: [Swift.String]]? = nil,
+        crossAccountConfigurations: [AIOpsClientTypes.CrossAccountConfiguration]? = nil,
         encryptionConfiguration: AIOpsClientTypes.EncryptionConfiguration? = nil,
         isCloudTrailEventHistoryEnabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
@@ -314,6 +332,7 @@ public struct CreateInvestigationGroupInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.chatbotNotificationChannel = chatbotNotificationChannel
+        self.crossAccountConfigurations = crossAccountConfigurations
         self.encryptionConfiguration = encryptionConfiguration
         self.isCloudTrailEventHistoryEnabled = isCloudTrailEventHistoryEnabled
         self.name = name
@@ -368,9 +387,11 @@ public struct GetInvestigationGroupOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The name of the user who created the investigation group.
     public var createdBy: Swift.String?
+    /// Lists the AWSAccountId of the accounts configured for cross-account access and the results of the last scan performed on each account.
+    public var crossAccountConfigurations: [AIOpsClientTypes.CrossAccountConfiguration]?
     /// Specifies the customer managed KMS key that the investigation group uses to encrypt data, if there is one. If not, the investigation group uses an Amazon Web Services key to encrypt the data.
     public var encryptionConfiguration: AIOpsClientTypes.EncryptionConfiguration?
-    /// Specifies whether Amazon Q Developer operational investigationshas access to change events that are recorded by CloudTrail.
+    /// Specifies whether CloudWatch investigationshas access to change events that are recorded by CloudTrail.
     public var isCloudTrailEventHistoryEnabled: Swift.Bool?
     /// The date and time that the investigation group was most recently modified.
     public var lastModifiedAt: Foundation.Date?
@@ -390,6 +411,7 @@ public struct GetInvestigationGroupOutput: Swift.Sendable {
         chatbotNotificationChannel: [Swift.String: [Swift.String]]? = nil,
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
+        crossAccountConfigurations: [AIOpsClientTypes.CrossAccountConfiguration]? = nil,
         encryptionConfiguration: AIOpsClientTypes.EncryptionConfiguration? = nil,
         isCloudTrailEventHistoryEnabled: Swift.Bool? = nil,
         lastModifiedAt: Foundation.Date? = nil,
@@ -403,6 +425,7 @@ public struct GetInvestigationGroupOutput: Swift.Sendable {
         self.chatbotNotificationChannel = chatbotNotificationChannel
         self.createdAt = createdAt
         self.createdBy = createdBy
+        self.crossAccountConfigurations = crossAccountConfigurations
         self.encryptionConfiguration = encryptionConfiguration
         self.isCloudTrailEventHistoryEnabled = isCloudTrailEventHistoryEnabled
         self.lastModifiedAt = lastModifiedAt
@@ -474,22 +497,25 @@ extension ListInvestigationGroupsOutput: Swift.CustomDebugStringConvertible {
 }
 
 public struct UpdateInvestigationGroupInput: Swift.Sendable {
-    /// Use this structure to integrate Amazon Q Developer operational investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see [Getting started with Amazon Q in chat applications](https://docs.aws.amazon.com/chatbot/latest/adminguide/getting-started.html) and [Resource type defined by Amazon Web Services Chatbot](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awschatbot.html#awschatbot-resources-for-iam-policies).
+    /// Use this structure to integrate CloudWatch investigations with Amazon Q in chat applications. This structure is a string array. For the first string, specify the ARN of an Amazon SNS topic. For the array of strings, specify the ARNs of one or more Amazon Q in chat applications configurations that you want to associate with that topic. For more information about these configuration ARNs, see [Getting started with Amazon Q in chat applications](https://docs.aws.amazon.com/chatbot/latest/adminguide/getting-started.html) and [Resource type defined by Amazon Web Services Chatbot](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awschatbot.html#awschatbot-resources-for-iam-policies).
     public var chatbotNotificationChannel: [Swift.String: [Swift.String]]?
-    /// Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, Amazon Q Developer operational investigations will use an Amazon Web Services key to encrypt the data. For more information, see [Encryption of investigation data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Investigations-Security.html#Investigations-KMS).
+    /// Used to configure cross-account access for an investigation group. It allows the investigation group to access resources in other accounts.
+    public var crossAccountConfigurations: [AIOpsClientTypes.CrossAccountConfiguration]?
+    /// Use this structure if you want to use a customer managed KMS key to encrypt your investigation data. If you omit this parameter, CloudWatch investigations will use an Amazon Web Services key to encrypt the data. For more information, see [Encryption of investigation data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Investigations-Security.html#Investigations-KMS).
     public var encryptionConfiguration: AIOpsClientTypes.EncryptionConfiguration?
     /// Specify either the name or the ARN of the investigation group that you want to modify.
     /// This member is required.
     public var identifier: Swift.String?
-    /// Specify true to enable Amazon Q Developer operational investigations to have access to change events that are recorded by CloudTrail. The default is true.
+    /// Specify true to enable CloudWatch investigations to have access to change events that are recorded by CloudTrail. The default is true.
     public var isCloudTrailEventHistoryEnabled: Swift.Bool?
-    /// Specify this field if you want to change the IAM role that Amazon Q Developer operational investigations will use when it gathers investigation data. To do so, specify the ARN of the new role. The permissions in this role determine which of your resources that Amazon Q Developer operational investigations will have access to during investigations. For more information, see [EHow to control what data Amazon Q has access to during investigations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Investigations-Security.html#Investigations-Security-Data).
+    /// Specify this field if you want to change the IAM role that CloudWatch investigations will use when it gathers investigation data. To do so, specify the ARN of the new role. The permissions in this role determine which of your resources that CloudWatch investigations will have access to during investigations. For more information, see [EHow to control what data Amazon Q has access to during investigations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Investigations-Security.html#Investigations-Security-Data).
     public var roleArn: Swift.String?
     /// Enter the existing custom tag keys for custom applications in your system. Resource tags help Amazon Q narrow the search space when it is unable to discover definite relationships between resources. For example, to discover that an Amazon ECS service depends on an Amazon RDS database, Amazon Q can discover this relationship using data sources such as X-Ray and CloudWatch Application Signals. However, if you haven't deployed these features, Amazon Q will attempt to identify possible relationships. Tag boundaries can be used to narrow the resources that will be discovered by Amazon Q in these cases. You don't need to enter tags created by myApplications or CloudFormation, because Amazon Q can automatically detect those tags.
     public var tagKeyBoundaries: [Swift.String]?
 
     public init(
         chatbotNotificationChannel: [Swift.String: [Swift.String]]? = nil,
+        crossAccountConfigurations: [AIOpsClientTypes.CrossAccountConfiguration]? = nil,
         encryptionConfiguration: AIOpsClientTypes.EncryptionConfiguration? = nil,
         identifier: Swift.String? = nil,
         isCloudTrailEventHistoryEnabled: Swift.Bool? = nil,
@@ -497,6 +523,7 @@ public struct UpdateInvestigationGroupInput: Swift.Sendable {
         tagKeyBoundaries: [Swift.String]? = nil
     ) {
         self.chatbotNotificationChannel = chatbotNotificationChannel
+        self.crossAccountConfigurations = crossAccountConfigurations
         self.encryptionConfiguration = encryptionConfiguration
         self.identifier = identifier
         self.isCloudTrailEventHistoryEnabled = isCloudTrailEventHistoryEnabled
@@ -583,7 +610,7 @@ public struct PutInvestigationGroupPolicyOutput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The ARN of the Amazon Q Developer operational investigations resource that you want to view tags for. You can use the [ListInvestigationGroups](https://docs.aws.amazon.com/operationalinvestigations/latest/AmazonQDeveloperOperationalInvestigationsAPIReference/API_ListInvestigationGroups.html) operation to find the ARNs of investigation groups. The ARN format for an investigation group is arn:aws:aiops:Region:account-id:investigation-group:investigation-group-id .
+    /// The ARN of the CloudWatch investigations resource that you want to view tags for. You can use the [ListInvestigationGroups](https://docs.aws.amazon.com/operationalinvestigations/latest/AmazonQDeveloperOperationalInvestigationsAPIReference/API_ListInvestigationGroups.html) operation to find the ARNs of investigation groups. The ARN format for an investigation group is arn:aws:aiops:Region:account-id:investigation-group:investigation-group-id .
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -790,6 +817,7 @@ extension CreateInvestigationGroupInput {
     static func write(value: CreateInvestigationGroupInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["chatbotNotificationChannel"].writeMap(value.chatbotNotificationChannel, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["crossAccountConfigurations"].writeList(value.crossAccountConfigurations, memberWritingClosure: AIOpsClientTypes.CrossAccountConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: AIOpsClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["isCloudTrailEventHistoryEnabled"].write(value.isCloudTrailEventHistoryEnabled)
         try writer["name"].write(value.name)
@@ -821,6 +849,7 @@ extension UpdateInvestigationGroupInput {
     static func write(value: UpdateInvestigationGroupInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["chatbotNotificationChannel"].writeMap(value.chatbotNotificationChannel, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["crossAccountConfigurations"].writeList(value.crossAccountConfigurations, memberWritingClosure: AIOpsClientTypes.CrossAccountConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: AIOpsClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["isCloudTrailEventHistoryEnabled"].write(value.isCloudTrailEventHistoryEnabled)
         try writer["roleArn"].write(value.roleArn)
@@ -865,6 +894,7 @@ extension GetInvestigationGroupOutput {
         value.chatbotNotificationChannel = try reader["chatbotNotificationChannel"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
+        value.crossAccountConfigurations = try reader["crossAccountConfigurations"].readListIfPresent(memberReadingClosure: AIOpsClientTypes.CrossAccountConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: AIOpsClientTypes.EncryptionConfiguration.read(from:))
         value.isCloudTrailEventHistoryEnabled = try reader["isCloudTrailEventHistoryEnabled"].readIfPresent()
         value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -1293,6 +1323,21 @@ extension AIOpsClientTypes.EncryptionConfiguration {
         var value = AIOpsClientTypes.EncryptionConfiguration()
         value.type = try reader["type"].readIfPresent()
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension AIOpsClientTypes.CrossAccountConfiguration {
+
+    static func write(value: AIOpsClientTypes.CrossAccountConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceRoleArn"].write(value.sourceRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AIOpsClientTypes.CrossAccountConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AIOpsClientTypes.CrossAccountConfiguration()
+        value.sourceRoleArn = try reader["sourceRoleArn"].readIfPresent()
         return value
     }
 }

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElasticLoadBalancingv2Client: ClientRuntime.Client {
     public static let clientName = "ElasticLoadBalancingv2Client"
-    public static let version = "1.3.42"
+    public static let version = "1.3.43"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticLoadBalancingv2Client.ElasticLoadBalancingv2ClientConfiguration
     let serviceName = "Elastic Load Balancing v2"
@@ -370,7 +370,7 @@ extension ElasticLoadBalancingv2Client {
 extension ElasticLoadBalancingv2Client {
     /// Performs the `AddListenerCertificates` operation on the `ElasticLoadBalancingv2` service.
     ///
-    /// Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is successful but the certificate is not added again. For more information, see [HTTPS listeners](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html) in the Application Load Balancers Guide or [TLS listeners](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html) in the Network Load Balancers Guide.
+    /// Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is successful but the certificate is not added again. For more information, see [SSL certificates](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/https-listener-certificates.html) in the Application Load Balancers Guide or [Server certificates](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/tls-listener-certificates.html) in the Network Load Balancers Guide.
     ///
     /// - Parameter AddListenerCertificatesInput : [no documentation found]
     ///
@@ -981,7 +981,7 @@ extension ElasticLoadBalancingv2Client {
 
     /// Performs the `CreateTrustStore` operation on the `ElasticLoadBalancingv2` service.
     ///
-    /// Creates a trust store.
+    /// Creates a trust store. For more information, see [Mutual TLS for Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/mutual-authentication.html).
     ///
     /// - Parameter CreateTrustStoreInput : [no documentation found]
     ///
@@ -1520,11 +1520,11 @@ extension ElasticLoadBalancingv2Client {
     ///
     /// Deregisters the specified targets from the specified target group. After the targets are deregistered, they no longer receive traffic from the load balancer. The load balancer stops sending requests to targets that are deregistering, but uses connection draining to ensure that in-flight traffic completes on the existing connections. This deregistration delay is configured by default but can be updated for each target group. For more information, see the following:
     ///
-    /// * [Deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#deregistration-delay) in the Application Load Balancers User Guide
+    /// * [Deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/edit-target-group-attributes.html#deregistration-delay) in the Application Load Balancers User Guide
     ///
-    /// * [ Deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#deregistration-delay) in the Network Load Balancers User Guide
+    /// * [ Deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/edit-target-group-attributes.html#deregistration-delay) in the Network Load Balancers User Guide
     ///
-    /// * [ Deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-groups.html#deregistration-delay) in the Gateway Load Balancers User Guide
+    /// * [ Deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/edit-target-group-attributes.html#deregistration-delay) in the Gateway Load Balancers User Guide
     ///
     ///
     /// Note: If the specified target does not exist, the action returns successfully.
@@ -1829,7 +1829,7 @@ extension ElasticLoadBalancingv2Client {
 
     /// Performs the `DescribeListenerCertificates` operation on the `ElasticLoadBalancingv2` service.
     ///
-    /// Describes the default certificate and the certificate list for the specified HTTPS or TLS listener. If the default certificate is also in the certificate list, it appears twice in the results (once with IsDefault set to true and once with IsDefault set to false). For more information, see [SSL certificates](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#https-listener-certificates) in the Application Load Balancers Guide or [Server certificates](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#tls-listener-certificate) in the Network Load Balancers Guide.
+    /// Describes the default certificate and the certificate list for the specified HTTPS or TLS listener. If the default certificate is also in the certificate list, it appears twice in the results (once with IsDefault set to true and once with IsDefault set to false). For more information, see [SSL certificates](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/https-listener-certificates.html) in the Application Load Balancers Guide or [Server certificates](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/tls-listener-certificates.html) in the Network Load Balancers Guide.
     ///
     /// - Parameter DescribeListenerCertificatesInput : [no documentation found]
     ///
@@ -2214,7 +2214,7 @@ extension ElasticLoadBalancingv2Client {
 
     /// Performs the `DescribeSSLPolicies` operation on the `ElasticLoadBalancingv2` service.
     ///
-    /// Describes the specified policies or all policies used for SSL negotiation. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies) in the Application Load Balancers Guide or [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies) in the Network Load Balancers Guide.
+    /// Describes the specified policies or all policies used for SSL negotiation. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/describe-ssl-policies.html) in the Application Load Balancers Guide and [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/describe-ssl-policies.html) in the Network Load Balancers Guide.
     ///
     /// - Parameter DescribeSSLPoliciesInput : [no documentation found]
     ///
@@ -3770,7 +3770,13 @@ extension ElasticLoadBalancingv2Client {
 
     /// Performs the `RegisterTargets` operation on the `ElasticLoadBalancingv2` service.
     ///
-    /// Registers the specified targets with the specified target group. If the target is an EC2 instance, it must be in the running state when you register it. By default, the load balancer routes requests to registered targets using the protocol and port for the target group. Alternatively, you can override the port for a target when you register it. You can register each EC2 instance or IP address with the same target group multiple times using different ports. With a Network Load Balancer, you can't register instances by instance ID if they have the following instance types: C1, CC1, CC2, CG1, CG2, CR1, CS1, G1, G2, HI1, HS1, M1, M2, M3, and T1. You can register instances of these types by IP address.
+    /// Registers the specified targets with the specified target group. If the target is an EC2 instance, it must be in the running state when you register it. By default, the load balancer routes requests to registered targets using the protocol and port for the target group. Alternatively, you can override the port for a target when you register it. You can register each EC2 instance or IP address with the same target group multiple times using different ports. For more information, see the following:
+    ///
+    /// * [Register targets for your Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-register-targets.html)
+    ///
+    /// * [Register targets for your Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/target-group-register-targets.html)
+    ///
+    /// * [Register targets for your Gateway Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-group-register-targets.html)
     ///
     /// - Parameter RegisterTargetsInput : [no documentation found]
     ///

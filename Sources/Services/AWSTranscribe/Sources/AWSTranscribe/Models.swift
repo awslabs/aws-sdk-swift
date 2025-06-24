@@ -353,6 +353,7 @@ extension TranscribeClientTypes {
         case enZa
         case esEs
         case esUs
+        case etEe
         case etEt
         case euEs
         case faIr
@@ -461,6 +462,7 @@ extension TranscribeClientTypes {
                 .enZa,
                 .esEs,
                 .esUs,
+                .etEe,
                 .etEt,
                 .euEs,
                 .faIr,
@@ -575,6 +577,7 @@ extension TranscribeClientTypes {
             case .enZa: return "en-ZA"
             case .esEs: return "es-ES"
             case .esUs: return "es-US"
+            case .etEe: return "et-EE"
             case .etEt: return "et-ET"
             case .euEs: return "eu-ES"
             case .faIr: return "fa-IR"

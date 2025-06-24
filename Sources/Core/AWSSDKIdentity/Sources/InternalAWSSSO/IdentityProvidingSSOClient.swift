@@ -14,6 +14,7 @@ import struct AWSSDKIdentity.AWSCredentialIdentity
 
 package struct IdentityProvidingSSOClient: AWSSDKIdentity.IdentityProvidingSSOClient {
     package init() {}
+
     package func getCredentialsWithSSOToken(region: String, accessToken: String, accountID: String, roleName: String) async throws -> AWSSDKIdentity.AWSCredentialIdentity {
         let sso = try SSOClient(region: region)
         let input = GetRoleCredentialsInput(accessToken: accessToken, accountId: accountID, roleName: roleName)
