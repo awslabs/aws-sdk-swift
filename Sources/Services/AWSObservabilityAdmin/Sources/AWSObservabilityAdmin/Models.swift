@@ -744,12 +744,12 @@ enum StopTelemetryEvaluationForOrganizationOutputError {
     }
 }
 
-extension InternalServerException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = InternalServerException()
+        var value = AccessDeniedException()
         if let amznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.amznErrorType = amznErrorTypeHeaderValue
         }
@@ -761,12 +761,12 @@ extension InternalServerException {
     }
 }
 
-extension AccessDeniedException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = AccessDeniedException()
+        var value = InternalServerException()
         if let amznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.amznErrorType = amznErrorTypeHeaderValue
         }

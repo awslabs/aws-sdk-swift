@@ -2799,45 +2799,11 @@ enum UpdateAttendeeCapabilitiesOutputError {
     }
 }
 
-extension ServiceUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
-        let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = ServiceUnavailableException()
-        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            value.properties.retryAfterSeconds = retryAfterSecondsHeaderValue
-        }
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension BadRequestException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceFailureException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceFailureException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceFailureException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
@@ -2863,6 +2829,21 @@ extension ForbiddenException {
     }
 }
 
+extension LimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension NotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
@@ -2878,11 +2859,30 @@ extension NotFoundException {
     }
 }
 
-extension LimitExceededException {
+extension ServiceFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceFailureException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = ServiceFailureException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
+        var value = ServiceUnavailableException()
+        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
+            value.properties.retryAfterSeconds = retryAfterSecondsHeaderValue
+        }
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
@@ -2908,11 +2908,11 @@ extension ThrottlingException {
     }
 }
 
-extension UnprocessableEntityException {
+extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnprocessableEntityException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
-        var value = UnprocessableEntityException()
+        var value = UnauthorizedException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
@@ -2923,11 +2923,11 @@ extension UnprocessableEntityException {
     }
 }
 
-extension UnauthorizedException {
+extension UnprocessableEntityException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnprocessableEntityException {
         let reader = baseError.errorBodyReader
-        var value = UnauthorizedException()
+        var value = UnprocessableEntityException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()

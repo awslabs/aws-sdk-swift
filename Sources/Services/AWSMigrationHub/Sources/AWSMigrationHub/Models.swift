@@ -2322,11 +2322,37 @@ enum PutResourceAttributesOutputError {
     }
 }
 
-extension UnauthorizedOperation {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnauthorizedOperation {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = UnauthorizedOperation()
+        var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DryRunOperation {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DryRunOperation {
+        let reader = baseError.errorBodyReader
+        var value = DryRunOperation()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension HomeRegionNotSetException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HomeRegionNotSetException {
+        let reader = baseError.errorBodyReader
+        var value = HomeRegionNotSetException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2340,6 +2366,45 @@ extension InternalServerError {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
         var value = InternalServerError()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidInputException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidInputException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2365,76 +2430,11 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension UnauthorizedOperation {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnauthorizedOperation {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension HomeRegionNotSetException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HomeRegionNotSetException {
-        let reader = baseError.errorBodyReader
-        var value = HomeRegionNotSetException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DryRunOperation {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DryRunOperation {
-        let reader = baseError.errorBodyReader
-        var value = DryRunOperation()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidInputException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
+        var value = UnauthorizedOperation()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.139.0"
+let clientRuntimeVersion: Version = "0.140.0"
 let crtVersion: Version = "0.52.1"
 
 let excludeRuntimeUnitTests = false
@@ -428,6 +428,7 @@ let serviceTargets: [String] = [
     "AWSWorkSpaces",
     "AWSWorkSpacesThinClient",
     "AWSWorkSpacesWeb",
+    "AWSWorkspacesInstances",
     "AWSXRay",
 ]
 
@@ -562,7 +563,7 @@ private var runtimeTargets: [Target] {
         ),
         .target(
             name: "AWSSDKHTTPAuth",
-            dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKChecksums"],
+            dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKChecksums", "AWSSDKIdentity"],
             path: "Sources/Core/AWSSDKHTTPAuth/Sources"
         ),
         .target(

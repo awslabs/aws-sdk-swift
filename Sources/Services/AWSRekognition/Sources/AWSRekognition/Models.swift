@@ -12623,56 +12623,11 @@ enum UpdateStreamProcessorOutputError {
     }
 }
 
-extension InvalidParameterException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidParameterException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.logref = try reader["Logref"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ProvisionedThroughputExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ProvisionedThroughputExceededException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.logref = try reader["Logref"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.logref = try reader["Logref"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = AccessDeniedException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.logref = try reader["Logref"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12688,36 +12643,6 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.logref = try reader["Logref"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.logref = try reader["Logref"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.logref = try reader["Logref"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12758,11 +12683,71 @@ extension InternalServerError {
     }
 }
 
-extension InvalidS3ObjectException {
+extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3ObjectException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
-        var value = InvalidS3ObjectException()
+        var value = InvalidParameterException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.logref = try reader["Logref"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ProvisionedThroughputExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ProvisionedThroughputExceededException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.logref = try reader["Logref"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.logref = try reader["Logref"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.logref = try reader["Logref"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.logref = try reader["Logref"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12803,11 +12788,11 @@ extension InvalidImageFormatException {
     }
 }
 
-extension ResourceInUseException {
+extension InvalidS3ObjectException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3ObjectException {
         let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
+        var value = InvalidS3ObjectException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.logref = try reader["Logref"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12823,6 +12808,21 @@ extension LimitExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.logref = try reader["Logref"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceInUseException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceInUseException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.logref = try reader["Logref"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()

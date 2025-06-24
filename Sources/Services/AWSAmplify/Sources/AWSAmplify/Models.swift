@@ -5015,11 +5015,24 @@ enum UpdateWebhookOutputError {
     }
 }
 
-extension UnauthorizedException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = UnauthorizedException()
+        var value = BadRequestException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DependentServiceFailureException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependentServiceFailureException {
+        let reader = baseError.errorBodyReader
+        var value = DependentServiceFailureException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5041,19 +5054,6 @@ extension InternalFailureException {
     }
 }
 
-extension BadRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
-        let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension LimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
@@ -5067,11 +5067,11 @@ extension LimitExceededException {
     }
 }
 
-extension DependentServiceFailureException {
+extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependentServiceFailureException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
-        var value = DependentServiceFailureException()
+        var value = UnauthorizedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

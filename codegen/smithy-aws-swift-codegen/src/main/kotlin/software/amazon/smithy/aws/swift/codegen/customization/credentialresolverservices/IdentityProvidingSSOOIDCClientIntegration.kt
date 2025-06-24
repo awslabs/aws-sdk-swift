@@ -29,6 +29,7 @@ class IdentityProvidingSSOOIDCClientIntegration : SwiftIntegration {
                 AWSSDKIdentityTypes.IdentityProvidingSSOOIDCClient,
             ) {
                 writer.write("package init() {}")
+                writer.write("")
                 writer.openBlock(
                     "package func createToken(region: String, clientID: String, clientSecret: String, refreshToken: String) async throws -> (refreshToken: String?, \$N) {",
                     "}",

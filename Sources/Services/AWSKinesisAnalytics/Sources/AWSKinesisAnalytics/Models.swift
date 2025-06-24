@@ -3123,37 +3123,24 @@ extension ConcurrentModificationException {
     }
 }
 
-extension ResourceInUseException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnsupportedOperationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
-        let reader = baseError.errorBodyReader
-        var value = UnsupportedOperationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidArgumentException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgumentException {
         let reader = baseError.errorBodyReader
         var value = InvalidArgumentException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceInUseException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceInUseException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3175,11 +3162,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension CodeValidationException {
+extension UnsupportedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CodeValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
-        var value = CodeValidationException()
+        var value = UnsupportedOperationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3188,11 +3175,11 @@ extension CodeValidationException {
     }
 }
 
-extension TooManyTagsException {
+extension CodeValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CodeValidationException {
         let reader = baseError.errorBodyReader
-        var value = TooManyTagsException()
+        var value = CodeValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3214,13 +3201,24 @@ extension LimitExceededException {
     }
 }
 
-extension UnableToDetectSchemaException {
+extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnableToDetectSchemaException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
-        var value = UnableToDetectSchemaException()
-        value.properties.processedInputRecords = try reader["ProcessedInputRecords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.rawInputRecords = try reader["RawInputRecords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = TooManyTagsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceProvisionedThroughputExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceProvisionedThroughputExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceProvisionedThroughputExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3242,11 +3240,13 @@ extension ServiceUnavailableException {
     }
 }
 
-extension ResourceProvisionedThroughputExceededException {
+extension UnableToDetectSchemaException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceProvisionedThroughputExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnableToDetectSchemaException {
         let reader = baseError.errorBodyReader
-        var value = ResourceProvisionedThroughputExceededException()
+        var value = UnableToDetectSchemaException()
+        value.properties.processedInputRecords = try reader["ProcessedInputRecords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.properties.rawInputRecords = try reader["RawInputRecords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

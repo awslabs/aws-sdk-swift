@@ -1701,19 +1701,6 @@ enum UntagResourceOutputError {
     }
 }
 
-extension LimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ContainerInUseException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ContainerInUseException {
@@ -1732,6 +1719,19 @@ extension InternalServerError {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
         var value = InternalServerError()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension LimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

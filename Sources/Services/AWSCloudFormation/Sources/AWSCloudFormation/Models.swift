@@ -14752,11 +14752,11 @@ extension OperationNotFoundException {
     }
 }
 
-extension TypeNotFoundException {
+extension CFNRegistryException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TypeNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CFNRegistryException {
         let reader = baseError.errorBodyReader
-        var value = TypeNotFoundException()
+        var value = CFNRegistryException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14765,11 +14765,11 @@ extension TypeNotFoundException {
     }
 }
 
-extension CFNRegistryException {
+extension TypeNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CFNRegistryException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TypeNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = CFNRegistryException()
+        var value = TypeNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14856,32 +14856,6 @@ extension ConcurrentResourcesLimitExceededException {
     }
 }
 
-extension OperationInProgressException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationInProgressException {
-        let reader = baseError.errorBodyReader
-        var value = OperationInProgressException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension StaleRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StaleRequestException {
-        let reader = baseError.errorBodyReader
-        var value = StaleRequestException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension OperationIdAlreadyExistsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationIdAlreadyExistsException {
@@ -14895,11 +14869,37 @@ extension OperationIdAlreadyExistsException {
     }
 }
 
+extension OperationInProgressException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationInProgressException {
+        let reader = baseError.errorBodyReader
+        var value = OperationInProgressException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension StackSetNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StackSetNotFoundException {
         let reader = baseError.errorBodyReader
         var value = StackSetNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension StaleRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StaleRequestException {
+        let reader = baseError.errorBodyReader
+        var value = StaleRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15064,11 +15064,11 @@ extension ResourceScanInProgressException {
     }
 }
 
-extension OperationStatusCheckFailedException {
+extension InvalidStateTransitionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationStatusCheckFailedException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidStateTransitionException {
         let reader = baseError.errorBodyReader
-        var value = OperationStatusCheckFailedException()
+        var value = InvalidStateTransitionException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15077,11 +15077,11 @@ extension OperationStatusCheckFailedException {
     }
 }
 
-extension InvalidStateTransitionException {
+extension OperationStatusCheckFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidStateTransitionException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationStatusCheckFailedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidStateTransitionException()
+        var value = OperationStatusCheckFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

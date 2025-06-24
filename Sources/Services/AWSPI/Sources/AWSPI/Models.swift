@@ -2370,11 +2370,11 @@ enum UntagResourceOutputError {
     }
 }
 
-extension NotAuthorizedException {
+extension InternalServiceError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotAuthorizedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceError {
         let reader = baseError.errorBodyReader
-        var value = NotAuthorizedException()
+        var value = InternalServiceError()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2396,11 +2396,11 @@ extension InvalidArgumentException {
     }
 }
 
-extension InternalServiceError {
+extension NotAuthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceError {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotAuthorizedException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceError()
+        var value = NotAuthorizedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

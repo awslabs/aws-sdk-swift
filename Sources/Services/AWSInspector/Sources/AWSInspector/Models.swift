@@ -5094,12 +5094,13 @@ enum UpdateAssessmentTargetOutputError {
     }
 }
 
-extension InternalException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = InternalException()
+        var value = AccessDeniedException()
         value.properties.canRetry = try reader["canRetry"].readIfPresent() ?? false
+        value.properties.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5108,13 +5109,12 @@ extension InternalException {
     }
 }
 
-extension AccessDeniedException {
+extension InternalException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = InternalException()
         value.properties.canRetry = try reader["canRetry"].readIfPresent() ?? false
-        value.properties.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

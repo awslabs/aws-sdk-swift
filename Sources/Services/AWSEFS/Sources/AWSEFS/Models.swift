@@ -4716,11 +4716,26 @@ enum UpdateFileSystemProtectionOutputError {
     }
 }
 
-extension FileSystemNotFound {
+extension AccessPointAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FileSystemNotFound {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessPointAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = FileSystemNotFound()
+        var value = AccessPointAlreadyExists()
+        value.properties.accessPointId = try reader["AccessPointId"].readIfPresent() ?? ""
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AccessPointLimitExceeded {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessPointLimitExceeded {
+        let reader = baseError.errorBodyReader
+        var value = AccessPointLimitExceeded()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -4744,12 +4759,11 @@ extension BadRequest {
     }
 }
 
-extension AccessPointAlreadyExists {
+extension FileSystemNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessPointAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FileSystemNotFound {
         let reader = baseError.errorBodyReader
-        var value = AccessPointAlreadyExists()
-        value.properties.accessPointId = try reader["AccessPointId"].readIfPresent() ?? ""
+        var value = FileSystemNotFound()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -4801,34 +4815,6 @@ extension ThrottlingException {
     }
 }
 
-extension AccessPointLimitExceeded {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessPointLimitExceeded {
-        let reader = baseError.errorBodyReader
-        var value = AccessPointLimitExceeded()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InsufficientThroughputCapacity {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InsufficientThroughputCapacity {
-        let reader = baseError.errorBodyReader
-        var value = InsufficientThroughputCapacity()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension FileSystemAlreadyExists {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FileSystemAlreadyExists {
@@ -4849,6 +4835,20 @@ extension FileSystemLimitExceeded {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FileSystemLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = FileSystemLimitExceeded()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InsufficientThroughputCapacity {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InsufficientThroughputCapacity {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientThroughputCapacity()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -4900,39 +4900,11 @@ extension AvailabilityZonesMismatch {
     }
 }
 
-extension NoFreeAddressesInSubnet {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NoFreeAddressesInSubnet {
-        let reader = baseError.errorBodyReader
-        var value = NoFreeAddressesInSubnet()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension IpAddressInUse {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IpAddressInUse {
         let reader = baseError.errorBodyReader
         var value = IpAddressInUse()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SecurityGroupLimitExceeded {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SecurityGroupLimitExceeded {
-        let reader = baseError.errorBodyReader
-        var value = SecurityGroupLimitExceeded()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -4961,6 +4933,34 @@ extension NetworkInterfaceLimitExceeded {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NetworkInterfaceLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = NetworkInterfaceLimitExceeded()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoFreeAddressesInSubnet {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NoFreeAddressesInSubnet {
+        let reader = baseError.errorBodyReader
+        var value = NoFreeAddressesInSubnet()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SecurityGroupLimitExceeded {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SecurityGroupLimitExceeded {
+        let reader = baseError.errorBodyReader
+        var value = SecurityGroupLimitExceeded()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -5012,12 +5012,12 @@ extension ConflictException {
     }
 }
 
-extension ValidationException {
+extension ReplicationNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ReplicationNotFound {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        var value = ReplicationNotFound()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5026,12 +5026,12 @@ extension ValidationException {
     }
 }
 
-extension ReplicationNotFound {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ReplicationNotFound {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = ReplicationNotFound()
-        value.properties.errorCode = try reader["ErrorCode"].readIfPresent()
+        var value = ValidationException()
+        value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5068,11 +5068,11 @@ extension FileSystemInUse {
     }
 }
 
-extension MountTargetNotFound {
+extension DependencyTimeout {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MountTargetNotFound {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyTimeout {
         let reader = baseError.errorBodyReader
-        var value = MountTargetNotFound()
+        var value = DependencyTimeout()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -5082,11 +5082,11 @@ extension MountTargetNotFound {
     }
 }
 
-extension DependencyTimeout {
+extension MountTargetNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyTimeout {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MountTargetNotFound {
         let reader = baseError.errorBodyReader
-        var value = DependencyTimeout()
+        var value = MountTargetNotFound()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse

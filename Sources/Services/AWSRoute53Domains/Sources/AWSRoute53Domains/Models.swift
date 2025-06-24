@@ -5281,11 +5281,11 @@ extension InvalidInput {
     }
 }
 
-extension UnsupportedTLD {
+extension OperationLimitExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedTLD {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationLimitExceeded {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedTLD()
+        var value = OperationLimitExceeded()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5294,11 +5294,11 @@ extension UnsupportedTLD {
     }
 }
 
-extension OperationLimitExceeded {
+extension UnsupportedTLD {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationLimitExceeded {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedTLD {
         let reader = baseError.errorBodyReader
-        var value = OperationLimitExceeded()
+        var value = UnsupportedTLD()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

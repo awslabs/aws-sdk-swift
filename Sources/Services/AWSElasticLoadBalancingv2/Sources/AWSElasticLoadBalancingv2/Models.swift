@@ -7926,11 +7926,11 @@ enum SetSubnetsOutputError {
     }
 }
 
-extension ListenerNotFoundException {
+extension CertificateNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ListenerNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CertificateNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ListenerNotFoundException()
+        var value = CertificateNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7939,11 +7939,11 @@ extension ListenerNotFoundException {
     }
 }
 
-extension CertificateNotFoundException {
+extension ListenerNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CertificateNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ListenerNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = CertificateNotFoundException()
+        var value = ListenerNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7965,19 +7965,6 @@ extension TooManyCertificatesException {
     }
 }
 
-extension RuleNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RuleNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = RuleNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DuplicateTagKeysException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateTagKeysException {
@@ -7991,11 +7978,11 @@ extension DuplicateTagKeysException {
     }
 }
 
-extension TargetGroupNotFoundException {
+extension LoadBalancerNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TargetGroupNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> LoadBalancerNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = TargetGroupNotFoundException()
+        var value = LoadBalancerNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8004,11 +7991,24 @@ extension TargetGroupNotFoundException {
     }
 }
 
-extension LoadBalancerNotFoundException {
+extension RuleNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> LoadBalancerNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RuleNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = LoadBalancerNotFoundException()
+        var value = RuleNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TargetGroupNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TargetGroupNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = TargetGroupNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8095,11 +8095,11 @@ extension ALPNPolicyNotSupportedException {
     }
 }
 
-extension TooManyRegistrationsForTargetIdException {
+extension DuplicateListenerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyRegistrationsForTargetIdException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateListenerException {
         let reader = baseError.errorBodyReader
-        var value = TooManyRegistrationsForTargetIdException()
+        var value = DuplicateListenerException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8108,11 +8108,24 @@ extension TooManyRegistrationsForTargetIdException {
     }
 }
 
-extension TrustStoreNotReadyException {
+extension IncompatibleProtocolsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TrustStoreNotReadyException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IncompatibleProtocolsException {
         let reader = baseError.errorBodyReader
-        var value = TrustStoreNotReadyException()
+        var value = IncompatibleProtocolsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidConfigurationRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidConfigurationRequestException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidConfigurationRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8126,45 +8139,6 @@ extension InvalidLoadBalancerActionException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidLoadBalancerActionException {
         let reader = baseError.errorBodyReader
         var value = InvalidLoadBalancerActionException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyTargetsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTargetsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyTargetsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyActionsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyActionsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyActionsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DuplicateListenerException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateListenerException {
-        let reader = baseError.errorBodyReader
-        var value = DuplicateListenerException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8199,11 +8173,11 @@ extension TargetGroupAssociationLimitException {
     }
 }
 
-extension IncompatibleProtocolsException {
+extension TooManyActionsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IncompatibleProtocolsException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyActionsException {
         let reader = baseError.errorBodyReader
-        var value = IncompatibleProtocolsException()
+        var value = TooManyActionsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8212,11 +8186,37 @@ extension IncompatibleProtocolsException {
     }
 }
 
-extension UnsupportedProtocolException {
+extension TooManyListenersException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnsupportedProtocolException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyListenersException {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedProtocolException()
+        var value = TooManyListenersException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRegistrationsForTargetIdException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyRegistrationsForTargetIdException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRegistrationsForTargetIdException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyTargetsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTargetsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTargetsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8238,11 +8238,11 @@ extension TooManyUniqueTargetGroupsPerLoadBalancerException {
     }
 }
 
-extension InvalidConfigurationRequestException {
+extension TrustStoreNotReadyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidConfigurationRequestException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TrustStoreNotReadyException {
         let reader = baseError.errorBodyReader
-        var value = InvalidConfigurationRequestException()
+        var value = TrustStoreNotReadyException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8251,11 +8251,24 @@ extension InvalidConfigurationRequestException {
     }
 }
 
-extension TooManyListenersException {
+extension UnsupportedProtocolException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyListenersException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnsupportedProtocolException {
         let reader = baseError.errorBodyReader
-        var value = TooManyListenersException()
+        var value = UnsupportedProtocolException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AllocationIdNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AllocationIdNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = AllocationIdNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8290,71 +8303,6 @@ extension DuplicateLoadBalancerNameException {
     }
 }
 
-extension TooManyLoadBalancersException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyLoadBalancersException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyLoadBalancersException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidSubnetException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnetException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidSubnetException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceInUseException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceInUseException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AllocationIdNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AllocationIdNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = AllocationIdNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SubnetNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = SubnetNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidSchemeException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSchemeException {
@@ -8381,6 +8329,19 @@ extension InvalidSecurityGroupException {
     }
 }
 
+extension InvalidSubnetException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnetException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidSubnetException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension OperationNotPermittedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationNotPermittedException {
@@ -8394,11 +8355,37 @@ extension OperationNotPermittedException {
     }
 }
 
-extension TooManyTargetGroupsException {
+extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTargetGroupsException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
-        var value = TooManyTargetGroupsException()
+        var value = ResourceInUseException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SubnetNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = SubnetNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyLoadBalancersException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyLoadBalancersException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyLoadBalancersException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8433,6 +8420,19 @@ extension TooManyRulesException {
     }
 }
 
+extension TooManyTargetGroupsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTargetGroupsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTargetGroupsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DuplicateTargetGroupNameException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateTargetGroupNameException {
@@ -8446,11 +8446,11 @@ extension DuplicateTargetGroupNameException {
     }
 }
 
-extension InvalidCaCertificatesBundleException {
+extension CaCertificatesBundleNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCaCertificatesBundleException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CaCertificatesBundleNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InvalidCaCertificatesBundleException()
+        var value = CaCertificatesBundleNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8472,11 +8472,11 @@ extension DuplicateTrustStoreNameException {
     }
 }
 
-extension CaCertificatesBundleNotFoundException {
+extension InvalidCaCertificatesBundleException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CaCertificatesBundleNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCaCertificatesBundleException {
         let reader = baseError.errorBodyReader
-        var value = CaCertificatesBundleNotFoundException()
+        var value = InvalidCaCertificatesBundleException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8589,11 +8589,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension PriorRequestNotCompleteException {
+extension CapacityDecreaseRequestsLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PriorRequestNotCompleteException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CapacityDecreaseRequestsLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = PriorRequestNotCompleteException()
+        var value = CapacityDecreaseRequestsLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8615,19 +8615,6 @@ extension CapacityReservationPendingException {
     }
 }
 
-extension InsufficientCapacityException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientCapacityException {
-        let reader = baseError.errorBodyReader
-        var value = InsufficientCapacityException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension CapacityUnitsLimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CapacityUnitsLimitExceededException {
@@ -8641,11 +8628,24 @@ extension CapacityUnitsLimitExceededException {
     }
 }
 
-extension CapacityDecreaseRequestsLimitExceededException {
+extension InsufficientCapacityException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CapacityDecreaseRequestsLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientCapacityException {
         let reader = baseError.errorBodyReader
-        var value = CapacityDecreaseRequestsLimitExceededException()
+        var value = InsufficientCapacityException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PriorRequestNotCompleteException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PriorRequestNotCompleteException {
+        let reader = baseError.errorBodyReader
+        var value = PriorRequestNotCompleteException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -151,7 +151,7 @@ struct PrepareRelease {
     /// - Parameter previousVersion: The version of the previous release
     /// - Returns: True if the `main` branch has changes since the previous release, otherwise returns false.
     func repoHasChanges(_ previousVersion: Version) throws -> Bool {
-        let hasChanges = try diffChecker("main", previousVersion)
+        let hasChanges = try diffChecker("feat/sts-assume-role-creds-resolver", previousVersion)
         if hasChanges {
             log("Changes detected between 'main' and the previous release \(previousVersion)")
         } else {

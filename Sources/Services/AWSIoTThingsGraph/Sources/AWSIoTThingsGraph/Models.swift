@@ -3721,11 +3721,11 @@ enum UploadEntityDefinitionsOutputError {
     }
 }
 
-extension ThrottlingException {
+extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = InternalFailureException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3760,11 +3760,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension InternalFailureException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = InternalFailureException()
+        var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -9610,6 +9610,45 @@ enum UpdateTrailOutputError {
     }
 }
 
+extension ChannelARNInvalidException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelARNInvalidException {
+        let reader = baseError.errorBodyReader
+        var value = ChannelARNInvalidException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ChannelNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ChannelNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CloudTrailARNInvalidException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailARNInvalidException {
+        let reader = baseError.errorBodyReader
+        var value = CloudTrailARNInvalidException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
@@ -9623,11 +9662,37 @@ extension ConflictException {
     }
 }
 
-extension NotOrganizationMasterAccountException {
+extension EventDataStoreARNInvalidException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotOrganizationMasterAccountException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreARNInvalidException {
         let reader = baseError.errorBodyReader
-        var value = NotOrganizationMasterAccountException()
+        var value = EventDataStoreARNInvalidException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EventDataStoreNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = EventDataStoreNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InactiveEventDataStoreException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InactiveEventDataStoreException {
+        let reader = baseError.errorBodyReader
+        var value = InactiveEventDataStoreException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9662,11 +9727,11 @@ extension InvalidTrailNameException {
     }
 }
 
-extension ResourceNotFoundException {
+extension NoManagementAccountSLRExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoManagementAccountSLRExistsException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = NoManagementAccountSLRExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9675,50 +9740,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ChannelNotFoundException {
+extension NotOrganizationMasterAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotOrganizationMasterAccountException {
         let reader = baseError.errorBodyReader
-        var value = ChannelNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EventDataStoreNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = EventDataStoreNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ChannelARNInvalidException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelARNInvalidException {
-        let reader = baseError.errorBodyReader
-        var value = ChannelARNInvalidException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InactiveEventDataStoreException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InactiveEventDataStoreException {
-        let reader = baseError.errorBodyReader
-        var value = InactiveEventDataStoreException()
+        var value = NotOrganizationMasterAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9740,37 +9766,11 @@ extension OperationNotPermittedException {
     }
 }
 
-extension TagsLimitExceededException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagsLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = TagsLimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EventDataStoreARNInvalidException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreARNInvalidException {
-        let reader = baseError.errorBodyReader
-        var value = EventDataStoreARNInvalidException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnsupportedOperationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
-        let reader = baseError.errorBodyReader
-        var value = UnsupportedOperationException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9792,11 +9792,11 @@ extension ResourceTypeNotSupportedException {
     }
 }
 
-extension NoManagementAccountSLRExistsException {
+extension TagsLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoManagementAccountSLRExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagsLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = NoManagementAccountSLRExistsException()
+        var value = TagsLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9805,11 +9805,11 @@ extension NoManagementAccountSLRExistsException {
     }
 }
 
-extension CloudTrailARNInvalidException {
+extension UnsupportedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailARNInvalidException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
-        var value = CloudTrailARNInvalidException()
+        var value = UnsupportedOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9857,11 +9857,11 @@ extension QueryIdNotFoundException {
     }
 }
 
-extension ChannelMaxLimitExceededException {
+extension ChannelAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelMaxLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelAlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = ChannelMaxLimitExceededException()
+        var value = ChannelAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9870,11 +9870,11 @@ extension ChannelMaxLimitExceededException {
     }
 }
 
-extension InvalidSourceException {
+extension ChannelMaxLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSourceException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelMaxLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = InvalidSourceException()
+        var value = ChannelMaxLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9896,11 +9896,11 @@ extension InvalidEventDataStoreCategoryException {
     }
 }
 
-extension ChannelAlreadyExistsException {
+extension InvalidSourceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSourceException {
         let reader = baseError.errorBodyReader
-        var value = ChannelAlreadyExistsException()
+        var value = InvalidSourceException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9948,63 +9948,24 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension EventDataStoreAlreadyExistsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreAlreadyExistsException {
-        let reader = baseError.errorBodyReader
-        var value = EventDataStoreAlreadyExistsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidKmsKeyIdException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKmsKeyIdException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidKmsKeyIdException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension OrganizationsNotInUseException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationsNotInUseException {
-        let reader = baseError.errorBodyReader
-        var value = OrganizationsNotInUseException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidEventSelectorsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventSelectorsException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidEventSelectorsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension CloudTrailAccessNotEnabledException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailAccessNotEnabledException {
         let reader = baseError.errorBodyReader
         var value = CloudTrailAccessNotEnabledException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EventDataStoreAlreadyExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = EventDataStoreAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10026,37 +9987,50 @@ extension EventDataStoreMaxLimitExceededException {
     }
 }
 
-extension KmsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsException {
-        let reader = baseError.errorBodyReader
-        var value = KmsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension OrganizationNotInAllFeaturesModeException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationNotInAllFeaturesModeException {
-        let reader = baseError.errorBodyReader
-        var value = OrganizationNotInAllFeaturesModeException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InsufficientDependencyServiceAccessPermissionException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientDependencyServiceAccessPermissionException {
         let reader = baseError.errorBodyReader
         var value = InsufficientDependencyServiceAccessPermissionException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidEventSelectorsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventSelectorsException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidEventSelectorsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidKmsKeyIdException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKmsKeyIdException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidKmsKeyIdException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KmsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsException {
+        let reader = baseError.errorBodyReader
+        var value = KmsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10078,11 +10052,11 @@ extension KmsKeyNotFoundException {
     }
 }
 
-extension TrailNotProvidedException {
+extension OrganizationNotInAllFeaturesModeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TrailNotProvidedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationNotInAllFeaturesModeException {
         let reader = baseError.errorBodyReader
-        var value = TrailNotProvidedException()
+        var value = OrganizationNotInAllFeaturesModeException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10091,11 +10065,11 @@ extension TrailNotProvidedException {
     }
 }
 
-extension KmsKeyDisabledException {
+extension OrganizationsNotInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsKeyDisabledException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationsNotInUseException {
         let reader = baseError.errorBodyReader
-        var value = KmsKeyDisabledException()
+        var value = OrganizationsNotInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10104,11 +10078,24 @@ extension KmsKeyDisabledException {
     }
 }
 
-extension InvalidS3BucketNameException {
+extension CloudTrailInvalidClientTokenIdException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3BucketNameException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailInvalidClientTokenIdException {
         let reader = baseError.errorBodyReader
-        var value = InvalidS3BucketNameException()
+        var value = CloudTrailInvalidClientTokenIdException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CloudWatchLogsDeliveryUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudWatchLogsDeliveryUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = CloudWatchLogsDeliveryUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10130,11 +10117,37 @@ extension InsufficientS3BucketPolicyException {
     }
 }
 
+extension InsufficientSnsTopicPolicyException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientSnsTopicPolicyException {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientSnsTopicPolicyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidCloudWatchLogsLogGroupArnException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCloudWatchLogsLogGroupArnException {
         let reader = baseError.errorBodyReader
         var value = InvalidCloudWatchLogsLogGroupArnException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidCloudWatchLogsRoleArnException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCloudWatchLogsRoleArnException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidCloudWatchLogsRoleArnException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10156,24 +10169,11 @@ extension InvalidParameterCombinationException {
     }
 }
 
-extension InsufficientSnsTopicPolicyException {
+extension InvalidS3BucketNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientSnsTopicPolicyException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3BucketNameException {
         let reader = baseError.errorBodyReader
-        var value = InsufficientSnsTopicPolicyException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = InvalidS3BucketNameException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10208,11 +10208,11 @@ extension InvalidSnsTopicNameException {
     }
 }
 
-extension InvalidCloudWatchLogsRoleArnException {
+extension KmsKeyDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCloudWatchLogsRoleArnException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsKeyDisabledException {
         let reader = baseError.errorBodyReader
-        var value = InvalidCloudWatchLogsRoleArnException()
+        var value = KmsKeyDisabledException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10247,6 +10247,19 @@ extension S3BucketDoesNotExistException {
     }
 }
 
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TrailAlreadyExistsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TrailAlreadyExistsException {
@@ -10260,24 +10273,11 @@ extension TrailAlreadyExistsException {
     }
 }
 
-extension CloudTrailInvalidClientTokenIdException {
+extension TrailNotProvidedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailInvalidClientTokenIdException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TrailNotProvidedException {
         let reader = baseError.errorBodyReader
-        var value = CloudTrailInvalidClientTokenIdException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension CloudWatchLogsDeliveryUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudWatchLogsDeliveryUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = CloudWatchLogsDeliveryUnavailableException()
+        var value = TrailNotProvidedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10390,11 +10390,11 @@ extension TrailNotFoundException {
     }
 }
 
-extension NotOrganizationManagementAccountException {
+extension AccountNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotOrganizationManagementAccountException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = NotOrganizationManagementAccountException()
+        var value = AccountNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10416,11 +10416,11 @@ extension AccountNotRegisteredException {
     }
 }
 
-extension AccountNotFoundException {
+extension NotOrganizationManagementAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotOrganizationManagementAccountException {
         let reader = baseError.errorBodyReader
-        var value = AccountNotFoundException()
+        var value = NotOrganizationManagementAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10585,11 +10585,11 @@ extension InvalidQueryStatusException {
     }
 }
 
-extension InvalidLookupAttributesException {
+extension InvalidEventCategoryException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLookupAttributesException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventCategoryException {
         let reader = baseError.errorBodyReader
-        var value = InvalidLookupAttributesException()
+        var value = InvalidEventCategoryException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10598,11 +10598,11 @@ extension InvalidLookupAttributesException {
     }
 }
 
-extension InvalidEventCategoryException {
+extension InvalidLookupAttributesException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventCategoryException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLookupAttributesException {
         let reader = baseError.errorBodyReader
-        var value = InvalidEventCategoryException()
+        var value = InvalidLookupAttributesException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10650,11 +10650,11 @@ extension ResourcePolicyNotValidException {
     }
 }
 
-extension CannotDelegateManagementAccountException {
+extension AccountRegisteredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CannotDelegateManagementAccountException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountRegisteredException {
         let reader = baseError.errorBodyReader
-        var value = CannotDelegateManagementAccountException()
+        var value = AccountRegisteredException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10663,11 +10663,11 @@ extension CannotDelegateManagementAccountException {
     }
 }
 
-extension AccountRegisteredException {
+extension CannotDelegateManagementAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountRegisteredException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CannotDelegateManagementAccountException {
         let reader = baseError.errorBodyReader
-        var value = AccountRegisteredException()
+        var value = CannotDelegateManagementAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

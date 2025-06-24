@@ -9203,11 +9203,11 @@ enum UpdateVirtualInterfaceAttributesOutputError {
     }
 }
 
-extension DirectConnectServerException {
+extension DirectConnectClientException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectClientException {
         let reader = baseError.errorBodyReader
-        var value = DirectConnectServerException()
+        var value = DirectConnectClientException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9216,11 +9216,11 @@ extension DirectConnectServerException {
     }
 }
 
-extension DirectConnectClientException {
+extension DirectConnectServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectClientException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectServerException {
         let reader = baseError.errorBodyReader
-        var value = DirectConnectClientException()
+        var value = DirectConnectServerException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

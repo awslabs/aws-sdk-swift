@@ -4920,11 +4920,24 @@ enum VerifySMSSandboxPhoneNumberOutputError {
     }
 }
 
-extension NotFoundException {
+extension AuthorizationErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationErrorException {
         let reader = baseError.errorBodyReader
-        var value = NotFoundException()
+        var value = AuthorizationErrorException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalErrorException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InternalErrorException {
+        let reader = baseError.errorBodyReader
+        var value = InternalErrorException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4946,24 +4959,11 @@ extension InvalidParameterException {
     }
 }
 
-extension AuthorizationErrorException {
+extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationErrorException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
-        var value = AuthorizationErrorException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalErrorException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InternalErrorException {
-        let reader = baseError.errorBodyReader
-        var value = InternalErrorException()
+        var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4998,11 +4998,11 @@ extension FilterPolicyLimitExceededException {
     }
 }
 
-extension SubscriptionLimitExceededException {
+extension ReplayLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReplayLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = SubscriptionLimitExceededException()
+        var value = ReplayLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5011,11 +5011,11 @@ extension SubscriptionLimitExceededException {
     }
 }
 
-extension ReplayLimitExceededException {
+extension SubscriptionLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReplayLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ReplayLimitExceededException()
+        var value = SubscriptionLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5050,6 +5050,19 @@ extension UserErrorException {
     }
 }
 
+extension ConcurrentAccessException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ConcurrentAccessException {
+        let reader = baseError.errorBodyReader
+        var value = ConcurrentAccessException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidSecurityException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSecurityException {
@@ -5076,19 +5089,6 @@ extension StaleTagException {
     }
 }
 
-extension TagPolicyException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TagPolicyException {
-        let reader = baseError.errorBodyReader
-        var value = TagPolicyException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension TagLimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TagLimitExceededException {
@@ -5102,11 +5102,11 @@ extension TagLimitExceededException {
     }
 }
 
-extension TopicLimitExceededException {
+extension TagPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TopicLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TagPolicyException {
         let reader = baseError.errorBodyReader
-        var value = TopicLimitExceededException()
+        var value = TagPolicyException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5115,11 +5115,11 @@ extension TopicLimitExceededException {
     }
 }
 
-extension ConcurrentAccessException {
+extension TopicLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ConcurrentAccessException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TopicLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ConcurrentAccessException()
+        var value = TopicLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5167,6 +5167,58 @@ extension ValidationException {
     }
 }
 
+extension EndpointDisabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EndpointDisabledException {
+        let reader = baseError.errorBodyReader
+        var value = EndpointDisabledException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidParameterValueException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidParameterValueException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidParameterValueException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSAccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSAccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = KMSAccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSDisabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSDisabledException {
+        let reader = baseError.errorBodyReader
+        var value = KMSDisabledException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension KMSInvalidStateException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSInvalidStateException {
@@ -5193,63 +5245,11 @@ extension KMSNotFoundException {
     }
 }
 
-extension PlatformApplicationDisabledException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PlatformApplicationDisabledException {
-        let reader = baseError.errorBodyReader
-        var value = PlatformApplicationDisabledException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension KMSOptInRequired {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSOptInRequired {
         let reader = baseError.errorBodyReader
         var value = KMSOptInRequired()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidParameterValueException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidParameterValueException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidParameterValueException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EndpointDisabledException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EndpointDisabledException {
-        let reader = baseError.errorBodyReader
-        var value = EndpointDisabledException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension KMSAccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSAccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = KMSAccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5271,11 +5271,24 @@ extension KMSThrottlingException {
     }
 }
 
-extension KMSDisabledException {
+extension PlatformApplicationDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSDisabledException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PlatformApplicationDisabledException {
         let reader = baseError.errorBodyReader
-        var value = KMSDisabledException()
+        var value = PlatformApplicationDisabledException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BatchEntryIdsNotDistinctException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BatchEntryIdsNotDistinctException {
+        let reader = baseError.errorBodyReader
+        var value = BatchEntryIdsNotDistinctException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5289,6 +5302,19 @@ extension BatchRequestTooLongException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BatchRequestTooLongException {
         let reader = baseError.errorBodyReader
         var value = BatchRequestTooLongException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EmptyBatchRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EmptyBatchRequestException {
+        let reader = baseError.errorBodyReader
+        var value = EmptyBatchRequestException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5315,32 +5341,6 @@ extension TooManyEntriesInBatchRequestException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyEntriesInBatchRequestException {
         let reader = baseError.errorBodyReader
         var value = TooManyEntriesInBatchRequestException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension BatchEntryIdsNotDistinctException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BatchEntryIdsNotDistinctException {
-        let reader = baseError.errorBodyReader
-        var value = BatchEntryIdsNotDistinctException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EmptyBatchRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EmptyBatchRequestException {
-        let reader = baseError.errorBodyReader
-        var value = EmptyBatchRequestException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

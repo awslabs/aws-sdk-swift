@@ -873,11 +873,11 @@ enum UpdateApplicationOutputError {
     }
 }
 
-extension LimitExceededException {
+extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = InternalFailureException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -899,11 +899,11 @@ extension InvalidRequestException {
     }
 }
 
-extension InternalFailureException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = InternalFailureException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

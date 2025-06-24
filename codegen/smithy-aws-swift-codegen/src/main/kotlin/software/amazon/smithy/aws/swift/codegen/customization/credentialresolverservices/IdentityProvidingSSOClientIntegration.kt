@@ -28,6 +28,7 @@ class IdentityProvidingSSOClientIntegration : SwiftIntegration {
                 AWSSDKIdentityTypes.IdentityProvidingSSOClient,
             ) {
                 writer.write("package init() {}")
+                writer.write("")
                 writer.openBlock(
                     "package func getCredentialsWithSSOToken(region: String, accessToken: String, accountID: String, roleName: String) async throws -> \$N {",
                     "}",

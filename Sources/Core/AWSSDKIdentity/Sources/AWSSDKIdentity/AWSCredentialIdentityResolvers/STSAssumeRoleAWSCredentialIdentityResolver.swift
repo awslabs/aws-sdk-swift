@@ -44,6 +44,7 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
         self.roleARN = roleArn
         self.roleSessionName = sessionName ?? UUID().uuidString
         self.durationSeconds = durationSeconds
+        try validateSessionName(name: roleSessionName, regex: "^[\\w+=,.@-]*$")
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
@@ -65,6 +66,12 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
             roleSessionName: roleSessionName,
             durationSeconds: durationSeconds
         )
+    }
+
+    func validateSessionName(name: String, regex: String) throws {
+        guard name.range(of: regex, options: .regularExpression) != nil else {
+            throw ClientError.invalidValue("The input value [\(name)] does not match the required regex: \(regex)")
+        }
     }
 }
 

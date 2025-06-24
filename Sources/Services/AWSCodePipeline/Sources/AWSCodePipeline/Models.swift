@@ -8619,11 +8619,11 @@ enum UpdatePipelineOutputError {
     }
 }
 
-extension JobNotFoundException {
+extension InvalidNonceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> JobNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNonceException {
         let reader = baseError.errorBodyReader
-        var value = JobNotFoundException()
+        var value = InvalidNonceException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8632,11 +8632,11 @@ extension JobNotFoundException {
     }
 }
 
-extension InvalidNonceException {
+extension JobNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNonceException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> JobNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InvalidNonceException()
+        var value = JobNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8663,6 +8663,19 @@ extension InvalidClientTokenException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidClientTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidClientTokenException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConcurrentModificationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+        let reader = baseError.errorBodyReader
+        var value = ConcurrentModificationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8710,11 +8723,11 @@ extension TooManyTagsException {
     }
 }
 
-extension ConcurrentModificationException {
+extension InvalidActionDeclarationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidActionDeclarationException {
         let reader = baseError.errorBodyReader
-        var value = ConcurrentModificationException()
+        var value = InvalidActionDeclarationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8736,11 +8749,11 @@ extension InvalidBlockerDeclarationException {
     }
 }
 
-extension InvalidActionDeclarationException {
+extension InvalidStageDeclarationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidActionDeclarationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStageDeclarationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidActionDeclarationException()
+        var value = InvalidStageDeclarationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8754,19 +8767,6 @@ extension InvalidStructureException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStructureException {
         let reader = baseError.errorBodyReader
         var value = InvalidStructureException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidStageDeclarationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStageDeclarationException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidStageDeclarationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8942,6 +8942,19 @@ extension ConcurrentPipelineExecutionsLimitExceededException {
     }
 }
 
+extension ConditionNotOverridableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConditionNotOverridableException {
+        let reader = baseError.errorBodyReader
+        var value = ConditionNotOverridableException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
@@ -8960,19 +8973,6 @@ extension NotLatestPipelineExecutionException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotLatestPipelineExecutionException {
         let reader = baseError.errorBodyReader
         var value = NotLatestPipelineExecutionException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConditionNotOverridableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConditionNotOverridableException {
-        let reader = baseError.errorBodyReader
-        var value = ConditionNotOverridableException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

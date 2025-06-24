@@ -11562,19 +11562,6 @@ enum UpdateVolumeOutputError {
     }
 }
 
-extension InternalServerError {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerError()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension BadRequest {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BadRequest {
@@ -11601,11 +11588,11 @@ extension FileSystemNotFound {
     }
 }
 
-extension DataRepositoryTaskNotFound {
+extension InternalServerError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryTaskNotFound {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
-        var value = DataRepositoryTaskNotFound()
+        var value = InternalServerError()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11627,6 +11614,19 @@ extension DataRepositoryTaskEnded {
     }
 }
 
+extension DataRepositoryTaskNotFound {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataRepositoryTaskNotFound {
+        let reader = baseError.errorBodyReader
+        var value = DataRepositoryTaskNotFound()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension UnsupportedOperation {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperation {
@@ -11640,11 +11640,11 @@ extension UnsupportedOperation {
     }
 }
 
-extension InvalidSourceKmsKey {
+extension BackupNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSourceKmsKey {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupNotFound {
         let reader = baseError.errorBodyReader
-        var value = InvalidSourceKmsKey()
+        var value = BackupNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11667,51 +11667,11 @@ extension IncompatibleParameterError {
     }
 }
 
-extension SourceBackupUnavailable {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SourceBackupUnavailable {
-        let reader = baseError.errorBodyReader
-        var value = SourceBackupUnavailable()
-        value.properties.backupId = try reader["BackupId"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidRegion {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRegion {
-        let reader = baseError.errorBodyReader
-        var value = InvalidRegion()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension IncompatibleRegionForMultiAZ {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IncompatibleRegionForMultiAZ {
         let reader = baseError.errorBodyReader
         var value = IncompatibleRegionForMultiAZ()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension BackupNotFound {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupNotFound {
-        let reader = baseError.errorBodyReader
-        var value = BackupNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11733,12 +11693,52 @@ extension InvalidDestinationKmsKey {
     }
 }
 
+extension InvalidRegion {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRegion {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRegion()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidSourceKmsKey {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSourceKmsKey {
+        let reader = baseError.errorBodyReader
+        var value = InvalidSourceKmsKey()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceLimitExceeded {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = ServiceLimitExceeded()
         value.properties.limit = try reader["Limit"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SourceBackupUnavailable {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SourceBackupUnavailable {
+        let reader = baseError.errorBodyReader
+        var value = SourceBackupUnavailable()
+        value.properties.backupId = try reader["BackupId"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11786,19 +11786,6 @@ extension DataRepositoryTaskExecuting {
     }
 }
 
-extension InvalidPerUnitStorageThroughput {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPerUnitStorageThroughput {
-        let reader = baseError.errorBodyReader
-        var value = InvalidPerUnitStorageThroughput()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidNetworkSettings {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNetworkSettings {
@@ -11815,50 +11802,24 @@ extension InvalidNetworkSettings {
     }
 }
 
+extension InvalidPerUnitStorageThroughput {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPerUnitStorageThroughput {
+        let reader = baseError.errorBodyReader
+        var value = InvalidPerUnitStorageThroughput()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension MissingFileCacheConfiguration {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingFileCacheConfiguration {
         let reader = baseError.errorBodyReader
         var value = MissingFileCacheConfiguration()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidExportPath {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidExportPath {
-        let reader = baseError.errorBodyReader
-        var value = InvalidExportPath()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension MissingFileSystemConfiguration {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingFileSystemConfiguration {
-        let reader = baseError.errorBodyReader
-        var value = MissingFileSystemConfiguration()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidImportPath {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidImportPath {
-        let reader = baseError.errorBodyReader
-        var value = InvalidImportPath()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11882,11 +11843,37 @@ extension ActiveDirectoryError {
     }
 }
 
-extension StorageVirtualMachineNotFound {
+extension InvalidExportPath {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StorageVirtualMachineNotFound {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidExportPath {
         let reader = baseError.errorBodyReader
-        var value = StorageVirtualMachineNotFound()
+        var value = InvalidExportPath()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidImportPath {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidImportPath {
+        let reader = baseError.errorBodyReader
+        var value = InvalidImportPath()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MissingFileSystemConfiguration {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MissingFileSystemConfiguration {
+        let reader = baseError.errorBodyReader
+        var value = MissingFileSystemConfiguration()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11908,12 +11895,11 @@ extension MissingVolumeConfiguration {
     }
 }
 
-extension BackupRestoring {
+extension StorageVirtualMachineNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupRestoring {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StorageVirtualMachineNotFound {
         let reader = baseError.errorBodyReader
-        var value = BackupRestoring()
-        value.properties.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        var value = StorageVirtualMachineNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11928,6 +11914,20 @@ extension BackupBeingCopied {
         let reader = baseError.errorBodyReader
         var value = BackupBeingCopied()
         value.properties.backupId = try reader["BackupId"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BackupRestoring {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupRestoring {
+        let reader = baseError.errorBodyReader
+        var value = BackupRestoring()
+        value.properties.fileSystemId = try reader["FileSystemId"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

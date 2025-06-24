@@ -8238,6 +8238,77 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    public enum CompactionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case binpack
+        case sort
+        case zorder
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CompactionStrategy] {
+            return [
+                .binpack,
+                .sort,
+                .zorder
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .binpack: return "binpack"
+            case .sort: return "sort"
+            case .zorder: return "z-order"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The configuration for an Iceberg compaction optimizer. This configuration defines parameters for optimizing the layout of data files in Iceberg tables.
+    public struct IcebergCompactionConfiguration: Swift.Sendable {
+        /// The strategy to use for compaction. Valid values are:
+        ///
+        /// * binpack: Combines small files into larger files, typically targeting sizes over 100MB, while applying any pending deletes. This is the recommended compaction strategy for most use cases.
+        ///
+        /// * sort: Organizes data based on specified columns which are sorted hierarchically during compaction, improving query performance for filtered operations. This strategy is recommended when your queries frequently filter on specific columns. To use this strategy, you must first define a sort order in your Iceberg table properties using the sort_order table property.
+        ///
+        /// * z-order: Optimizes data organization by blending multiple attributes into a single scalar value that can be used for sorting, allowing efficient querying across multiple dimensions. This strategy is recommended when you need to query data across multiple dimensions simultaneously. To use this strategy, you must first define a sort order in your Iceberg table properties using the sort_order table property.
+        ///
+        ///
+        /// If an input is not provided, the default value 'binpack' will be used.
+        public var strategy: GlueClientTypes.CompactionStrategy?
+
+        public init(
+            strategy: GlueClientTypes.CompactionStrategy? = nil
+        ) {
+            self.strategy = strategy
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The configuration for a compaction optimizer. This configuration defines how data files in your table will be compacted to improve query performance and reduce storage costs.
+    public struct CompactionConfiguration: Swift.Sendable {
+        /// The configuration for an Iceberg compaction optimizer.
+        public var icebergConfiguration: GlueClientTypes.IcebergCompactionConfiguration?
+
+        public init(
+            icebergConfiguration: GlueClientTypes.IcebergCompactionConfiguration? = nil
+        ) {
+            self.icebergConfiguration = icebergConfiguration
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// The configuration for an Iceberg orphan file deletion optimizer.
     public struct IcebergOrphanFileDeletionConfiguration: Swift.Sendable {
         /// Specifies a directory in which to look for files (defaults to the table's location). You may choose a sub-directory rather than the top-level table location.
@@ -8322,6 +8393,8 @@ extension GlueClientTypes {
 
     /// Contains details on the configuration of a table optimizer. You pass this configuration when creating or updating a table optimizer.
     public struct TableOptimizerConfiguration: Swift.Sendable {
+        /// The configuration for a compaction optimizer. This configuration defines how data files in your table will be compacted to improve query performance and reduce storage costs.
+        public var compactionConfiguration: GlueClientTypes.CompactionConfiguration?
         /// Whether table optimization is enabled.
         public var enabled: Swift.Bool?
         /// The configuration for an orphan file deletion optimizer.
@@ -8334,12 +8407,14 @@ extension GlueClientTypes {
         public var vpcConfiguration: GlueClientTypes.TableOptimizerVpcConfiguration?
 
         public init(
+            compactionConfiguration: GlueClientTypes.CompactionConfiguration? = nil,
             enabled: Swift.Bool? = nil,
             orphanFileDeletionConfiguration: GlueClientTypes.OrphanFileDeletionConfiguration? = nil,
             retentionConfiguration: GlueClientTypes.RetentionConfiguration? = nil,
             roleArn: Swift.String? = nil,
             vpcConfiguration: GlueClientTypes.TableOptimizerVpcConfiguration? = nil
         ) {
+            self.compactionConfiguration = compactionConfiguration
             self.enabled = enabled
             self.orphanFileDeletionConfiguration = orphanFileDeletionConfiguration
             self.retentionConfiguration = retentionConfiguration
@@ -8555,6 +8630,14 @@ extension GlueClientTypes {
     public struct TableOptimizerRun: Swift.Sendable {
         /// A CompactionMetrics object containing metrics for the optimizer run.
         public var compactionMetrics: GlueClientTypes.CompactionMetrics?
+        /// The strategy used for the compaction run. Indicates which algorithm was applied to determine how files were selected and combined during the compaction process. Valid values are:
+        ///
+        /// * binpack: Combines small files into larger files, typically targeting sizes over 100MB, while applying any pending deletes. This is the recommended compaction strategy for most use cases.
+        ///
+        /// * sort: Organizes data based on specified columns which are sorted hierarchically during compaction, improving query performance for filtered operations. This strategy is recommended when your queries frequently filter on specific columns. To use this strategy, you must first define a sort order in your Iceberg table properties using the sort_order table property.
+        ///
+        /// * z-order: Optimizes data organization by blending multiple attributes into a single scalar value that can be used for sorting, allowing efficient querying across multiple dimensions. This strategy is recommended when you need to query data across multiple dimensions simultaneously. To use this strategy, you must first define a sort order in your Iceberg table properties using the sort_order table property.
+        public var compactionStrategy: GlueClientTypes.CompactionStrategy?
         /// Represents the epoch timestamp at which the compaction job ended.
         public var endTimestamp: Foundation.Date?
         /// An error that occured during the optimizer run.
@@ -8573,6 +8656,7 @@ extension GlueClientTypes {
 
         public init(
             compactionMetrics: GlueClientTypes.CompactionMetrics? = nil,
+            compactionStrategy: GlueClientTypes.CompactionStrategy? = nil,
             endTimestamp: Foundation.Date? = nil,
             error: Swift.String? = nil,
             eventType: GlueClientTypes.TableOptimizerEventType? = nil,
@@ -8582,6 +8666,7 @@ extension GlueClientTypes {
             startTimestamp: Foundation.Date? = nil
         ) {
             self.compactionMetrics = compactionMetrics
+            self.compactionStrategy = compactionStrategy
             self.endTimestamp = endTimestamp
             self.error = error
             self.eventType = eventType
@@ -40336,32 +40421,6 @@ enum UpdateWorkflowOutputError {
     }
 }
 
-extension GlueEncryptionException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GlueEncryptionException {
-        let reader = baseError.errorBodyReader
-        var value = GlueEncryptionException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServiceException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServiceException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AlreadyExistsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AlreadyExistsException {
@@ -40381,6 +40440,32 @@ extension EntityNotFoundException {
         let reader = baseError.errorBodyReader
         var value = EntityNotFoundException()
         value.properties.fromFederationSource = try reader["FromFederationSource"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension GlueEncryptionException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GlueEncryptionException {
+        let reader = baseError.errorBodyReader
+        var value = GlueEncryptionException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServiceException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -40455,11 +40540,12 @@ extension AccessDeniedException {
     }
 }
 
-extension InvalidStateException {
+extension FederationSourceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FederationSourceException {
         let reader = baseError.errorBodyReader
-        var value = InvalidStateException()
+        var value = FederationSourceException()
+        value.properties.federationSourceErrorCode = try reader["FederationSourceErrorCode"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -40481,12 +40567,11 @@ extension FederationSourceRetryableException {
     }
 }
 
-extension FederationSourceException {
+extension InvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FederationSourceException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStateException {
         let reader = baseError.errorBodyReader
-        var value = FederationSourceException()
-        value.properties.federationSourceErrorCode = try reader["FederationSourceErrorCode"].readIfPresent()
+        var value = InvalidStateException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -40587,11 +40672,11 @@ extension ValidationException {
     }
 }
 
-extension IntegrationConflictOperationFault {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IntegrationConflictOperationFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = IntegrationConflictOperationFault()
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -40600,11 +40685,11 @@ extension IntegrationConflictOperationFault {
     }
 }
 
-extension InternalServerException {
+extension IntegrationConflictOperationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IntegrationConflictOperationFault {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = IntegrationConflictOperationFault()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -40626,11 +40711,11 @@ extension IntegrationQuotaExceededFault {
     }
 }
 
-extension ConflictException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -40678,11 +40763,11 @@ extension OperationNotSupportedException {
     }
 }
 
-extension SchedulerTransitioningException {
+extension CrawlerRunningException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SchedulerTransitioningException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CrawlerRunningException {
         let reader = baseError.errorBodyReader
-        var value = SchedulerTransitioningException()
+        var value = CrawlerRunningException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -40691,11 +40776,11 @@ extension SchedulerTransitioningException {
     }
 }
 
-extension CrawlerRunningException {
+extension SchedulerTransitioningException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CrawlerRunningException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SchedulerTransitioningException {
         let reader = baseError.errorBodyReader
-        var value = CrawlerRunningException()
+        var value = SchedulerTransitioningException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -40769,11 +40854,11 @@ extension PermissionTypeMismatchException {
     }
 }
 
-extension IllegalWorkflowStateException {
+extension ConcurrentRunsExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IllegalWorkflowStateException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentRunsExceededException {
         let reader = baseError.errorBodyReader
-        var value = IllegalWorkflowStateException()
+        var value = ConcurrentRunsExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -40782,11 +40867,11 @@ extension IllegalWorkflowStateException {
     }
 }
 
-extension ConcurrentRunsExceededException {
+extension IllegalWorkflowStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentRunsExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IllegalWorkflowStateException {
         let reader = baseError.errorBodyReader
-        var value = ConcurrentRunsExceededException()
+        var value = IllegalWorkflowStateException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -40847,11 +40932,11 @@ extension MLTransformNotReadyException {
     }
 }
 
-extension ColumnStatisticsTaskStoppingException {
+extension ColumnStatisticsTaskNotRunningException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ColumnStatisticsTaskStoppingException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ColumnStatisticsTaskNotRunningException {
         let reader = baseError.errorBodyReader
-        var value = ColumnStatisticsTaskStoppingException()
+        var value = ColumnStatisticsTaskNotRunningException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -40860,11 +40945,11 @@ extension ColumnStatisticsTaskStoppingException {
     }
 }
 
-extension ColumnStatisticsTaskNotRunningException {
+extension ColumnStatisticsTaskStoppingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ColumnStatisticsTaskNotRunningException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ColumnStatisticsTaskStoppingException {
         let reader = baseError.errorBodyReader
-        var value = ColumnStatisticsTaskNotRunningException()
+        var value = ColumnStatisticsTaskStoppingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -44533,6 +44618,7 @@ extension GlueClientTypes.TableOptimizerRun {
         value.metrics = try reader["metrics"].readIfPresent(with: GlueClientTypes.RunMetrics.read(from:))
         value.error = try reader["error"].readIfPresent()
         value.compactionMetrics = try reader["compactionMetrics"].readIfPresent(with: GlueClientTypes.CompactionMetrics.read(from:))
+        value.compactionStrategy = try reader["compactionStrategy"].readIfPresent()
         value.retentionMetrics = try reader["retentionMetrics"].readIfPresent(with: GlueClientTypes.RetentionMetrics.read(from:))
         value.orphanFileDeletionMetrics = try reader["orphanFileDeletionMetrics"].readIfPresent(with: GlueClientTypes.OrphanFileDeletionMetrics.read(from:))
         return value
@@ -44628,6 +44714,7 @@ extension GlueClientTypes.TableOptimizerConfiguration {
 
     static func write(value: GlueClientTypes.TableOptimizerConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["compactionConfiguration"].write(value.compactionConfiguration, with: GlueClientTypes.CompactionConfiguration.write(value:to:))
         try writer["enabled"].write(value.enabled)
         try writer["orphanFileDeletionConfiguration"].write(value.orphanFileDeletionConfiguration, with: GlueClientTypes.OrphanFileDeletionConfiguration.write(value:to:))
         try writer["retentionConfiguration"].write(value.retentionConfiguration, with: GlueClientTypes.RetentionConfiguration.write(value:to:))
@@ -44641,6 +44728,7 @@ extension GlueClientTypes.TableOptimizerConfiguration {
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.enabled = try reader["enabled"].readIfPresent()
         value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: GlueClientTypes.TableOptimizerVpcConfiguration.read(from:))
+        value.compactionConfiguration = try reader["compactionConfiguration"].readIfPresent(with: GlueClientTypes.CompactionConfiguration.read(from:))
         value.retentionConfiguration = try reader["retentionConfiguration"].readIfPresent(with: GlueClientTypes.RetentionConfiguration.read(from:))
         value.orphanFileDeletionConfiguration = try reader["orphanFileDeletionConfiguration"].readIfPresent(with: GlueClientTypes.OrphanFileDeletionConfiguration.read(from:))
         return value
@@ -44709,6 +44797,36 @@ extension GlueClientTypes.IcebergRetentionConfiguration {
         value.snapshotRetentionPeriodInDays = try reader["snapshotRetentionPeriodInDays"].readIfPresent()
         value.numberOfSnapshotsToRetain = try reader["numberOfSnapshotsToRetain"].readIfPresent()
         value.cleanExpiredFiles = try reader["cleanExpiredFiles"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.CompactionConfiguration {
+
+    static func write(value: GlueClientTypes.CompactionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["icebergConfiguration"].write(value.icebergConfiguration, with: GlueClientTypes.IcebergCompactionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CompactionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CompactionConfiguration()
+        value.icebergConfiguration = try reader["icebergConfiguration"].readIfPresent(with: GlueClientTypes.IcebergCompactionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.IcebergCompactionConfiguration {
+
+    static func write(value: GlueClientTypes.IcebergCompactionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["strategy"].write(value.strategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergCompactionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IcebergCompactionConfiguration()
+        value.strategy = try reader["strategy"].readIfPresent()
         return value
     }
 }
