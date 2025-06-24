@@ -13,6 +13,7 @@ import struct Smithy.Attributes
 ///  A credential identity resolver that caches the credentials sourced from the provided resolver.
 public actor CachedAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private let underlyingResolver: any AWSCredentialIdentityResolver
+    private let refreshBuffer: TimeInterval
     private var cachedCredentials: AWSCredentialIdentity?
 
     /// Credentials resolved through this resolver will be cached within it until their expiration time.
@@ -20,10 +21,13 @@ public actor CachedAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
     ///
     /// - Parameters:
     ///   - underlyingResolver: The source credential identity resolver to get the credentials from.
+    ///   - refreshBuffer: Length of time before expiration where credentials will be resolved even if it hasn't expired just yet. Defaults to 5 minutes.
     public init(
-        underlyingResolver: any AWSCredentialIdentityResolver
-    ) throws {
+        underlyingResolver: any AWSCredentialIdentityResolver,
+        refreshBuffer: TimeInterval = 300
+    ) {
         self.underlyingResolver = underlyingResolver
+        self.refreshBuffer = refreshBuffer
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
@@ -42,9 +46,9 @@ public actor CachedAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
         }
 
         let now = Date()
-        let fiveMinutesBeforeExpiration = expiration.addingTimeInterval(-300)
+        let refreshBufferWindow = expiration.addingTimeInterval(-self.refreshBuffer)
 
-        // Return true if now is after (expiration - 5 minutes).
-        return now >= fiveMinutesBeforeExpiration
+        // Return true if now is in or after refreshBufferWindow
+        return now >= refreshBufferWindow
     }
 }

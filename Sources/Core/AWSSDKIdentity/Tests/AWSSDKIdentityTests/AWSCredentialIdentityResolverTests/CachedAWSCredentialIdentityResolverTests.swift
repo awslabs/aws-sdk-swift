@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import struct AWSSDKIdentity.CachedAWSCredentialIdentityResolver
+import class AWSSDKIdentity.CachedAWSCredentialIdentityResolver
 
 class CachedAWSCredentialIdentityResolverTests: XCTestCase {
 
@@ -29,11 +29,16 @@ class CachedAWSCredentialIdentityResolverTests: XCTestCase {
         let accountID = UUID().uuidString
         let coreProvider = MockAWSCredentialIdentityResolver {
             await counter.increment()
-            return .init(accessKey: accessKey, secret: secret, accountID: accountID)
+            return .init(
+                accessKey: accessKey,
+                secret: secret,
+                accountID: accountID,
+                expiration: Date().addingTimeInterval(0.01)
+            )
         }
-        let subject = try CachedAWSCredentialIdentityResolver(
-            source: coreProvider,
-            refreshTime: 0.01
+        let subject = CachedAWSCredentialIdentityResolver(
+            underlyingResolver: coreProvider,
+            refreshBuffer: 0
         )
 
         _ = try await subject.getIdentity()
