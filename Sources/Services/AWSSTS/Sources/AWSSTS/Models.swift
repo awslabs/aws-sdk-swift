@@ -1269,19 +1269,6 @@ enum GetSessionTokenOutputError {
     }
 }
 
-extension MalformedPolicyDocumentException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MalformedPolicyDocumentException {
-        let reader = baseError.errorBodyReader
-        var value = MalformedPolicyDocumentException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ExpiredTokenException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ExpiredTokenException {
@@ -1295,11 +1282,11 @@ extension ExpiredTokenException {
     }
 }
 
-extension RegionDisabledException {
+extension MalformedPolicyDocumentException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RegionDisabledException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MalformedPolicyDocumentException {
         let reader = baseError.errorBodyReader
-        var value = RegionDisabledException()
+        var value = MalformedPolicyDocumentException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1313,6 +1300,19 @@ extension PackedPolicyTooLargeException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PackedPolicyTooLargeException {
         let reader = baseError.errorBodyReader
         var value = PackedPolicyTooLargeException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RegionDisabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RegionDisabledException {
+        let reader = baseError.errorBodyReader
+        var value = RegionDisabledException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

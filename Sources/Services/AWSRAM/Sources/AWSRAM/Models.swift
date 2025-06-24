@@ -4948,11 +4948,11 @@ extension IdempotentParameterMismatchException {
     }
 }
 
-extension MalformedArnException {
+extension InvalidClientTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedArnException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidClientTokenException {
         let reader = baseError.errorBodyReader
-        var value = MalformedArnException()
+        var value = InvalidClientTokenException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4961,11 +4961,11 @@ extension MalformedArnException {
     }
 }
 
-extension ResourceShareInvitationAlreadyAcceptedException {
+extension MalformedArnException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareInvitationAlreadyAcceptedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedArnException {
         let reader = baseError.errorBodyReader
-        var value = ResourceShareInvitationAlreadyAcceptedException()
+        var value = MalformedArnException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4987,11 +4987,11 @@ extension OperationNotPermittedException {
     }
 }
 
-extension ResourceShareInvitationArnNotFoundException {
+extension ResourceShareInvitationAlreadyAcceptedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareInvitationArnNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareInvitationAlreadyAcceptedException {
         let reader = baseError.errorBodyReader
-        var value = ResourceShareInvitationArnNotFoundException()
+        var value = ResourceShareInvitationAlreadyAcceptedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5005,6 +5005,19 @@ extension ResourceShareInvitationAlreadyRejectedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareInvitationAlreadyRejectedException {
         let reader = baseError.errorBodyReader
         var value = ResourceShareInvitationAlreadyRejectedException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceShareInvitationArnNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareInvitationArnNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceShareInvitationArnNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5039,63 +5052,11 @@ extension ServerInternalException {
     }
 }
 
-extension InvalidClientTokenException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidClientTokenException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidClientTokenException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ServiceUnavailableException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceShareLimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareLimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceShareLimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnknownResourceException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnknownResourceException {
-        let reader = baseError.errorBodyReader
-        var value = UnknownResourceException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidStateTransitionException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidStateTransitionException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidStateTransitionException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5117,6 +5078,32 @@ extension InvalidParameterException {
     }
 }
 
+extension InvalidStateTransitionException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidStateTransitionException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidStateTransitionException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceShareLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceShareLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceShareLimitExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -5130,11 +5117,11 @@ extension ThrottlingException {
     }
 }
 
-extension PermissionAlreadyExistsException {
+extension UnknownResourceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PermissionAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnknownResourceException {
         let reader = baseError.errorBodyReader
-        var value = PermissionAlreadyExistsException()
+        var value = UnknownResourceException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5156,11 +5143,11 @@ extension InvalidPolicyException {
     }
 }
 
-extension PermissionLimitExceededException {
+extension MalformedPolicyTemplateException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PermissionLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedPolicyTemplateException {
         let reader = baseError.errorBodyReader
-        var value = PermissionLimitExceededException()
+        var value = MalformedPolicyTemplateException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5169,11 +5156,24 @@ extension PermissionLimitExceededException {
     }
 }
 
-extension MalformedPolicyTemplateException {
+extension PermissionAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MalformedPolicyTemplateException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PermissionAlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = MalformedPolicyTemplateException()
+        var value = PermissionAlreadyExistsException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PermissionLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PermissionLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = PermissionLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5195,11 +5195,11 @@ extension PermissionVersionsLimitExceededException {
     }
 }
 
-extension TagPolicyViolationException {
+extension TagLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TagPolicyViolationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TagLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = TagPolicyViolationException()
+        var value = TagLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5208,11 +5208,11 @@ extension TagPolicyViolationException {
     }
 }
 
-extension TagLimitExceededException {
+extension TagPolicyViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TagLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TagPolicyViolationException {
         let reader = baseError.errorBodyReader
-        var value = TagLimitExceededException()
+        var value = TagPolicyViolationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

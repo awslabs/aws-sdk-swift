@@ -3374,19 +3374,6 @@ extension InvalidSecurityGroupException {
     }
 }
 
-extension SubnetNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = SubnetNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidSubnetException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnetException {
@@ -3400,11 +3387,11 @@ extension InvalidSubnetException {
     }
 }
 
-extension TooManyPoliciesException {
+extension SubnetNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyPoliciesException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = TooManyPoliciesException()
+        var value = SubnetNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3426,37 +3413,11 @@ extension DuplicatePolicyNameException {
     }
 }
 
-extension InvalidSchemeException {
+extension TooManyPoliciesException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSchemeException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyPoliciesException {
         let reader = baseError.errorBodyReader
-        var value = InvalidSchemeException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyAccessPointsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyAccessPointsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyAccessPointsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension OperationNotPermittedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationNotPermittedException {
-        let reader = baseError.errorBodyReader
-        var value = OperationNotPermittedException()
+        var value = TooManyPoliciesException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3478,11 +3439,11 @@ extension CertificateNotFoundException {
     }
 }
 
-extension UnsupportedProtocolException {
+extension DuplicateAccessPointNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnsupportedProtocolException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateAccessPointNameException {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedProtocolException()
+        var value = DuplicateAccessPointNameException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3491,11 +3452,50 @@ extension UnsupportedProtocolException {
     }
 }
 
-extension DuplicateAccessPointNameException {
+extension InvalidSchemeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateAccessPointNameException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSchemeException {
         let reader = baseError.errorBodyReader
-        var value = DuplicateAccessPointNameException()
+        var value = InvalidSchemeException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OperationNotPermittedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationNotPermittedException {
+        let reader = baseError.errorBodyReader
+        var value = OperationNotPermittedException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyAccessPointsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyAccessPointsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyAccessPointsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnsupportedProtocolException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnsupportedProtocolException {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedProtocolException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

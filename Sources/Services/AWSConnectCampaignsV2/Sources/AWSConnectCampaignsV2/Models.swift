@@ -4493,12 +4493,12 @@ extension AccessDeniedException {
     }
 }
 
-extension ValidationException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = ValidationException()
+        var value = ConflictException()
         if let xAmzErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.xAmzErrorType = xAmzErrorTypeHeaderValue
         }
@@ -4544,6 +4544,23 @@ extension ResourceNotFoundException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
+        var value = ServiceQuotaExceededException()
+        if let xAmzErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmzErrorType = xAmzErrorTypeHeaderValue
+        }
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -4561,29 +4578,12 @@ extension ThrottlingException {
     }
 }
 
-extension ConflictException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = ConflictException()
-        if let xAmzErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
-            value.properties.xAmzErrorType = xAmzErrorTypeHeaderValue
-        }
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = ServiceQuotaExceededException()
+        var value = ValidationException()
         if let xAmzErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.xAmzErrorType = xAmzErrorTypeHeaderValue
         }

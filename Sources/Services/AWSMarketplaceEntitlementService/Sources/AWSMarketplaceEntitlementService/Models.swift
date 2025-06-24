@@ -276,11 +276,11 @@ enum GetEntitlementsOutputError {
     }
 }
 
-extension InvalidParameterException {
+extension InternalServiceErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
         let reader = baseError.errorBodyReader
-        var value = InvalidParameterException()
+        var value = InternalServiceErrorException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -289,11 +289,11 @@ extension InvalidParameterException {
     }
 }
 
-extension InternalServiceErrorException {
+extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceErrorException()
+        var value = InvalidParameterException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

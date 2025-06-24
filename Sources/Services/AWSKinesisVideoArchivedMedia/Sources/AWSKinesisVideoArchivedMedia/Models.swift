@@ -1578,32 +1578,6 @@ extension ClientLimitExceededException {
     }
 }
 
-extension InvalidCodecPrivateDataException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidCodecPrivateDataException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidCodecPrivateDataException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnsupportedStreamMediaTypeException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedStreamMediaTypeException {
-        let reader = baseError.errorBodyReader
-        var value = UnsupportedStreamMediaTypeException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidArgumentException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArgumentException {
@@ -1617,11 +1591,11 @@ extension InvalidArgumentException {
     }
 }
 
-extension ResourceNotFoundException {
+extension InvalidCodecPrivateDataException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidCodecPrivateDataException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = InvalidCodecPrivateDataException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1643,11 +1617,11 @@ extension InvalidMediaFrameException {
     }
 }
 
-extension NotAuthorizedException {
+extension MissingCodecPrivateDataException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAuthorizedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingCodecPrivateDataException {
         let reader = baseError.errorBodyReader
-        var value = NotAuthorizedException()
+        var value = MissingCodecPrivateDataException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1669,11 +1643,37 @@ extension NoDataRetentionException {
     }
 }
 
-extension MissingCodecPrivateDataException {
+extension NotAuthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingCodecPrivateDataException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAuthorizedException {
         let reader = baseError.errorBodyReader
-        var value = MissingCodecPrivateDataException()
+        var value = NotAuthorizedException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnsupportedStreamMediaTypeException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedStreamMediaTypeException {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedStreamMediaTypeException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -2174,11 +2174,11 @@ enum UpdateRecordsOutputError {
     }
 }
 
-extension ResourceNotFoundException {
+extension AlreadyStreamedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AlreadyStreamedException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = AlreadyStreamedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2200,24 +2200,11 @@ extension DuplicateRequestException {
     }
 }
 
-extension NotAuthorizedException {
+extension InternalErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAuthorizedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalErrorException {
         let reader = baseError.errorBodyReader
-        var value = NotAuthorizedException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AlreadyStreamedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AlreadyStreamedException {
-        let reader = baseError.errorBodyReader
-        var value = AlreadyStreamedException()
+        var value = InternalErrorException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2239,11 +2226,11 @@ extension InvalidParameterException {
     }
 }
 
-extension InternalErrorException {
+extension NotAuthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalErrorException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAuthorizedException {
         let reader = baseError.errorBodyReader
-        var value = InternalErrorException()
+        var value = NotAuthorizedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2252,11 +2239,11 @@ extension InternalErrorException {
     }
 }
 
-extension TooManyRequestsException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2270,6 +2257,19 @@ extension ResourceConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceConflictException {
         let reader = baseError.errorBodyReader
         var value = ResourceConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRequestsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2304,6 +2304,19 @@ extension ConcurrentModificationException {
     }
 }
 
+extension InvalidLambdaFunctionOutputException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidLambdaFunctionOutputException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidLambdaFunctionOutputException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension LambdaThrottledException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LambdaThrottledException {
@@ -2322,19 +2335,6 @@ extension LimitExceededException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidLambdaFunctionOutputException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidLambdaFunctionOutputException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidLambdaFunctionOutputException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -1752,11 +1752,11 @@ enum UntagResourceOutputError {
     }
 }
 
-extension ThrottledRequestException {
+extension DependencyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottledRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyException {
         let reader = baseError.errorBodyReader
-        var value = ThrottledRequestException()
+        var value = DependencyException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1778,24 +1778,11 @@ extension InvalidParametersException {
     }
 }
 
-extension DependencyException {
+extension ThrottledRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottledRequestException {
         let reader = baseError.errorBodyReader
-        var value = DependencyException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = ThrottledRequestException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1822,6 +1809,19 @@ extension InternalServiceException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceException {
         let reader = baseError.errorBodyReader
         var value = InternalServiceException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

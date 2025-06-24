@@ -12898,6 +12898,19 @@ enum UpgradeDomainOutputError {
     }
 }
 
+extension DisabledOperationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DisabledOperationException {
+        let reader = baseError.errorBodyReader
+        var value = DisabledOperationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension LimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
@@ -12924,24 +12937,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension DisabledOperationException {
+extension BaseException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DisabledOperationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BaseException {
         let reader = baseError.errorBodyReader
-        var value = DisabledOperationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalException {
-        let reader = baseError.errorBodyReader
-        var value = InternalException()
+        var value = BaseException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12963,6 +12963,19 @@ extension DependencyFailureException {
     }
 }
 
+extension InternalException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalException {
+        let reader = baseError.errorBodyReader
+        var value = InternalException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
@@ -12976,11 +12989,11 @@ extension ValidationException {
     }
 }
 
-extension BaseException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BaseException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = BaseException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12994,19 +13007,6 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

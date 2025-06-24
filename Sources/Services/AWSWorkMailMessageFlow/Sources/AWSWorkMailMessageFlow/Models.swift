@@ -315,11 +315,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension MessageRejected {
+extension InvalidContentLocation {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MessageRejected {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidContentLocation {
         let reader = baseError.errorBodyReader
-        var value = MessageRejected()
+        var value = InvalidContentLocation()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -341,11 +341,11 @@ extension MessageFrozen {
     }
 }
 
-extension InvalidContentLocation {
+extension MessageRejected {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidContentLocation {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MessageRejected {
         let reader = baseError.errorBodyReader
-        var value = InvalidContentLocation()
+        var value = MessageRejected()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

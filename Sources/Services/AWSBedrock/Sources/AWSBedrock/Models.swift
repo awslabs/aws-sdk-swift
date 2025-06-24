@@ -54,26 +54,58 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// Error occurred because of a conflict while performing an operation.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension BedrockClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
+    public enum AgreementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case error
+        case notAvailable
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgreementStatus] {
+            return [
+                .available,
+                .error,
+                .notAvailable,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .error: return "ERROR"
+            case .notAvailable: return "NOT_AVAILABLE"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
+}
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+extension BedrockClientTypes {
 
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
+    /// Information about the agreement availability
+    public struct AgreementAvailability: Swift.Sendable {
+        /// Error message.
+        public var errorMessage: Swift.String?
+        /// Status of the agreement.
+        /// This member is required.
+        public var status: BedrockClientTypes.AgreementStatus?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            status: BedrockClientTypes.AgreementStatus? = nil
+        ) {
+            self.errorMessage = errorMessage
+            self.status = status
+        }
     }
 }
 
@@ -123,29 +155,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The number of requests exceeds the service quota. Resubmit your request later.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// The number of requests exceeds the limit. Resubmit your request later.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -178,6 +187,86 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetUseCaseForModelAccessInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetUseCaseForModelAccessOutput: Swift.Sendable {
+    /// Get customer profile Response.
+    /// This member is required.
+    public var formData: Foundation.Data?
+
+    public init(
+        formData: Foundation.Data? = nil
+    ) {
+        self.formData = formData
+    }
+}
+
+public struct PutUseCaseForModelAccessInput: Swift.Sendable {
+    /// Put customer profile Request.
+    /// This member is required.
+    public var formData: Foundation.Data?
+
+    public init(
+        formData: Foundation.Data? = nil
+    ) {
+        self.formData = formData
+    }
+}
+
+public struct PutUseCaseForModelAccessOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Error occurred because of a conflict while performing an operation.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The number of requests exceeds the service quota. Resubmit your request later.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -7546,6 +7635,388 @@ public struct UpdateProvisionedModelThroughputOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct CreateFoundationModelAgreementInput: Swift.Sendable {
+    /// Model Id of the model for the access request.
+    /// This member is required.
+    public var modelId: Swift.String?
+    /// An offer token encapsulates the information for an offer.
+    /// This member is required.
+    public var offerToken: Swift.String?
+
+    public init(
+        modelId: Swift.String? = nil,
+        offerToken: Swift.String? = nil
+    ) {
+        self.modelId = modelId
+        self.offerToken = offerToken
+    }
+}
+
+public struct CreateFoundationModelAgreementOutput: Swift.Sendable {
+    /// Model Id of the model for the access request.
+    /// This member is required.
+    public var modelId: Swift.String?
+
+    public init(
+        modelId: Swift.String? = nil
+    ) {
+        self.modelId = modelId
+    }
+}
+
+public struct DeleteFoundationModelAgreementInput: Swift.Sendable {
+    /// Model Id of the model access to delete.
+    /// This member is required.
+    public var modelId: Swift.String?
+
+    public init(
+        modelId: Swift.String? = nil
+    ) {
+        self.modelId = modelId
+    }
+}
+
+public struct DeleteFoundationModelAgreementOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetFoundationModelAvailabilityInput: Swift.Sendable {
+    /// The model Id of the foundation model.
+    /// This member is required.
+    public var modelId: Swift.String?
+
+    public init(
+        modelId: Swift.String? = nil
+    ) {
+        self.modelId = modelId
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum AuthorizationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case authorized
+        case notAuthorized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthorizationStatus] {
+            return [
+                .authorized,
+                .notAuthorized
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .authorized: return "AUTHORIZED"
+            case .notAuthorized: return "NOT_AUTHORIZED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum EntitlementAvailability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case notAvailable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EntitlementAvailability] {
+            return [
+                .available,
+                .notAvailable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .notAvailable: return "NOT_AVAILABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum RegionAvailability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case notAvailable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegionAvailability] {
+            return [
+                .available,
+                .notAvailable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .notAvailable: return "NOT_AVAILABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetFoundationModelAvailabilityOutput: Swift.Sendable {
+    /// Agreement availability.
+    /// This member is required.
+    public var agreementAvailability: BedrockClientTypes.AgreementAvailability?
+    /// Authorization status.
+    /// This member is required.
+    public var authorizationStatus: BedrockClientTypes.AuthorizationStatus?
+    /// Entitlement availability.
+    /// This member is required.
+    public var entitlementAvailability: BedrockClientTypes.EntitlementAvailability?
+    /// The model Id of the foundation model.
+    /// This member is required.
+    public var modelId: Swift.String?
+    /// Region availability.
+    /// This member is required.
+    public var regionAvailability: BedrockClientTypes.RegionAvailability?
+
+    public init(
+        agreementAvailability: BedrockClientTypes.AgreementAvailability? = nil,
+        authorizationStatus: BedrockClientTypes.AuthorizationStatus? = nil,
+        entitlementAvailability: BedrockClientTypes.EntitlementAvailability? = nil,
+        modelId: Swift.String? = nil,
+        regionAvailability: BedrockClientTypes.RegionAvailability? = nil
+    ) {
+        self.agreementAvailability = agreementAvailability
+        self.authorizationStatus = authorizationStatus
+        self.entitlementAvailability = entitlementAvailability
+        self.modelId = modelId
+        self.regionAvailability = regionAvailability
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum OfferType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OfferType] {
+            return [
+                .all,
+                .public
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListFoundationModelAgreementOffersInput: Swift.Sendable {
+    /// Model Id of the foundation model.
+    /// This member is required.
+    public var modelId: Swift.String?
+    /// Type of offer associated with the model.
+    public var offerType: BedrockClientTypes.OfferType?
+
+    public init(
+        modelId: Swift.String? = nil,
+        offerType: BedrockClientTypes.OfferType? = nil
+    ) {
+        self.modelId = modelId
+        self.offerType = offerType
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// The legal term of the agreement.
+    public struct LegalTerm: Swift.Sendable {
+        /// URL to the legal term document.
+        public var url: Swift.String?
+
+        public init(
+            url: Swift.String? = nil
+        ) {
+            self.url = url
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Describes a support term.
+    public struct SupportTerm: Swift.Sendable {
+        /// Describes the refund policy.
+        public var refundPolicyDescription: Swift.String?
+
+        public init(
+            refundPolicyDescription: Swift.String? = nil
+        ) {
+            self.refundPolicyDescription = refundPolicyDescription
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Dimensional price rate.
+    public struct DimensionalPriceRate: Swift.Sendable {
+        /// Description of the price rate.
+        public var description: Swift.String?
+        /// Dimension for the price rate.
+        public var dimension: Swift.String?
+        /// Single-dimensional rate information.
+        public var price: Swift.String?
+        /// Unit associated with the price.
+        public var unit: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            dimension: Swift.String? = nil,
+            price: Swift.String? = nil,
+            unit: Swift.String? = nil
+        ) {
+            self.description = description
+            self.dimension = dimension
+            self.price = price
+            self.unit = unit
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Describes the usage-based pricing term.
+    public struct PricingTerm: Swift.Sendable {
+        /// Describes a usage price for each dimension.
+        /// This member is required.
+        public var rateCard: [BedrockClientTypes.DimensionalPriceRate]?
+
+        public init(
+            rateCard: [BedrockClientTypes.DimensionalPriceRate]? = nil
+        ) {
+            self.rateCard = rateCard
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Describes the validity terms.
+    public struct ValidityTerm: Swift.Sendable {
+        /// Describes the agreement duration.
+        public var agreementDuration: Swift.String?
+
+        public init(
+            agreementDuration: Swift.String? = nil
+        ) {
+            self.agreementDuration = agreementDuration
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Describes the usage terms of an offer.
+    public struct TermDetails: Swift.Sendable {
+        /// Describes the legal terms.
+        /// This member is required.
+        public var legalTerm: BedrockClientTypes.LegalTerm?
+        /// Describes the support terms.
+        /// This member is required.
+        public var supportTerm: BedrockClientTypes.SupportTerm?
+        /// Describes the usage-based pricing term.
+        /// This member is required.
+        public var usageBasedPricingTerm: BedrockClientTypes.PricingTerm?
+        /// Describes the validity terms.
+        public var validityTerm: BedrockClientTypes.ValidityTerm?
+
+        public init(
+            legalTerm: BedrockClientTypes.LegalTerm? = nil,
+            supportTerm: BedrockClientTypes.SupportTerm? = nil,
+            usageBasedPricingTerm: BedrockClientTypes.PricingTerm? = nil,
+            validityTerm: BedrockClientTypes.ValidityTerm? = nil
+        ) {
+            self.legalTerm = legalTerm
+            self.supportTerm = supportTerm
+            self.usageBasedPricingTerm = usageBasedPricingTerm
+            self.validityTerm = validityTerm
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// An offer dictates usage terms for the model.
+    public struct Offer: Swift.Sendable {
+        /// Offer Id for a model offer.
+        public var offerId: Swift.String?
+        /// Offer token.
+        /// This member is required.
+        public var offerToken: Swift.String?
+        /// Details about the terms of the offer.
+        /// This member is required.
+        public var termDetails: BedrockClientTypes.TermDetails?
+
+        public init(
+            offerId: Swift.String? = nil,
+            offerToken: Swift.String? = nil,
+            termDetails: BedrockClientTypes.TermDetails? = nil
+        ) {
+            self.offerId = offerId
+            self.offerToken = offerToken
+            self.termDetails = termDetails
+        }
+    }
+}
+
+public struct ListFoundationModelAgreementOffersOutput: Swift.Sendable {
+    /// Model Id of the foundation model.
+    /// This member is required.
+    public var modelId: Swift.String?
+    /// List of the offers associated with the specified model.
+    /// This member is required.
+    public var offers: [BedrockClientTypes.Offer]?
+
+    public init(
+        modelId: Swift.String? = nil,
+        offers: [BedrockClientTypes.Offer]? = nil
+    ) {
+        self.modelId = modelId
+        self.offers = offers
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -8517,6 +8988,13 @@ extension CreateEvaluationJobInput {
     }
 }
 
+extension CreateFoundationModelAgreementInput {
+
+    static func urlPathProvider(_ value: CreateFoundationModelAgreementInput) -> Swift.String? {
+        return "/create-foundation-model-agreement"
+    }
+}
+
 extension CreateGuardrailInput {
 
     static func urlPathProvider(_ value: CreateGuardrailInput) -> Swift.String? {
@@ -8597,6 +9075,13 @@ extension DeleteCustomModelInput {
             return nil
         }
         return "/custom-models/\(modelIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteFoundationModelAgreementInput {
+
+    static func urlPathProvider(_ value: DeleteFoundationModelAgreementInput) -> Swift.String? {
+        return "/delete-foundation-model-agreement"
     }
 }
 
@@ -8719,6 +9204,16 @@ extension GetFoundationModelInput {
     }
 }
 
+extension GetFoundationModelAvailabilityInput {
+
+    static func urlPathProvider(_ value: GetFoundationModelAvailabilityInput) -> Swift.String? {
+        guard let modelId = value.modelId else {
+            return nil
+        }
+        return "/foundation-model-availability/\(modelId.urlPercentEncoding())"
+    }
+}
+
 extension GetGuardrailInput {
 
     static func urlPathProvider(_ value: GetGuardrailInput) -> Swift.String? {
@@ -8838,6 +9333,13 @@ extension GetProvisionedModelThroughputInput {
     }
 }
 
+extension GetUseCaseForModelAccessInput {
+
+    static func urlPathProvider(_ value: GetUseCaseForModelAccessInput) -> Swift.String? {
+        return "/use-case-for-model-access"
+    }
+}
+
 extension ListCustomModelsInput {
 
     static func urlPathProvider(_ value: ListCustomModelsInput) -> Swift.String? {
@@ -8943,6 +9445,28 @@ extension ListEvaluationJobsInput {
         if let creationTimeBefore = value.creationTimeBefore {
             let creationTimeBeforeQueryItem = Smithy.URIQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
             items.append(creationTimeBeforeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListFoundationModelAgreementOffersInput {
+
+    static func urlPathProvider(_ value: ListFoundationModelAgreementOffersInput) -> Swift.String? {
+        guard let modelId = value.modelId else {
+            return nil
+        }
+        return "/list-foundation-model-agreement-offers/\(modelId.urlPercentEncoding())"
+    }
+}
+
+extension ListFoundationModelAgreementOffersInput {
+
+    static func queryItemProvider(_ value: ListFoundationModelAgreementOffersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let offerType = value.offerType {
+            let offerTypeQueryItem = Smithy.URIQueryItem(name: "offerType".urlPercentEncoding(), value: Swift.String(offerType.rawValue).urlPercentEncoding())
+            items.append(offerTypeQueryItem)
         }
         return items
     }
@@ -9391,6 +9915,13 @@ extension PutModelInvocationLoggingConfigurationInput {
     }
 }
 
+extension PutUseCaseForModelAccessInput {
+
+    static func urlPathProvider(_ value: PutUseCaseForModelAccessInput) -> Swift.String? {
+        return "/use-case-for-model-access"
+    }
+}
+
 extension RegisterMarketplaceModelEndpointInput {
 
     static func urlPathProvider(_ value: RegisterMarketplaceModelEndpointInput) -> Swift.String? {
@@ -9510,6 +10041,15 @@ extension CreateEvaluationJobInput {
         try writer["jobTags"].writeList(value.jobTags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["outputDataConfig"].write(value.outputDataConfig, with: BedrockClientTypes.EvaluationOutputDataConfig.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
+    }
+}
+
+extension CreateFoundationModelAgreementInput {
+
+    static func write(value: CreateFoundationModelAgreementInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelId"].write(value.modelId)
+        try writer["offerToken"].write(value.offerToken)
     }
 }
 
@@ -9660,6 +10200,14 @@ extension CreateProvisionedModelThroughputInput {
     }
 }
 
+extension DeleteFoundationModelAgreementInput {
+
+    static func write(value: DeleteFoundationModelAgreementInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelId"].write(value.modelId)
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -9673,6 +10221,14 @@ extension PutModelInvocationLoggingConfigurationInput {
     static func write(value: PutModelInvocationLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["loggingConfig"].write(value.loggingConfig, with: BedrockClientTypes.LoggingConfig.write(value:to:))
+    }
+}
+
+extension PutUseCaseForModelAccessInput {
+
+    static func write(value: PutUseCaseForModelAccessInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["formData"].write(value.formData)
     }
 }
 
@@ -9771,6 +10327,18 @@ extension CreateEvaluationJobOutput {
         let reader = responseReader
         var value = CreateEvaluationJobOutput()
         value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateFoundationModelAgreementOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateFoundationModelAgreementOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateFoundationModelAgreementOutput()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9907,6 +10475,13 @@ extension DeleteCustomModelOutput {
     }
 }
 
+extension DeleteFoundationModelAgreementOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFoundationModelAgreementOutput {
+        return DeleteFoundationModelAgreementOutput()
+    }
+}
+
 extension DeleteGuardrailOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteGuardrailOutput {
@@ -10024,6 +10599,22 @@ extension GetFoundationModelOutput {
         let reader = responseReader
         var value = GetFoundationModelOutput()
         value.modelDetails = try reader["modelDetails"].readIfPresent(with: BedrockClientTypes.FoundationModelDetails.read(from:))
+        return value
+    }
+}
+
+extension GetFoundationModelAvailabilityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFoundationModelAvailabilityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFoundationModelAvailabilityOutput()
+        value.agreementAvailability = try reader["agreementAvailability"].readIfPresent(with: BedrockClientTypes.AgreementAvailability.read(from:))
+        value.authorizationStatus = try reader["authorizationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.entitlementAvailability = try reader["entitlementAvailability"].readIfPresent() ?? .sdkUnknown("")
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.regionAvailability = try reader["regionAvailability"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10274,6 +10865,18 @@ extension GetProvisionedModelThroughputOutput {
     }
 }
 
+extension GetUseCaseForModelAccessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetUseCaseForModelAccessOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetUseCaseForModelAccessOutput()
+        value.formData = try reader["formData"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
+        return value
+    }
+}
+
 extension ListCustomModelsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCustomModelsOutput {
@@ -10296,6 +10899,19 @@ extension ListEvaluationJobsOutput {
         var value = ListEvaluationJobsOutput()
         value.jobSummaries = try reader["jobSummaries"].readListIfPresent(memberReadingClosure: BedrockClientTypes.EvaluationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListFoundationModelAgreementOffersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFoundationModelAgreementOffersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFoundationModelAgreementOffersOutput()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.offers = try reader["offers"].readListIfPresent(memberReadingClosure: BedrockClientTypes.Offer.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10461,6 +11077,13 @@ extension PutModelInvocationLoggingConfigurationOutput {
     }
 }
 
+extension PutUseCaseForModelAccessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutUseCaseForModelAccessOutput {
+        return PutUseCaseForModelAccessOutput()
+    }
+}
+
 extension RegisterMarketplaceModelEndpointOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterMarketplaceModelEndpointOutput {
@@ -10595,6 +11218,25 @@ enum CreateEvaluationJobOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateFoundationModelAgreementOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10823,6 +11465,25 @@ enum DeleteCustomModelOutputError {
     }
 }
 
+enum DeleteFoundationModelAgreementOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteGuardrailOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11007,6 +11668,24 @@ enum GetEvaluationJobOutputError {
 }
 
 enum GetFoundationModelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetFoundationModelAvailabilityOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -11220,6 +11899,23 @@ enum GetProvisionedModelThroughputOutputError {
     }
 }
 
+enum GetUseCaseForModelAccessOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCustomModelsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11247,6 +11943,24 @@ enum ListEvaluationJobsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListFoundationModelAgreementOffersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11479,6 +12193,23 @@ enum PutModelInvocationLoggingConfigurationOutputError {
     }
 }
 
+enum PutUseCaseForModelAccessOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RegisterMarketplaceModelEndpointOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11676,6 +12407,19 @@ extension ConflictException {
     }
 }
 
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
@@ -11694,19 +12438,6 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13100,6 +13831,17 @@ extension BedrockClientTypes.FoundationModelLifecycle {
     }
 }
 
+extension BedrockClientTypes.AgreementAvailability {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AgreementAvailability {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AgreementAvailability()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockClientTypes.GuardrailTopicPolicy {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailTopicPolicy {
@@ -13662,6 +14404,84 @@ extension BedrockClientTypes.EvaluationModelConfigSummary {
         var value = BedrockClientTypes.EvaluationModelConfigSummary()
         value.bedrockModelIdentifiers = try reader["bedrockModelIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.precomputedInferenceSourceIdentifiers = try reader["precomputedInferenceSourceIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockClientTypes.Offer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.Offer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.Offer()
+        value.offerId = try reader["offerId"].readIfPresent()
+        value.offerToken = try reader["offerToken"].readIfPresent() ?? ""
+        value.termDetails = try reader["termDetails"].readIfPresent(with: BedrockClientTypes.TermDetails.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.TermDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.TermDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.TermDetails()
+        value.usageBasedPricingTerm = try reader["usageBasedPricingTerm"].readIfPresent(with: BedrockClientTypes.PricingTerm.read(from:))
+        value.legalTerm = try reader["legalTerm"].readIfPresent(with: BedrockClientTypes.LegalTerm.read(from:))
+        value.supportTerm = try reader["supportTerm"].readIfPresent(with: BedrockClientTypes.SupportTerm.read(from:))
+        value.validityTerm = try reader["validityTerm"].readIfPresent(with: BedrockClientTypes.ValidityTerm.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.ValidityTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ValidityTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.ValidityTerm()
+        value.agreementDuration = try reader["agreementDuration"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.SupportTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.SupportTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.SupportTerm()
+        value.refundPolicyDescription = try reader["refundPolicyDescription"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.LegalTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.LegalTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.LegalTerm()
+        value.url = try reader["url"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.PricingTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.PricingTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.PricingTerm()
+        value.rateCard = try reader["rateCard"].readListIfPresent(memberReadingClosure: BedrockClientTypes.DimensionalPriceRate.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockClientTypes.DimensionalPriceRate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.DimensionalPriceRate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.DimensionalPriceRate()
+        value.dimension = try reader["dimension"].readIfPresent()
+        value.price = try reader["price"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
         return value
     }
 }

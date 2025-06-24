@@ -376,38 +376,12 @@ enum SendAlexaOfferToMasterOutputError {
     }
 }
 
-extension NotAuthorizedException {
+extension ClientLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAuthorizedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = NotAuthorizedException()
+        var value = ClientLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SessionExpiredException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SessionExpiredException {
-        let reader = baseError.errorBodyReader
-        var value = SessionExpiredException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidClientException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidClientException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidClientException()
-        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -428,11 +402,24 @@ extension InvalidArgumentException {
     }
 }
 
-extension ClientLimitExceededException {
+extension InvalidClientException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidClientException {
         let reader = baseError.errorBodyReader
-        var value = ClientLimitExceededException()
+        var value = InvalidClientException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NotAuthorizedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAuthorizedException {
+        let reader = baseError.errorBodyReader
+        var value = NotAuthorizedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -447,6 +434,19 @@ extension ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SessionExpiredException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SessionExpiredException {
+        let reader = baseError.errorBodyReader
+        var value = SessionExpiredException()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

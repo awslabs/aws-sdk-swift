@@ -1801,11 +1801,11 @@ enum UpdateEnvironmentMembershipOutputError {
     }
 }
 
-extension TooManyRequestsException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
+        var value = BadRequestException()
         value.properties.className = try reader["className"].readIfPresent()
         value.properties.code = try reader["code"].readIfPresent() ?? 0
         value.properties.message = try reader["message"].readIfPresent()
@@ -1816,11 +1816,11 @@ extension TooManyRequestsException {
     }
 }
 
-extension BadRequestException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
+        var value = ConflictException()
         value.properties.className = try reader["className"].readIfPresent()
         value.properties.code = try reader["code"].readIfPresent() ?? 0
         value.properties.message = try reader["message"].readIfPresent()
@@ -1846,11 +1846,11 @@ extension ForbiddenException {
     }
 }
 
-extension LimitExceededException {
+extension InternalServerErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerErrorException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = InternalServerErrorException()
         value.properties.className = try reader["className"].readIfPresent()
         value.properties.code = try reader["code"].readIfPresent() ?? 0
         value.properties.message = try reader["message"].readIfPresent()
@@ -1861,11 +1861,11 @@ extension LimitExceededException {
     }
 }
 
-extension InternalServerErrorException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerErrorException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerErrorException()
+        var value = LimitExceededException()
         value.properties.className = try reader["className"].readIfPresent()
         value.properties.code = try reader["code"].readIfPresent() ?? 0
         value.properties.message = try reader["message"].readIfPresent()
@@ -1891,11 +1891,11 @@ extension NotFoundException {
     }
 }
 
-extension ConflictException {
+extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = TooManyRequestsException()
         value.properties.className = try reader["className"].readIfPresent()
         value.properties.code = try reader["code"].readIfPresent() ?? 0
         value.properties.message = try reader["message"].readIfPresent()

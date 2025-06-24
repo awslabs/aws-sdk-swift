@@ -2186,19 +2186,6 @@ enum ResolveCaseOutputError {
     }
 }
 
-extension AttachmentSetIdNotFound {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AttachmentSetIdNotFound {
-        let reader = baseError.errorBodyReader
-        var value = AttachmentSetIdNotFound()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AttachmentLimitExceeded {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AttachmentLimitExceeded {
@@ -2217,6 +2204,19 @@ extension AttachmentSetExpired {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AttachmentSetExpired {
         let reader = baseError.errorBodyReader
         var value = AttachmentSetExpired()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AttachmentSetIdNotFound {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AttachmentSetIdNotFound {
+        let reader = baseError.errorBodyReader
+        var value = AttachmentSetIdNotFound()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

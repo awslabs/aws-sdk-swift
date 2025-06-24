@@ -11,6 +11,36 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension ElasticLoadBalancingv2Client {
+    /// Paginate over `[DescribeAccountLimitsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAccountLimitsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAccountLimitsOutput`
+    public func describeAccountLimitsPaginated(input: DescribeAccountLimitsInput) -> ClientRuntime.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.describeAccountLimits(input:))
+    }
+}
+
+extension DescribeAccountLimitsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeAccountLimitsInput {
+        return DescribeAccountLimitsInput(
+            marker: token,
+            pageSize: self.pageSize
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeAccountLimitsInput, OperationStackOutput == DescribeAccountLimitsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAccountLimitsPaginated`
+    /// to access the nested member `[ElasticLoadBalancingv2ClientTypes.Limit]`
+    /// - Returns: `[ElasticLoadBalancingv2ClientTypes.Limit]`
+    public func limits() async throws -> [ElasticLoadBalancingv2ClientTypes.Limit] {
+        return try await self.asyncCompactMap { item in item.limits }
+    }
+}
+extension ElasticLoadBalancingv2Client {
     /// Paginate over `[DescribeListenerCertificatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -192,6 +222,15 @@ extension DescribeTrustStoreAssociationsInput: ClientRuntime.PaginateToken {
             trustStoreArn: self.trustStoreArn
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == DescribeTrustStoreAssociationsInput, OperationStackOutput == DescribeTrustStoreAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeTrustStoreAssociationsPaginated`
+    /// to access the nested member `[ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation]`
+    /// - Returns: `[ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation]`
+    public func trustStoreAssociations() async throws -> [ElasticLoadBalancingv2ClientTypes.TrustStoreAssociation] {
+        return try await self.asyncCompactMap { item in item.trustStoreAssociations }
+    }
+}
 extension ElasticLoadBalancingv2Client {
     /// Paginate over `[DescribeTrustStoreRevocationsOutput]` results.
     ///
@@ -215,6 +254,15 @@ extension DescribeTrustStoreRevocationsInput: ClientRuntime.PaginateToken {
             trustStoreArn: self.trustStoreArn
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == DescribeTrustStoreRevocationsInput, OperationStackOutput == DescribeTrustStoreRevocationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeTrustStoreRevocationsPaginated`
+    /// to access the nested member `[ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation]`
+    /// - Returns: `[ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation]`
+    public func trustStoreRevocations() async throws -> [ElasticLoadBalancingv2ClientTypes.DescribeTrustStoreRevocation] {
+        return try await self.asyncCompactMap { item in item.trustStoreRevocations }
+    }
+}
 extension ElasticLoadBalancingv2Client {
     /// Paginate over `[DescribeTrustStoresOutput]` results.
     ///
@@ -237,4 +285,13 @@ extension DescribeTrustStoresInput: ClientRuntime.PaginateToken {
             pageSize: self.pageSize,
             trustStoreArns: self.trustStoreArns
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeTrustStoresInput, OperationStackOutput == DescribeTrustStoresOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeTrustStoresPaginated`
+    /// to access the nested member `[ElasticLoadBalancingv2ClientTypes.TrustStore]`
+    /// - Returns: `[ElasticLoadBalancingv2ClientTypes.TrustStore]`
+    public func trustStores() async throws -> [ElasticLoadBalancingv2ClientTypes.TrustStore] {
+        return try await self.asyncCompactMap { item in item.trustStores }
+    }
 }

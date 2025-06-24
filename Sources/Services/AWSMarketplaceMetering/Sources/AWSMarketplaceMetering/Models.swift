@@ -928,32 +928,6 @@ extension DisabledApiException {
     }
 }
 
-extension InvalidUsageAllocationsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUsageAllocationsException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidUsageAllocationsException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidUsageDimensionException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUsageDimensionException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidUsageDimensionException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalServiceErrorException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
@@ -980,11 +954,50 @@ extension InvalidCustomerIdentifierException {
     }
 }
 
+extension InvalidProductCodeException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidProductCodeException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidProductCodeException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidTagException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTagException {
         let reader = baseError.errorBodyReader
         var value = InvalidTagException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidUsageAllocationsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUsageAllocationsException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidUsageAllocationsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidUsageDimensionException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUsageDimensionException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidUsageDimensionException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1019,11 +1032,11 @@ extension TimestampOutOfBoundsException {
     }
 }
 
-extension InvalidProductCodeException {
+extension CustomerNotEntitledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidProductCodeException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CustomerNotEntitledException {
         let reader = baseError.errorBodyReader
-        var value = InvalidProductCodeException()
+        var value = CustomerNotEntitledException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1058,11 +1071,11 @@ extension InvalidEndpointRegionException {
     }
 }
 
-extension CustomerNotEntitledException {
+extension InvalidPublicKeyVersionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CustomerNotEntitledException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPublicKeyVersionException {
         let reader = baseError.errorBodyReader
-        var value = CustomerNotEntitledException()
+        var value = InvalidPublicKeyVersionException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1076,19 +1089,6 @@ extension InvalidRegionException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRegionException {
         let reader = baseError.errorBodyReader
         var value = InvalidRegionException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidPublicKeyVersionException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPublicKeyVersionException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidPublicKeyVersionException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

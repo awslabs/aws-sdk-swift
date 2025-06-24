@@ -12291,11 +12291,11 @@ extension CallRateLimitExceededException {
     }
 }
 
-extension InvalidRequestException {
+extension ClientException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientException {
         let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
+        var value = ClientException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12330,37 +12330,11 @@ extension IdempotentParameterMismatchException {
     }
 }
 
-extension ServiceUnavailableException {
+extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ClientException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientException {
-        let reader = baseError.errorBodyReader
-        var value = ClientException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceException()
+        var value = InvalidRequestException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12382,11 +12356,24 @@ extension ResourceInUseException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension ServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = ServiceException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12413,6 +12400,19 @@ extension InvalidVersionNumberException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidVersionNumberException {
         let reader = baseError.errorBodyReader
         var value = InvalidVersionNumberException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

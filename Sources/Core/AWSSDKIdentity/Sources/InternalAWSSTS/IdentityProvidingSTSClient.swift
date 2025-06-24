@@ -14,6 +14,7 @@ import struct AWSSDKIdentity.AWSCredentialIdentity
 
 package struct IdentityProvidingSTSClient: AWSSDKIdentity.IdentityProvidingSTSClient, Swift.Sendable {
     package init() {}
+
     package func getCredentialsWithWebIdentity(region: String, roleARN: String, roleSessionName: String, webIdentityToken: String) async throws -> AWSSDKIdentity.AWSCredentialIdentity {
         let sts = try STSClient(region: region)
         var out: AssumeRoleWithWebIdentityOutput

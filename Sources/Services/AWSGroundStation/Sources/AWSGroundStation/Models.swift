@@ -4897,11 +4897,11 @@ enum UpdateMissionProfileOutputError {
     }
 }
 
-extension InvalidParameterException {
+extension DependencyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyException {
         let reader = baseError.errorBodyReader
-        var value = InvalidParameterException()
+        var value = DependencyException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.parameterName = try reader["parameterName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -4911,11 +4911,11 @@ extension InvalidParameterException {
     }
 }
 
-extension DependencyException {
+extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
-        var value = DependencyException()
+        var value = InvalidParameterException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.parameterName = try reader["parameterName"].readIfPresent()
         value.httpResponse = baseError.httpResponse

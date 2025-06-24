@@ -11545,19 +11545,6 @@ extension InvalidEndpointException {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ProvisionedThroughputExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
@@ -11571,11 +11558,50 @@ extension ProvisionedThroughputExceededException {
     }
 }
 
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ItemCollectionSizeLimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ItemCollectionSizeLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ItemCollectionSizeLimitExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BackupInUseException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupInUseException {
+        let reader = baseError.errorBodyReader
+        var value = BackupInUseException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ContinuousBackupsUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ContinuousBackupsUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ContinuousBackupsUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11610,37 +11636,11 @@ extension TableInUseException {
     }
 }
 
-extension BackupInUseException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackupInUseException {
-        let reader = baseError.errorBodyReader
-        var value = BackupInUseException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension TableNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TableNotFoundException {
         let reader = baseError.errorBodyReader
         var value = TableNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ContinuousBackupsUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ContinuousBackupsUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = ContinuousBackupsUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11688,19 +11688,6 @@ extension BackupNotFoundException {
     }
 }
 
-extension TransactionConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TransactionConflictException {
-        let reader = baseError.errorBodyReader
-        var value = TransactionConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConditionalCheckFailedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConditionalCheckFailedException {
@@ -11720,6 +11707,19 @@ extension ReplicatedWriteConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicatedWriteConflictException {
         let reader = baseError.errorBodyReader
         var value = ReplicatedWriteConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TransactionConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TransactionConflictException {
+        let reader = baseError.errorBodyReader
+        var value = TransactionConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11833,6 +11833,19 @@ extension TransactionInProgressException {
     }
 }
 
+extension ExportConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExportConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ExportConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidExportTimeException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidExportTimeException {
@@ -11851,19 +11864,6 @@ extension PointInTimeRecoveryUnavailableException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PointInTimeRecoveryUnavailableException {
         let reader = baseError.errorBodyReader
         var value = PointInTimeRecoveryUnavailableException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ExportConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExportConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ExportConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11911,11 +11911,11 @@ extension InvalidRestoreTimeException {
     }
 }
 
-extension ReplicaNotFoundException {
+extension ReplicaAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicaNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicaAlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = ReplicaNotFoundException()
+        var value = ReplicaAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11924,11 +11924,11 @@ extension ReplicaNotFoundException {
     }
 }
 
-extension ReplicaAlreadyExistsException {
+extension ReplicaNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicaAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicaNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ReplicaAlreadyExistsException()
+        var value = ReplicaNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

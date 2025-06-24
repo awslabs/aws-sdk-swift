@@ -33054,52 +33054,12 @@ enum UpdateSdiSourceOutputError {
     }
 }
 
-extension ConflictException {
+extension BadGatewayException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadGatewayException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = BadGatewayException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyRequestsException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension GatewayTimeoutException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> GatewayTimeoutException {
-        let reader = baseError.errorBodyReader
-        var value = GatewayTimeoutException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnprocessableEntityException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnprocessableEntityException {
-        let reader = baseError.errorBodyReader
-        var value = UnprocessableEntityException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.validationErrors = try reader["validationErrors"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ValidationError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -33112,6 +33072,19 @@ extension BadRequestException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33133,11 +33106,11 @@ extension ForbiddenException {
     }
 }
 
-extension InternalServerErrorException {
+extension GatewayTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> GatewayTimeoutException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerErrorException()
+        var value = GatewayTimeoutException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33146,11 +33119,11 @@ extension InternalServerErrorException {
     }
 }
 
-extension BadGatewayException {
+extension InternalServerErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadGatewayException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
         let reader = baseError.errorBodyReader
-        var value = BadGatewayException()
+        var value = InternalServerErrorException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33165,6 +33138,33 @@ extension NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRequestsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRequestsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnprocessableEntityException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnprocessableEntityException {
+        let reader = baseError.errorBodyReader
+        var value = UnprocessableEntityException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.validationErrors = try reader["validationErrors"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ValidationError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

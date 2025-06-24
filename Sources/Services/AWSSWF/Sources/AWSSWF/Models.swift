@@ -7677,11 +7677,11 @@ enum UntagResourceOutputError {
     }
 }
 
-extension UnknownResourceFault {
+extension OperationNotPermittedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnknownResourceFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationNotPermittedFault {
         let reader = baseError.errorBodyReader
-        var value = UnknownResourceFault()
+        var value = OperationNotPermittedFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7690,11 +7690,11 @@ extension UnknownResourceFault {
     }
 }
 
-extension OperationNotPermittedFault {
+extension UnknownResourceFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationNotPermittedFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnknownResourceFault {
         let reader = baseError.errorBodyReader
-        var value = OperationNotPermittedFault()
+        var value = UnknownResourceFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7768,19 +7768,6 @@ extension TypeAlreadyExistsFault {
     }
 }
 
-extension TooManyTagsFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsFault {
-        let reader = baseError.errorBodyReader
-        var value = TooManyTagsFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DomainAlreadyExistsFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DomainAlreadyExistsFault {
@@ -7794,11 +7781,11 @@ extension DomainAlreadyExistsFault {
     }
 }
 
-extension WorkflowExecutionAlreadyStartedFault {
+extension TooManyTagsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WorkflowExecutionAlreadyStartedFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsFault {
         let reader = baseError.errorBodyReader
-        var value = WorkflowExecutionAlreadyStartedFault()
+        var value = TooManyTagsFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7812,6 +7799,19 @@ extension DefaultUndefinedFault {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DefaultUndefinedFault {
         let reader = baseError.errorBodyReader
         var value = DefaultUndefinedFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension WorkflowExecutionAlreadyStartedFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WorkflowExecutionAlreadyStartedFault {
+        let reader = baseError.errorBodyReader
+        var value = WorkflowExecutionAlreadyStartedFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -13,6 +13,8 @@ import enum Smithy.ClientError
 import enum SmithyHTTPAuthAPI.SigningPropertyKeys
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolverParameters
+import struct InternalAWSSSO.IdentityProvidingSSOClient
+import struct InternalAWSSSOOIDC.IdentityProvidingSSOOIDCClient
 import struct InternalAWSSTS.IdentityProvidingSTSClient
 import struct SmithyHTTPAuthAPI.AuthOption
 
@@ -50,6 +52,8 @@ public struct DefaultAIOpsAuthSchemeResolver: AIOpsAuthSchemeResolver {
                 }
                 sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
                 sigv4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                sigv4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOClientKey, value: InternalAWSSSO.IdentityProvidingSSOClient())
+                sigv4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOOIDCClientKey, value: InternalAWSSSOOIDC.IdentityProvidingSSOOIDCClient())
                 validAuthOptions.append(sigv4Option)
         }
         return self.reprioritizeAuthOptions(authSchemePreference: authSchemePreference, authOptions: validAuthOptions)

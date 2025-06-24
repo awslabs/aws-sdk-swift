@@ -7540,34 +7540,6 @@ extension BadRequestException {
     }
 }
 
-extension TooManyRequestsException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
-        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnauthorizedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
-        let reader = baseError.errorBodyReader
-        var value = UnauthorizedException()
-        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ForbiddenException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
@@ -7582,11 +7554,11 @@ extension ForbiddenException {
     }
 }
 
-extension ServiceUnavailableException {
+extension InternalServerErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
         let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
+        var value = InternalServerErrorException()
         value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -7610,11 +7582,39 @@ extension NotFoundException {
     }
 }
 
-extension InternalServerErrorException {
+extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerErrorException()
+        var value = ServiceUnavailableException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRequestsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRequestsException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnauthorizedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+        let reader = baseError.errorBodyReader
+        var value = UnauthorizedException()
         value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse

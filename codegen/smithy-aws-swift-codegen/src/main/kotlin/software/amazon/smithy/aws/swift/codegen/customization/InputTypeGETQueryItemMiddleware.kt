@@ -6,9 +6,11 @@ import software.amazon.smithy.model.shapes.ListShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.shapes.TimestampShape
+import software.amazon.smithy.model.traits.HttpQueryTrait
 import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.model.isEnum
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
@@ -48,7 +50,7 @@ class InputTypeGETQueryItemMiddleware(
     private fun renderApplyBody() {
         for (member in inputShape.members()) {
             val memberName = ctx.symbolProvider.toMemberName(member)
-            val queryKey = member.memberName
+            val queryKey = member.getTrait<HttpQueryTrait>()?.value ?: member.memberName
 
             val memberTargetShape = ctx.model.expectShape(member.target)
             if (memberTargetShape is IntegerShape || memberTargetShape is TimestampShape) {
