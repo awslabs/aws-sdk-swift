@@ -141,7 +141,8 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
             resolvers.append { identityProperties in
                 let access = profile.string(for: .init(stringLiteral: "aws_access_key_id"))!
                 let secret = profile.string(for: .init(stringLiteral: "aws_secret_access_key"))!
-                let sourceCreds = AWSCredentialIdentity(accessKey: access, secret: secret)
+                let accountID = profile.string(for: .init(stringLiteral: "aws_account_id"))
+                let sourceCreds = AWSCredentialIdentity(accessKey: access, secret: secret, accountID: accountID)
                 return try await STSAssumeRoleAWSCredentialIdentityResolver(
                     awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(sourceCreds),
                     roleArn: profile.string(for: .init(stringLiteral: "role_arn"))!,
@@ -158,7 +159,8 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
             resolvers.append { _ in
                 let access = profile.string(for: .init(stringLiteral: "aws_access_key_id"))!
                 let secret = profile.string(for: .init(stringLiteral: "aws_secret_access_key"))!
-                return AWSCredentialIdentity(accessKey: access, secret: secret)
+                let accountID = profile.string(for: .init(stringLiteral: "aws_account_id"))
+                return AWSCredentialIdentity(accessKey: access, secret: secret, accountID: accountID)
             }
         }
 
