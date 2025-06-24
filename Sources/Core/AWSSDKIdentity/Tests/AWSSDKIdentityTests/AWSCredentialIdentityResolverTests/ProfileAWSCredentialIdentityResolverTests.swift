@@ -27,6 +27,7 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
         XCTAssertEqual(credentials.accountID, "account_id_default_config")
     }
 
+    #if os(macOS) || os(Linux)
     func testGetCredentialsWithDefaultProfileContainingProcess() async throws {
         let subject = ProfileAWSCredentialIdentityResolver(
             configFilePath: configWithProcessPath,
@@ -38,6 +39,7 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
         XCTAssertEqual(credentials.secret, "SecretAccessKey123")
         XCTAssertEqual(credentials.accountID, "012345678901")
     }
+    #endif
 
     func testGetCredentialsWithNamedProfileFromConfigFile() async throws {
         let subject = ProfileAWSCredentialIdentityResolver(
