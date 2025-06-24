@@ -86,7 +86,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3Client: ClientRuntime.Client {
     public static let clientName = "S3Client"
-    public static let version = "1.3.42"
+    public static let version = "1.3.43"
     let client: ClientRuntime.SdkHttpClient
     let config: S3Client.S3ClientConfiguration
     let serviceName = "S3"
@@ -8846,11 +8846,13 @@ extension S3Client {
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<RenameObjectInput, RenameObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in

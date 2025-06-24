@@ -13,6 +13,7 @@ import struct SmithyIdentity.BearerTokenIdentity
 
 package struct IdentityProvidingSSOOIDCClient: AWSSDKIdentity.IdentityProvidingSSOOIDCClient {
     package init() {}
+
     package func createToken(region: String, clientID: String, clientSecret: String, refreshToken: String) async throws -> (refreshToken: String?, SmithyIdentity.BearerTokenIdentity) {
         let ssoOIDC = try SSOOIDCClient(region: region)
         let input = CreateTokenInput(clientId: clientID, clientSecret: clientSecret, grantType: "refresh_token", refreshToken: refreshToken)

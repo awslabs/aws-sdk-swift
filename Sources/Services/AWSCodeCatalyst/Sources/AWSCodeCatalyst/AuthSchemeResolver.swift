@@ -12,6 +12,8 @@ import enum AWSSDKIdentity.InternalClientKeys
 import enum Smithy.ClientError
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolverParameters
+import struct InternalAWSSSO.IdentityProvidingSSOClient
+import struct InternalAWSSSOOIDC.IdentityProvidingSSOOIDCClient
 import struct InternalAWSSTS.IdentityProvidingSTSClient
 import struct SmithyHTTPAuthAPI.AuthOption
 
@@ -42,6 +44,8 @@ public struct DefaultCodeCatalystAuthSchemeResolver: CodeCatalystAuthSchemeResol
             default:
                 var httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
                 httpBearerAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                httpBearerAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOClientKey, value: InternalAWSSSO.IdentityProvidingSSOClient())
+                httpBearerAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOOIDCClientKey, value: InternalAWSSSOOIDC.IdentityProvidingSSOOIDCClient())
                 validAuthOptions.append(httpBearerAuthOption)
         }
         return self.reprioritizeAuthOptions(authSchemePreference: authSchemePreference, authOptions: validAuthOptions)

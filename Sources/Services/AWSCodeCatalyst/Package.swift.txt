@@ -24,6 +24,14 @@ let package = Package(
             exact: "0.0.1"
         ),
         .package(
+            id: "aws-sdk-swift.InternalAWSSSO",
+            exact: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.InternalAWSSSOOIDC",
+            exact: "0.0.1"
+        ),
+        .package(
             id: "aws-sdk-swift.InternalAWSSTS",
             exact: "0.0.1"
         ),
@@ -51,6 +59,14 @@ let package = Package(
                 .product(
                     name: "ClientRuntime",
                     package: "smithy-swift"
+                ),
+                .product(
+                    name: "InternalAWSSSO",
+                    package: "aws-sdk-swift.InternalAWSSSO"
+                ),
+                .product(
+                    name: "InternalAWSSSOOIDC",
+                    package: "aws-sdk-swift.InternalAWSSSOOIDC"
                 ),
                 .product(
                     name: "InternalAWSSTS",

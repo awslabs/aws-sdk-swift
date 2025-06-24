@@ -397,7 +397,7 @@ extension BatchClientTypes {
         public var imageIdOverride: Swift.String?
         /// The Kubernetes version for the compute environment. If you don't specify a value, the latest version that Batch supports is used.
         public var imageKubernetesVersion: Swift.String?
-        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources. ECS If the imageIdOverride parameter isn't specified, then a recent [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami) (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used. ECS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami): Default for all non-GPU instance families. ECS_AL2_NVIDIA [Amazon Linux 2 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. ECS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html): Batch supports Amazon Linux 2023. Amazon Linux 2023 does not support A1 instances. ECS_AL1 [Amazon Linux](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#alami). Amazon Linux has reached the end-of-life of standard support. For more information, see [Amazon Linux AMI](http://aws.amazon.com/amazon-linux-ami/). EKS If the imageIdOverride parameter isn't specified, then a recent [Amazon EKS-optimized Amazon Linux AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) (EKS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used. EKS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for all non-GPU instance families. EKS_AL2_NVIDIA [Amazon Linux 2 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for all GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.
+        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources. ECS If the imageIdOverride parameter isn't specified, then a recent [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami) (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used. ECS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami): Default for all non-GPU instance families. ECS_AL2_NVIDIA [Amazon Linux 2 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. ECS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html): Batch supports Amazon Linux 2023. Amazon Linux 2023 does not support A1 instances. ECS_AL1 [Amazon Linux](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#alami). Amazon Linux has reached the end-of-life of standard support. For more information, see [Amazon Linux AMI](http://aws.amazon.com/amazon-linux-ami/). EKS If the imageIdOverride parameter isn't specified, then a recent [Amazon EKS-optimized Amazon Linux AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) (EKS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used. EKS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for all non-GPU instance families. EKS_AL2_NVIDIA [Amazon Linux 2 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for all GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. EKS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Batch supports Amazon Linux 2023. Amazon Linux 2023 does not support A1 instances. EKS_AL2023_NVIDIA [Amazon Linux 2023 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.
         /// This member is required.
         public var imageType: Swift.String?
 
@@ -409,6 +409,35 @@ extension BatchClientTypes {
             self.imageIdOverride = imageIdOverride
             self.imageKubernetesVersion = imageKubernetesVersion
             self.imageType = imageType
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    public enum UserdataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eksBootstrapSh
+        case eksNodeadm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UserdataType] {
+            return [
+                .eksBootstrapSh,
+                .eksNodeadm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eksBootstrapSh: return "EKS_BOOTSTRAP_SH"
+            case .eksNodeadm: return "EKS_NODEADM"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -431,6 +460,8 @@ extension BatchClientTypes {
         ///
         /// * targetInstanceTypes included within the same launch template override or across launch template overrides can't overlap for the same compute environment. For example, you can't define one launch template override to target an instance family and another define an instance type within this same family.
         public var targetInstanceTypes: [Swift.String]?
+        /// The EKS node initialization process to use. You only need to specify this value if you are using a custom AMI. The default value is EKS_BOOTSTRAP_SH. If imageType is a custom AMI based on EKS_AL2023 or EKS_AL2023_NVIDIA then you must choose EKS_NODEADM.
+        public var userdataType: BatchClientTypes.UserdataType?
         /// The version number of the launch template, $Default, or $Latest. If the value is $Default, the default version of the launch template is used. If the value is $Latest, the latest version of the launch template is used. If the AMI ID that's used in a compute environment is from the launch template, the AMI isn't changed when the compute environment is updated. It's only changed if the updateToLatestImageVersion parameter for the compute environment is set to true. During an infrastructure update, if either $Default or $Latest is specified, Batch re-evaluates the launch template version, and it might use a different version of the launch template. This is the case even if the launch template isn't specified in the update. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. Default: $Default Latest: $Latest
         public var version: Swift.String?
 
@@ -438,11 +469,13 @@ extension BatchClientTypes {
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
             targetInstanceTypes: [Swift.String]? = nil,
+            userdataType: BatchClientTypes.UserdataType? = nil,
             version: Swift.String? = nil
         ) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.targetInstanceTypes = targetInstanceTypes
+            self.userdataType = userdataType
             self.version = version
         }
     }
@@ -458,6 +491,8 @@ extension BatchClientTypes {
         public var launchTemplateName: Swift.String?
         /// A launch template to use in place of the default launch template. You must specify either the launch template ID or launch template name in the request, but not both. You can specify up to ten (10) launch template overrides that are associated to unique instance types or families for each compute environment. To unset all override templates for a compute environment, you can pass an empty array to the [UpdateComputeEnvironment.overrides](https://docs.aws.amazon.com/batch/latest/APIReference/API_UpdateComputeEnvironment.html) parameter, or not include the overrides parameter when submitting the UpdateComputeEnvironment API operation.
         public var overrides: [BatchClientTypes.LaunchTemplateSpecificationOverride]?
+        /// The EKS node initialization process to use. You only need to specify this value if you are using a custom AMI. The default value is EKS_BOOTSTRAP_SH. If imageType is a custom AMI based on EKS_AL2023 or EKS_AL2023_NVIDIA then you must choose EKS_NODEADM.
+        public var userdataType: BatchClientTypes.UserdataType?
         /// The version number of the launch template, $Default, or $Latest. If the value is $Default, the default version of the launch template is used. If the value is $Latest, the latest version of the launch template is used. If the AMI ID that's used in a compute environment is from the launch template, the AMI isn't changed when the compute environment is updated. It's only changed if the updateToLatestImageVersion parameter for the compute environment is set to true. During an infrastructure update, if either $Default or $Latest is specified, Batch re-evaluates the launch template version, and it might use a different version of the launch template. This is the case even if the launch template isn't specified in the update. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. Default: $Default Latest: $Latest
         public var version: Swift.String?
 
@@ -465,11 +500,13 @@ extension BatchClientTypes {
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
             overrides: [BatchClientTypes.LaunchTemplateSpecificationOverride]? = nil,
+            userdataType: BatchClientTypes.UserdataType? = nil,
             version: Swift.String? = nil
         ) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.overrides = overrides
+            self.userdataType = userdataType
             self.version = version
         }
     }
@@ -1232,7 +1269,7 @@ extension BatchClientTypes {
     public struct UpdatePolicy: Swift.Sendable {
         /// Specifies the job timeout (in minutes) when the compute environment infrastructure is updated. The default value is 30.
         public var jobExecutionTimeoutMinutes: Swift.Int?
-        /// Specifies whether jobs are automatically terminated when the computer environment infrastructure is updated. The default value is false.
+        /// Specifies whether jobs are automatically terminated when the compute environment infrastructure is updated. The default value is false.
         public var terminateJobsOnUpdate: Swift.Bool?
 
         public init(
@@ -6845,6 +6882,7 @@ extension BatchClientTypes.LaunchTemplateSpecification {
         try writer["launchTemplateId"].write(value.launchTemplateId)
         try writer["launchTemplateName"].write(value.launchTemplateName)
         try writer["overrides"].writeList(value.overrides, memberWritingClosure: BatchClientTypes.LaunchTemplateSpecificationOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["userdataType"].write(value.userdataType)
         try writer["version"].write(value.version)
     }
 
@@ -6855,6 +6893,7 @@ extension BatchClientTypes.LaunchTemplateSpecification {
         value.launchTemplateName = try reader["launchTemplateName"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
         value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: BatchClientTypes.LaunchTemplateSpecificationOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userdataType = try reader["userdataType"].readIfPresent()
         return value
     }
 }
@@ -6866,6 +6905,7 @@ extension BatchClientTypes.LaunchTemplateSpecificationOverride {
         try writer["launchTemplateId"].write(value.launchTemplateId)
         try writer["launchTemplateName"].write(value.launchTemplateName)
         try writer["targetInstanceTypes"].writeList(value.targetInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["userdataType"].write(value.userdataType)
         try writer["version"].write(value.version)
     }
 
@@ -6876,6 +6916,7 @@ extension BatchClientTypes.LaunchTemplateSpecificationOverride {
         value.launchTemplateName = try reader["launchTemplateName"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
         value.targetInstanceTypes = try reader["targetInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userdataType = try reader["userdataType"].readIfPresent()
         return value
     }
 }

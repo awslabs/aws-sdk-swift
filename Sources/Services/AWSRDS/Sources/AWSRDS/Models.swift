@@ -2057,6 +2057,16 @@ public struct CopyDBSnapshotInput: Swift.Sendable {
     ///
     /// To learn how to generate a Signature Version 4 signed request, see [Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html) and [Signature Version 4 Signing Process](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Region.
     public var preSignedUrl: Swift.String?
+    /// Specifies the name of the Availability Zone where RDS stores the DB snapshot. This value is valid only for snapshots that RDS stores on a Dedicated Local Zone.
+    public var snapshotAvailabilityZone: Swift.String?
+    /// Configures the location where RDS will store copied snapshots. Valid Values:
+    ///
+    /// * local (Dedicated Local Zone)
+    ///
+    /// * outposts (Amazon Web Services Outposts)
+    ///
+    /// * region (Amazon Web Services Region)
+    public var snapshotTarget: Swift.String?
     /// The identifier for the source DB snapshot. If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805. If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid DB snapshot ARN. For example, you might specify arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805. If you are copying from a shared manual DB snapshot, this parameter must be the Amazon Resource Name (ARN) of the shared DB snapshot. If you are copying an encrypted snapshot this parameter must be in the ARN format for the source Amazon Web Services Region. Constraints:
     ///
     /// * Must specify a valid system snapshot in the "available" state.
@@ -2090,6 +2100,8 @@ public struct CopyDBSnapshotInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
         preSignedUrl: Swift.String? = nil,
+        snapshotAvailabilityZone: Swift.String? = nil,
+        snapshotTarget: Swift.String? = nil,
         sourceDBSnapshotIdentifier: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetCustomAvailabilityZone: Swift.String? = nil,
@@ -2100,6 +2112,8 @@ public struct CopyDBSnapshotInput: Swift.Sendable {
         self.kmsKeyId = kmsKeyId
         self.optionGroupName = optionGroupName
         self.preSignedUrl = preSignedUrl
+        self.snapshotAvailabilityZone = snapshotAvailabilityZone
+        self.snapshotTarget = snapshotTarget
         self.sourceDBSnapshotIdentifier = sourceDBSnapshotIdentifier
         self.tags = tags
         self.targetCustomAvailabilityZone = targetCustomAvailabilityZone
@@ -2207,11 +2221,13 @@ extension RDSClientTypes {
         public var port: Swift.Int?
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance when the DB snapshot was created.
         public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
+        /// Specifies the name of the Availability Zone where RDS stores the DB snapshot. This value is valid only for snapshots that RDS stores on a Dedicated Local Zone.
+        public var snapshotAvailabilityZone: Swift.String?
         /// Specifies when the snapshot was taken in Coordinated Universal Time (UTC). Changes for the copy when the snapshot is copied.
         public var snapshotCreateTime: Foundation.Date?
         /// The timestamp of the most recent transaction applied to the database that you're backing up. Thus, if you restore a snapshot, SnapshotDatabaseTime is the most recent transaction in the restored DB instance. In contrast, originalSnapshotCreateTime specifies the system time that the snapshot completed. If you back up a read replica, you can determine the replica lag by comparing SnapshotDatabaseTime with originalSnapshotCreateTime. For example, if originalSnapshotCreateTime is two hours later than SnapshotDatabaseTime, then the replica lag is two hours.
         public var snapshotDatabaseTime: Foundation.Date?
-        /// Specifies where manual snapshots are stored: Amazon Web Services Outposts or the Amazon Web Services Region.
+        /// Specifies where manual snapshots are stored: Dedicated Local Zones, Amazon Web Services Outposts or the Amazon Web Services Region.
         public var snapshotTarget: Swift.String?
         /// Provides the type of the DB snapshot.
         public var snapshotType: Swift.String?
@@ -2258,6 +2274,7 @@ extension RDSClientTypes {
             percentProgress: Swift.Int? = nil,
             port: Swift.Int? = nil,
             processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
+            snapshotAvailabilityZone: Swift.String? = nil,
             snapshotCreateTime: Foundation.Date? = nil,
             snapshotDatabaseTime: Foundation.Date? = nil,
             snapshotTarget: Swift.String? = nil,
@@ -2295,6 +2312,7 @@ extension RDSClientTypes {
             self.percentProgress = percentProgress
             self.port = port
             self.processorFeatures = processorFeatures
+            self.snapshotAvailabilityZone = snapshotAvailabilityZone
             self.snapshotCreateTime = snapshotCreateTime
             self.snapshotDatabaseTime = snapshotDatabaseTime
             self.snapshotTarget = snapshotTarget
@@ -5614,6 +5632,8 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var backupRetentionPeriod: Swift.Int?
     /// The location for storing automated backups and manual snapshots. Valid Values:
     ///
+    /// * local (Dedicated Local Zone)
+    ///
     /// * outposts (Amazon Web Services Outposts)
     ///
     /// * region (Amazon Web Services Region)
@@ -6607,7 +6627,7 @@ extension RDSClientTypes {
         public var awsBackupRecoveryPointArn: Swift.String?
         /// The number of days for which automatic DB snapshots are retained.
         public var backupRetentionPeriod: Swift.Int?
-        /// The location where automated backups and manual snapshots are stored: Amazon Web Services Outposts or the Amazon Web Services Region.
+        /// The location where automated backups and manual snapshots are stored: Dedicated Local Zones, Amazon Web Services Outposts or the Amazon Web Services Region.
         public var backupTarget: Swift.String?
         /// The identifier of the CA certificate for this DB instance. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
         public var caCertificateIdentifier: Swift.String?
@@ -6993,6 +7013,12 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the read replica will be created. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
     public var availabilityZone: Swift.String?
+    /// The location where RDS stores automated backups and manual snapshots. Valid Values:
+    ///
+    /// * local for Dedicated Local Zones
+    ///
+    /// * region for Amazon Web Services Region
+    public var backupTarget: Swift.String?
     /// The CA certificate identifier to use for the read replica's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
     public var caCertificateIdentifier: Swift.String?
     /// Specifies whether to copy all tags from the read replica to snapshots of the read replica. By default, tags aren't copied.
@@ -7189,6 +7215,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
+        backupTarget: Swift.String? = nil,
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
@@ -7236,6 +7263,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
+        self.backupTarget = backupTarget
         self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
@@ -10375,7 +10403,7 @@ extension RDSClientTypes {
         public var awsBackupRecoveryPointArn: Swift.String?
         /// The retention period for the automated backups.
         public var backupRetentionPeriod: Swift.Int?
-        /// The location where automated backups are stored: Amazon Web Services Outposts or the Amazon Web Services Region.
+        /// The location where automated backups are stored: Dedicated Local Zones, Amazon Web Services Outposts or the Amazon Web Services Region.
         public var backupTarget: Swift.String?
         /// The Amazon Resource Name (ARN) for the automated backups.
         public var dbInstanceArn: Swift.String?
@@ -19999,7 +20027,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
     public var availabilityZone: Swift.String?
-    /// Specifies where automated backups and manual snapshots are stored for the restored DB instance. Possible values are outposts (Amazon Web Services Outposts) and region (Amazon Web Services Region). The default is region. For more information, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide.
+    /// Specifies where automated backups and manual snapshots are stored for the restored DB instance. Possible values are local (Dedicated Local Zone), outposts (Amazon Web Services Outposts), and region (Amazon Web Services Region). The default is region. For more information, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide.
     public var backupTarget: Swift.String?
     /// The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
     public var caCertificateIdentifier: Swift.String?
@@ -20659,6 +20687,8 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     /// Example: us-east-1a
     public var availabilityZone: Swift.String?
     /// The location for storing automated backups and manual snapshots for the restored DB instance. Valid Values:
+    ///
+    /// * local (Dedicated Local Zone)
     ///
     /// * outposts (Amazon Web Services Outposts)
     ///
@@ -22936,6 +22966,8 @@ extension CopyDBSnapshotInput {
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["OptionGroupName"].write(value.optionGroupName)
         try writer["PreSignedUrl"].write(value.preSignedUrl)
+        try writer["SnapshotAvailabilityZone"].write(value.snapshotAvailabilityZone)
+        try writer["SnapshotTarget"].write(value.snapshotTarget)
         try writer["SourceDBSnapshotIdentifier"].write(value.sourceDBSnapshotIdentifier)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["TargetCustomAvailabilityZone"].write(value.targetCustomAvailabilityZone)
@@ -23184,6 +23216,7 @@ extension CreateDBInstanceReadReplicaInput {
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["BackupTarget"].write(value.backupTarget)
         try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["CustomIamInstanceProfile"].write(value.customIamInstanceProfile)
@@ -32436,6 +32469,7 @@ extension RDSClientTypes.DBSnapshot {
         value.dbSystemId = try reader["DBSystemId"].readIfPresent()
         value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
         value.multiTenant = try reader["MultiTenant"].readIfPresent()
+        value.snapshotAvailabilityZone = try reader["SnapshotAvailabilityZone"].readIfPresent()
         return value
     }
 }

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AIOpsClient: ClientRuntime.Client {
     public static let clientName = "AIOpsClient"
-    public static let version = "1.3.42"
+    public static let version = "1.3.43"
     let client: ClientRuntime.SdkHttpClient
     let config: AIOpsClient.AIOpsClientConfiguration
     let serviceName = "AIOps"
@@ -380,7 +380,7 @@ extension AIOpsClient {
     /// * How long investigations and their data are retained by default.
     ///
     ///
-    /// Currently, you can have one investigation group in each Region in your account. Each investigation in a Region is a part of the investigation group in that Region To create an investigation group and set up Amazon Q Developer operational investigations, you must be signed in to an IAM principal that has the either the AIOpsConsoleAdminPolicy or the AdministratorAccess IAM policy attached, or to an account that has similar permissions. You can configure CloudWatch alarms to start investigations and add events to investigations. If you create your investigation group with CreateInvestigationGroup and you want to enable alarms to do this, you must use [PutInvestigationGroupPolicy](https://docs.aws.amazon.com/operationalinvestigations/latest/AmazonQDeveloperOperationalInvestigationsAPIReference/API_PutInvestigationGroupPolicy.html) to create a resource policy that grants this permission to CloudWatch alarms. For more information about configuring CloudWatch alarms to work with Amazon Q Developer operational investigations, see
+    /// Currently, you can have one investigation group in each Region in your account. Each investigation in a Region is a part of the investigation group in that Region To create an investigation group and set up CloudWatch investigations, you must be signed in to an IAM principal that has the either the AIOpsConsoleAdminPolicy or the AdministratorAccess IAM policy attached, or to an account that has similar permissions. You can configure CloudWatch alarms to start investigations and add events to investigations. If you create your investigation group with CreateInvestigationGroup and you want to enable alarms to do this, you must use [PutInvestigationGroupPolicy](https://docs.aws.amazon.com/operationalinvestigations/latest/AmazonQDeveloperOperationalInvestigationsAPIReference/API_PutInvestigationGroupPolicy.html) to create a resource policy that grants this permission to CloudWatch alarms. For more information about configuring CloudWatch alarms to work with CloudWatch investigations, see
     ///
     /// - Parameter CreateInvestigationGroupInput : [no documentation found]
     ///
@@ -853,7 +853,7 @@ extension AIOpsClient {
 
     /// Performs the `ListTagsForResource` operation on the `AIOps` service.
     ///
-    /// Displays the tags associated with a Amazon Q Developer operational investigations resource. Currently, investigation groups support tagging.
+    /// Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
