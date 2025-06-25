@@ -101,6 +101,8 @@ extension ListAccessPointsInput: ClientRuntime.PaginateToken {
         return ListAccessPointsInput(
             accountId: self.accountId,
             bucket: self.bucket,
+            dataSourceId: self.dataSourceId,
+            dataSourceType: self.dataSourceType,
             maxResults: self.maxResults,
             nextToken: token
         )}
