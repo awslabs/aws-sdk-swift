@@ -43,7 +43,7 @@ class SigV4EventSigningTests: XCTestCase {
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         let epoch = formatter.date(from: "1973-11-29T21:33:09.000001234Z")!
 
-        let staticAWSCredentialIdentityResolver = try! StaticAWSCredentialIdentityResolver(
+        let staticAWSCredentialIdentityResolver = StaticAWSCredentialIdentityResolver(
             credentials
         )
 
