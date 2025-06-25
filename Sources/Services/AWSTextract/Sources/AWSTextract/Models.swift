@@ -175,7 +175,7 @@ extension TextractClientTypes {
     public struct S3Object: Swift.Sendable {
         /// The name of the S3 bucket. Note that the # character is not valid in the file name.
         public var bucket: Swift.String?
-        /// The file name of the input document. Synchronous operations can use image files that are in JPEG or PNG format. Asynchronous operations also support PDF and TIFF format files.
+        /// The file name of the input document. Image files may be in PDF, TIFF, JPEG, or PNG format.
         public var name: Swift.String?
         /// If the bucket has versioning enabled, you can specify the object version.
         public var version: Swift.String?
@@ -938,13 +938,17 @@ extension TextractClientTypes {
         public var boundingBox: TextractClientTypes.BoundingBox?
         /// Within the bounding box, a fine-grained polygon around the recognized item.
         public var polygon: [TextractClientTypes.Point]?
+        /// Provides a numerical value corresponding to the rotation of the text.
+        public var rotationAngle: Swift.Float?
 
         public init(
             boundingBox: TextractClientTypes.BoundingBox? = nil,
-            polygon: [TextractClientTypes.Point]? = nil
+            polygon: [TextractClientTypes.Point]? = nil,
+            rotationAngle: Swift.Float? = nil
         ) {
             self.boundingBox = boundingBox
             self.polygon = polygon
+            self.rotationAngle = rotationAngle
         }
     }
 }
@@ -1100,7 +1104,7 @@ extension TextractClientTypes {
         ///
         /// * WORD - A word detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.
         ///
-        /// * LINE - A string of tab-delimited, contiguous words that are detected on a document page.
+        /// * LINE - A string of space-delimited, contiguous words that are detected on a document page.
         ///
         ///
         /// In text analysis operations, the following types are returned:
@@ -4864,6 +4868,7 @@ extension TextractClientTypes.Geometry {
         var value = TextractClientTypes.Geometry()
         value.boundingBox = try reader["BoundingBox"].readIfPresent(with: TextractClientTypes.BoundingBox.read(from:))
         value.polygon = try reader["Polygon"].readListIfPresent(memberReadingClosure: TextractClientTypes.Point.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rotationAngle = try reader["RotationAngle"].readIfPresent()
         return value
     }
 }

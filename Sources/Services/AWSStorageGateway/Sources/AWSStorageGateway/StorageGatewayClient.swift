@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class StorageGatewayClient: ClientRuntime.Client {
     public static let clientName = "StorageGatewayClient"
-    public static let version = "1.3.43"
+    public static let version = "1.3.44"
     let client: ClientRuntime.SdkHttpClient
     let config: StorageGatewayClient.StorageGatewayClientConfiguration
     let serviceName = "Storage Gateway"
@@ -6548,7 +6548,7 @@ extension StorageGatewayClient {
     ///
     /// Starts generating a report of the file metadata currently cached by an S3 File Gateway for a specific file share. You can use this report to identify and resolve issues if you have files failing upload from your gateway to Amazon S3. The report is a CSV file containing a list of files which match the set of filter parameters you specify in the request. The Files Failing Upload flag is reset every 24 hours and during gateway reboot. If this report captures the files after the reset, but before they become flagged again, they will not be reported as Files Failing Upload. The following requirements must be met to successfully generate a cache report:
     ///
-    /// * You must have permissions to list the entire Amazon S3 bucket associated with the specified file share.
+    /// * You must have s3:PutObject and s3:AbortMultipartUpload permissions for the Amazon S3 bucket where you want to store the cache report.
     ///
     /// * No other cache reports can currently be in-progress for the specified file share.
     ///

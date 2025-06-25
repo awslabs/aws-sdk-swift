@@ -911,9 +911,6 @@ extension WorkSpacesThinClientClientTypes {
         public var softwareSetUpdateStatus: WorkSpacesThinClientClientTypes.SoftwareSetUpdateStatus?
         /// The status of the device.
         public var status: WorkSpacesThinClientClientTypes.DeviceStatus?
-        /// The tag keys and optional values for the resource.
-        @available(*, deprecated, message: "This field will be removed in future releases. Use ListTagsForResource API instead. API deprecated since 2025-03-25")
-        public var tags: [Swift.String: Swift.String]?
         /// The timestamp of when the device was updated.
         public var updatedAt: Foundation.Date?
 
@@ -937,7 +934,6 @@ extension WorkSpacesThinClientClientTypes {
             softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil,
             softwareSetUpdateStatus: WorkSpacesThinClientClientTypes.SoftwareSetUpdateStatus? = nil,
             status: WorkSpacesThinClientClientTypes.DeviceStatus? = nil,
-            tags: [Swift.String: Swift.String]? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.arn = arn
@@ -959,7 +955,6 @@ extension WorkSpacesThinClientClientTypes {
             self.softwareSetUpdateSchedule = softwareSetUpdateSchedule
             self.softwareSetUpdateStatus = softwareSetUpdateStatus
             self.status = status
-            self.tags = tags
             self.updatedAt = updatedAt
         }
     }
@@ -967,7 +962,7 @@ extension WorkSpacesThinClientClientTypes {
 
 extension WorkSpacesThinClientClientTypes.Device: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Device(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), currentSoftwareSetId: \(Swift.String(describing: currentSoftwareSetId)), currentSoftwareSetVersion: \(Swift.String(describing: currentSoftwareSetVersion)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), lastConnectedAt: \(Swift.String(describing: lastConnectedAt)), lastPostureAt: \(Swift.String(describing: lastPostureAt)), model: \(Swift.String(describing: model)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), pendingSoftwareSetVersion: \(Swift.String(describing: pendingSoftwareSetVersion)), serialNumber: \(Swift.String(describing: serialNumber)), softwareSetComplianceStatus: \(Swift.String(describing: softwareSetComplianceStatus)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), softwareSetUpdateStatus: \(Swift.String(describing: softwareSetUpdateStatus)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), name: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "Device(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), currentSoftwareSetId: \(Swift.String(describing: currentSoftwareSetId)), currentSoftwareSetVersion: \(Swift.String(describing: currentSoftwareSetVersion)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), lastConnectedAt: \(Swift.String(describing: lastConnectedAt)), lastPostureAt: \(Swift.String(describing: lastPostureAt)), model: \(Swift.String(describing: model)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), pendingSoftwareSetVersion: \(Swift.String(describing: pendingSoftwareSetVersion)), serialNumber: \(Swift.String(describing: serialNumber)), softwareSetComplianceStatus: \(Swift.String(describing: softwareSetComplianceStatus)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), softwareSetUpdateStatus: \(Swift.String(describing: softwareSetUpdateStatus)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesThinClientClientTypes {
@@ -1118,9 +1113,6 @@ extension WorkSpacesThinClientClientTypes {
         public var softwareSetUpdateMode: WorkSpacesThinClientClientTypes.SoftwareSetUpdateMode?
         /// An option to define if software updates should be applied within a maintenance window.
         public var softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule?
-        /// The tag keys and optional values for the resource.
-        @available(*, deprecated, message: "This field will be removed in future releases. Use ListTagsForResource API instead. API deprecated since 2025-03-25")
-        public var tags: [Swift.String: Swift.String]?
         /// The timestamp of when the device was updated.
         public var updatedAt: Foundation.Date?
 
@@ -1143,7 +1135,6 @@ extension WorkSpacesThinClientClientTypes {
             softwareSetComplianceStatus: WorkSpacesThinClientClientTypes.EnvironmentSoftwareSetComplianceStatus? = nil,
             softwareSetUpdateMode: WorkSpacesThinClientClientTypes.SoftwareSetUpdateMode? = nil,
             softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil,
-            tags: [Swift.String: Swift.String]? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.activationCode = activationCode
@@ -1164,7 +1155,6 @@ extension WorkSpacesThinClientClientTypes {
             self.softwareSetComplianceStatus = softwareSetComplianceStatus
             self.softwareSetUpdateMode = softwareSetUpdateMode
             self.softwareSetUpdateSchedule = softwareSetUpdateSchedule
-            self.tags = tags
             self.updatedAt = updatedAt
         }
     }
@@ -1172,7 +1162,7 @@ extension WorkSpacesThinClientClientTypes {
 
 extension WorkSpacesThinClientClientTypes.Environment: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Environment(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), desktopType: \(Swift.String(describing: desktopType)), id: \(Swift.String(describing: id)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), pendingSoftwareSetVersion: \(Swift.String(describing: pendingSoftwareSetVersion)), registeredDevicesCount: \(Swift.String(describing: registeredDevicesCount)), softwareSetComplianceStatus: \(Swift.String(describing: softwareSetComplianceStatus)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), updatedAt: \(Swift.String(describing: updatedAt)), activationCode: \"CONTENT_REDACTED\", desktopEndpoint: \"CONTENT_REDACTED\", deviceCreationTags: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "Environment(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), desktopType: \(Swift.String(describing: desktopType)), id: \(Swift.String(describing: id)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), pendingSoftwareSetVersion: \(Swift.String(describing: pendingSoftwareSetVersion)), registeredDevicesCount: \(Swift.String(describing: registeredDevicesCount)), softwareSetComplianceStatus: \(Swift.String(describing: softwareSetComplianceStatus)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), updatedAt: \(Swift.String(describing: updatedAt)), activationCode: \"CONTENT_REDACTED\", desktopEndpoint: \"CONTENT_REDACTED\", deviceCreationTags: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDeviceInput: Swift.Sendable {
@@ -1295,9 +1285,6 @@ extension WorkSpacesThinClientClientTypes {
         public var software: [WorkSpacesThinClientClientTypes.Software]?
         /// The timestamp of the end of support for the software set.
         public var supportedUntil: Foundation.Date?
-        /// The tag keys and optional values for the resource.
-        @available(*, deprecated, message: "This field will be removed in future releases. Use ListTagsForResource API instead. API deprecated since 2025-03-25")
-        public var tags: [Swift.String: Swift.String]?
         /// An option to define if the software set has been validated.
         public var validationStatus: WorkSpacesThinClientClientTypes.SoftwareSetValidationStatus?
         /// The version of the software set.
@@ -1309,7 +1296,6 @@ extension WorkSpacesThinClientClientTypes {
             releasedAt: Foundation.Date? = nil,
             software: [WorkSpacesThinClientClientTypes.Software]? = nil,
             supportedUntil: Foundation.Date? = nil,
-            tags: [Swift.String: Swift.String]? = nil,
             validationStatus: WorkSpacesThinClientClientTypes.SoftwareSetValidationStatus? = nil,
             version: Swift.String? = nil
         ) {
@@ -1318,16 +1304,10 @@ extension WorkSpacesThinClientClientTypes {
             self.releasedAt = releasedAt
             self.software = software
             self.supportedUntil = supportedUntil
-            self.tags = tags
             self.validationStatus = validationStatus
             self.version = version
         }
     }
-}
-
-extension WorkSpacesThinClientClientTypes.SoftwareSet: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "SoftwareSet(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), releasedAt: \(Swift.String(describing: releasedAt)), software: \(Swift.String(describing: software)), supportedUntil: \(Swift.String(describing: supportedUntil)), validationStatus: \(Swift.String(describing: validationStatus)), version: \(Swift.String(describing: version)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSoftwareSetOutput: Swift.Sendable {
@@ -2618,7 +2598,6 @@ extension WorkSpacesThinClientClientTypes.Device {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.arn = try reader["arn"].readIfPresent()
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -2646,7 +2625,6 @@ extension WorkSpacesThinClientClientTypes.Environment {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.arn = try reader["arn"].readIfPresent()
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.deviceCreationTags = try reader["deviceCreationTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -2664,7 +2642,6 @@ extension WorkSpacesThinClientClientTypes.SoftwareSet {
         value.validationStatus = try reader["validationStatus"].readIfPresent()
         value.software = try reader["software"].readListIfPresent(memberReadingClosure: WorkSpacesThinClientClientTypes.Software.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.arn = try reader["arn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

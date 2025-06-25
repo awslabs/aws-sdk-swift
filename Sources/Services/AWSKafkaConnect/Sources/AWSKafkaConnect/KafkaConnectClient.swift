@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KafkaConnectClient: ClientRuntime.Client {
     public static let clientName = "KafkaConnectClient"
-    public static let version = "1.3.43"
+    public static let version = "1.3.44"
     let client: ClientRuntime.SdkHttpClient
     let config: KafkaConnectClient.KafkaConnectClientConfiguration
     let serviceName = "KafkaConnect"

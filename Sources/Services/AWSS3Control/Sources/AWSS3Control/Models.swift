@@ -532,6 +532,10 @@ extension S3ControlClientTypes {
         public var bucket: Swift.String?
         /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
         public var bucketAccountId: Swift.String?
+        /// A unique identifier for the data source of the access point.
+        public var dataSourceId: Swift.String?
+        /// The type of the data source that the access point is attached to.
+        public var dataSourceType: Swift.String?
         /// The name of this access point.
         /// This member is required.
         public var name: Swift.String?
@@ -546,6 +550,8 @@ extension S3ControlClientTypes {
             alias: Swift.String? = nil,
             bucket: Swift.String? = nil,
             bucketAccountId: Swift.String? = nil,
+            dataSourceId: Swift.String? = nil,
+            dataSourceType: Swift.String? = nil,
             name: Swift.String? = nil,
             networkOrigin: S3ControlClientTypes.NetworkOrigin? = nil,
             vpcConfiguration: S3ControlClientTypes.VpcConfiguration? = nil
@@ -554,6 +560,8 @@ extension S3ControlClientTypes {
             self.alias = alias
             self.bucket = bucket
             self.bucketAccountId = bucketAccountId
+            self.dataSourceId = dataSourceId
+            self.dataSourceType = dataSourceType
             self.name = name
             self.networkOrigin = networkOrigin
             self.vpcConfiguration = vpcConfiguration
@@ -1404,7 +1412,7 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
-    /// You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. For more information, see [Manage the scope of your access points for directory buckets.](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets-manage-scope.html)
+    /// You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. For more information, see [Manage the scope of your access points for directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets-manage-scope.html).
     public struct Scope: Swift.Sendable {
         /// You can include one or more API operations as permissions.
         public var permissions: [S3ControlClientTypes.ScopePermission]?
@@ -1435,7 +1443,7 @@ public struct CreateAccessPointInput: Swift.Sendable {
     public var name: Swift.String?
     /// The PublicAccessBlock configuration that you want to apply to the access point.
     public var publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration?
-    /// For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the Amazon S3 User Guide. Scope is not supported for access points for general purpose buckets.
+    /// For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the Amazon S3 User Guide. Scope is only supported for access points attached to directory buckets.
     public var scope: S3ControlClientTypes.Scope?
     /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC). This is required for creating an access point for Amazon S3 on Outposts buckets.
     public var vpcConfiguration: S3ControlClientTypes.VpcConfiguration?
@@ -4483,6 +4491,10 @@ public struct GetAccessPointOutput: Swift.Sendable {
     public var bucketAccountId: Swift.String?
     /// The date and time when the specified access point was created.
     public var creationDate: Foundation.Date?
+    /// The unique identifier for the data source of the access point.
+    public var dataSourceId: Swift.String?
+    /// The type of the data source that the access point is attached to.
+    public var dataSourceType: Swift.String?
     /// The VPC endpoint for the access point.
     public var endpoints: [Swift.String: Swift.String]?
     /// The name of the specified access point.
@@ -4500,6 +4512,8 @@ public struct GetAccessPointOutput: Swift.Sendable {
         bucket: Swift.String? = nil,
         bucketAccountId: Swift.String? = nil,
         creationDate: Foundation.Date? = nil,
+        dataSourceId: Swift.String? = nil,
+        dataSourceType: Swift.String? = nil,
         endpoints: [Swift.String: Swift.String]? = nil,
         name: Swift.String? = nil,
         networkOrigin: S3ControlClientTypes.NetworkOrigin? = nil,
@@ -4511,6 +4525,8 @@ public struct GetAccessPointOutput: Swift.Sendable {
         self.bucket = bucket
         self.bucketAccountId = bucketAccountId
         self.creationDate = creationDate
+        self.dataSourceId = dataSourceId
+        self.dataSourceType = dataSourceType
         self.endpoints = endpoints
         self.name = name
         self.networkOrigin = networkOrigin
@@ -6824,6 +6840,10 @@ public struct ListAccessPointsInput: Swift.Sendable {
     public var accountId: Swift.String?
     /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     public var bucket: Swift.String?
+    /// The unique identifier for the data source of the access point.
+    public var dataSourceId: Swift.String?
+    /// The type of the data source that the access point is attached to. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.
+    public var dataSourceType: Swift.String?
     /// The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
     public var maxResults: Swift.Int?
     /// A continuation token. If a previous call to ListAccessPoints returned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of results.
@@ -6832,11 +6852,15 @@ public struct ListAccessPointsInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil,
+        dataSourceId: Swift.String? = nil,
+        dataSourceType: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     ) {
         self.accountId = accountId
         self.bucket = bucket
+        self.dataSourceId = dataSourceId
+        self.dataSourceType = dataSourceType
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7528,7 +7552,7 @@ public struct PutAccessPointPolicyInput: Swift.Sendable {
     /// The name of the access point that you want to associate with the specified policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
     /// This member is required.
     public var name: Swift.String?
-    /// The policy that you want to apply to the specified access point. For more information about access point policies, see [Managing access to shared datasets in general purpose buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) or [Managing access to shared datasets in directory bucekts with access points] in the Amazon S3 User Guide.
+    /// The policy that you want to apply to the specified access point. For more information about access point policies, see [Managing data access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) or [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var policy: Swift.String?
 
@@ -9702,6 +9726,14 @@ extension ListAccessPointsInput {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
+        if let dataSourceType = value.dataSourceType {
+            let dataSourceTypeQueryItem = Smithy.URIQueryItem(name: "dataSourceType".urlPercentEncoding(), value: Swift.String(dataSourceType).urlPercentEncoding())
+            items.append(dataSourceTypeQueryItem)
+        }
+        if let dataSourceId = value.dataSourceId {
+            let dataSourceIdQueryItem = Smithy.URIQueryItem(name: "dataSourceId".urlPercentEncoding(), value: Swift.String(dataSourceId).urlPercentEncoding())
+            items.append(dataSourceIdQueryItem)
+        }
         return items
     }
 }
@@ -11187,6 +11219,8 @@ extension GetAccessPointOutput {
         value.bucket = try reader["Bucket"].readIfPresent()
         value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dataSourceId = try reader["DataSourceId"].readIfPresent()
+        value.dataSourceType = try reader["DataSourceType"].readIfPresent()
         value.endpoints = try reader["Endpoints"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.name = try reader["Name"].readIfPresent()
         value.networkOrigin = try reader["NetworkOrigin"].readIfPresent()
@@ -15387,6 +15421,8 @@ extension S3ControlClientTypes.AccessPoint {
         value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
         value.alias = try reader["Alias"].readIfPresent()
         value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
+        value.dataSourceId = try reader["DataSourceId"].readIfPresent()
+        value.dataSourceType = try reader["DataSourceType"].readIfPresent()
         return value
     }
 }
