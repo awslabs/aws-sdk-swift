@@ -1321,6 +1321,90 @@ public struct CreateApplicationOutput: Swift.Sendable {
     }
 }
 
+extension QBusinessClientTypes {
+
+    /// Configuration details for IAM Identity Center Trusted Token Issuer (TTI) authentication.
+    public struct DataAccessorIdcTrustedTokenIssuerConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center Trusted Token Issuer that will be used for authentication.
+        /// This member is required.
+        public var idcTrustedTokenIssuerArn: Swift.String?
+
+        public init(
+            idcTrustedTokenIssuerArn: Swift.String? = nil
+        ) {
+            self.idcTrustedTokenIssuerArn = idcTrustedTokenIssuerArn
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// A union type that contains the specific authentication configuration based on the authentication type selected.
+    public enum DataAccessorAuthenticationConfiguration: Swift.Sendable {
+        /// Configuration for IAM Identity Center Trusted Token Issuer (TTI) authentication used when the authentication type is AWS_IAM_IDC_TTI.
+        case idctrustedtokenissuerconfiguration(QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// The type of authentication mechanism used by the data accessor.
+    public enum DataAccessorAuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsIamIdcAuthCode
+        case awsIamIdcTti
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataAccessorAuthenticationType] {
+            return [
+                .awsIamIdcAuthCode,
+                .awsIamIdcTti
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsIamIdcAuthCode: return "AWS_IAM_IDC_AUTH_CODE"
+            case .awsIamIdcTti: return "AWS_IAM_IDC_TTI"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Contains the authentication configuration details for a data accessor. This structure defines how the ISV authenticates when accessing data through the data accessor.
+    public struct DataAccessorAuthenticationDetail: Swift.Sendable {
+        /// The specific authentication configuration based on the authentication type.
+        public var authenticationConfiguration: QBusinessClientTypes.DataAccessorAuthenticationConfiguration?
+        /// The type of authentication to use for the data accessor. This determines how the ISV authenticates when accessing data. You can use one of two authentication types:
+        ///
+        /// * AWS_IAM_IDC_TTI - Authentication using IAM Identity Center Trusted Token Issuer (TTI). This authentication type allows the ISV to use a trusted token issuer to generate tokens for accessing the data.
+        ///
+        /// * AWS_IAM_IDC_AUTH_CODE - Authentication using IAM Identity Center authorization code flow. This authentication type uses the standard OAuth 2.0 authorization code flow for authentication.
+        /// This member is required.
+        public var authenticationType: QBusinessClientTypes.DataAccessorAuthenticationType?
+        /// A list of external identifiers associated with this authentication configuration. These are used to correlate the data accessor with external systems.
+        public var externalIds: [Swift.String]?
+
+        public init(
+            authenticationConfiguration: QBusinessClientTypes.DataAccessorAuthenticationConfiguration? = nil,
+            authenticationType: QBusinessClientTypes.DataAccessorAuthenticationType? = nil,
+            externalIds: [Swift.String]? = nil
+        ) {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.authenticationType = authenticationType
+            self.externalIds = externalIds
+        }
+    }
+}
+
 public struct CreateDataAccessorOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the created data accessor.
     /// This member is required.
@@ -1406,6 +1490,8 @@ extension QBusinessClientTypes {
 
     /// Provides summary information about a data accessor.
     public struct DataAccessor: Swift.Sendable {
+        /// The authentication configuration details for the data accessor. This specifies how the ISV authenticates when accessing data through this data accessor.
+        public var authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail?
         /// The timestamp when the data accessor was created.
         public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the data accessor.
@@ -1422,6 +1508,7 @@ extension QBusinessClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail? = nil,
             createdAt: Foundation.Date? = nil,
             dataAccessorArn: Swift.String? = nil,
             dataAccessorId: Swift.String? = nil,
@@ -1430,6 +1517,7 @@ extension QBusinessClientTypes {
             principal: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.authenticationDetail = authenticationDetail
             self.createdAt = createdAt
             self.dataAccessorArn = dataAccessorArn
             self.dataAccessorId = dataAccessorId
@@ -1443,7 +1531,7 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes.DataAccessor: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DataAccessor(createdAt: \(Swift.String(describing: createdAt)), dataAccessorArn: \(Swift.String(describing: dataAccessorArn)), dataAccessorId: \(Swift.String(describing: dataAccessorId)), idcApplicationArn: \(Swift.String(describing: idcApplicationArn)), principal: \(Swift.String(describing: principal)), updatedAt: \(Swift.String(describing: updatedAt)), displayName: \"CONTENT_REDACTED\")"}
+        "DataAccessor(authenticationDetail: \(Swift.String(describing: authenticationDetail)), createdAt: \(Swift.String(describing: createdAt)), dataAccessorArn: \(Swift.String(describing: dataAccessorArn)), dataAccessorId: \(Swift.String(describing: dataAccessorId)), idcApplicationArn: \(Swift.String(describing: idcApplicationArn)), principal: \(Swift.String(describing: principal)), updatedAt: \(Swift.String(describing: updatedAt)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListDataAccessorsOutput: Swift.Sendable {
@@ -2007,7 +2095,7 @@ extension QBusinessClientTypes {
     public struct HookConfiguration: Swift.Sendable {
         /// The condition used for when a Lambda function should be invoked. For example, you can specify a condition that if there are empty date-time values, then Amazon Q Business should invoke a function that inserts the current date-time.
         public var invocationCondition: QBusinessClientTypes.DocumentAttributeCondition?
-        /// The Amazon Resource Name (ARN) of the Lambda function sduring ingestion. For more information, see [Using Lambda functions for Amazon Q Business document enrichment](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cde-lambda-operations.html).
+        /// The Amazon Resource Name (ARN) of the Lambda function during ingestion. For more information, see [Using Lambda functions for Amazon Q Business document enrichment](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cde-lambda-operations.html).
         public var lambdaArn: Swift.String?
         /// The Amazon Resource Name (ARN) of a role with permission to run PreExtractionHookConfiguration and PostExtractionHookConfiguration for altering document metadata and content during the document ingestion process.
         public var roleArn: Swift.String?
@@ -4753,6 +4841,58 @@ extension QBusinessClientTypes {
     }
 }
 
+extension QBusinessClientTypes {
+
+    public enum PermissionConditionOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case stringEquals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionConditionOperator] {
+            return [
+                .stringEquals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .stringEquals: return "StringEquals"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Defines a condition that restricts when a permission is effective. Conditions allow you to control access based on specific attributes of the request.
+    public struct PermissionCondition: Swift.Sendable {
+        /// The key for the condition. This identifies the attribute that the condition applies to.
+        /// This member is required.
+        public var conditionKey: Swift.String?
+        /// The operator to use for the condition evaluation. This determines how the condition values are compared.
+        /// This member is required.
+        public var conditionOperator: QBusinessClientTypes.PermissionConditionOperator?
+        /// The values to compare against using the specified condition operator.
+        /// This member is required.
+        public var conditionValues: [Swift.String]?
+
+        public init(
+            conditionKey: Swift.String? = nil,
+            conditionOperator: QBusinessClientTypes.PermissionConditionOperator? = nil,
+            conditionValues: [Swift.String]? = nil
+        ) {
+            self.conditionKey = conditionKey
+            self.conditionOperator = conditionOperator
+            self.conditionValues = conditionValues
+        }
+    }
+}
+
 public struct AssociatePermissionInput: Swift.Sendable {
     /// The list of Amazon Q Business actions that the ISV is allowed to perform.
     /// This member is required.
@@ -4760,6 +4900,8 @@ public struct AssociatePermissionInput: Swift.Sendable {
     /// The unique identifier of the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
+    /// The conditions that restrict when the permission is effective. These conditions can be used to limit the permission based on specific attributes of the request.
+    public var conditions: [QBusinessClientTypes.PermissionCondition]?
     /// The Amazon Resource Name of the IAM role for the ISV that is being granted permission.
     /// This member is required.
     public var principal: Swift.String?
@@ -4770,11 +4912,13 @@ public struct AssociatePermissionInput: Swift.Sendable {
     public init(
         actions: [Swift.String]? = nil,
         applicationId: Swift.String? = nil,
+        conditions: [QBusinessClientTypes.PermissionCondition]? = nil,
         principal: Swift.String? = nil,
         statementId: Swift.String? = nil
     ) {
         self.actions = actions
         self.applicationId = applicationId
+        self.conditions = conditions
         self.principal = principal
         self.statementId = statementId
     }
@@ -8659,6 +8803,8 @@ public struct CreateDataAccessorInput: Swift.Sendable {
     /// The unique identifier of the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
+    /// The authentication configuration details for the data accessor. This specifies how the ISV will authenticate when accessing data through this data accessor.
+    public var authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail?
     /// A unique, case-sensitive identifier you provide to ensure idempotency of the request.
     public var clientToken: Swift.String?
     /// A friendly name for the data accessor.
@@ -8673,6 +8819,7 @@ public struct CreateDataAccessorInput: Swift.Sendable {
     public init(
         actionConfigurations: [QBusinessClientTypes.ActionConfiguration]? = nil,
         applicationId: Swift.String? = nil,
+        authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail? = nil,
         clientToken: Swift.String? = nil,
         displayName: Swift.String? = nil,
         principal: Swift.String? = nil,
@@ -8680,6 +8827,7 @@ public struct CreateDataAccessorInput: Swift.Sendable {
     ) {
         self.actionConfigurations = actionConfigurations
         self.applicationId = applicationId
+        self.authenticationDetail = authenticationDetail
         self.clientToken = clientToken
         self.displayName = displayName
         self.principal = principal
@@ -8689,7 +8837,7 @@ public struct CreateDataAccessorInput: Swift.Sendable {
 
 extension CreateDataAccessorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDataAccessorInput(actionConfigurations: \(Swift.String(describing: actionConfigurations)), applicationId: \(Swift.String(describing: applicationId)), clientToken: \(Swift.String(describing: clientToken)), principal: \(Swift.String(describing: principal)), tags: \(Swift.String(describing: tags)), displayName: \"CONTENT_REDACTED\")"}
+        "CreateDataAccessorInput(actionConfigurations: \(Swift.String(describing: actionConfigurations)), applicationId: \(Swift.String(describing: applicationId)), authenticationDetail: \(Swift.String(describing: authenticationDetail)), clientToken: \(Swift.String(describing: clientToken)), principal: \(Swift.String(describing: principal)), tags: \(Swift.String(describing: tags)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDataAccessorOutput: Swift.Sendable {
@@ -8697,6 +8845,8 @@ public struct GetDataAccessorOutput: Swift.Sendable {
     public var actionConfigurations: [QBusinessClientTypes.ActionConfiguration]?
     /// The unique identifier of the Amazon Q Business application associated with this data accessor.
     public var applicationId: Swift.String?
+    /// The authentication configuration details for the data accessor. This specifies how the ISV authenticates when accessing data through this data accessor.
+    public var authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail?
     /// The timestamp when the data accessor was created.
     public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the data accessor.
@@ -8715,6 +8865,7 @@ public struct GetDataAccessorOutput: Swift.Sendable {
     public init(
         actionConfigurations: [QBusinessClientTypes.ActionConfiguration]? = nil,
         applicationId: Swift.String? = nil,
+        authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail? = nil,
         createdAt: Foundation.Date? = nil,
         dataAccessorArn: Swift.String? = nil,
         dataAccessorId: Swift.String? = nil,
@@ -8725,6 +8876,7 @@ public struct GetDataAccessorOutput: Swift.Sendable {
     ) {
         self.actionConfigurations = actionConfigurations
         self.applicationId = applicationId
+        self.authenticationDetail = authenticationDetail
         self.createdAt = createdAt
         self.dataAccessorArn = dataAccessorArn
         self.dataAccessorId = dataAccessorId
@@ -8737,7 +8889,7 @@ public struct GetDataAccessorOutput: Swift.Sendable {
 
 extension GetDataAccessorOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDataAccessorOutput(actionConfigurations: \(Swift.String(describing: actionConfigurations)), applicationId: \(Swift.String(describing: applicationId)), createdAt: \(Swift.String(describing: createdAt)), dataAccessorArn: \(Swift.String(describing: dataAccessorArn)), dataAccessorId: \(Swift.String(describing: dataAccessorId)), idcApplicationArn: \(Swift.String(describing: idcApplicationArn)), principal: \(Swift.String(describing: principal)), updatedAt: \(Swift.String(describing: updatedAt)), displayName: \"CONTENT_REDACTED\")"}
+        "GetDataAccessorOutput(actionConfigurations: \(Swift.String(describing: actionConfigurations)), applicationId: \(Swift.String(describing: applicationId)), authenticationDetail: \(Swift.String(describing: authenticationDetail)), createdAt: \(Swift.String(describing: createdAt)), dataAccessorArn: \(Swift.String(describing: dataAccessorArn)), dataAccessorId: \(Swift.String(describing: dataAccessorId)), idcApplicationArn: \(Swift.String(describing: idcApplicationArn)), principal: \(Swift.String(describing: principal)), updatedAt: \(Swift.String(describing: updatedAt)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateDataAccessorInput: Swift.Sendable {
@@ -8747,6 +8899,8 @@ public struct UpdateDataAccessorInput: Swift.Sendable {
     /// The unique identifier of the Amazon Q Business application.
     /// This member is required.
     public var applicationId: Swift.String?
+    /// The updated authentication configuration details for the data accessor. This specifies how the ISV will authenticate when accessing data through this data accessor.
+    public var authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail?
     /// The unique identifier of the data accessor to update.
     /// This member is required.
     public var dataAccessorId: Swift.String?
@@ -8756,11 +8910,13 @@ public struct UpdateDataAccessorInput: Swift.Sendable {
     public init(
         actionConfigurations: [QBusinessClientTypes.ActionConfiguration]? = nil,
         applicationId: Swift.String? = nil,
+        authenticationDetail: QBusinessClientTypes.DataAccessorAuthenticationDetail? = nil,
         dataAccessorId: Swift.String? = nil,
         displayName: Swift.String? = nil
     ) {
         self.actionConfigurations = actionConfigurations
         self.applicationId = applicationId
+        self.authenticationDetail = authenticationDetail
         self.dataAccessorId = dataAccessorId
         self.displayName = displayName
     }
@@ -8768,7 +8924,7 @@ public struct UpdateDataAccessorInput: Swift.Sendable {
 
 extension UpdateDataAccessorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateDataAccessorInput(actionConfigurations: \(Swift.String(describing: actionConfigurations)), applicationId: \(Swift.String(describing: applicationId)), dataAccessorId: \(Swift.String(describing: dataAccessorId)), displayName: \"CONTENT_REDACTED\")"}
+        "UpdateDataAccessorInput(actionConfigurations: \(Swift.String(describing: actionConfigurations)), applicationId: \(Swift.String(describing: applicationId)), authenticationDetail: \(Swift.String(describing: authenticationDetail)), dataAccessorId: \(Swift.String(describing: dataAccessorId)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 extension AssociatePermissionInput {
@@ -10180,6 +10336,7 @@ extension AssociatePermissionInput {
     static func write(value: AssociatePermissionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["conditions"].writeList(value.conditions, memberWritingClosure: QBusinessClientTypes.PermissionCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["principal"].write(value.principal)
         try writer["statementId"].write(value.statementId)
     }
@@ -10255,6 +10412,7 @@ extension CreateDataAccessorInput {
     static func write(value: CreateDataAccessorInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actionConfigurations"].writeList(value.actionConfigurations, memberWritingClosure: QBusinessClientTypes.ActionConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["authenticationDetail"].write(value.authenticationDetail, with: QBusinessClientTypes.DataAccessorAuthenticationDetail.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["displayName"].write(value.displayName)
         try writer["principal"].write(value.principal)
@@ -10433,6 +10591,7 @@ extension UpdateDataAccessorInput {
     static func write(value: UpdateDataAccessorInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actionConfigurations"].writeList(value.actionConfigurations, memberWritingClosure: QBusinessClientTypes.ActionConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["authenticationDetail"].write(value.authenticationDetail, with: QBusinessClientTypes.DataAccessorAuthenticationDetail.write(value:to:))
         try writer["displayName"].write(value.displayName)
     }
 }
@@ -10891,6 +11050,7 @@ extension GetDataAccessorOutput {
         var value = GetDataAccessorOutput()
         value.actionConfigurations = try reader["actionConfigurations"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.ActionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.applicationId = try reader["applicationId"].readIfPresent()
+        value.authenticationDetail = try reader["authenticationDetail"].readIfPresent(with: QBusinessClientTypes.DataAccessorAuthenticationDetail.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.dataAccessorArn = try reader["dataAccessorArn"].readIfPresent()
         value.dataAccessorId = try reader["dataAccessorId"].readIfPresent()
@@ -13868,6 +14028,64 @@ extension QBusinessClientTypes.DocumentAttributeValue {
     }
 }
 
+extension QBusinessClientTypes.DataAccessorAuthenticationDetail {
+
+    static func write(value: QBusinessClientTypes.DataAccessorAuthenticationDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authenticationConfiguration"].write(value.authenticationConfiguration, with: QBusinessClientTypes.DataAccessorAuthenticationConfiguration.write(value:to:))
+        try writer["authenticationType"].write(value.authenticationType)
+        try writer["externalIds"].writeList(value.externalIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DataAccessorAuthenticationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DataAccessorAuthenticationDetail()
+        value.authenticationType = try reader["authenticationType"].readIfPresent() ?? .sdkUnknown("")
+        value.authenticationConfiguration = try reader["authenticationConfiguration"].readIfPresent(with: QBusinessClientTypes.DataAccessorAuthenticationConfiguration.read(from:))
+        value.externalIds = try reader["externalIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QBusinessClientTypes.DataAccessorAuthenticationConfiguration {
+
+    static func write(value: QBusinessClientTypes.DataAccessorAuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .idctrustedtokenissuerconfiguration(idctrustedtokenissuerconfiguration):
+                try writer["idcTrustedTokenIssuerConfiguration"].write(idctrustedtokenissuerconfiguration, with: QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DataAccessorAuthenticationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "idcTrustedTokenIssuerConfiguration":
+                return .idctrustedtokenissuerconfiguration(try reader["idcTrustedTokenIssuerConfiguration"].read(with: QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration {
+
+    static func write(value: QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["idcTrustedTokenIssuerArn"].write(value.idcTrustedTokenIssuerArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.DataAccessorIdcTrustedTokenIssuerConfiguration()
+        value.idcTrustedTokenIssuerArn = try reader["idcTrustedTokenIssuerArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension QBusinessClientTypes.DataSourceVpcConfiguration {
 
     static func write(value: QBusinessClientTypes.DataSourceVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -14701,6 +14919,7 @@ extension QBusinessClientTypes.DataAccessor {
         value.dataAccessorArn = try reader["dataAccessorArn"].readIfPresent()
         value.idcApplicationArn = try reader["idcApplicationArn"].readIfPresent()
         value.principal = try reader["principal"].readIfPresent()
+        value.authenticationDetail = try reader["authenticationDetail"].readIfPresent(with: QBusinessClientTypes.DataAccessorAuthenticationDetail.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -15003,6 +15222,16 @@ extension QBusinessClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension QBusinessClientTypes.PermissionCondition {
+
+    static func write(value: QBusinessClientTypes.PermissionCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conditionKey"].write(value.conditionKey)
+        try writer["conditionOperator"].write(value.conditionOperator)
+        try writer["conditionValues"].writeList(value.conditionValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

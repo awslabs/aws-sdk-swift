@@ -487,6 +487,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSKeyspaces](../../../../../swift/api/awskeyspaces/latest)
 
+[AWSKeyspacesStreams](../../../../../swift/api/awskeyspacesstreams/latest)
+
 [AWSKinesis](../../../../../swift/api/awskinesis/latest)
 
 [AWSKinesisAnalytics](../../../../../swift/api/awskinesisanalytics/latest)

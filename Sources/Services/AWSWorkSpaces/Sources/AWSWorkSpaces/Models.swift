@@ -242,6 +242,97 @@ public struct AcceptAccountLinkInvitationOutput: Swift.Sendable {
 
 extension WorkSpacesClientTypes {
 
+    public enum AccessEndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case streamingWsp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessEndpointType] {
+            return [
+                .streamingWsp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .streamingWsp: return "STREAMING_WSP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    /// Describes the access type and endpoint for a WorkSpace.
+    public struct AccessEndpoint: Swift.Sendable {
+        /// Indicates the type of access endpoint.
+        public var accessEndpointType: WorkSpacesClientTypes.AccessEndpointType?
+        /// Indicates the VPC endpoint to use for access.
+        public var vpcEndpointId: Swift.String?
+
+        public init(
+            accessEndpointType: WorkSpacesClientTypes.AccessEndpointType? = nil,
+            vpcEndpointId: Swift.String? = nil
+        ) {
+            self.accessEndpointType = accessEndpointType
+            self.vpcEndpointId = vpcEndpointId
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    public enum InternetFallbackProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case pcoip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InternetFallbackProtocol] {
+            return [
+                .pcoip
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .pcoip: return "PCOIP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    /// Describes the access endpoint configuration for a WorkSpace.
+    public struct AccessEndpointConfig: Swift.Sendable {
+        /// Indicates a list of access endpoints associated with this directory.
+        /// This member is required.
+        public var accessEndpoints: [WorkSpacesClientTypes.AccessEndpoint]?
+        /// Indicates a list of protocols that fallback to using the public Internet when streaming over a VPC endpoint is not available.
+        public var internetFallbackProtocols: [WorkSpacesClientTypes.InternetFallbackProtocol]?
+
+        public init(
+            accessEndpoints: [WorkSpacesClientTypes.AccessEndpoint]? = nil,
+            internetFallbackProtocols: [WorkSpacesClientTypes.InternetFallbackProtocol]? = nil
+        ) {
+            self.accessEndpoints = accessEndpoints
+            self.internetFallbackProtocols = internetFallbackProtocols
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     public enum AccessPropertyValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allow
         case deny
@@ -5465,6 +5556,8 @@ extension WorkSpacesClientTypes {
 
     /// The device types and operating systems that can be used to access a WorkSpace. For more information, see [Amazon WorkSpaces Client Network Requirements](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-network-requirements.html).
     public struct WorkspaceAccessProperties: Swift.Sendable {
+        /// Specifies the configuration for accessing the WorkSpace.
+        public var accessEndpointConfig: WorkSpacesClientTypes.AccessEndpointConfig?
         /// Indicates whether users can use Android and Android-compatible Chrome OS devices to access their WorkSpaces.
         public var deviceTypeAndroid: WorkSpacesClientTypes.AccessPropertyValue?
         /// Indicates whether users can use Chromebooks to access their WorkSpaces.
@@ -5485,6 +5578,7 @@ extension WorkSpacesClientTypes {
         public var deviceTypeZeroClient: WorkSpacesClientTypes.AccessPropertyValue?
 
         public init(
+            accessEndpointConfig: WorkSpacesClientTypes.AccessEndpointConfig? = nil,
             deviceTypeAndroid: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeChromeOs: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeIos: WorkSpacesClientTypes.AccessPropertyValue? = nil,
@@ -5495,6 +5589,7 @@ extension WorkSpacesClientTypes {
             deviceTypeWorkSpacesThinClient: WorkSpacesClientTypes.AccessPropertyValue? = nil,
             deviceTypeZeroClient: WorkSpacesClientTypes.AccessPropertyValue? = nil
         ) {
+            self.accessEndpointConfig = accessEndpointConfig
             self.deviceTypeAndroid = deviceTypeAndroid
             self.deviceTypeChromeOs = deviceTypeChromeOs
             self.deviceTypeIos = deviceTypeIos
@@ -6795,6 +6890,30 @@ public struct ImportWorkspaceImageOutput: Swift.Sendable {
         imageId: Swift.String? = nil
     ) {
         self.imageId = imageId
+    }
+}
+
+/// Two or more of the selected parameter values cannot be used together.
+public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception error message.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterCombinationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -11430,6 +11549,9 @@ enum ModifyWorkspaceAccessPropertiesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "InvalidParameterValuesException": return try InvalidParameterValuesException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -12050,6 +12172,19 @@ extension OperationInProgressException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationInProgressException {
         let reader = baseError.errorBodyReader
         var value = OperationInProgressException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidParameterCombinationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterCombinationException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidParameterCombinationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12974,6 +13109,7 @@ extension WorkSpacesClientTypes.WorkspaceAccessProperties {
 
     static func write(value: WorkSpacesClientTypes.WorkspaceAccessProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AccessEndpointConfig"].write(value.accessEndpointConfig, with: WorkSpacesClientTypes.AccessEndpointConfig.write(value:to:))
         try writer["DeviceTypeAndroid"].write(value.deviceTypeAndroid)
         try writer["DeviceTypeChromeOs"].write(value.deviceTypeChromeOs)
         try writer["DeviceTypeIos"].write(value.deviceTypeIos)
@@ -12997,6 +13133,41 @@ extension WorkSpacesClientTypes.WorkspaceAccessProperties {
         value.deviceTypeZeroClient = try reader["DeviceTypeZeroClient"].readIfPresent()
         value.deviceTypeLinux = try reader["DeviceTypeLinux"].readIfPresent()
         value.deviceTypeWorkSpacesThinClient = try reader["DeviceTypeWorkSpacesThinClient"].readIfPresent()
+        value.accessEndpointConfig = try reader["AccessEndpointConfig"].readIfPresent(with: WorkSpacesClientTypes.AccessEndpointConfig.read(from:))
+        return value
+    }
+}
+
+extension WorkSpacesClientTypes.AccessEndpointConfig {
+
+    static func write(value: WorkSpacesClientTypes.AccessEndpointConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: WorkSpacesClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InternetFallbackProtocols"].writeList(value.internetFallbackProtocols, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkSpacesClientTypes.InternetFallbackProtocol>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.AccessEndpointConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesClientTypes.AccessEndpointConfig()
+        value.accessEndpoints = try reader["AccessEndpoints"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.AccessEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.internetFallbackProtocols = try reader["InternetFallbackProtocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WorkSpacesClientTypes.InternetFallbackProtocol>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WorkSpacesClientTypes.AccessEndpoint {
+
+    static func write(value: WorkSpacesClientTypes.AccessEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessEndpointType"].write(value.accessEndpointType)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.AccessEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesClientTypes.AccessEndpoint()
+        value.accessEndpointType = try reader["AccessEndpointType"].readIfPresent()
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
         return value
     }
 }
