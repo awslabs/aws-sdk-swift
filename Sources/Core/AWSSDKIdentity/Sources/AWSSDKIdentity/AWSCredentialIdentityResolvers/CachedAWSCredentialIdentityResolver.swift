@@ -13,42 +13,40 @@ import struct Smithy.Attributes
 ///  A credential identity resolver that caches the credentials sourced from the provided resolver.
 public actor CachedAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private let underlyingResolver: any AWSCredentialIdentityResolver
-    private let refreshBuffer: TimeInterval
+    private let refreshTime: TimeInterval
+    private var lastFetched: Date?
     private var cachedCredentials: AWSCredentialIdentity?
 
     /// Credentials resolved through this resolver will be cached within it until their expiration time.
     /// When the cached credentials expire, new credentials will be fetched when next queried.
     ///
     /// - Parameters:
-    ///   - underlyingResolver: The source credential identity resolver to get the credentials from.
-    ///   - refreshBuffer: Length of time before expiration where credentials will be resolved even if it hasn't expired just yet. Defaults to 5 minutes.
+    ///   - source: The source credential identity resolver to get the credentials.
+    ///   - refreshTime: The number of seconds that must pass before new credentials will be fetched again.
     public init(
-        underlyingResolver: any AWSCredentialIdentityResolver,
-        refreshBuffer: TimeInterval = 300
-    ) {
-        self.underlyingResolver = underlyingResolver
-        self.refreshBuffer = refreshBuffer
+        source: any AWSCredentialIdentityResolver,
+        refreshTime: TimeInterval
+    ) throws {
+        self.underlyingResolver = source
+        self.refreshTime = refreshTime
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
-        if let cached = cachedCredentials, !shouldRefreshCredentials(expiration: cached.expiration) {
+        if let cached = cachedCredentials, !shouldRefreshCredentials() {
             return cached
         }
 
         let creds = try await underlyingResolver.getIdentity(identityProperties: identityProperties)
+        lastFetched = Date()
         cachedCredentials = creds
         return creds
     }
 
-    private func shouldRefreshCredentials(expiration: Date?) -> Bool {
-        guard let expiration else {
-            return false // No expiration provided, assume no refresh is needed
-        }
-
+    private func shouldRefreshCredentials() -> Bool {
         let now = Date()
-        let refreshBufferWindow = expiration.addingTimeInterval(-self.refreshBuffer)
-
-        // Return true if now is in or after refreshBufferWindow
-        return now >= refreshBufferWindow
+        // It's safe to force-unwrap because this line is reached only if credentials have been cached at least once before,
+        //  and the lastFetched is set to a non-nil Date value.
+        let refreshAfter = lastFetched!.addingTimeInterval(refreshTime)
+        return now >= refreshAfter
     }
 }
