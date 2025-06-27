@@ -61,6 +61,7 @@ private var integrationTestTargets: [Target] {
         "AWSTranscribeStreaming",
         "AWSCognitoIdentity",
         "AWSBedrockRuntime",
+        "AWSCloudWatch",
     ].map { integrationTestTarget($0) }
     return integrationTests + [.target(name: "AWSIntegrationTestUtils", path: "./AWSIntegrationTestUtils")]
 }
