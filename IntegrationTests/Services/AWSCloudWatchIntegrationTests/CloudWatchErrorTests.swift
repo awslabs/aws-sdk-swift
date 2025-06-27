@@ -17,13 +17,10 @@ class CloudWatchErrorTests: XCTestCase {
     private let region = "us-west-2"
 
     override func setUp() async throws {
-        self.client = try CloudWatchClient(region: "us-west-1")
+        self.client = try CloudWatchClient(region: "us-west-2")
     }
 
-    override func tearDown() async throws {
-        // Nothing to clean up
-    }
-
+    // this test can be removed once smoke tests are run in all builds
     func test_AmbiguousError() async throws {
         do {
             let response = try await client.getDashboard(input: .init(dashboardName: "foo"))
