@@ -23,4 +23,5 @@ public enum IMDSError: Error {
     case reachedMaxRetries
     case invalidRetryValue(String)
     case invalidProfileName
+    case failedToResolveProfileName
 }
