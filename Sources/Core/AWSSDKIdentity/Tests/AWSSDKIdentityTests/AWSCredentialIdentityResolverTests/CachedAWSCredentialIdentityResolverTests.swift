@@ -29,16 +29,11 @@ class CachedAWSCredentialIdentityResolverTests: XCTestCase {
         let accountID = UUID().uuidString
         let coreProvider = MockAWSCredentialIdentityResolver {
             await counter.increment()
-            return .init(
-                accessKey: accessKey,
-                secret: secret,
-                accountID: accountID,
-                expiration: Date().addingTimeInterval(0.01)
-            )
+            return .init(accessKey: accessKey, secret: secret, accountID: accountID)
         }
-        let subject = CachedAWSCredentialIdentityResolver(
-            underlyingResolver: coreProvider,
-            refreshBuffer: 0
+        let subject = try CachedAWSCredentialIdentityResolver(
+            source: coreProvider,
+            refreshTime: 0.01
         )
 
         _ = try await subject.getIdentity()
