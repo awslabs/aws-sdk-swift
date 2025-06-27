@@ -36,9 +36,9 @@ val enabledProtocols = listOf(
     ProtocolTest("rest-xml-xmlns", "aws.protocoltests.restxml.xmlns#RestXmlWithNamespace", "RestXmlWithNamespaceTestSDK"),
     ProtocolTest("aws-query", "aws.protocoltests.query#AwsQuery", "AWSQueryTestSDK"),
     ProtocolTest("smithy-rpcv2-cbor", "smithy.protocoltests.rpcv2Cbor#RpcV2Protocol", "RPCV2CBORTestSDK"),
-    ProtocolTest("aws-json-10-query-compat", "aws.protocoltests.json10#QueryCompatibleJsonRpc10", "AWSJson1_0TestSDK"),
-    ProtocolTest("smithy-rpcv2-cbor-query-compat", "aws.protocoltests.rpcv2cbor#QueryCompatibleRpcV2Protocol", "RPCV2CBORTestSDK"),
-    ProtocolTest("smithy-rpcv2-cbor-non-query-compat", "aws.protocoltests.rpcv2cbor#NonQueryCompatibleRpcV2Protocol", "RPCV2CBORTestSDK"),
+    ProtocolTest("aws-json-10-query-compat", "aws.protocoltests.json10#QueryCompatibleJsonRpc10", "AWSJson1_0TestQueryCompatSDK"),
+    ProtocolTest("smithy-rpcv2-cbor-query-compat", "aws.protocoltests.rpcv2cbor#QueryCompatibleRpcV2Protocol", "RPCV2CBORTestQueryCompatSDK"),
+    ProtocolTest("smithy-rpcv2-cbor-non-query-compat", "aws.protocoltests.rpcv2cbor#NonQueryCompatibleRpcV2Protocol", "RPCV2CBORTestNonQueryCompatSDK"),
 
     // service specific tests
     ProtocolTest("apigateway", "com.amazonaws.apigateway#BackplaneControlService", "APIGatewayTestSDK"),
