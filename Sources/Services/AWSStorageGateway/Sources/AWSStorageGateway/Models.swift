@@ -699,7 +699,7 @@ public struct AttachVolumeInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the gateway that you want to attach the volume to.
     /// This member is required.
     public var gatewayARN: Swift.String?
-    /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use [DescribeGatewayInformation] to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
+    /// The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use [DescribeGatewayInformation] to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
     /// This member is required.
     public var networkInterfaceId: Swift.String?
     /// The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name.
@@ -1294,7 +1294,7 @@ public struct CreateCachediSCSIVolumeInput: Swift.Sendable {
     public var kmsEncrypted: Swift.Bool?
     /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
     public var kmsKey: Swift.String?
-    /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use [DescribeGatewayInformation] to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
+    /// The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use [DescribeGatewayInformation] to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
     /// This member is required.
     public var networkInterfaceId: Swift.String?
     /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new cached volume. Specify this field if you want to create the iSCSI storage volume from a snapshot; otherwise, do not include this field. To list snapshots for your account use [DescribeSnapshots](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html) in the Amazon Elastic Compute Cloud API Reference.
@@ -1462,7 +1462,7 @@ public struct CreateNFSFileShareInput: Swift.Sendable {
     public var bucketRegion: Swift.String?
     /// Specifies refresh cache information for the file share.
     public var cacheAttributes: StorageGatewayClientTypes.CacheAttributes?
-    /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IP addresses or valid CIDR blocks.
+    /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IPv4/IPv6 addresses or valid CIDR blocks.
     public var clientList: [Swift.String]?
     /// A unique string value that you supply that is used by S3 File Gateway to ensure idempotent file share creation.
     /// This member is required.
@@ -1838,7 +1838,7 @@ public struct CreateStorediSCSIVolumeInput: Swift.Sendable {
     public var kmsEncrypted: Swift.Bool?
     /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
     public var kmsKey: Swift.String?
-    /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use [DescribeGatewayInformation] to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
+    /// The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use [DescribeGatewayInformation] to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
     /// This member is required.
     public var networkInterfaceId: Swift.String?
     /// Set to true if you want to preserve the data on the local disk. Otherwise, set to false to create an empty volume. Valid Values: true | false
@@ -2774,7 +2774,7 @@ extension StorageGatewayClientTypes {
     public struct NetworkInterface: Swift.Sendable {
         /// The Internet Protocol version 4 (IPv4) address of the interface.
         public var ipv4Address: Swift.String?
-        /// The Internet Protocol version 6 (IPv6) address of the interface. Currently not supported.
+        /// The Internet Protocol version 6 (IPv6) address of the interface. This element returns IPv6 addresses for all gateway types except FSx File Gateway.
         public var ipv6Address: Swift.String?
         /// The Media Access Control (MAC) address of the interface. This is currently unsupported and will not be returned in output.
         public var macAddress: Swift.String?
@@ -3038,7 +3038,7 @@ extension StorageGatewayClientTypes {
         public var bucketRegion: Swift.String?
         /// Refresh cache information for the file share.
         public var cacheAttributes: StorageGatewayClientTypes.CacheAttributes?
-        /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IP addresses or valid CIDR blocks.
+        /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IPv4/IPv6 addresses or valid CIDR blocks.
         public var clientList: [Swift.String]?
         /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public var defaultStorageClass: Swift.String?
@@ -4351,7 +4351,7 @@ extension StorageGatewayClientTypes {
 
 /// JoinDomainInput
 public struct JoinDomainInput: Swift.Sendable {
-    /// List of IPv4 addresses, NetBIOS names, or host names of your domain server. If you need to specify the port number include it after the colon (“:”). For example, mydc.mydomain.com:389.
+    /// List of IP addresses, NetBIOS names, or host names of your domain server. If you need to specify the port number include it after the colon (“:”). For example, mydc.mydomain.com:389. S3 File Gateway supports IPv6 addresses in addition to IPv4 and other existing formats. FSx File Gateway does not support IPv6.
     public var domainControllers: [Swift.String]?
     /// The name of the domain that you want the gateway to join.
     /// This member is required.
@@ -5711,7 +5711,7 @@ public struct UpdateNFSFileShareInput: Swift.Sendable {
     public var auditDestinationARN: Swift.String?
     /// Specifies refresh cache information for the file share.
     public var cacheAttributes: StorageGatewayClientTypes.CacheAttributes?
-    /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IP addresses or valid CIDR blocks.
+    /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IPv4/IPv6 addresses or valid CIDR blocks.
     public var clientList: [Swift.String]?
     /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
     public var defaultStorageClass: Swift.String?

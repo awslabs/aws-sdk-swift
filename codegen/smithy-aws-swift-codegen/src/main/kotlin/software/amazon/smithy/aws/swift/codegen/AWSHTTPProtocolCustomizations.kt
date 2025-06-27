@@ -38,7 +38,6 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         if (config.serviceSpecificConfigProperties().any { it.memberName == "accountIdEndpointMode" }) {
             writer.write("  .withAccountIDEndpointMode(value: config.accountIdEndpointMode)")
         }
-        writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4")
         writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4a")
         if (ctx.service.isS3) {
             writer.write("  .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: \$S)", "aws.auth#sigv4-s3express")

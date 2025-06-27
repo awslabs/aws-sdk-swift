@@ -46,7 +46,7 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
     public init() {
         resolverFactories = [
             { return ( EnvironmentAWSCredentialIdentityResolver()) },
-            { return ( STSWebIdentityAWSCredentialIdentityResolver(source: .env)) },
+            { return ( try STSWebIdentityAWSCredentialIdentityResolver(source: .env)) },
             { return ( ProfileAWSCredentialIdentityResolver()) },
             { return ( ECSAWSCredentialIdentityResolver()) },
             { return ( try IMDSAWSCredentialIdentityResolver()) }

@@ -94,7 +94,7 @@ extension DeadlineClientTypes {
 
     /// Describes a specific GPU accelerator required for an Amazon Elastic Compute Cloud worker host.
     public struct AcceleratorSelection: Swift.Sendable {
-        /// The name of the chip used by the GPU accelerator. If you specify l4 as the name of the accelerator, you must specify latest or grid:r550 as the runtime. The available GPU accelerators are:
+        /// The name of the chip used by the GPU accelerator. If you specify l4 as the name of the accelerator, you must specify latest or grid:r570 as the runtime. The available GPU accelerators are:
         ///
         /// * t4 - NVIDIA T4 Tensor Core GPU
         ///
@@ -109,7 +109,7 @@ extension DeadlineClientTypes {
         ///
         /// * latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.
         ///
-        /// * grid:r550 - [NVIDIA vGPU software 17](https://docs.nvidia.com/vgpu/17.0/index.html)
+        /// * grid:r570 - [NVIDIA vGPU software 18](https://docs.nvidia.com/vgpu/18.0/index.html)
         ///
         /// * grid:r535 - [NVIDIA vGPU software 16](https://docs.nvidia.com/vgpu/16.0/index.html)
         ///
@@ -4419,7 +4419,7 @@ public struct GetFleetOutput: Swift.Sendable {
     /// The IAM role ARN.
     /// This member is required.
     public var roleArn: Swift.String?
-    /// The Auto Scaling status of the fleet.
+    /// The status of the fleet.
     /// This member is required.
     public var status: DeadlineClientTypes.FleetStatus?
     /// The number of target workers in the fleet.
@@ -6574,6 +6574,8 @@ public struct GetJobOutput: Swift.Sendable {
     public var storageProfileId: Swift.String?
     /// The task status with which the job started.
     public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
+    /// The total number of times tasks from the job failed and were retried.
+    public var taskFailureRetryCount: Swift.Int?
     /// The task run status for the job.
     public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
     /// The number of tasks running on the job.
@@ -6602,6 +6604,7 @@ public struct GetJobOutput: Swift.Sendable {
         startedAt: Foundation.Date? = nil,
         storageProfileId: Swift.String? = nil,
         targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
+        taskFailureRetryCount: Swift.Int? = nil,
         taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
         taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -6625,6 +6628,7 @@ public struct GetJobOutput: Swift.Sendable {
         self.startedAt = startedAt
         self.storageProfileId = storageProfileId
         self.targetTaskRunStatus = targetTaskRunStatus
+        self.taskFailureRetryCount = taskFailureRetryCount
         self.taskRunStatus = taskRunStatus
         self.taskRunStatusCounts = taskRunStatusCounts
         self.updatedAt = updatedAt
@@ -6634,7 +6638,7 @@ public struct GetJobOutput: Swift.Sendable {
 
 extension GetJobOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetJobOutput(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+        "GetJobOutput(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSessionInput: Swift.Sendable {
@@ -7276,6 +7280,8 @@ public struct GetStepOutput: Swift.Sendable {
     public var stepId: Swift.String?
     /// The task status with which the job started.
     public var targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus?
+    /// The total number of times tasks from the step failed and were retried.
+    public var taskFailureRetryCount: Swift.Int?
     /// The task run status for the job.
     /// This member is required.
     public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
@@ -7301,6 +7307,7 @@ public struct GetStepOutput: Swift.Sendable {
         startedAt: Foundation.Date? = nil,
         stepId: Swift.String? = nil,
         targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus? = nil,
+        taskFailureRetryCount: Swift.Int? = nil,
         taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
         taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -7319,6 +7326,7 @@ public struct GetStepOutput: Swift.Sendable {
         self.startedAt = startedAt
         self.stepId = stepId
         self.targetTaskRunStatus = targetTaskRunStatus
+        self.taskFailureRetryCount = taskFailureRetryCount
         self.taskRunStatus = taskRunStatus
         self.taskRunStatusCounts = taskRunStatusCounts
         self.updatedAt = updatedAt
@@ -7328,7 +7336,7 @@ public struct GetStepOutput: Swift.Sendable {
 
 extension GetStepOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetStepOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), dependencyCounts: \(Swift.String(describing: dependencyCounts)), endedAt: \(Swift.String(describing: endedAt)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), name: \(Swift.String(describing: name)), parameterSpace: \(Swift.String(describing: parameterSpace)), requiredCapabilities: \(Swift.String(describing: requiredCapabilities)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
+        "GetStepOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), dependencyCounts: \(Swift.String(describing: dependencyCounts)), endedAt: \(Swift.String(describing: endedAt)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), name: \(Swift.String(describing: name)), parameterSpace: \(Swift.String(describing: parameterSpace)), requiredCapabilities: \(Swift.String(describing: requiredCapabilities)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetTaskInput: Swift.Sendable {
@@ -7674,6 +7682,8 @@ extension DeadlineClientTypes {
         public var startedAt: Foundation.Date?
         /// The task status to start with on the job.
         public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
+        /// The total number of times tasks from the job failed and were retried.
+        public var taskFailureRetryCount: Swift.Int?
         /// The task run status for the job.
         ///
         /// * PENDING–pending and waiting for resources.
@@ -7718,6 +7728,7 @@ extension DeadlineClientTypes {
             sourceJobId: Swift.String? = nil,
             startedAt: Foundation.Date? = nil,
             targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
+            taskFailureRetryCount: Swift.Int? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
             taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
             updatedAt: Foundation.Date? = nil,
@@ -7737,6 +7748,7 @@ extension DeadlineClientTypes {
             self.sourceJobId = sourceJobId
             self.startedAt = startedAt
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
             self.updatedAt = updatedAt
@@ -8270,6 +8282,8 @@ extension DeadlineClientTypes {
         public var stepId: Swift.String?
         /// The task status to start with on the job.
         public var targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus?
+        /// The total number of times tasks from the step failed and were retried.
+        public var taskFailureRetryCount: Swift.Int?
         /// The task run status for the job.
         ///
         /// * PENDING–pending and waiting for resources.
@@ -8312,6 +8326,7 @@ extension DeadlineClientTypes {
             startedAt: Foundation.Date? = nil,
             stepId: Swift.String? = nil,
             targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus? = nil,
+            taskFailureRetryCount: Swift.Int? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
             taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
             updatedAt: Foundation.Date? = nil,
@@ -8327,6 +8342,7 @@ extension DeadlineClientTypes {
             self.startedAt = startedAt
             self.stepId = stepId
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
             self.updatedAt = updatedAt
@@ -10613,6 +10629,8 @@ extension DeadlineClientTypes {
         public var startedAt: Foundation.Date?
         /// The task status to start with on the job.
         public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
+        /// The total number of times tasks from the job failed and were retried.
+        public var taskFailureRetryCount: Swift.Int?
         /// The task run status for the job.
         ///
         /// * PENDING–pending and waiting for resources.
@@ -10655,6 +10673,7 @@ extension DeadlineClientTypes {
             sourceJobId: Swift.String? = nil,
             startedAt: Foundation.Date? = nil,
             targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
+            taskFailureRetryCount: Swift.Int? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
             taskRunStatusCounts: [Swift.String: Swift.Int]? = nil
         ) {
@@ -10674,6 +10693,7 @@ extension DeadlineClientTypes {
             self.sourceJobId = sourceJobId
             self.startedAt = startedAt
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
         }
@@ -10682,7 +10702,7 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes.JobSearchSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), jobParameters: \"CONTENT_REDACTED\")"}
+        "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), jobParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchJobsOutput: Swift.Sendable {
@@ -10732,6 +10752,8 @@ extension DeadlineClientTypes {
         public var stepId: Swift.String?
         /// The task status to start with on the job.
         public var targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus?
+        /// The total number of times tasks from the step failed and were retried.
+        public var taskFailureRetryCount: Swift.Int?
         /// The task run status for the job.
         ///
         /// * PENDING–pending and waiting for resources.
@@ -10769,6 +10791,7 @@ extension DeadlineClientTypes {
             startedAt: Foundation.Date? = nil,
             stepId: Swift.String? = nil,
             targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus? = nil,
+            taskFailureRetryCount: Swift.Int? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
             taskRunStatusCounts: [Swift.String: Swift.Int]? = nil
         ) {
@@ -10783,6 +10806,7 @@ extension DeadlineClientTypes {
             self.startedAt = startedAt
             self.stepId = stepId
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
         }
@@ -14695,6 +14719,7 @@ extension GetJobOutput {
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.storageProfileId = try reader["storageProfileId"].readIfPresent()
         value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
         value.taskRunStatus = try reader["taskRunStatus"].readIfPresent()
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -14928,6 +14953,7 @@ extension GetStepOutput {
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.stepId = try reader["stepId"].readIfPresent() ?? ""
         value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
         value.taskRunStatus = try reader["taskRunStatus"].readIfPresent() ?? .sdkUnknown("")
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -18915,6 +18941,7 @@ extension DeadlineClientTypes.JobSummary {
         value.taskRunStatus = try reader["taskRunStatus"].readIfPresent()
         value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
         value.maxFailedTasksCount = try reader["maxFailedTasksCount"].readIfPresent()
         value.maxRetriesPerTask = try reader["maxRetriesPerTask"].readIfPresent()
         value.maxWorkerCount = try reader["maxWorkerCount"].readIfPresent()
@@ -19197,6 +19224,7 @@ extension DeadlineClientTypes.StepSummary {
         value.lifecycleStatusMessage = try reader["lifecycleStatusMessage"].readIfPresent()
         value.taskRunStatus = try reader["taskRunStatus"].readIfPresent() ?? .sdkUnknown("")
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
         value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
@@ -19274,6 +19302,7 @@ extension DeadlineClientTypes.JobSearchSummary {
         value.taskRunStatus = try reader["taskRunStatus"].readIfPresent()
         value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
         value.priority = try reader["priority"].readIfPresent()
         value.maxFailedTasksCount = try reader["maxFailedTasksCount"].readIfPresent()
         value.maxRetriesPerTask = try reader["maxRetriesPerTask"].readIfPresent()
@@ -19302,6 +19331,7 @@ extension DeadlineClientTypes.StepSearchSummary {
         value.taskRunStatus = try reader["taskRunStatus"].readIfPresent()
         value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)

@@ -835,6 +835,7 @@ extension S3ClientTypes {
 
     public enum ServerSideEncryption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aes256
+        case awsFsx
         case awsKms
         case awsKmsDsse
         case sdkUnknown(Swift.String)
@@ -842,6 +843,7 @@ extension S3ClientTypes {
         public static var allCases: [ServerSideEncryption] {
             return [
                 .aes256,
+                .awsFsx,
                 .awsKms,
                 .awsKmsDsse
             ]
@@ -855,6 +857,7 @@ extension S3ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .aes256: return "AES256"
+            case .awsFsx: return "aws:fsx"
             case .awsKms: return "aws:kms"
             case .awsKmsDsse: return "aws:kms:dsse"
             case let .sdkUnknown(s): return s
@@ -890,7 +893,7 @@ public struct CompleteMultipartUploadOutput: Swift.Sendable {
     public var location: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when storing this object in Amazon S3. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If present, indicates the ID of the KMS key that was used for object encryption.
     public var ssekmsKeyId: Swift.String?
@@ -1127,6 +1130,7 @@ extension S3ClientTypes {
     public enum StorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case expressOnezone
+        case fsxOpenzfs
         case glacier
         case glacierIr
         case intelligentTiering
@@ -1142,6 +1146,7 @@ extension S3ClientTypes {
             return [
                 .deepArchive,
                 .expressOnezone,
+                .fsxOpenzfs,
                 .glacier,
                 .glacierIr,
                 .intelligentTiering,
@@ -1163,6 +1168,7 @@ extension S3ClientTypes {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
             case .expressOnezone: return "EXPRESS_ONEZONE"
+            case .fsxOpenzfs: return "FSX_OPENZFS"
             case .glacier: return "GLACIER"
             case .glacierIr: return "GLACIER_IR"
             case .intelligentTiering: return "INTELLIGENT_TIERING"
@@ -1337,6 +1343,8 @@ public struct CopyObjectInput: Swift.Sendable {
     /// * For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html) in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see [Specifying server-side encryption with KMS for new object uploads](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html).
     ///
     /// * To encrypt new object copies to a directory bucket with SSE-KMS, we recommend you specify SSE-KMS as the directory bucket's default encryption configuration with a KMS key (specifically, a [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)). The [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported. Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. After you specify a customer managed key for SSE-KMS, you can't override the customer managed key for the bucket's SSE-KMS configuration. Then, when you perform a CopyObject operation and want to specify server-side encryption settings for new object copies with SSE-KMS in the encryption-related request headers, you must ensure the encryption key is the same customer managed key that you specified for the directory bucket's default encryption configuration.
+    ///
+    /// * S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx. All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// Specifies the algorithm to use when encrypting the object (for example, AES256). When you perform a CopyObject operation, if you want to use a different type of encryption setting for the target object, you can specify appropriate encryption-related headers to encrypt the target object with an Amazon S3 managed key, a KMS key, or a customer-provided key. If the encryption setting in your request is different from the default encryption configuration of the destination bucket, the encryption setting in your request takes precedence. This functionality is not supported when the destination bucket is a directory bucket.
     public var sseCustomerAlgorithm: Swift.String?
@@ -1551,7 +1559,7 @@ public struct CopyObjectOutput: Swift.Sendable {
     public var expiration: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -2263,9 +2271,11 @@ public struct CreateMultipartUploadInput: Swift.Sendable {
     public var objectLockRetainUntilDate: Foundation.Date?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx.
     ///
     /// * Directory buckets - For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html) in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see [Specifying server-side encryption with KMS for new object uploads](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html). In the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)) using the REST API, the encryption request headers must match the encryption settings that are specified in the CreateSession request. You can't override the values of the encryption settings (x-amz-server-side-encryption, x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and x-amz-server-side-encryption-bucket-key-enabled) that are specified in the CreateSession request. You don't need to explicitly specify these encryption settings values in Zonal endpoint API calls, and Amazon S3 will use the encryption settings values from the CreateSession request to protect new objects in the directory bucket. When you use the CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the CreateSession request. It's not supported to override the encryption settings values in the CreateSession request. So in the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)), the encryption request headers must match the default encryption configuration of the directory bucket.
+    ///
+    /// * S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx. All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// Specifies the algorithm to use when encrypting the object (for example, AES256). This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -2377,7 +2387,7 @@ public struct CreateMultipartUploadOutput: Swift.Sendable {
     public var key: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -2477,7 +2487,7 @@ public struct CreateSessionInput: Swift.Sendable {
     public var bucket: Swift.String?
     /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using KMS keys (SSE-KMS). S3 Bucket Keys are always enabled for GET and PUT operations in a directory bucket and can’t be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html), [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), [the Copy operation in Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops), or [the import jobs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-import-job). In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
     public var bucketKeyEnabled: Swift.Bool?
-    /// The server-side encryption algorithm to use when you store objects in the directory bucket. For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). By default, Amazon S3 encrypts data with SSE-S3. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/serv-side-encryption.html) in the Amazon S3 User Guide.
+    /// The server-side encryption algorithm to use when you store objects in the directory bucket. For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). By default, Amazon S3 encrypts data with SSE-S3. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/serv-side-encryption.html) in the Amazon S3 User Guide. S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx. All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// Specifies the mode of the session that will be created, either ReadWrite or ReadOnly. By default, a ReadWrite session is created. A ReadWrite session is capable of executing all the Zonal endpoint API operations on a directory bucket. A ReadOnly session is constrained to execute the following Zonal endpoint API operations: GetObject, HeadObject, ListObjectsV2, GetObjectAttributes, ListParts, and ListMultipartUploads.
     public var sessionMode: S3ClientTypes.SessionMode?
@@ -2550,7 +2560,7 @@ public struct CreateSessionOutput: Swift.Sendable {
     /// The established temporary security credentials for the created session.
     /// This member is required.
     public var credentials: S3ClientTypes.SessionCredentials?
-    /// The server-side encryption algorithm used when you store objects in the directory bucket.
+    /// The server-side encryption algorithm used when you store objects in the directory bucket. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If present, indicates the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs. This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject operations on this object.
     public var ssekmsEncryptionContext: Swift.String?
@@ -5454,7 +5464,7 @@ extension S3ClientTypes {
         public var abortIncompleteMultipartUpload: S3ClientTypes.AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
         public var expiration: S3ClientTypes.LifecycleExpiration?
-        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, ObjectSizeGreaterThan, ObjectSizeLessThan, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element. Tag filters are not supported for directory buckets.
+        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, ObjectSizeGreaterThan, ObjectSizeLessThan, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element. For more information about Tag filters, see [Adding filters to Lifecycle rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-filters.html) in the Amazon S3 User Guide. Tag filters are not supported for directory buckets.
         public var filter: S3ClientTypes.LifecycleRuleFilter?
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public var id: Swift.String?
@@ -7649,7 +7659,7 @@ public struct GetObjectOutput: Swift.Sendable {
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// Provides information about object restoration action and expiration time of the restored object copy. This functionality is not supported for directory buckets. Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones.
     public var restore: Swift.String?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3.
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -8736,7 +8746,7 @@ public struct HeadObjectOutput: Swift.Sendable {
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// If the object is an archived object (an object whose storage class is GLACIER), the response includes this header if either the archive restoration is in progress (see [RestoreObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html) or an archive copy is already restored. If an archive copy is already restored, the header value indicates when Amazon S3 is scheduled to delete the object copy. For example: x-amz-restore: ongoing-request="false", expiry-date="Fri, 21 Dec 2012 00:00:00 GMT" If the object restoration is in progress, the header returns the value ongoing-request="true". For more information about archiving objects, see [Transitioning Objects: General Considerations](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html#lifecycle-transition-general-considerations). This functionality is not supported for directory buckets. Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones.
     public var restore: Swift.String?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -9415,6 +9425,7 @@ extension S3ClientTypes {
     public enum ObjectStorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case expressOnezone
+        case fsxOpenzfs
         case glacier
         case glacierIr
         case intelligentTiering
@@ -9430,6 +9441,7 @@ extension S3ClientTypes {
             return [
                 .deepArchive,
                 .expressOnezone,
+                .fsxOpenzfs,
                 .glacier,
                 .glacierIr,
                 .intelligentTiering,
@@ -9451,6 +9463,7 @@ extension S3ClientTypes {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
             case .expressOnezone: return "EXPRESS_ONEZONE"
+            case .fsxOpenzfs: return "FSX_OPENZFS"
             case .glacier: return "GLACIER"
             case .glacierIr: return "GLACIER_IR"
             case .intelligentTiering: return "INTELLIGENT_TIERING"
@@ -11003,11 +11016,13 @@ public struct PutObjectInput: Swift.Sendable {
     public var objectLockRetainUntilDate: Foundation.Date?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
-    /// The server-side encryption algorithm that was used when you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
+    /// The server-side encryption algorithm that was used when you store this object in Amazon S3 or Amazon FSx.
     ///
     /// * General purpose buckets - You have four mutually exclusive options to protect data using server-side encryption in Amazon S3, depending on how you choose to manage the encryption keys. Specifically, the encryption key options are Amazon S3 managed keys (SSE-S3), Amazon Web Services KMS keys (SSE-KMS or DSSE-KMS), and customer-provided keys (SSE-C). Amazon S3 encrypts data with server-side encryption by using Amazon S3 managed keys (SSE-S3) by default. You can optionally tell Amazon S3 to encrypt data at rest by using server-side encryption with other key options. For more information, see [Using Server-Side Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html) in the Amazon S3 User Guide.
     ///
     /// * Directory buckets - For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html) in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see [Specifying server-side encryption with KMS for new object uploads](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html). In the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)) using the REST API, the encryption request headers must match the encryption settings that are specified in the CreateSession request. You can't override the values of the encryption settings (x-amz-server-side-encryption, x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and x-amz-server-side-encryption-bucket-key-enabled) that are specified in the CreateSession request. You don't need to explicitly specify these encryption settings values in Zonal endpoint API calls, and Amazon S3 will use the encryption settings values from the CreateSession request to protect new objects in the directory bucket. When you use the CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the CreateSession request. It's not supported to override the encryption settings values in the CreateSession request. So in the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)), the encryption request headers must match the default encryption configuration of the directory bucket.
+    ///
+    /// * S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx. All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// Specifies the algorithm to use when encrypting the object (for example, AES256). This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -11145,7 +11160,7 @@ public struct PutObjectOutput: Swift.Sendable {
     public var expiration: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3.
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// The size of the object in bytes. This value is only be present if you append to an object. This functionality is only supported for objects in the Amazon S3 Express One Zone storage class in directory buckets.
     public var size: Swift.Int?
@@ -12575,7 +12590,7 @@ public struct UploadPartOutput: Swift.Sendable {
     public var eTag: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -12773,7 +12788,7 @@ public struct UploadPartCopyOutput: Swift.Sendable {
     public var copySourceVersionId: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -12877,7 +12892,7 @@ public struct WriteGetObjectResponseInput: Swift.Sendable {
     public var requestToken: Swift.String?
     /// Provides information about object restoration operation and expiration time of the restored object copy.
     public var restore: Swift.String?
-    /// The server-side encryption algorithm used when storing requested object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when storing requested object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// Encryption algorithm used if server-side encryption with a customer-provided encryption key was specified for object stored in Amazon S3.
     public var sseCustomerAlgorithm: Swift.String?
@@ -22756,18 +22771,10 @@ extension GetObjectInput {
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObject")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemePreference(value: config.authSchemePreference)
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_URL)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
@@ -22908,18 +22915,10 @@ extension PutObjectInput {
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObject")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemePreference(value: config.authSchemePreference)
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_URL)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
@@ -23001,18 +23000,10 @@ extension UploadPartInput {
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadPart")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemePreference(value: config.authSchemePreference)
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_URL)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
@@ -23073,18 +23064,10 @@ extension GetObjectInput {
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObject")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemePreference(value: config.authSchemePreference)
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_REQUEST)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
@@ -23148,18 +23131,10 @@ extension PutObjectInput {
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObject")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemePreference(value: config.authSchemePreference)
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_REQUEST)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
@@ -23227,18 +23202,10 @@ extension UploadPartInput {
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadPart")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemePreference(value: config.authSchemePreference)
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_REQUEST)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
