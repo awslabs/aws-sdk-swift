@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.3.45"
+    public static let version = "1.3.46"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -7260,7 +7260,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeRoutingProfile` operation on the `Connect` service.
     ///
-    /// Describes the specified routing profile.
+    /// Describes the specified routing profile. DescribeRoutingProfile does not populate AssociatedQueueIds in its response. The example Response Syntax shown on this page is incorrect; we are working to update it. [SearchRoutingProfiles](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchRoutingProfiles.html) does include AssociatedQueueIds.
     ///
     /// - Parameter DescribeRoutingProfileInput : [no documentation found]
     ///
@@ -14584,7 +14584,7 @@ extension ConnectClient {
 
     /// Performs the `SearchRoutingProfiles` operation on the `Connect` service.
     ///
-    /// Searches routing profiles in an Amazon Connect instance, with optional filtering.
+    /// Searches routing profiles in an Amazon Connect instance, with optional filtering. SearchRoutingProfiles does not populate LastModifiedRegion, LastModifiedTime, MediaConcurrencies.CrossChannelBehavior, and AgentAvailabilityTimer in its response, but [DescribeRoutingProfile](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeRoutingProfile.html) does.
     ///
     /// - Parameter SearchRoutingProfilesInput : [no documentation found]
     ///

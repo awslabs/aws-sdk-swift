@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QConnectClient: ClientRuntime.Client {
     public static let clientName = "QConnectClient"
-    public static let version = "1.3.45"
+    public static let version = "1.3.46"
     let client: ClientRuntime.SdkHttpClient
     let config: QConnectClient.QConnectClientConfiguration
     let serviceName = "QConnect"
@@ -457,6 +457,7 @@ extension QConnectClient {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createAIAgent(input: CreateAIAgentInput) async throws -> CreateAIAgentOutput {
         let context = Smithy.ContextBuilder()
@@ -530,6 +531,7 @@ extension QConnectClient {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createAIAgentVersion(input: CreateAIAgentVersionInput) async throws -> CreateAIAgentVersionOutput {
         let context = Smithy.ContextBuilder()
@@ -603,6 +605,7 @@ extension QConnectClient {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createAIGuardrail(input: CreateAIGuardrailInput) async throws -> CreateAIGuardrailOutput {
         let context = Smithy.ContextBuilder()
@@ -676,6 +679,7 @@ extension QConnectClient {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createAIGuardrailVersion(input: CreateAIGuardrailVersionInput) async throws -> CreateAIGuardrailVersionOutput {
         let context = Smithy.ContextBuilder()
@@ -749,6 +753,7 @@ extension QConnectClient {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createAIPrompt(input: CreateAIPromptInput) async throws -> CreateAIPromptOutput {
         let context = Smithy.ContextBuilder()
@@ -822,6 +827,7 @@ extension QConnectClient {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createAIPromptVersion(input: CreateAIPromptVersionInput) async throws -> CreateAIPromptVersionOutput {
         let context = Smithy.ContextBuilder()
@@ -893,6 +899,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createAssistant(input: CreateAssistantInput) async throws -> CreateAssistantOutput {
         let context = Smithy.ContextBuilder()
@@ -1037,6 +1044,7 @@ extension QConnectClient {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createContent(input: CreateContentInput) async throws -> CreateContentOutput {
         let context = Smithy.ContextBuilder()
@@ -1117,6 +1125,7 @@ extension QConnectClient {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createContentAssociation(input: CreateContentAssociationInput) async throws -> CreateContentAssociationOutput {
         let context = Smithy.ContextBuilder()
@@ -1196,6 +1205,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createKnowledgeBase(input: CreateKnowledgeBaseInput) async throws -> CreateKnowledgeBaseOutput {
         let context = Smithy.ContextBuilder()
@@ -1342,6 +1352,7 @@ extension QConnectClient {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createMessageTemplateAttachment(input: CreateMessageTemplateAttachmentInput) async throws -> CreateMessageTemplateAttachmentOutput {
         let context = Smithy.ContextBuilder()
@@ -1485,6 +1496,7 @@ extension QConnectClient {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createQuickResponse(input: CreateQuickResponseInput) async throws -> CreateQuickResponseOutput {
         let context = Smithy.ContextBuilder()
@@ -1556,6 +1568,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutput {
         let context = Smithy.ContextBuilder()
@@ -1698,6 +1711,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteAIAgent(input: DeleteAIAgentInput) async throws -> DeleteAIAgentOutput {
         let context = Smithy.ContextBuilder()
@@ -1766,6 +1780,7 @@ extension QConnectClient {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteAIAgentVersion(input: DeleteAIAgentVersionInput) async throws -> DeleteAIAgentVersionOutput {
         let context = Smithy.ContextBuilder()
@@ -1834,6 +1849,7 @@ extension QConnectClient {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteAIGuardrail(input: DeleteAIGuardrailInput) async throws -> DeleteAIGuardrailOutput {
         let context = Smithy.ContextBuilder()
@@ -1902,6 +1918,7 @@ extension QConnectClient {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteAIGuardrailVersion(input: DeleteAIGuardrailVersionInput) async throws -> DeleteAIGuardrailVersionOutput {
         let context = Smithy.ContextBuilder()
@@ -1969,6 +1986,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteAIPrompt(input: DeleteAIPromptInput) async throws -> DeleteAIPromptOutput {
         let context = Smithy.ContextBuilder()
@@ -2037,6 +2055,7 @@ extension QConnectClient {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteAIPromptVersion(input: DeleteAIPromptVersionInput) async throws -> DeleteAIPromptVersionOutput {
         let context = Smithy.ContextBuilder()
@@ -2103,6 +2122,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteAssistant(input: DeleteAssistantInput) async throws -> DeleteAssistantOutput {
         let context = Smithy.ContextBuilder()
@@ -2169,6 +2189,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteAssistantAssociation(input: DeleteAssistantAssociationInput) async throws -> DeleteAssistantAssociationOutput {
         let context = Smithy.ContextBuilder()
@@ -2236,6 +2257,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteContent(input: DeleteContentInput) async throws -> DeleteContentOutput {
         let context = Smithy.ContextBuilder()
@@ -2302,6 +2324,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteContentAssociation(input: DeleteContentAssociationInput) async throws -> DeleteContentAssociationOutput {
         let context = Smithy.ContextBuilder()
@@ -2369,6 +2392,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteImportJob(input: DeleteImportJobInput) async throws -> DeleteImportJobOutput {
         let context = Smithy.ContextBuilder()
@@ -2436,6 +2460,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteKnowledgeBase(input: DeleteKnowledgeBaseInput) async throws -> DeleteKnowledgeBaseOutput {
         let context = Smithy.ContextBuilder()
@@ -2638,6 +2663,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteQuickResponse(input: DeleteQuickResponseInput) async throws -> DeleteQuickResponseOutput {
         let context = Smithy.ContextBuilder()
@@ -2705,6 +2731,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getAIAgent(input: GetAIAgentInput) async throws -> GetAIAgentOutput {
         let context = Smithy.ContextBuilder()
@@ -2772,6 +2799,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getAIGuardrail(input: GetAIGuardrailInput) async throws -> GetAIGuardrailOutput {
         let context = Smithy.ContextBuilder()
@@ -2839,6 +2867,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getAIPrompt(input: GetAIPromptInput) async throws -> GetAIPromptOutput {
         let context = Smithy.ContextBuilder()
@@ -2905,6 +2934,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getAssistant(input: GetAssistantInput) async throws -> GetAssistantOutput {
         let context = Smithy.ContextBuilder()
@@ -2971,6 +3001,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getAssistantAssociation(input: GetAssistantAssociationInput) async throws -> GetAssistantAssociationOutput {
         let context = Smithy.ContextBuilder()
@@ -3037,6 +3068,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getContent(input: GetContentInput) async throws -> GetContentOutput {
         let context = Smithy.ContextBuilder()
@@ -3103,6 +3135,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getContentAssociation(input: GetContentAssociationInput) async throws -> GetContentAssociationOutput {
         let context = Smithy.ContextBuilder()
@@ -3169,6 +3202,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getContentSummary(input: GetContentSummaryInput) async throws -> GetContentSummaryOutput {
         let context = Smithy.ContextBuilder()
@@ -3301,6 +3335,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getKnowledgeBase(input: GetKnowledgeBaseInput) async throws -> GetKnowledgeBaseOutput {
         let context = Smithy.ContextBuilder()
@@ -3368,6 +3403,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getMessageTemplate(input: GetMessageTemplateInput) async throws -> GetMessageTemplateOutput {
         let context = Smithy.ContextBuilder()
@@ -3501,6 +3537,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getQuickResponse(input: GetQuickResponseInput) async throws -> GetQuickResponseOutput {
         let context = Smithy.ContextBuilder()
@@ -3635,6 +3672,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getSession(input: GetSessionInput) async throws -> GetSessionOutput {
         let context = Smithy.ContextBuilder()
@@ -3702,6 +3740,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func listAIAgentVersions(input: ListAIAgentVersionsInput) async throws -> ListAIAgentVersionsOutput {
         let context = Smithy.ContextBuilder()
@@ -3770,6 +3809,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func listAIAgents(input: ListAIAgentsInput) async throws -> ListAIAgentsOutput {
         let context = Smithy.ContextBuilder()
@@ -3838,6 +3878,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func listAIGuardrailVersions(input: ListAIGuardrailVersionsInput) async throws -> ListAIGuardrailVersionsOutput {
         let context = Smithy.ContextBuilder()
@@ -3906,6 +3947,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func listAIGuardrails(input: ListAIGuardrailsInput) async throws -> ListAIGuardrailsOutput {
         let context = Smithy.ContextBuilder()
@@ -3974,6 +4016,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func listAIPromptVersions(input: ListAIPromptVersionsInput) async throws -> ListAIPromptVersionsOutput {
         let context = Smithy.ContextBuilder()
@@ -4042,6 +4085,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func listAIPrompts(input: ListAIPromptsInput) async throws -> ListAIPromptsOutput {
         let context = Smithy.ContextBuilder()
@@ -4175,6 +4219,7 @@ extension QConnectClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func listAssistants(input: ListAssistantsInput) async throws -> ListAssistantsOutput {
         let context = Smithy.ContextBuilder()
@@ -4242,6 +4287,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func listContentAssociations(input: ListContentAssociationsInput) async throws -> ListContentAssociationsOutput {
         let context = Smithy.ContextBuilder()
@@ -5255,6 +5301,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func searchContent(input: SearchContentInput) async throws -> SearchContentOutput {
         let context = Smithy.ContextBuilder()
@@ -5326,6 +5373,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func searchMessageTemplates(input: SearchMessageTemplatesInput) async throws -> SearchMessageTemplatesOutput {
         let context = Smithy.ContextBuilder()
@@ -5397,6 +5445,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `RequestTimeoutException` : The request reached the service more than 15 minutes after the date stamp on the request or more than 15 minutes after the request expiration date (such as for pre-signed URLs), or the date stamp on the request is more than 15 minutes in the future.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func searchQuickResponses(input: SearchQuickResponsesInput) async throws -> SearchQuickResponsesOutput {
         let context = Smithy.ContextBuilder()
@@ -5467,6 +5516,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func searchSessions(input: SearchSessionsInput) async throws -> SearchSessionsOutput {
         let context = Smithy.ContextBuilder()
@@ -5610,6 +5660,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func startContentUpload(input: StartContentUploadInput) async throws -> StartContentUploadOutput {
         let context = Smithy.ContextBuilder()
@@ -5683,6 +5734,7 @@ extension QConnectClient {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func startImportJob(input: StartImportJobInput) async throws -> StartImportJobOutput {
         let context = Smithy.ContextBuilder()
@@ -5888,6 +5940,7 @@ extension QConnectClient {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func updateAIAgent(input: UpdateAIAgentInput) async throws -> UpdateAIAgentOutput {
         let context = Smithy.ContextBuilder()
@@ -5960,6 +6013,7 @@ extension QConnectClient {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func updateAIGuardrail(input: UpdateAIGuardrailInput) async throws -> UpdateAIGuardrailOutput {
         let context = Smithy.ContextBuilder()
@@ -6032,6 +6086,7 @@ extension QConnectClient {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func updateAIPrompt(input: UpdateAIPromptInput) async throws -> UpdateAIPromptOutput {
         let context = Smithy.ContextBuilder()
@@ -6173,6 +6228,7 @@ extension QConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `PreconditionFailedException` : The provided revisionId does not match, indicating the content has been modified since it was last read.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func updateContent(input: UpdateContentInput) async throws -> UpdateContentOutput {
         let context = Smithy.ContextBuilder()
@@ -6455,6 +6511,7 @@ extension QConnectClient {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `PreconditionFailedException` : The provided revisionId does not match, indicating the content has been modified since it was last read.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func updateQuickResponse(input: UpdateQuickResponseInput) async throws -> UpdateQuickResponseOutput {
         let context = Smithy.ContextBuilder()
@@ -6524,6 +6581,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func updateSession(input: UpdateSessionInput) async throws -> UpdateSessionOutput {
         let context = Smithy.ContextBuilder()
@@ -6593,6 +6651,7 @@ extension QConnectClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func updateSessionData(input: UpdateSessionDataInput) async throws -> UpdateSessionDataOutput {
         let context = Smithy.ContextBuilder()

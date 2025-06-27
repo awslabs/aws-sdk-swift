@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RDSClient: ClientRuntime.Client {
     public static let clientName = "RDSClient"
-    public static let version = "1.3.45"
+    public static let version = "1.3.46"
     let client: ClientRuntime.SdkHttpClient
     let config: RDSClient.RDSClientConfiguration
     let serviceName = "RDS"
@@ -11056,6 +11056,7 @@ extension RDSClient {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `InvalidDBShardGroupStateFault` : The DB shard group must be in the available state.
     public func startDBCluster(input: StartDBClusterInput) async throws -> StartDBClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11420,6 +11421,7 @@ extension RDSClient {
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
+    /// - `InvalidDBShardGroupStateFault` : The DB shard group must be in the available state.
     public func stopDBCluster(input: StopDBClusterInput) async throws -> StopDBClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
