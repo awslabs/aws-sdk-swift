@@ -20,7 +20,7 @@ class CloudWatchErrorTests: XCTestCase {
         self.client = try CloudWatchClient(region: "us-west-2")
     }
 
-    // this test can be removed once smoke tests are run in all builds
+    // this test can be removed when smoke tests are run during all builds
     func test_AmbiguousError() async throws {
         do {
             let response = try await client.getDashboard(input: .init(dashboardName: "foo"))
