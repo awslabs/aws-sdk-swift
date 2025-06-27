@@ -973,7 +973,7 @@ extension SESv2ClientTypes {
         public var templateContent: SESv2ClientTypes.EmailTemplateContent?
         /// An object that defines the values to use for message variables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable.
         public var templateData: Swift.String?
-        /// The name of the template. You will refer to this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations.
+        /// The name of the template. You will refer to this name when you send email using the SendEmail or SendBulkEmail operations.
         public var templateName: Swift.String?
 
         public init(
@@ -2579,14 +2579,17 @@ extension SESv2ClientTypes {
         case awsSesApSoutheast2
         case awsSesApSoutheast3
         case awsSesApSouth1
+        case awsSesApSouth2
         case awsSesCaCentral1
         case awsSesEuCentral1
+        case awsSesEuCentral2
         case awsSesEuNorth1
         case awsSesEuSouth1
         case awsSesEuWest1
         case awsSesEuWest2
         case awsSesEuWest3
         case awsSesIlCentral1
+        case awsSesMeCentral1
         case awsSesMeSouth1
         case awsSesSaEast1
         case awsSesUsEast1
@@ -2607,14 +2610,17 @@ extension SESv2ClientTypes {
                 .awsSesApSoutheast2,
                 .awsSesApSoutheast3,
                 .awsSesApSouth1,
+                .awsSesApSouth2,
                 .awsSesCaCentral1,
                 .awsSesEuCentral1,
+                .awsSesEuCentral2,
                 .awsSesEuNorth1,
                 .awsSesEuSouth1,
                 .awsSesEuWest1,
                 .awsSesEuWest2,
                 .awsSesEuWest3,
                 .awsSesIlCentral1,
+                .awsSesMeCentral1,
                 .awsSesMeSouth1,
                 .awsSesSaEast1,
                 .awsSesUsEast1,
@@ -2641,14 +2647,17 @@ extension SESv2ClientTypes {
             case .awsSesApSoutheast2: return "AWS_SES_AP_SOUTHEAST_2"
             case .awsSesApSoutheast3: return "AWS_SES_AP_SOUTHEAST_3"
             case .awsSesApSouth1: return "AWS_SES_AP_SOUTH_1"
+            case .awsSesApSouth2: return "AWS_SES_AP_SOUTH_2"
             case .awsSesCaCentral1: return "AWS_SES_CA_CENTRAL_1"
             case .awsSesEuCentral1: return "AWS_SES_EU_CENTRAL_1"
+            case .awsSesEuCentral2: return "AWS_SES_EU_CENTRAL_2"
             case .awsSesEuNorth1: return "AWS_SES_EU_NORTH_1"
             case .awsSesEuSouth1: return "AWS_SES_EU_SOUTH_1"
             case .awsSesEuWest1: return "AWS_SES_EU_WEST_1"
             case .awsSesEuWest2: return "AWS_SES_EU_WEST_2"
             case .awsSesEuWest3: return "AWS_SES_EU_WEST_3"
             case .awsSesIlCentral1: return "AWS_SES_IL_CENTRAL_1"
+            case .awsSesMeCentral1: return "AWS_SES_ME_CENTRAL_1"
             case .awsSesMeSouth1: return "AWS_SES_ME_SOUTH_1"
             case .awsSesSaEast1: return "AWS_SES_SA_EAST_1"
             case .awsSesUsEast1: return "AWS_SES_US_EAST_1"
@@ -2724,6 +2733,8 @@ extension SESv2ClientTypes {
         ///
         /// * AWS_SES_AP_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).
         ///
+        /// * AWS_SES_AP_SOUTH_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).
+        ///
         /// * AWS_SES_EU_WEST_3 – Configure DKIM for the identity by replicating from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_EU_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).
@@ -2735,6 +2746,8 @@ extension SESv2ClientTypes {
         /// * AWS_SES_AP_NORTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_AP_NORTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_ME_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_ME_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).
         ///
@@ -2753,6 +2766,8 @@ extension SESv2ClientTypes {
         /// * AWS_SES_AP_SOUTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_EU_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_CENTRAL_2 – Configure DKIM for the identity by replicating from a parent identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_US_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).
         ///
@@ -2884,6 +2899,8 @@ extension SESv2ClientTypes {
         ///
         /// * AWS_SES_AP_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).
         ///
+        /// * AWS_SES_AP_SOUTH_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).
+        ///
         /// * AWS_SES_EU_WEST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_EU_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).
@@ -2895,6 +2912,8 @@ extension SESv2ClientTypes {
         /// * AWS_SES_AP_NORTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_AP_NORTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_ME_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_ME_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).
         ///
@@ -2913,6 +2932,8 @@ extension SESv2ClientTypes {
         /// * AWS_SES_AP_SOUTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_EU_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_CENTRAL_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_US_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).
         ///
@@ -4451,7 +4472,7 @@ extension SESv2ClientTypes {
         ///
         /// * CLICK - The recipient clicked one or more links in the email.
         ///
-        /// * RENDERING_FAILURE - The email wasn't sent because of a template rendering issue. This event type can occur when template data is missing, or when there is a mismatch between template parameters and data. (This event type only occurs when you send email using the [SendTemplatedEmail](https://docs.aws.amazon.com/ses/latest/APIReference/API_SendTemplatedEmail.html) or [SendBulkTemplatedEmail](https://docs.aws.amazon.com/ses/latest/APIReference/API_SendBulkTemplatedEmail.html) API operations.)
+        /// * RENDERING_FAILURE - The email wasn't sent because of a template rendering issue. This event type can occur when template data is missing, or when there is a mismatch between template parameters and data. (This event type only occurs when you send email using the [SendEmail](https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_SendEmail.html) or [SendBulkEmail](https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_SendBulkEmail.html) API operations.)
         ///
         /// * DELIVERY_DELAY - The email couldn't be delivered to the recipient’s mail server because a temporary issue occurred. Delivery delays can occur, for example, when the recipient's inbox is full, or when the receiving email server experiences a transient issue.
         ///
