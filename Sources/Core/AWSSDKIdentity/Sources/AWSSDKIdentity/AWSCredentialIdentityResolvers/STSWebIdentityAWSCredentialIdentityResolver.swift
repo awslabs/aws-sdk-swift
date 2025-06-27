@@ -27,14 +27,42 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
     private let source: STSWebIdentitySource
     private let maxRetries = 3
 
-    public init(
+    internal init(
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil,
         source: STSWebIdentitySource
-    ) {
+    ) throws {
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
         self.source = source
+        guard source != .mixed else {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "STSWebIdentityAWSCredentialIdentityResolver: "
+                + "STSWebIdentitySource must be .env or .configFile for this initializer."
+            )
+        }
+    }
+
+    private var inlineRegion: String?
+    private var inlineRoleARN: String?
+    private var inlineRoleSessionName: String?
+    private var inlineTokenFilePath: String?
+
+    public init(
+        configFilePath: String? = nil,
+        credentialsFilePath: String? = nil,
+        region: String? = nil,
+        roleArn: String? = nil,
+        roleSessionName: String? = nil,
+        tokenFilePath: String? = nil
+    ) throws {
+        self.configFilePath = configFilePath
+        self.credentialsFilePath = credentialsFilePath
+        self.inlineRegion = region
+        self.inlineRoleARN = roleArn
+        self.inlineRoleSessionName = roleSessionName
+        self.inlineTokenFilePath = tokenFilePath
+        self.source = .mixed
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
@@ -81,7 +109,29 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
     }
 
     private func resolveConfiguration() throws -> (String, String, String, String) {
+        let config = try CRTFileBasedConfiguration(
+            configFilePath: configFilePath,
+            credentialsFilePath: credentialsFilePath
+        )
         switch source {
+        case .mixed:
+            let region = try resolveField("region", inlineRegion, "AWS_REGION", "region", config)
+            let roleARN = try resolveField("role ARN", inlineRoleARN, "AWS_ROLE_ARN", "role_arn", config)
+            let tokenFilePath = try resolveField(
+                "token file path",
+                inlineTokenFilePath,
+                "AWS_WEB_IDENTITY_TOKEN_FILE",
+                "web_identity_token_file",
+                config
+            )
+            let roleSessionName = try resolveOptionalField(
+                "role session name",
+                inlineRoleSessionName,
+                "AWS_ROLE_SESSION_NAME",
+                "role_session_name",
+                config
+            ) ?? UUID().uuidString
+            return (region, roleARN, tokenFilePath, roleSessionName)
         case .env:
             let env = ProcessInfo.processInfo.environment
             guard let region = env["AWS_REGION"],
@@ -93,18 +143,54 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
             }
             let roleSessionName = env["AWS_ROLE_SESSION_NAME"] ?? UUID().uuidString
             return (region, roleARN, tokenFilePath, roleSessionName)
-
         case .configFile:
-            let config = try CRTFileBasedConfiguration(
-                configFilePath: configFilePath,
-                credentialsFilePath: credentialsFilePath
-            )
             let region = try resolveField("region", from: config)
             let roleARN = try resolveField("role_arn", from: config)
             let tokenFilePath = try resolveField("web_identity_token_file", from: config)
             let roleSessionName = resolveOptionalField("role_session_name", from: config) ?? UUID().uuidString
             return (region, roleARN, tokenFilePath, roleSessionName)
         }
+    }
+
+    private func resolveField(
+        _ configName: String,
+        _ configValue: String?,
+        _ envVarName: String,
+        _ configFieldName: String,
+        _ config: CRTFileBasedConfiguration,
+        _ profileName: String? = nil
+    ) throws -> String {
+        guard let value = FieldResolver(
+            configValue: configValue,
+            envVarName: envVarName,
+            configFieldName: configFieldName,
+            fileBasedConfig: config,
+            profileName: profileName,
+            converter: { String($0) }
+        ).value else {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "STSWebIdentityAWSCredentialIdentityResolver: Could not resolve \(configName)."
+            )
+        }
+        return value
+    }
+
+    private func resolveOptionalField(
+        _ configName: String,
+        _ configValue: String?,
+        _ envVarName: String,
+        _ configFieldName: String,
+        _ config: CRTFileBasedConfiguration,
+        _ profileName: String? = nil
+    ) throws -> String? {
+        FieldResolver(
+            configValue: configValue,
+            envVarName: envVarName,
+            configFieldName: configFieldName,
+            fileBasedConfig: config,
+            profileName: profileName,
+            converter: { String($0) }
+        ).value
     }
 
     private func resolveField(_ name: String, from config: CRTFileBasedConfiguration) throws -> String {
@@ -145,7 +231,8 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
 // swiftlint:enable type_name
 
 /// Enum used to determine whether `STSWebIdentityAWSCredentialIdentityResolver` looks at environment variables or the shared config profiles.
-public enum STSWebIdentitySource: Sendable {
+internal enum STSWebIdentitySource: Sendable {
     case env
     case configFile
+    case mixed
 }
