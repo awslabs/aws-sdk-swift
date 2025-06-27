@@ -27,7 +27,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
     private let source: STSWebIdentitySource
     private let maxRetries = 3
 
-    internal init(
+    public init(
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil,
         source: STSWebIdentitySource
@@ -231,7 +231,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
 // swiftlint:enable type_name
 
 /// Enum used to determine whether `STSWebIdentityAWSCredentialIdentityResolver` looks at environment variables or the shared config profiles.
-internal enum STSWebIdentitySource: Sendable {
+public enum STSWebIdentitySource: Sendable {
     case env
     case configFile
     case mixed
