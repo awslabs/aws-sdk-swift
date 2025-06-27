@@ -5,14 +5,17 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class AwsCommonRuntimeKit.CredentialsProvider
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
 import struct Foundation.TimeInterval
+import struct Foundation.Date
+import struct Smithy.Attributes
 
 ///  A credential identity resolver that caches the credentials sourced from the provided resolver.
-public struct CachedAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByCRT {
-    public let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
+public actor CachedAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
+    private let underlyingResolver: any AWSCredentialIdentityResolver
+    private let refreshTime: TimeInterval
+    private var lastFetched: Date?
+    private var cachedCredentials: AWSCredentialIdentity?
 
     /// Credentials resolved through this resolver will be cached within it until their expiration time.
     /// When the cached credentials expire, new credentials will be fetched when next queried.
@@ -24,9 +27,26 @@ public struct CachedAWSCredentialIdentityResolver: AWSCredentialIdentityResolved
         source: any AWSCredentialIdentityResolver,
         refreshTime: TimeInterval
     ) throws {
-        self.crtAWSCredentialIdentityResolver = try AwsCommonRuntimeKit.CredentialsProvider(source: .cached(
-            source: try source.getCRTAWSCredentialIdentityResolver(),
-            refreshTime: refreshTime
-        ))
+        self.underlyingResolver = source
+        self.refreshTime = refreshTime
+    }
+
+    public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
+        if let cached = cachedCredentials, !shouldRefreshCredentials() {
+            return cached
+        }
+
+        let creds = try await underlyingResolver.getIdentity(identityProperties: identityProperties)
+        lastFetched = Date()
+        cachedCredentials = creds
+        return creds
+    }
+
+    private func shouldRefreshCredentials() -> Bool {
+        let now = Date()
+        // It's safe to force-unwrap because this line is reached only if credentials have been cached at least once before,
+        //  and the lastFetched is set to a non-nil Date value.
+        let refreshAfter = lastFetched!.addingTimeInterval(refreshTime)
+        return now >= refreshAfter
     }
 }
