@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GeoMapsClient: ClientRuntime.Client {
     public static let clientName = "GeoMapsClient"
-    public static let version = "1.3.44"
+    public static let version = "1.3.45"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoMapsClient.GeoMapsClientConfiguration
     let serviceName = "Geo Maps"
@@ -111,7 +111,7 @@ extension GeoMapsClient {
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        internal let logger: Smithy.LogAgent
+        public let logger: Smithy.LogAgent
 
         private init(
             _ useFIPS: Swift.Bool?,
@@ -376,16 +376,8 @@ extension GeoMapsClient {
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getGlyphs")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemePreference(value: config.authSchemePreference)
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -443,16 +435,8 @@ extension GeoMapsClient {
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getSprites")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemePreference(value: config.authSchemePreference)
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -518,16 +502,8 @@ extension GeoMapsClient {
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getStaticMap")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemePreference(value: config.authSchemePreference)
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -586,16 +562,8 @@ extension GeoMapsClient {
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getStyleDescriptor")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemePreference(value: config.authSchemePreference)
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -662,16 +630,8 @@ extension GeoMapsClient {
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getTile")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemePreference(value: config.authSchemePreference)
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -717,5 +677,4 @@ extension GeoMapsClient {
             .build()
         return try await op.execute(input: input)
     }
-
 }

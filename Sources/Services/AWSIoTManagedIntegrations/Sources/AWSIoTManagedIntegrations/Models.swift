@@ -13,6 +13,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
+import enum Smithy.ClientError
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
@@ -28,6 +29,21 @@ import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
+
+public struct DeleteAccountAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteCloudConnectorOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteConnectorDestinationOutput: Swift.Sendable {
+
+    public init() { }
+}
 
 public struct DeleteCredentialLockerOutput: Swift.Sendable {
 
@@ -69,12 +85,32 @@ public struct DeleteProvisioningProfileOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeregisterAccountAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct PutRuntimeLogConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
 
 public struct ResetRuntimeLogConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateAccountAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateCloudConnectorOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateConnectorDestinationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -217,7 +253,591 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension IoTManagedIntegrationsClientTypes {
 
+    public enum AssociationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associationDeleting
+        case associationFailed
+        case associationInProgress
+        case associationSucceeded
+        case refreshTokenExpired
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssociationState] {
+            return [
+                .associationDeleting,
+                .associationFailed,
+                .associationInProgress,
+                .associationSucceeded,
+                .refreshTokenExpired
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associationDeleting: return "ASSOCIATION_DELETING"
+            case .associationFailed: return "ASSOCIATION_FAILED"
+            case .associationInProgress: return "ASSOCIATION_IN_PROGRESS"
+            case .associationSucceeded: return "ASSOCIATION_SUCCEEDED"
+            case .refreshTokenExpired: return "REFRESH_TOKEN_EXPIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Structure containing information about an account association, including its identifier, state, and related metadata.
+    public struct AccountAssociationItem: Swift.Sendable {
+        /// The unique identifier of the account association.
+        /// This member is required.
+        public var accountAssociationId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the account association.
+        public var arn: Swift.String?
+        /// The current state of the account association, indicating its status in the association lifecycle.
+        /// This member is required.
+        public var associationState: IoTManagedIntegrationsClientTypes.AssociationState?
+        /// The identifier of the connector destination associated with this account association.
+        public var connectorDestinationId: Swift.String?
+        /// A description of the account association.
+        public var description: Swift.String?
+        /// The error message explaining any issues with the account association, if applicable.
+        public var errorMessage: Swift.String?
+        /// The name of the account association.
+        public var name: Swift.String?
+
+        public init(
+            accountAssociationId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            associationState: IoTManagedIntegrationsClientTypes.AssociationState? = nil,
+            connectorDestinationId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.accountAssociationId = accountAssociationId
+            self.arn = arn
+            self.associationState = associationState
+            self.connectorDestinationId = connectorDestinationId
+            self.description = description
+            self.errorMessage = errorMessage
+            self.name = name
+        }
+    }
+}
+
+/// There is a conflict with the request.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// Internal error from the service that indicates an unexpected error or that the service is unavailable.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified resource does not exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// Id of the affected resource
+        public internal(set) var resourceId: Swift.String? = nil
+        /// Type of the affected resource
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+/// The service is temporarily unavailable.
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The rate exceeds the limit.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// A validation error occurred when performing the API request.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateAccountAssociationInput: Swift.Sendable {
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
+    public var clientToken: Swift.String?
+    /// The identifier of the connector destination.
+    /// This member is required.
+    public var connectorDestinationId: Swift.String?
+    /// A description of the account association request.
+    public var description: Swift.String?
+    /// The name of the destination for the new account association.
+    public var name: Swift.String?
+    /// A set of key/value pairs that are used to manage the account association.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        connectorDestinationId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.connectorDestinationId = connectorDestinationId
+        self.description = description
+        self.name = name
+        self.tags = tags
+    }
+}
+
+extension CreateAccountAssociationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAccountAssociationInput(clientToken: \(Swift.String(describing: clientToken)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateAccountAssociationOutput: Swift.Sendable {
+    /// The identifier for the account association request.
+    /// This member is required.
+    public var accountAssociationId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the account association.
+    public var arn: Swift.String?
+    /// The current state of the account association request.
+    /// This member is required.
+    public var associationState: IoTManagedIntegrationsClientTypes.AssociationState?
+    /// Third-party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication.
+    /// This member is required.
+    public var oAuthAuthorizationUrl: Swift.String?
+
+    public init(
+        accountAssociationId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        associationState: IoTManagedIntegrationsClientTypes.AssociationState? = nil,
+        oAuthAuthorizationUrl: Swift.String? = nil
+    ) {
+        self.accountAssociationId = accountAssociationId
+        self.arn = arn
+        self.associationState = associationState
+        self.oAuthAuthorizationUrl = oAuthAuthorizationUrl
+    }
+}
+
+extension CreateAccountAssociationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAccountAssociationOutput(accountAssociationId: \(Swift.String(describing: accountAssociationId)), arn: \(Swift.String(describing: arn)), associationState: \(Swift.String(describing: associationState)), oAuthAuthorizationUrl: \"CONTENT_REDACTED\")"}
+}
+
+public struct DeleteAccountAssociationInput: Swift.Sendable {
+    /// The unique identifier of the account association to be deleted.
+    /// This member is required.
+    public var accountAssociationId: Swift.String?
+
+    public init(
+        accountAssociationId: Swift.String? = nil
+    ) {
+        self.accountAssociationId = accountAssociationId
+    }
+}
+
+public struct GetAccountAssociationInput: Swift.Sendable {
+    /// The unique identifier of the account association to retrieve.
+    /// This member is required.
+    public var accountAssociationId: Swift.String?
+
+    public init(
+        accountAssociationId: Swift.String? = nil
+    ) {
+        self.accountAssociationId = accountAssociationId
+    }
+}
+
+public struct GetAccountAssociationOutput: Swift.Sendable {
+    /// The unique identifier of the retrieved account association.
+    /// This member is required.
+    public var accountAssociationId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the account association.
+    public var arn: Swift.String?
+    /// The current status state for the account association.
+    /// This member is required.
+    public var associationState: IoTManagedIntegrationsClientTypes.AssociationState?
+    /// The identifier of the connector destination associated with this account association.
+    public var connectorDestinationId: Swift.String?
+    /// The description of the account association.
+    public var description: Swift.String?
+    /// The error message explaining the current account association error.
+    public var errorMessage: Swift.String?
+    /// The name of the account association.
+    public var name: Swift.String?
+    /// Third party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication.
+    /// This member is required.
+    public var oAuthAuthorizationUrl: Swift.String?
+    /// A set of key/value pairs that are used to manage the account association.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        accountAssociationId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        associationState: IoTManagedIntegrationsClientTypes.AssociationState? = nil,
+        connectorDestinationId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        name: Swift.String? = nil,
+        oAuthAuthorizationUrl: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.accountAssociationId = accountAssociationId
+        self.arn = arn
+        self.associationState = associationState
+        self.connectorDestinationId = connectorDestinationId
+        self.description = description
+        self.errorMessage = errorMessage
+        self.name = name
+        self.oAuthAuthorizationUrl = oAuthAuthorizationUrl
+        self.tags = tags
+    }
+}
+
+extension GetAccountAssociationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetAccountAssociationOutput(accountAssociationId: \(Swift.String(describing: accountAssociationId)), arn: \(Swift.String(describing: arn)), associationState: \(Swift.String(describing: associationState)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), description: \(Swift.String(describing: description)), errorMessage: \(Swift.String(describing: errorMessage)), name: \(Swift.String(describing: name)), oAuthAuthorizationUrl: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListAccountAssociationsInput: Swift.Sendable {
+    /// The identifier of the connector destination to filter account associations by.
+    public var connectorDestinationId: Swift.String?
+    /// The maximum number of account associations to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A token used for pagination of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        connectorDestinationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.connectorDestinationId = connectorDestinationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAccountAssociationsOutput: Swift.Sendable {
+    /// The list of account associations that match the specified criteria.
+    public var items: [IoTManagedIntegrationsClientTypes.AccountAssociationItem]?
+    /// A token used for pagination of results when there are more account associations than can be returned in a single response.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [IoTManagedIntegrationsClientTypes.AccountAssociationItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct StartAccountAssociationRefreshInput: Swift.Sendable {
+    /// The unique identifier of the account association to refresh.
+    /// This member is required.
+    public var accountAssociationId: Swift.String?
+
+    public init(
+        accountAssociationId: Swift.String? = nil
+    ) {
+        self.accountAssociationId = accountAssociationId
+    }
+}
+
+public struct StartAccountAssociationRefreshOutput: Swift.Sendable {
+    /// Third-party IoT platform OAuth authorization server URL with all required parameters to perform end-user authentication during the refresh process.
+    /// This member is required.
+    public var oAuthAuthorizationUrl: Swift.String?
+
+    public init(
+        oAuthAuthorizationUrl: Swift.String? = nil
+    ) {
+        self.oAuthAuthorizationUrl = oAuthAuthorizationUrl
+    }
+}
+
+extension StartAccountAssociationRefreshOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartAccountAssociationRefreshOutput(oAuthAuthorizationUrl: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateAccountAssociationInput: Swift.Sendable {
+    /// The unique identifier of the account association to update.
+    /// This member is required.
+    public var accountAssociationId: Swift.String?
+    /// The new description to assign to the account association.
+    public var description: Swift.String?
+    /// The new name to assign to the account association.
+    public var name: Swift.String?
+
+    public init(
+        accountAssociationId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.accountAssociationId = accountAssociationId
+        self.description = description
+        self.name = name
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Configuration settings for proactively refreshing OAuth tokens before they expire.
+    public struct ProactiveRefreshTokenRenewal: Swift.Sendable {
+        /// The days before token expiration when the system should attempt to renew the token, specified in days.
+        public var daysBeforeRenewal: Swift.Int?
+        /// Indicates whether proactive refresh token renewal is enabled.
+        public var enabled: Swift.Bool?
+
+        public init(
+            daysBeforeRenewal: Swift.Int? = nil,
+            enabled: Swift.Bool? = nil
+        ) {
+            self.daysBeforeRenewal = daysBeforeRenewal
+            self.enabled = enabled
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    public enum TokenEndpointAuthenticationScheme: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case httpBasic
+        case requestBodyCredentials
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TokenEndpointAuthenticationScheme] {
+            return [
+                .httpBasic,
+                .requestBodyCredentials
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .httpBasic: return "HTTP_BASIC"
+            case .requestBodyCredentials: return "REQUEST_BODY_CREDENTIALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Configuration details for OAuth authentication with a third-party service.
+    public struct OAuthConfig: Swift.Sendable {
+        /// The authorization URL for the OAuth service, where users are directed to authenticate and authorize access.
+        /// This member is required.
+        public var authUrl: Swift.String?
+        /// The URL where users are redirected after completing the OAuth authorization process.
+        public var oAuthCompleteRedirectUrl: Swift.String?
+        /// Configuration for proactively refreshing OAuth tokens before they expire.
+        public var proactiveRefreshTokenRenewal: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal?
+        /// The OAuth scopes requested during authorization, which define the permissions granted to the application.
+        public var scope: Swift.String?
+        /// The authentication scheme used when requesting tokens from the token endpoint.
+        /// This member is required.
+        public var tokenEndpointAuthenticationScheme: IoTManagedIntegrationsClientTypes.TokenEndpointAuthenticationScheme?
+        /// The token URL for the OAuth service, where authorization codes are exchanged for access tokens.
+        /// This member is required.
+        public var tokenUrl: Swift.String?
+
+        public init(
+            authUrl: Swift.String? = nil,
+            oAuthCompleteRedirectUrl: Swift.String? = nil,
+            proactiveRefreshTokenRenewal: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal? = nil,
+            scope: Swift.String? = nil,
+            tokenEndpointAuthenticationScheme: IoTManagedIntegrationsClientTypes.TokenEndpointAuthenticationScheme? = nil,
+            tokenUrl: Swift.String? = nil
+        ) {
+            self.authUrl = authUrl
+            self.oAuthCompleteRedirectUrl = oAuthCompleteRedirectUrl
+            self.proactiveRefreshTokenRenewal = proactiveRefreshTokenRenewal
+            self.scope = scope
+            self.tokenEndpointAuthenticationScheme = tokenEndpointAuthenticationScheme
+            self.tokenUrl = tokenUrl
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// The authentication configuration details for a connector destination, including OAuth settings and other authentication parameters.
+    public struct AuthConfig: Swift.Sendable {
+        /// The OAuth configuration settings used for authentication with the third-party service.
+        public var oAuth: IoTManagedIntegrationsClientTypes.OAuthConfig?
+
+        public init(
+            oAuth: IoTManagedIntegrationsClientTypes.OAuthConfig? = nil
+        ) {
+            self.oAuth = oAuth
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Structure containing updated OAuth configuration settings.
+    public struct OAuthUpdate: Swift.Sendable {
+        /// The updated URL where users are redirected after completing the OAuth authorization process.
+        public var oAuthCompleteRedirectUrl: Swift.String?
+        /// Updated configuration for proactively refreshing OAuth tokens before they expire.
+        public var proactiveRefreshTokenRenewal: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal?
+
+        public init(
+            oAuthCompleteRedirectUrl: Swift.String? = nil,
+            proactiveRefreshTokenRenewal: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal? = nil
+        ) {
+            self.oAuthCompleteRedirectUrl = oAuthCompleteRedirectUrl
+            self.proactiveRefreshTokenRenewal = proactiveRefreshTokenRenewal
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// The updated authentication configuration details for a connector destination.
+    public struct AuthConfigUpdate: Swift.Sendable {
+        /// The updated OAuth configuration settings for the authentication configuration.
+        public var oAuthUpdate: IoTManagedIntegrationsClientTypes.OAuthUpdate?
+
+        public init(
+            oAuthUpdate: IoTManagedIntegrationsClientTypes.OAuthUpdate? = nil
+        ) {
+            self.oAuthUpdate = oAuthUpdate
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
     public enum AuthMaterialType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customProtocolQrBarCode
+        case discoveredDevice
         case wifiSetupQrBarCode
         case zigbeeQrBarCode
         case zwaveQrBarCode
@@ -225,6 +845,8 @@ extension IoTManagedIntegrationsClientTypes {
 
         public static var allCases: [AuthMaterialType] {
             return [
+                .customProtocolQrBarCode,
+                .discoveredDevice,
                 .wifiSetupQrBarCode,
                 .zigbeeQrBarCode,
                 .zwaveQrBarCode
@@ -238,9 +860,37 @@ extension IoTManagedIntegrationsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .customProtocolQrBarCode: return "CUSTOM_PROTOCOL_QR_BAR_CODE"
+            case .discoveredDevice: return "DISCOVERED_DEVICE"
             case .wifiSetupQrBarCode: return "WIFI_SETUP_QR_BAR_CODE"
             case .zigbeeQrBarCode: return "ZIGBEE_QR_BAR_CODE"
             case .zwaveQrBarCode: return "ZWAVE_QR_BAR_CODE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    public enum AuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case oauth
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthType] {
+            return [
+                .oauth
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .oauth: return "OAUTH"
             case let .sdkUnknown(s): return s
             }
         }
@@ -374,6 +1024,352 @@ extension IoTManagedIntegrationsClientTypes {
 
 extension IoTManagedIntegrationsClientTypes {
 
+    public enum SchemaVersionFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case connector
+        case zcl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SchemaVersionFormat] {
+            return [
+                .aws,
+                .connector,
+                .zcl
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .connector: return "CONNECTOR"
+            case .zcl: return "ZCL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Structure representing a capability schema item that defines the functionality and features supported by a managed thing.
+    public struct CapabilitySchemaItem: Swift.Sendable {
+        /// The unique identifier of the capability defined in the schema.
+        /// This member is required.
+        public var capabilityId: Swift.String?
+        /// The external identifier for the capability, used when referencing the capability outside of the AWS ecosystem.
+        /// This member is required.
+        public var extrinsicId: Swift.String?
+        /// The version of the external capability definition, used to track compatibility with external systems.
+        /// This member is required.
+        public var extrinsicVersion: Swift.Int?
+        /// The format of the capability schema, which defines how the schema is structured and interpreted.
+        /// This member is required.
+        public var format: IoTManagedIntegrationsClientTypes.SchemaVersionFormat?
+        /// The actual schema definition that describes the capability's properties, actions, and events.
+        /// This member is required.
+        public var schema: Smithy.Document?
+
+        public init(
+            capabilityId: Swift.String? = nil,
+            extrinsicId: Swift.String? = nil,
+            extrinsicVersion: Swift.Int? = nil,
+            format: IoTManagedIntegrationsClientTypes.SchemaVersionFormat? = nil,
+            schema: Smithy.Document? = nil
+        ) {
+            self.capabilityId = capabilityId
+            self.extrinsicId = extrinsicId
+            self.extrinsicVersion = extrinsicVersion
+            self.format = format
+            self.schema = schema
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Configuration details for an AWS Lambda function used as an endpoint for a cloud connector.
+    public struct LambdaConfig: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Lambda function used as an endpoint.
+        /// This member is required.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        ) {
+            self.arn = arn
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// The configuration details for an endpoint, which defines how to connect to and communicate with external services.
+    public struct EndpointConfig: Swift.Sendable {
+        /// The Lambda function configuration for the endpoint, used when the endpoint communicates through an AWS Lambda function.
+        public var lambda: IoTManagedIntegrationsClientTypes.LambdaConfig?
+
+        public init(
+            lambda: IoTManagedIntegrationsClientTypes.LambdaConfig? = nil
+        ) {
+            self.lambda = lambda
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    public enum EndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lambda
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointType] {
+            return [
+                .lambda
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lambda: return "LAMBDA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateCloudConnectorInput: Swift.Sendable {
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
+    public var clientToken: Swift.String?
+    /// A description of the C2C connector.
+    public var description: Swift.String?
+    /// The configuration details for the cloud connector endpoint, including connection parameters and authentication requirements.
+    /// This member is required.
+    public var endpointConfig: IoTManagedIntegrationsClientTypes.EndpointConfig?
+    /// The type of endpoint used for the cloud connector, which defines how the connector communicates with external services.
+    public var endpointType: IoTManagedIntegrationsClientTypes.EndpointType?
+    /// The display name of the C2C connector.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        endpointConfig: IoTManagedIntegrationsClientTypes.EndpointConfig? = nil,
+        endpointType: IoTManagedIntegrationsClientTypes.EndpointType? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.endpointConfig = endpointConfig
+        self.endpointType = endpointType
+        self.name = name
+    }
+}
+
+public struct CreateCloudConnectorOutput: Swift.Sendable {
+    /// The unique identifier assigned to the newly created cloud connector.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct DeleteCloudConnectorInput: Swift.Sendable {
+    /// The identifier of the cloud connector.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetCloudConnectorInput: Swift.Sendable {
+    /// The identifier of the C2C connector.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    public enum CloudConnectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case listed
+        case unlisted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CloudConnectorType] {
+            return [
+                .listed,
+                .unlisted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .listed: return "LISTED"
+            case .unlisted: return "UNLISTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetCloudConnectorOutput: Swift.Sendable {
+    /// A description of the C2C connector.
+    public var description: Swift.String?
+    /// The configuration details for the cloud connector endpoint, including connection parameters and authentication requirements.
+    /// This member is required.
+    public var endpointConfig: IoTManagedIntegrationsClientTypes.EndpointConfig?
+    /// The type of endpoint used for the cloud connector, which defines how the connector communicates with external services.
+    public var endpointType: IoTManagedIntegrationsClientTypes.EndpointType?
+    /// The unique identifier of the cloud connector.
+    public var id: Swift.String?
+    /// The display name of the C2C connector.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The type of cloud connector created.
+    public var type: IoTManagedIntegrationsClientTypes.CloudConnectorType?
+
+    public init(
+        description: Swift.String? = nil,
+        endpointConfig: IoTManagedIntegrationsClientTypes.EndpointConfig? = nil,
+        endpointType: IoTManagedIntegrationsClientTypes.EndpointType? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        type: IoTManagedIntegrationsClientTypes.CloudConnectorType? = nil
+    ) {
+        self.description = description
+        self.endpointConfig = endpointConfig
+        self.endpointType = endpointType
+        self.id = id
+        self.name = name
+        self.type = type
+    }
+}
+
+public struct ListCloudConnectorsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Lambda function to filter cloud connectors by.
+    public var lambdaArn: Swift.String?
+    /// The maximum number of results to return at one time.
+    public var maxResults: Swift.Int?
+    /// A token that can be used to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The type of cloud connectors to filter by when listing available connectors.
+    public var type: IoTManagedIntegrationsClientTypes.CloudConnectorType?
+
+    public init(
+        lambdaArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        type: IoTManagedIntegrationsClientTypes.CloudConnectorType? = nil
+    ) {
+        self.lambdaArn = lambdaArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.type = type
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Structure describing a connector.
+    public struct ConnectorItem: Swift.Sendable {
+        /// A description of the C2C connector.
+        public var description: Swift.String?
+        /// The configuration details for the cloud connector endpoint, including connection parameters and authentication requirements.
+        /// This member is required.
+        public var endpointConfig: IoTManagedIntegrationsClientTypes.EndpointConfig?
+        /// The type of endpoint used for the C2C connector.
+        public var endpointType: IoTManagedIntegrationsClientTypes.EndpointType?
+        /// The identifier of the C2C connector.
+        public var id: Swift.String?
+        /// The display name of the C2C connector.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of cloud connector created.
+        public var type: IoTManagedIntegrationsClientTypes.CloudConnectorType?
+
+        public init(
+            description: Swift.String? = nil,
+            endpointConfig: IoTManagedIntegrationsClientTypes.EndpointConfig? = nil,
+            endpointType: IoTManagedIntegrationsClientTypes.EndpointType? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: IoTManagedIntegrationsClientTypes.CloudConnectorType? = nil
+        ) {
+            self.description = description
+            self.endpointConfig = endpointConfig
+            self.endpointType = endpointType
+            self.id = id
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+public struct ListCloudConnectorsOutput: Swift.Sendable {
+    /// The list of connectors.
+    public var items: [IoTManagedIntegrationsClientTypes.ConnectorItem]?
+    /// A token that can be used to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [IoTManagedIntegrationsClientTypes.ConnectorItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateCloudConnectorInput: Swift.Sendable {
+    /// The new description to assign to the cloud connector.
+    public var description: Swift.String?
+    /// The unique identifier of the cloud connector to update.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The new display name to assign to the cloud connector.
+    public var name: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.description = description
+        self.identifier = identifier
+        self.name = name
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
     /// The command capabilities added for the managed thing
     public struct CommandCapability: Swift.Sendable {
         /// Describe the command capability with the actions it supports.
@@ -495,49 +1491,265 @@ extension IoTManagedIntegrationsClientTypes {
     }
 }
 
-/// There is a conflict with the request.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension IoTManagedIntegrationsClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
+    /// Structure containing summary information about a connector destination, which defines how a cloud-to-cloud connector connects to a customer's AWS account.
+    public struct ConnectorDestinationSummary: Swift.Sendable {
+        /// The identifier of the cloud connector associated with this connector destination.
+        public var cloudConnectorId: Swift.String?
+        /// A description of the connector destination.
+        public var description: Swift.String?
+        /// The unique identifier of the connector destination.
+        public var id: Swift.String?
+        /// The display name of the connector destination.
+        public var name: Swift.String?
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
+        public init(
+            cloudConnectorId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.cloudConnectorId = cloudConnectorId
+            self.description = description
+            self.id = id
+            self.name = name
+        }
     }
 }
 
-/// Internal error from the service that indicates an unexpected error or that the service is unavailable.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension IoTManagedIntegrationsClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
+    /// Configuration for AWS Secrets Manager, used to securely store and manage sensitive information for connector destinations.
+    public struct SecretsManager: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The version ID of the AWS Secrets Manager secret.
+        /// This member is required.
+        public var versionId: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.versionId = versionId
+        }
     }
+}
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServerException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+public struct CreateConnectorDestinationInput: Swift.Sendable {
+    /// The authentication configuration details for the connector destination, including OAuth settings and other authentication parameters.
+    /// This member is required.
+    public var authConfig: IoTManagedIntegrationsClientTypes.AuthConfig?
+    /// The authentication type used for the connector destination, which determines how credentials and access are managed.
+    /// This member is required.
+    public var authType: IoTManagedIntegrationsClientTypes.AuthType?
+    /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
+    public var clientToken: Swift.String?
+    /// The identifier of the C2C connector.
+    /// This member is required.
+    public var cloudConnectorId: Swift.String?
+    /// A description of the connector destination.
+    public var description: Swift.String?
+    /// The display name of the connector destination.
+    public var name: Swift.String?
+    /// The AWS Secrets Manager configuration used to securely store and manage sensitive information for the connector destination.
+    /// This member is required.
+    public var secretsManager: IoTManagedIntegrationsClientTypes.SecretsManager?
 
     public init(
-        message: Swift.String? = nil
+        authConfig: IoTManagedIntegrationsClientTypes.AuthConfig? = nil,
+        authType: IoTManagedIntegrationsClientTypes.AuthType? = nil,
+        clientToken: Swift.String? = nil,
+        cloudConnectorId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        secretsManager: IoTManagedIntegrationsClientTypes.SecretsManager? = nil
     ) {
-        self.properties.message = message
+        self.authConfig = authConfig
+        self.authType = authType
+        self.clientToken = clientToken
+        self.cloudConnectorId = cloudConnectorId
+        self.description = description
+        self.name = name
+        self.secretsManager = secretsManager
+    }
+}
+
+public struct CreateConnectorDestinationOutput: Swift.Sendable {
+    /// The identifier of the C2C connector destination creation request.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct DeleteConnectorDestinationInput: Swift.Sendable {
+    /// The identifier of the connector destination.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetConnectorDestinationInput: Swift.Sendable {
+    /// The identifier of the C2C connector destination.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetConnectorDestinationOutput: Swift.Sendable {
+    /// The authentication configuration details for the connector destination, including OAuth settings and other authentication parameters.
+    public var authConfig: IoTManagedIntegrationsClientTypes.AuthConfig?
+    /// The authentication type used for the connector destination, which determines how credentials and access are managed.
+    public var authType: IoTManagedIntegrationsClientTypes.AuthType?
+    /// The identifier of the C2C connector.
+    public var cloudConnectorId: Swift.String?
+    /// A description of the connector destination.
+    public var description: Swift.String?
+    /// The unique identifier of the connector destination.
+    public var id: Swift.String?
+    /// The display name of the connector destination.
+    public var name: Swift.String?
+    /// The URL where users are redirected after completing the OAuth authorization process for the connector destination.
+    public var oAuthCompleteRedirectUrl: Swift.String?
+    /// The AWS Secrets Manager configuration used to securely store and manage sensitive information for the connector destination.
+    public var secretsManager: IoTManagedIntegrationsClientTypes.SecretsManager?
+
+    public init(
+        authConfig: IoTManagedIntegrationsClientTypes.AuthConfig? = nil,
+        authType: IoTManagedIntegrationsClientTypes.AuthType? = nil,
+        cloudConnectorId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        oAuthCompleteRedirectUrl: Swift.String? = nil,
+        secretsManager: IoTManagedIntegrationsClientTypes.SecretsManager? = nil
+    ) {
+        self.authConfig = authConfig
+        self.authType = authType
+        self.cloudConnectorId = cloudConnectorId
+        self.description = description
+        self.id = id
+        self.name = name
+        self.oAuthCompleteRedirectUrl = oAuthCompleteRedirectUrl
+        self.secretsManager = secretsManager
+    }
+}
+
+public struct ListConnectorDestinationsInput: Swift.Sendable {
+    /// The identifier of the cloud connector to filter connector destinations by.
+    public var cloudConnectorId: Swift.String?
+    /// The maximum number of connector destinations to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A token used for pagination of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        cloudConnectorId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.cloudConnectorId = cloudConnectorId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListConnectorDestinationsOutput: Swift.Sendable {
+    /// The list of connector destinations that match the specified criteria.
+    public var connectorDestinationList: [IoTManagedIntegrationsClientTypes.ConnectorDestinationSummary]?
+    /// A token used for pagination of results when there are more connector destinations than can be returned in a single response.
+    public var nextToken: Swift.String?
+
+    public init(
+        connectorDestinationList: [IoTManagedIntegrationsClientTypes.ConnectorDestinationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.connectorDestinationList = connectorDestinationList
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateConnectorDestinationInput: Swift.Sendable {
+    /// The updated authentication configuration details for the connector destination.
+    public var authConfig: IoTManagedIntegrationsClientTypes.AuthConfigUpdate?
+    /// The new authentication type to use for the connector destination.
+    public var authType: IoTManagedIntegrationsClientTypes.AuthType?
+    /// The new description to assign to the connector destination.
+    public var description: Swift.String?
+    /// The unique identifier of the connector destination to update.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The new display name to assign to the connector destination.
+    public var name: Swift.String?
+    /// The updated AWS Secrets Manager configuration for the connector destination.
+    public var secretsManager: IoTManagedIntegrationsClientTypes.SecretsManager?
+
+    public init(
+        authConfig: IoTManagedIntegrationsClientTypes.AuthConfigUpdate? = nil,
+        authType: IoTManagedIntegrationsClientTypes.AuthType? = nil,
+        description: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        secretsManager: IoTManagedIntegrationsClientTypes.SecretsManager? = nil
+    ) {
+        self.authConfig = authConfig
+        self.authType = authType
+        self.description = description
+        self.identifier = identifier
+        self.name = name
+        self.secretsManager = secretsManager
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    public enum ConnectorEventOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deviceCommandRequest
+        case deviceCommandResponse
+        case deviceDiscovery
+        case deviceEvent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorEventOperation] {
+            return [
+                .deviceCommandRequest,
+                .deviceCommandResponse,
+                .deviceDiscovery,
+                .deviceEvent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deviceCommandRequest: return "DEVICE_COMMAND_REQUEST"
+            case .deviceCommandResponse: return "DEVICE_COMMAND_RESPONSE"
+            case .deviceDiscovery: return "DEVICE_DISCOVERY"
+            case .deviceEvent: return "DEVICE_EVENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -550,75 +1762,6 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The service is temporarily unavailable.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceUnavailableException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The rate exceeds the limit.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// A validation error occurred when performing the API request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -720,6 +1863,7 @@ public struct CreateDestinationInput: Swift.Sendable {
     /// This member is required.
     public var roleArn: Swift.String?
     /// A set of key/value pairs that are used to manage the destination.
+    @available(*, deprecated, message: "Tags have been deprecated from this api API deprecated since 06-25-2025")
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -828,29 +1972,6 @@ public struct CreateEventLogConfigurationOutput: Swift.Sendable {
     }
 }
 
-/// The specified resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// You are not authorized to perform this operation.
 public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -916,13 +2037,15 @@ public struct CreateManagedThingInput: Swift.Sendable {
     public var capabilities: Swift.String?
     /// A report of the capabilities for the managed thing.
     public var capabilityReport: IoTManagedIntegrationsClientTypes.CapabilityReport?
+    /// The capability schemas that define the functionality and features supported by the managed thing, including device capabilities and their associated properties.
+    public var capabilitySchemas: [IoTManagedIntegrationsClientTypes.CapabilitySchemaItem]?
     /// The classification of the managed thing such as light bulb or thermostat.
     public var classification: Swift.String?
     /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
     public var clientToken: Swift.String?
     /// The identifier of the credential for the managed thing.
     public var credentialLockerId: Swift.String?
-    /// The metadata for the managed thing.
+    /// The metadata for the managed thing. The managedThingmetadata parameter is used for associating attributes with a managedThing that can be used for grouping over-the-air (OTA) tasks. Name value pairs in metadata can be used in the OtaTargetQueryString parameter for the CreateOtaTask API operation.
     public var metaData: [Swift.String: Swift.String]?
     /// The model of the device.
     public var model: Swift.String?
@@ -944,6 +2067,7 @@ public struct CreateManagedThingInput: Swift.Sendable {
         brand: Swift.String? = nil,
         capabilities: Swift.String? = nil,
         capabilityReport: IoTManagedIntegrationsClientTypes.CapabilityReport? = nil,
+        capabilitySchemas: [IoTManagedIntegrationsClientTypes.CapabilitySchemaItem]? = nil,
         classification: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         credentialLockerId: Swift.String? = nil,
@@ -960,6 +2084,7 @@ public struct CreateManagedThingInput: Swift.Sendable {
         self.brand = brand
         self.capabilities = capabilities
         self.capabilityReport = capabilityReport
+        self.capabilitySchemas = capabilitySchemas
         self.classification = classification
         self.clientToken = clientToken
         self.credentialLockerId = credentialLockerId
@@ -975,7 +2100,7 @@ public struct CreateManagedThingInput: Swift.Sendable {
 
 extension CreateManagedThingInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateManagedThingInput(authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), capabilities: \(Swift.String(describing: capabilities)), capabilityReport: \(Swift.String(describing: capabilityReport)), clientToken: \(Swift.String(describing: clientToken)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), role: \(Swift.String(describing: role)), authenticationMaterial: \"CONTENT_REDACTED\", brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateManagedThingInput(authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), capabilities: \(Swift.String(describing: capabilities)), capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), clientToken: \(Swift.String(describing: clientToken)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), role: \(Swift.String(describing: role)), authenticationMaterial: \"CONTENT_REDACTED\", brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateManagedThingOutput: Swift.Sendable {
@@ -1000,10 +2125,12 @@ public struct CreateManagedThingOutput: Swift.Sendable {
 extension IoTManagedIntegrationsClientTypes {
 
     public enum EventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountAssociation
         case connectorAssociation
         case connectorErrorReport
         case deviceCommand
         case deviceCommandRequest
+        case deviceDiscoveryStatus
         case deviceEvent
         case deviceLifeCycle
         case deviceOta
@@ -1012,10 +2139,12 @@ extension IoTManagedIntegrationsClientTypes {
 
         public static var allCases: [EventType] {
             return [
+                .accountAssociation,
                 .connectorAssociation,
                 .connectorErrorReport,
                 .deviceCommand,
                 .deviceCommandRequest,
+                .deviceDiscoveryStatus,
                 .deviceEvent,
                 .deviceLifeCycle,
                 .deviceOta,
@@ -1030,10 +2159,12 @@ extension IoTManagedIntegrationsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .accountAssociation: return "ACCOUNT_ASSOCIATION"
             case .connectorAssociation: return "CONNECTOR_ASSOCIATION"
             case .connectorErrorReport: return "CONNECTOR_ERROR_REPORT"
             case .deviceCommand: return "DEVICE_COMMAND"
             case .deviceCommandRequest: return "DEVICE_COMMAND_REQUEST"
+            case .deviceDiscoveryStatus: return "DEVICE_DISCOVERY_STATUS"
             case .deviceEvent: return "DEVICE_EVENT"
             case .deviceLifeCycle: return "DEVICE_LIFE_CYCLE"
             case .deviceOta: return "DEVICE_OTA"
@@ -1054,6 +2185,7 @@ public struct CreateNotificationConfigurationInput: Swift.Sendable {
     /// This member is required.
     public var eventType: IoTManagedIntegrationsClientTypes.EventType?
     /// A set of key/value pairs that are used to manage the notification configuration.
+    @available(*, deprecated, message: "Tags has been deprecated from this api API deprecated since 06-25-2025")
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -1812,6 +2944,29 @@ public struct DeleteNotificationConfigurationInput: Swift.Sendable {
     }
 }
 
+/// The request exceeds a service limit or quota. Adjust your request parameters and try again.
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct DeleteOtaTaskInput: Swift.Sendable {
     /// The identifier of the over-the-air (OTA) task.
     /// This member is required.
@@ -1845,6 +3000,24 @@ public struct DeleteProvisioningProfileInput: Swift.Sendable {
         identifier: Swift.String? = nil
     ) {
         self.identifier = identifier
+    }
+}
+
+/// Request for deregister a managed thing from account association
+public struct DeregisterAccountAssociationInput: Swift.Sendable {
+    /// The unique identifier of the account association to be deregistered.
+    /// This member is required.
+    public var accountAssociationId: Swift.String?
+    /// The identifier of the managed thing to be deregistered from the account association.
+    /// This member is required.
+    public var managedThingId: Swift.String?
+
+    public init(
+        accountAssociationId: Swift.String? = nil,
+        managedThingId: Swift.String? = nil
+    ) {
+        self.accountAssociationId = accountAssociationId
+        self.managedThingId = managedThingId
     }
 }
 
@@ -1905,6 +3078,7 @@ public struct GetDestinationOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the delivery destination role.
     public var roleArn: Swift.String?
     /// A set of key/value pairs that are used to manage the customer-managed destination.
+    @available(*, deprecated, message: "Tags has been deprecated from this api API deprecated since 06-25-2025")
     public var tags: [Swift.String: Swift.String]?
     /// The timestamp value of when the destination update requset occurred.
     public var updatedAt: Foundation.Date?
@@ -1993,22 +3167,192 @@ public struct UpdateDestinationInput: Swift.Sendable {
     }
 }
 
-public struct GetDeviceDiscoveryInput: Swift.Sendable {
-    /// The id of the device discovery job request.
-    /// This member is required.
-    public var identifier: Swift.String?
+extension IoTManagedIntegrationsClientTypes {
 
-    public init(
-        identifier: Swift.String? = nil
-    ) {
-        self.identifier = identifier
+    /// Matter attribute used in capability report.
+    public struct MatterCapabilityReportAttribute: Swift.Sendable {
+        /// The id of the Matter attribute.
+        public var id: Swift.String?
+        /// Name for the Amazon Web Services Matter capability report attribute.
+        public var name: Swift.String?
+        /// Value for the Amazon Web Services Matter capability report attribute.
+        public var value: Smithy.Document?
+
+        public init(
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            value: Smithy.Document? = nil
+        ) {
+            self.id = id
+            self.name = name
+            self.value = value
+        }
     }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Capability used in Matter capability report.
+    public struct MatterCapabilityReportCluster: Swift.Sendable {
+        /// The attributes of the Amazon Web Services Matter capability report.
+        public var attributes: [IoTManagedIntegrationsClientTypes.MatterCapabilityReportAttribute]?
+        /// The commands used with the Amazon Web Services Matter capability report.
+        public var commands: [Swift.String]?
+        /// The events used with the Amazon Web Services Matter capability report.
+        public var events: [Swift.String]?
+        /// The fabric index for the Amazon Web Services Matter capability report.
+        public var fabricIndex: Swift.Int?
+        /// 32 bit-map used to indicate which features a cluster supports.
+        public var featureMap: Swift.Int?
+        /// Matter clusters used in capability report.
+        public var generatedCommands: [Swift.String]?
+        /// The id of the Amazon Web Services Matter capability report cluster.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The capability name used in the Amazon Web Services Matter capability report.
+        public var name: Swift.String?
+        /// The id of the schema version.
+        public var publicId: Swift.String?
+        /// The id of the revision for the Amazon Web Services Matter capability report.
+        /// This member is required.
+        public var revision: Swift.Int?
+        /// The spec version used in the Amazon Web Services Matter capability report.
+        public var specVersion: Swift.String?
+
+        public init(
+            attributes: [IoTManagedIntegrationsClientTypes.MatterCapabilityReportAttribute]? = nil,
+            commands: [Swift.String]? = nil,
+            events: [Swift.String]? = nil,
+            fabricIndex: Swift.Int? = nil,
+            featureMap: Swift.Int? = nil,
+            generatedCommands: [Swift.String]? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            publicId: Swift.String? = nil,
+            revision: Swift.Int? = nil,
+            specVersion: Swift.String? = nil
+        ) {
+            self.attributes = attributes
+            self.commands = commands
+            self.events = events
+            self.fabricIndex = fabricIndex
+            self.featureMap = featureMap
+            self.generatedCommands = generatedCommands
+            self.id = id
+            self.name = name
+            self.publicId = publicId
+            self.revision = revision
+            self.specVersion = specVersion
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Matter endpoint used in capability report.
+    public struct MatterCapabilityReportEndpoint: Swift.Sendable {
+        /// Semantic information related to endpoint.
+        public var clientClusters: [Swift.String]?
+        /// Matter clusters used in capability report.
+        /// This member is required.
+        public var clusters: [IoTManagedIntegrationsClientTypes.MatterCapabilityReportCluster]?
+        /// The type of device.
+        /// This member is required.
+        public var deviceTypes: [Swift.String]?
+        /// The id of the Amazon Web Services Matter capability report endpoint.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Heirachy of child endpoints contained in the given endpoint.
+        public var parts: [Swift.String]?
+        /// Semantic information related to endpoint.
+        public var semanticTags: [Swift.String]?
+
+        public init(
+            clientClusters: [Swift.String]? = nil,
+            clusters: [IoTManagedIntegrationsClientTypes.MatterCapabilityReportCluster]? = nil,
+            deviceTypes: [Swift.String]? = nil,
+            id: Swift.String? = nil,
+            parts: [Swift.String]? = nil,
+            semanticTags: [Swift.String]? = nil
+        ) {
+            self.clientClusters = clientClusters
+            self.clusters = clusters
+            self.deviceTypes = deviceTypes
+            self.id = id
+            self.parts = parts
+            self.semanticTags = semanticTags
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Matter based capability report.
+    public struct MatterCapabilityReport: Swift.Sendable {
+        /// The endpoints used in the capability report.
+        /// This member is required.
+        public var endpoints: [IoTManagedIntegrationsClientTypes.MatterCapabilityReportEndpoint]?
+        /// The numeric identifier of the node.
+        public var nodeId: Swift.String?
+        /// The version of the capability report.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            endpoints: [IoTManagedIntegrationsClientTypes.MatterCapabilityReportEndpoint]? = nil,
+            nodeId: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.endpoints = endpoints
+            self.nodeId = nodeId
+            self.version = version
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Describe the device using the relevant metadata and supported clusters for device discovery.
+    public struct Device: Swift.Sendable {
+        /// The capability report for the device.
+        /// This member is required.
+        public var capabilityReport: IoTManagedIntegrationsClientTypes.MatterCapabilityReport?
+        /// Report of all capabilities supported by the device.
+        public var capabilitySchemas: [IoTManagedIntegrationsClientTypes.CapabilitySchemaItem]?
+        /// The device id as defined by the connector. This parameter is used for cloud-to-cloud devices only.
+        /// This member is required.
+        public var connectorDeviceId: Swift.String?
+        /// The name of the device as defined by the connector.
+        public var connectorDeviceName: Swift.String?
+        /// The metadata attributes for a device.
+        public var deviceMetadata: Smithy.Document?
+
+        public init(
+            capabilityReport: IoTManagedIntegrationsClientTypes.MatterCapabilityReport? = nil,
+            capabilitySchemas: [IoTManagedIntegrationsClientTypes.CapabilitySchemaItem]? = nil,
+            connectorDeviceId: Swift.String? = nil,
+            connectorDeviceName: Swift.String? = nil,
+            deviceMetadata: Smithy.Document? = nil
+        ) {
+            self.capabilityReport = capabilityReport
+            self.capabilitySchemas = capabilitySchemas
+            self.connectorDeviceId = connectorDeviceId
+            self.connectorDeviceName = connectorDeviceName
+            self.deviceMetadata = deviceMetadata
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.Device: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Device(capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), deviceMetadata: \(Swift.String(describing: deviceMetadata)), connectorDeviceId: \"CONTENT_REDACTED\", connectorDeviceName: \"CONTENT_REDACTED\")"}
 }
 
 extension IoTManagedIntegrationsClientTypes {
 
     public enum DiscoveryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cloud
+        case custom
         case zigbee
         case zwave
         case sdkUnknown(Swift.String)
@@ -2016,6 +3360,7 @@ extension IoTManagedIntegrationsClientTypes {
         public static var allCases: [DiscoveryType] {
             return [
                 .cloud,
+                .custom,
                 .zigbee,
                 .zwave
             ]
@@ -2029,6 +3374,7 @@ extension IoTManagedIntegrationsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cloud: return "CLOUD"
+            case .custom: return "CUSTOM"
             case .zigbee: return "ZIGBEE"
             case .zwave: return "ZWAVE"
             case let .sdkUnknown(s): return s
@@ -2072,11 +3418,49 @@ extension IoTManagedIntegrationsClientTypes {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Structure containing summary information about a device discovery job, including its identifier, type, and status.
+    public struct DeviceDiscoverySummary: Swift.Sendable {
+        /// The type of discovery process used to find devices.
+        public var discoveryType: IoTManagedIntegrationsClientTypes.DiscoveryType?
+        /// The unique identifier of the device discovery job.
+        public var id: Swift.String?
+        /// The current status of the device discovery job.
+        public var status: IoTManagedIntegrationsClientTypes.DeviceDiscoveryStatus?
+
+        public init(
+            discoveryType: IoTManagedIntegrationsClientTypes.DiscoveryType? = nil,
+            id: Swift.String? = nil,
+            status: IoTManagedIntegrationsClientTypes.DeviceDiscoveryStatus? = nil
+        ) {
+            self.discoveryType = discoveryType
+            self.id = id
+            self.status = status
+        }
+    }
+}
+
+public struct GetDeviceDiscoveryInput: Swift.Sendable {
+    /// The id of the device discovery job request.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
 public struct GetDeviceDiscoveryOutput: Swift.Sendable {
+    /// The identifier of the account association used for the device discovery.
+    public var accountAssociationId: Swift.String?
     /// The Amazon Resource Name (ARN) of the device discovery job request.
     /// This member is required.
     public var arn: Swift.String?
     /// The ID tracking the current discovery process for one connector association.
+    @available(*, deprecated, message: "ConnectorAssociationId has been deprecated API deprecated since 2025-06-25")
     public var connectorAssociationId: Swift.String?
     /// The id of the end-user's IoT hub.
     public var controllerId: Swift.String?
@@ -2095,9 +3479,11 @@ public struct GetDeviceDiscoveryOutput: Swift.Sendable {
     /// This member is required.
     public var status: IoTManagedIntegrationsClientTypes.DeviceDiscoveryStatus?
     /// A set of key/value pairs that are used to manage the device discovery request.
+    @available(*, deprecated, message: "Tags have been deprecated from this api API deprecated since 06-25-2025")
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        accountAssociationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         connectorAssociationId: Swift.String? = nil,
         controllerId: Swift.String? = nil,
@@ -2108,6 +3494,7 @@ public struct GetDeviceDiscoveryOutput: Swift.Sendable {
         status: IoTManagedIntegrationsClientTypes.DeviceDiscoveryStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.accountAssociationId = accountAssociationId
         self.arn = arn
         self.connectorAssociationId = connectorAssociationId
         self.controllerId = controllerId
@@ -2122,7 +3509,164 @@ public struct GetDeviceDiscoveryOutput: Swift.Sendable {
 
 extension GetDeviceDiscoveryOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDeviceDiscoveryOutput(arn: \(Swift.String(describing: arn)), connectorAssociationId: \(Swift.String(describing: connectorAssociationId)), controllerId: \(Swift.String(describing: controllerId)), discoveryType: \(Swift.String(describing: discoveryType)), finishedAt: \(Swift.String(describing: finishedAt)), id: \(Swift.String(describing: id)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), tags: \"CONTENT_REDACTED\")"}
+        "GetDeviceDiscoveryOutput(accountAssociationId: \(Swift.String(describing: accountAssociationId)), arn: \(Swift.String(describing: arn)), connectorAssociationId: \(Swift.String(describing: connectorAssociationId)), controllerId: \(Swift.String(describing: controllerId)), discoveryType: \(Swift.String(describing: discoveryType)), finishedAt: \(Swift.String(describing: finishedAt)), id: \(Swift.String(describing: id)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListDeviceDiscoveriesInput: Swift.Sendable {
+    /// The maximum number of device discovery jobs to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A token used for pagination of results.
+    public var nextToken: Swift.String?
+    /// The status to filter device discovery jobs by.
+    public var statusFilter: IoTManagedIntegrationsClientTypes.DeviceDiscoveryStatus?
+    /// The discovery type to filter device discovery jobs by.
+    public var typeFilter: IoTManagedIntegrationsClientTypes.DiscoveryType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        statusFilter: IoTManagedIntegrationsClientTypes.DeviceDiscoveryStatus? = nil,
+        typeFilter: IoTManagedIntegrationsClientTypes.DiscoveryType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.statusFilter = statusFilter
+        self.typeFilter = typeFilter
+    }
+}
+
+public struct ListDeviceDiscoveriesOutput: Swift.Sendable {
+    /// The list of device discovery jobs that match the specified criteria.
+    public var items: [IoTManagedIntegrationsClientTypes.DeviceDiscoverySummary]?
+    /// A token used for pagination of results when there are more device discovery jobs than can be returned in a single response.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [IoTManagedIntegrationsClientTypes.DeviceDiscoverySummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDiscoveredDevicesInput: Swift.Sendable {
+    /// The identifier of the device discovery job to list discovered devices for.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The maximum number of discovered devices to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A token used for pagination of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    public enum DiscoveryModification: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case discovered
+        case noChange
+        case updated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiscoveryModification] {
+            return [
+                .discovered,
+                .noChange,
+                .updated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .discovered: return "DISCOVERED"
+            case .noChange: return "NO_CHANGE"
+            case .updated: return "UPDATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Structure containing summary information about a device discovered during a device discovery job.
+    public struct DiscoveredDeviceSummary: Swift.Sendable {
+        /// The authentication material required for connecting to the discovered device, such as credentials or tokens.
+        public var authenticationMaterial: Swift.String?
+        /// The brand of the discovered device.
+        public var brand: Swift.String?
+        /// The third-party device identifier as defined by the connector. This identifier must not contain personal identifiable information (PII).
+        public var connectorDeviceId: Swift.String?
+        /// The name of the device as defined by the connector or third-party system.
+        public var connectorDeviceName: Swift.String?
+        /// The list of device types or categories that the discovered device belongs to.
+        public var deviceTypes: [Swift.String]?
+        /// The timestamp indicating when the device was discovered.
+        public var discoveredAt: Foundation.Date?
+        /// The identifier of the managed thing created for this discovered device, if one exists.
+        public var managedThingId: Swift.String?
+        /// The model of the discovered device.
+        public var model: Swift.String?
+        /// The status of the discovered device, indicating whether it has been added, removed, or modified since the last discovery.
+        public var modification: IoTManagedIntegrationsClientTypes.DiscoveryModification?
+
+        public init(
+            authenticationMaterial: Swift.String? = nil,
+            brand: Swift.String? = nil,
+            connectorDeviceId: Swift.String? = nil,
+            connectorDeviceName: Swift.String? = nil,
+            deviceTypes: [Swift.String]? = nil,
+            discoveredAt: Foundation.Date? = nil,
+            managedThingId: Swift.String? = nil,
+            model: Swift.String? = nil,
+            modification: IoTManagedIntegrationsClientTypes.DiscoveryModification? = nil
+        ) {
+            self.authenticationMaterial = authenticationMaterial
+            self.brand = brand
+            self.connectorDeviceId = connectorDeviceId
+            self.connectorDeviceName = connectorDeviceName
+            self.deviceTypes = deviceTypes
+            self.discoveredAt = discoveredAt
+            self.managedThingId = managedThingId
+            self.model = model
+            self.modification = modification
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.DiscoveredDeviceSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DiscoveredDeviceSummary(deviceTypes: \(Swift.String(describing: deviceTypes)), discoveredAt: \(Swift.String(describing: discoveredAt)), managedThingId: \(Swift.String(describing: managedThingId)), modification: \(Swift.String(describing: modification)), authenticationMaterial: \"CONTENT_REDACTED\", brand: \"CONTENT_REDACTED\", connectorDeviceId: \"CONTENT_REDACTED\", connectorDeviceName: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListDiscoveredDevicesOutput: Swift.Sendable {
+    /// The list of discovered devices that match the specified criteria.
+    public var items: [IoTManagedIntegrationsClientTypes.DiscoveredDeviceSummary]?
+    /// A token used for pagination of results when there are more discovered devices than can be returned in a single response.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [IoTManagedIntegrationsClientTypes.DiscoveredDeviceSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
 }
 
 extension IoTManagedIntegrationsClientTypes {
@@ -2152,6 +3696,8 @@ extension IoTManagedIntegrationsClientTypes {
 }
 
 public struct StartDeviceDiscoveryInput: Swift.Sendable {
+    /// The identifier of the cloud-to-cloud account association to use for discovery of third-party devices.
+    public var accountAssociationId: Swift.String?
     /// The authentication material required to start the local device discovery job request.
     public var authenticationMaterial: Swift.String?
     /// The type of authentication material used for device discovery jobs.
@@ -2159,29 +3705,37 @@ public struct StartDeviceDiscoveryInput: Swift.Sendable {
     /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
     public var clientToken: Swift.String?
     /// The id of the connector association.
+    @available(*, deprecated, message: "ConnectorAssociationIdentifier is deprecated API deprecated since 06-25-2025")
     public var connectorAssociationIdentifier: Swift.String?
     /// The id of the end-user's IoT hub.
     public var controllerIdentifier: Swift.String?
-    /// The discovery type supporting the type of device to be discovered in the device discovery job request.
+    /// Additional protocol-specific details required for device discovery, which vary based on the discovery type. For a DiscoveryType of CUSTOM, the string-to-string map must have a key value of Name set to a non-empty-string.
+    public var customProtocolDetail: [Swift.String: Swift.String]?
+    /// The discovery type supporting the type of device to be discovered in the device discovery task request.
     /// This member is required.
     public var discoveryType: IoTManagedIntegrationsClientTypes.DiscoveryType?
     /// A set of key/value pairs that are used to manage the device discovery request.
+    @available(*, deprecated, message: "Tags have been deprecated from this api API deprecated since 06-25-2025")
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        accountAssociationId: Swift.String? = nil,
         authenticationMaterial: Swift.String? = nil,
         authenticationMaterialType: IoTManagedIntegrationsClientTypes.DiscoveryAuthMaterialType? = nil,
         clientToken: Swift.String? = nil,
         connectorAssociationIdentifier: Swift.String? = nil,
         controllerIdentifier: Swift.String? = nil,
+        customProtocolDetail: [Swift.String: Swift.String]? = nil,
         discoveryType: IoTManagedIntegrationsClientTypes.DiscoveryType? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.accountAssociationId = accountAssociationId
         self.authenticationMaterial = authenticationMaterial
         self.authenticationMaterialType = authenticationMaterialType
         self.clientToken = clientToken
         self.connectorAssociationIdentifier = connectorAssociationIdentifier
         self.controllerIdentifier = controllerIdentifier
+        self.customProtocolDetail = customProtocolDetail
         self.discoveryType = discoveryType
         self.tags = tags
     }
@@ -2189,7 +3743,7 @@ public struct StartDeviceDiscoveryInput: Swift.Sendable {
 
 extension StartDeviceDiscoveryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartDeviceDiscoveryInput(authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), clientToken: \(Swift.String(describing: clientToken)), connectorAssociationIdentifier: \(Swift.String(describing: connectorAssociationIdentifier)), controllerIdentifier: \(Swift.String(describing: controllerIdentifier)), discoveryType: \(Swift.String(describing: discoveryType)), authenticationMaterial: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "StartDeviceDiscoveryInput(accountAssociationId: \(Swift.String(describing: accountAssociationId)), authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), clientToken: \(Swift.String(describing: clientToken)), connectorAssociationIdentifier: \(Swift.String(describing: connectorAssociationIdentifier)), controllerIdentifier: \(Swift.String(describing: controllerIdentifier)), customProtocolDetail: \(Swift.String(describing: customProtocolDetail)), discoveryType: \(Swift.String(describing: discoveryType)), authenticationMaterial: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartDeviceDiscoveryOutput: Swift.Sendable {
@@ -2595,9 +4149,12 @@ public struct GetManagedThingOutput: Swift.Sendable {
     public var brand: Swift.String?
     /// The classification of the managed thing such as light bulb or thermostat.
     public var classification: Swift.String?
+    /// The identifier of the connector destination associated with this managed thing.
+    public var connectorDestinationId: Swift.String?
     /// The third-party device id as defined by the connector. This device id must not contain personal identifiable information (PII). This parameter is used for cloud-to-cloud devices only.
     public var connectorDeviceId: Swift.String?
     /// The id of the connector policy. This parameter is used for cloud-to-cloud devices only.
+    @available(*, deprecated, message: "ConnectorPolicyId is deprecated API deprecated since 2025-06-25")
     public var connectorPolicyId: Swift.String?
     /// The timestamp value of when the device creation request occurred.
     public var createdAt: Foundation.Date?
@@ -2642,6 +4199,7 @@ public struct GetManagedThingOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         brand: Swift.String? = nil,
         classification: Swift.String? = nil,
+        connectorDestinationId: Swift.String? = nil,
         connectorDeviceId: Swift.String? = nil,
         connectorPolicyId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
@@ -2668,6 +4226,7 @@ public struct GetManagedThingOutput: Swift.Sendable {
         self.arn = arn
         self.brand = brand
         self.classification = classification
+        self.connectorDestinationId = connectorDestinationId
         self.connectorDeviceId = connectorDeviceId
         self.connectorPolicyId = connectorPolicyId
         self.createdAt = createdAt
@@ -2693,7 +4252,7 @@ public struct GetManagedThingOutput: Swift.Sendable {
 
 extension GetManagedThingOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetManagedThingOutput(activatedAt: \(Swift.String(describing: activatedAt)), advertisedProductId: \(Swift.String(describing: advertisedProductId)), arn: \(Swift.String(describing: arn)), connectorPolicyId: \(Swift.String(describing: connectorPolicyId)), createdAt: \(Swift.String(describing: createdAt)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), hubNetworkMode: \(Swift.String(describing: hubNetworkMode)), id: \(Swift.String(describing: id)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), parentControllerId: \(Swift.String(describing: parentControllerId)), provisioningStatus: \(Swift.String(describing: provisioningStatus)), role: \(Swift.String(describing: role)), updatedAt: \(Swift.String(describing: updatedAt)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", connectorDeviceId: \"CONTENT_REDACTED\", deviceSpecificKey: \"CONTENT_REDACTED\", internationalArticleNumber: \"CONTENT_REDACTED\", macAddress: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\", universalProductCode: \"CONTENT_REDACTED\")"}
+        "GetManagedThingOutput(activatedAt: \(Swift.String(describing: activatedAt)), advertisedProductId: \(Swift.String(describing: advertisedProductId)), arn: \(Swift.String(describing: arn)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), connectorPolicyId: \(Swift.String(describing: connectorPolicyId)), createdAt: \(Swift.String(describing: createdAt)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), hubNetworkMode: \(Swift.String(describing: hubNetworkMode)), id: \(Swift.String(describing: id)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), parentControllerId: \(Swift.String(describing: parentControllerId)), provisioningStatus: \(Swift.String(describing: provisioningStatus)), role: \(Swift.String(describing: role)), updatedAt: \(Swift.String(describing: updatedAt)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", connectorDeviceId: \"CONTENT_REDACTED\", deviceSpecificKey: \"CONTENT_REDACTED\", internationalArticleNumber: \"CONTENT_REDACTED\", macAddress: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\", universalProductCode: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetManagedThingCapabilitiesInput: Swift.Sendable {
@@ -2889,6 +4448,7 @@ public struct GetNotificationConfigurationOutput: Swift.Sendable {
     /// The type of event triggering a device notification to the customer-managed destination.
     public var eventType: IoTManagedIntegrationsClientTypes.EventType?
     /// A set of key/value pairs that are used to manage the notification configuration.
+    @available(*, deprecated, message: "Tags has been deprecated for this api API deprecated since 06-25-2025")
     public var tags: [Swift.String: Swift.String]?
     /// The timestamp value of when the notification configuration was last updated.
     public var updatedAt: Foundation.Date?
@@ -3033,6 +4593,8 @@ public struct GetOtaTaskOutput: Swift.Sendable {
     public var s3Url: Swift.String?
     /// The status of the over-the-air (OTA) task.
     public var status: IoTManagedIntegrationsClientTypes.OtaStatus?
+    /// A set of key/value pairs that are used to manage the over-the-air (OTA) task.
+    public var tags: [Swift.String: Swift.String]?
     /// The device targeted for the over-the-air (OTA) task.
     public var target: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the over-the-air (OTA) task
@@ -3056,6 +4618,7 @@ public struct GetOtaTaskOutput: Swift.Sendable {
         `protocol`: IoTManagedIntegrationsClientTypes.OtaProtocol? = nil,
         s3Url: Swift.String? = nil,
         status: IoTManagedIntegrationsClientTypes.OtaStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         target: [Swift.String]? = nil,
         taskArn: Swift.String? = nil,
         taskConfigurationId: Swift.String? = nil,
@@ -3073,12 +4636,18 @@ public struct GetOtaTaskOutput: Swift.Sendable {
         self.`protocol` = `protocol`
         self.s3Url = s3Url
         self.status = status
+        self.tags = tags
         self.target = target
         self.taskArn = taskArn
         self.taskConfigurationId = taskConfigurationId
         self.taskId = taskId
         self.taskProcessingDetails = taskProcessingDetails
     }
+}
+
+extension GetOtaTaskOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetOtaTaskOutput(protocol: \(Swift.String(describing: `protocol`)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), otaMechanism: \(Swift.String(describing: otaMechanism)), otaSchedulingConfig: \(Swift.String(describing: otaSchedulingConfig)), otaTargetQueryString: \(Swift.String(describing: otaTargetQueryString)), otaTaskExecutionRetryConfig: \(Swift.String(describing: otaTaskExecutionRetryConfig)), otaType: \(Swift.String(describing: otaType)), s3Url: \(Swift.String(describing: s3Url)), status: \(Swift.String(describing: status)), target: \(Swift.String(describing: target)), taskArn: \(Swift.String(describing: taskArn)), taskConfigurationId: \(Swift.String(describing: taskConfigurationId)), taskId: \(Swift.String(describing: taskId)), taskProcessingDetails: \(Swift.String(describing: taskProcessingDetails)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetOtaTaskConfigurationInput: Swift.Sendable {
@@ -3245,38 +4814,6 @@ public struct GetRuntimeLogConfigurationOutput: Swift.Sendable {
 
 extension IoTManagedIntegrationsClientTypes {
 
-    public enum SchemaVersionFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case aws
-        case connector
-        case zcl
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SchemaVersionFormat] {
-            return [
-                .aws,
-                .connector,
-                .zcl
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .aws: return "AWS"
-            case .connector: return "CONNECTOR"
-            case .zcl: return "ZCL"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes {
-
     public enum SchemaVersionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capability
         case definition
@@ -3412,6 +4949,29 @@ public struct PutHubConfigurationOutput: Swift.Sendable {
     }
 }
 
+/// The request is not valid.
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct PutDefaultEncryptionConfigurationInput: Swift.Sendable {
     /// The type of encryption used for the encryption configuration.
     /// This member is required.
@@ -3449,8 +5009,137 @@ public struct PutDefaultEncryptionConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The ARN of the resource for which to list tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// A set of key/value pairs that are used to manage the resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
+extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListTagsForResourceOutput(tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListManagedThingAccountAssociationsInput: Swift.Sendable {
+    /// The identifier of the account association to filter results by. When specified, only associations with this account association ID will be returned.
+    public var accountAssociationId: Swift.String?
+    /// The identifier of the managed thing to list account associations for.
+    public var managedThingId: Swift.String?
+    /// The maximum number of account associations to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A token used for pagination of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountAssociationId: Swift.String? = nil,
+        managedThingId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accountAssociationId = accountAssociationId
+        self.managedThingId = managedThingId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Structure representing an association between a managed thing and an account association, which connects a device to a third-party account.
+    public struct ManagedThingAssociation: Swift.Sendable {
+        /// The identifier of the account association in the association.
+        public var accountAssociationId: Swift.String?
+        /// The identifier of the managed thing in the association.
+        public var managedThingId: Swift.String?
+
+        public init(
+            accountAssociationId: Swift.String? = nil,
+            managedThingId: Swift.String? = nil
+        ) {
+            self.accountAssociationId = accountAssociationId
+            self.managedThingId = managedThingId
+        }
+    }
+}
+
+public struct ListManagedThingAccountAssociationsOutput: Swift.Sendable {
+    /// The list of managed thing associations that match the specified criteria, including the managed thing ID and account association ID for each association.
+    public var items: [IoTManagedIntegrationsClientTypes.ManagedThingAssociation]?
+    /// A token used for pagination of results when there are more account associations than can be returned in a single response.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [IoTManagedIntegrationsClientTypes.ManagedThingAssociation]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct RegisterAccountAssociationInput: Swift.Sendable {
+    /// The identifier of the account association to register with the managed thing.
+    /// This member is required.
+    public var accountAssociationId: Swift.String?
+    /// The identifier of the device discovery job associated with this registration.
+    /// This member is required.
+    public var deviceDiscoveryId: Swift.String?
+    /// The identifier of the managed thing to register with the account association.
+    /// This member is required.
+    public var managedThingId: Swift.String?
+
+    public init(
+        accountAssociationId: Swift.String? = nil,
+        deviceDiscoveryId: Swift.String? = nil,
+        managedThingId: Swift.String? = nil
+    ) {
+        self.accountAssociationId = accountAssociationId
+        self.deviceDiscoveryId = deviceDiscoveryId
+        self.managedThingId = managedThingId
+    }
+}
+
+public struct RegisterAccountAssociationOutput: Swift.Sendable {
+    /// The identifier of the account association that was registered.
+    public var accountAssociationId: Swift.String?
+    /// The identifier of the device discovery job associated with this registration.
+    public var deviceDiscoveryId: Swift.String?
+    /// The identifier of the managed thing that was registered with the account association.
+    public var managedThingId: Swift.String?
+
+    public init(
+        accountAssociationId: Swift.String? = nil,
+        deviceDiscoveryId: Swift.String? = nil,
+        managedThingId: Swift.String? = nil
+    ) {
+        self.accountAssociationId = accountAssociationId
+        self.deviceDiscoveryId = deviceDiscoveryId
+        self.managedThingId = managedThingId
+    }
+}
+
 public struct SendManagedThingCommandInput: Swift.Sendable {
+    /// The identifier of the account association to use when sending a command to a managed thing.
+    public var accountAssociationId: Swift.String?
     /// The ID tracking the current discovery process for one connector association.
+    @available(*, deprecated, message: "ConnectorAssociationId has been deprecated API deprecated since 06-25-2025")
     public var connectorAssociationId: Swift.String?
     /// The device endpoint.
     /// This member is required.
@@ -3460,10 +5149,12 @@ public struct SendManagedThingCommandInput: Swift.Sendable {
     public var managedThingId: Swift.String?
 
     public init(
+        accountAssociationId: Swift.String? = nil,
         connectorAssociationId: Swift.String? = nil,
         endpoints: [IoTManagedIntegrationsClientTypes.CommandEndpoint]? = nil,
         managedThingId: Swift.String? = nil
     ) {
+        self.accountAssociationId = accountAssociationId
         self.connectorAssociationId = connectorAssociationId
         self.endpoints = endpoints
         self.managedThingId = managedThingId
@@ -3482,7 +5173,12 @@ public struct SendManagedThingCommandOutput: Swift.Sendable {
 }
 
 public struct ListManagedThingsInput: Swift.Sendable {
+    /// Filter managed things by the connector destination ID they are associated with.
+    public var connectorDestinationIdFilter: Swift.String?
+    /// Filter managed things by the connector device ID they are associated with. When specified, only managed things with this connector device ID will be returned.
+    public var connectorDeviceIdFilter: Swift.String?
     /// Filter on a connector policy id for a managed thing.
+    @available(*, deprecated, message: "ConnectorPolicyIdFilter is deprecated API deprecated since 06-25-2025")
     public var connectorPolicyIdFilter: Swift.String?
     /// Filter on a credential locker for a managed thing.
     public var credentialLockerFilter: Swift.String?
@@ -3502,6 +5198,8 @@ public struct ListManagedThingsInput: Swift.Sendable {
     public var serialNumberFilter: Swift.String?
 
     public init(
+        connectorDestinationIdFilter: Swift.String? = nil,
+        connectorDeviceIdFilter: Swift.String? = nil,
         connectorPolicyIdFilter: Swift.String? = nil,
         credentialLockerFilter: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -3512,6 +5210,8 @@ public struct ListManagedThingsInput: Swift.Sendable {
         roleFilter: IoTManagedIntegrationsClientTypes.Role? = nil,
         serialNumberFilter: Swift.String? = nil
     ) {
+        self.connectorDestinationIdFilter = connectorDestinationIdFilter
+        self.connectorDeviceIdFilter = connectorDeviceIdFilter
         self.connectorPolicyIdFilter = connectorPolicyIdFilter
         self.credentialLockerFilter = credentialLockerFilter
         self.maxResults = maxResults
@@ -3526,7 +5226,7 @@ public struct ListManagedThingsInput: Swift.Sendable {
 
 extension ListManagedThingsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListManagedThingsInput(connectorPolicyIdFilter: \(Swift.String(describing: connectorPolicyIdFilter)), credentialLockerFilter: \(Swift.String(describing: credentialLockerFilter)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), parentControllerIdentifierFilter: \(Swift.String(describing: parentControllerIdentifierFilter)), provisioningStatusFilter: \(Swift.String(describing: provisioningStatusFilter)), roleFilter: \(Swift.String(describing: roleFilter)), ownerFilter: \"CONTENT_REDACTED\", serialNumberFilter: \"CONTENT_REDACTED\")"}
+        "ListManagedThingsInput(connectorDestinationIdFilter: \(Swift.String(describing: connectorDestinationIdFilter)), connectorPolicyIdFilter: \(Swift.String(describing: connectorPolicyIdFilter)), credentialLockerFilter: \(Swift.String(describing: credentialLockerFilter)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), parentControllerIdentifierFilter: \(Swift.String(describing: parentControllerIdentifierFilter)), provisioningStatusFilter: \(Swift.String(describing: provisioningStatusFilter)), roleFilter: \(Swift.String(describing: roleFilter)), connectorDeviceIdFilter: \"CONTENT_REDACTED\", ownerFilter: \"CONTENT_REDACTED\", serialNumberFilter: \"CONTENT_REDACTED\")"}
 }
 
 extension IoTManagedIntegrationsClientTypes {
@@ -3543,9 +5243,12 @@ extension IoTManagedIntegrationsClientTypes {
         public var brand: Swift.String?
         /// The classification of the managed thing such as light bulb or thermostat.
         public var classification: Swift.String?
+        /// The identifier of the connector destination associated with this managed thing, if applicable.
+        public var connectorDestinationId: Swift.String?
         /// The third-party device id as defined by the connector. This device id must not contain personal identifiable information (PII). This parameter is used for cloud-to-cloud devices only.
         public var connectorDeviceId: Swift.String?
         /// The id of the connector policy. This parameter is used for cloud-to-cloud devices only.
+        @available(*, deprecated, message: "ConnectorPolicyId has been deprecated API deprecated since 06-25-2025")
         public var connectorPolicyId: Swift.String?
         /// The timestamp value of when the device creation request occurred.
         public var createdAt: Foundation.Date?
@@ -3576,6 +5279,7 @@ extension IoTManagedIntegrationsClientTypes {
             arn: Swift.String? = nil,
             brand: Swift.String? = nil,
             classification: Swift.String? = nil,
+            connectorDestinationId: Swift.String? = nil,
             connectorDeviceId: Swift.String? = nil,
             connectorPolicyId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
@@ -3595,6 +5299,7 @@ extension IoTManagedIntegrationsClientTypes {
             self.arn = arn
             self.brand = brand
             self.classification = classification
+            self.connectorDestinationId = connectorDestinationId
             self.connectorDeviceId = connectorDeviceId
             self.connectorPolicyId = connectorPolicyId
             self.createdAt = createdAt
@@ -3614,7 +5319,7 @@ extension IoTManagedIntegrationsClientTypes {
 
 extension IoTManagedIntegrationsClientTypes.ManagedThingSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ManagedThingSummary(activatedAt: \(Swift.String(describing: activatedAt)), advertisedProductId: \(Swift.String(describing: advertisedProductId)), arn: \(Swift.String(describing: arn)), connectorPolicyId: \(Swift.String(describing: connectorPolicyId)), createdAt: \(Swift.String(describing: createdAt)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), parentControllerId: \(Swift.String(describing: parentControllerId)), provisioningStatus: \(Swift.String(describing: provisioningStatus)), role: \(Swift.String(describing: role)), updatedAt: \(Swift.String(describing: updatedAt)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", connectorDeviceId: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\")"}
+        "ManagedThingSummary(activatedAt: \(Swift.String(describing: activatedAt)), advertisedProductId: \(Swift.String(describing: advertisedProductId)), arn: \(Swift.String(describing: arn)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), connectorPolicyId: \(Swift.String(describing: connectorPolicyId)), createdAt: \(Swift.String(describing: createdAt)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), parentControllerId: \(Swift.String(describing: parentControllerId)), provisioningStatus: \(Swift.String(describing: provisioningStatus)), role: \(Swift.String(describing: role)), updatedAt: \(Swift.String(describing: updatedAt)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", connectorDeviceId: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListManagedThingsOutput: Swift.Sendable {
@@ -3705,6 +5410,8 @@ public struct UpdateManagedThingInput: Swift.Sendable {
     public var capabilities: Swift.String?
     /// A report of the capabilities for the managed thing.
     public var capabilityReport: IoTManagedIntegrationsClientTypes.CapabilityReport?
+    /// The updated capability schemas that define the functionality and features supported by the managed thing.
+    public var capabilitySchemas: [IoTManagedIntegrationsClientTypes.CapabilitySchemaItem]?
     /// The classification of the managed thing such as light bulb or thermostat.
     public var classification: Swift.String?
     /// The identifier of the credential for the managed thing.
@@ -3729,6 +5436,7 @@ public struct UpdateManagedThingInput: Swift.Sendable {
         brand: Swift.String? = nil,
         capabilities: Swift.String? = nil,
         capabilityReport: IoTManagedIntegrationsClientTypes.CapabilityReport? = nil,
+        capabilitySchemas: [IoTManagedIntegrationsClientTypes.CapabilitySchemaItem]? = nil,
         classification: Swift.String? = nil,
         credentialLockerId: Swift.String? = nil,
         hubNetworkMode: IoTManagedIntegrationsClientTypes.HubNetworkMode? = nil,
@@ -3742,6 +5450,7 @@ public struct UpdateManagedThingInput: Swift.Sendable {
         self.brand = brand
         self.capabilities = capabilities
         self.capabilityReport = capabilityReport
+        self.capabilitySchemas = capabilitySchemas
         self.classification = classification
         self.credentialLockerId = credentialLockerId
         self.hubNetworkMode = hubNetworkMode
@@ -3756,7 +5465,7 @@ public struct UpdateManagedThingInput: Swift.Sendable {
 
 extension UpdateManagedThingInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateManagedThingInput(capabilities: \(Swift.String(describing: capabilities)), capabilityReport: \(Swift.String(describing: capabilityReport)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), hubNetworkMode: \(Swift.String(describing: hubNetworkMode)), identifier: \(Swift.String(describing: identifier)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\")"}
+        "UpdateManagedThingInput(capabilities: \(Swift.String(describing: capabilities)), capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), hubNetworkMode: \(Swift.String(describing: hubNetworkMode)), identifier: \(Swift.String(describing: identifier)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListNotificationConfigurationsInput: Swift.Sendable {
@@ -4293,6 +6002,203 @@ public struct ListSchemaVersionsOutput: Swift.Sendable {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Describe a Matter cluster with an id, and the relevant attributes, commands, and events.
+    public struct MatterCluster: Swift.Sendable {
+        /// The Matter attributes.
+        public var attributes: Smithy.Document?
+        /// Describe the Matter commands with the Matter command identifier mapped to the command fields.
+        public var commands: [Swift.String: Smithy.Document]?
+        /// Describe the Matter events with the Matter event identifier mapped to the event fields.
+        public var events: [Swift.String: Smithy.Document]?
+        /// The cluster id.
+        public var id: Swift.String?
+
+        public init(
+            attributes: Smithy.Document? = nil,
+            commands: [Swift.String: Smithy.Document]? = nil,
+            events: [Swift.String: Smithy.Document]? = nil,
+            id: Swift.String? = nil
+        ) {
+            self.attributes = attributes
+            self.commands = commands
+            self.events = events
+            self.id = id
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.MatterCluster: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MatterCluster(id: \(Swift.String(describing: id)), attributes: \"CONTENT_REDACTED\", commands: [keys: \(Swift.String(describing: commands?.keys)), values: \"CONTENT_REDACTED\"], events: [keys: \(Swift.String(describing: events?.keys)), values: \"CONTENT_REDACTED\"])"}
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Structure describing a managed thing.
+    public struct MatterEndpoint: Swift.Sendable {
+        /// A list of Matter clusters for a managed thing.
+        public var clusters: [IoTManagedIntegrationsClientTypes.MatterCluster]?
+        /// The Matter endpoint id.
+        public var id: Swift.String?
+
+        public init(
+            clusters: [IoTManagedIntegrationsClientTypes.MatterCluster]? = nil,
+            id: Swift.String? = nil
+        ) {
+            self.clusters = clusters
+            self.id = id
+        }
+    }
+}
+
+public struct SendConnectorEventInput: Swift.Sendable {
+    /// The third-party device id as defined by the connector. This device id must not contain personal identifiable information (PII). This parameter is used for cloud-to-cloud devices only.
+    public var connectorDeviceId: Swift.String?
+    /// The id of the connector between the third-party cloud provider and IoT managed integrations.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// The id for the device discovery job.
+    public var deviceDiscoveryId: Swift.String?
+    /// The list of devices.
+    public var devices: [IoTManagedIntegrationsClientTypes.Device]?
+    /// The device endpoint.
+    public var matterEndpoint: IoTManagedIntegrationsClientTypes.MatterEndpoint?
+    /// The device state change event payload. This parameter will include the following three fields:
+    ///
+    /// * uri: schema auc://<PARTNER-DEVICE-ID>/ResourcePath (The Resourcepath corresponds to an OCF resource.)
+    ///
+    /// * op: For device state changes, this field must populate as n+d.
+    ///
+    /// * cn: The content depends on the OCF resource referenced in ResourcePath.
+    public var message: Swift.String?
+    /// The Open Connectivity Foundation (OCF) operation requested to be performed on the managed thing. The field op can have a value of "I" or "U". The field "cn" will contain the capability types.
+    /// This member is required.
+    public var operation: IoTManagedIntegrationsClientTypes.ConnectorEventOperation?
+    /// The Open Connectivity Foundation (OCF) security specification version for the operation being requested on the managed thing. For more information, see [OCF Security Specification](https://openconnectivity.org/specs/OCF_Security_Specification_v1.0.0.pdf).
+    public var operationVersion: Swift.String?
+    /// The status code of the Open Connectivity Foundation (OCF) operation being performed on the managed thing.
+    public var statusCode: Swift.Int?
+    /// The trace request identifier used to correlate a command request and response. This is specified by the device owner, but will be generated by IoT managed integrations if not provided by the device owner.
+    public var traceId: Swift.String?
+    /// The id of the third-party cloud provider.
+    public var userId: Swift.String?
+
+    public init(
+        connectorDeviceId: Swift.String? = nil,
+        connectorId: Swift.String? = nil,
+        deviceDiscoveryId: Swift.String? = nil,
+        devices: [IoTManagedIntegrationsClientTypes.Device]? = nil,
+        matterEndpoint: IoTManagedIntegrationsClientTypes.MatterEndpoint? = nil,
+        message: Swift.String? = nil,
+        operation: IoTManagedIntegrationsClientTypes.ConnectorEventOperation? = nil,
+        operationVersion: Swift.String? = nil,
+        statusCode: Swift.Int? = nil,
+        traceId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    ) {
+        self.connectorDeviceId = connectorDeviceId
+        self.connectorId = connectorId
+        self.deviceDiscoveryId = deviceDiscoveryId
+        self.devices = devices
+        self.matterEndpoint = matterEndpoint
+        self.message = message
+        self.operation = operation
+        self.operationVersion = operationVersion
+        self.statusCode = statusCode
+        self.traceId = traceId
+        self.userId = userId
+    }
+}
+
+extension SendConnectorEventInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SendConnectorEventInput(connectorId: \(Swift.String(describing: connectorId)), deviceDiscoveryId: \(Swift.String(describing: deviceDiscoveryId)), devices: \(Swift.String(describing: devices)), matterEndpoint: \(Swift.String(describing: matterEndpoint)), operation: \(Swift.String(describing: operation)), traceId: \(Swift.String(describing: traceId)), connectorDeviceId: \"CONTENT_REDACTED\", message: \"CONTENT_REDACTED\", operationVersion: \"CONTENT_REDACTED\", statusCode: \"CONTENT_REDACTED\", userId: \"CONTENT_REDACTED\")"}
+}
+
+public struct SendConnectorEventOutput: Swift.Sendable {
+    /// The id of the connector between the third-party cloud provider and IoT managed integrations.
+    /// This member is required.
+    public var connectorId: Swift.String?
+
+    public init(
+        connectorId: Swift.String? = nil
+    ) {
+        self.connectorId = connectorId
+    }
+}
+
+public struct TagResourceInput: Swift.Sendable {
+    /// The ARN of the resource to which to add tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A set of key/value pairs that are used to manage the resource
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+extension TagResourceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TagResourceInput(resourceArn: \(Swift.String(describing: resourceArn)), tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// The ARN of the resource to which to add tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A list of tag keys to remove from the resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension CreateAccountAssociationInput {
+
+    static func urlPathProvider(_ value: CreateAccountAssociationInput) -> Swift.String? {
+        return "/account-associations"
+    }
+}
+
+extension CreateCloudConnectorInput {
+
+    static func urlPathProvider(_ value: CreateCloudConnectorInput) -> Swift.String? {
+        return "/cloud-connectors"
+    }
+}
+
+extension CreateConnectorDestinationInput {
+
+    static func urlPathProvider(_ value: CreateConnectorDestinationInput) -> Swift.String? {
+        return "/connector-destinations"
+    }
+}
+
 extension CreateCredentialLockerInput {
 
     static func urlPathProvider(_ value: CreateCredentialLockerInput) -> Swift.String? {
@@ -4346,6 +6252,36 @@ extension CreateProvisioningProfileInput {
 
     static func urlPathProvider(_ value: CreateProvisioningProfileInput) -> Swift.String? {
         return "/provisioning-profiles"
+    }
+}
+
+extension DeleteAccountAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteAccountAssociationInput) -> Swift.String? {
+        guard let accountAssociationId = value.accountAssociationId else {
+            return nil
+        }
+        return "/account-associations/\(accountAssociationId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCloudConnectorInput {
+
+    static func urlPathProvider(_ value: DeleteCloudConnectorInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/cloud-connectors/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteConnectorDestinationInput {
+
+    static func urlPathProvider(_ value: DeleteConnectorDestinationInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/connector-destinations/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -4438,6 +6374,43 @@ extension DeleteProvisioningProfileInput {
             return nil
         }
         return "/provisioning-profiles/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension DeregisterAccountAssociationInput {
+
+    static func urlPathProvider(_ value: DeregisterAccountAssociationInput) -> Swift.String? {
+        return "/managed-thing-associations/deregister"
+    }
+}
+
+extension GetAccountAssociationInput {
+
+    static func urlPathProvider(_ value: GetAccountAssociationInput) -> Swift.String? {
+        guard let accountAssociationId = value.accountAssociationId else {
+            return nil
+        }
+        return "/account-associations/\(accountAssociationId.urlPercentEncoding())"
+    }
+}
+
+extension GetCloudConnectorInput {
+
+    static func urlPathProvider(_ value: GetCloudConnectorInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/cloud-connectors/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetConnectorDestinationInput {
+
+    static func urlPathProvider(_ value: GetConnectorDestinationInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/connector-destinations/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -4627,6 +6600,91 @@ extension GetSchemaVersionInput {
     }
 }
 
+extension ListAccountAssociationsInput {
+
+    static func urlPathProvider(_ value: ListAccountAssociationsInput) -> Swift.String? {
+        return "/account-associations"
+    }
+}
+
+extension ListAccountAssociationsInput {
+
+    static func queryItemProvider(_ value: ListAccountAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let connectorDestinationId = value.connectorDestinationId {
+            let connectorDestinationIdQueryItem = Smithy.URIQueryItem(name: "ConnectorDestinationId".urlPercentEncoding(), value: Swift.String(connectorDestinationId).urlPercentEncoding())
+            items.append(connectorDestinationIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCloudConnectorsInput {
+
+    static func urlPathProvider(_ value: ListCloudConnectorsInput) -> Swift.String? {
+        return "/cloud-connectors"
+    }
+}
+
+extension ListCloudConnectorsInput {
+
+    static func queryItemProvider(_ value: ListCloudConnectorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let lambdaArn = value.lambdaArn {
+            let lambdaArnQueryItem = Smithy.URIQueryItem(name: "LambdaArn".urlPercentEncoding(), value: Swift.String(lambdaArn).urlPercentEncoding())
+            items.append(lambdaArnQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListConnectorDestinationsInput {
+
+    static func urlPathProvider(_ value: ListConnectorDestinationsInput) -> Swift.String? {
+        return "/connector-destinations"
+    }
+}
+
+extension ListConnectorDestinationsInput {
+
+    static func queryItemProvider(_ value: ListConnectorDestinationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let cloudConnectorId = value.cloudConnectorId {
+            let cloudConnectorIdQueryItem = Smithy.URIQueryItem(name: "CloudConnectorId".urlPercentEncoding(), value: Swift.String(cloudConnectorId).urlPercentEncoding())
+            items.append(cloudConnectorIdQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListCredentialLockersInput {
 
     static func urlPathProvider(_ value: ListCredentialLockersInput) -> Swift.String? {
@@ -4673,6 +6731,63 @@ extension ListDestinationsInput {
     }
 }
 
+extension ListDeviceDiscoveriesInput {
+
+    static func urlPathProvider(_ value: ListDeviceDiscoveriesInput) -> Swift.String? {
+        return "/device-discoveries"
+    }
+}
+
+extension ListDeviceDiscoveriesInput {
+
+    static func queryItemProvider(_ value: ListDeviceDiscoveriesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let statusFilter = value.statusFilter {
+            let statusFilterQueryItem = Smithy.URIQueryItem(name: "StatusFilter".urlPercentEncoding(), value: Swift.String(statusFilter.rawValue).urlPercentEncoding())
+            items.append(statusFilterQueryItem)
+        }
+        if let typeFilter = value.typeFilter {
+            let typeFilterQueryItem = Smithy.URIQueryItem(name: "TypeFilter".urlPercentEncoding(), value: Swift.String(typeFilter.rawValue).urlPercentEncoding())
+            items.append(typeFilterQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDiscoveredDevicesInput {
+
+    static func urlPathProvider(_ value: ListDiscoveredDevicesInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/device-discoveries/\(identifier.urlPercentEncoding())/devices"
+    }
+}
+
+extension ListDiscoveredDevicesInput {
+
+    static func queryItemProvider(_ value: ListDiscoveredDevicesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListEventLogConfigurationsInput {
 
     static func urlPathProvider(_ value: ListEventLogConfigurationsInput) -> Swift.String? {
@@ -4691,6 +6806,37 @@ extension ListEventLogConfigurationsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListManagedThingAccountAssociationsInput {
+
+    static func urlPathProvider(_ value: ListManagedThingAccountAssociationsInput) -> Swift.String? {
+        return "/managed-thing-associations"
+    }
+}
+
+extension ListManagedThingAccountAssociationsInput {
+
+    static func queryItemProvider(_ value: ListManagedThingAccountAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let managedThingId = value.managedThingId {
+            let managedThingIdQueryItem = Smithy.URIQueryItem(name: "ManagedThingId".urlPercentEncoding(), value: Swift.String(managedThingId).urlPercentEncoding())
+            items.append(managedThingIdQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let accountAssociationId = value.accountAssociationId {
+            let accountAssociationIdQueryItem = Smithy.URIQueryItem(name: "AccountAssociationId".urlPercentEncoding(), value: Swift.String(accountAssociationId).urlPercentEncoding())
+            items.append(accountAssociationIdQueryItem)
         }
         return items
     }
@@ -4726,6 +6872,14 @@ extension ListManagedThingsInput {
         if let connectorPolicyIdFilter = value.connectorPolicyIdFilter {
             let connectorPolicyIdFilterQueryItem = Smithy.URIQueryItem(name: "ConnectorPolicyIdFilter".urlPercentEncoding(), value: Swift.String(connectorPolicyIdFilter).urlPercentEncoding())
             items.append(connectorPolicyIdFilterQueryItem)
+        }
+        if let connectorDestinationIdFilter = value.connectorDestinationIdFilter {
+            let connectorDestinationIdFilterQueryItem = Smithy.URIQueryItem(name: "ConnectorDestinationIdFilter".urlPercentEncoding(), value: Swift.String(connectorDestinationIdFilter).urlPercentEncoding())
+            items.append(connectorDestinationIdFilterQueryItem)
+        }
+        if let connectorDeviceIdFilter = value.connectorDeviceIdFilter {
+            let connectorDeviceIdFilterQueryItem = Smithy.URIQueryItem(name: "ConnectorDeviceIdFilter".urlPercentEncoding(), value: Swift.String(connectorDeviceIdFilter).urlPercentEncoding())
+            items.append(connectorDeviceIdFilterQueryItem)
         }
         if let serialNumberFilter = value.serialNumberFilter {
             let serialNumberFilterQueryItem = Smithy.URIQueryItem(name: "SerialNumberFilter".urlPercentEncoding(), value: Swift.String(serialNumberFilter).urlPercentEncoding())
@@ -4941,6 +7095,16 @@ extension ListSchemaVersionsInput {
     }
 }
 
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
 extension PutDefaultEncryptionConfigurationInput {
 
     static func urlPathProvider(_ value: PutDefaultEncryptionConfigurationInput) -> Swift.String? {
@@ -4965,6 +7129,13 @@ extension PutRuntimeLogConfigurationInput {
     }
 }
 
+extension RegisterAccountAssociationInput {
+
+    static func urlPathProvider(_ value: RegisterAccountAssociationInput) -> Swift.String? {
+        return "/managed-thing-associations/register"
+    }
+}
+
 extension RegisterCustomEndpointInput {
 
     static func urlPathProvider(_ value: RegisterCustomEndpointInput) -> Swift.String? {
@@ -4982,6 +7153,16 @@ extension ResetRuntimeLogConfigurationInput {
     }
 }
 
+extension SendConnectorEventInput {
+
+    static func urlPathProvider(_ value: SendConnectorEventInput) -> Swift.String? {
+        guard let connectorId = value.connectorId else {
+            return nil
+        }
+        return "/connector-event/\(connectorId.urlPercentEncoding())"
+    }
+}
+
 extension SendManagedThingCommandInput {
 
     static func urlPathProvider(_ value: SendManagedThingCommandInput) -> Swift.String? {
@@ -4992,10 +7173,86 @@ extension SendManagedThingCommandInput {
     }
 }
 
+extension StartAccountAssociationRefreshInput {
+
+    static func urlPathProvider(_ value: StartAccountAssociationRefreshInput) -> Swift.String? {
+        guard let accountAssociationId = value.accountAssociationId else {
+            return nil
+        }
+        return "/account-associations/\(accountAssociationId.urlPercentEncoding())/refresh"
+    }
+}
+
 extension StartDeviceDiscoveryInput {
 
     static func urlPathProvider(_ value: StartDeviceDiscoveryInput) -> Swift.String? {
         return "/device-discoveries"
+    }
+}
+
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
+extension UpdateAccountAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateAccountAssociationInput) -> Swift.String? {
+        guard let accountAssociationId = value.accountAssociationId else {
+            return nil
+        }
+        return "/account-associations/\(accountAssociationId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateCloudConnectorInput {
+
+    static func urlPathProvider(_ value: UpdateCloudConnectorInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/cloud-connectors/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension UpdateConnectorDestinationInput {
+
+    static func urlPathProvider(_ value: UpdateConnectorDestinationInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/connector-destinations/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -5049,6 +7306,44 @@ extension UpdateOtaTaskInput {
     }
 }
 
+extension CreateAccountAssociationInput {
+
+    static func write(value: CreateAccountAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ConnectorDestinationId"].write(value.connectorDestinationId)
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateCloudConnectorInput {
+
+    static func write(value: CreateCloudConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["EndpointConfig"].write(value.endpointConfig, with: IoTManagedIntegrationsClientTypes.EndpointConfig.write(value:to:))
+        try writer["EndpointType"].write(value.endpointType)
+        try writer["Name"].write(value.name)
+    }
+}
+
+extension CreateConnectorDestinationInput {
+
+    static func write(value: CreateConnectorDestinationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthConfig"].write(value.authConfig, with: IoTManagedIntegrationsClientTypes.AuthConfig.write(value:to:))
+        try writer["AuthType"].write(value.authType)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["CloudConnectorId"].write(value.cloudConnectorId)
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["SecretsManager"].write(value.secretsManager, with: IoTManagedIntegrationsClientTypes.SecretsManager.write(value:to:))
+    }
+}
+
 extension CreateCredentialLockerInput {
 
     static func write(value: CreateCredentialLockerInput?, to writer: SmithyJSON.Writer) throws {
@@ -5093,6 +7388,7 @@ extension CreateManagedThingInput {
         try writer["Brand"].write(value.brand)
         try writer["Capabilities"].write(value.capabilities)
         try writer["CapabilityReport"].write(value.capabilityReport, with: IoTManagedIntegrationsClientTypes.CapabilityReport.write(value:to:))
+        try writer["CapabilitySchemas"].writeList(value.capabilitySchemas, memberWritingClosure: IoTManagedIntegrationsClientTypes.CapabilitySchemaItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Classification"].write(value.classification)
         try writer["ClientToken"].write(value.clientToken)
         try writer["CredentialLockerId"].write(value.credentialLockerId)
@@ -5159,6 +7455,15 @@ extension CreateProvisioningProfileInput {
     }
 }
 
+extension DeregisterAccountAssociationInput {
+
+    static func write(value: DeregisterAccountAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountAssociationId"].write(value.accountAssociationId)
+        try writer["ManagedThingId"].write(value.managedThingId)
+    }
+}
+
 extension PutDefaultEncryptionConfigurationInput {
 
     static func write(value: PutDefaultEncryptionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -5184,10 +7489,38 @@ extension PutRuntimeLogConfigurationInput {
     }
 }
 
+extension RegisterAccountAssociationInput {
+
+    static func write(value: RegisterAccountAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountAssociationId"].write(value.accountAssociationId)
+        try writer["DeviceDiscoveryId"].write(value.deviceDiscoveryId)
+        try writer["ManagedThingId"].write(value.managedThingId)
+    }
+}
+
+extension SendConnectorEventInput {
+
+    static func write(value: SendConnectorEventInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectorDeviceId"].write(value.connectorDeviceId)
+        try writer["DeviceDiscoveryId"].write(value.deviceDiscoveryId)
+        try writer["Devices"].writeList(value.devices, memberWritingClosure: IoTManagedIntegrationsClientTypes.Device.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MatterEndpoint"].write(value.matterEndpoint, with: IoTManagedIntegrationsClientTypes.MatterEndpoint.write(value:to:))
+        try writer["Message"].write(value.message)
+        try writer["Operation"].write(value.operation)
+        try writer["OperationVersion"].write(value.operationVersion)
+        try writer["StatusCode"].write(value.statusCode)
+        try writer["TraceId"].write(value.traceId)
+        try writer["UserId"].write(value.userId)
+    }
+}
+
 extension SendManagedThingCommandInput {
 
     static func write(value: SendManagedThingCommandInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AccountAssociationId"].write(value.accountAssociationId)
         try writer["ConnectorAssociationId"].write(value.connectorAssociationId)
         try writer["Endpoints"].writeList(value.endpoints, memberWritingClosure: IoTManagedIntegrationsClientTypes.CommandEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -5197,13 +7530,53 @@ extension StartDeviceDiscoveryInput {
 
     static func write(value: StartDeviceDiscoveryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AccountAssociationId"].write(value.accountAssociationId)
         try writer["AuthenticationMaterial"].write(value.authenticationMaterial)
         try writer["AuthenticationMaterialType"].write(value.authenticationMaterialType)
         try writer["ClientToken"].write(value.clientToken)
         try writer["ConnectorAssociationIdentifier"].write(value.connectorAssociationIdentifier)
         try writer["ControllerIdentifier"].write(value.controllerIdentifier)
+        try writer["CustomProtocolDetail"].writeMap(value.customProtocolDetail, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["DiscoveryType"].write(value.discoveryType)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension TagResourceInput {
+
+    static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateAccountAssociationInput {
+
+    static func write(value: UpdateAccountAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+    }
+}
+
+extension UpdateCloudConnectorInput {
+
+    static func write(value: UpdateCloudConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+    }
+}
+
+extension UpdateConnectorDestinationInput {
+
+    static func write(value: UpdateConnectorDestinationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthConfig"].write(value.authConfig, with: IoTManagedIntegrationsClientTypes.AuthConfigUpdate.write(value:to:))
+        try writer["AuthType"].write(value.authType)
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["SecretsManager"].write(value.secretsManager, with: IoTManagedIntegrationsClientTypes.SecretsManager.write(value:to:))
     }
 }
 
@@ -5233,6 +7606,7 @@ extension UpdateManagedThingInput {
         try writer["Brand"].write(value.brand)
         try writer["Capabilities"].write(value.capabilities)
         try writer["CapabilityReport"].write(value.capabilityReport, with: IoTManagedIntegrationsClientTypes.CapabilityReport.write(value:to:))
+        try writer["CapabilitySchemas"].writeList(value.capabilitySchemas, memberWritingClosure: IoTManagedIntegrationsClientTypes.CapabilitySchemaItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Classification"].write(value.classification)
         try writer["CredentialLockerId"].write(value.credentialLockerId)
         try writer["HubNetworkMode"].write(value.hubNetworkMode)
@@ -5258,6 +7632,45 @@ extension UpdateOtaTaskInput {
         guard let value else { return }
         try writer["Description"].write(value.description)
         try writer["TaskConfigurationId"].write(value.taskConfigurationId)
+    }
+}
+
+extension CreateAccountAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAccountAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAccountAssociationOutput()
+        value.accountAssociationId = try reader["AccountAssociationId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent()
+        value.associationState = try reader["AssociationState"].readIfPresent() ?? .sdkUnknown("")
+        value.oAuthAuthorizationUrl = try reader["OAuthAuthorizationUrl"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateCloudConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCloudConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCloudConnectorOutput()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateConnectorDestinationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConnectorDestinationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateConnectorDestinationOutput()
+        value.id = try reader["Id"].readIfPresent()
+        return value
     }
 }
 
@@ -5368,6 +7781,27 @@ extension CreateProvisioningProfileOutput {
     }
 }
 
+extension DeleteAccountAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAccountAssociationOutput {
+        return DeleteAccountAssociationOutput()
+    }
+}
+
+extension DeleteCloudConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCloudConnectorOutput {
+        return DeleteCloudConnectorOutput()
+    }
+}
+
+extension DeleteConnectorDestinationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConnectorDestinationOutput {
+        return DeleteConnectorDestinationOutput()
+    }
+}
+
 extension DeleteCredentialLockerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCredentialLockerOutput {
@@ -5421,6 +7855,69 @@ extension DeleteProvisioningProfileOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProvisioningProfileOutput {
         return DeleteProvisioningProfileOutput()
+    }
+}
+
+extension DeregisterAccountAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeregisterAccountAssociationOutput {
+        return DeregisterAccountAssociationOutput()
+    }
+}
+
+extension GetAccountAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccountAssociationOutput()
+        value.accountAssociationId = try reader["AccountAssociationId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent()
+        value.associationState = try reader["AssociationState"].readIfPresent() ?? .sdkUnknown("")
+        value.connectorDestinationId = try reader["ConnectorDestinationId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.oAuthAuthorizationUrl = try reader["OAuthAuthorizationUrl"].readIfPresent() ?? ""
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetCloudConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCloudConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCloudConnectorOutput()
+        value.description = try reader["Description"].readIfPresent()
+        value.endpointConfig = try reader["EndpointConfig"].readIfPresent(with: IoTManagedIntegrationsClientTypes.EndpointConfig.read(from:))
+        value.endpointType = try reader["EndpointType"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension GetConnectorDestinationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConnectorDestinationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConnectorDestinationOutput()
+        value.authConfig = try reader["AuthConfig"].readIfPresent(with: IoTManagedIntegrationsClientTypes.AuthConfig.read(from:))
+        value.authType = try reader["AuthType"].readIfPresent()
+        value.cloudConnectorId = try reader["CloudConnectorId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.oAuthCompleteRedirectUrl = try reader["OAuthCompleteRedirectUrl"].readIfPresent()
+        value.secretsManager = try reader["SecretsManager"].readIfPresent(with: IoTManagedIntegrationsClientTypes.SecretsManager.read(from:))
+        return value
     }
 }
 
@@ -5492,6 +7989,7 @@ extension GetDeviceDiscoveryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDeviceDiscoveryOutput()
+        value.accountAssociationId = try reader["AccountAssociationId"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.connectorAssociationId = try reader["ConnectorAssociationId"].readIfPresent()
         value.controllerId = try reader["ControllerId"].readIfPresent()
@@ -5545,6 +8043,7 @@ extension GetManagedThingOutput {
         value.arn = try reader["Arn"].readIfPresent()
         value.brand = try reader["Brand"].readIfPresent()
         value.classification = try reader["Classification"].readIfPresent()
+        value.connectorDestinationId = try reader["ConnectorDestinationId"].readIfPresent()
         value.connectorDeviceId = try reader["ConnectorDeviceId"].readIfPresent()
         value.connectorPolicyId = try reader["ConnectorPolicyId"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -5657,6 +8156,7 @@ extension GetOtaTaskOutput {
         value.`protocol` = try reader["Protocol"].readIfPresent()
         value.s3Url = try reader["S3Url"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.target = try reader["Target"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.taskArn = try reader["TaskArn"].readIfPresent()
         value.taskConfigurationId = try reader["TaskConfigurationId"].readIfPresent()
@@ -5730,6 +8230,45 @@ extension GetSchemaVersionOutput {
     }
 }
 
+extension ListAccountAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAccountAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAccountAssociationsOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.AccountAssociationItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCloudConnectorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCloudConnectorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCloudConnectorsOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.ConnectorItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListConnectorDestinationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectorDestinationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConnectorDestinationsOutput()
+        value.connectorDestinationList = try reader["ConnectorDestinationList"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.ConnectorDestinationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListCredentialLockersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCredentialLockersOutput {
@@ -5756,6 +8295,32 @@ extension ListDestinationsOutput {
     }
 }
 
+extension ListDeviceDiscoveriesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDeviceDiscoveriesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDeviceDiscoveriesOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.DeviceDiscoverySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDiscoveredDevicesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDiscoveredDevicesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDiscoveredDevicesOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.DiscoveredDeviceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListEventLogConfigurationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEventLogConfigurationsOutput {
@@ -5764,6 +8329,19 @@ extension ListEventLogConfigurationsOutput {
         let reader = responseReader
         var value = ListEventLogConfigurationsOutput()
         value.eventLogConfigurationList = try reader["EventLogConfigurationList"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.EventLogConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListManagedThingAccountAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListManagedThingAccountAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListManagedThingAccountAssociationsOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.ManagedThingAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -5873,6 +8451,18 @@ extension ListSchemaVersionsOutput {
     }
 }
 
+extension ListTagsForResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension PutDefaultEncryptionConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutDefaultEncryptionConfigurationOutput {
@@ -5906,6 +8496,20 @@ extension PutRuntimeLogConfigurationOutput {
     }
 }
 
+extension RegisterAccountAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterAccountAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RegisterAccountAssociationOutput()
+        value.accountAssociationId = try reader["AccountAssociationId"].readIfPresent()
+        value.deviceDiscoveryId = try reader["DeviceDiscoveryId"].readIfPresent()
+        value.managedThingId = try reader["ManagedThingId"].readIfPresent()
+        return value
+    }
+}
+
 extension RegisterCustomEndpointOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterCustomEndpointOutput {
@@ -5925,6 +8529,18 @@ extension ResetRuntimeLogConfigurationOutput {
     }
 }
 
+extension SendConnectorEventOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendConnectorEventOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SendConnectorEventOutput()
+        value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension SendManagedThingCommandOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendManagedThingCommandOutput {
@@ -5933,6 +8549,18 @@ extension SendManagedThingCommandOutput {
         let reader = responseReader
         var value = SendManagedThingCommandOutput()
         value.traceId = try reader["TraceId"].readIfPresent()
+        return value
+    }
+}
+
+extension StartAccountAssociationRefreshOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAccountAssociationRefreshOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartAccountAssociationRefreshOutput()
+        value.oAuthAuthorizationUrl = try reader["OAuthAuthorizationUrl"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5947,6 +8575,41 @@ extension StartDeviceDiscoveryOutput {
         value.id = try reader["Id"].readIfPresent()
         value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
+    }
+}
+
+extension TagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
+        return TagResourceOutput()
+    }
+}
+
+extension UntagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
+        return UntagResourceOutput()
+    }
+}
+
+extension UpdateAccountAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAccountAssociationOutput {
+        return UpdateAccountAssociationOutput()
+    }
+}
+
+extension UpdateCloudConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCloudConnectorOutput {
+        return UpdateCloudConnectorOutput()
+    }
+}
+
+extension UpdateConnectorDestinationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConnectorDestinationOutput {
+        return UpdateConnectorDestinationOutput()
     }
 }
 
@@ -5982,6 +8645,62 @@ extension UpdateOtaTaskOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateOtaTaskOutput {
         return UpdateOtaTaskOutput()
+    }
+}
+
+enum CreateAccountAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCloudConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateConnectorDestinationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -6092,7 +8811,9 @@ enum CreateOtaTaskOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -6128,9 +8849,65 @@ enum CreateProvisioningProfileOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAccountAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCloudConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteConnectorDestinationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -6241,6 +9018,7 @@ enum DeleteOtaTaskOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6281,6 +9059,79 @@ enum DeleteProvisioningProfileOutputError {
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeregisterAccountAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAccountAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCloudConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetConnectorDestinationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -6633,6 +9484,58 @@ enum GetSchemaVersionOutputError {
     }
 }
 
+enum ListAccountAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCloudConnectorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListConnectorDestinationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCredentialLockersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6668,7 +9571,63 @@ enum ListDestinationsOutputError {
     }
 }
 
+enum ListDeviceDiscoveriesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDiscoveredDevicesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListEventLogConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListManagedThingAccountAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6768,6 +9727,7 @@ enum ListOtaTaskExecutionsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6785,6 +9745,7 @@ enum ListOtaTasksOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6825,6 +9786,23 @@ enum ListSchemaVersionsOutputError {
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTagsForResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6887,6 +9865,25 @@ enum PutRuntimeLogConfigurationOutputError {
     }
 }
 
+enum RegisterAccountAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RegisterCustomEndpointOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6925,7 +9922,46 @@ enum ResetRuntimeLogConfigurationOutputError {
     }
 }
 
+enum SendConnectorEventOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SendManagedThingCommandOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartAccountAssociationRefreshOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6959,6 +9995,98 @@ enum StartDeviceDiscoveryOutputError {
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAccountAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCloudConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateConnectorDestinationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -7097,12 +10225,14 @@ extension InternalServerException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7149,11 +10279,11 @@ extension ValidationException {
     }
 }
 
-extension ResourceNotFoundException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7175,6 +10305,19 @@ extension UnauthorizedException {
     }
 }
 
+extension LimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InternalFailureException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
@@ -7184,6 +10327,123 @@ extension InternalFailureException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRequestException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.EndpointConfig {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.EndpointConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lambda"].write(value.lambda, with: IoTManagedIntegrationsClientTypes.LambdaConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.EndpointConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.EndpointConfig()
+        value.lambda = try reader["lambda"].readIfPresent(with: IoTManagedIntegrationsClientTypes.LambdaConfig.read(from:))
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.LambdaConfig {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.LambdaConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.LambdaConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.LambdaConfig()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.AuthConfig {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.AuthConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["oAuth"].write(value.oAuth, with: IoTManagedIntegrationsClientTypes.OAuthConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.AuthConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.AuthConfig()
+        value.oAuth = try reader["oAuth"].readIfPresent(with: IoTManagedIntegrationsClientTypes.OAuthConfig.read(from:))
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.OAuthConfig {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.OAuthConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authUrl"].write(value.authUrl)
+        try writer["oAuthCompleteRedirectUrl"].write(value.oAuthCompleteRedirectUrl)
+        try writer["proactiveRefreshTokenRenewal"].write(value.proactiveRefreshTokenRenewal, with: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal.write(value:to:))
+        try writer["scope"].write(value.scope)
+        try writer["tokenEndpointAuthenticationScheme"].write(value.tokenEndpointAuthenticationScheme)
+        try writer["tokenUrl"].write(value.tokenUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OAuthConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.OAuthConfig()
+        value.authUrl = try reader["authUrl"].readIfPresent() ?? ""
+        value.tokenUrl = try reader["tokenUrl"].readIfPresent() ?? ""
+        value.scope = try reader["scope"].readIfPresent()
+        value.tokenEndpointAuthenticationScheme = try reader["tokenEndpointAuthenticationScheme"].readIfPresent() ?? .sdkUnknown("")
+        value.oAuthCompleteRedirectUrl = try reader["oAuthCompleteRedirectUrl"].readIfPresent()
+        value.proactiveRefreshTokenRenewal = try reader["proactiveRefreshTokenRenewal"].readIfPresent(with: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal.read(from:))
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DaysBeforeRenewal"].write(value.daysBeforeRenewal)
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.daysBeforeRenewal = try reader["DaysBeforeRenewal"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.SecretsManager {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.SecretsManager?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["versionId"].write(value.versionId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.SecretsManager {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.SecretsManager()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.versionId = try reader["versionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7537,6 +10797,50 @@ extension IoTManagedIntegrationsClientTypes.RuntimeLogConfigurations {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes.AccountAssociationItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.AccountAssociationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.AccountAssociationItem()
+        value.accountAssociationId = try reader["AccountAssociationId"].readIfPresent() ?? ""
+        value.associationState = try reader["AssociationState"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.connectorDestinationId = try reader["ConnectorDestinationId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.ConnectorItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ConnectorItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.ConnectorItem()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.endpointConfig = try reader["EndpointConfig"].readIfPresent(with: IoTManagedIntegrationsClientTypes.EndpointConfig.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.ConnectorDestinationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ConnectorDestinationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.ConnectorDestinationSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.cloudConnectorId = try reader["CloudConnectorId"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
 extension IoTManagedIntegrationsClientTypes.CredentialLockerSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.CredentialLockerSummary {
@@ -7564,6 +10868,36 @@ extension IoTManagedIntegrationsClientTypes.DestinationSummary {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes.DeviceDiscoverySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.DeviceDiscoverySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.DeviceDiscoverySummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.discoveryType = try reader["DiscoveryType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.DiscoveredDeviceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.DiscoveredDeviceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.DiscoveredDeviceSummary()
+        value.connectorDeviceId = try reader["ConnectorDeviceId"].readIfPresent()
+        value.connectorDeviceName = try reader["ConnectorDeviceName"].readIfPresent()
+        value.deviceTypes = try reader["DeviceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.managedThingId = try reader["ManagedThingId"].readIfPresent()
+        value.modification = try reader["Modification"].readIfPresent()
+        value.discoveredAt = try reader["DiscoveredAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.brand = try reader["Brand"].readIfPresent()
+        value.model = try reader["Model"].readIfPresent()
+        value.authenticationMaterial = try reader["AuthenticationMaterial"].readIfPresent()
+        return value
+    }
+}
+
 extension IoTManagedIntegrationsClientTypes.EventLogConfigurationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.EventLogConfigurationSummary {
@@ -7573,6 +10907,17 @@ extension IoTManagedIntegrationsClientTypes.EventLogConfigurationSummary {
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.resourceId = try reader["ResourceId"].readIfPresent()
         value.eventLogLevel = try reader["EventLogLevel"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.ManagedThingAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ManagedThingAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.ManagedThingAssociation()
+        value.managedThingId = try reader["ManagedThingId"].readIfPresent()
+        value.accountAssociationId = try reader["AccountAssociationId"].readIfPresent()
         return value
     }
 }
@@ -7589,6 +10934,7 @@ extension IoTManagedIntegrationsClientTypes.ManagedThingSummary {
         value.classification = try reader["Classification"].readIfPresent()
         value.connectorDeviceId = try reader["ConnectorDeviceId"].readIfPresent()
         value.connectorPolicyId = try reader["ConnectorPolicyId"].readIfPresent()
+        value.connectorDestinationId = try reader["ConnectorDestinationId"].readIfPresent()
         value.model = try reader["Model"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.owner = try reader["Owner"].readIfPresent()
@@ -7708,6 +11054,101 @@ extension IoTManagedIntegrationsClientTypes.SchemaVersionListItem {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes.CapabilitySchemaItem {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.CapabilitySchemaItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapabilityId"].write(value.capabilityId)
+        try writer["ExtrinsicId"].write(value.extrinsicId)
+        try writer["ExtrinsicVersion"].write(value.extrinsicVersion)
+        try writer["Format"].write(value.format)
+        try writer["Schema"].write(value.schema)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.Device {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.Device?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapabilityReport"].write(value.capabilityReport, with: IoTManagedIntegrationsClientTypes.MatterCapabilityReport.write(value:to:))
+        try writer["CapabilitySchemas"].writeList(value.capabilitySchemas, memberWritingClosure: IoTManagedIntegrationsClientTypes.CapabilitySchemaItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ConnectorDeviceId"].write(value.connectorDeviceId)
+        try writer["ConnectorDeviceName"].write(value.connectorDeviceName)
+        try writer["DeviceMetadata"].write(value.deviceMetadata)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.MatterCapabilityReport {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.MatterCapabilityReport?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endpoints"].writeList(value.endpoints, memberWritingClosure: IoTManagedIntegrationsClientTypes.MatterCapabilityReportEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["nodeId"].write(value.nodeId)
+        try writer["version"].write(value.version)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.MatterCapabilityReportEndpoint {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.MatterCapabilityReportEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientClusters"].writeList(value.clientClusters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clusters"].writeList(value.clusters, memberWritingClosure: IoTManagedIntegrationsClientTypes.MatterCapabilityReportCluster.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["deviceTypes"].writeList(value.deviceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id"].write(value.id)
+        try writer["parts"].writeList(value.parts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["semanticTags"].writeList(value.semanticTags, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.MatterCapabilityReportCluster {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.MatterCapabilityReportCluster?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributes"].writeList(value.attributes, memberWritingClosure: IoTManagedIntegrationsClientTypes.MatterCapabilityReportAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["commands"].writeList(value.commands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["fabricIndex"].write(value.fabricIndex)
+        try writer["featureMap"].write(value.featureMap)
+        try writer["generatedCommands"].writeList(value.generatedCommands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["publicId"].write(value.publicId)
+        try writer["revision"].write(value.revision)
+        try writer["specVersion"].write(value.specVersion)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.MatterCapabilityReportAttribute {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.MatterCapabilityReportAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.MatterEndpoint {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.MatterEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clusters"].writeList(value.clusters, memberWritingClosure: IoTManagedIntegrationsClientTypes.MatterCluster.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id"].write(value.id)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.MatterCluster {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.MatterCluster?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributes"].write(value.attributes)
+        try writer["commands"].writeMap(value.commands, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["events"].writeMap(value.events, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["id"].write(value.id)
+    }
+}
+
 extension IoTManagedIntegrationsClientTypes.CommandEndpoint {
 
     static func write(value: IoTManagedIntegrationsClientTypes.CommandEndpoint?, to writer: SmithyJSON.Writer) throws {
@@ -7736,6 +11177,23 @@ extension IoTManagedIntegrationsClientTypes.CapabilityAction {
         try writer["name"].write(value.name)
         try writer["parameters"].write(value.parameters)
         try writer["ref"].write(value.ref)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.AuthConfigUpdate {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.AuthConfigUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["oAuthUpdate"].write(value.oAuthUpdate, with: IoTManagedIntegrationsClientTypes.OAuthUpdate.write(value:to:))
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.OAuthUpdate {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.OAuthUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["oAuthCompleteRedirectUrl"].write(value.oAuthCompleteRedirectUrl)
+        try writer["proactiveRefreshTokenRenewal"].write(value.proactiveRefreshTokenRenewal, with: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal.write(value:to:))
     }
 }
 

@@ -109,7 +109,7 @@ extension ExampleClient {
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        internal let logger: Smithy.LogAgent
+        public let logger: Smithy.LogAgent
 
         private init(
             _ useFIPS: Swift.Bool?,
