@@ -35,13 +35,16 @@ val enabledProtocols = listOf(
     ProtocolTest("rest-xml", "aws.protocoltests.restxml#RestXml", "RestXmlTestSDK"),
     ProtocolTest("rest-xml-xmlns", "aws.protocoltests.restxml.xmlns#RestXmlWithNamespace", "RestXmlWithNamespaceTestSDK"),
     ProtocolTest("aws-query", "aws.protocoltests.query#AwsQuery", "AWSQueryTestSDK"),
+    ProtocolTest("smithy-rpcv2-cbor", "smithy.protocoltests.rpcv2Cbor#RpcV2Protocol", "RPCV2CBORTestSDK"),
+    ProtocolTest("aws-json-10-query-compat", "aws.protocoltests.json10#QueryCompatibleJsonRpc10", "AWSJson1_0TestSDK"),
+    ProtocolTest("smithy-rpcv2-cbor-query-compat", "aws.protocoltests.rpcv2cbor#QueryCompatibleRpcV2Protocol", "RPCV2CBORTestSDK"),
+    ProtocolTest("smithy-rpcv2-cbor-non-query-compat", "aws.protocoltests.rpcv2cbor#NonQueryCompatibleRpcV2Protocol", "RPCV2CBORTestSDK"),
 
     // service specific tests
     ProtocolTest("apigateway", "com.amazonaws.apigateway#BackplaneControlService", "APIGatewayTestSDK"),
     ProtocolTest("glacier", "com.amazonaws.glacier#Glacier", "GlacierTestSDK"),
     ProtocolTest("s3", "com.amazonaws.s3#AmazonS3", "S3TestSDK"),
     ProtocolTest("machinelearning", "com.amazonaws.machinelearning#AmazonML_20141212", "MachineLearningTestSDK"),
-    ProtocolTest("smithy-rpcv2-cbor", "smithy.protocoltests.rpcv2Cbor#RpcV2Protocol", "RPCV2CBORTestSDK"),
 )
 
 // This project doesn't produce a JAR.
