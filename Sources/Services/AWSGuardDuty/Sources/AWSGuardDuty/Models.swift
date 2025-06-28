@@ -14668,7 +14668,7 @@ extension GuardDutyClientTypes.KubernetesWorkload {
         var value = GuardDutyClientTypes.KubernetesWorkload()
         value.containerUids = try reader["containerUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.namespace = try reader["namespace"].readIfPresent()
-        value.kubernetesResourcesTypes = try reader["kubernetesResourcesTypes"].readIfPresent()
+        value.kubernetesResourcesTypes = try reader["type"].readIfPresent()
         return value
     }
 }

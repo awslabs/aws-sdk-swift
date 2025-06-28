@@ -10390,14 +10390,18 @@ extension GlueClientTypes {
     public struct FederatedCatalog: Swift.Sendable {
         /// The name of the connection to an external data source, for example a Redshift-federated catalog.
         public var connectionName: Swift.String?
+        /// The type of connection used to access the federated catalog, specifying the protocol or method for connection to the external data source.
+        public var connectionType: Swift.String?
         /// A unique identifier for the federated catalog.
         public var identifier: Swift.String?
 
         public init(
             connectionName: Swift.String? = nil,
+            connectionType: Swift.String? = nil,
             identifier: Swift.String? = nil
         ) {
             self.connectionName = connectionName
+            self.connectionType = connectionType
             self.identifier = identifier
         }
     }
@@ -11484,14 +11488,18 @@ extension GlueClientTypes {
     public struct FederatedDatabase: Swift.Sendable {
         /// The name of the connection to the external metastore.
         public var connectionName: Swift.String?
+        /// The type of connection used to access the federated database, such as JDBC, ODBC, or other supported connection protocols.
+        public var connectionType: Swift.String?
         /// A unique identifier for the federated database.
         public var identifier: Swift.String?
 
         public init(
             connectionName: Swift.String? = nil,
+            connectionType: Swift.String? = nil,
             identifier: Swift.String? = nil
         ) {
             self.connectionName = connectionName
+            self.connectionType = connectionType
             self.identifier = identifier
         }
     }
@@ -13729,6 +13737,288 @@ public struct CreateSessionOutput: Swift.Sendable {
 
 extension GlueClientTypes {
 
+    /// Defines a single partition field within an Iceberg partition specification, including the source field, transformation function, partition name, and unique identifier.
+    public struct IcebergPartitionField: Swift.Sendable {
+        /// The unique identifier assigned to this partition field within the Iceberg table's partition specification.
+        public var fieldId: Swift.Int
+        /// The name of the partition field as it will appear in the partitioned table structure.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The identifier of the source field from the table schema that this partition field is based on.
+        /// This member is required.
+        public var sourceId: Swift.Int
+        /// The transformation function applied to the source field to create the partition, such as identity, bucket, truncate, year, month, day, or hour.
+        /// This member is required.
+        public var transform: Swift.String?
+
+        public init(
+            fieldId: Swift.Int = 0,
+            name: Swift.String? = nil,
+            sourceId: Swift.Int = 0,
+            transform: Swift.String? = nil
+        ) {
+            self.fieldId = fieldId
+            self.name = name
+            self.sourceId = sourceId
+            self.transform = transform
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Defines the partitioning specification for an Iceberg table, determining how table data will be organized and partitioned for optimal query performance.
+    public struct IcebergPartitionSpec: Swift.Sendable {
+        /// The list of partition fields that define how the table data should be partitioned, including source fields and their transformations.
+        /// This member is required.
+        public var fields: [GlueClientTypes.IcebergPartitionField]?
+        /// The unique identifier for this partition specification within the Iceberg table's metadata history.
+        public var specId: Swift.Int
+
+        public init(
+            fields: [GlueClientTypes.IcebergPartitionField]? = nil,
+            specId: Swift.Int = 0
+        ) {
+            self.fields = fields
+            self.specId = specId
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Defines a single field within an Iceberg table schema, including its identifier, name, data type, nullability, and documentation.
+    public struct IcebergStructField: Swift.Sendable {
+        /// Optional documentation or description text that provides additional context about the purpose and usage of this field.
+        public var doc: Swift.String?
+        /// The unique identifier assigned to this field within the Iceberg table schema, used for schema evolution and field tracking.
+        /// This member is required.
+        public var id: Swift.Int
+        /// The name of the field as it appears in the table schema and query operations.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Indicates whether this field is required (non-nullable) or optional (nullable) in the table schema.
+        /// This member is required.
+        public var `required`: Swift.Bool
+        /// The data type definition for this field, specifying the structure and format of the data it contains.
+        /// This member is required.
+        public var type: Smithy.Document?
+
+        public init(
+            doc: Swift.String? = nil,
+            id: Swift.Int = 0,
+            name: Swift.String? = nil,
+            `required`: Swift.Bool = false,
+            type: Smithy.Document? = nil
+        ) {
+            self.doc = doc
+            self.id = id
+            self.name = name
+            self.`required` = `required`
+            self.type = type
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum IcebergStructTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `struct`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergStructTypeEnum] {
+            return [
+                .struct
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .struct: return "struct"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Defines the schema structure for an Iceberg table, including field definitions, data types, and schema metadata.
+    public struct IcebergSchema: Swift.Sendable {
+        /// The list of field definitions that make up the table schema, including field names, types, and metadata.
+        /// This member is required.
+        public var fields: [GlueClientTypes.IcebergStructField]?
+        /// The list of field identifiers that uniquely identify records in the table, used for row-level operations and deduplication.
+        public var identifierFieldIds: [Swift.Int]?
+        /// The unique identifier for this schema version within the Iceberg table's schema evolution history.
+        public var schemaId: Swift.Int
+        /// The root type of the schema structure, typically "struct" for Iceberg table schemas.
+        public var type: GlueClientTypes.IcebergStructTypeEnum?
+
+        public init(
+            fields: [GlueClientTypes.IcebergStructField]? = nil,
+            identifierFieldIds: [Swift.Int]? = nil,
+            schemaId: Swift.Int = 0,
+            type: GlueClientTypes.IcebergStructTypeEnum? = nil
+        ) {
+            self.fields = fields
+            self.identifierFieldIds = identifierFieldIds
+            self.schemaId = schemaId
+            self.type = type
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum IcebergSortDirection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergSortDirection] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "asc"
+            case .desc: return "desc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum IcebergNullOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case nullsFirst
+        case nullsLast
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergNullOrder] {
+            return [
+                .nullsFirst,
+                .nullsLast
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .nullsFirst: return "nulls-first"
+            case .nullsLast: return "nulls-last"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Defines a single field within an Iceberg sort order specification, including the source field, transformation, sort direction, and null value ordering.
+    public struct IcebergSortField: Swift.Sendable {
+        /// The sort direction for this field, either ascending or descending.
+        /// This member is required.
+        public var direction: GlueClientTypes.IcebergSortDirection?
+        /// The ordering behavior for null values in this field, specifying whether nulls should appear first or last in the sort order.
+        /// This member is required.
+        public var nullOrder: GlueClientTypes.IcebergNullOrder?
+        /// The identifier of the source field from the table schema that this sort field is based on.
+        /// This member is required.
+        public var sourceId: Swift.Int
+        /// The transformation function applied to the source field before sorting, such as identity, bucket, or truncate.
+        /// This member is required.
+        public var transform: Swift.String?
+
+        public init(
+            direction: GlueClientTypes.IcebergSortDirection? = nil,
+            nullOrder: GlueClientTypes.IcebergNullOrder? = nil,
+            sourceId: Swift.Int = 0,
+            transform: Swift.String? = nil
+        ) {
+            self.direction = direction
+            self.nullOrder = nullOrder
+            self.sourceId = sourceId
+            self.transform = transform
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Defines the sort order specification for an Iceberg table, determining how data should be ordered within partitions to optimize query performance.
+    public struct IcebergSortOrder: Swift.Sendable {
+        /// The list of fields and their sort directions that define the ordering criteria for the Iceberg table data.
+        /// This member is required.
+        public var fields: [GlueClientTypes.IcebergSortField]?
+        /// The unique identifier for this sort order specification within the Iceberg table's metadata.
+        /// This member is required.
+        public var orderId: Swift.Int
+
+        public init(
+            fields: [GlueClientTypes.IcebergSortField]? = nil,
+            orderId: Swift.Int = 0
+        ) {
+            self.fields = fields
+            self.orderId = orderId
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The configuration parameters required to create a new Iceberg table in the Glue Data Catalog, including table properties and metadata specifications.
+    public struct CreateIcebergTableInput: Swift.Sendable {
+        /// The S3 location where the Iceberg table data will be stored.
+        /// This member is required.
+        public var location: Swift.String?
+        /// The partitioning specification that defines how the Iceberg table data will be organized and partitioned for optimal query performance.
+        public var partitionSpec: GlueClientTypes.IcebergPartitionSpec?
+        /// Key-value pairs of additional table properties and configuration settings for the Iceberg table.
+        public var properties: [Swift.String: Swift.String]?
+        /// The schema definition that specifies the structure, field types, and metadata for the Iceberg table.
+        /// This member is required.
+        public var schema: GlueClientTypes.IcebergSchema?
+        /// The sort order specification that defines how data should be ordered within each partition to optimize query performance.
+        public var writeOrder: GlueClientTypes.IcebergSortOrder?
+
+        public init(
+            location: Swift.String? = nil,
+            partitionSpec: GlueClientTypes.IcebergPartitionSpec? = nil,
+            properties: [Swift.String: Swift.String]? = nil,
+            schema: GlueClientTypes.IcebergSchema? = nil,
+            writeOrder: GlueClientTypes.IcebergSortOrder? = nil
+        ) {
+            self.location = location
+            self.partitionSpec = partitionSpec
+            self.properties = properties
+            self.schema = schema
+            self.writeOrder = writeOrder
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     public enum MetadataOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case create
         case sdkUnknown(Swift.String)
@@ -13757,6 +14047,8 @@ extension GlueClientTypes {
 
     /// A structure that defines an Apache Iceberg metadata table to create in the catalog.
     public struct IcebergInput: Swift.Sendable {
+        /// The configuration parameters required to create a new Iceberg table in the Glue Data Catalog, including table properties and metadata specifications.
+        public var createIcebergTableInput: GlueClientTypes.CreateIcebergTableInput?
         /// A required metadata operation. Can only be set to CREATE.
         /// This member is required.
         public var metadataOperation: GlueClientTypes.MetadataOperation?
@@ -13764,9 +14056,11 @@ extension GlueClientTypes {
         public var version: Swift.String?
 
         public init(
+            createIcebergTableInput: GlueClientTypes.CreateIcebergTableInput? = nil,
             metadataOperation: GlueClientTypes.MetadataOperation? = nil,
             version: Swift.String? = nil
         ) {
+            self.createIcebergTableInput = createIcebergTableInput
             self.metadataOperation = metadataOperation
             self.version = version
         }
@@ -13979,6 +14273,8 @@ public struct CreateTableInput: Swift.Sendable {
     /// The catalog database in which to create the new table. For Hive compatibility, this name is entirely lowercase.
     /// This member is required.
     public var databaseName: Swift.String?
+    /// The unique identifier for the table within the specified database that will be created in the Glue Data Catalog.
+    public var name: Swift.String?
     /// Specifies an OpenTableFormatInput structure when creating an open format table.
     public var openTableFormatInput: GlueClientTypes.OpenTableFormatInput?
     /// A list of partition indexes, PartitionIndex structures, to create in the table.
@@ -13992,6 +14288,7 @@ public struct CreateTableInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
+        name: Swift.String? = nil,
         openTableFormatInput: GlueClientTypes.OpenTableFormatInput? = nil,
         partitionIndexes: [GlueClientTypes.PartitionIndex]? = nil,
         tableInput: GlueClientTypes.TableInput? = nil,
@@ -13999,6 +14296,7 @@ public struct CreateTableInput: Swift.Sendable {
     ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
+        self.name = name
         self.openTableFormatInput = openTableFormatInput
         self.partitionIndexes = partitionIndexes
         self.tableInput = tableInput
@@ -21321,6 +21619,8 @@ extension GlueClientTypes {
     public struct FederatedTable: Swift.Sendable {
         /// The name of the connection to the external metastore.
         public var connectionName: Swift.String?
+        /// The type of connection used to access the federated table, specifying the protocol or method for connecting to the external data source.
+        public var connectionType: Swift.String?
         /// A unique identifier for the federated database.
         public var databaseIdentifier: Swift.String?
         /// A unique identifier for the federated table.
@@ -21328,10 +21628,12 @@ extension GlueClientTypes {
 
         public init(
             connectionName: Swift.String? = nil,
+            connectionType: Swift.String? = nil,
             databaseIdentifier: Swift.String? = nil,
             identifier: Swift.String? = nil
         ) {
             self.connectionName = connectionName
+            self.connectionType = connectionType
             self.databaseIdentifier = databaseIdentifier
             self.identifier = identifier
         }
@@ -26971,6 +27273,86 @@ public struct UpdateSourceControlFromJobOutput: Swift.Sendable {
 
 extension GlueClientTypes {
 
+    /// Defines a complete set of updates to be applied to an Iceberg table, including schema changes, partitioning modifications, sort order adjustments, location updates, and property changes.
+    public struct IcebergTableUpdate: Swift.Sendable {
+        /// The updated S3 location where the Iceberg table data will be stored.
+        /// This member is required.
+        public var location: Swift.String?
+        /// The updated partitioning specification that defines how the table data should be reorganized and partitioned.
+        public var partitionSpec: GlueClientTypes.IcebergPartitionSpec?
+        /// Updated key-value pairs of table properties and configuration settings for the Iceberg table.
+        public var properties: [Swift.String: Swift.String]?
+        /// The updated schema definition for the Iceberg table, specifying any changes to field structure, data types, or schema metadata.
+        /// This member is required.
+        public var schema: GlueClientTypes.IcebergSchema?
+        /// The updated sort order specification that defines how data should be ordered within partitions for optimal query performance.
+        public var sortOrder: GlueClientTypes.IcebergSortOrder?
+
+        public init(
+            location: Swift.String? = nil,
+            partitionSpec: GlueClientTypes.IcebergPartitionSpec? = nil,
+            properties: [Swift.String: Swift.String]? = nil,
+            schema: GlueClientTypes.IcebergSchema? = nil,
+            sortOrder: GlueClientTypes.IcebergSortOrder? = nil
+        ) {
+            self.location = location
+            self.partitionSpec = partitionSpec
+            self.properties = properties
+            self.schema = schema
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Contains the update operations to be applied to an existing Iceberg table in AWS Glue Data Catalog, defining the new state of the table metadata.
+    public struct UpdateIcebergTableInput: Swift.Sendable {
+        /// The list of table update operations that specify the changes to be made to the Iceberg table, including schema modifications, partition specifications, and table properties.
+        /// This member is required.
+        public var updates: [GlueClientTypes.IcebergTableUpdate]?
+
+        public init(
+            updates: [GlueClientTypes.IcebergTableUpdate]? = nil
+        ) {
+            self.updates = updates
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Input parameters specific to updating Apache Iceberg tables in Glue Data Catalog, containing the update operations to be applied to an existing Iceberg table.
+    public struct UpdateIcebergInput: Swift.Sendable {
+        /// The specific update operations to be applied to the Iceberg table, containing a list of updates that define the new state of the table including schema, partitions, and properties.
+        /// This member is required.
+        public var updateIcebergTableInput: GlueClientTypes.UpdateIcebergTableInput?
+
+        public init(
+            updateIcebergTableInput: GlueClientTypes.UpdateIcebergTableInput? = nil
+        ) {
+            self.updateIcebergTableInput = updateIcebergTableInput
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Input parameters for updating open table format tables in GlueData Catalog, serving as a wrapper for format-specific update operations such as Apache Iceberg.
+    public struct UpdateOpenTableFormatInput: Swift.Sendable {
+        /// Apache Iceberg-specific update parameters that define the table modifications to be applied, including schema changes, partition specifications, and table properties.
+        public var updateIcebergInput: GlueClientTypes.UpdateIcebergInput?
+
+        public init(
+            updateIcebergInput: GlueClientTypes.UpdateIcebergInput? = nil
+        ) {
+            self.updateIcebergInput = updateIcebergInput
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     public enum ViewUpdateAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case add
         case addOrReplace
@@ -27012,13 +27394,16 @@ public struct UpdateTableInput: Swift.Sendable {
     public var databaseName: Swift.String?
     /// A flag that can be set to true to ignore matching storage descriptor and subobject matching requirements.
     public var force: Swift.Bool?
+    /// The unique identifier for the table within the specified database that will be created in the Glue Data Catalog.
+    public var name: Swift.String?
     /// By default, UpdateTable always creates an archived version of the table before updating it. However, if skipArchive is set to true, UpdateTable does not create the archived version.
     public var skipArchive: Swift.Bool?
     /// An updated TableInput object to define the metadata table in the catalog.
-    /// This member is required.
     public var tableInput: GlueClientTypes.TableInput?
     /// The transaction ID at which to update the table contents.
     public var transactionId: Swift.String?
+    /// Input parameters for updating open table format tables in GlueData Catalog, serving as a wrapper for format-specific update operations such as Apache Iceberg.
+    public var updateOpenTableFormatInput: GlueClientTypes.UpdateOpenTableFormatInput?
     /// The version ID at which to update the table contents.
     public var versionId: Swift.String?
     /// The operation to be performed when updating the view.
@@ -27028,18 +27413,22 @@ public struct UpdateTableInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         force: Swift.Bool? = false,
+        name: Swift.String? = nil,
         skipArchive: Swift.Bool? = nil,
         tableInput: GlueClientTypes.TableInput? = nil,
         transactionId: Swift.String? = nil,
+        updateOpenTableFormatInput: GlueClientTypes.UpdateOpenTableFormatInput? = nil,
         versionId: Swift.String? = nil,
         viewUpdateAction: GlueClientTypes.ViewUpdateAction? = nil
     ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.force = force
+        self.name = name
         self.skipArchive = skipArchive
         self.tableInput = tableInput
         self.transactionId = transactionId
+        self.updateOpenTableFormatInput = updateOpenTableFormatInput
         self.versionId = versionId
         self.viewUpdateAction = viewUpdateAction
     }
@@ -30704,6 +31093,7 @@ extension CreateTableInput {
         guard let value else { return }
         try writer["CatalogId"].write(value.catalogId)
         try writer["DatabaseName"].write(value.databaseName)
+        try writer["Name"].write(value.name)
         try writer["OpenTableFormatInput"].write(value.openTableFormatInput, with: GlueClientTypes.OpenTableFormatInput.write(value:to:))
         try writer["PartitionIndexes"].writeList(value.partitionIndexes, memberWritingClosure: GlueClientTypes.PartitionIndex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TableInput"].write(value.tableInput, with: GlueClientTypes.TableInput.write(value:to:))
@@ -32778,9 +33168,11 @@ extension UpdateTableInput {
         try writer["CatalogId"].write(value.catalogId)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["Force"].write(value.force)
+        try writer["Name"].write(value.name)
         try writer["SkipArchive"].write(value.skipArchive)
         try writer["TableInput"].write(value.tableInput, with: GlueClientTypes.TableInput.write(value:to:))
         try writer["TransactionId"].write(value.transactionId)
+        try writer["UpdateOpenTableFormatInput"].write(value.updateOpenTableFormatInput, with: GlueClientTypes.UpdateOpenTableFormatInput.write(value:to:))
         try writer["VersionId"].write(value.versionId)
         try writer["ViewUpdateAction"].write(value.viewUpdateAction)
     }
@@ -45613,6 +46005,7 @@ extension GlueClientTypes.FederatedCatalog {
     static func write(value: GlueClientTypes.FederatedCatalog?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ConnectionName"].write(value.connectionName)
+        try writer["ConnectionType"].write(value.connectionType)
         try writer["Identifier"].write(value.identifier)
     }
 
@@ -45621,6 +46014,7 @@ extension GlueClientTypes.FederatedCatalog {
         var value = GlueClientTypes.FederatedCatalog()
         value.identifier = try reader["Identifier"].readIfPresent()
         value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
         return value
     }
 }
@@ -46142,6 +46536,7 @@ extension GlueClientTypes.FederatedDatabase {
     static func write(value: GlueClientTypes.FederatedDatabase?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ConnectionName"].write(value.connectionName)
+        try writer["ConnectionType"].write(value.connectionType)
         try writer["Identifier"].write(value.identifier)
     }
 
@@ -46150,6 +46545,7 @@ extension GlueClientTypes.FederatedDatabase {
         var value = GlueClientTypes.FederatedDatabase()
         value.identifier = try reader["Identifier"].readIfPresent()
         value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
         return value
     }
 }
@@ -46983,6 +47379,7 @@ extension GlueClientTypes.FederatedTable {
         value.identifier = try reader["Identifier"].readIfPresent()
         value.databaseIdentifier = try reader["DatabaseIdentifier"].readIfPresent()
         value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
         return value
     }
 }
@@ -47667,8 +48064,84 @@ extension GlueClientTypes.IcebergInput {
 
     static func write(value: GlueClientTypes.IcebergInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CreateIcebergTableInput"].write(value.createIcebergTableInput, with: GlueClientTypes.CreateIcebergTableInput.write(value:to:))
         try writer["MetadataOperation"].write(value.metadataOperation)
         try writer["Version"].write(value.version)
+    }
+}
+
+extension GlueClientTypes.CreateIcebergTableInput {
+
+    static func write(value: GlueClientTypes.CreateIcebergTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Location"].write(value.location)
+        try writer["PartitionSpec"].write(value.partitionSpec, with: GlueClientTypes.IcebergPartitionSpec.write(value:to:))
+        try writer["Properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Schema"].write(value.schema, with: GlueClientTypes.IcebergSchema.write(value:to:))
+        try writer["WriteOrder"].write(value.writeOrder, with: GlueClientTypes.IcebergSortOrder.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.IcebergSortOrder {
+
+    static func write(value: GlueClientTypes.IcebergSortOrder?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Fields"].writeList(value.fields, memberWritingClosure: GlueClientTypes.IcebergSortField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OrderId"].write(value.orderId)
+    }
+}
+
+extension GlueClientTypes.IcebergSortField {
+
+    static func write(value: GlueClientTypes.IcebergSortField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Direction"].write(value.direction)
+        try writer["NullOrder"].write(value.nullOrder)
+        try writer["SourceId"].write(value.sourceId)
+        try writer["Transform"].write(value.transform)
+    }
+}
+
+extension GlueClientTypes.IcebergPartitionSpec {
+
+    static func write(value: GlueClientTypes.IcebergPartitionSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Fields"].writeList(value.fields, memberWritingClosure: GlueClientTypes.IcebergPartitionField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SpecId"].write(value.specId)
+    }
+}
+
+extension GlueClientTypes.IcebergPartitionField {
+
+    static func write(value: GlueClientTypes.IcebergPartitionField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldId"].write(value.fieldId)
+        try writer["Name"].write(value.name)
+        try writer["SourceId"].write(value.sourceId)
+        try writer["Transform"].write(value.transform)
+    }
+}
+
+extension GlueClientTypes.IcebergSchema {
+
+    static func write(value: GlueClientTypes.IcebergSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Fields"].writeList(value.fields, memberWritingClosure: GlueClientTypes.IcebergStructField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IdentifierFieldIds"].writeList(value.identifierFieldIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SchemaId"].write(value.schemaId)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension GlueClientTypes.IcebergStructField {
+
+    static func write(value: GlueClientTypes.IcebergStructField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Doc"].write(value.doc)
+        try writer["Id"].write(value.id)
+        try writer["Name"].write(value.name)
+        try writer["Required"].write(value.`required`)
+        try writer["Type"].write(value.type)
     }
 }
 
@@ -48002,6 +48475,42 @@ extension GlueClientTypes.JobUpdate {
         try writer["SourceControlDetails"].write(value.sourceControlDetails, with: GlueClientTypes.SourceControlDetails.write(value:to:))
         try writer["Timeout"].write(value.timeout)
         try writer["WorkerType"].write(value.workerType)
+    }
+}
+
+extension GlueClientTypes.UpdateOpenTableFormatInput {
+
+    static func write(value: GlueClientTypes.UpdateOpenTableFormatInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UpdateIcebergInput"].write(value.updateIcebergInput, with: GlueClientTypes.UpdateIcebergInput.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.UpdateIcebergInput {
+
+    static func write(value: GlueClientTypes.UpdateIcebergInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UpdateIcebergTableInput"].write(value.updateIcebergTableInput, with: GlueClientTypes.UpdateIcebergTableInput.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.UpdateIcebergTableInput {
+
+    static func write(value: GlueClientTypes.UpdateIcebergTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Updates"].writeList(value.updates, memberWritingClosure: GlueClientTypes.IcebergTableUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.IcebergTableUpdate {
+
+    static func write(value: GlueClientTypes.IcebergTableUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Location"].write(value.location)
+        try writer["PartitionSpec"].write(value.partitionSpec, with: GlueClientTypes.IcebergPartitionSpec.write(value:to:))
+        try writer["Properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Schema"].write(value.schema, with: GlueClientTypes.IcebergSchema.write(value:to:))
+        try writer["SortOrder"].write(value.sortOrder, with: GlueClientTypes.IcebergSortOrder.write(value:to:))
     }
 }
 
