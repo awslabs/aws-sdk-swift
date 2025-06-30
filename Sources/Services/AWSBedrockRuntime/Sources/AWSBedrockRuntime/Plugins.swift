@@ -14,8 +14,8 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
-import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
+import struct SmithyHTTPAuth.BearerTokenAuthScheme
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockRuntimeClientEndpointPlugin: Plugin {
@@ -43,9 +43,9 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
         if let config = clientConfiguration as? BedrockRuntimeClient.BedrockRuntimeClientConfiguration {
             config.authSchemeResolver = DefaultBedrockRuntimeAuthSchemeResolver()
-            config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            config.authSchemes = [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
-            config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            config.bearerTokenIdentityResolver = try AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain()
         }
     }
 }

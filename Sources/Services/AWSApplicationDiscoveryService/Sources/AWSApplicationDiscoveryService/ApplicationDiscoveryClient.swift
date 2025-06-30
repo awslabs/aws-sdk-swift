@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationDiscoveryClient: ClientRuntime.Client {
     public static let clientName = "ApplicationDiscoveryClient"
-    public static let version = "1.3.46"
+    public static let version = "1.3.47"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationDiscoveryClient.ApplicationDiscoveryClientConfiguration
     let serviceName = "Application Discovery"

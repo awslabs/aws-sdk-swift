@@ -6798,19 +6798,53 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The menu options for the interactions of a textbox.
+    public struct TextBoxMenuOption: Swift.Sendable {
+        /// The availability status of the textbox menu. If the value of this property is set to ENABLED, dashboard readers can interact with the textbox menu.
+        public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
+
+        public init(
+            availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
+        ) {
+            self.availabilityStatus = availabilityStatus
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The general textbox interactions setup for textbox publish options.
+    public struct TextBoxInteractionOptions: Swift.Sendable {
+        /// The menu options for the textbox.
+        public var textBoxMenuOption: QuickSightClientTypes.TextBoxMenuOption?
+
+        public init(
+            textBoxMenuOption: QuickSightClientTypes.TextBoxMenuOption? = nil
+        ) {
+            self.textBoxMenuOption = textBoxMenuOption
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A text box.
     public struct SheetTextBox: Swift.Sendable {
         /// The content that is displayed in the text box.
         public var content: Swift.String?
+        /// The general textbox interactions setup for a textbox.
+        public var interactions: QuickSightClientTypes.TextBoxInteractionOptions?
         /// The unique identifier for a text box. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have text boxes that share identifiers.
         /// This member is required.
         public var sheetTextBoxId: Swift.String?
 
         public init(
             content: Swift.String? = nil,
+            interactions: QuickSightClientTypes.TextBoxInteractionOptions? = nil,
             sheetTextBoxId: Swift.String? = nil
         ) {
             self.content = content
+            self.interactions = interactions
             self.sheetTextBoxId = sheetTextBoxId
         }
     }
@@ -20980,17 +21014,36 @@ extension QuickSightClientTypes.AssetBundleImportJobDataSourceCredentials: Swift
 
 extension QuickSightClientTypes {
 
+    /// The parameters for an IAM Identity Center configuration.
+    public struct IdentityCenterConfiguration: Swift.Sendable {
+        /// A Boolean option that controls whether Trusted Identity Propagation should be used.
+        public var enableIdentityPropagation: Swift.Bool?
+
+        public init(
+            enableIdentityPropagation: Swift.Bool? = false
+        ) {
+            self.enableIdentityPropagation = enableIdentityPropagation
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// Parameters for Amazon Athena.
     public struct AthenaParameters: Swift.Sendable {
+        /// An optional parameter that configures IAM Identity Center authentication to grant Amazon QuickSight access to your workgroup. This parameter can only be specified if your Amazon QuickSight account is configured with IAM Identity Center.
+        public var identityCenterConfiguration: QuickSightClientTypes.IdentityCenterConfiguration?
         /// Use the RoleArn structure to override an account-wide role for a specific Athena data source. For example, say an account administrator has turned off all Athena access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow Athena access for the single Athena data source that is specified in the structure, even if the account-wide role forbidding Athena access is still active.
         public var roleArn: Swift.String?
         /// The workgroup that Amazon Athena uses.
         public var workGroup: Swift.String?
 
         public init(
+            identityCenterConfiguration: QuickSightClientTypes.IdentityCenterConfiguration? = nil,
             roleArn: Swift.String? = nil,
             workGroup: Swift.String? = nil
         ) {
+            self.identityCenterConfiguration = identityCenterConfiguration
             self.roleArn = roleArn
             self.workGroup = workGroup
         }
@@ -21327,21 +21380,6 @@ extension QuickSightClientTypes {
             self.databaseGroups = databaseGroups
             self.databaseUser = databaseUser
             self.roleArn = roleArn
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The parameters for an IAM Identity Center configuration.
-    public struct IdentityCenterConfiguration: Swift.Sendable {
-        /// A Boolean option that controls whether Trusted Identity Propagation should be used.
-        public var enableIdentityPropagation: Swift.Bool?
-
-        public init(
-            enableIdentityPropagation: Swift.Bool? = false
-        ) {
-            self.enableIdentityPropagation = enableIdentityPropagation
         }
     }
 }
@@ -22492,12 +22530,14 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
 
     public enum ServiceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case athena
         case qbusiness
         case redshift
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServiceType] {
             return [
+                .athena,
                 .qbusiness,
                 .redshift
             ]
@@ -22510,6 +22550,7 @@ extension QuickSightClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .athena: return "ATHENA"
             case .qbusiness: return "QBUSINESS"
             case .redshift: return "REDSHIFT"
             case let .sdkUnknown(s): return s
@@ -24482,10 +24523,22 @@ extension QuickSightClientTypes {
         public var createSPICEDataset: QuickSightClientTypes.CapabilityState?
         /// The ability to create shared folders.
         public var createSharedFolders: QuickSightClientTypes.CapabilityState?
-        /// The ability to export to CSV files.
+        /// The ability to export to CSV files from the UI.
         public var exportToCsv: QuickSightClientTypes.CapabilityState?
-        /// The ability to export to Excel files.
+        /// The ability to export to CSV files in scheduled email reports.
+        public var exportToCsvInScheduledReports: QuickSightClientTypes.CapabilityState?
+        /// The ability to export to Excel files from the UI.
         public var exportToExcel: QuickSightClientTypes.CapabilityState?
+        /// The ability to export to Excel files in scheduled email reports.
+        public var exportToExcelInScheduledReports: QuickSightClientTypes.CapabilityState?
+        /// The ability to export to PDF files from the UI.
+        public var exportToPdf: QuickSightClientTypes.CapabilityState?
+        /// The ability to export to PDF files in scheduled email reports.
+        public var exportToPdfInScheduledReports: QuickSightClientTypes.CapabilityState?
+        /// The ability to include content in scheduled email reports.
+        public var includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState?
+        /// The ability to print reports.
+        public var printReports: QuickSightClientTypes.CapabilityState?
         /// The ability to rename shared folders.
         public var renameSharedFolders: QuickSightClientTypes.CapabilityState?
         /// The ability to share analyses.
@@ -24511,7 +24564,13 @@ extension QuickSightClientTypes {
             createSPICEDataset: QuickSightClientTypes.CapabilityState? = nil,
             createSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
             exportToCsv: QuickSightClientTypes.CapabilityState? = nil,
+            exportToCsvInScheduledReports: QuickSightClientTypes.CapabilityState? = nil,
             exportToExcel: QuickSightClientTypes.CapabilityState? = nil,
+            exportToExcelInScheduledReports: QuickSightClientTypes.CapabilityState? = nil,
+            exportToPdf: QuickSightClientTypes.CapabilityState? = nil,
+            exportToPdfInScheduledReports: QuickSightClientTypes.CapabilityState? = nil,
+            includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState? = nil,
+            printReports: QuickSightClientTypes.CapabilityState? = nil,
             renameSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
             shareAnalyses: QuickSightClientTypes.CapabilityState? = nil,
             shareDashboards: QuickSightClientTypes.CapabilityState? = nil,
@@ -24529,7 +24588,13 @@ extension QuickSightClientTypes {
             self.createSPICEDataset = createSPICEDataset
             self.createSharedFolders = createSharedFolders
             self.exportToCsv = exportToCsv
+            self.exportToCsvInScheduledReports = exportToCsvInScheduledReports
             self.exportToExcel = exportToExcel
+            self.exportToExcelInScheduledReports = exportToExcelInScheduledReports
+            self.exportToPdf = exportToPdf
+            self.exportToPdfInScheduledReports = exportToPdfInScheduledReports
+            self.includeContentInScheduledReportsEmail = includeContentInScheduledReportsEmail
+            self.printReports = printReports
             self.renameSharedFolders = renameSharedFolders
             self.shareAnalyses = shareAnalyses
             self.shareDashboards = shareDashboards
@@ -31423,7 +31488,7 @@ extension QuickSightClientTypes {
         public var consumedSpiceCapacityInBytes: Swift.Int
         /// The time that this dataset was created.
         public var createdTime: Foundation.Date?
-        /// The ID of the dataset.
+        /// The ID of the dataset. Limited to 96 characters.
         public var dataSetId: Swift.String?
         /// The usage configuration to apply to child datasets that reference this dataset as a source.
         public var dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration?
@@ -58941,6 +59006,7 @@ extension QuickSightClientTypes.SheetTextBox {
     static func write(value: QuickSightClientTypes.SheetTextBox?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Content"].write(value.content)
+        try writer["Interactions"].write(value.interactions, with: QuickSightClientTypes.TextBoxInteractionOptions.write(value:to:))
         try writer["SheetTextBoxId"].write(value.sheetTextBoxId)
     }
 
@@ -58949,6 +59015,37 @@ extension QuickSightClientTypes.SheetTextBox {
         var value = QuickSightClientTypes.SheetTextBox()
         value.sheetTextBoxId = try reader["SheetTextBoxId"].readIfPresent() ?? ""
         value.content = try reader["Content"].readIfPresent()
+        value.interactions = try reader["Interactions"].readIfPresent(with: QuickSightClientTypes.TextBoxInteractionOptions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TextBoxInteractionOptions {
+
+    static func write(value: QuickSightClientTypes.TextBoxInteractionOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TextBoxMenuOption"].write(value.textBoxMenuOption, with: QuickSightClientTypes.TextBoxMenuOption.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TextBoxInteractionOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TextBoxInteractionOptions()
+        value.textBoxMenuOption = try reader["TextBoxMenuOption"].readIfPresent(with: QuickSightClientTypes.TextBoxMenuOption.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TextBoxMenuOption {
+
+    static func write(value: QuickSightClientTypes.TextBoxMenuOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityStatus"].write(value.availabilityStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TextBoxMenuOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TextBoxMenuOption()
+        value.availabilityStatus = try reader["AvailabilityStatus"].readIfPresent()
         return value
     }
 }
@@ -67855,6 +67952,7 @@ extension QuickSightClientTypes.AthenaParameters {
 
     static func write(value: QuickSightClientTypes.AthenaParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["IdentityCenterConfiguration"].write(value.identityCenterConfiguration, with: QuickSightClientTypes.IdentityCenterConfiguration.write(value:to:))
         try writer["RoleArn"].write(value.roleArn)
         try writer["WorkGroup"].write(value.workGroup)
     }
@@ -67864,6 +67962,7 @@ extension QuickSightClientTypes.AthenaParameters {
         var value = QuickSightClientTypes.AthenaParameters()
         value.workGroup = try reader["WorkGroup"].readIfPresent()
         value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.identityCenterConfiguration = try reader["IdentityCenterConfiguration"].readIfPresent(with: QuickSightClientTypes.IdentityCenterConfiguration.read(from:))
         return value
     }
 }
@@ -68317,7 +68416,13 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateSPICEDataset"].write(value.createSPICEDataset)
         try writer["CreateSharedFolders"].write(value.createSharedFolders)
         try writer["ExportToCsv"].write(value.exportToCsv)
+        try writer["ExportToCsvInScheduledReports"].write(value.exportToCsvInScheduledReports)
         try writer["ExportToExcel"].write(value.exportToExcel)
+        try writer["ExportToExcelInScheduledReports"].write(value.exportToExcelInScheduledReports)
+        try writer["ExportToPdf"].write(value.exportToPdf)
+        try writer["ExportToPdfInScheduledReports"].write(value.exportToPdfInScheduledReports)
+        try writer["IncludeContentInScheduledReportsEmail"].write(value.includeContentInScheduledReportsEmail)
+        try writer["PrintReports"].write(value.printReports)
         try writer["RenameSharedFolders"].write(value.renameSharedFolders)
         try writer["ShareAnalyses"].write(value.shareAnalyses)
         try writer["ShareDashboards"].write(value.shareDashboards)
@@ -68332,6 +68437,8 @@ extension QuickSightClientTypes.Capabilities {
         var value = QuickSightClientTypes.Capabilities()
         value.exportToCsv = try reader["ExportToCsv"].readIfPresent()
         value.exportToExcel = try reader["ExportToExcel"].readIfPresent()
+        value.exportToPdf = try reader["ExportToPdf"].readIfPresent()
+        value.printReports = try reader["PrintReports"].readIfPresent()
         value.createAndUpdateThemes = try reader["CreateAndUpdateThemes"].readIfPresent()
         value.addOrRunAnomalyDetectionForAnalyses = try reader["AddOrRunAnomalyDetectionForAnalyses"].readIfPresent()
         value.shareAnalyses = try reader["ShareAnalyses"].readIfPresent()
@@ -68347,6 +68454,10 @@ extension QuickSightClientTypes.Capabilities {
         value.shareDataSources = try reader["ShareDataSources"].readIfPresent()
         value.viewAccountSPICECapacity = try reader["ViewAccountSPICECapacity"].readIfPresent()
         value.createSPICEDataset = try reader["CreateSPICEDataset"].readIfPresent()
+        value.exportToPdfInScheduledReports = try reader["ExportToPdfInScheduledReports"].readIfPresent()
+        value.exportToCsvInScheduledReports = try reader["ExportToCsvInScheduledReports"].readIfPresent()
+        value.exportToExcelInScheduledReports = try reader["ExportToExcelInScheduledReports"].readIfPresent()
+        value.includeContentInScheduledReportsEmail = try reader["IncludeContentInScheduledReportsEmail"].readIfPresent()
         return value
     }
 }

@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class B2biClient: ClientRuntime.Client {
     public static let clientName = "B2biClient"
-    public static let version = "1.3.46"
+    public static let version = "1.3.47"
     let client: ClientRuntime.SdkHttpClient
     let config: B2biClient.B2biClientConfiguration
     let serviceName = "b2bi"
@@ -1049,7 +1049,13 @@ extension B2biClient {
 
     /// Performs the `GenerateMapping` operation on the `B2bi` service.
     ///
-    /// Takes sample input and output documents and uses Amazon Bedrock to generate a mapping automatically. Depending on the accuracy and other factors, you can then edit the mapping for your needs. Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see [AI-assisted template mapping prerequisites](https://docs.aws.amazon.com/b2bi/latest/userguide/ai-assisted-mapping.html#ai-assist-prereq) in the Amazon Web Services B2B Data Interchange User guide.
+    /// Takes sample input and output documents and uses Amazon Bedrock to generate a mapping automatically. Depending on the accuracy and other factors, you can then edit the mapping for your needs. Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see [AI-assisted template mapping prerequisites](https://docs.aws.amazon.com/b2bi/latest/userguide/ai-assisted-mapping.html#ai-assist-prereq) in the Amazon Web Services B2B Data Interchange User guide. To generate a mapping, perform the following steps:
+    ///
+    /// * Start with an X12 EDI document to use as the input.
+    ///
+    /// * Call TestMapping using your EDI document.
+    ///
+    /// * Use the output from the TestMapping operation as either input or output for your GenerateMapping call, along with your sample file.
     ///
     /// - Parameter GenerateMappingInput : [no documentation found]
     ///
@@ -1408,7 +1414,7 @@ extension B2biClient {
 
     /// Performs the `GetTransformerJob` operation on the `B2bi` service.
     ///
-    /// Returns the details of the transformer run, based on the Transformer job ID.
+    /// Returns the details of the transformer run, based on the Transformer job ID. If 30 days have elapsed since your transformer job was started, the system deletes it. So, if you run GetTransformerJob and supply a transformerId and transformerJobId for a job that was started more than 30 days previously, you receive a 404 response.
     ///
     /// - Parameter GetTransformerJobInput : [no documentation found]
     ///
@@ -1840,7 +1846,7 @@ extension B2biClient {
 
     /// Performs the `StartTransformerJob` operation on the `B2bi` service.
     ///
-    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2B Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files.
+    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2B Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files. The system stores transformer jobs for 30 days. During that period, you can run [GetTransformerJob](https://docs.aws.amazon.com/b2bi/latest/APIReference/API_GetTransformerJob.html) and supply its transformerId and transformerJobId to return details of the job.
     ///
     /// - Parameter StartTransformerJobInput : [no documentation found]
     ///

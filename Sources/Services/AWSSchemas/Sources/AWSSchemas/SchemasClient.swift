@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SchemasClient: ClientRuntime.Client {
     public static let clientName = "SchemasClient"
-    public static let version = "1.3.46"
+    public static let version = "1.3.47"
     let client: ClientRuntime.SdkHttpClient
     let config: SchemasClient.SchemasClientConfiguration
     let serviceName = "schemas"
